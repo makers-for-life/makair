@@ -6,6 +6,6 @@
 ➡️ The latest Fusion 360 models can be found online:
 
 * [Air Transistor V1](https://a360.co/2IS0x3U)
-* [Blower V1](https://a360.co/2TYGk2H)
+* [Blower V1](https://a360.co/2U0vk56)
 
 ![Air Transistor Concept](https://github.com/covid-response-projects/covid-respirator/raw/master/schemes/Air%20Transistor/Air%20Transistor%20(Render%204).png)
