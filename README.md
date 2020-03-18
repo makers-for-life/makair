@@ -16,6 +16,13 @@ The overall system is composed of sub-components that can be plugged together an
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
+
+# Contact us
+
+form for makers who want to help in France : https://covid-repirator-form.cleverapps.io/view/#!/forms/5e72a885ee474c09dff14ffb
+form for doctor or any heath relative : https://covid-repirator-form.cleverapps.io/view/#!/forms/5e72aa1605ab2806d939c2b3
+form for any other stuff : https://covid-repirator-form.cleverapps.io/view/#!/forms/5e72aaa005ab2806d939c2db
+
 # CAD Models
 
 ➡️ The latest Fusion 360 models can be found online:
