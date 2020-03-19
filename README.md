@@ -11,8 +11,8 @@ Roughly, the idea is as follow: hospitals will soon lack mechanical artificial r
 
 The overall system is composed of sub-components that can be plugged together and wired to form an air circuit, namely:
 
-- The air pump (called "Blower");
-- The valve system (called "Air Transistor");
+- **The air pump** (called "Blower");
+- **The valve system** (called "Air Transistor");
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
