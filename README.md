@@ -16,10 +16,13 @@ The overall system is composed of sub-components that can be plugged together an
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
+# Checkpoint Videos
 
-# Contact us
+- Wednesday 18/03: [English](https://www.youtube.com/watch?v=jv3o3x21038), [French](https://www.youtube.com/watch?v=tUfBgUm1w74)
 
-make an issue
+# Contact Us
+
+Please open an issue to contact us.
 
 # CAD Models
 
@@ -27,8 +30,6 @@ make an issue
 
 * [Air Transistor V1](https://a360.co/2IS0x3U)
 * [Blower V1](https://a360.co/2U0vk56)
-
----
 
 # Renders
 
