@@ -26,7 +26,8 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 # Checkpoint Videos
 
 - 1️⃣ Wednesday 18/03: [English](https://www.youtube.com/watch?v=jv3o3x21038), [French](https://www.youtube.com/watch?v=tUfBgUm1w74)
-- livre updates on telegram https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ
+
+_Live updates on Telegram: [join channel](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ)._
 
 # Contact Us
 
