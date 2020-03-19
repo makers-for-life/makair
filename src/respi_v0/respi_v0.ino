@@ -79,7 +79,8 @@ void loop() {
     } else{
       currentPression = 90;
     }
-    
+
+    // calcul des consignes normales
     if(currentCentieme <= nbreCentiemeSecParInspi){
       if(currentPression >= currentPressionCrete){
         currentPhase = PHASE_PUSH_INSPI;
@@ -100,6 +101,13 @@ void loop() {
       consignePatient = secu_ouvertureExpi; // on ouvre le flux OUT patient (expi -> extérieur)
     }
 
+  /* 
+   * calcul des consignes de mise en sécurité du patient 
+   * -> si pression crete > max => fermeture ouverture blower de 2°
+   * -> si pression plateau > consigne param => ouverture expi de 1°
+   * -> si pression pep < pep mini => fermeture valve expiration complètement
+   */
+  
 //    if(currentCentieme % 10 == 0){
 //      Serial.print("Phase : ");
 //      Serial.println(currentPhase);
