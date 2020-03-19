@@ -3,7 +3,7 @@ Requis médicaux
 
 Un respirateur adapté à la ventilation des SDRA (poumons rigides avec manque important d’oxygène).
 
-Ce document reprend nos spécifications :
+**Ce document reprend nos spécifications :**
 
 * Ventilation mécanique invasive (sonde)
 * Circuit ouvert (possibiliter de filtre)
@@ -14,7 +14,7 @@ Ce document reprend nos spécifications :
 * Une entrée pour apporter de l’oxygène (avant blower, pouvoir passer en de 0% à 100% oxygene)
 * Et un capteur qui permette de mesurer la pression de plateau qui doit être maximum à 30cmH2O
 
-Fonctions :
+**Fonctions :**
 
 * Nous designons un appareil à pression controlée (par opposition à un appareil à volume contrôlé)
 * Affichage obligatoire de la pression de plateau (et éventuellement de créte)
