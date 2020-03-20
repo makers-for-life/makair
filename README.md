@@ -37,7 +37,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 ## Updates
 
-* Live updates on Telegram: [join channel](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ)
+* Live updates on Telegram: [join channel](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ).
 
 ## Videos
 
