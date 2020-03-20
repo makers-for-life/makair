@@ -52,8 +52,8 @@ Please open an issue to contact us.
 
 ## Part 1: The "Air Transistor"
 
-![Air Transistor Concept](./schemes/Air Transistor/Air Transistor (Render 4).png)
+![Air Transistor Concept](./schemes/Air%20Transistor/Air%20Transistor%20(Render%204).png)
 
 ## Part 2: The "Blower"
 
-![Blower Concept](./schemes/Blower/Blower (Render 1).png)
+![Blower Concept](./schemes/Blower/Blower%20(Render%201).png)
