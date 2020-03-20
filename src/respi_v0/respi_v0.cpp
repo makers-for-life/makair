@@ -5,15 +5,15 @@
 
 // Servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou vers l'extérieur
 // 90° → tout est fermé
-// entre ANGLE_OUVERTURE_MINI et 90° → envoi du flux vers l'extérieur
-// entre 90° et ANGLE_OUVERTURE_MAXI → envoi du flux vers le Air Transistor patient
+// entre 45° et 90° → envoi du flux vers l'extérieur
+// entre 90° et 135° → envoi du flux vers le Air Transistor patient
 Servo blower;
 
 const int PHASE_PUSH_INSPI = 1; // inspiration : on envoie l'air jusqu'à la pression crête paramétrée : valve blower ouverte à consigne, valve patient fermée (pas d'expiration)
 // Servomoteur patient : connecte le patient au flux d'air entrant ou à l'extérieur
 // 90° → tout est fermé
-// entre ANGLE_OUVERTURE_MINI et 90° → envoi du flux vers le patient
-// entre 90° et ANGLE_OUVERTURE_MAXI → échappe l'air du patient vers l'extérieur
+// entre 45° et 90° → envoi du flux vers le patient
+// entre 90° et 135° → échappe l'air du patient vers l'extérieur
 Servo patient;
 
 const int PIN_CAPTEUR_PRESSION = A4; // A4
