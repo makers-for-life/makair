@@ -59,7 +59,7 @@ int consigneOuverture = 30;
 int futureConsigneOuverture =30;
 
 // consigne de pression de crête maximum
-int consignePressionCrete = 35;
+int consignePressionCrete = 60;
 
 // consigne de pression plateau maximum
 int consignePressionPlateauMax = 30;
