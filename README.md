@@ -3,7 +3,7 @@
 
 **3D printable COVID-19 DIY respirator. Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak.**
 
-Contributions are welcome! Makers, developers, university teachers / researchers and medical teams collaborated on this project.
+Makers, developers, university teachers / researchers and medical teams collaborated on this project. If you're new there, please read the explanations below. Your contributions are welcome!
 
 ---
 
