@@ -3,8 +3,18 @@
 #include <LiquidCrystal.h>
 
 
-Servo patient;
+// Servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou vers l'extérieur
+// 90° → tout est fermé
+// entre ANGLE_OUVERTURE_MINI et 90° → envoi du flux vers l'extérieur
+// entre 90° et ANGLE_OUVERTURE_MAXI → envoi du flux vers le Air Transistor patient
 Servo blower;
+
+const int PHASE_PUSH_INSPI = 1; // inspiration : on envoie l'air jusqu'à la pression crête paramétrée : valve blower ouverte à consigne, valve patient fermée (pas d'expiration)
+// Servomoteur patient : connecte le patient au flux d'air entrant ou à l'extérieur
+// 90° → tout est fermé
+// entre ANGLE_OUVERTURE_MINI et 90° → envoi du flux vers le patient
+// entre 90° et ANGLE_OUVERTURE_MAXI → échappe l'air du patient vers l'extérieur
+Servo patient;
 
 const int PIN_CAPTEUR_PRESSION = A4; // A4
 const int PIN_SERVO_BLOWER = 4; // D4
@@ -13,9 +23,10 @@ const int PIN_SERVO_PATIENT = 2; // D2
 const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-const int PHASE_PUSH_INSPI = 1; // inspiration : on envoie l'air jusqu'à la pression crête paramétrée : valve blower ouverte à consigne, valve patient fermée (pas d'expiration)
+// phases possibles du cycle
+const int PHASE_PUSH_INSPI = 1; // inspiration : on envoie l'air jusqu'à la pression crête paramétrée : valve blower ouverte à consigne, flux d'air vers le patient
 const int PHASE_HOLD_INSPI = 2; // plateau : on a depassé la pression crête, la pression descend depuis plus d'un 1/10sec (arbitraire EFL) : 2 valves fermées
-const int PHASE_EXPIRATION = 3; // expiration : valve blower fermée, valve patient ouverte
+const int PHASE_EXPIRATION = 3; // expiration : flux d'air vers l'extérieur, air patient vers l'extérieur
 
 const int ANGLE_OUVERTURE_MINI = 8;
 const int ANGLE_OUVERTURE_MAXI = 45;
@@ -43,11 +54,14 @@ int secu_ouvertureExpi = 45;
 int consigneNbCycle = 20;
 int futureConsigneNbCycle = 20;
 
-// degré d'ouverture de la valve blower (quantité d'air du blower qu'on envoie vers la boite 2)
+// degré d'ouverture de la valve blower (quantité d'air du blower qu'on envoie vers le Air Transistor patient)
 int consigneOuverture = 30;
 int futureConsigneOuverture =30;
 
-// consigne de pression plateau maxi
+// consigne de pression de crête maximum
+int consignePressionCrete = 35;
+
+// consigne de pression plateau maximum
 int consignePressionPlateauMax = 30;
 int futureConsignePressionPlateauMax =30;
 
@@ -61,11 +75,11 @@ int previousPressionPlateau = -1;
 int previousPressionPep = -1;
 
 // indicateur paramétrage en cours
-// faux par défaut, sur détection d'un changement d'état d'un bouton, 
+// faux par défaut, sur détection d'un changement d'état d'un bouton,
 // on lui met un nbre de centieme à attendre afin de confirmer la détection
-int parametrageEnCours = 0; 
-int boutonDetecte = 0; 
-int previousBoutonDetecte = 0; 
+int parametrageEnCours = 0;
+int boutonDetecte = 0;
+int previousBoutonDetecte = 0;
 int centiemeDepuisReglage = INTERVALLE_PARAMETRAGE;
 
 void setup() {
@@ -109,11 +123,14 @@ void loop() {
 
   int dureeBaissePression = 0; // compteur de centièmes pour la détection du pic de pression (pression crête)
 
+  // phase courante du cycle
   int currentPhase = PHASE_PUSH_INSPI;
 
+  // état des actionneurs au tick précédent
   int positionBlower = 90;
   int positionPatient = 90;
 
+  // nouvelles consignes pour les actionneurs
   int consigneBlower = 90;
   int consignePatient = 90;
 
@@ -158,7 +175,7 @@ void loop() {
     /********************************************/
     // Calcul des consignes normales
     /********************************************/
-    if (currentCentieme <= nbreCentiemeSecParInspi) {
+    if (currentCentieme <= nbreCentiemeSecParInspi) { // on est dans la phase d'inspiration
       if (currentPression >= currentPressionCrete) {
         currentPhase = PHASE_PUSH_INSPI;
         currentPressionCrete = currentPression;
@@ -249,10 +266,10 @@ void loop() {
     }
 
     // a la fin des 0.2s, si le signal est toujours là et que cela fait plus de 2s que l'on a fait un paramétrage
-    if((parametrageEnCours == 1) 
-      && (boutonDetecte == previousBoutonDetecte) 
+    if((parametrageEnCours == 1)
+      && (boutonDetecte == previousBoutonDetecte)
       && (centiemeDepuisReglage > INTERVALLE_PARAMETRAGE)){
-      // on reinitialise l'intervalle 
+      // on reinitialise l'intervalle
       centiemeDepuisReglage = 0;
 
       if(boutonDetecte == BTN_NOMBRE_CYCLE_MINUS){
@@ -265,7 +282,7 @@ void loop() {
       }
 
     }
-  
+
     if(parametrageEnCours > 0){
       parametrageEnCours--;
     }
@@ -276,7 +293,7 @@ void loop() {
     }
 
     centiemeDepuisReglage++;
-   
+
     delay(10); // on attend 1 centième de seconde (on aura de la dérive en temps, sera corrigé par rtc au besoin)
 
   }
