@@ -11,7 +11,6 @@
 // entre 90° et 135° → envoi du flux vers le Air Transistor patient
 Servo blower;
 
-const int PHASE_PUSH_INSPI = 1; // inspiration : on envoie l'air jusqu'à la pression crête paramétrée : valve blower ouverte à consigne, valve patient fermée (pas d'expiration)
 // Servomoteur patient : connecte le patient au flux d'air entrant ou à l'extérieur
 // 90° → tout est fermé
 // entre 45° et 90° → envoi du flux vers le patient
