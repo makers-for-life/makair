@@ -3,6 +3,8 @@
 #include <LiquidCrystal.h>
 
 
+#define DEBUG 0 // mettre à "1" pour envoyer les messages de debug en série
+
 // Servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou vers l'extérieur
 // 90° → tout est fermé
 // entre 45° et 90° → envoi du flux vers l'extérieur
@@ -83,12 +85,16 @@ int previousBoutonDetecte = 0;
 int centiemeDepuisReglage = INTERVALLE_PARAMETRAGE;
 
 void setup() {
-  //Serial.begin(115200);
-  //Serial.println("demarrage");
+  #ifdef DEBUG
+  Serial.begin(115200);
+  Serial.println("demarrage");
+  #endif
   patient.attach(PIN_SERVO_PATIENT);
   blower.attach(PIN_SERVO_BLOWER);
 
-  //Serial.print("mise en secu initiale");
+  #ifdef DEBUG
+  Serial.print("mise en secu initiale");
+  #endif
   blower.write(secu_coupureBlower);
   patient.write(secu_ouvertureExpi);
 
@@ -108,12 +114,14 @@ void loop() {
   int nbreCentiemeSecParCycle = 60 * 100 / consigneNbCycle;
   int nbreCentiemeSecParInspi = nbreCentiemeSecParCycle / 3; // inspiration = 1/3 du cycle, expiration = 2/3 du cycle
 
-  //Serial.println();
-  //Serial.println("------ Starting cycle ------");
-  //Serial.print("nbreCentiemeSecParCycle = ");
-  //Serial.println(nbreCentiemeSecParCycle);
-  //Serial.print("nbreCentiemeSecParInspi = ");
-  //Serial.println(nbreCentiemeSecParInspi);
+  #ifdef DEBUG
+  Serial.println();
+  Serial.println("------ Starting cycle ------");
+  Serial.print("nbreCentiemeSecParCycle = ");
+  Serial.println(nbreCentiemeSecParCycle);
+  Serial.print("nbreCentiemeSecParInspi = ");
+  Serial.println(nbreCentiemeSecParInspi);
+  #endif
 
   int currentPressionCrete = -1;
   int currentPressionPlateau = -1;
@@ -201,24 +209,32 @@ void loop() {
     /********************************************/
     // si pression crête > max, alors fermeture blower de 2°
     if (currentPression > consignePressionCrete) {
+      #ifdef DEBUG
       Serial.println("Mise en securite : pression crete trop importante");
+      #endif
       consigneBlower = positionBlower - 2;
     }
     // si pression plateau > consigne param, alors ouverture expiration de 1°
     if (currentPhase == PHASE_HOLD_INSPI && currentPression > consignePressionPlateauMax) {
+      #ifdef DEBUG
       Serial.println("Mise en securite : pression plateau trop importante");
+      #endif
       consignePatient = positionBlower + 1;
     }
     // si pression PEP < PEP mini, alors fermeture complète valve expiration
     if (currentPression < consignePressionPEP) {
+      #ifdef DEBUG
       Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");
+      #endif
       consignePatient = 90;
     }
 
-    //if (currentCentieme % 10 == 0) {
-    //  Serial.print("Phase : ");
-    //  Serial.println(currentPhase);
-    //}
+    #ifdef DEBUG
+    if (currentCentieme % 10 == 0) {
+      Serial.print("Phase : ");
+      Serial.println(currentPhase);
+    }
+    #endif
 
     /********************************************/
     // Envoi des nouvelles valeurs aux actionneurs
