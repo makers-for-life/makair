@@ -5,25 +5,36 @@
 
 #define DEBUG 0 // mettre à "1" pour envoyer les messages de debug en série
 
+// amplitude radiale des servomoteurs
 const int ANGLE_OUVERTURE_MINI = 8;
 const int ANGLE_OUVERTURE_MAXI = 45;
 
-// Servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou vers l'extérieur
+// servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou vers l'extérieur
 // 90° → tout est fermé
 // entre 45° (90 - ANGLE_OUVERTURE_MAXI) et 82° (90 - ANGLE_OUVERTURE_MINI) → envoi du flux vers l'extérieur
 // entre 98° (90 + ANGLE_OUVERTURE_MINI) et 135° (90 + ANGLE_OUVERTURE_MAXI) → envoi du flux vers le Air Transistor patient
 Servo blower;
 
-// Servomoteur patient : connecte le patient au flux d'air entrant ou à l'extérieur
+// servomoteur patient : connecte le patient au flux d'air entrant ou à l'extérieur
 // 90° → tout est fermé
 // entre 45° (90 - ANGLE_OUVERTURE_MAXI) et 82° (90 - ANGLE_OUVERTURE_MINI) → envoi du flux vers le patient
 // entre 98° (90 + ANGLE_OUVERTURE_MINI) et 135° (90 + ANGLE_OUVERTURE_MAXI) → échappe l'air du patient vers l'extérieur
 Servo patient;
 
+// entrées-sorties
 const int PIN_CAPTEUR_PRESSION = A4; // A4
 const int PIN_SERVO_BLOWER = 4; // D4
 const int PIN_SERVO_PATIENT = 2; // D2
+const int BTN_PRESSION_CRETE_MINUS = 1;
+const int BTN_PRESSION_CRETE_PLUS = 2;
+const int BTN_PRESSION_PLATEAU_MINUS = 3;
+const int BTN_PRESSION_PLATEAU_PLUS = 4;
+const int BTN_PRESSION_PEP_MINUS = 5;
+const int BTN_PRESSION_PEP_PLUS = 6;
+const int BTN_NOMBRE_CYCLE_MINUS = A2;
+const int BTN_NOMBRE_CYCLE_PLUS = A3;
 
+// contrôle de l'écran LCD
 const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
@@ -32,22 +43,17 @@ const int PHASE_PUSH_INSPI = 1; // pousée d'inspiration : on envoie l'air jusqu
 const int PHASE_HOLD_INSPI = 2; // plateau d'inspiration : on a depassé la pression crête, la pression descend depuis plus d'un 1/10sec (arbitraire EFL) : 2 valves fermées
 const int PHASE_EXPIRATION = 3; // expiration : flux d'air vers l'extérieur, air patient vers l'extérieur
 
-const int BTN_PRESSION_CRETE_MINUS = 1;
-const int BTN_PRESSION_CRETE_PLUS = 2;
-const int BTN_PRESSION_PLATEAU_MINUS = 3;
-const int BTN_PRESSION_PLATEAU_PLUS = 4;
-const int BTN_PRESSION_PEP_MINUS = 5;
-const int BTN_PRESSION_PEP_PLUS = 6;
-
+// minimums et maximums possible des paramètres modifiables à l'exécution
 const int BORNE_SUP_CYCLE = 35;
 const int BORNE_INF_CYCLE = 8;
 
-
-const int BTN_NOMBRE_CYCLE_MINUS = A2;
-const int BTN_NOMBRE_CYCLE_PLUS = A3;
-
+// durée en centièmes de secondes entre chaque appui de bouton
 const int INTERVALLE_PARAMETRAGE = 200;
 
+// durée d'appui des boutons (en centièmes de secondes) avant prise en compte
+const int MAINTIEN_PARAMETRAGE = 21;
+
+// valeurs de sécurité pour les actionneurs
 int secu_coupureBlower = 45;
 int secu_ouvertureExpi = 45;
 
@@ -57,14 +63,14 @@ int futureConsigneNbCycle = 20;
 
 // degré d'ouverture de la valve blower (quantité d'air du blower qu'on envoie vers le Air Transistor patient)
 int consigneOuverture = 30;
-int futureConsigneOuverture =30;
+int futureConsigneOuverture = 30;
 
 // consigne de pression de crête maximum
 int consignePressionCrete = 60;
 
 // consigne de pression plateau maximum
 int consignePressionPlateauMax = 30;
-int futureConsignePressionPlateauMax =30;
+int futureConsignePressionPlateauMax = 30;
 
 // consigne de pression PEP
 int consignePressionPEP = 5;
@@ -81,7 +87,7 @@ int previousPressionPep = -1;
 int parametrageEnCours = 0;
 int boutonDetecte = 0;
 int previousBoutonDetecte = 0;
-int centiemeDepuisReglage = INTERVALLE_PARAMETRAGE;
+int centiemesDepuisReglage = INTERVALLE_PARAMETRAGE;
 
 void setup() {
   #ifdef DEBUG
@@ -100,7 +106,7 @@ void setup() {
   lcd.begin(16, 2);
   pinMode(BTN_NOMBRE_CYCLE_MINUS, INPUT);
   pinMode(BTN_NOMBRE_CYCLE_PLUS, INPUT);
- /* pinMode(BTN_PRESSION_CRETE_MINUS, INPUT);
+  /* pinMode(BTN_PRESSION_CRETE_MINUS, INPUT);
   pinMode(BTN_PRESSION_CRETE_PLUS, INPUT);
   pinMode(BTN_PRESSION_PLATEAU_MINUS, INPUT);
   pinMode(BTN_PRESSION_PLATEAU_PLUS, INPUT);
@@ -177,7 +183,9 @@ void loop() {
     } else {
       currentPression = 30;
     }
-    if (currentCentieme > nbreCentiemeSecParInspi) {currentPression=5;}
+    if (currentCentieme > nbreCentiemeSecParInspi) {
+      currentPression = 5;
+    }
 
     /********************************************/
     // Calcul des consignes normales
@@ -187,7 +195,7 @@ void loop() {
         currentPhase = PHASE_PUSH_INSPI;
         currentPressionCrete = currentPression;
 
-        consigneBlower = 90 - consigneOuverture;  // on ouvre le blower vers patient à la consigne paramétrée
+        consigneBlower = 90 - consigneOuverture; // on ouvre le blower vers patient à la consigne paramétrée
         consignePatient = 90 + ANGLE_OUVERTURE_MAXI; // on ouvre le flux IN patient
       } else {
         currentPhase = PHASE_HOLD_INSPI;
@@ -199,7 +207,7 @@ void loop() {
     } else { // on gère l'expiration on est phase PHASE_EXPIRATION
       currentPhase = PHASE_EXPIRATION;
       currentPressionPep = currentPression;
-      consigneBlower = 90 + ANGLE_OUVERTURE_MAXI;  // on shunt vers l'extérieur
+      consigneBlower = 90 + ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
       consignePatient = secu_ouvertureExpi; // on ouvre le flux OUT patient (expiration vers l'extérieur)
     }
 
@@ -286,43 +294,46 @@ void loop() {
 
     // première détection
     if (parametrageEnCours == 0 && boutonDetecte != 0) {
-      parametrageEnCours = 21; // on attends 0.2s avant de re-tester pour éviter les rebonds
+      parametrageEnCours = MAINTIEN_PARAMETRAGE; // on attend x ms avant de re-tester pour éviter les rebonds
       previousBoutonDetecte = boutonDetecte;
     }
 
-    // à la fin des 0.2s, si le signal est toujours là et que cela fait plus de 2s que l'on a fait un paramétrage
-    if ((parametrageEnCours == 1)
-      && (boutonDetecte == previousBoutonDetecte)
-      && (centiemeDepuisReglage > INTERVALLE_PARAMETRAGE)) {
+    // à la fin de la durée de maintien, si le signal est toujours là et que cela fait plus de x secondes que l'on a fait un paramétrage
+    if (parametrageEnCours == 1
+      && boutonDetecte == previousBoutonDetecte
+      && centiemesDepuisReglage > INTERVALLE_PARAMETRAGE) {
 
       // on réinitialise l'intervalle
-      centiemeDepuisReglage = 0;
+      centiemesDepuisReglage = 0;
 
+      // on définit la nouvelle consigne
       if (boutonDetecte == BTN_NOMBRE_CYCLE_MINUS) {
         futureConsigneNbCycle++;
         if (futureConsigneNbCycle > BORNE_SUP_CYCLE) {
-          futureConsigneNbCycle=BORNE_SUP_CYCLE;
+          futureConsigneNbCycle = BORNE_SUP_CYCLE;
         }
       }
       if (boutonDetecte == BTN_NOMBRE_CYCLE_PLUS) {
         futureConsigneNbCycle--;
         if (futureConsigneNbCycle < BORNE_INF_CYCLE) {
-          futureConsigneNbCycle=BORNE_INF_CYCLE;
+          futureConsigneNbCycle = BORNE_INF_CYCLE;
         }
       }
+      // TODO: gérer les autres boutons
 
     }
 
+    // à chaque tick de 10 ms, on réduit la durée restante avant prise en compte de l'appui de bouton
     if (parametrageEnCours > 0) {
       parametrageEnCours--;
     }
 
-    if ((centiemeDepuisReglage < INTERVALLE_PARAMETRAGE) && boutonDetecte == 0) {
-      // on a lâché le bouton, après paramétrage, on permet un ré-appui
-      centiemeDepuisReglage = INTERVALLE_PARAMETRAGE;
+    // on a lâché le bouton, après paramétrage, on permet un ré-appui
+    if (centiemesDepuisReglage < INTERVALLE_PARAMETRAGE && boutonDetecte == 0) {
+      centiemesDepuisReglage = INTERVALLE_PARAMETRAGE;
     }
 
-    centiemeDepuisReglage++;
+    centiemesDepuisReglage++;
 
     delay(10); // on attend 1 centième de seconde (on aura de la dérive en temps, sera corrigé par rtc au besoin)
 
