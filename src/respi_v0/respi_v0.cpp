@@ -199,11 +199,21 @@ void loop() {
     /********************************************/
     // Calcul des consignes de mise en sécurité
     /********************************************/
-    /*
-    * -> si pression crête > max, alors fermeture ouverture blower de 2°
-    * -> si pression plateau > consigne param, alors ouverture expiration de 1°
-    * -> si pression PEP < PEP mini, alors fermeture complète valve expiration
-    */
+    // si pression crête > max, alors fermeture blower de 2°
+    if (currentPression > consignePressionCrete) {
+      Serial.println("Mise en securite : pression crete trop importante");
+      consigneBlower = positionBlower - 2;
+    }
+    // si pression plateau > consigne param, alors ouverture expiration de 1°
+    if (currentPhase == PHASE_HOLD_INSPI && currentPression > consignePressionPlateauMax) {
+      Serial.println("Mise en securite : pression plateau trop importante");
+      consignePatient = positionBlower + 1;
+    }
+    // si pression PEP < PEP mini, alors fermeture complète valve expiration
+    if (currentPression < consignePressionPEP) {
+      Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");
+      consignePatient = 90;
+    }
 
     //if (currentCentieme % 10 == 0) {
     //  Serial.print("Phase : ");
