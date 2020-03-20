@@ -53,8 +53,12 @@ Please open an issue to contact us.
 
 ## Part 1: The "Air Transistor"
 
+➡️ View: [Animation of the "Air Transistor"](./schemes/Air%20Transistor/Air%20Transistor%20(Animation%201).mp4)
+
 ![Air Transistor Concept](./schemes/Air%20Transistor/Air%20Transistor%20(Render%201).png)
 
 ## Part 2: The "Blower"
+
+➡️ View: [Animation of the "Blower"](./schemes/Blower/Blower%20(Animation%201).mp4)
 
 ![Blower Concept](./schemes/Blower/Blower%20(Render%201).png)
