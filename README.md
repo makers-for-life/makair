@@ -16,7 +16,7 @@ The overall system is composed of sub-components that can be plugged together an
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
-![Overview scheme](schemes/overview-scheme.png)
+![Overview scheme](schemes/overview.png)
 
 # CAD Models
 
