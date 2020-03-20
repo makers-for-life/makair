@@ -31,8 +31,8 @@ const int BORNE_SUP_CYCLE = 35;
 const int BORNE_INF_CYCLE = 8;
 
 
-const int BTN_NOMBRE_CYCLE_MINUS = 7;
-const int BTN_NOMBRE_CYCLE_PLUS = 8;
+const int BTN_NOMBRE_CYCLE_MINUS = A2;
+const int BTN_NOMBRE_CYCLE_PLUS = A3;
 
 const int INTERVALLE_PARAMETRAGE = 200;
 
@@ -79,6 +79,15 @@ void setup() {
   patient.write(secu_ouvertureExpi);
 
   lcd.begin(16, 2);
+  pinMode(BTN_NOMBRE_CYCLE_MINUS, INPUT);
+  pinMode(BTN_NOMBRE_CYCLE_PLUS, INPUT);
+ /* pinMode(BTN_PRESSION_CRETE_MINUS, INPUT);
+  pinMode(BTN_PRESSION_CRETE_PLUS, INPUT);
+  pinMode(BTN_PRESSION_PLATEAU_MINUS, INPUT);
+  pinMode(BTN_PRESSION_PLATEAU_PLUS, INPUT);
+  pinMode(BTN_PRESSION_PEP_MINUS, INPUT);
+  pinMode(BTN_PRESSION_PEP_PLUS, INPUT);
+  */
 }
 
 void loop() {
