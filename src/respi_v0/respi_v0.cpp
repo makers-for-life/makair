@@ -175,7 +175,7 @@ void loop() {
     /********************************************/
     // Calcul des consignes normales
     /********************************************/
-    if (currentCentieme <= nbreCentiemeSecParInspi) { // on est dans la phase d'inspiration
+    if (currentCentieme <= nbreCentiemeSecParInspi) { // on est dans la phase temporelle d'inspiration et de plateau
       if (currentPression >= currentPressionCrete) {
         currentPhase = PHASE_PUSH_INSPI;
         currentPressionCrete = currentPression;
