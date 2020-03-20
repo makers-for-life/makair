@@ -5,16 +5,19 @@
 
 #define DEBUG 0 // mettre à "1" pour envoyer les messages de debug en série
 
+const int ANGLE_OUVERTURE_MINI = 8;
+const int ANGLE_OUVERTURE_MAXI = 45;
+
 // Servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou vers l'extérieur
 // 90° → tout est fermé
-// entre 45° et 90° → envoi du flux vers l'extérieur
-// entre 90° et 135° → envoi du flux vers le Air Transistor patient
+// entre 45° (90 - ANGLE_OUVERTURE_MAXI) et 82° (90 - ANGLE_OUVERTURE_MINI) → envoi du flux vers l'extérieur
+// entre 98° (90 + ANGLE_OUVERTURE_MINI) et 135° (90 + ANGLE_OUVERTURE_MAXI) → envoi du flux vers le Air Transistor patient
 Servo blower;
 
 // Servomoteur patient : connecte le patient au flux d'air entrant ou à l'extérieur
 // 90° → tout est fermé
-// entre 45° et 90° → envoi du flux vers le patient
-// entre 90° et 135° → échappe l'air du patient vers l'extérieur
+// entre 45° (90 - ANGLE_OUVERTURE_MAXI) et 82° (90 - ANGLE_OUVERTURE_MINI) → envoi du flux vers le patient
+// entre 98° (90 + ANGLE_OUVERTURE_MINI) et 135° (90 + ANGLE_OUVERTURE_MAXI) → échappe l'air du patient vers l'extérieur
 Servo patient;
 
 const int PIN_CAPTEUR_PRESSION = A4; // A4
@@ -28,9 +31,6 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 const int PHASE_PUSH_INSPI = 1; // pousée d'inspiration : on envoie l'air jusqu'à la pression crête paramétrée : valve blower ouverte à consigne, flux d'air vers le patient
 const int PHASE_HOLD_INSPI = 2; // plateau d'inspiration : on a depassé la pression crête, la pression descend depuis plus d'un 1/10sec (arbitraire EFL) : 2 valves fermées
 const int PHASE_EXPIRATION = 3; // expiration : flux d'air vers l'extérieur, air patient vers l'extérieur
-
-const int ANGLE_OUVERTURE_MINI = 8;
-const int ANGLE_OUVERTURE_MAXI = 45;
 
 const int BTN_PRESSION_CRETE_MINUS = 1;
 const int BTN_PRESSION_CRETE_PLUS = 2;
@@ -77,7 +77,7 @@ int previousPressionPep = -1;
 
 // indicateur paramétrage en cours
 // faux par défaut, sur détection d'un changement d'état d'un bouton,
-// on lui met un nbre de centieme à attendre afin de confirmer la détection
+// on lui met un nombre de centièmes à attendre afin de confirmer la détection
 int parametrageEnCours = 0;
 int boutonDetecte = 0;
 int previousBoutonDetecte = 0;
@@ -177,7 +177,7 @@ void loop() {
     } else {
       currentPression = 30;
     }
-    if(currentCentieme > nbreCentiemeSecParInspi){currentPression=5;}
+    if (currentCentieme > nbreCentiemeSecParInspi) {currentPression=5;}
 
     /********************************************/
     // Calcul des consignes normales
@@ -259,61 +259,66 @@ void loop() {
     // Gestion paramétrage
     /********************************************/
     boutonDetecte = 0;
-    if(digitalRead(BTN_NOMBRE_CYCLE_MINUS) == HIGH){
+    if (digitalRead(BTN_NOMBRE_CYCLE_MINUS) == HIGH) {
       boutonDetecte = BTN_NOMBRE_CYCLE_MINUS;
     }
-    if(digitalRead(BTN_NOMBRE_CYCLE_PLUS) == HIGH){
+    if (digitalRead(BTN_NOMBRE_CYCLE_PLUS) == HIGH) {
       boutonDetecte = BTN_NOMBRE_CYCLE_PLUS;
     }
-    if(digitalRead(BTN_PRESSION_CRETE_MINUS) == HIGH){
+    if (digitalRead(BTN_PRESSION_CRETE_MINUS) == HIGH) {
       boutonDetecte = BTN_PRESSION_CRETE_MINUS;
     }
-    if(digitalRead(BTN_PRESSION_CRETE_PLUS) == HIGH){
+    if (digitalRead(BTN_PRESSION_CRETE_PLUS) == HIGH) {
       boutonDetecte = BTN_PRESSION_CRETE_PLUS;
     }
-    if(digitalRead(BTN_PRESSION_PEP_MINUS) == HIGH){
+    if (digitalRead(BTN_PRESSION_PEP_MINUS) == HIGH) {
       boutonDetecte = BTN_PRESSION_PEP_MINUS;
     }
-    if(digitalRead(BTN_PRESSION_PEP_PLUS) == HIGH){
+    if (digitalRead(BTN_PRESSION_PEP_PLUS) == HIGH) {
       boutonDetecte = BTN_PRESSION_PEP_PLUS;
     }
-    if(digitalRead(BTN_PRESSION_PLATEAU_MINUS) == HIGH){
+    if (digitalRead(BTN_PRESSION_PLATEAU_MINUS) == HIGH) {
       boutonDetecte = BTN_PRESSION_PLATEAU_MINUS;
     }
-    if(digitalRead(BTN_PRESSION_PLATEAU_PLUS) == HIGH){
+    if (digitalRead(BTN_PRESSION_PLATEAU_PLUS) == HIGH) {
       boutonDetecte = BTN_PRESSION_PLATEAU_PLUS;
     }
 
-    // first détection
-    if(parametrageEnCours==0 && boutonDetecte != 0){
-      parametrageEnCours = 21; // on attends 0.2s avant de retester pour éviter les rebonds
+    // première détection
+    if (parametrageEnCours == 0 && boutonDetecte != 0) {
+      parametrageEnCours = 21; // on attends 0.2s avant de re-tester pour éviter les rebonds
       previousBoutonDetecte = boutonDetecte;
     }
 
-    // a la fin des 0.2s, si le signal est toujours là et que cela fait plus de 2s que l'on a fait un paramétrage
-    if((parametrageEnCours == 1)
+    // à la fin des 0.2s, si le signal est toujours là et que cela fait plus de 2s que l'on a fait un paramétrage
+    if ((parametrageEnCours == 1)
       && (boutonDetecte == previousBoutonDetecte)
-      && (centiemeDepuisReglage > INTERVALLE_PARAMETRAGE)){
-      // on reinitialise l'intervalle
+      && (centiemeDepuisReglage > INTERVALLE_PARAMETRAGE)) {
+
+      // on réinitialise l'intervalle
       centiemeDepuisReglage = 0;
 
-      if(boutonDetecte == BTN_NOMBRE_CYCLE_MINUS){
+      if (boutonDetecte == BTN_NOMBRE_CYCLE_MINUS) {
         futureConsigneNbCycle++;
-        if(futureConsigneNbCycle > BORNE_SUP_CYCLE){futureConsigneNbCycle=BORNE_SUP_CYCLE;}
+        if (futureConsigneNbCycle > BORNE_SUP_CYCLE) {
+          futureConsigneNbCycle=BORNE_SUP_CYCLE;
+        }
       }
-      if(boutonDetecte == BTN_NOMBRE_CYCLE_PLUS){
+      if (boutonDetecte == BTN_NOMBRE_CYCLE_PLUS) {
         futureConsigneNbCycle--;
-        if(futureConsigneNbCycle < BORNE_INF_CYCLE){futureConsigneNbCycle=BORNE_INF_CYCLE;}
+        if (futureConsigneNbCycle < BORNE_INF_CYCLE) {
+          futureConsigneNbCycle=BORNE_INF_CYCLE;
+        }
       }
 
     }
 
-    if(parametrageEnCours > 0){
+    if (parametrageEnCours > 0) {
       parametrageEnCours--;
     }
 
-    if((centiemeDepuisReglage < INTERVALLE_PARAMETRAGE) && boutonDetecte == 0){
-      // on a laché le btn, après paramétrage, on permet un réappui
+    if ((centiemeDepuisReglage < INTERVALLE_PARAMETRAGE) && boutonDetecte == 0) {
+      // on a lâché le bouton, après paramétrage, on permet un ré-appui
       centiemeDepuisReglage = INTERVALLE_PARAMETRAGE;
     }
 
