@@ -16,7 +16,7 @@ The overall system is composed of sub-components that can be plugged together an
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
-![Overview scheme](schemes/overview.png)
+![Overview scheme](./schemes/Overview/Overview.png)
 
 # CAD Models
 
@@ -52,8 +52,8 @@ Please open an issue to contact us.
 
 ## Part 1: The "Air Transistor"
 
-![Air Transistor Concept](https://github.com/covid-response-projects/covid-respirator/raw/master/schemes/Air%20Transistor/Air%20Transistor%20(Render%204).png)
+![Air Transistor Concept](./schemes/Air Transistor/Air Transistor (Render 4).png)
 
 ## Part 2: The "Blower"
 
-![Blower Concept](https://github.com/covid-response-projects/covid-respirator/raw/master/schemes/Blower/Blower%20(Render%201).png)
+![Blower Concept](./schemes/Blower/Blower (Render 1).png)
