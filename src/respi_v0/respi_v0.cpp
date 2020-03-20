@@ -94,18 +94,18 @@ void loop() {
         currentPhase = PHASE_PUSH_INSPI;
         currentPressionCrete = currentPression;
 
-        consigneBlower = 90 - consigneOuverture;  // on ouvre le blower vers patient à la consigne paramétrée
-        consignePatient = 90 + ANGLE_OUVERTURE_MAXI; // on ouvre le flux IN patient
+        consigneBlower = 90 + consigneOuverture;  // on ouvre le blower vers patient à la consigne paramétrée
+        consignePatient = 90 - ANGLE_OUVERTURE_MAXI; // on ouvre le flux IN patient
       } else {
         currentPhase = PHASE_HOLD_INSPI;
         currentPressionPlateau = currentPression;
 
-        consigneBlower = 90 + ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
+        consigneBlower = 90 - ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
         consignePatient = 90; // on bloque les flux patient
       }
     } else { // on gère l'expiration on est phase PHASE_EXPIRATION
       currentPhase = PHASE_EXPIRATION;
-      consigneBlower = 90 + ANGLE_OUVERTURE_MAXI;  // on shunt vers l'extérieur
+      consigneBlower = 90 - ANGLE_OUVERTURE_MAXI;  // on shunt vers l'extérieur
       consignePatient = secu_ouvertureExpi; // on ouvre le flux OUT patient (expiration vers l'extérieur)
     }
 
