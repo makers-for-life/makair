@@ -30,7 +30,8 @@ void setup() {
 }
 
 // nombre de cycles par minute (cycle = inspi + plateau + expi)
-int consigneNbCycle = 20;
+int consigneNbCycle = 6;
+int futureConsigneNbCycle = 6;
 
 // degré d'ouverture de la valve blower (quantité d'air du blower qu'on envoie vers la boite 2)
 int consigneOuverture = 30;
@@ -80,7 +81,7 @@ void loop() {
     // Mesure pression pour rétro-action
     /********************************************/
     int currentPression = 0 ; //analogRead(PIN_CAPTEUR_PRESSION);
-    if (currentCentieme < 50) {
+    if (currentCentieme < 200) {
       currentPression = 100; //analogRead(PIN_CAPTEUR_PRESSION);
     } else {
       currentPression = 90;
@@ -94,18 +95,18 @@ void loop() {
         currentPhase = PHASE_PUSH_INSPI;
         currentPressionCrete = currentPression;
 
-        consigneBlower = 90 + consigneOuverture;  // on ouvre le blower vers patient à la consigne paramétrée
-        consignePatient = 90 - ANGLE_OUVERTURE_MAXI; // on ouvre le flux IN patient
+        consigneBlower = 90 - consigneOuverture;  // on ouvre le blower vers patient à la consigne paramétrée
+        consignePatient = 90 + ANGLE_OUVERTURE_MAXI; // on ouvre le flux IN patient
       } else {
         currentPhase = PHASE_HOLD_INSPI;
         currentPressionPlateau = currentPression;
 
-        consigneBlower = 90 - ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
+        consigneBlower = 90 + ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
         consignePatient = 90; // on bloque les flux patient
       }
     } else { // on gère l'expiration on est phase PHASE_EXPIRATION
       currentPhase = PHASE_EXPIRATION;
-      consigneBlower = 90 - ANGLE_OUVERTURE_MAXI;  // on shunt vers l'extérieur
+      consigneBlower = 90 + ANGLE_OUVERTURE_MAXI;  // on shunt vers l'extérieur
       consignePatient = secu_ouvertureExpi; // on ouvre le flux OUT patient (expiration vers l'extérieur)
     }
 
