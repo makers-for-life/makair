@@ -23,26 +23,22 @@ Servo blower;
 Servo patient;
 
 // entrées-sorties
-const int PIN_CAPTEUR_PRESSION = A4; // A4
+const int PIN_CAPTEUR_PRESSION = A4;
 const int PIN_SERVO_BLOWER = 4; // D4
 const int PIN_SERVO_PATIENT = 2; // D2
-const int BTN_PRESSION_CRETE_MINUS = 1;
-const int BTN_PRESSION_CRETE_PLUS = 2;
-const int BTN_PRESSION_PLATEAU_MINUS = 3;
-const int BTN_PRESSION_PLATEAU_PLUS = 4;
-const int BTN_PRESSION_PEP_MINUS = 5;
-const int BTN_PRESSION_PEP_PLUS = 6;
-const int BTN_NOMBRE_CYCLE_MINUS = A2;
-const int BTN_NOMBRE_CYCLE_PLUS = A3;
+const int BTN_PRESSION_PLATEAU_MINUS = A1;
+const int BTN_PRESSION_PLATEAU_PLUS = A0;
+const int BTN_PRESSION_PEP_MINUS = 5; // D5
+const int BTN_PRESSION_PEP_PLUS = 6; // D6
+const int BTN_NOMBRE_CYCLE_MINUS = A3;
+const int BTN_NOMBRE_CYCLE_PLUS = A2;
 
-OneButton btn_pression_crete_minus(BTN_PRESSION_CRETE_MINUS, false);
-OneButton btn_pression_crete_plus(BTN_PRESSION_CRETE_PLUS, false);
-OneButton btn_pression_plateau_minus(BTN_PRESSION_PLATEAU_MINUS, false);
-OneButton btn_pression_plateau_plus(BTN_PRESSION_PLATEAU_PLUS, false);
-OneButton btn_pression_pep_minus(BTN_PRESSION_PEP_MINUS, false);
-OneButton btn_pression_pep_plus(BTN_PRESSION_PEP_PLUS, false);
-OneButton btn_cycle_minus(BTN_NOMBRE_CYCLE_MINUS, false);
-OneButton btn_cycle_plus(BTN_NOMBRE_CYCLE_PLUS, false);
+OneButton btn_pression_plateau_minus(BTN_PRESSION_PLATEAU_MINUS, true, true);
+OneButton btn_pression_plateau_plus(BTN_PRESSION_PLATEAU_PLUS, true, true);
+OneButton btn_pression_pep_minus(BTN_PRESSION_PEP_MINUS, true, true);
+OneButton btn_pression_pep_plus(BTN_PRESSION_PEP_PLUS, true, true);
+OneButton btn_cycle_minus(BTN_NOMBRE_CYCLE_MINUS, true, true);
+OneButton btn_cycle_plus(BTN_NOMBRE_CYCLE_PLUS, true, true);
 
 // contrôle de l'écran LCD
 const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
@@ -62,9 +58,6 @@ const int BORNE_SUP_PRESSION_PEP = ANGLE_OUVERTURE_MAXI;
 const int BORNE_INF_PRESSION_PEP = ANGLE_OUVERTURE_MINI;
 const int BORNE_SUP_CYCLE = 35;
 const int BORNE_INF_CYCLE = 8;
-
-// durée en centièmes de secondes entre chaque appui de bouton
-const int INTERVALLE_PARAMETRAGE = 200;
 
 // durée d'appui des boutons (en centièmes de secondes) avant prise en compte
 const int MAINTIEN_PARAMETRAGE = 21;
@@ -96,26 +89,6 @@ int futureConsignePressionPEP = consignePressionPEP;
 int previousPressionCrete = -1;
 int previousPressionPlateau = -1;
 int previousPressionPep = -1;
-
-void onPressionCreteMinus() {
-  #ifdef DEBUG
-  Serial.println("pression crete --");
-  #endif
-  futureConsigneOuverture--;
-  if (futureConsigneOuverture < BORNE_INF_PRESSION_CRETE) {
-    futureConsigneOuverture = BORNE_INF_PRESSION_CRETE;
-  }
-}
-
-void onPressionCretePlus() {
-  #ifdef DEBUG
-  Serial.println("pression crete ++");
-  #endif
-  futureConsigneOuverture++;
-  if (futureConsigneOuverture > BORNE_SUP_PRESSION_CRETE) {
-    futureConsigneOuverture = BORNE_SUP_PRESSION_CRETE;
-  }
-}
 
 void onPressionPlateauMinus() {
   #ifdef DEBUG
@@ -193,36 +166,22 @@ void setup() {
 
   lcd.begin(16, 2);
 
-  btn_pression_crete_minus.attachClick(onPressionCreteMinus);
-  btn_pression_crete_minus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
-  btn_pression_crete_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
-
-  btn_pression_crete_plus.attachClick(onPressionCretePlus);
-  btn_pression_crete_plus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
-  btn_pression_crete_plus.setClickTicks(MAINTIEN_PARAMETRAGE);
-
   btn_pression_plateau_minus.attachClick(onPressionPlateauMinus);
-  btn_pression_plateau_minus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
   btn_pression_plateau_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
 
   btn_pression_plateau_plus.attachClick(onPressionPlateauPlus);
-  btn_pression_plateau_plus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
   btn_pression_plateau_plus.setClickTicks(MAINTIEN_PARAMETRAGE);
 
   btn_pression_pep_minus.attachClick(onPressionPepMinus);
-  btn_pression_pep_minus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
   btn_pression_pep_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
 
   btn_pression_pep_plus.attachClick(onPressionPepPlus);
-  btn_pression_pep_plus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
   btn_pression_pep_plus.setClickTicks(MAINTIEN_PARAMETRAGE);
 
   btn_cycle_minus.attachClick(onCycleMinus);
-  btn_cycle_minus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
   btn_cycle_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
 
   btn_cycle_plus.attachClick(onCyclePlus);
-  btn_cycle_plus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
   btn_cycle_plus.setClickTicks(MAINTIEN_PARAMETRAGE);
 }
 
@@ -387,8 +346,6 @@ void loop() {
     /********************************************/
     // Écoute des appuis boutons
     /********************************************/
-    btn_pression_crete_minus.tick();
-    btn_pression_crete_plus.tick();
     btn_pression_plateau_minus.tick();
     btn_pression_plateau_plus.tick();
     btn_pression_pep_minus.tick();
