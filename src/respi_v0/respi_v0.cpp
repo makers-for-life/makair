@@ -60,14 +60,15 @@ const int PHASE_EXPIRATION = 3; // expiration : flux d'air vers l'extérieur, ai
 const int PHASE_HOLD_EXPI  = 4; // expiration bloquée : les valves sont fermées car la pression est en dessous de la PEP
 
 // minimums et maximums possible des paramètres modifiables à l'exécution
-const int BORNE_SUP_PRESSION_CRETE = ANGLE_OUVERTURE_MAXI;
-const int BORNE_INF_PRESSION_CRETE = ANGLE_OUVERTURE_MINI;
-const int BORNE_SUP_PRESSION_PLATEAU = ANGLE_OUVERTURE_MAXI;
-const int BORNE_INF_PRESSION_PLATEAU = ANGLE_OUVERTURE_MINI;
-const int BORNE_SUP_PRESSION_PEP = ANGLE_OUVERTURE_MAXI;
-const int BORNE_INF_PRESSION_PEP = ANGLE_OUVERTURE_MINI;
-const int BORNE_SUP_CYCLE = 35;
-const int BORNE_INF_CYCLE = 8;
+const int BORNE_SUP_PRESSION_CRETE = 70; // arbitraire
+const int BORNE_INF_PRESSION_CRETE = 10; // arbitraire
+const int BORNE_SUP_PRESSION_PLATEAU = 30; // PP MAX SDRA = 30
+const int BORNE_INF_PRESSION_PLATEAU = 10; // arbitraire
+const int BORNE_SUP_PRESSION_PEP = 30; // PP MAX = 30, or PEP < PP
+const int BORNE_INF_PRESSION_PEP = 5; // arbitraire mais > 0
+
+const int BORNE_SUP_CYCLE = 35; // demande medical
+const int BORNE_INF_CYCLE = 5;  // demande medical 
 
 // durée d'appui des boutons (en centièmes de secondes) avant prise en compte
 const int MAINTIEN_PARAMETRAGE = 21;
