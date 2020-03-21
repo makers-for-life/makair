@@ -264,8 +264,8 @@ void loop() {
     /********************************************/
     // Mesure pression pour rétro-action
     /********************************************/
-    int currentPression = analogRead(PIN_CAPTEUR_PRESSION);
     #ifdef SIMULATION
+    int currentPression = 0
     if (currentCentieme < 50) {
       currentPression = 60; //analogRead(PIN_CAPTEUR_PRESSION);
     } else {
@@ -274,6 +274,8 @@ void loop() {
     if (currentCentieme > nbreCentiemeSecParInspi) {
       currentPression = 5;
     }
+    #else
+    int currentPression = analogRead(PIN_CAPTEUR_PRESSION);    
     #endif
 
     /********************************************/
