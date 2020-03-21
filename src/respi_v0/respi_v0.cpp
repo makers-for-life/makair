@@ -5,6 +5,7 @@
 
 
 //#define DEBUG // décommenter pour envoyer les messages de debug en série
+// #define SIMULATION
 
 // amplitude radiale des servomoteurs
 const int ANGLE_OUVERTURE_MINI = 8;
@@ -263,7 +264,8 @@ void loop() {
     /********************************************/
     // Mesure pression pour rétro-action
     /********************************************/
-    int currentPression = 0 ; //analogRead(PIN_CAPTEUR_PRESSION);
+    int currentPression = analogRead(PIN_CAPTEUR_PRESSION);
+    #ifdef SIMULATION
     if (currentCentieme < 50) {
       currentPression = 60; //analogRead(PIN_CAPTEUR_PRESSION);
     } else {
@@ -272,6 +274,7 @@ void loop() {
     if (currentCentieme > nbreCentiemeSecParInspi) {
       currentPression = 5;
     }
+    #endif
 
     /********************************************/
     // Calcul des consignes normales
