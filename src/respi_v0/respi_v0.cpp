@@ -82,7 +82,7 @@ int consigneNbCycle = 20;
 int futureConsigneNbCycle = consigneNbCycle;
 
 // degré d'ouverture de la valve blower (quantité d'air du blower qu'on envoie vers le Air Transistor patient)
-int consigneOuverture = 30;
+int consigneOuverture = 45;
 int futureConsigneOuverture = consigneOuverture;
 
 // consigne de pression de crête maximum
