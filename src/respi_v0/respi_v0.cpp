@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include <LiquidCrystal.h>
+#include <OneButton.h>
 
 
 #define DEBUG 0 // mettre à "1" pour envoyer les messages de debug en série
@@ -34,6 +35,15 @@ const int BTN_PRESSION_PEP_PLUS = 6;
 const int BTN_NOMBRE_CYCLE_MINUS = A2;
 const int BTN_NOMBRE_CYCLE_PLUS = A3;
 
+OneButton btn_pression_crete_minus(BTN_PRESSION_CRETE_MINUS, false);
+OneButton btn_pression_crete_plus(BTN_PRESSION_CRETE_PLUS, false);
+OneButton btn_pression_plateau_minus(BTN_PRESSION_PLATEAU_MINUS, false);
+OneButton btn_pression_plateau_plus(BTN_PRESSION_PLATEAU_PLUS, false);
+OneButton btn_pression_pep_minus(BTN_PRESSION_PEP_MINUS, false);
+OneButton btn_pression_pep_plus(BTN_PRESSION_PEP_PLUS, false);
+OneButton btn_cycle_minus(BTN_NOMBRE_CYCLE_MINUS, false);
+OneButton btn_cycle_plus(BTN_NOMBRE_CYCLE_PLUS, false);
+
 // contrôle de l'écran LCD
 const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
@@ -44,6 +54,12 @@ const int PHASE_HOLD_INSPI = 2; // plateau d'inspiration : on a depassé la pres
 const int PHASE_EXPIRATION = 3; // expiration : flux d'air vers l'extérieur, air patient vers l'extérieur
 
 // minimums et maximums possible des paramètres modifiables à l'exécution
+const int BORNE_SUP_PRESSION_CRETE = ANGLE_OUVERTURE_MAXI;
+const int BORNE_INF_PRESSION_CRETE = ANGLE_OUVERTURE_MINI;
+const int BORNE_SUP_PRESSION_PLATEAU = ANGLE_OUVERTURE_MAXI;
+const int BORNE_INF_PRESSION_PLATEAU = ANGLE_OUVERTURE_MINI;
+const int BORNE_SUP_PRESSION_PEP = ANGLE_OUVERTURE_MAXI;
+const int BORNE_INF_PRESSION_PEP = ANGLE_OUVERTURE_MINI;
 const int BORNE_SUP_CYCLE = 35;
 const int BORNE_INF_CYCLE = 8;
 
@@ -59,35 +75,107 @@ int secu_ouvertureExpi = 45;
 
 // nombre de cycles par minute (cycle = inspi + plateau + expi)
 int consigneNbCycle = 20;
-int futureConsigneNbCycle = 20;
+int futureConsigneNbCycle = consigneNbCycle;
 
 // degré d'ouverture de la valve blower (quantité d'air du blower qu'on envoie vers le Air Transistor patient)
 int consigneOuverture = 30;
-int futureConsigneOuverture = 30;
+int futureConsigneOuverture = consigneOuverture;
 
 // consigne de pression de crête maximum
 int consignePressionCrete = 60;
 
 // consigne de pression plateau maximum
 int consignePressionPlateauMax = 30;
-int futureConsignePressionPlateauMax = 30;
+int futureConsignePressionPlateauMax = consignePressionPlateauMax;
 
 // consigne de pression PEP
 int consignePressionPEP = 5;
-int futureConsignePressionPEP = 5;
+int futureConsignePressionPEP = consignePressionPEP;
 
 // données pour affichage (du cycle précédent pour ne pas afficher des valeurs aberrantes)
 int previousPressionCrete = -1;
 int previousPressionPlateau = -1;
 int previousPressionPep = -1;
 
-// indicateur paramétrage en cours
-// faux par défaut, sur détection d'un changement d'état d'un bouton,
-// on lui met un nombre de centièmes à attendre afin de confirmer la détection
-int parametrageEnCours = 0;
-int boutonDetecte = 0;
-int previousBoutonDetecte = 0;
-int centiemesDepuisReglage = INTERVALLE_PARAMETRAGE;
+void onPressionCreteMinus() {
+  #ifdef DEBUG
+  Serial.println("pression crete --");
+  #endif
+  futureConsigneOuverture--;
+  if (futureConsigneOuverture < BORNE_INF_PRESSION_CRETE) {
+    futureConsigneOuverture = BORNE_INF_PRESSION_CRETE;
+  }
+}
+
+void onPressionCretePlus() {
+  #ifdef DEBUG
+  Serial.println("pression crete ++");
+  #endif
+  futureConsigneOuverture++;
+  if (futureConsigneOuverture > BORNE_SUP_PRESSION_CRETE) {
+    futureConsigneOuverture = BORNE_SUP_PRESSION_CRETE;
+  }
+}
+
+void onPressionPlateauMinus() {
+  #ifdef DEBUG
+  Serial.println("pression plateau --");
+  #endif
+  futureConsignePressionPlateauMax--;
+  if (futureConsignePressionPlateauMax < BORNE_INF_PRESSION_PLATEAU) {
+    futureConsignePressionPlateauMax = BORNE_INF_PRESSION_PLATEAU;
+  }
+}
+
+void onPressionPlateauPlus() {
+  #ifdef DEBUG
+  Serial.println("pression plateau ++");
+  #endif
+  futureConsignePressionPlateauMax++;
+  if (futureConsignePressionPlateauMax > BORNE_SUP_PRESSION_PLATEAU) {
+    futureConsignePressionPlateauMax = BORNE_SUP_PRESSION_PLATEAU;
+  }
+}
+
+void onPressionPepMinus() {
+  #ifdef DEBUG
+  Serial.println("pression PEP --");
+  #endif
+  futureConsignePressionPEP--;
+  if (futureConsignePressionPEP < BORNE_INF_PRESSION_PEP) {
+    futureConsignePressionPEP = BORNE_INF_PRESSION_PEP;
+  }
+}
+
+void onPressionPepPlus() {
+  #ifdef DEBUG
+  Serial.println("pression PEP ++");
+  #endif
+  futureConsignePressionPEP++;
+  if (futureConsignePressionPEP > BORNE_SUP_PRESSION_PEP) {
+    futureConsignePressionPEP = BORNE_SUP_PRESSION_PEP;
+  }
+}
+
+void onCycleMinus() {
+  #ifdef DEBUG
+  Serial.println("nb cycle --");
+  #endif
+  futureConsigneNbCycle--;
+  if (futureConsigneNbCycle < BORNE_INF_CYCLE) {
+    futureConsigneNbCycle = BORNE_INF_CYCLE;
+  }
+}
+
+void onCyclePlus() {
+  #ifdef DEBUG
+  Serial.println("nb cycle ++");
+  #endif
+  futureConsigneNbCycle++;
+  if (futureConsigneNbCycle > BORNE_SUP_CYCLE) {
+    futureConsigneNbCycle = BORNE_SUP_CYCLE;
+  }
+}
 
 void setup() {
   #ifdef DEBUG
@@ -104,15 +192,38 @@ void setup() {
   patient.write(secu_ouvertureExpi);
 
   lcd.begin(16, 2);
-  pinMode(BTN_NOMBRE_CYCLE_MINUS, INPUT);
-  pinMode(BTN_NOMBRE_CYCLE_PLUS, INPUT);
-  /* pinMode(BTN_PRESSION_CRETE_MINUS, INPUT);
-  pinMode(BTN_PRESSION_CRETE_PLUS, INPUT);
-  pinMode(BTN_PRESSION_PLATEAU_MINUS, INPUT);
-  pinMode(BTN_PRESSION_PLATEAU_PLUS, INPUT);
-  pinMode(BTN_PRESSION_PEP_MINUS, INPUT);
-  pinMode(BTN_PRESSION_PEP_PLUS, INPUT);
-  */
+
+  btn_pression_crete_minus.attachClick(onPressionCreteMinus);
+  btn_pression_crete_minus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
+  btn_pression_crete_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
+
+  btn_pression_crete_plus.attachClick(onPressionCretePlus);
+  btn_pression_crete_plus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
+  btn_pression_crete_plus.setClickTicks(MAINTIEN_PARAMETRAGE);
+
+  btn_pression_plateau_minus.attachClick(onPressionPlateauMinus);
+  btn_pression_plateau_minus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
+  btn_pression_plateau_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
+
+  btn_pression_plateau_plus.attachClick(onPressionPlateauPlus);
+  btn_pression_plateau_plus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
+  btn_pression_plateau_plus.setClickTicks(MAINTIEN_PARAMETRAGE);
+
+  btn_pression_pep_minus.attachClick(onPressionPepMinus);
+  btn_pression_pep_minus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
+  btn_pression_pep_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
+
+  btn_pression_pep_plus.attachClick(onPressionPepPlus);
+  btn_pression_pep_plus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
+  btn_pression_pep_plus.setClickTicks(MAINTIEN_PARAMETRAGE);
+
+  btn_cycle_minus.attachClick(onCycleMinus);
+  btn_cycle_minus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
+  btn_cycle_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
+
+  btn_cycle_plus.attachClick(onCyclePlus);
+  btn_cycle_plus.setDebounceTicks(INTERVALLE_PARAMETRAGE);
+  btn_cycle_plus.setClickTicks(MAINTIEN_PARAMETRAGE);
 }
 
 void loop() {
@@ -151,6 +262,16 @@ void loop() {
   consigneOuverture = futureConsigneOuverture;
   consignePressionPEP = futureConsignePressionPEP;
   consignePressionPlateauMax = futureConsignePressionPlateauMax;
+  #ifdef DEBUG
+  Serial.print("consigneNbCycle = ");
+  Serial.println(consigneNbCycle);
+  Serial.print("consigneOuverture = ");
+  Serial.println(consigneOuverture);
+  Serial.print("consignePressionPEP = ");
+  Serial.println(consignePressionPEP);
+  Serial.print("consignePressionPlateauMax = ");
+  Serial.println(consignePressionPlateauMax);
+  #endif
 
 
   /********************************************/
@@ -236,13 +357,13 @@ void loop() {
       consignePatient = 90;
     }
 
-    #ifdef DEBUG
+    /*#ifdef DEBUG
     if (currentCentieme % 10 == 0) {
       Serial.print("Phase : ");
       Serial.println(currentPhase);
     }
     #endif
-
+*/
     /********************************************/
     // Envoi des nouvelles valeurs aux actionneurs
     /********************************************/
@@ -264,76 +385,16 @@ void loop() {
     previousPressionPep = currentPressionPep;
 
     /********************************************/
-    // Gestion paramétrage
+    // Écoute des appuis boutons
     /********************************************/
-    boutonDetecte = 0;
-    if (digitalRead(BTN_NOMBRE_CYCLE_MINUS) == HIGH) {
-      boutonDetecte = BTN_NOMBRE_CYCLE_MINUS;
-    }
-    if (digitalRead(BTN_NOMBRE_CYCLE_PLUS) == HIGH) {
-      boutonDetecte = BTN_NOMBRE_CYCLE_PLUS;
-    }
-    if (digitalRead(BTN_PRESSION_CRETE_MINUS) == HIGH) {
-      boutonDetecte = BTN_PRESSION_CRETE_MINUS;
-    }
-    if (digitalRead(BTN_PRESSION_CRETE_PLUS) == HIGH) {
-      boutonDetecte = BTN_PRESSION_CRETE_PLUS;
-    }
-    if (digitalRead(BTN_PRESSION_PEP_MINUS) == HIGH) {
-      boutonDetecte = BTN_PRESSION_PEP_MINUS;
-    }
-    if (digitalRead(BTN_PRESSION_PEP_PLUS) == HIGH) {
-      boutonDetecte = BTN_PRESSION_PEP_PLUS;
-    }
-    if (digitalRead(BTN_PRESSION_PLATEAU_MINUS) == HIGH) {
-      boutonDetecte = BTN_PRESSION_PLATEAU_MINUS;
-    }
-    if (digitalRead(BTN_PRESSION_PLATEAU_PLUS) == HIGH) {
-      boutonDetecte = BTN_PRESSION_PLATEAU_PLUS;
-    }
-
-    // première détection
-    if (parametrageEnCours == 0 && boutonDetecte != 0) {
-      parametrageEnCours = MAINTIEN_PARAMETRAGE; // on attend x ms avant de re-tester pour éviter les rebonds
-      previousBoutonDetecte = boutonDetecte;
-    }
-
-    // à la fin de la durée de maintien, si le signal est toujours là et que cela fait plus de x secondes que l'on a fait un paramétrage
-    if (parametrageEnCours == 1
-      && boutonDetecte == previousBoutonDetecte
-      && centiemesDepuisReglage > INTERVALLE_PARAMETRAGE) {
-
-      // on réinitialise l'intervalle
-      centiemesDepuisReglage = 0;
-
-      // on définit la nouvelle consigne
-      if (boutonDetecte == BTN_NOMBRE_CYCLE_MINUS) {
-        futureConsigneNbCycle++;
-        if (futureConsigneNbCycle > BORNE_SUP_CYCLE) {
-          futureConsigneNbCycle = BORNE_SUP_CYCLE;
-        }
-      }
-      if (boutonDetecte == BTN_NOMBRE_CYCLE_PLUS) {
-        futureConsigneNbCycle--;
-        if (futureConsigneNbCycle < BORNE_INF_CYCLE) {
-          futureConsigneNbCycle = BORNE_INF_CYCLE;
-        }
-      }
-      // TODO: gérer les autres boutons
-
-    }
-
-    // à chaque tick de 10 ms, on réduit la durée restante avant prise en compte de l'appui de bouton
-    if (parametrageEnCours > 0) {
-      parametrageEnCours--;
-    }
-
-    // on a lâché le bouton, après paramétrage, on permet un ré-appui
-    if (centiemesDepuisReglage < INTERVALLE_PARAMETRAGE && boutonDetecte == 0) {
-      centiemesDepuisReglage = INTERVALLE_PARAMETRAGE;
-    }
-
-    centiemesDepuisReglage++;
+    btn_pression_crete_minus.tick();
+    btn_pression_crete_plus.tick();
+    btn_pression_plateau_minus.tick();
+    btn_pression_plateau_plus.tick();
+    btn_pression_pep_minus.tick();
+    btn_pression_pep_plus.tick();
+    btn_cycle_minus.tick();
+    btn_cycle_plus.tick();
 
     delay(10); // on attend 1 centième de seconde (on aura de la dérive en temps, sera corrigé par rtc au besoin)
 
