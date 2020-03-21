@@ -5,6 +5,9 @@
 
 Makers, developers, university teachers / researchers and medical teams collaborated on this project. If you're new there, please read the explanations below. _Your contributions are much welcome!_
 
+
+Global EN/FR doc here https://docs.google.com/document/d/1l1nt0o93kdfcmPygp1k6NYKrwIb_uN01kcBAfovy2dE/edit#
+
 ---
 
 # Concept
