@@ -43,6 +43,7 @@ OneButton btn_cycle_plus(BTN_NOMBRE_CYCLE_PLUS, true, true);
 // contrôle de l'écran LCD
 const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+const int LCD_UPDATE_PERIOD = 20; // période (en centièmes de secondes) de mise à jour du feedback des consignes sur le LCD
 
 // phases possibles du cycle
 const int PHASE_PUSH_INSPI = 1; // pousée d'inspiration : on envoie l'air jusqu'à la pression crête paramétrée : valve blower ouverte à consigne, flux d'air vers le patient
@@ -244,9 +245,6 @@ void loop() {
   lcd.print("/pep");
   lcd.print(previousPressionPep);
   lcd.print("  ");
-  lcd.setCursor(0, 1);
-  lcd.print("c:");
-  lcd.print(consigneNbCycle);
 
 
   /********************************************/
@@ -352,6 +350,19 @@ void loop() {
     btn_pression_pep_plus.tick();
     btn_cycle_minus.tick();
     btn_cycle_plus.tick();
+
+    /********************************************/
+    // Affichage pendant le cycle
+    /********************************************/
+    if (currentCentieme % LCD_UPDATE_PERIOD == 0) {
+      lcd.setCursor(0, 1);
+      lcd.print("c");
+      lcd.print(futureConsigneNbCycle);
+      lcd.print("/pl");
+      lcd.print(futureConsignePressionPlateauMax);
+      lcd.print("/pep");
+      lcd.print(futureConsignePressionPEP);
+    }
 
     delay(10); // on attend 1 centième de seconde (on aura de la dérive en temps, sera corrigé par rtc au besoin)
 
