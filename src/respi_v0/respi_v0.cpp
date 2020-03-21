@@ -4,7 +4,7 @@
 #include <OneButton.h>
 
 
-#define DEBUG 0 // mettre à "1" pour envoyer les messages de debug en série
+//#define DEBUG // décommenter pour envoyer les messages de debug en série
 
 // amplitude radiale des servomoteurs
 const int ANGLE_OUVERTURE_MINI = 8;
@@ -357,13 +357,13 @@ void loop() {
       consignePatient = 90;
     }
 
-    /*#ifdef DEBUG
+    #ifdef DEBUG
     if (currentCentieme % 10 == 0) {
       Serial.print("Phase : ");
       Serial.println(currentPhase);
     }
     #endif
-*/
+
     /********************************************/
     // Envoi des nouvelles valeurs aux actionneurs
     /********************************************/
