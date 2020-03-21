@@ -29,6 +29,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 * [Air Transistor V2](https://a360.co/2Unrwtp)
 * [Blower V9](https://a360.co/2J9ldEw)
+* [Oxygen Mixer V1](https://a360.co/2xfmcR0)
 
 ℹ️ Older model revisions can be found online:
 
