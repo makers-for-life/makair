@@ -10,6 +10,13 @@
 const int ANGLE_OUVERTURE_MINI = 8;
 const int ANGLE_OUVERTURE_MAXI = 45;
 
+// multiplicateur à modifier pour inverser les angles (en cas de suppression de l'engrenage)
+const int ANGLE_MULTIPLICATEUR = 1; 
+
+// borne pour le capteur de pression
+const int CAPT_PRESSION_MINI = 0; // a adapter lors de la calibration
+const int CAPT_PRESSION_MAXI = 800; // on ne va pas jusqu'à 1024 à cause de la saturation de l'AOP -> à adapter avec meilleur AOP
+
 // servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou vers l'extérieur
 // 90° → tout est fermé
 // entre 45° (90 - ANGLE_OUVERTURE_MAXI) et 82° (90 - ANGLE_OUVERTURE_MINI) → envoi du flux vers l'extérieur
@@ -49,6 +56,7 @@ const int LCD_UPDATE_PERIOD = 20; // période (en centièmes de secondes) de mis
 const int PHASE_PUSH_INSPI = 1; // pousée d'inspiration : on envoie l'air jusqu'à la pression crête paramétrée : valve blower ouverte à consigne, flux d'air vers le patient
 const int PHASE_HOLD_INSPI = 2; // plateau d'inspiration : on a depassé la pression crête, la pression descend depuis plus d'un 1/10sec (arbitraire EFL) : 2 valves fermées
 const int PHASE_EXPIRATION = 3; // expiration : flux d'air vers l'extérieur, air patient vers l'extérieur
+const int PHASE_HOLD_EXPI  = 4; // expiration bloquée : les valves sont fermées car la pression est en dessous de la PEP
 
 // minimums et maximums possible des paramètres modifiables à l'exécution
 const int BORNE_SUP_PRESSION_CRETE = ANGLE_OUVERTURE_MAXI;
@@ -273,19 +281,19 @@ void loop() {
         currentPhase = PHASE_PUSH_INSPI;
         currentPressionCrete = currentPression;
 
-        consigneBlower = 90 - consigneOuverture; // on ouvre le blower vers patient à la consigne paramétrée
-        consignePatient = 90 + ANGLE_OUVERTURE_MAXI; // on ouvre le flux IN patient
+        consigneBlower = 90 - ANGLE_MULTIPLICATEUR * consigneOuverture; // on ouvre le blower vers patient à la consigne paramétrée
+        consignePatient = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on ouvre le flux IN patient
       } else {
         currentPhase = PHASE_HOLD_INSPI;
         currentPressionPlateau = currentPression;
 
-        consigneBlower = 90 + ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
+        consigneBlower = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
         consignePatient = 90; // on bloque les flux patient
       }
     } else { // on gère l'expiration on est phase PHASE_EXPIRATION
       currentPhase = PHASE_EXPIRATION;
       currentPressionPep = currentPression;
-      consigneBlower = 90 + ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
+      consigneBlower = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
       consignePatient = secu_ouvertureExpi; // on ouvre le flux OUT patient (expiration vers l'extérieur)
     }
 
@@ -312,6 +320,7 @@ void loop() {
       Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");
       #endif
       consignePatient = 90;
+      currentPhase = PHASE_HOLD_EXPI;
     }
 
     #ifdef DEBUG
