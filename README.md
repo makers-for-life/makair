@@ -68,3 +68,7 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 🎦 View: [Animation of the "Blower"](./schemes/Blower/Blower%20(Animation%201).mp4)
 
 ![Blower Concept](./schemes/Blower/Blower%20(Render%201).png)
+
+## Part 3: The "Oxygen Mixer"
+
+![Oxygen Mixer Concept](./schemes/Oxygen%20Mixer/Oxygen%20Mixer%20(Render%201).png)
