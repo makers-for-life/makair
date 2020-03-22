@@ -27,12 +27,13 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 ➡️ The latest Fusion 360 models can be found online:
 
-* [Air Transistor V2](https://a360.co/2Unrwtp)
+* [Air Transistor V3](https://a360.co/3do5uzk)
 * [Blower V9](https://a360.co/2J9ldEw)
 * [Oxygen Mixer V1](https://a360.co/2xfmcR0)
 
 ℹ️ Older model revisions can be found online:
 
+* [Air Transistor V2](https://a360.co/2Unrwtp)
 * [Air Transistor V1](https://a360.co/2IS0x3U)
 * [Blower V5](https://a360.co/3bbVesb)
 * [Blower V2](https://a360.co/33sQ6xi)
