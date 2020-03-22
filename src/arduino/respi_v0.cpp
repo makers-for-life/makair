@@ -5,14 +5,14 @@
 
 
 //#define DEBUG // décommenter pour envoyer les messages de debug en série
-// #define SIMULATION
+//#define SIMULATION // décommenter pour simuler des valeurs de capteur de pression au lieu de lire les vraies
 
 // amplitude radiale des servomoteurs
 const int ANGLE_OUVERTURE_MINI = 8;
 const int ANGLE_OUVERTURE_MAXI = 45;
 
 // multiplicateur à modifier pour inverser les angles (en cas de suppression de l'engrenage)
-const int ANGLE_MULTIPLICATEUR = 1; 
+const int ANGLE_MULTIPLICATEUR = 1;
 
 // borne pour le capteur de pression
 const int CAPT_PRESSION_MINI = 0; // a adapter lors de la calibration
@@ -51,6 +51,7 @@ OneButton btn_cycle_plus(BTN_NOMBRE_CYCLE_PLUS, true, true);
 // contrôle de l'écran LCD
 const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+#define LCD_20_CHARS // commenter pour utiliser un écran LCD 16 caratères
 const int LCD_UPDATE_PERIOD = 20; // période (en centièmes de secondes) de mise à jour du feedback des consignes sur le LCD
 
 // phases possibles du cycle
@@ -68,7 +69,7 @@ const int BORNE_SUP_PRESSION_PEP = 30; // PP MAX = 30, or PEP < PP
 const int BORNE_INF_PRESSION_PEP = 5; // arbitraire mais > 0
 
 const int BORNE_SUP_CYCLE = 35; // demande medical
-const int BORNE_INF_CYCLE = 5;  // demande medical 
+const int BORNE_INF_CYCLE = 5;  // demande medical
 
 // durée d'appui des boutons (en centièmes de secondes) avant prise en compte
 const int MAINTIEN_PARAMETRAGE = 21;
@@ -175,7 +176,11 @@ void setup() {
   blower.write(secu_coupureBlower);
   patient.write(secu_ouvertureExpi);
 
+  #ifdef LCD_20_CHARS
+  lcd.begin(20, 2);
+  #else
   lcd.begin(16, 2);
+  #endif
 
   btn_pression_plateau_minus.attachClick(onPressionPlateauMinus);
   btn_pression_plateau_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
@@ -248,6 +253,15 @@ void loop() {
   // Affichage une fois par cycle respiratoire
   /********************************************/
   lcd.setCursor(0, 0);
+  #ifdef LCD_20_CHARS
+  lcd.print("pc=");
+  lcd.print(previousPressionCrete);
+  lcd.print("|pp=");
+  lcd.print(previousPressionPlateau);
+  lcd.print("|pep=");
+  lcd.print(previousPressionPep);
+  lcd.print(" ");
+  #else
   lcd.print("pc");
   lcd.print(previousPressionCrete);
   lcd.print("/pp");
@@ -255,6 +269,7 @@ void loop() {
   lcd.print("/pep");
   lcd.print(previousPressionPep);
   lcd.print("  ");
+  #endif
 
 
   /********************************************/
@@ -268,7 +283,7 @@ void loop() {
     #ifdef SIMULATION
     int currentPression = 0
     if (currentCentieme < 50) {
-      currentPression = 60; //analogRead(PIN_CAPTEUR_PRESSION);
+      currentPression = 60;
     } else {
       currentPression = 30;
     }
@@ -276,7 +291,7 @@ void loop() {
       currentPression = 5;
     }
     #else
-    int currentPression = analogRead(PIN_CAPTEUR_PRESSION);    
+    int currentPression = analogRead(PIN_CAPTEUR_PRESSION);
     #endif
 
     /********************************************/
@@ -371,12 +386,21 @@ void loop() {
     /********************************************/
     if (currentCentieme % LCD_UPDATE_PERIOD == 0) {
       lcd.setCursor(0, 1);
+      #ifdef LCD_20_CHARS
+      lcd.print("c=");
+      lcd.print(futureConsigneNbCycle);
+      lcd.print("/pl=");
+      lcd.print(futureConsignePressionPlateauMax);
+      lcd.print("/pep=");
+      lcd.print(futureConsignePressionPEP);
+      #else
       lcd.print("c");
       lcd.print(futureConsigneNbCycle);
       lcd.print("/pl");
       lcd.print(futureConsignePressionPlateauMax);
       lcd.print("/pep");
       lcd.print(futureConsignePressionPEP);
+      #endif
     }
 
     delay(10); // on attend 1 centième de seconde (on aura de la dérive en temps, sera corrigé par rtc au besoin)
