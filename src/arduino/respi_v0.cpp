@@ -5,14 +5,14 @@
 
 
 //#define DEBUG // décommenter pour envoyer les messages de debug en série
-// #define SIMULATION
+//#define SIMULATION // décommenter pour simuler des valeurs de capteur de pression au lieu de lire les vraies
 
 // amplitude radiale des servomoteurs
 const int ANGLE_OUVERTURE_MINI = 8;
 const int ANGLE_OUVERTURE_MAXI = 45;
 
 // multiplicateur à modifier pour inverser les angles (en cas de suppression de l'engrenage)
-const int ANGLE_MULTIPLICATEUR = 1; 
+const int ANGLE_MULTIPLICATEUR = 1;
 
 // borne pour le capteur de pression
 const int CAPT_PRESSION_MINI = 0; // a adapter lors de la calibration
@@ -68,7 +68,7 @@ const int BORNE_SUP_PRESSION_PEP = 30; // PP MAX = 30, or PEP < PP
 const int BORNE_INF_PRESSION_PEP = 5; // arbitraire mais > 0
 
 const int BORNE_SUP_CYCLE = 35; // demande medical
-const int BORNE_INF_CYCLE = 5;  // demande medical 
+const int BORNE_INF_CYCLE = 5;  // demande medical
 
 // durée d'appui des boutons (en centièmes de secondes) avant prise en compte
 const int MAINTIEN_PARAMETRAGE = 21;
@@ -268,7 +268,7 @@ void loop() {
     #ifdef SIMULATION
     int currentPression = 0
     if (currentCentieme < 50) {
-      currentPression = 60; //analogRead(PIN_CAPTEUR_PRESSION);
+      currentPression = 60;
     } else {
       currentPression = 30;
     }
@@ -276,7 +276,7 @@ void loop() {
       currentPression = 5;
     }
     #else
-    int currentPression = analogRead(PIN_CAPTEUR_PRESSION);    
+    int currentPression = analogRead(PIN_CAPTEUR_PRESSION);
     #endif
 
     /********************************************/
