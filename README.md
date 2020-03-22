@@ -21,7 +21,7 @@ The overall system is composed of sub-components that can be plugged together an
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
-![Overview scheme](./schemes/Overview/Overview.png)
+![Overview scheme](./Overview/Overview.png)
 
 # CAD Models
 
@@ -60,16 +60,16 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## Part 1: The "Air Transistor"
 
-🎦 View: [Animation of the "Air Transistor"](./schemes/Air%20Transistor/Air%20Transistor%20(Animation%201).mp4)
+🎦 View: [Animation of the "Air Transistor"](./src/components/air-transistor/schemes/Air%20Transistor%20(Animation%201).mp4)
 
-![Air Transistor Concept](./schemes/Air%20Transistor/Air%20Transistor%20(Render%201).png)
+![Air Transistor Concept](./src/components/air-transistor/schemes/Air%20Transistor%20(Render%201).png)
 
 ## Part 2: The "Blower"
 
-🎦 View: [Animation of the "Blower"](./schemes/Blower/Blower%20(Animation%201).mp4)
+🎦 View: [Animation of the "Blower"](./src/components/Blower/schemes/Blower%20(Animation%201).mp4)
 
-![Blower Concept](./schemes/Blower/Blower%20(Render%201).png)
+![Blower Concept](./src/components/Blower/schemes/Blower%20(Render%201).png)
 
 ## Part 3: The "Oxygen Mixer"
 
-![Oxygen Mixer Concept](./schemes/Oxygen%20Mixer/Oxygen%20Mixer%20(Render%201).png)
+![Oxygen Mixer Concept](./src/components/Oxygen%20Mixer/schemes/Oxygen%20Mixer%20(Render%201).png)
