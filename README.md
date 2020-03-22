@@ -72,4 +72,4 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## Part 3: The "Oxygen Mixer"
 
-![Oxygen Mixer Concept](./src/components/Oxygen%20Mixer/schemes/Oxygen%20Mixer%20(Render%201).png)
+![Oxygen Mixer Concept](./src/components/Oxygen%20Mixer/schemes/Oxygen-Mixer%20(Render%201).png)
