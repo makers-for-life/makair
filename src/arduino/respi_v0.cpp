@@ -51,6 +51,7 @@ OneButton btn_cycle_plus(BTN_NOMBRE_CYCLE_PLUS, true, true);
 // contrôle de l'écran LCD
 const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+#define LCD_20_CHARS // commenter pour utiliser un écran LCD 16 caratères
 const int LCD_UPDATE_PERIOD = 20; // période (en centièmes de secondes) de mise à jour du feedback des consignes sur le LCD
 
 // phases possibles du cycle
@@ -175,7 +176,11 @@ void setup() {
   blower.write(secu_coupureBlower);
   patient.write(secu_ouvertureExpi);
 
+  #ifdef LCD_20_CHARS
+  lcd.begin(20, 2);
+  #else
   lcd.begin(16, 2);
+  #endif
 
   btn_pression_plateau_minus.attachClick(onPressionPlateauMinus);
   btn_pression_plateau_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
@@ -248,6 +253,15 @@ void loop() {
   // Affichage une fois par cycle respiratoire
   /********************************************/
   lcd.setCursor(0, 0);
+  #ifdef LCD_20_CHARS
+  lcd.print("pc=");
+  lcd.print(previousPressionCrete);
+  lcd.print("|pp=");
+  lcd.print(previousPressionPlateau);
+  lcd.print("|pep=");
+  lcd.print(previousPressionPep);
+  lcd.print(" ");
+  #else
   lcd.print("pc");
   lcd.print(previousPressionCrete);
   lcd.print("/pp");
@@ -255,6 +269,7 @@ void loop() {
   lcd.print("/pep");
   lcd.print(previousPressionPep);
   lcd.print("  ");
+  #endif
 
 
   /********************************************/
@@ -371,12 +386,21 @@ void loop() {
     /********************************************/
     if (currentCentieme % LCD_UPDATE_PERIOD == 0) {
       lcd.setCursor(0, 1);
+      #ifdef LCD_20_CHARS
+      lcd.print("c=");
+      lcd.print(futureConsigneNbCycle);
+      lcd.print("/pl=");
+      lcd.print(futureConsignePressionPlateauMax);
+      lcd.print("/pep=");
+      lcd.print(futureConsignePressionPEP);
+      #else
       lcd.print("c");
       lcd.print(futureConsigneNbCycle);
       lcd.print("/pl");
       lcd.print(futureConsignePressionPlateauMax);
       lcd.print("/pep");
       lcd.print(futureConsignePressionPEP);
+      #endif
     }
 
     delay(10); // on attend 1 centième de seconde (on aura de la dérive en temps, sera corrigé par rtc au besoin)
