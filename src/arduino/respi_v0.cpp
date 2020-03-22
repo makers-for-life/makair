@@ -83,7 +83,7 @@ int consigneNbCycle = 20;
 int futureConsigneNbCycle = consigneNbCycle;
 
 // degré d'ouverture de la valve blower (quantité d'air du blower qu'on envoie vers le Air Transistor patient)
-int consigneOuverture = 45;
+int consigneOuverture = 37;
 int futureConsigneOuverture = consigneOuverture;
 
 // consigne de pression de crête maximum
@@ -340,7 +340,7 @@ void loop() {
       consignePatient = positionBlower + 1;
     }
     // si pression PEP < PEP mini, alors fermeture complète valve expiration
-    if (currentPression < consignePressionPEP) {
+    /*if (currentPression < consignePressionPEP) {
       #ifdef DEBUG
       if (currentCentieme % 80) {
         Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");
@@ -348,7 +348,7 @@ void loop() {
       #endif
       consignePatient = 90;
       currentPhase = PHASE_HOLD_EXPI;
-    }
+    }*/
 
     #ifdef DEBUG
     if (currentCentieme % 50 == 0) {
