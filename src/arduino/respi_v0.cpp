@@ -1,10 +1,11 @@
 #include <Arduino.h>
+#include <Wire.h>
 #include <Servo.h>
 #include <LiquidCrystal.h>
 #include <OneButton.h>
 
 
-//#define DEBUG // décommenter pour envoyer les messages de debug en série
+#define DEBUG // décommenter pour envoyer les messages de debug en série
 //#define SIMULATION // décommenter pour simuler des valeurs de capteur de pression au lieu de lire les vraies
 
 // amplitude radiale des servomoteurs
@@ -31,7 +32,7 @@ Servo blower;
 Servo patient;
 
 // entrées-sorties
-const int PIN_CAPTEUR_PRESSION = A4;
+//const int PIN_CAPTEUR_PRESSION = A4;
 const int PIN_SERVO_BLOWER = 4; // D4
 const int PIN_SERVO_PATIENT = 2; // D2
 const int BTN_PRESSION_PLATEAU_MINUS = A1;
@@ -162,6 +163,37 @@ void onCyclePlus() {
   }
 }
 
+const uint8_t SENSOR_ADDRESS = 0x38;
+const int OUTPUT_MIN = 1638;
+const int OUTPUT_MAX = 14745;
+const int PRESSURE_MIN = 0; // 0 psi en mmHg
+const int PRESSURE_MAX = 3103; // 60 psi en mmHg
+
+long readPressureSensor(long defaultValue) {
+  Wire.requestFrom(SENSOR_ADDRESS, (uint8_t) 4);
+  if (Wire.available()) {
+    uint8_t b1 = Wire.read();
+    uint8_t b2 = Wire.read();
+    //uint8_t b3 = Wire.read();
+    //uint8_t b4 = Wire.read();
+    uint8_t status = b1 >> 6; // on garde les 2 bits de poids fort du 1er octet renvoyé par le capteur
+    if (status == 0) { // tout est OK
+      long rawPressure = (((uint16_t) (b1 & 0x3f)) << 8) | b2;
+      //long rawTemperature = ((((uint16_t) b3) << 8) | b4) >> 5; // formule de la doc Honeywell
+      return ((rawPressure - OUTPUT_MIN) * (PRESSURE_MAX - PRESSURE_MIN) / (OUTPUT_MAX - OUTPUT_MIN)) + PRESSURE_MIN; // formule de la doc Honeywell
+    } else {
+      #ifdef DEBUG
+      Serial.print("Error de lecture du capteur ; status = ");
+      Serial.println(status);
+      #endif
+      return defaultValue;
+    }
+  } else {
+    Serial.print("not available");
+    return defaultValue;
+  }
+}
+
 void setup() {
   #ifdef DEBUG
   Serial.begin(115200);
@@ -171,7 +203,7 @@ void setup() {
   blower.attach(PIN_SERVO_BLOWER);
 
   #ifdef DEBUG
-  Serial.print("mise en secu initiale");
+  Serial.println("mise en secu initiale");
   #endif
   blower.write(secu_coupureBlower);
   patient.write(secu_ouvertureExpi);
@@ -180,6 +212,12 @@ void setup() {
   lcd.begin(20, 2);
   #else
   lcd.begin(16, 2);
+  #endif
+
+  Wire.begin();
+  delay(1000); // pas sûr que ça soit nécessaire
+  #ifdef DEBUG
+  Serial.println("I2C ok");
   #endif
 
   btn_pression_plateau_minus.attachClick(onPressionPlateauMinus);
@@ -213,6 +251,8 @@ void loop() {
   Serial.print("nbreCentiemeSecParInspi = ");
   Serial.println(nbreCentiemeSecParInspi);
   #endif
+
+  int previousPression = -1;
 
   int currentPressionCrete = -1;
   int currentPressionPlateau = -1;
@@ -291,13 +331,13 @@ void loop() {
       currentPression = 5;
     }
     #else
-    int currentPression = map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600) / 10;
+    int currentPression = readPressureSensor(previousPression) - 760; // pression relative à la pression atmosphérique (capteur absolu)
     #endif
 
     /********************************************/
     // Calcul des consignes normales
     /********************************************/
-    if (currentCentieme <= nbreCentiemeSecParInspi) { // on est dans la phase temporelle d'inspiration (poussée puis plateau)
+    /*if (currentCentieme <= nbreCentiemeSecParInspi) { // on est dans la phase temporelle d'inspiration (poussée puis plateau)
       if (currentPression >= currentPressionCrete) {
         currentPhase = PHASE_PUSH_INSPI;
         currentPressionCrete = currentPression;
@@ -322,7 +362,7 @@ void loop() {
     // Calcul des consignes de mise en sécurité
     /********************************************/
     // si pression crête > max, alors fermeture blower de 2°
-    if (currentPression > consignePressionCrete) {
+    /*if (currentPression > consignePressionCrete) {
       #ifdef DEBUG
       if (currentCentieme % 80) {
         Serial.println("Mise en securite : pression crete trop importante");
@@ -357,12 +397,12 @@ void loop() {
       Serial.print("Pression : ");
       Serial.println(currentPression);
     }
-    #endif
+    #endif*/
 
     /********************************************/
     // Envoi des nouvelles valeurs aux actionneurs
     /********************************************/
-    if (consigneBlower != positionBlower) {
+    /*if (consigneBlower != positionBlower) {
       blower.write(consigneBlower);
       positionBlower = consigneBlower;
     }
@@ -370,7 +410,7 @@ void loop() {
     if (consignePatient != positionPatient) {
       patient.write(consignePatient);
       positionPatient = consignePatient;
-    }
+    }*/
 
     /********************************************/
     // Préparation des valeurs pour affichage
@@ -411,6 +451,10 @@ void loop() {
       lcd.print("/pep");
       lcd.print(futureConsignePressionPEP);
       #endif
+    }
+
+    if (currentCentieme % 50 == 0) {
+      Serial.println(currentPression);
     }
 
     delay(10); // on attend 1 centième de seconde (on aura de la dérive en temps, sera corrigé par rtc au besoin)
