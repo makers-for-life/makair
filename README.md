@@ -32,7 +32,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Blower](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/Blower) | V12 | Increase air compression rate | ❌ | [link](https://a360.co/2y59eWF)
 | [Air Transistor](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/air-transistor) | V3 | Reduce dead space | ❌ | [link](https://a360.co/3do5uzk)
 | [Air Transistor Valve](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/air-transistor-valve) | V3 | Test the "flap" concept and its accuracy | ❌ | none
-| [Filter box](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/filter-box) | V0 | Improve design, make multiple caps according to needs | ❌ | none
+| [Filter box](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/filter-box) | V0 | Improve design, make multiple caps according to needs | ❌ | [link](https://a360.co/39bRKEN)
 
 
 # Process
