@@ -25,22 +25,19 @@ The overall system is composed of sub-components that can be plugged together an
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
+# Status
+
+| Component | Version | Team's focus | Ready? | Live CAD Models |
+| --------- | ------- | ------------ | ------ | ----------------- |
+| [Blower](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/Blower) | V12 | Increase air compression rate | ❌ | [link](https://a360.co/2y59eWF)
+| [Air Transistor](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/air-transistor) | V3 | Reduce dead space | ❌ | [link](https://a360.co/3do5uzk)
+| [Air Transistor Valve](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/air-transistor-valve) | V3 | Test the "flap" concept and its accuracy | ❌ | none
+| [Filter box](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/filter-box) | V0 | Improve design, make multiple caps according to needs | ❌ | none
+
+
+# Process
+
 ![Overview scheme](./Overview/Overview.png)
-
-# CAD Models
-
-➡️ The latest Fusion 360 models can be found online:
-
-* [Air Transistor V3](https://a360.co/3do5uzk)
-* [Blower V9](https://a360.co/2J9ldEw)
-* [Oxygen Mixer V1](https://a360.co/2xfmcR0)
-
-ℹ️ Older model revisions can be found online:
-
-* [Air Transistor V2](https://a360.co/2Unrwtp)
-* [Air Transistor V1](https://a360.co/2IS0x3U)
-* [Blower V5](https://a360.co/3bbVesb)
-* [Blower V2](https://a360.co/33sQ6xi)
 
 # News & Videos
 
@@ -50,11 +47,15 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 ## Videos
 
-#### 1️⃣ Wednesday 18/03:
+[YouTube channel](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg)
 
-[![English Video](https://img.youtube.com/vi/jv3o3x21038/0.jpg)](https://www.youtube.com/watch?v=jv3o3x21038)
+#### Sunday 22/03
 
-[French Video](https://www.youtube.com/watch?v=tUfBgUm1w74)
+[![English Video](https://img.youtube.com/vi/GLX5o_y0Vx0/0.jpg)](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
+
+[French Video, quick](https://www.youtube.com/watch?v=GqGbh__ymw4)
+
+[French Video, long](https://www.youtube.com/watch?v=KqBkgTWbIlg)
 
 # Contact Us
 
