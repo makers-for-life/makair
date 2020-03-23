@@ -1,3 +1,4 @@
+#include <Wire.h>
 #include <Arduino.h>
 #include <Servo.h>
 #include <LiquidCrystal.h>
