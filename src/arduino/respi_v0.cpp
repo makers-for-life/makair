@@ -337,7 +337,9 @@ void loop() {
         Serial.println("Mise en securite : pression plateau trop importante");
       }
       #endif
-      if(consignePatient == 90){consignePatient = 83;} // la première fois il faut d'abord se mettre à la frontière de l'ouverture
+      if (consignePatient == 90) { // la première fois il faut d'abord se mettre à la frontière de l'ouverture
+        consignePatient = 83;
+      }
       consignePatient = consignePatient - 1;
     }
     // si pression PEP < PEP mini, alors fermeture complète valve expiration
