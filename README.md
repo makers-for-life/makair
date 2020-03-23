@@ -10,6 +10,8 @@ Makers, developers, university teachers / researchers and medical teams collabor
 
 Global EN/FR doc here https://docs.google.com/document/d/1l1nt0o93kdfcmPygp1k6NYKrwIb_uN01kcBAfovy2dE/edit#
 
+Regular video update here https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg
+
 ---
 
 # Concept
