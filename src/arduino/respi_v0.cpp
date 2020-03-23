@@ -256,11 +256,11 @@ void loop() {
   #ifdef LCD_20_CHARS
   lcd.print("pc=");
   lcd.print(previousPressionCrete);
-  lcd.print("|pp=");
+  lcd.print("/pp=");
   lcd.print(previousPressionPlateau);
-  lcd.print("|pep=");
+  lcd.print("/pep=");
   lcd.print(previousPressionPep);
-  lcd.print(" ");
+  lcd.print("  ");
   #else
   lcd.print("pc");
   lcd.print(previousPressionCrete);
@@ -291,7 +291,7 @@ void loop() {
       currentPression = 5;
     }
     #else
-    int currentPression = analogRead(PIN_CAPTEUR_PRESSION);
+    int currentPression = map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600) / 10;
     #endif
 
     /********************************************/
@@ -324,30 +324,38 @@ void loop() {
     // si pression crête > max, alors fermeture blower de 2°
     if (currentPression > consignePressionCrete) {
       #ifdef DEBUG
-      Serial.println("Mise en securite : pression crete trop importante");
+      if (currentCentieme % 80) {
+        Serial.println("Mise en securite : pression crete trop importante");
+      }
       #endif
       consigneBlower = positionBlower - 2;
     }
     // si pression plateau > consigne param, alors ouverture expiration de 1°
     if (currentPhase == PHASE_HOLD_INSPI && currentPression > consignePressionPlateauMax) {
       #ifdef DEBUG
-      Serial.println("Mise en securite : pression plateau trop importante");
+      if (currentCentieme % 80) {
+        Serial.println("Mise en securite : pression plateau trop importante");
+      }
       #endif
       consignePatient = positionBlower + 1;
     }
     // si pression PEP < PEP mini, alors fermeture complète valve expiration
     if (currentPression < consignePressionPEP) {
       #ifdef DEBUG
-      Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");
+      if (currentCentieme % 80) {
+        Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");
+      }
       #endif
       consignePatient = 90;
       currentPhase = PHASE_HOLD_EXPI;
     }
 
     #ifdef DEBUG
-    if (currentCentieme % 10 == 0) {
+    if (currentCentieme % 50 == 0) {
       Serial.print("Phase : ");
       Serial.println(currentPhase);
+      Serial.print("Pression : ");
+      Serial.println(currentPression);
     }
     #endif
 
@@ -393,6 +401,8 @@ void loop() {
       lcd.print(futureConsignePressionPlateauMax);
       lcd.print("/pep=");
       lcd.print(futureConsignePressionPEP);
+      lcd.print("|");
+      lcd.print(currentPression);
       #else
       lcd.print("c");
       lcd.print(futureConsigneNbCycle);
