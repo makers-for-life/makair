@@ -75,8 +75,8 @@ const int BORNE_INF_CYCLE = 5;  // demande medical
 const int MAINTIEN_PARAMETRAGE = 21;
 
 // valeurs de sécurité pour les actionneurs
-int secu_coupureBlower = 45;
-int secu_ouvertureExpi = 45;
+const int secu_coupureBlower = 45;
+const int secu_ouvertureExpi = 45;
 
 // nombre de cycles par minute (cycle = inspi + plateau + expi)
 int consigneNbCycle = 20;
@@ -337,7 +337,8 @@ void loop() {
         Serial.println("Mise en securite : pression plateau trop importante");
       }
       #endif
-      consignePatient = positionBlower + 1;
+      if(consignePatient == 90){consignePatient = 83;} // la première fois il faut d'abord se mettre à la frontière de l'ouverture
+      consignePatient = consignePatient - 1;
     }
     // si pression PEP < PEP mini, alors fermeture complète valve expiration
     if (currentPression < consignePressionPEP) {
