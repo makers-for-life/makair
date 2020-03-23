@@ -30,9 +30,9 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | Component | Version | Team's focus | Ready? | Live CAD Models |
 | --------- | ------- | ------------ | ------ | ----------------- |
 | [Blower](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/Blower) | V12 | Increase air compression rate | ❌ | [link](https://a360.co/2y59eWF)
-| [Air Transistor](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/air-transistor) | V3 | Reduce dead space | ❌ | [link](https://a360.co/2wy4eZX)
+| [Air Transistor](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/air-transistor) | V4 (Experimental) | Reduce dead space | ❌ | [link](https://a360.co/2wy4eZX)
 | [Air Transistor Valve](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/air-transistor-valve) | V3 | Test the "flap" concept and its accuracy | ❌ | none
-| [Filter box](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/filter-box) | V0 | Improve design, make multiple caps according to needs | ❌ | [link](https://a360.co/33CCX4T)
+| [Filter box](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/filter-box) | V1 | Hermetic testing, make multiple caps according to needs | ❌ | [link](https://a360.co/33CCX4T)
 
 
 # Process
