@@ -49,6 +49,10 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 [YouTube channel](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg)
 
+#### Tuesday 24/03
+
+[![English Video](https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg)](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
+
 #### Monday 23/03
 
 [![French Video](https://img.youtube.com/vi/MW8I0W8OaoM/0.jpg)](https://www.youtube.com/watch?v=MW8I0W8OaoM)
