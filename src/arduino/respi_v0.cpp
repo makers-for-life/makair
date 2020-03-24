@@ -281,7 +281,7 @@ void loop() {
     // Mesure pression pour rétro-action
     /********************************************/
     #ifdef SIMULATION
-    int currentPression = 0
+    int currentPression = 0;
     if (currentCentieme < 50) {
       currentPression = 60;
     } else {
