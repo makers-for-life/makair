@@ -14423,15 +14423,11 @@ TR5, Wickmann</description>
 <part name="R6" library="rcl" deviceset="R-EU_" device="0207/10" value="1k"/>
 <part name="R7" library="rcl" deviceset="R-EU_" device="0207/10" value="1k"/>
 <part name="R8" library="rcl" deviceset="R-EU_" device="0207/10" value="1k"/>
-<part name="F1" library="fuse" deviceset="19560" device="" value="2A"/>
+<part name="F1" library="fuse" deviceset="19560" device="" value="8A"/>
 </parts>
 <sheets>
 <sheet>
 <plain>
-<text x="-38.1" y="48.26" size="1.778" layer="97">Chargeur Externe
-qui gère le floating
-batterie (on peut le 
-laisser brancher h24)</text>
 <wire x1="38.1" y1="88.9" x2="68.58" y2="88.9" width="0.1524" layer="97"/>
 <wire x1="68.58" y1="88.9" x2="68.58" y2="76.2" width="0.1524" layer="97"/>
 <wire x1="68.58" y1="76.2" x2="38.1" y2="76.2" width="0.1524" layer="97"/>
@@ -14441,12 +14437,12 @@ laisser brancher h24)</text>
 <text x="106.68" y="73.66" size="1.778" layer="97">(sécurité)</text>
 <text x="165.1" y="81.28" size="1.778" layer="97">MOTEUR PWM vers arduino </text>
 <text x="165.1" y="58.42" size="1.778" layer="97">NIVEAU BAT vers arduino
-(surveillance batterie)
+(&lt;13.5v =&gt; perte 220v)
 Pont diviseur à ajuster selon 
 résistances disponibles</text>
 <text x="165.1" y="48.26" size="1.778" layer="97">tension = Vbat / 4
 tension = Vbat*R3/(R2+R3)</text>
-<text x="-20.32" y="88.9" size="1.778" layer="97">15v en charge (selon chargeur)
+<text x="-20.32" y="93.98" size="1.778" layer="97">15v en charge (selon chargeur)
 13.6v en floating</text>
 <text x="165.1" y="106.68" size="1.778" layer="97">MOTEUR ON/OFF
 vers arduino (sortie logique)</text>
@@ -14505,18 +14501,29 @@ Farnell 2768277 (72x47mm)</text>
 100nF/50V RS 133-5716  Farnell 2507749
 
 </text>
-<text x="-30.48" y="66.04" size="1.778" layer="97">2A 5x20mm fuse:
-- RS 610-9967
-- Farnell 1123244
+<text x="-30.48" y="73.66" size="1.778" layer="97">10A 5x20mm slow fuse:
+- RS 563-429
 
 Fuse holder:
 - RS  344-5642
 - Farnell 1154859</text>
+<wire x1="-40.64" y1="58.42" x2="-12.7" y2="58.42" width="0.1524" layer="97"/>
+<wire x1="-12.7" y1="58.42" x2="-12.7" y2="40.64" width="0.1524" layer="97"/>
+<wire x1="-12.7" y1="40.64" x2="-40.64" y2="40.64" width="0.1524" layer="97"/>
+<wire x1="-40.64" y1="40.64" x2="-40.64" y2="58.42" width="0.1524" layer="97"/>
+<text x="-39.37" y="46.99" size="1.778" layer="97">13.8v power supply
+that handle battery
+RS: 740-5001</text>
+<text x="-30.48" y="41.91" size="1.778" layer="97">B-</text>
+<text x="-20.32" y="41.91" size="1.778" layer="97">B+</text>
+<text x="-16.51" y="55.88" size="1.778" layer="97">V+</text>
+<text x="-16.51" y="44.45" size="1.778" layer="97">V-</text>
+<text x="-15.24" y="49.53" size="1.778" layer="97">L</text>
 </plain>
 <instances>
-<instance part="BATTERY" gate="G$1" x="0" y="50.8" rot="R90"/>
-<instance part="P+1" gate="1" x="0" y="83.82"/>
-<instance part="GND1" gate="1" x="0" y="30.48"/>
+<instance part="BATTERY" gate="G$1" x="-22.86" y="30.48"/>
+<instance part="P+1" gate="1" x="2.54" y="91.44"/>
+<instance part="GND1" gate="1" x="0" y="38.1"/>
 <instance part="P+2" gate="1" x="43.18" y="99.06"/>
 <instance part="GND2" gate="1" x="43.18" y="48.26"/>
 <instance part="R1" gate="G$1" x="111.76" y="81.28"/>
@@ -14546,19 +14553,12 @@ Fuse holder:
 <instance part="R6" gate="G$1" x="10.16" y="-38.1" rot="R270"/>
 <instance part="R7" gate="G$1" x="25.4" y="-33.02"/>
 <instance part="R8" gate="G$1" x="27.94" y="55.88" rot="R90"/>
-<instance part="F1" gate="F" x="0" y="71.12" rot="R90"/>
+<instance part="F1" gate="F" x="2.54" y="76.2" rot="R90"/>
 </instances>
 <busses>
 </busses>
 <nets>
 <net name="GND" class="0">
-<segment>
-<pinref part="BATTERY" gate="G$1" pin="-"/>
-<wire x1="0" y1="38.1" x2="-33.02" y2="38.1" width="0.1524" layer="91"/>
-<pinref part="GND1" gate="1" pin="GND"/>
-<wire x1="0" y1="38.1" x2="0" y2="33.02" width="0.1524" layer="91"/>
-<junction x="0" y="38.1"/>
-</segment>
 <segment>
 <pinref part="GND3" gate="1" pin="GND"/>
 <pinref part="R3" gate="G$1" pin="1"/>
@@ -14583,6 +14583,11 @@ Fuse holder:
 <pinref part="R6" gate="G$1" pin="2"/>
 <wire x1="10.16" y1="-43.18" x2="-7.62" y2="-43.18" width="0.1524" layer="91"/>
 <junction x="-7.62" y="-43.18"/>
+</segment>
+<segment>
+<pinref part="GND1" gate="1" pin="GND"/>
+<wire x1="-12.7" y1="45.72" x2="0" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="0" y1="45.72" x2="0" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+12V" class="0">
@@ -14616,7 +14621,7 @@ Fuse holder:
 <segment>
 <pinref part="F1" gate="F" pin="2"/>
 <pinref part="P+1" gate="1" pin="+12V"/>
-<wire x1="0" y1="76.2" x2="0" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="2.54" y1="81.28" x2="2.54" y2="88.9" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -14756,13 +14761,27 @@ Fuse holder:
 <label x="152.4" y="-17.78" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="N$15" class="0">
+<net name="N$2" class="0">
 <segment>
+<wire x1="-30.48" y1="40.64" x2="-30.48" y2="38.1" width="0.1524" layer="91"/>
+<pinref part="BATTERY" gate="G$1" pin="-"/>
+<wire x1="-30.48" y1="38.1" x2="-35.56" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="-35.56" y1="38.1" x2="-35.56" y2="30.48" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<wire x1="-20.32" y1="40.64" x2="-20.32" y2="38.1" width="0.1524" layer="91"/>
 <pinref part="BATTERY" gate="G$1" pin="+"/>
-<wire x1="0" y1="63.5" x2="-33.02" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="-20.32" y1="38.1" x2="-10.16" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="-10.16" y1="38.1" x2="-10.16" y2="30.48" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$5" class="0">
+<segment>
+<wire x1="-12.7" y1="55.88" x2="2.54" y2="55.88" width="0.1524" layer="91"/>
 <pinref part="F1" gate="F" pin="1"/>
-<wire x1="0" y1="66.04" x2="0" y2="63.5" width="0.1524" layer="91"/>
-<junction x="0" y="63.5"/>
+<wire x1="2.54" y1="71.12" x2="2.54" y2="55.88" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
