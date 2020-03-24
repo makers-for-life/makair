@@ -49,33 +49,8 @@ const int BORNE_INF_CYCLE = 5;  // demande medical
 const int MAINTIEN_PARAMETRAGE = 21;
 
 // valeurs de sécurité pour les actionneurs
-int secu_coupureBlower = 45;
-int secu_ouvertureExpi = 45;
-
-// nombre de cycles par minute (cycle = inspi + plateau + expi)
-int consigneNbCycle = 20;
-int futureConsigneNbCycle = consigneNbCycle;
-
-// degré d'ouverture de la valve blower (quantité d'air du blower qu'on envoie vers le Air Transistor patient)
-int consigneOuverture = 45;
-int futureConsigneOuverture = consigneOuverture;
-
-// consigne de pression de crête maximum
-int consignePressionCrete = 60;
-
-// consigne de pression plateau maximum
-int consignePressionPlateauMax = 30;
-int futureConsignePressionPlateauMax = consignePressionPlateauMax;
-
-// consigne de pression PEP
-int consignePressionPEP = 5;
-int futureConsignePressionPEP = consignePressionPEP;
-
-// données pour affichage (du cycle précédent pour ne pas afficher des valeurs aberrantes)
-int previousPressionCrete = -1;
-int previousPressionPlateau = -1;
-int previousPressionPep = -1;
-
+const int secu_coupureBlower = 90 - ANGLE_OUVERTURE_MAXI;
+const int secu_ouvertureExpi = 90 - ANGLE_OUVERTURE_MAXI;
 
 // servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou vers l'extérieur
 // 90° → tout est fermé
@@ -89,12 +64,23 @@ Servo blower;
 // entre 98° (90 + ANGLE_OUVERTURE_MINI) et 135° (90 + ANGLE_OUVERTURE_MAXI) → échappe l'air du patient vers l'extérieur
 Servo patient;
 
-OneButton btn_pression_plateau_minus(BTN_PRESSION_PLATEAU_MINUS, true, true);
-OneButton btn_pression_plateau_plus(BTN_PRESSION_PLATEAU_PLUS, true, true);
-OneButton btn_pression_pep_minus(BTN_PRESSION_PEP_MINUS, true, true);
-OneButton btn_pression_pep_plus(BTN_PRESSION_PEP_PLUS, true, true);
-OneButton btn_cycle_minus(BTN_NOMBRE_CYCLE_MINUS, true, true);
-OneButton btn_cycle_plus(BTN_NOMBRE_CYCLE_PLUS, true, true);
 
 // contrôle de l'écran LCD
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+AnalogButtons buttons = AnalogButtons(A0);
+
+// TODO revoir les tensions ici
+const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS   = 0.00  * 1023 / 5;
+const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS  = 0.54  * 1023 / 5;
+const uint16_t TENSION_BTN_PEP_PLUS                = 1.06  * 1023 / 5;
+const uint16_t TENSION_BTN_PEP_MINUS               = 1.43  * 1023 / 5;
+const uint16_t TENSION_BTN_RB_PLUS                 = 2.03  * 1023 / 5;
+const uint16_t TENSION_BTN_RB_MINUS                = 2.5   * 1023 / 5;
+const uint16_t TENSION_BTN_ALARME_ON               = 2.97  * 1023 / 5;
+const uint16_t TENSION_BTN_ALARME_OFF              = 3.55  * 1023 / 5;
+const uint16_t TENSION_BTN_VALVE_BLOWER_PLUS       = 4.00  * 1023 / 5;
+const uint16_t TENSION_BTN_VALVE_BLOWER_MINUS      = 4.46  * 1023 / 5;
+const uint16_t TENSION_BTN_VALVE_PATIENT_PLUS      = 4.70  * 1023 / 5;
+const uint16_t TENSION_BTN_VALVE_PATIENT_MINUS     = 4.95  * 1023 / 5;
+

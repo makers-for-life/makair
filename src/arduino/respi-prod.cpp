@@ -2,8 +2,39 @@
 #include <Servo.h>
 #include <LiquidCrystal.h>
 #include <OneButton.h>
+#include <AnalogButtons.h>
 #include <common.h>
 
+OneButton btn_pression_plateau_minus(BTN_PRESSION_PLATEAU_MINUS, true, true);
+OneButton btn_pression_plateau_plus(BTN_PRESSION_PLATEAU_PLUS, true, true);
+OneButton btn_pression_pep_minus(BTN_PRESSION_PEP_MINUS, true, true);
+OneButton btn_pression_pep_plus(BTN_PRESSION_PEP_PLUS, true, true);
+OneButton btn_cycle_minus(BTN_NOMBRE_CYCLE_MINUS, true, true);
+OneButton btn_cycle_plus(BTN_NOMBRE_CYCLE_PLUS, true, true);
+
+// nombre de cycles par minute (cycle = inspi + plateau + expi)
+int consigneNbCycle = 20;
+int futureConsigneNbCycle = consigneNbCycle;
+
+// degré d'ouverture de la valve blower (quantité d'air du blower qu'on envoie vers le Air Transistor patient)
+int consigneOuverture = 45;
+int futureConsigneOuverture = consigneOuverture;
+
+// consigne de pression de crête maximum
+int consignePressionCrete = 60;
+
+// consigne de pression plateau maximum
+int consignePressionPlateauMax = 30;
+int futureConsignePressionPlateauMax = consignePressionPlateauMax;
+
+// consigne de pression PEP
+int consignePressionPEP = 5;
+int futureConsignePressionPEP = consignePressionPEP;
+
+// données pour affichage (du cycle précédent pour ne pas afficher des valeurs aberrantes)
+int previousPressionCrete = -1;
+int previousPressionPlateau = -1;
+int previousPressionPep = -1;
 
 void onPressionPlateauMinus() {
   #ifdef DEBUG
