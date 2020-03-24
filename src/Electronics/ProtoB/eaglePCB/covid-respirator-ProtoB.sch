@@ -14439,34 +14439,34 @@ laisser brancher h24)</text>
 <text x="43.18" y="83.82" size="1.778" layer="97">Moteur ventilateur</text>
 <text x="73.66" y="83.82" size="1.778" layer="97">PWM controle moteur (option)</text>
 <text x="106.68" y="73.66" size="1.778" layer="97">(sécurité)</text>
-<text x="152.4" y="81.28" size="1.778" layer="97">vers arduino (pwm)</text>
-<text x="152.4" y="55.88" size="1.778" layer="97">vers arduino (Analog input)
+<text x="165.1" y="81.28" size="1.778" layer="97">MOTEUR PWM vers arduino </text>
+<text x="165.1" y="58.42" size="1.778" layer="97">NIVEAU BAT vers arduino
 (surveillance batterie)
 Pont diviseur à ajuster selon 
 résistances disponibles</text>
-<text x="154.94" y="48.26" size="1.778" layer="97">tension = Vbat / 4
+<text x="165.1" y="48.26" size="1.778" layer="97">tension = Vbat / 4
 tension = Vbat*R3/(R2+R3)</text>
 <text x="-20.32" y="88.9" size="1.778" layer="97">15v en charge (selon chargeur)
 13.6v en floating</text>
-<text x="152.4" y="106.68" size="1.778" layer="97">vers arduino (sortie logique)</text>
+<text x="165.1" y="106.68" size="1.778" layer="97">MOTEUR ON/OFF
+vers arduino (sortie logique)</text>
 <wire x1="86.36" y1="25.4" x2="106.68" y2="25.4" width="0.1524" layer="97"/>
 <wire x1="106.68" y1="25.4" x2="106.68" y2="20.32" width="0.1524" layer="97"/>
 <wire x1="106.68" y1="20.32" x2="86.36" y2="20.32" width="0.1524" layer="97"/>
 <wire x1="86.36" y1="20.32" x2="86.36" y2="25.4" width="0.1524" layer="97"/>
 <text x="93.98" y="22.86" size="1.778" layer="97">capteur</text>
-<text x="154.94" y="27.94" size="1.778" layer="97">AREF arduino</text>
-<text x="154.94" y="22.86" size="1.778" layer="97">Analog input arduino</text>
-<text x="154.94" y="15.24" size="1.778" layer="97">gnd arduino au plus proche de AREF</text>
+<text x="165.1" y="27.94" size="1.778" layer="97">AREF arduino</text>
+<text x="165.1" y="22.86" size="1.778" layer="97">PRESSURE Analog input arduino</text>
+<text x="165.1" y="15.24" size="1.778" layer="97">gnd arduino au plus proche de AREF</text>
 <wire x1="38.1" y1="2.54" x2="78.74" y2="2.54" width="0.1524" layer="97"/>
 <wire x1="78.74" y1="2.54" x2="78.74" y2="-10.16" width="0.1524" layer="97"/>
 <wire x1="78.74" y1="-10.16" x2="38.1" y2="-10.16" width="0.1524" layer="97"/>
 <wire x1="38.1" y1="-10.16" x2="38.1" y2="2.54" width="0.1524" layer="97"/>
-<text x="45.72" y="-5.08" size="1.778" layer="97">régulateur à découpage
+<text x="45.72" y="-7.62" size="1.778" layer="97">régulateur à découpage
 buck sortie 5v
-(amazon, pas cher)
 RS: 144-6290
 Farnell : 2760747</text>
-<text x="154.94" y="-2.54" size="1.778" layer="97">alim arduino et servomoteurs</text>
+<text x="165.1" y="-2.54" size="1.778" layer="97">alim arduino et servomoteurs</text>
 <text x="53.34" y="53.34" size="1.778" layer="97">smart mosfet
 VNP35N07-E
 RS: 809-1310
@@ -14483,7 +14483,8 @@ commandée intégrée
 KXG1212CL
 RS: 771-6960
 Farnell : 2215083</text>
-<text x="154.94" y="-17.78" size="1.778" layer="97">vers arduino (sortie logique)</text>
+<text x="165.1" y="-17.78" size="1.778" layer="97">ALARME
+vers arduino (sortie logique)</text>
 <text x="-33.02" y="-40.64" size="1.778" layer="97">BC548 (ou autre NPN)
 RS : 796-9713
 Farnell : 2453793</text>
@@ -14624,19 +14625,21 @@ Fuse holder:
 <pinref part="R1" gate="G$1" pin="1"/>
 </segment>
 </net>
-<net name="N$2" class="0">
+<net name="D5" class="0">
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
 <wire x1="116.84" y1="81.28" x2="149.86" y2="81.28" width="0.1524" layer="91"/>
+<label x="149.86" y="81.28" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="N$3" class="0">
+<net name="A3" class="0">
 <segment>
 <pinref part="R2" gate="G$1" pin="1"/>
 <pinref part="R3" gate="G$1" pin="2"/>
 <wire x1="134.62" y1="58.42" x2="134.62" y2="55.88" width="0.1524" layer="91"/>
 <wire x1="134.62" y1="55.88" x2="149.86" y2="55.88" width="0.1524" layer="91"/>
 <junction x="134.62" y="55.88"/>
+<label x="149.86" y="55.88" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$6" class="0">
@@ -14651,13 +14654,14 @@ Fuse holder:
 <junction x="27.94" y="60.96"/>
 </segment>
 </net>
-<net name="N$5" class="0">
+<net name="D6" class="0">
 <segment>
 <pinref part="R4" gate="G$1" pin="2"/>
 <wire x1="116.84" y1="106.68" x2="149.86" y2="106.68" width="0.1524" layer="91"/>
+<label x="149.86" y="106.68" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="N$7" class="0">
+<net name="AREF" class="0">
 <segment>
 <pinref part="IC2" gate="A1" pin="VO"/>
 <pinref part="C2" gate="G$1" pin="+"/>
@@ -14672,9 +14676,10 @@ Fuse holder:
 <junction x="73.66" y="27.94"/>
 <wire x1="93.98" y1="27.94" x2="152.4" y2="27.94" width="0.1524" layer="91"/>
 <junction x="93.98" y="27.94"/>
+<label x="152.4" y="27.94" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="N$8" class="0">
+<net name="AGND" class="0">
 <segment>
 <pinref part="C1" gate="G$1" pin="-"/>
 <wire x1="27.94" y1="15.24" x2="43.18" y2="15.24" width="0.1524" layer="91"/>
@@ -14694,6 +14699,7 @@ Fuse holder:
 <pinref part="C4" gate="G$1" pin="2"/>
 <wire x1="132.08" y1="15.24" x2="152.4" y2="15.24" width="0.1524" layer="91"/>
 <junction x="132.08" y="15.24"/>
+<label x="152.4" y="15.24" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$9" class="0">
@@ -14702,18 +14708,20 @@ Fuse holder:
 <wire x1="111.76" y1="22.86" x2="106.68" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$10" class="0">
+<net name="A1" class="0">
 <segment>
 <pinref part="R5" gate="G$1" pin="1"/>
 <pinref part="C4" gate="G$1" pin="1"/>
 <wire x1="121.92" y1="22.86" x2="132.08" y2="22.86" width="0.1524" layer="91"/>
 <wire x1="132.08" y1="22.86" x2="152.4" y2="22.86" width="0.1524" layer="91"/>
 <junction x="132.08" y="22.86"/>
+<label x="152.4" y="22.86" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="N$11" class="0">
+<net name="+5V" class="0">
 <segment>
 <wire x1="78.74" y1="-2.54" x2="152.4" y2="-2.54" width="0.1524" layer="91"/>
+<label x="152.4" y="-2.54" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -14739,12 +14747,13 @@ Fuse holder:
 <junction x="10.16" y="-33.02"/>
 </segment>
 </net>
-<net name="N$14" class="0">
+<net name="D13" class="0">
 <segment>
 <pinref part="R7" gate="G$1" pin="2"/>
 <wire x1="30.48" y1="-33.02" x2="88.9" y2="-33.02" width="0.1524" layer="91"/>
 <wire x1="88.9" y1="-33.02" x2="88.9" y2="-17.78" width="0.1524" layer="91"/>
 <wire x1="88.9" y1="-17.78" x2="152.4" y2="-17.78" width="0.1524" layer="91"/>
+<label x="152.4" y="-17.78" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$15" class="0">
