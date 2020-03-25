@@ -11,6 +11,8 @@
 - powerfull alarm buzzer
 - no surface mount components
 - components available and in stock in both Farnell and Radiospares.
+- safety: not mandatory to have 60601, 60950-1 is enough
+
 
 ## Schematic
 
@@ -18,7 +20,41 @@ See [pdf file](./covid-respirator-ProtoB.pdf)
 
 ## Bill Of Material
 
+### Power supply
+
+13.8v output to ensure a slow floating charge of a 12V lead battery:
+- RS: 740-5001
+- RS: 161-8267  (10A version, dangerous for battery)
+
+### Battery
+Lead battery, 7Ah.
+- RS: 537-5488
+
+### Fuse
+A 7Ah 12V lead battery has enough power to harm anyone. A fuse is necessary.
+10A value needs to be confirmed after blower motor will be choosen.
+
+10A (slow fuse).
+- RS: 563-429
+
+
+### Fuse holder:
+- RS  344-5642
+- Farnell 1154859
+
+
+
 ### Sensor: 
+
+Medical specification : `Plateau pressure should be adjusted to achieve volume and be limited
+to 35 cmH2O by default. It is acceptable if an option to increase this to
+70 cmH2O in exceptional circumstances is provided`
+> The 1psi (69mbar, 7kPa, 703mmH2O, 27inchH2O) range is perfect.
+
+See this comparison table of different sensors with availability around major suppliers : [google doc link](https://docs.google.com/spreadsheets/d/1qR-S2XOJmOITaHZXnXCGtpi7E2upIdV9PGvASUbvRIo/edit?usp=sharing)
+
+[MPXV5010DP](https://www.nxp.com/docs/en/data-sheet/MPX5010.pdf) : Good range, 5% accuracy (not so good), **available for mass production**. Easy to read analog output.
+
 [NXP MPX5010DP](https://www.nxp.com/docs/en/data-sheet/MPX5010.pdf) : Not a very good accuracy, easy to read analog output.
 - RS: 719-1080
 - Farnell: 1555605
@@ -82,17 +118,5 @@ L7805CV-DG
 100nF/50V
 - RS 133-5716 
 - Farnell 2507749
-
-### Fuse
-A 4.5Ah 12V lead battery has enough power to harm anyone. A fuse is necessary.
-2A value needs to be confirmed after blower motor will be choosen.
-
-2A 5x20mm fuse:
-- RS 610-9967
-- Farnell 1123244
-
-Fuse holder:
-- RS  344-5642
-- Farnell 1154859
 
 
