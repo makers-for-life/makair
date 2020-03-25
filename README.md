@@ -9,8 +9,10 @@
 
 Makers, developers, university teachers / researchers and medical teams collaborated on this project. If you're new there, please read the explanations below. _Your contributions are much welcome!_
 
-* Global EN/FR docs here: https://docs.google.com/document/d/1l1nt0o93kdfcmPygp1k6NYKrwIb_uN01kcBAfovy2dE/edit#
-* Regular video update here: https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg
+**Shortcut links:**
+
+* [General EN/FR docs on Google Docs](https://docs.google.com/document/d/1l1nt0o93kdfcmPygp1k6NYKrwIb_uN01kcBAfovy2dE/edit)
+* [Regular video updates on YouTube](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg)
 
 ---
 
@@ -45,11 +47,11 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 ## Electronics
 
-🚧 (work in progress)
+🚧 _(work in progress)_
 
 ## Software
 
-🚧 (work in progress)
+🚧 _(work in progress)_
 
 # Schemes
 
@@ -67,21 +69,21 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg).
 
-#### ➡️ Tuesday 24/03
+#### ↘️ Tuesday 24/03
 
 * **🇬🇧 English Video:**
 
-[![Play English Video](https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg)](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
+[![Play English Video](https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg | height=100)](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
 
 * [🇫🇷 French Video](https://www.youtube.com/watch?v=kASINWDjnBE)
 
-#### ➡️ Monday 23/03
+#### ↘️ Monday 23/03
 
 * **🇫🇷 French Video:**
 
-[![Play French Video](https://img.youtube.com/vi/MW8I0W8OaoM/0.jpg)](https://www.youtube.com/watch?v=MW8I0W8OaoM)
+[![Play French Video](https://img.youtube.com/vi/MW8I0W8OaoM/0.jpg | height=100)](https://www.youtube.com/watch?v=MW8I0W8OaoM)
 
-#### ➡️ Sunday 22/03
+#### ↘️ Sunday 22/03
 
 * [🇬🇧 English Video](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
 * [🇫🇷 French Video (short)](https://www.youtube.com/watch?v=GqGbh__ymw4)
@@ -97,14 +99,14 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 🎦 View: [Animation of the "Air Transistor"](./src/components/air-transistor/schemes/Air%20Transistor%20(Animation%201).mp4)
 
-![Air Transistor Concept](./src/components/air-transistor/schemes/Air%20Transistor%20(Render%201).png)
+![Air Transistor Concept](./src/components/air-transistor/schemes/Air%20Transistor%20(Render%201).png | height=100)
 
 ## Part 2: The "Blower"
 
 🎦 View: [Animation of the "Blower"](./src/components/blower/schemes/Blower%20(Animation%201).mp4)
 
-![Blower Concept](./src/components/blower/schemes/Blower%20(Render%201).png)
+![Blower Concept](./src/components/blower/schemes/Blower%20(Render%201).png | height=100)
 
 ## Part 3: The "Oxygen Mixer"
 
-![Oxygen Mixer Concept](./src/components/oxygen-mixer/schemes/Oxygen%20Mixer%20(Render%201).png)
+![Oxygen Mixer Concept](./src/components/oxygen-mixer/schemes/Oxygen%20Mixer%20(Render%201).png | height=100)
