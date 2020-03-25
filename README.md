@@ -3,14 +3,12 @@
 
 **3D printable COVID-19 DIY respirator. Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak.**
 
-NOT READY YET, FURTHER INFORMATION WILL COME SHORTLY
+**⚠️ NOT READY YET, FURTHER INFORMATION WILL COME SHORTLY!**
 
 Makers, developers, university teachers / researchers and medical teams collaborated on this project. If you're new there, please read the explanations below. _Your contributions are much welcome!_
 
-
-Global EN/FR doc here https://docs.google.com/document/d/1l1nt0o93kdfcmPygp1k6NYKrwIb_uN01kcBAfovy2dE/edit#
-
-Regular video update here https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg
+* Global EN/FR docs here: https://docs.google.com/document/d/1l1nt0o93kdfcmPygp1k6NYKrwIb_uN01kcBAfovy2dE/edit#
+* Regular video update here: https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg
 
 ---
 
@@ -37,7 +35,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 # Process
 
-![Overview scheme](./Overview/Overview.png)
+![Overview scheme](./docs/Overview/Overview.png)
 
 # News & Videos
 
@@ -63,7 +61,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 [English Video](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
 
-[French Video, quick](https://www.youtube.com/watch?v=GqGbh__ymw4)
+[French Video, short](https://www.youtube.com/watch?v=GqGbh__ymw4)
 
 [French Video, long](https://www.youtube.com/watch?v=KqBkgTWbIlg)
 
