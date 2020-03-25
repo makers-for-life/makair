@@ -129,4 +129,4 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## The "Filter Box"
 
-<img alt="Filter Box Concept" src="./src/components/filter-box/schemes/Filter%20Box%20(Render%201).png" height="280">
+<img alt="Filter Box Concept" src="./src/components/filter-box/schemes/Filter%20Box%20(Render%201).png" height="320">
