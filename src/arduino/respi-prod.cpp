@@ -1,16 +1,10 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include <LiquidCrystal.h>
-#include <OneButton.h>
 #include <AnalogButtons.h>
 #include <common.h>
 
-OneButton btn_pression_plateau_minus(BTN_PRESSION_PLATEAU_MINUS, true, true);
-OneButton btn_pression_plateau_plus(BTN_PRESSION_PLATEAU_PLUS, true, true);
-OneButton btn_pression_pep_minus(BTN_PRESSION_PEP_MINUS, true, true);
-OneButton btn_pression_pep_plus(BTN_PRESSION_PEP_PLUS, true, true);
-OneButton btn_cycle_minus(BTN_NOMBRE_CYCLE_MINUS, true, true);
-OneButton btn_cycle_plus(BTN_NOMBRE_CYCLE_PLUS, true, true);
+
 
 // nombre de cycles par minute (cycle = inspi + plateau + expi)
 int consigneNbCycle = 20;
@@ -36,23 +30,47 @@ int previousPressionCrete = -1;
 int previousPressionPlateau = -1;
 int previousPressionPep = -1;
 
-void onPressionPlateauMinus() {
+void onFree2() {
   #ifdef DEBUG
-  Serial.println("pression plateau --");
+  Serial.println("free2");
   #endif
-  futureConsignePressionPlateauMax--;
-  if (futureConsignePressionPlateauMax < BORNE_INF_PRESSION_PLATEAU) {
-    futureConsignePressionPlateauMax = BORNE_INF_PRESSION_PLATEAU;
+}
+
+void onFree1() {
+  #ifdef DEBUG
+  Serial.println("free1");
+  #endif
+}
+
+void onAlarmOff() {
+  #ifdef DEBUG
+  Serial.println("alarm OFF");
+  #endif
+}
+
+void onAlarmOn() {
+  #ifdef DEBUG
+  Serial.println("alarm ON");
+  #endif
+}
+
+void onCycleMinus() {
+  #ifdef DEBUG
+  Serial.println("nb cycle --");
+  #endif
+  futureConsigneNbCycle--;
+  if (futureConsigneNbCycle < BORNE_INF_CYCLE) {
+    futureConsigneNbCycle = BORNE_INF_CYCLE;
   }
 }
 
-void onPressionPlateauPlus() {
+void onCyclePlus() {
   #ifdef DEBUG
-  Serial.println("pression plateau ++");
+  Serial.println("nb cycle ++");
   #endif
-  futureConsignePressionPlateauMax++;
-  if (futureConsignePressionPlateauMax > BORNE_SUP_PRESSION_PLATEAU) {
-    futureConsignePressionPlateauMax = BORNE_SUP_PRESSION_PLATEAU;
+  futureConsigneNbCycle++;
+  if (futureConsigneNbCycle > BORNE_SUP_CYCLE) {
+    futureConsigneNbCycle = BORNE_SUP_CYCLE;
   }
 }
 
@@ -76,25 +94,38 @@ void onPressionPepPlus() {
   }
 }
 
-void onCycleMinus() {
+void onPressionPlateauMinus() {
   #ifdef DEBUG
-  Serial.println("nb cycle --");
+  Serial.println("pression plateau --");
   #endif
-  futureConsigneNbCycle--;
-  if (futureConsigneNbCycle < BORNE_INF_CYCLE) {
-    futureConsigneNbCycle = BORNE_INF_CYCLE;
+  futureConsignePressionPlateauMax--;
+  if (futureConsignePressionPlateauMax < BORNE_INF_PRESSION_PLATEAU) {
+    futureConsignePressionPlateauMax = BORNE_INF_PRESSION_PLATEAU;
   }
 }
 
-void onCyclePlus() {
+void onPressionPlateauPlus() {
   #ifdef DEBUG
-  Serial.println("nb cycle ++");
+  Serial.println("pression plateau ++");
   #endif
-  futureConsigneNbCycle++;
-  if (futureConsigneNbCycle > BORNE_SUP_CYCLE) {
-    futureConsigneNbCycle = BORNE_SUP_CYCLE;
+  futureConsignePressionPlateauMax++;
+  if (futureConsignePressionPlateauMax > BORNE_SUP_PRESSION_PLATEAU) {
+    futureConsignePressionPlateauMax = BORNE_SUP_PRESSION_PLATEAU;
   }
 }
+
+// boutons
+AnalogButtons analogButtons(ANALOG_PIN, INPUT);
+Button btnFree2(BTN_FREE2, &onFree2);
+Button btnFree1(BTN_FREE1, &onFree1);
+Button btnAlarmOff(BTN_ALARM_OFF, &onAlarmOff);
+Button btnAlarmOn(BTN_ALARM_ON, &onAlarmOn);
+Button btnCycleMinus(BTN_CYCLE_MINUS, &onCycleMinus);
+Button btnCyclePlus(BTN_CYCLE_PLUS, &onCyclePlus);
+Button btnPressionPepMinus(BTN_PRESSION_PEP_MINUS, &onPressionPepMinus);
+Button btnPressionPepPlus(BTN_PRESSION_PEP_PLUS, &onPressionPepPlus);
+Button btnPressionPlateauMinus(BTN_PRESSION_PLATEAU_MINUS, &onPressionPlateauMinus);
+Button btnPressionPlateauPlus(BTN_PRESSION_PLATEAU_PLUS, &onPressionPlateauPlus);
 
 void setup() {
   #ifdef DEBUG
@@ -116,24 +147,26 @@ void setup() {
   lcd.begin(16, 2);
   #endif
 
-  btn_pression_plateau_minus.attachClick(onPressionPlateauMinus);
-  btn_pression_plateau_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
-
-  btn_pression_plateau_plus.attachClick(onPressionPlateauPlus);
-  btn_pression_plateau_plus.setClickTicks(MAINTIEN_PARAMETRAGE);
-
-  btn_pression_pep_minus.attachClick(onPressionPepMinus);
-  btn_pression_pep_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
-
-  btn_pression_pep_plus.attachClick(onPressionPepPlus);
-  btn_pression_pep_plus.setClickTicks(MAINTIEN_PARAMETRAGE);
-
-  btn_cycle_minus.attachClick(onCycleMinus);
-  btn_cycle_minus.setClickTicks(MAINTIEN_PARAMETRAGE);
-
-  btn_cycle_plus.attachClick(onCyclePlus);
-  btn_cycle_plus.setClickTicks(MAINTIEN_PARAMETRAGE);
+  analogButtons.add(btnFree2);
+  analogButtons.add(btnFree1);
+  analogButtons.add(btnAlarmOff);
+  analogButtons.add(btnAlarmOn);
+  analogButtons.add(btnCycleMinus);
+  analogButtons.add(btnCyclePlus);
+  analogButtons.add(btnPressionPepMinus);
+  analogButtons.add(btnPressionPepPlus);
+  analogButtons.add(btnPressionPlateauMinus);
+  analogButtons.add(btnPressionPlateauPlus);
 }
+
+/*
+//Call this in loop() to help find analog values of buttons
+void calibrateButtons() {
+	unsigned int value = analogRead(ANALOG_PIN);
+	Serial.println(value);
+	delay(250);
+}
+*/
 
 void loop() {
   int nbreCentiemeSecParCycle = 60 * 100 / consigneNbCycle;
@@ -215,7 +248,7 @@ void loop() {
     // Mesure pression pour rétro-action
     /********************************************/
     #ifdef SIMULATION
-    int currentPression = 0
+    int currentPression = 0;
     if (currentCentieme < 50) {
       currentPression = 60;
     } else {
@@ -316,12 +349,8 @@ void loop() {
     /********************************************/
     // Écoute des appuis boutons
     /********************************************/
-    btn_pression_plateau_minus.tick();
-    btn_pression_plateau_plus.tick();
-    btn_pression_pep_minus.tick();
-    btn_pression_pep_plus.tick();
-    btn_cycle_minus.tick();
-    btn_cycle_plus.tick();
+    analogButtons.check();
+    //calibrateButtons();
 
     /********************************************/
     // Affichage pendant le cycle

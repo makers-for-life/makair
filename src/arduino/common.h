@@ -16,10 +16,6 @@ const int CAPT_PRESSION_MAXI = 800; // on ne va pas jusqu'à 1024 à cause de la
 const int PIN_CAPTEUR_PRESSION = A4;
 const int PIN_SERVO_BLOWER = 4; // D4
 const int PIN_SERVO_PATIENT = 2; // D2
-const int BTN_PRESSION_PLATEAU_MINUS = A1;
-const int BTN_PRESSION_PLATEAU_PLUS = A0;
-const int BTN_PRESSION_PEP_MINUS = 5; // D5
-const int BTN_PRESSION_PEP_PLUS = 6; // D6
 const int BTN_NOMBRE_CYCLE_MINUS = A3;
 const int BTN_NOMBRE_CYCLE_PLUS = A2;
 
@@ -70,17 +66,28 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 AnalogButtons buttons = AnalogButtons(A0);
 
-// TODO revoir les tensions ici
-const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS   = 0.00  * 1023 / 5;
-const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS  = 0.54  * 1023 / 5;
-const uint16_t TENSION_BTN_PEP_PLUS                = 1.06  * 1023 / 5;
-const uint16_t TENSION_BTN_PEP_MINUS               = 1.43  * 1023 / 5;
-const uint16_t TENSION_BTN_RB_PLUS                 = 2.03  * 1023 / 5;
-const uint16_t TENSION_BTN_RB_MINUS                = 2.5   * 1023 / 5;
-const uint16_t TENSION_BTN_ALARME_ON               = 2.97  * 1023 / 5;
-const uint16_t TENSION_BTN_ALARME_OFF              = 3.55  * 1023 / 5;
-const uint16_t TENSION_BTN_VALVE_BLOWER_PLUS       = 4.00  * 1023 / 5;
-const uint16_t TENSION_BTN_VALVE_BLOWER_MINUS      = 4.46  * 1023 / 5;
-const uint16_t TENSION_BTN_VALVE_PATIENT_PLUS      = 4.70  * 1023 / 5;
-const uint16_t TENSION_BTN_VALVE_PATIENT_MINUS     = 4.95  * 1023 / 5;
+#define ANALOG_PIN A0
+const int BTN_FREE2                       = 913;
+const int BTN_FREE1                       = 821;
+const int BTN_ALARM_OFF                   = 745;
+const int BTN_ALARM_ON                    = 607;
+const int BTN_CYCLE_MINUS                 = 509;
+const int BTN_CYCLE_PLUS                  = 413;
+const int BTN_PRESSION_PEP_MINUS          = 292;
+const int BTN_PRESSION_PEP_PLUS           = 215;
+const int BTN_PRESSION_PLATEAU_MINUS      = 109;
+const int BTN_PRESSION_PLATEAU_PLUS       =   0;
 
+// TODO revoir les tensions ici
+const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS   = BTN_PRESSION_PLATEAU_PLUS;
+const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS  = BTN_PRESSION_PLATEAU_MINUS;
+const uint16_t TENSION_BTN_PEP_PLUS                = BTN_PRESSION_PEP_PLUS;
+const uint16_t TENSION_BTN_PEP_MINUS               = BTN_PRESSION_PEP_MINUS;
+const uint16_t TENSION_BTN_RB_PLUS                 = BTN_CYCLE_PLUS;
+const uint16_t TENSION_BTN_RB_MINUS                = BTN_CYCLE_MINUS;
+const uint16_t TENSION_BTN_ALARME_ON               = BTN_ALARM_ON;
+const uint16_t TENSION_BTN_ALARME_OFF              = BTN_ALARM_OFF;
+const uint16_t TENSION_BTN_VALVE_BLOWER_PLUS       = BTN_FREE1;
+const uint16_t TENSION_BTN_VALVE_BLOWER_MINUS      = BTN_FREE2;
+const uint16_t TENSION_BTN_VALVE_PATIENT_PLUS      = 971;
+const uint16_t TENSION_BTN_VALVE_PATIENT_MINUS     = 1012;
