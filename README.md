@@ -59,7 +59,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 # Schemes
 
-## General System Scheme
+## General Concept Scheme
 
 ![Overview Scheme](./docs/Overview/Overview.png)
 
