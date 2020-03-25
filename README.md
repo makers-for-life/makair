@@ -107,18 +107,22 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 # Renders
 
-## Part 1: The "Air Transistor"
+## The "Air Transistor"
 
 🎦 View: [Animation of the "Air Transistor"](./src/components/air-transistor/schemes/Air%20Transistor%20(Animation%201).mp4)
 
 <img alt="Air Transistor Concept" src="./src/components/air-transistor/schemes/Air%20Transistor%20(Render%201).png" height="240">
 
-## Part 2: The "Blower"
+## The "Blower"
 
 🎦 View: [Animation of the "Blower"](./src/components/blower/schemes/Blower%20(Animation%201).mp4)
 
 <img alt="Blower Concept" src="./src/components/blower/schemes/Blower%20(Render%201).png" height="240">
 
-## Part 3: The "Oxygen Mixer"
+## The "Oxygen Mixer"
 
 <img alt="Oxygen Mixer Concept" src="./src/components/oxygen-mixer/schemes/Oxygen%20Mixer%20(Render%201).png" height="240">
+
+## The "Filter Box"
+
+<img alt="Filter Box Concept" src="./src/components/filter-box/schemes/Filter%20Box(Render%201).png" height="240">
