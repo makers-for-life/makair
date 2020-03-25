@@ -29,7 +29,9 @@ The overall system is composed of sub-components that can be plugged together an
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
-# Mechanical Components Status
+# Components
+
+## Mechanics
 
 | Component | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | --------- | ------- | -------------- | ------ | --------------- | ------------ |
@@ -40,6 +42,14 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Venturi Valve](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/venturi-valve) | V1 | Modeling experiment | ❌ | none | N/A
 | [Filter Box](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/filter-box) | V1 | Hermetic testing, make multiple caps according to needs | ❌ | [link](https://a360.co/33CCX4T) | [@eliottvincent](https://github.com/eliottvincent)
 | [Adapters](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
+
+## Electronics
+
+🚧 (work in progress)
+
+## Software
+
+🚧 (work in progress)
 
 # Process
 
@@ -53,13 +63,13 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 ## Videos
 
-[YouTube channel](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg)
+You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg).
 
 #### Tuesday 24/03
 
 [![English Video](https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg)](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
 
-[French Video](https://www.youtube.com/watch?v=kASINWDjnBE)
+* [French Video](https://www.youtube.com/watch?v=kASINWDjnBE)
 
 #### Monday 23/03
 
@@ -67,11 +77,9 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 #### Sunday 22/03
 
-[English Video](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
-
-[French Video, short](https://www.youtube.com/watch?v=GqGbh__ymw4)
-
-[French Video, long](https://www.youtube.com/watch?v=KqBkgTWbIlg)
+* [English Video](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
+* [French Video, short](https://www.youtube.com/watch?v=GqGbh__ymw4)
+* [French Video, long](https://www.youtube.com/watch?v=KqBkgTWbIlg)
 
 # Contact Us
 
