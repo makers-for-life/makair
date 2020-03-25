@@ -5,6 +5,8 @@
 
 **⚠️ NOT READY YET, FURTHER INFORMATION WILL COME SHORTLY!**
 
+---
+
 Makers, developers, university teachers / researchers and medical teams collaborated on this project. If you're new there, please read the explanations below. _Your contributions are much welcome!_
 
 * Global EN/FR docs here: https://docs.google.com/document/d/1l1nt0o93kdfcmPygp1k6NYKrwIb_uN01kcBAfovy2dE/edit#
@@ -18,8 +20,12 @@ Roughly, the idea is as follow: hospitals will soon lack mechanical artificial r
 
 The overall system is composed of sub-components that can be plugged together and wired to form an air circuit, namely:
 
-- **The air pump** (called "Blower");
-- **The valve system** (called "Air Transistor");
+- **Air pump** (called "Blower");
+- **Valve system (routing variant)** (called "Air Transistor");
+- **Valve system (depressuring variant)** (called "Pressure Valve");
+- **Venturi valve** (called "Oxygen Mixer" + "Venturi Valve"; 2 test variants);
+- **Air filter casing** (called "Filter Box");
+- **Pipe adapters** (called "Adapter");
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
