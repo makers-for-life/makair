@@ -113,6 +113,10 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 <img alt="Air Transistor Concept" src="./src/components/air-transistor/schemes/Air%20Transistor%20(Render%201).png" height="240">
 
+## The "Pressure Valve"
+
+<img alt="Pressure Valve Concept" src="./src/components/pressure-valve/schemes/Pressure%20Valve%20(Render%201).png" height="240">
+
 ## The "Blower"
 
 🎦 View: [Animation of the "Blower"](./src/components/blower/schemes/Blower%20(Animation%201).mp4)
@@ -125,4 +129,4 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## The "Filter Box"
 
-<img alt="Filter Box Concept" src="./src/components/filter-box/schemes/Filter%20Box(Render%201).png" height="240">
+<img alt="Filter Box Concept" src="./src/components/filter-box/schemes/Filter%20Box%20(Render%201).png" height="240">
