@@ -310,15 +310,19 @@ void loop() {
   lcd.print("  ");
   #endif
 
-
   /********************************************/
   // Début d'un cycle
   /********************************************/
-  for (int currentCentieme = 0; currentCentieme < nbreCentiemeSecParCycle; currentCentieme++) {
+  int currentCentieme = 0;
+
+  while (currentCentieme < nbreCentiemeSecParCycle) {
 
     static uint32_t dateDernierTraitement = 0ul;
     uint32_t dateCourante = millis();
     if (dateCourante - dateDernierTraitement >= PERIODE_DE_TRAITEMENT) {
+      
+      currentCentieme++;
+      
       /********************************************/
       // Le traitement est effectué toutes les 
       // PERIODE_DE_TRAITEMENT millisecondes
