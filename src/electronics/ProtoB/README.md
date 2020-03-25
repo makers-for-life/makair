@@ -1,6 +1,8 @@
 # Proto B
 
-2020/03/22
+2020/03/25
+
+![ux protoB](./UI-UX.png)
 
 ## Requirements
 
