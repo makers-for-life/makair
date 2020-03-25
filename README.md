@@ -73,7 +73,7 @@ You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_
 
 * **🇬🇧 English Video:**
 
-[![Play English Video](https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg | height=100)](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
+<a href="https://www.youtube.com/watch?v=TJQ1DIsP8ls" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg" height="240"></a>
 
 * [🇫🇷 French Video](https://www.youtube.com/watch?v=kASINWDjnBE)
 
