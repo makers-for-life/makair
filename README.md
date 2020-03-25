@@ -69,19 +69,23 @@ You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_
 
 #### ➡️ Tuesday 24/03
 
-[![🇬🇧 English Video](https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg)](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
+* **🇬🇧 English Video:**
+
+[![Play English Video](https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg)](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
 
 * [🇫🇷 French Video](https://www.youtube.com/watch?v=kASINWDjnBE)
 
 #### ➡️ Monday 23/03
 
-[![🇫🇷 French Video](https://img.youtube.com/vi/MW8I0W8OaoM/0.jpg)](https://www.youtube.com/watch?v=MW8I0W8OaoM)
+* **🇫🇷 French Video:**
+
+[![Play French Video](https://img.youtube.com/vi/MW8I0W8OaoM/0.jpg)](https://www.youtube.com/watch?v=MW8I0W8OaoM)
 
 #### ➡️ Sunday 22/03
 
 * [🇬🇧 English Video](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
-* [🇫🇷 French Video, short](https://www.youtube.com/watch?v=GqGbh__ymw4)
-* [🇫🇷 French Video, long](https://www.youtube.com/watch?v=KqBkgTWbIlg)
+* [🇫🇷 French Video (short)](https://www.youtube.com/watch?v=GqGbh__ymw4)
+* [🇫🇷 French Video (long)](https://www.youtube.com/watch?v=KqBkgTWbIlg)
 
 # Contact Us
 
