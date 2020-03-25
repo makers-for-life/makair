@@ -25,19 +25,21 @@ The overall system is composed of sub-components that can be plugged together an
 - **Valve system (depressuring variant)** (called "Pressure Valve");
 - **Venturi valve** (called "Oxygen Mixer" + "Venturi Valve"; 2 test variants);
 - **Air filter casing** (called "Filter Box");
-- **Pipe adapters** (called "Adapter");
+- **Pipe adapters** (called "Adapters");
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
-# Status
+# Mechanical Components Status
 
-| Component | Version | Team's focus | Ready? | Live CAD Models |
-| --------- | ------- | ------------ | ------ | ----------------- |
-| [Blower](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/Blower) | V13 | Increase air compression rate | ❌ | [link](https://a360.co/2UsIdDU)
-| [Air Transistor](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/air-transistor) | V4 (Experimental) | Reduce dead space | ❌ | [link](https://a360.co/2wy4eZX)
-| [Air Transistor Valve](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/air-transistor-valve) | V3 | Test the "flap" concept and its accuracy | ❌ | none
-| [Filter box](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/filter-box) | V1 | Hermetic testing, make multiple caps according to needs | ❌ | [link](https://a360.co/33CCX4T)
-
+| Component | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
+| --------- | ------- | -------------- | ------ | --------------- | ------------ |
+| [Blower](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/blower) | V13 | Increase air compression rate | ❌ | [link](https://a360.co/2UsIdDU) | [@baptistejamin](https://github.com/baptistejamin)
+| [Air Transistor](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/air-transistor) | V4 | Moved away from the guillotine system | ✅ | [link](https://a360.co/2wy4eZX) | [@valeriansaliou](https://github.com/valeriansaliou)
+| [Pressure Valve](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/pressure-valve) | V3 | Test the "flap" concept and its accuracy | ✅ | none | Sebastien Le Loch
+| [Oxygen Mixer](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/oxygen-mixer) | V1 | Modeling experiment | ❌ | [link](https://a360.co/2xfmcR0) | [@valeriansaliou](https://github.com/valeriansaliou)
+| [Venturi Valve](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/venturi-valve) | V1 | Modeling experiment | ❌ | none | N/A
+| [Filter Box](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/filter-box) | V1 | Hermetic testing, make multiple caps according to needs | ❌ | [link](https://a360.co/33CCX4T) | [@eliottvincent](https://github.com/eliottvincent)
+| [Adapters](https://github.com/covid-response-projects/covid-respirator/tree/master/src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 
 # Process
 
