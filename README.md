@@ -99,14 +99,14 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 🎦 View: [Animation of the "Air Transistor"](./src/components/air-transistor/schemes/Air%20Transistor%20(Animation%201).mp4)
 
-![Air Transistor Concept](./src/components/air-transistor/schemes/Air%20Transistor%20(Render%201).png | height=100)
+<img alt="Air Transistor Concept" src="./src/components/air-transistor/schemes/Air%20Transistor%20(Render%201).png" height="100">
 
 ## Part 2: The "Blower"
 
 🎦 View: [Animation of the "Blower"](./src/components/blower/schemes/Blower%20(Animation%201).mp4)
 
-![Blower Concept](./src/components/blower/schemes/Blower%20(Render%201).png | height=100)
+<img alt="Blower Concept" src="./src/components/blower/schemes/Blower%20(Render%201).png" height="100">
 
 ## Part 3: The "Oxygen Mixer"
 
-![Oxygen Mixer Concept](./src/components/oxygen-mixer/schemes/Oxygen%20Mixer%20(Render%201).png | height=100)
+<img alt="Oxygen Mixer Concept" src="./src/components/oxygen-mixer/schemes/Oxygen%20Mixer%20(Render%201).png" height="100">
