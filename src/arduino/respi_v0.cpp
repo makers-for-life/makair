@@ -318,7 +318,7 @@ void loop() {
 
     static uint32_t dateDernierTraitement = 0ul;
     uint32_t dateCourante = millis();
-    if (dateCourante - dateDernierTraitement > PERIODE_DE_TRAITEMENT) {
+    if (dateCourante - dateDernierTraitement >= PERIODE_DE_TRAITEMENT) {
       /********************************************/
       // Le traitement est effectué toutes les 
       // PERIODE_DE_TRAITEMENT millisecondes
