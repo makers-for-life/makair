@@ -48,7 +48,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | Cut-Off Valve | V0 | Not started yet | ❌ | none | N/A
 | [Oxygen Mixer (Venturi Variant 1)](./src/components/oxygen-mixer) | V1 | Modeling experiment | ❌ | [link](https://a360.co/2xfmcR0) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Venturi Valve (Venturi Variant 2)](./src/components/venturi-valve) | V1 | Modeling experiment | ❌ | none | N/A
-| [Filter Box](./src/components/filter-box) | V3 | Hermetic testing, make multiple caps according to needs | ❌ | none | Aptatio + [@eliottvincent](https://github.com/eliottvincent)
+| [Filter Box](./src/components/filter-box) | V2 | Hermetic testing, make multiple caps according to needs | ❌ | none | Aptatio + [@eliottvincent](https://github.com/eliottvincent)
 | [Adapters](./src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 
 ## Electronics
