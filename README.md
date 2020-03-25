@@ -29,6 +29,7 @@ The overall system is composed of sub-components that can be plugged together an
 - **Air pump** (called "Blower");
 - **Valve system (routing variant)** (called "Air Transistor");
 - **Valve system (depressuring variant)** (called "Pressure Valve");
+- **Valve system (cut-off variant)** (called "Cut-Off Valve");
 - **Venturi valve** (called "Oxygen Mixer" + "Venturi Valve"; 2 test variants);
 - **Air filter casing** (called "Filter Box");
 - **Pipe adapters** (called "Adapters");
