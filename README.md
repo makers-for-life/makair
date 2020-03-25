@@ -39,7 +39,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 | Component | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | --------- | ------- | -------------- | ------ | --------------- | ------------ |
-| [Blower](./src/components/blower) | V13 | Increase air compression rate | ❌ | [link](https://a360.co/2UsIdDU) | [@baptistejamin](https://github.com/baptistejamin)
+| [Blower](./src/components/blower) | V13 | Increase air compression rate | ❌ | [link](https://a360.co/2UsIdDU) | Cooprint + [@baptistejamin](https://github.com/baptistejamin)
 | [Air Transistor](./src/components/air-transistor) | V4 | Moved away from the guillotine system | ✅ | [link](https://a360.co/2wy4eZX) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Pressure Valve](./src/components/pressure-valve) | V3 | Test the "flap" concept and its accuracy | ✅ | none | Sebastien Le Loch
 | [Oxygen Mixer](./src/components/oxygen-mixer) | V1 | Modeling experiment | ❌ | [link](https://a360.co/2xfmcR0) | [@valeriansaliou](https://github.com/valeriansaliou)
