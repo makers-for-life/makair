@@ -87,10 +87,10 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## Part 2: The "Blower"
 
-🎦 View: [Animation of the "Blower"](./src/components/Blower/schemes/Blower%20(Animation%201).mp4)
+🎦 View: [Animation of the "Blower"](./src/components/blower/schemes/Blower%20(Animation%201).mp4)
 
-![Blower Concept](./src/components/Blower/schemes/Blower%20(Render%201).png)
+![Blower Concept](./src/components/blower/schemes/Blower%20(Render%201).png)
 
 ## Part 3: The "Oxygen Mixer"
 
-![Oxygen Mixer Concept](./src/components/Oxygen-Mixer/schemes/Oxygen%20Mixer%20(Render%201).png)
+![Oxygen Mixer Concept](./src/components/oxygen-mixer/schemes/Oxygen%20Mixer%20(Render%201).png)
