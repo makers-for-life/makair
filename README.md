@@ -51,35 +51,37 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 🚧 (work in progress)
 
-# Process
+# Schemes
+
+## General System Scheme
 
 ![Overview scheme](./docs/Overview/Overview.png)
 
 # News & Videos
 
-## Updates
+## Live Updates
 
 * Live updates on Telegram: [join channel](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ).
 
-## Videos
+## Checkpoint Videos
 
 You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg).
 
-#### Tuesday 24/03
+#### ➡️ Tuesday 24/03
 
-[![English Video](https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg)](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
+[![🇬🇧 English Video](https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg)](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
 
-* [French Video](https://www.youtube.com/watch?v=kASINWDjnBE)
+* [🇫🇷 French Video](https://www.youtube.com/watch?v=kASINWDjnBE)
 
-#### Monday 23/03
+#### ➡️ Monday 23/03
 
-[![French Video](https://img.youtube.com/vi/MW8I0W8OaoM/0.jpg)](https://www.youtube.com/watch?v=MW8I0W8OaoM)
+[![🇫🇷 French Video](https://img.youtube.com/vi/MW8I0W8OaoM/0.jpg)](https://www.youtube.com/watch?v=MW8I0W8OaoM)
 
-#### Sunday 22/03
+#### ➡️ Sunday 22/03
 
-* [English Video](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
-* [French Video, short](https://www.youtube.com/watch?v=GqGbh__ymw4)
-* [French Video, long](https://www.youtube.com/watch?v=KqBkgTWbIlg)
+* [🇬🇧 English Video](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
+* [🇫🇷 French Video, short](https://www.youtube.com/watch?v=GqGbh__ymw4)
+* [🇫🇷 French Video, long](https://www.youtube.com/watch?v=KqBkgTWbIlg)
 
 # Contact Us
 
