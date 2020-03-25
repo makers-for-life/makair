@@ -461,7 +461,7 @@ void loop() {
         lcd.print(futureConsignePressionPEP);
         #endif
       }
-  	}
+    }
   }
   /********************************************/
   // Fin du cycle
