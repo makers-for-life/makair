@@ -43,7 +43,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | --------- | ------- | -------------- | ------ | --------------- | ------------ |
 | [Blower](./src/components/blower) | V13 | Increased air compression rate | ❌ | [link](https://a360.co/2UsIdDU) | Cooprint + [@baptistejamin](https://github.com/baptistejamin)
 | [Air Transistor](./src/components/air-transistor) | V4 | Moved away from the guillotine system | ✅ | [link](https://a360.co/2wy4eZX) | [@valeriansaliou](https://github.com/valeriansaliou)
-| [Pressure Valve](./src/components/pressure-valve) | V3 | Test the "flap" concept and its accuracy | ✅ | [link](https://a360.co/2WIQJRR) | Sebastien Le Loch + [@valeriansaliou](https://github.com/valeriansaliou)
+| [Pressure Valve](./src/components/pressure-valve) | V4 | Smaller size, FDM printing optimizations | ✅ | [link](https://a360.co/2WIQJRR) | Sebastien Le Loch + [@valeriansaliou](https://github.com/valeriansaliou)
 | [Oxygen Mixer (Venturi Variant 1)](./src/components/oxygen-mixer) | V1 | Modeling experiment | ❌ | [link](https://a360.co/2xfmcR0) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Venturi Valve (Venturi Variant 2)](./src/components/venturi-valve) | V1 | Modeling experiment | ❌ | none | N/A
 | [Filter Box](./src/components/filter-box) | V2 | Hermetic testing, make multiple caps according to needs | ❌ | none | Aptatio + [@eliottvincent](https://github.com/eliottvincent)
