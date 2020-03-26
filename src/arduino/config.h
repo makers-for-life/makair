@@ -20,7 +20,7 @@
  * Lorsque DEBUG est défini, du code additionnel envoyant des infos sur
  * la ligne serie est compile.
  */
-//#define DEBUG
+#define DEBUG
 
 /*
  * Deux versions de LCD sont supportees, les LCD 16 colonnes et 2 lignes (16x2)

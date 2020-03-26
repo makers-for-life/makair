@@ -18,6 +18,7 @@
 #include <AnalogButtons.h>
 
 #include "config.h"
+#include "debug.h"
 
 // Période en ms de la boucle de traitement
 const uint32_t PERIODE_DE_TRAITEMENT = 10ul;
@@ -216,16 +217,14 @@ void setup() {
 
   pinMode(PIN_CAPTEUR_PRESSION, INPUT);
 
-  #ifdef DEBUG
-  Serial.begin(115200);
-  Serial.println("demarrage");
-  #endif
+  DBG_DO(Serial.begin(115200);)
+  DBG_DO(Serial.println("demarrage");)
+
   patient.attach(PIN_SERVO_PATIENT);
   blower.attach(PIN_SERVO_BLOWER);
 
-  #ifdef DEBUG
-  Serial.print("mise en secu initiale");
-  #endif
+  DBG_DO(Serial.print("mise en secu initiale");)
+
   blower.write(secu_coupureBlower);
   patient.write(secu_ouvertureExpi);
 
@@ -260,14 +259,7 @@ void loop() {
   int nbreCentiemeSecParCycle = 60 * 100 / consigneNbCycle;
   int nbreCentiemeSecParInspi = nbreCentiemeSecParCycle / 3; // inspiration = 1/3 du cycle, expiration = 2/3 du cycle
 
-  #ifdef DEBUG
-  Serial.println();
-  Serial.println("------ Starting cycle ------");
-  Serial.print("nbreCentiemeSecParCycle = ");
-  Serial.println(nbreCentiemeSecParCycle);
-  Serial.print("nbreCentiemeSecParInspi = ");
-  Serial.println(nbreCentiemeSecParInspi);
-  #endif
+  DBG_AFFICHE_CSPCYCLE_CSPINSPI(nbreCentiemeSecParCycle, nbreCentiemeSecParInspi)
 
   int currentPressionCrete = -1;
   int currentPressionPlateau = -1;
