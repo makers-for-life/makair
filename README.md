@@ -78,25 +78,28 @@ _You may click on the scheme to enlarge._
 
 You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg).
 
+#### ↘️ Thursday 26/03
+
+* **🇬🇧 French Video:**
+
+<a href="https://www.youtube.com/watch?v=olhgf6QtDVI" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/olhgf6QtDVI/0.jpg" height="240"></a>
+
+* [🇫🇷 French Video (in-depth)](https://www.youtube.com/watch?v=yDUS2cBBrT4)
+
 #### ↘️ Tuesday 24/03
 
-* **🇬🇧 English Video:**
-
-<a href="https://www.youtube.com/watch?v=TJQ1DIsP8ls" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg" height="240"></a>
-
+* [🇬🇧 English Video](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
 * [🇫🇷 French Video](https://www.youtube.com/watch?v=kASINWDjnBE)
 
 #### ↘️ Monday 23/03
 
-* **🇫🇷 French Video:**
-
-<a href="https://www.youtube.com/watch?v=MW8I0W8OaoM" title="Play French Video"><img alt="" src="https://img.youtube.com/vi/MW8I0W8OaoM/0.jpg" height="240"></a>
+* [🇫🇷 French Video](https://www.youtube.com/watch?v=MW8I0W8OaoM)
 
 #### ↘️ Sunday 22/03
 
 * [🇬🇧 English Video](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
-* [🇫🇷 French Video (short)](https://www.youtube.com/watch?v=GqGbh__ymw4)
-* [🇫🇷 French Video (long)](https://www.youtube.com/watch?v=KqBkgTWbIlg)
+* [🇫🇷 French Video](https://www.youtube.com/watch?v=GqGbh__ymw4)
+* [🇫🇷 French Video (in-depth)](https://www.youtube.com/watch?v=KqBkgTWbIlg)
 
 # Contact Us
 
