@@ -63,17 +63,17 @@ const double CONVERT = 51.714924102396;
 const int MPX5010GP = A1;
 
 const double kPa_to_mmHg = 7.5006157584566;
-const double ratioPontDiviseur = 0.57;
-const double vSupply = 5.00;
+const double ratioPontDiviseur = 0.572727273;
+const double vSupply = 5.08;
 
 void readPressureMPX5010GP_KFR1951A() {
   
-  int vMax = analogRead(MPX5010GP);
-  int vMin = vMax;
-  int vMoy = vMax;
+  double vMax = analogRead(MPX5010GP) / 1024.0 * 3.3;
+  double vMin = vMax;
+  double vMoy = vMax;
   
   for (int i = 0; i < 9; i++) {
-    int currentValue = analogRead(MPX5010GP);
+    double currentValue = analogRead(MPX5010GP) / 1024.0 * 3.3;
     if (vMin > currentValue) {
       vMin = currentValue; 
     }
@@ -83,9 +83,9 @@ void readPressureMPX5010GP_KFR1951A() {
     vMoy += currentValue;
   }
 
-  vMoy = vMoy / 10;
+  vMoy = vMoy / 10.0;
   
-  int rawVout = vMoy;
+  double rawVout = vMoy;
 
   Serial.print("Raw min: ");
   Serial.print(vMin);
