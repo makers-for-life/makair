@@ -198,6 +198,9 @@ Button btnPressionPlateauMinus(BTN_PRESSION_PLATEAU_MINUS, &onPressionPlateauMin
 Button btnPressionPlateauPlus(BTN_PRESSION_PLATEAU_PLUS, &onPressionPlateauPlus);
 
 void setup() {
+
+  pinMode(PIN_CAPTEUR_PRESSION, INPUT);
+
   #ifdef DEBUG
   Serial.begin(115200);
   Serial.println("demarrage");
