@@ -284,17 +284,8 @@ void loop() {
   consigneOuverture = futureConsigneOuverture;
   consignePressionPEP = futureConsignePressionPEP;
   consignePressionPlateauMax = futureConsignePressionPlateauMax;
-  #ifdef DEBUG
-  Serial.print("consigneNbCycle = ");
-  Serial.println(consigneNbCycle);
-  Serial.print("consigneOuverture = ");
-  Serial.println(consigneOuverture);
-  Serial.print("consignePressionPEP = ");
-  Serial.println(consignePressionPEP);
-  Serial.print("consignePressionPlateauMax = ");
-  Serial.println(consignePressionPlateauMax);
-  #endif
 
+  DBG_AFFICHE_CONSIGNES(consigneNbCycle, consigneOuverture, consignePressionPEP, consignePressionPlateauMax)
 
   /********************************************/
   // Affichage une fois par cycle respiratoire
@@ -388,41 +379,22 @@ void loop() {
       /********************************************/
       // si pression crête > max, alors fermeture blower de 2°
       if (currentPression > consignePressionCrete) {
-        #ifdef DEBUG
-        if (currentCentieme % 80) {
-          Serial.println("Mise en securite : pression crete trop importante");
-        }
-        #endif
+        DBG_PRESSION_CRETE(currentCentieme, 80)
         consigneBlower = positionBlower - 2;
       }
       // si pression plateau > consigne param, alors ouverture expiration de 1°
       if (currentPhase == PHASE_HOLD_INSPI && currentPression > consignePressionPlateauMax) {
-        #ifdef DEBUG
-        if (currentCentieme % 80) {
-          Serial.println("Mise en securite : pression plateau trop importante");
-        }
-        #endif
+        DBG_PRESSION_PLATEAU(currentCentieme, 80)
         consignePatient = positionBlower + 1;
       }
       // si pression PEP < PEP mini, alors fermeture complète valve expiration
       if (currentPression < consignePressionPEP) {
-        #ifdef DEBUG
-        if (currentCentieme % 80) {
-          Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");
-        }
-        #endif
+        DBG_PRESSION_PEP(currentCentieme, 80)
         consignePatient = 90;
         currentPhase = PHASE_HOLD_EXPI;
       }
 
-      #ifdef DEBUG
-      if (currentCentieme % 50 == 0) {
-        Serial.print("Phase : ");
-        Serial.println(currentPhase);
-        Serial.print("Pression : ");
-        Serial.println(currentPression);
-      }
-      #endif
+      DBG_PHASE_PRESSION(currentCentieme, 50, currentPhase, currentPression)
 
       /********************************************/
       // Envoi des nouvelles valeurs aux actionneurs
