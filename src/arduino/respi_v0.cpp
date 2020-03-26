@@ -1,10 +1,23 @@
+/*=============================================================================
+ * @file respi_v0.cpp
+ *
+ * COVID Respirator
+ *
+ * @section copyright Copyright
+ *
+ * Makers For Life
+ *
+ * @section descr File description
+ *
+ * Initialisation du logiciel et boucle principale.
+ */
+
 #include <Arduino.h>
 #include <Servo.h>
 #include <LiquidCrystal.h>
 #include <AnalogButtons.h>
 
-//#define DEBUG // décommenter pour envoyer les messages de debug en série
-//#define SIMULATION // décommenter pour simuler des valeurs de capteur de pression au lieu de lire les vraies
+#include "config.h"
 
 // Période en ms de la boucle de traitement
 const uint32_t PERIODE_DE_TRAITEMENT = 10ul;
@@ -323,11 +336,11 @@ void loop() {
     static uint32_t dateDernierTraitement = 0ul;
     uint32_t dateCourante = millis();
     if (dateCourante - dateDernierTraitement >= PERIODE_DE_TRAITEMENT) {
-      
+
       currentCentieme++;
-      
+
       /********************************************/
-      // Le traitement est effectué toutes les 
+      // Le traitement est effectué toutes les
       // PERIODE_DE_TRAITEMENT millisecondes
       // Note sur la gestion du temps. La date en
       // millisecondes de l'Arduino déborde tous
@@ -353,7 +366,7 @@ void loop() {
       #else
       int currentPression = map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600) / 10;
       #endif
-  
+
       /********************************************/
       // Calcul des consignes normales
       /********************************************/
@@ -361,13 +374,13 @@ void loop() {
         if (currentPression >= currentPressionCrete) {
           currentPhase = PHASE_PUSH_INSPI;
           currentPressionCrete = currentPression;
-  
+
           consigneBlower = 90 - ANGLE_MULTIPLICATEUR * consigneOuverture; // on ouvre le blower vers patient à la consigne paramétrée
           consignePatient = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on ouvre le flux IN patient
         } else {
           currentPhase = PHASE_HOLD_INSPI;
           currentPressionPlateau = currentPression;
-  
+
           consigneBlower = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
           consignePatient = 90; // on bloque les flux patient
         }
@@ -377,7 +390,7 @@ void loop() {
         consigneBlower = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
         consignePatient = secu_ouvertureExpi; // on ouvre le flux OUT patient (expiration vers l'extérieur)
       }
-  
+
       /********************************************/
       // Calcul des consignes de mise en sécurité
       /********************************************/
@@ -409,7 +422,7 @@ void loop() {
         consignePatient = 90;
         currentPhase = PHASE_HOLD_EXPI;
       }
-  
+
       #ifdef DEBUG
       if (currentCentieme % 50 == 0) {
         Serial.print("Phase : ");
@@ -418,7 +431,7 @@ void loop() {
         Serial.println(currentPression);
       }
       #endif
-  
+
       /********************************************/
       // Envoi des nouvelles valeurs aux actionneurs
       /********************************************/
@@ -426,25 +439,25 @@ void loop() {
         blower.write(consigneBlower);
         positionBlower = consigneBlower;
       }
-  
+
       if (consignePatient != positionPatient) {
         patient.write(consignePatient);
         positionPatient = consignePatient;
       }
-  
+
       /********************************************/
       // Préparation des valeurs pour affichage
       /********************************************/
       previousPressionCrete = currentPressionCrete;
       previousPressionPlateau = currentPressionPlateau;
       previousPressionPep = currentPressionPep;
-  
+
       /********************************************/
       // Écoute des appuis boutons
       /********************************************/
       analogButtons.check();
       //calibrateButtons();
-  
+
       /********************************************/
       // Affichage pendant le cycle
       /********************************************/
