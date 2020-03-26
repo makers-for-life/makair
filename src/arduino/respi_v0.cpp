@@ -19,6 +19,7 @@
 
 #include "config.h"
 #include "debug.h"
+#include "affichage.h"
 
 // Période en ms de la boucle de traitement
 const uint32_t PERIODE_DE_TRAITEMENT = 10ul;
@@ -65,7 +66,7 @@ const int BTN_PRESSION_PLATEAU_PLUS = 0;
 // contrôle de l'écran LCD
 const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
-#define LCD_20_CHARS // commenter pour utiliser un écran LCD 16 caratères
+const ScreenSize screenSize{ScreenSize::CHARS_20};
 const int LCD_UPDATE_PERIOD = 20; // période (en centièmes de secondes) de mise à jour du feedback des consignes sur le LCD
 
 // phases possibles du cycle
@@ -228,11 +229,23 @@ void setup() {
   blower.write(secu_coupureBlower);
   patient.write(secu_ouvertureExpi);
 
-  #ifdef LCD_20_CHARS
-  lcd.begin(20, 2);
-  #else
-  lcd.begin(16, 2);
-  #endif
+  switch (screenSize)
+  {
+  case ScreenSize::CHARS_16:
+  {
+    lcd.begin(16, 2);
+    break;
+  }
+  case ScreenSize::CHARS_20:
+  {
+    lcd.begin(20, 2);
+    break;
+  }
+  default:
+  {
+    lcd.begin(16, 2);
+  }
+  }
 
   analogButtons.add(btnFree2);
   analogButtons.add(btnFree1);
@@ -267,7 +280,7 @@ void loop() {
 
   //int currentPositionBlower = secu_coupureBlower;
 
-  int dureeBaissePression = 0; // compteur de centièmes pour la détection du pic de pression (pression crête)
+  // int dureeBaissePression = 0; // compteur de centièmes pour la détection du pic de pression (pression crête) (unused so far)
 
   // phase courante du cycle
   int currentPhase = PHASE_PUSH_INSPI;
@@ -290,24 +303,8 @@ void loop() {
   /********************************************/
   // Affichage une fois par cycle respiratoire
   /********************************************/
-  lcd.setCursor(0, 0);
-  #ifdef LCD_20_CHARS
-  lcd.print("pc=");
-  lcd.print(previousPressionCrete);
-  lcd.print("/pp=");
-  lcd.print(previousPressionPlateau);
-  lcd.print("/pep=");
-  lcd.print(previousPressionPep);
-  lcd.print("  ");
-  #else
-  lcd.print("pc");
-  lcd.print(previousPressionCrete);
-  lcd.print("/pp");
-  lcd.print(previousPressionPlateau);
-  lcd.print("/pep");
-  lcd.print(previousPressionPep);
-  lcd.print("  ");
-  #endif
+  displayEveryCycle(lcd, screenSize, previousPressionCrete,
+                    previousPressionPlateau, previousPressionPep);
 
   /********************************************/
   // Début d'un cycle
@@ -426,24 +423,7 @@ void loop() {
       // Affichage pendant le cycle
       /********************************************/
       if (currentCentieme % LCD_UPDATE_PERIOD == 0) {
-        lcd.setCursor(0, 1);
-        #ifdef LCD_20_CHARS
-        lcd.print("c=");
-        lcd.print(futureConsigneNbCycle);
-        lcd.print("/pl=");
-        lcd.print(futureConsignePressionPlateauMax);
-        lcd.print("/pep=");
-        lcd.print(futureConsignePressionPEP);
-        lcd.print("|");
-        lcd.print(currentPression);
-        #else
-        lcd.print("c");
-        lcd.print(futureConsigneNbCycle);
-        lcd.print("/pl");
-        lcd.print(futureConsignePressionPlateauMax);
-        lcd.print("/pep");
-        lcd.print(futureConsignePressionPEP);
-        #endif
+        displayDuringCycle(lcd, screenSize, futureConsigneNbCycle, futureConsignePressionPlateauMax, futureConsignePressionPEP, currentPression);
       }
     }
   }
