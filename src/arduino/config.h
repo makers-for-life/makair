@@ -13,8 +13,7 @@
  * possibles.
  */
 
-#ifndef __CONFIG_H__
-#define __CONFIG_H__
+#pragma once
 
 /*
  * Lorsque DEBUG est défini, du code additionnel envoyant des infos sur
@@ -35,5 +34,3 @@
  * pression mais generee logiciellement
  */
 //#define SIMULATION
-
-#endif /* __CONFIG_H_ */
