@@ -1,6 +1,8 @@
 # Proto B
 
-2020/03/22
+2020/03/25
+
+![ux protoB](./UI-UX.png)
 
 ## Requirements
 
@@ -13,6 +15,7 @@
 - components available and in stock in both Farnell and Radiospares.
 - safety: not mandatory to have 60601, 60950-1 is enough
 
+MHRA specifications: [link](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/874279/RMVS001_Rapidly_Manufactured_Ventilator_Specification__PDF.pdf). 
 
 ## Schematic
 
