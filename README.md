@@ -29,7 +29,6 @@ The overall system is composed of sub-components that can be plugged together an
 - **Air pump** (called "Blower");
 - **Valve system (routing variant)** (called "Air Transistor");
 - **Valve system (depressuring variant)** (called "Pressure Valve");
-- **Valve system (cut-off variant)** (called "Cut-Off Valve");
 - **Venturi valve** (called "Oxygen Mixer" + "Venturi Valve"; 2 test variants);
 - **Air filter casing** (called "Filter Box");
 - **Pipe adapters** (called "Adapters");
@@ -45,7 +44,6 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Blower](./src/components/blower) | V13 | Increased air compression rate | ❌ | [link](https://a360.co/2UsIdDU) | Cooprint + [@baptistejamin](https://github.com/baptistejamin)
 | [Air Transistor](./src/components/air-transistor) | V4 | Moved away from the guillotine system | ✅ | [link](https://a360.co/2wy4eZX) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Pressure Valve](./src/components/pressure-valve) | V3 | Test the "flap" concept and its accuracy | ✅ | none | Sebastien Le Loch
-| Cut-Off Valve | V0 | Not started yet | ❌ | none | N/A
 | [Oxygen Mixer (Venturi Variant 1)](./src/components/oxygen-mixer) | V1 | Modeling experiment | ❌ | [link](https://a360.co/2xfmcR0) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Venturi Valve (Venturi Variant 2)](./src/components/venturi-valve) | V1 | Modeling experiment | ❌ | none | N/A
 | [Filter Box](./src/components/filter-box) | V2 | Hermetic testing, make multiple caps according to needs | ❌ | none | Aptatio + [@eliottvincent](https://github.com/eliottvincent)
