@@ -4,12 +4,30 @@ on: [push]
 
 jobs:
   cpp-lint:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: action-cpp-lint
       uses: CyberZHG/github-action-cpp-lint@0.0.2
       with:
         args: "--recursive ./src/arduino/"
+
+  cppcheck:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: install cppcheck
+      run: |
+        sed 's/bionic/focal/g' /etc/apt/sources.list | sudo tee /etc/apt/sources.list.d/focal.list
+        sudo apt-get update
+        echo "Package: cppcheck" | sudo tee /etc/apt/preferences.d/cppcheck
+        echo "Pin: release n=focal" | sudo tee -a /etc/apt/preferences.d/cppcheck
+        echo "Pin-Priority: 990" | sudo tee -a /etc/apt/preferences.d/cppcheck
+        sudo apt-get install -y cppcheck
+    - uses: actions/checkout@v2
+    - name: run cppcheck
+      run: |
+        cppcheck --version
+        cppcheck --error-exitcode=1 --enable=all ./src/arduino/
+        echo $?
+        cppcheck --error-exitcode=1 --addon=cert ./src/arduino/
+        #cppcheck --error-exitcode=1 --addon=misra ./src/arduino/
