@@ -1,11 +1,13 @@
-🦠 COVID-19 Respirator
+MakAir — Covid-19 Respirator
 =====
 
-**3D printable COVID-19 DIY respirator. Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak.**
+**3D printable Covid-19 DIY respirator (caused by the SARS-CoV-2 virus). Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak.**
 
 We are a distributed team of 50+ contributors, mostly spread through France. Makers, developers, university teachers, researchers and medical teams collaborated on this project. Our testing assembly operations are located in Nantes, France.
 
 If you're new there, please read the explanations below. _Your contributions are much welcome!_
+
+![MakAir Logo](./res/brand/logo-readme.png)
 
 ---
 
@@ -27,8 +29,8 @@ Roughly, the idea is as follow: hospitals will soon lack mechanical artificial r
 The overall system is composed of sub-components that can be plugged together and wired to form an air circuit, namely:
 
 - **Air pump** (called "Blower");
-- **Valve system (routing variant)** (called "Air Transistor");
-- **Valve system (depressuring variant)** (called "Pressure Valve");
+- **Valve system (routing variant)** (called "Air Transistor" — _will be used in V2_);
+- **Valve system (depressuring variant)** (called "Pressure Valve" — _used in V1_);
 - **Valve system (two-way variant)** (PEEP valve, called "Two-Way Valve");
 - **Venturi valve** (called "Oxygen Mixer");
 - **Air filter casing** (called "Filter Box");
@@ -47,7 +49,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Pressure Valve](./src/components/pressure-valve) | V4 | Smaller size, FDM printing optimizations | ✅ | [view model](https://a360.co/2WIQJRR) | Sebastien Le Loch + [@valeriansaliou](https://github.com/valeriansaliou)
 | [Two-Way Valve](./src/components/two-way-valve) | V1 | Initial design | ❌ | [view model](https://a360.co/2QNO9q8) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Oxygen Mixer](./src/components/oxygen-mixer) | V2 | Re-modeled properly | ❌ | [view model](https://a360.co/2UmAecQ) | [@Melkaz](https://github.com/Melkaz)
-| [Filter Box](./src/components/filter-box) | V2 | Hermetic testing, make multiple caps according to needs | ❌ | none | Aptatio + [@eliottvincent](https://github.com/eliottvincent)
+| [Filter Box](./src/components/filter-box) | V4 | Add new lock system | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
 | [Adapters](./src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 
 ## Electronics
@@ -135,4 +137,4 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## The "Filter Box"
 
-<img alt="Filter Box Concept" src="./src/components/filter-box/schemes/Filter%20Box%20(Render%201).png" height="320">
+<img alt="Filter Box Concept" src="./src/components/filter-box/schemes/V3/Filter%20Box%20(Render%201).JPG" height="320">
