@@ -50,6 +50,27 @@ int previousPressionCrete = -1;
 int previousPressionPlateau = -1;
 int previousPressionPep = -1;
 
+/*
+ * The following function allow to modify the parameters of the breathing
+ * cycle.
+ */
+void incConsigneNbCycle()
+{
+  futureConsigneNbCycle++;
+  if (futureConsigneNbCycle > BORNE_SUP_CYCLE) {
+    futureConsigneNbCycle = BORNE_SUP_CYCLE
+  }
+}
+
+void decConsigneNbCycle()
+{
+  futureConsigneNbCycle--;
+  if (futureConsigneNbCycle < BORNE_INF_CYCLE) {
+    futureConsigneNbCycle = BORNE_INF_CYCLE
+  }
+}
+
+
 void onFree2() {
   #ifdef DEBUG
   Serial.println("free2");
