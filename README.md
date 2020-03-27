@@ -1,4 +1,4 @@
-🦠 COVID-19 Respirator
+🦠 COVID-19 Respirator (MakAir)
 =====
 
 **3D printable COVID-19 DIY respirator. Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak.**
@@ -6,6 +6,8 @@
 We are a distributed team of 50+ contributors, mostly spread through France. Makers, developers, university teachers, researchers and medical teams collaborated on this project. Our testing assembly operations are located in Nantes, France.
 
 If you're new there, please read the explanations below. _Your contributions are much welcome!_
+
+![MakAir Logo](./res/brand/logo-readme.png)
 
 ---
 
