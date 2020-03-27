@@ -30,6 +30,7 @@
 // amplitude radiale des servomoteurs
 static const int16_t ANGLE_OUVERTURE_MINI = 8;
 static const int16_t ANGLE_OUVERTURE_MAXI = 45;
+static const int16_t ANGLE_FERMETURE = 90;
 
 // multiplicateur à modifier pour inverser les angles (en cas de suppression de l'engrenage)
 static const int16_t ANGLE_MULTIPLICATEUR = 1;
@@ -50,21 +51,28 @@ static const int16_t BTN_NOMBRE_CYCLE_PLUS = A2;
 static const int16_t rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
 static const ScreenSize screenSize{ScreenSize::CHARS_20};
 static const int16_t LCD_UPDATE_PERIOD = 20; // période (en centièmes de secondes) de mise à jour du feedback des consignes sur le LCD
-// static LiquidCrystal screen(rs, en, d4, d5, d6, d7);
+static LiquidCrystal screen(rs, en, d4, d5, d6, d7);
 
-// phases possibles du cycle
-static const int16_t PHASE_PUSH_INSPI =
-    1; // pousée d'inspiration : on envoie l'air jusqu'à la pression crête
-       // paramétrée : valve blower ouverte à consigne, flux d'air vers le
-       // patient
-static const int16_t PHASE_HOLD_INSPI =
-    2; // plateau d'inspiration : on a depassé la pression crête, la pression
-       // descend depuis plus d'un 1/10sec (arbitraire EFL) : 2 valves fermées
-static const int16_t PHASE_EXPIRATION =
-    3; // expiration : flux d'air vers l'extérieur, air patient vers l'extérieur
-static const int16_t PHASE_HOLD_EXPI =
-    4; // expiration bloquée : les valves sont fermées car la pression est en
-       // dessous de la PEP
+/*! This enum defines the 4 phases of the respiratory cycle
+ *  -   Push inhalation:
+ *      +   Send air until the peak pressure is reached
+ *      +   The blower valve is open so the air stream goes to the patient's lungs
+ *  -   Hold inhalation:
+ *      +   Once the peak pressure is reached, the pressure is hold to the plateau pressure
+ *          The pressure has been decreasing for more than 0.1 s.
+ *      +   The 2 valves are hold closed
+ *  -   Exhalation:
+ *      +   The patient exhales
+ *  -   Hold exhalation:
+ *      +   Valves stay closed as the pressure is below the PEEP
+ */
+enum CyclePhases
+{
+  INHALATION,
+  PLATEAU,
+  EXHALATION,
+  HOLD_EXHALATION
+};
 
 // minimums et maximums possible des paramètres modifiables à l'exécution
 static const int16_t BORNE_SUP_PRESSION_CRETE = 70; // arbitraire
@@ -81,8 +89,10 @@ static const int16_t BORNE_INF_CYCLE = 5;  // demande medical
 static const int16_t MAINTIEN_PARAMETRAGE = 21;
 
 // valeurs de sécurité pour les actionneurs
-static const int16_t secu_coupureBlower = 90 - ANGLE_OUVERTURE_MAXI;
-static const int16_t secu_ouvertureExpi = 90 - ANGLE_OUVERTURE_MAXI;
+static const int16_t secu_coupureBlower =
+    ANGLE_FERMETURE - ANGLE_OUVERTURE_MAXI;
+static const int16_t secu_ouvertureExpi =
+    ANGLE_FERMETURE - ANGLE_OUVERTURE_MAXI;
 
 // servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou vers l'extérieur
 // 90° → tout est fermé
