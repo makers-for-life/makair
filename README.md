@@ -29,7 +29,7 @@ The overall system is composed of sub-components that can be plugged together an
 - **Air pump** (called "Blower");
 - **Valve system (routing variant)** (called "Air Transistor");
 - **Valve system (depressuring variant)** (called "Pressure Valve");
-- **Venturi valve** (called "Oxygen Mixer" + "Venturi Valve"; 2 test variants);
+- **Venturi valve** (called "Oxygen Mixer");
 - **Air filter casing** (called "Filter Box");
 - **Pipe adapters** (called "Adapters");
 
@@ -41,11 +41,10 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 | Component | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | --------- | ------- | -------------- | ------ | --------------- | ------------ |
-| [Blower](./src/components/blower) | V13 | Increased air compression rate | ❌ | [link](https://a360.co/2UsIdDU) | Cooprint + [@baptistejamin](https://github.com/baptistejamin)
-| [Air Transistor](./src/components/air-transistor) | V4 | Moved away from the guillotine system | ✅ | [link](https://a360.co/2wy4eZX) | [@valeriansaliou](https://github.com/valeriansaliou)
-| [Pressure Valve](./src/components/pressure-valve) | V3 | Test the "flap" concept and its accuracy | ✅ | [link](https://a360.co/2WIQJRR) | Sebastien Le Loch + [@valeriansaliou](https://github.com/valeriansaliou)
-| [Oxygen Mixer (Venturi Variant 1)](./src/components/oxygen-mixer) | V1 | Modeling experiment | ❌ | [link](https://a360.co/2xfmcR0) | [@valeriansaliou](https://github.com/valeriansaliou)
-| [Venturi Valve (Venturi Variant 2)](./src/components/venturi-valve) | V1 | Modeling experiment | ❌ | none | N/A
+| [Blower](./src/components/blower) | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU) | Cooprint + [@baptistejamin](https://github.com/baptistejamin)
+| [Air Transistor](./src/components/air-transistor) | V4 | Moved away from the guillotine system | ✅ | [view model](https://a360.co/2wy4eZX) | [@valeriansaliou](https://github.com/valeriansaliou)
+| [Pressure Valve](./src/components/pressure-valve) | V4 | Smaller size, FDM printing optimizations | ✅ | [view model](https://a360.co/2WIQJRR) | Sebastien Le Loch + [@valeriansaliou](https://github.com/valeriansaliou)
+| [Oxygen Mixer](./src/components/oxygen-mixer) | V1 | Modeling experiment | ❌ | none | Yohann Nédélec
 | [Filter Box](./src/components/filter-box) | V2 | Hermetic testing, make multiple caps according to needs | ❌ | none | Aptatio + [@eliottvincent](https://github.com/eliottvincent)
 | [Adapters](./src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 
@@ -79,25 +78,28 @@ _You may click on the scheme to enlarge._
 
 You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg).
 
+#### ↘️ Thursday 26/03
+
+* **🇬🇧 French Video:**
+
+<a href="https://www.youtube.com/watch?v=olhgf6QtDVI" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/olhgf6QtDVI/0.jpg" height="240"></a>
+
+* [🇫🇷 French Video (in-depth)](https://www.youtube.com/watch?v=yDUS2cBBrT4)
+
 #### ↘️ Tuesday 24/03
 
-* **🇬🇧 English Video:**
-
-<a href="https://www.youtube.com/watch?v=TJQ1DIsP8ls" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/TJQ1DIsP8ls/0.jpg" height="240"></a>
-
+* [🇬🇧 English Video](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
 * [🇫🇷 French Video](https://www.youtube.com/watch?v=kASINWDjnBE)
 
 #### ↘️ Monday 23/03
 
-* **🇫🇷 French Video:**
-
-<a href="https://www.youtube.com/watch?v=MW8I0W8OaoM" title="Play French Video"><img alt="" src="https://img.youtube.com/vi/MW8I0W8OaoM/0.jpg" height="240"></a>
+* [🇫🇷 French Video](https://www.youtube.com/watch?v=MW8I0W8OaoM)
 
 #### ↘️ Sunday 22/03
 
 * [🇬🇧 English Video](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
-* [🇫🇷 French Video (short)](https://www.youtube.com/watch?v=GqGbh__ymw4)
-* [🇫🇷 French Video (long)](https://www.youtube.com/watch?v=KqBkgTWbIlg)
+* [🇫🇷 French Video](https://www.youtube.com/watch?v=GqGbh__ymw4)
+* [🇫🇷 French Video (in-depth)](https://www.youtube.com/watch?v=KqBkgTWbIlg)
 
 # Contact Us
 
@@ -123,7 +125,7 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## The "Oxygen Mixer"
 
-<img alt="Oxygen Mixer Concept" src="./src/components/oxygen-mixer/schemes/Oxygen%20Mixer%20(Render%201).png" height="240">
+<img alt="Oxygen Mixer Concept" src="./src/components/oxygen-mixer/schemes/Oxygen%20Mixer%20(Render%201).jpg" height="240">
 
 ## The "Filter Box"
 
