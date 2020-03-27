@@ -137,23 +137,7 @@ void setup() {
   blower.write(secu_coupureBlower);
   patient.write(secu_ouvertureExpi);
 
-  switch (screenSize)
-  {
-  case ScreenSize::CHARS_16:
-  {
-    lcd.begin(16, 2);
-    break;
-  }
-  case ScreenSize::CHARS_20:
-  {
-    lcd.begin(20, 2);
-    break;
-  }
-  default:
-  {
-      lcd.begin(16, 2);
-  }
-  }
+  startScreen();
 
   analogButtons.add(btnFree2);
   analogButtons.add(btnFree1);
@@ -213,7 +197,7 @@ void loop() {
   /********************************************/
   // Affichage une fois par cycle respiratoire
   /********************************************/
-  displayEveryCycle(lcd, screenSize, previousPressionCrete,
+  displayEveryCycle(previousPressionCrete,
                     previousPressionPlateau, previousPressionPep);
 
   /********************************************/
@@ -314,7 +298,7 @@ void loop() {
     // Affichage pendant le cycle
     /********************************************/
     if (currentCentieme % LCD_UPDATE_PERIOD == 0) {
-      displayDuringCycle(lcd, screenSize, futureConsigneNbCycle,
+      displayDuringCycle(futureConsigneNbCycle,
                          futureConsignePressionPlateauMax,
                          futureConsignePressionPEP, currentPression);
     }

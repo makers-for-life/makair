@@ -12,3 +12,5 @@
  * Fichier définissant les fonctionnalités liées à la régulation de la pression
  * du respirateur artificiel
  */
+
+#pragma once

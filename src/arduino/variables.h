@@ -12,6 +12,8 @@
  * This file sets the variables
  */
 
+#pragma once
+
 // nombre de cycles par minute (cycle = inspi + plateau + expi)
 int consigneNbCycle = 20;
 int futureConsigneNbCycle = consigneNbCycle;
