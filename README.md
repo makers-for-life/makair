@@ -1,4 +1,4 @@
-SARS-CoV-2 Respirator (MakAir)
+MakAir — SARS-CoV-2 Respirator
 =====
 
 **3D printable SARS-CoV-2 DIY respirator (caused by the Covid-19 virus). Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak.**
