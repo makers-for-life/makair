@@ -44,7 +44,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Blower](./src/components/blower) | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU) | Cooprint + [@baptistejamin](https://github.com/baptistejamin)
 | [Air Transistor](./src/components/air-transistor) | V4 | Moved away from the guillotine system | ✅ | [view model](https://a360.co/2wy4eZX) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Pressure Valve](./src/components/pressure-valve) | V4 | Smaller size, FDM printing optimizations | ✅ | [view model](https://a360.co/2WIQJRR) | Sebastien Le Loch + [@valeriansaliou](https://github.com/valeriansaliou)
-| [Oxygen Mixer](./src/components/oxygen-mixer) | V1 | Modeling experiment | ❌ | none | Yohann Nédélec
+| [Oxygen Mixer](./src/components/oxygen-mixer) | V2 | Re-modeled properly | ❌ | none | [@Melkaz](https://github.com/Melkaz)
 | [Filter Box](./src/components/filter-box) | V2 | Hermetic testing, make multiple caps according to needs | ❌ | none | Aptatio + [@eliottvincent](https://github.com/eliottvincent)
 | [Adapters](./src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 
