@@ -48,38 +48,32 @@ void onAlarmOn() {
 
 /* Handler of the button to decrement the number of breathing cycles */
 void onCycleMinus() {
-  DBG_DO(Serial.println("nb cycle --");)
-  pController.decConsigneNbCycle();
+  pController.onCycleMinus();
 }
 
 /* Handler of the button to increment the number of breathing cycles */
 void onCyclePlus() {
-  DBG_DO(Serial.println("nb cycle ++");)
-  pController.incConsigneNbCycle();
+  pController.onCyclePlus();
 }
 
 /* Handler of the button to decrement the PEP pressure */
 void onPressionPepMinus() {
-  DBG_DO(Serial.println("pression PEP --");)
-  pController.decConsignePressionPEP();
+  pController.onPressionPepMinus();
 }
 
 /* Handler of the button to increment the PEP pressure */
 void onPressionPepPlus() {
-  DBG_DO(Serial.println("pression PEP ++");)
-  pController.incConsignePressionPEP();
+  pController.onPressionPepPlus();
 }
 
 /* Handler of the button to decrement the plateau pressure */
 void onPressionPlateauMinus() {
-  DBG_DO(Serial.println("pression plateau --");)
-  pController.decConsignePressionPlateauMax();
+  pController.onPressionPlateauMinus();
 }
 
 /* Handler of the button to increment the plateau pressure */
 void onPressionPlateauPlus() {
-  DBG_DO(Serial.println("pression plateau ++");)
-  pController.incConsignePressionPlateauMax();
+  pController.onPressionPlateauPlus();
 }
 
 /*

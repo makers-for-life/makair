@@ -41,14 +41,20 @@ static const int16_t CAPT_PRESSION_MAXI = 800; // on ne va pas jusqu'à 1024 à 
          // adapter avec meilleur AOP
 
 // entrées-sorties
-static const int16_t PIN_CAPTEUR_PRESSION = A4;
-static const int16_t PIN_SERVO_BLOWER = 4; // D4
-static const int16_t PIN_SERVO_PATIENT = 2; // D2
+#if defined(__AVR_ATmega328P__)
+/* Sur le prototype Arduino Uno */
+static const int16_t PIN_CAPTEUR_PRESSION   = A4;
+static const int16_t PIN_SERVO_BLOWER       = 4; // D4
+static const int16_t PIN_SERVO_PATIENT      = 2; // D2
 static const int16_t BTN_NOMBRE_CYCLE_MINUS = A3;
-static const int16_t BTN_NOMBRE_CYCLE_PLUS = A2;
+static const int16_t BTN_NOMBRE_CYCLE_PLUS  = A2;
+static const int16_t rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
+static const int16_t PIN_ANALOG_KEYBOARD    = A0;
+#else
+#error "Carte non supportee"
+#endif
 
 // contrôle de l'écran LCD
-static const int16_t rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
 static const ScreenSize screenSize{ScreenSize::CHARS_20};
 static const int16_t LCD_UPDATE_PERIOD = 20; // période (en centièmes de secondes) de mise à jour du feedback des consignes sur le LCD
 static LiquidCrystal screen(rs, en, d4, d5, d6, d7);
@@ -106,9 +112,10 @@ static Servo blower;
 // entre 98° (90 + ANGLE_OUVERTURE_MINI) et 135° (90 + ANGLE_OUVERTURE_MAXI) → échappe l'air du patient vers l'extérieur
 static Servo patient;
 
-static AnalogButtons buttons = AnalogButtons(A0);
+static AnalogButtons buttons = AnalogButtons(PIN_ANALOG_KEYBOARD);
 
-#define ANALOG_PIN A0
+#define ANALOG_PIN PIN_ANALOG_KEYBOARD
+
 static const int16_t BTN_FREE2                       = 913;
 static const int16_t BTN_FREE1                       = 821;
 static const int16_t BTN_ALARM_OFF                   = 745;

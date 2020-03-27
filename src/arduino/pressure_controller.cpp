@@ -74,22 +74,22 @@ void PressureController::compute(uint16_t p_currentCentieme) {
 
   // Act accordingly
   switch (m_phase) {
-  case CyclePhases::INHALATION: {
-    inhale();
-    break;
-  }
-  case CyclePhases::PLATEAU: {
-    plateau();
-    break;
-  }
-  case CyclePhases::EXHALATION: {
-    exhale();
-    break;
-  }
-  case CyclePhases::HOLD_EXHALATION:
-  {
+    case CyclePhases::INHALATION: {
+      inhale();
       break;
-  }
+    }
+    case CyclePhases::PLATEAU: {
+      plateau();
+      break;
+    }
+    case CyclePhases::EXHALATION: {
+      exhale();
+      break;
+    }
+    case CyclePhases::HOLD_EXHALATION:
+    {
+        break;
+    }
   }
 
   safeguards(p_currentCentieme);
@@ -175,20 +175,6 @@ void PressureController::computeCentiSecPerInhalation() {
   // Inhalation = 1/3 of the cycle duration, Exhalation = 2/3 of the cycle
   // duration
   m_centiSecPerInhalation = m_centiSecPerCycle / 3;
-}
-
-void PressureController::incConsigneNbCycle() {
-  m_cyclesPerMinuteCommand++;
-  if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE) {
-    m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
-  }
-}
-
-void PressureController::decConsigneNbCycle() {
-  m_cyclesPerMinuteCommand--;
-  if (m_cyclesPerMinuteCommand < BORNE_INF_CYCLE) {
-    m_cyclesPerMinuteCommand = BORNE_INF_CYCLE;
-  }
 }
 
 void PressureController::onCycleMinus() {

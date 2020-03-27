@@ -70,13 +70,10 @@ public:
     void applyBlowerCommand() { m_blower.position = m_blower.command; }
     void applyPatientCommand() { m_patient.position = m_patient.command; }
 
-    /*-----------------------------------------------------------------------------
+  /*-----------------------------------------------------------------------------
    * The following functions allow to modify the parameters of the breathing
    * cycle and are the interface to the keyboard user input.
    */
-    void incConsigneNbCycle();
-    void decConsigneNbCycle();
-
     void onCycleMinus();
     void onCyclePlus();
     void onPressionPepMinus();
