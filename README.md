@@ -1,7 +1,7 @@
-MakAir — SARS-CoV-2 Respirator
+MakAir — Covid-19 Respirator
 =====
 
-**3D printable SARS-CoV-2 DIY respirator (caused by the Covid-19 virus). Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak.**
+**3D printable Covid-19 DIY respirator (caused by the SARS-CoV-2 virus). Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak.**
 
 We are a distributed team of 50+ contributors, mostly spread through France. Makers, developers, university teachers, researchers and medical teams collaborated on this project. Our testing assembly operations are located in Nantes, France.
 
