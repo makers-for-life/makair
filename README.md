@@ -29,8 +29,8 @@ Roughly, the idea is as follow: hospitals will soon lack mechanical artificial r
 The overall system is composed of sub-components that can be plugged together and wired to form an air circuit, namely:
 
 - **Air pump** (called "Blower");
-- **Valve system (routing variant)** (called "Air Transistor");
-- **Valve system (depressuring variant)** (called "Pressure Valve");
+- **Valve system (routing variant)** (called "Air Transistor" — _will be used in V2_);
+- **Valve system (depressuring variant)** (called "Pressure Valve" — _used in V1_);
 - **Valve system (two-way variant)** (PEEP valve, called "Two-Way Valve");
 - **Venturi valve** (called "Oxygen Mixer");
 - **Air filter casing** (called "Filter Box");
