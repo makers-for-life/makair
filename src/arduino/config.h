@@ -16,7 +16,7 @@
 #pragma once
 
 /*
- * Lorsque DEBUG est dÃ©fini, du code additionnel envoyant des infos sur
+ * Lorsque DEBUG est défini, du code additionnel envoyant des infos sur
  * la ligne serie est compile.
  */
 #define DEBUG
