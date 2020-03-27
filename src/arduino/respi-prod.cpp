@@ -1,10 +1,30 @@
-#include <Arduino.h>
-#include <Servo.h>
-#include <LiquidCrystal.h>
+/*=============================================================================
+ * @file respi-prod.h
+ *
+ * COVID Respirator
+ *
+ * @section copyright Copyright
+ *
+ * Makers For Life
+ *
+ * @section descr File description
+ *
+ * This file execute the Makair program
+ */
+
+// INCLUDES ===================================================================
+
+// External
 #include <AnalogButtons.h>
-#include <common.h>
+#include <Arduino.h>
+#include <LiquidCrystal.h>
+#include <Servo.h>
 
-
+// Internal
+#include "affichage.h"
+#include "common.h"
+#include "config.h"
+#include "debug.h"
 
 // nombre de cycles par minute (cycle = inspi + plateau + expi)
 int consigneNbCycle = 20;
@@ -141,11 +161,23 @@ void setup() {
   blower.write(secu_coupureBlower);
   patient.write(secu_ouvertureExpi);
 
-  #ifdef LCD_20_CHARS
-  lcd.begin(20, 2);
-  #else
-  lcd.begin(16, 2);
-  #endif
+  switch (screenSize)
+  {
+  case ScreenSize::CHARS_16:
+  {
+    lcd.begin(16, 2);
+    break;
+  }
+  case ScreenSize::CHARS_20:
+  {
+    lcd.begin(20, 2);
+    break;
+  }
+  default:
+  {
+      lcd.begin(16, 2);
+  }
+  }
 
   analogButtons.add(btnFree2);
   analogButtons.add(btnFree1);
@@ -187,7 +219,7 @@ void loop() {
 
   //int currentPositionBlower = secu_coupureBlower;
 
-  int dureeBaissePression = 0; // compteur de centièmes pour la détection du pic de pression (pression crête)
+  // int dureeBaissePression = 0; // compteur de centièmes pour la détection du pic de pression (pression crête) (Warning: unused)
 
   // phase courante du cycle
   int currentPhase = PHASE_PUSH_INSPI;
@@ -219,25 +251,8 @@ void loop() {
   /********************************************/
   // Affichage une fois par cycle respiratoire
   /********************************************/
-  lcd.setCursor(0, 0);
-  #ifdef LCD_20_CHARS
-  lcd.print("pc=");
-  lcd.print(previousPressionCrete);
-  lcd.print("/pp=");
-  lcd.print(previousPressionPlateau);
-  lcd.print("/pep=");
-  lcd.print(previousPressionPep);
-  lcd.print("  ");
-  #else
-  lcd.print("pc");
-  lcd.print(previousPressionCrete);
-  lcd.print("/pp");
-  lcd.print(previousPressionPlateau);
-  lcd.print("/pep");
-  lcd.print(previousPressionPep);
-  lcd.print("  ");
-  #endif
-
+  displayEveryCycle(lcd, screenSize, previousPressionCrete,
+                    previousPressionPlateau, previousPressionPep);
 
   /********************************************/
   // Début d'un cycle
@@ -356,24 +371,9 @@ void loop() {
     // Affichage pendant le cycle
     /********************************************/
     if (currentCentieme % LCD_UPDATE_PERIOD == 0) {
-      lcd.setCursor(0, 1);
-      #ifdef LCD_20_CHARS
-      lcd.print("c=");
-      lcd.print(futureConsigneNbCycle);
-      lcd.print("/pl=");
-      lcd.print(futureConsignePressionPlateauMax);
-      lcd.print("/pep=");
-      lcd.print(futureConsignePressionPEP);
-      lcd.print("|");
-      lcd.print(currentPression);
-      #else
-      lcd.print("c");
-      lcd.print(futureConsigneNbCycle);
-      lcd.print("/pl");
-      lcd.print(futureConsignePressionPlateauMax);
-      lcd.print("/pep");
-      lcd.print(futureConsignePressionPEP);
-      #endif
+      displayDuringCycle(lcd, screenSize, futureConsigneNbCycle,
+                         futureConsignePressionPlateauMax,
+                         futureConsignePressionPEP, currentPression);
     }
 
     delay(10); // on attend 1 centième de seconde (on aura de la dérive en temps, sera corrigé par rtc au besoin)

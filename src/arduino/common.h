@@ -1,5 +1,29 @@
-//#define DEBUG // décommenter pour envoyer les messages de debug en série
-//#define SIMULATION // décommenter pour simuler des valeurs de capteur de pression au lieu de lire les vraies
+/*=============================================================================
+ * @file common.h
+ *
+ * COVID Respirator
+ *
+ * @section copyright Copyright
+ *
+ * Makers For Life
+ *
+ * @section descr File description
+ *
+ * This file sets the parameters
+ */
+
+// INCLUDES ===================================================================
+
+// External
+#include <AnalogButtons.h>
+#include <Arduino.h>
+#include <LiquidCrystal.h>
+#include <Servo.h>
+
+// Internal
+#include "affichage.h"
+
+// PARAMETERS =================================================================
 
 // amplitude radiale des servomoteurs
 const int ANGLE_OUVERTURE_MINI = 8;
@@ -21,7 +45,7 @@ const int BTN_NOMBRE_CYCLE_PLUS = A2;
 
 // contrôle de l'écran LCD
 const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
-#define LCD_20_CHARS // commenter pour utiliser un écran LCD 16 caratères
+const ScreenSize screenSize{ScreenSize::CHARS_20};
 const int LCD_UPDATE_PERIOD = 20; // période (en centièmes de secondes) de mise à jour du feedback des consignes sur le LCD
 
 // phases possibles du cycle
