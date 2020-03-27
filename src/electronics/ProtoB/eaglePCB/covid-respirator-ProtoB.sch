@@ -18324,6 +18324,19 @@ Source: www.kingbright.com</description>
 <part name="GND15" library="supply1" deviceset="GND" device=""/>
 <part name="LED3" library="led" deviceset="LED" device="3MM" value="ROUGE"/>
 <part name="R26" library="rcl" deviceset="R-EU_" device="0207/10" value="270"/>
+<part name="C5" library="rcl" deviceset="CPOL-EU" device="150CLZ-1010" value="47uF/6V"/>
+<part name="C6" library="rcl" deviceset="CPOL-EU" device="150CLZ-1010" value="47uF/6V"/>
+<part name="GND16" library="supply1" deviceset="GND" device=""/>
+<part name="GND17" library="supply1" deviceset="GND" device=""/>
+<part name="C7" library="rcl" deviceset="CPOL-EU" device="150CLZ-1010" value="10uF"/>
+<part name="C8" library="rcl" deviceset="CPOL-EU" device="150CLZ-1010" value="10uF"/>
+<part name="S9" library="switch" deviceset="TL32YO" device=""/>
+<part name="S10" library="switch" deviceset="TL32YO" device=""/>
+<part name="S11" library="switch" deviceset="TL32YO" device=""/>
+<part name="R27" library="rcl" deviceset="R-EU_" device="0207/10" value="10k"/>
+<part name="R28" library="rcl" deviceset="R-EU_" device="0207/10" value="10k"/>
+<part name="R29" library="rcl" deviceset="R-EU_" device="0207/10" value="10k"/>
+<part name="GND18" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -18440,6 +18453,9 @@ Farnell : 2760747</text>
 <text x="-53.34" y="-10.16" size="1.778" layer="97">emprunte potentiomètre + 2 résistances
 pour un pont diviseur fixé</text>
 <text x="58.42" y="35.56" size="1.778" layer="97">non connecté sur proto</text>
+<text x="124.46" y="30.48" size="1.778" layer="97">alarme off</text>
+<text x="152.4" y="15.24" size="1.778" layer="97">start</text>
+<text x="149.86" y="0" size="1.778" layer="97">stop</text>
 </plain>
 <instances>
 <instance part="BATTERY" gate="G$1" x="-22.86" y="35.56"/>
@@ -18518,6 +18534,19 @@ pour un pont diviseur fixé</text>
 <instance part="GND15" gate="1" x="246.38" y="66.04"/>
 <instance part="LED3" gate="G$1" x="35.56" y="35.56" rot="R90"/>
 <instance part="R26" gate="G$1" x="48.26" y="35.56"/>
+<instance part="C5" gate="G$1" x="88.9" y="78.74"/>
+<instance part="C6" gate="G$1" x="88.9" y="58.42"/>
+<instance part="GND16" gate="1" x="88.9" y="50.8"/>
+<instance part="GND17" gate="1" x="88.9" y="71.12"/>
+<instance part="C7" gate="G$1" x="38.1" y="58.42"/>
+<instance part="C8" gate="G$1" x="38.1" y="83.82"/>
+<instance part="S9" gate="BEF1" x="142.24" y="33.02" rot="R270"/>
+<instance part="S10" gate="BEF1" x="142.24" y="17.78" rot="R270"/>
+<instance part="S11" gate="BEF1" x="142.24" y="2.54" rot="R270"/>
+<instance part="R27" gate="G$1" x="160.02" y="0" rot="R270"/>
+<instance part="R28" gate="G$1" x="167.64" y="0" rot="R270"/>
+<instance part="R29" gate="G$1" x="175.26" y="0" rot="R270"/>
+<instance part="GND18" gate="1" x="167.64" y="-7.62"/>
 </instances>
 <busses>
 </busses>
@@ -18549,11 +18578,15 @@ pour un pont diviseur fixé</text>
 <pinref part="GND6" gate="1" pin="GND"/>
 <wire x1="43.18" y1="78.74" x2="38.1" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="38.1" y1="78.74" x2="38.1" y2="76.2" width="0.1524" layer="91"/>
+<pinref part="C8" gate="G$1" pin="-"/>
+<junction x="38.1" y="78.74"/>
 </segment>
 <segment>
 <pinref part="GND7" gate="1" pin="GND"/>
 <wire x1="43.18" y1="53.34" x2="38.1" y2="53.34" width="0.1524" layer="91"/>
 <wire x1="38.1" y1="53.34" x2="38.1" y2="50.8" width="0.1524" layer="91"/>
+<pinref part="C7" gate="G$1" pin="-"/>
+<junction x="38.1" y="53.34"/>
 </segment>
 <segment>
 <wire x1="88.9" y1="96.52" x2="88.9" y2="101.6" width="0.1524" layer="91"/>
@@ -18637,6 +18670,23 @@ pour un pont diviseur fixé</text>
 <pinref part="GND15" gate="1" pin="GND"/>
 <wire x1="246.38" y1="71.12" x2="246.38" y2="68.58" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="C6" gate="G$1" pin="-"/>
+<pinref part="GND16" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="C5" gate="G$1" pin="-"/>
+<pinref part="GND17" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="R28" gate="G$1" pin="2"/>
+<pinref part="GND18" gate="1" pin="GND"/>
+<pinref part="R27" gate="G$1" pin="2"/>
+<wire x1="160.02" y1="-5.08" x2="167.64" y2="-5.08" width="0.1524" layer="91"/>
+<junction x="167.64" y="-5.08"/>
+<pinref part="R29" gate="G$1" pin="2"/>
+<wire x1="167.64" y1="-5.08" x2="175.26" y2="-5.08" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="+12V" class="0">
 <segment>
@@ -18677,11 +18727,15 @@ pour un pont diviseur fixé</text>
 <pinref part="P+7" gate="1" pin="+12V"/>
 <wire x1="38.1" y1="88.9" x2="38.1" y2="86.36" width="0.1524" layer="91"/>
 <wire x1="38.1" y1="86.36" x2="43.18" y2="86.36" width="0.1524" layer="91"/>
+<pinref part="C8" gate="G$1" pin="+"/>
+<junction x="38.1" y="86.36"/>
 </segment>
 <segment>
 <pinref part="P+8" gate="1" pin="+12V"/>
 <wire x1="38.1" y1="63.5" x2="38.1" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="38.1" y1="60.96" x2="43.18" y2="60.96" width="0.1524" layer="91"/>
+<pinref part="C7" gate="G$1" pin="+"/>
+<junction x="38.1" y="60.96"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -18786,7 +18840,10 @@ pour un pont diviseur fixé</text>
 <label x="96.52" y="66.04" size="1.778" layer="95" rot="R180" xref="yes"/>
 <wire x1="101.6" y1="63.5" x2="91.44" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="91.44" y1="63.5" x2="91.44" y2="60.96" width="0.1524" layer="91"/>
-<wire x1="91.44" y1="60.96" x2="83.82" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="91.44" y1="60.96" x2="88.9" y2="60.96" width="0.1524" layer="91"/>
+<pinref part="C6" gate="G$1" pin="+"/>
+<wire x1="88.9" y1="60.96" x2="83.82" y2="60.96" width="0.1524" layer="91"/>
+<junction x="88.9" y="60.96"/>
 </segment>
 </net>
 <net name="N$12" class="0">
@@ -18859,7 +18916,10 @@ pour un pont diviseur fixé</text>
 <net name="+5V_S1" class="0">
 <segment>
 <label x="96.52" y="83.82" size="1.778" layer="95" rot="R180" xref="yes"/>
-<wire x1="101.6" y1="81.28" x2="83.82" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="81.28" x2="88.9" y2="81.28" width="0.1524" layer="91"/>
+<pinref part="C5" gate="G$1" pin="+"/>
+<wire x1="88.9" y1="81.28" x2="83.82" y2="81.28" width="0.1524" layer="91"/>
+<junction x="88.9" y="81.28"/>
 </segment>
 </net>
 <net name="+5VNUCLEO" class="0">
@@ -18884,11 +18944,6 @@ pour un pont diviseur fixé</text>
 <pinref part="R11" gate="1" pin="E"/>
 <wire x1="-22.86" y1="-17.78" x2="-27.94" y2="-17.78" width="0.1524" layer="91"/>
 <junction x="-22.86" y="-17.78"/>
-</segment>
-<segment>
-<pinref part="R16" gate="G$1" pin="1"/>
-<wire x1="83.82" y1="-20.32" x2="83.82" y2="-17.78" width="0.1524" layer="91"/>
-<label x="83.82" y="-17.78" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -19131,6 +19186,56 @@ pour un pont diviseur fixé</text>
 <pinref part="LED3" gate="G$1" pin="A"/>
 <wire x1="33.02" y1="35.56" x2="27.94" y2="35.56" width="0.1524" layer="91"/>
 <label x="27.94" y="35.56" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
+</net>
+<net name="PB15" class="0">
+<segment>
+<pinref part="R27" gate="G$1" pin="1"/>
+<pinref part="S11" gate="BEF1" pin="O"/>
+<wire x1="160.02" y1="5.08" x2="147.32" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="160.02" y1="5.08" x2="160.02" y2="12.7" width="0.1524" layer="91"/>
+<junction x="160.02" y="5.08"/>
+<wire x1="160.02" y1="12.7" x2="187.96" y2="12.7" width="0.1524" layer="91"/>
+<label x="187.96" y="12.7" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="PB1" class="0">
+<segment>
+<pinref part="R28" gate="G$1" pin="1"/>
+<pinref part="S10" gate="BEF1" pin="O"/>
+<wire x1="167.64" y1="5.08" x2="167.64" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="167.64" y1="20.32" x2="147.32" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="167.64" y1="20.32" x2="187.96" y2="20.32" width="0.1524" layer="91"/>
+<junction x="167.64" y="20.32"/>
+<label x="187.96" y="20.32" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="PB2" class="0">
+<segment>
+<pinref part="R29" gate="G$1" pin="1"/>
+<pinref part="S9" gate="BEF1" pin="O"/>
+<wire x1="175.26" y1="5.08" x2="175.26" y2="35.56" width="0.1524" layer="91"/>
+<wire x1="175.26" y1="35.56" x2="147.32" y2="35.56" width="0.1524" layer="91"/>
+<wire x1="175.26" y1="35.56" x2="187.96" y2="35.56" width="0.1524" layer="91"/>
+<junction x="175.26" y="35.56"/>
+<label x="187.96" y="35.56" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="+3.3VNUCLEO" class="0">
+<segment>
+<pinref part="R16" gate="G$1" pin="1"/>
+<wire x1="83.82" y1="-20.32" x2="83.82" y2="-17.78" width="0.1524" layer="91"/>
+<label x="83.82" y="-17.78" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="S9" gate="BEF1" pin="P"/>
+<pinref part="S10" gate="BEF1" pin="P"/>
+<wire x1="137.16" y1="33.02" x2="137.16" y2="17.78" width="0.1524" layer="91"/>
+<pinref part="S11" gate="BEF1" pin="P"/>
+<wire x1="137.16" y1="17.78" x2="137.16" y2="2.54" width="0.1524" layer="91"/>
+<junction x="137.16" y="17.78"/>
+<wire x1="137.16" y1="17.78" x2="132.08" y2="17.78" width="0.1524" layer="91"/>
+<label x="132.08" y="17.78" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 </nets>
