@@ -121,7 +121,7 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## The "Two-Way Valve"
 
-🚧 _(work in progress)_
+<img alt="Two-Way Valve Concept" src="./src/components/pressure-valve/schemes/Two-Way%20Valve%20(Render%201).png" height="240">
 
 ## The "Blower"
 
