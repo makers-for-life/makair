@@ -12,7 +12,10 @@
  * This file execute the Makair program
  */
 
-// INCLUDES ===================================================================
+// INCLUDES ==================================================================
+
+// Associated header
+#include "respi-prod.h"
 
 // External
 #include <AnalogButtons.h>
@@ -25,30 +28,9 @@
 #include "common.h"
 #include "config.h"
 #include "debug.h"
+#include "simulation.h"
+#include "variables.h"
 
-// nombre de cycles par minute (cycle = inspi + plateau + expi)
-int consigneNbCycle = 20;
-int futureConsigneNbCycle = consigneNbCycle;
-
-// degré d'ouverture de la valve blower (quantité d'air du blower qu'on envoie vers le Air Transistor patient)
-int consigneOuverture = 45;
-int futureConsigneOuverture = consigneOuverture;
-
-// consigne de pression de crête maximum
-int consignePressionCrete = 60;
-
-// consigne de pression plateau maximum
-int consignePressionPlateauMax = 30;
-int futureConsignePressionPlateauMax = consignePressionPlateauMax;
-
-// consigne de pression PEP
-int consignePressionPEP = 5;
-int futureConsignePressionPEP = consignePressionPEP;
-
-// données pour affichage (du cycle précédent pour ne pas afficher des valeurs aberrantes)
-int previousPressionCrete = -1;
-int previousPressionPlateau = -1;
-int previousPressionPep = -1;
 
 /*-----------------------------------------------------------------------------
  * The following functions allow to modify the parameters of the breathing
@@ -58,7 +40,7 @@ void incConsigneNbCycle()
 {
   futureConsigneNbCycle++;
   if (futureConsigneNbCycle > BORNE_SUP_CYCLE) {
-    futureConsigneNbCycle = BORNE_SUP_CYCLE
+      futureConsigneNbCycle = BORNE_SUP_CYCLE;
   }
 }
 
@@ -66,7 +48,7 @@ void decConsigneNbCycle()
 {
   futureConsigneNbCycle--;
   if (futureConsigneNbCycle < BORNE_INF_CYCLE) {
-    futureConsigneNbCycle = BORNE_INF_CYCLE
+      futureConsigneNbCycle = BORNE_INF_CYCLE;
   }
 }
 
@@ -181,23 +163,7 @@ void setup() {
   blower.write(secu_coupureBlower);
   patient.write(secu_ouvertureExpi);
 
-  switch (screenSize)
-  {
-  case ScreenSize::CHARS_16:
-  {
-    lcd.begin(16, 2);
-    break;
-  }
-  case ScreenSize::CHARS_20:
-  {
-    lcd.begin(20, 2);
-    break;
-  }
-  default:
-  {
-      lcd.begin(16, 2);
-  }
-  }
+  startScreen();
 
   analogButtons.add(btnFree2);
   analogButtons.add(btnFree1);
@@ -214,37 +180,37 @@ void setup() {
 /*
 //Call this in loop() to help find analog values of buttons
 void calibrateButtons() {
-	unsigned int value = analogRead(ANALOG_PIN);
+	uint16_t value = analogRead(ANALOG_PIN);
 	Serial.println(value);
 	delay(250);
 }
 */
 
 void loop() {
-  int nbreCentiemeSecParCycle = 60 * 100 / consigneNbCycle;
-  int nbreCentiemeSecParInspi = nbreCentiemeSecParCycle / 3; // inspiration = 1/3 du cycle, expiration = 2/3 du cycle
+  int16_t nbreCentiemeSecParCycle = 60 * 100 / consigneNbCycle;
+  int16_t nbreCentiemeSecParInspi = nbreCentiemeSecParCycle / 3; // inspiration = 1/3 du cycle, expiration = 2/3 du cycle
 
   DBG_AFFICHE_CSPCYCLE_CSPINSPI(nbreCentiemeSecParCycle,
                                 nbreCentiemeSecParInspi)
 
-  int currentPressionCrete = -1;
-  int currentPressionPlateau = -1;
-  int currentPressionPep = -1;
+  int16_t currentPressionCrete = -1;
+  int16_t currentPressionPlateau = -1;
+  int16_t currentPressionPep = -1;
 
-  //int currentPositionBlower = secu_coupureBlower;
+  //int16_t currentPositionBlower = secu_coupureBlower;
 
-  // int dureeBaissePression = 0; // compteur de centièmes pour la détection du pic de pression (pression crête) (Warning: unused)
+  // int16_t dureeBaissePression = 0; // compteur de centièmes pour la détection du pic de pression (pression crête) (Warning: unused)
 
   // phase courante du cycle
-  int currentPhase = PHASE_PUSH_INSPI;
+  int16_t currentPhase = CyclePhases::INHALATION;
 
   // état des actionneurs au tick précédent
-  int positionBlower = 90;
-  int positionPatient = 90;
+  int16_t positionBlower = 90;
+  int16_t positionPatient = 90;
 
   // nouvelles consignes pour les actionneurs
-  int consigneBlower = 90;
-  int consignePatient = 90;
+  int16_t consigneBlower = 90;
+  int16_t consignePatient = 90;
 
   consigneNbCycle = futureConsigneNbCycle;
   consigneOuverture = futureConsigneOuverture;
@@ -257,19 +223,19 @@ void loop() {
   /********************************************/
   // Affichage une fois par cycle respiratoire
   /********************************************/
-  displayEveryCycle(lcd, screenSize, previousPressionCrete,
+  displayEveryCycle(previousPressionCrete,
                     previousPressionPlateau, previousPressionPep);
 
   /********************************************/
   // Début d'un cycle
   /********************************************/
-  for (int currentCentieme = 0; currentCentieme < nbreCentiemeSecParCycle; currentCentieme++) {
+  for (uint16_t currentCentieme = 0; currentCentieme < nbreCentiemeSecParCycle; currentCentieme++) {
 
     /********************************************/
     // Mesure pression pour rétro-action
     /********************************************/
     #ifdef SIMULATION
-    int currentPression = 0;
+    int16_t currentPression = 0;
     if (currentCentieme < 50) {
       currentPression = 60;
     } else {
@@ -279,7 +245,7 @@ void loop() {
       currentPression = 5;
     }
     #else
-    int currentPression = map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600) / 10;
+    int16_t currentPression = map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600) / 10;
     #endif
 
     /********************************************/
@@ -287,20 +253,20 @@ void loop() {
     /********************************************/
     if (currentCentieme <= nbreCentiemeSecParInspi) { // on est dans la phase temporelle d'inspiration (poussée puis plateau)
       if (currentPression >= currentPressionCrete) {
-        currentPhase = PHASE_PUSH_INSPI;
+        currentPhase = CyclePhases::INHALATION;
         currentPressionCrete = currentPression;
 
         consigneBlower = 90 - ANGLE_MULTIPLICATEUR * consigneOuverture; // on ouvre le blower vers patient à la consigne paramétrée
         consignePatient = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on ouvre le flux IN patient
       } else {
-        currentPhase = PHASE_HOLD_INSPI;
+        currentPhase = CyclePhases::PLATEAU;
         currentPressionPlateau = currentPression;
 
         consigneBlower = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
         consignePatient = 90; // on bloque les flux patient
       }
-    } else { // on gère l'expiration on est phase PHASE_EXPIRATION
-      currentPhase = PHASE_EXPIRATION;
+    } else { // on gère l'expiration on est phase CyclePhases::EXHALATION
+      currentPhase = CyclePhases::EXHALATION;
       currentPressionPep = currentPression;
       consigneBlower = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
       consignePatient = secu_ouvertureExpi; // on ouvre le flux OUT patient (expiration vers l'extérieur)
@@ -315,7 +281,7 @@ void loop() {
       consigneBlower = positionBlower - 2;
     }
     // si pression plateau > consigne param, alors ouverture expiration de 1°
-    if (currentPhase == PHASE_HOLD_INSPI && currentPression > consignePressionPlateauMax) {
+    if (currentPhase == CyclePhases::PLATEAU && currentPression > consignePressionPlateauMax) {
       DBG_PRESSION_PLATEAU(currentCentieme, 80)
       consignePatient = positionBlower + 1;
     }
@@ -323,7 +289,7 @@ void loop() {
     if (currentPression < consignePressionPEP) {
       DBG_PRESSION_PEP(currentCentieme, 80)
       consignePatient = 90;
-      currentPhase = PHASE_HOLD_EXPI;
+      currentPhase = CyclePhases::HOLD_EXHALATION;
     }
 
     DBG_PHASE_PRESSION(currentCentieme, 50, currentPhase, currentPression)
@@ -358,7 +324,7 @@ void loop() {
     // Affichage pendant le cycle
     /********************************************/
     if (currentCentieme % LCD_UPDATE_PERIOD == 0) {
-      displayDuringCycle(lcd, screenSize, futureConsigneNbCycle,
+      displayDuringCycle(futureConsigneNbCycle,
                          futureConsignePressionPlateauMax,
                          futureConsignePressionPEP, currentPression);
     }
