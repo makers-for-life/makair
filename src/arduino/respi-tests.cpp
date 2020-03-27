@@ -26,7 +26,9 @@
 #include "common.h"
 #include "config.h"
 #include "debug.h"
-#include "variables.h"
+#include "parameters.h"
+#include "pressure_controller.h"
+#include "simulation.h"
 
 // TODO extraire ces 2 lignes dans de la configuration
 const int LCD_LINE_LENGTH = 16;

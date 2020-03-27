@@ -1,5 +1,5 @@
 /*=============================================================================
- * @file pressure_control.h
+ * @file pressure_controller.h
  *
  * COVID Respirator
  *
@@ -9,7 +9,7 @@
  *
  * @section descr File description
  *
- * This file implements the pressure control algorithm
+ * This file implements the PressureController object
  */
 
 // INCLUDES ===================================================================
@@ -20,39 +20,47 @@
 // Internal libraries
 #include "config.h"
 #include "debug.h"
+#include "parameters.h"
 
-// INITIALISATION =============================================================
+// FUNCTIONS ==================================================================
 
-PressureController pController(AirTransistor(), AirTransistor());
-
-// FUNCTION ===================================================================
-
-PressureController::PressureController(const AirTransistor &p_blower,
-                                       const AirTransistor &p_patient)
+PressureController::PressureController()
     : m_cyclesPerMinuteCommand(20), m_minPeepCommand(5),
       m_maxPlateauPressureCommand(30), m_apertureCommand(ANGLE_OUVERTURE_MAXI),
       m_cyclesPerMinute(20), m_aperture(ANGLE_OUVERTURE_MAXI),
       m_maxPeakPressure(60), m_maxPlateauPressure(30), m_minPeep(5),
-      m_currentPressure(-1), m_peakPressure(-1), m_plateauPressure(-1),
-      m_peep(-1), m_phase(CyclePhases::INHALATION), m_blower(p_blower),
-      m_patient(p_patient)
-
+      m_pressure(-1), m_peakPressure(-1), m_plateauPressure(-1),
+      m_peep(-1), m_phase(CyclePhases::INHALATION)
 {
   computeCentiSecParameters();
 }
 
-void PressureController::setup()
+PressureController::PressureController(
+    int16_t p_cyclesPerMinute, int16_t p_minPeep, int16_t p_maxPlateauPressure,
+    int16_t p_aperture, int16_t p_maxPeakPressure, AirTransistor p_blower,
+    AirTransistor p_patient)
+    : m_cyclesPerMinuteCommand(p_cyclesPerMinute), m_minPeepCommand(p_minPeep),
+      m_maxPlateauPressureCommand(p_maxPlateauPressure),
+      m_apertureCommand(p_aperture), m_cyclesPerMinute(p_cyclesPerMinute),
+      m_aperture(p_aperture), m_maxPeakPressure(p_maxPeakPressure),
+      m_maxPlateauPressure(p_maxPlateauPressure), m_minPeep(p_minPeep),
+      m_pressure(-1), m_peakPressure(-1), m_plateauPressure(-1), m_peep(-1),
+      m_phase(CyclePhases::INHALATION), m_blower(p_blower), m_patient(p_patient)
 {
+  computeCentiSecParameters();
+}
+
+void PressureController::setup() {
   m_blower.actuator.attach(PIN_SERVO_BLOWER);
   m_patient.actuator.attach(PIN_SERVO_PATIENT);
 
   DBG_DO(Serial.print("mise en secu initiale");)
 
-  m_blower.actuator.write(m_blower.failsafe);
-  m_patient.actuator.write(m_patient.failsafe);
+  m_blower.actuator.write(m_blower.failsafeCommand);
+  m_patient.actuator.write(m_patient.failsafeCommand);
 }
 
-void PressureController::initLoop() {
+void PressureController::initRespiratoryCycle() {
   m_peakPressure = -1;
   m_plateauPressure = -1;
   m_peep = -1;
@@ -72,14 +80,14 @@ void PressureController::initLoop() {
                         m_maxPlateauPressure)
 }
 
-void PressureController::updateCurrentPressure(int16_t p_currentPressure)
+void PressureController::updatePressure(int16_t p_currentPressure)
 {
-    m_currentPressure = p_currentPressure;
+    m_pressure = p_currentPressure;
 }
 
-void PressureController::compute(uint16_t p_currentCentieme) {
+void PressureController::compute(uint16_t p_centiSec) {
   // Update the cycle phase
-  updatePhase(p_currentCentieme);
+  updatePhase(p_centiSec);
 
   // Act accordingly
   switch (m_phase) {
@@ -105,15 +113,16 @@ void PressureController::compute(uint16_t p_currentCentieme) {
     }
   }
 
-  safeguards(p_currentCentieme);
+  safeguards(p_centiSec);
 
-  DBG_PHASE_PRESSION(p_currentCentieme, 50, m_phase, m_currentPressure)
+  DBG_PHASE_PRESSION(p_centiSec, 50, m_phase, m_pressure)
+
+  executeCommands();
 }
 
-void PressureController::updatePhase(uint16_t p_currentCentieme) {
-  if (p_currentCentieme <= m_centiSecPerInhalation) {
-    m_phase = m_currentPressure >= m_peakPressure ? CyclePhases::INHALATION
-                                                  : CyclePhases::PLATEAU;
+void PressureController::updatePhase(uint16_t p_centiSec) {
+  if (p_centiSec <= m_centiSecPerInhalation) {
+    m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION : CyclePhases::PLATEAU;
   }
   else
   {
@@ -131,7 +140,7 @@ void PressureController::inhale()
       ANGLE_FERMETURE + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI;
 
   // Update the peak pressure
-  m_peakPressure = m_currentPressure;
+  m_peakPressure = m_pressure;
 }
 
 void PressureController::plateau()
@@ -144,7 +153,7 @@ void PressureController::plateau()
   m_patient.command = ANGLE_FERMETURE;
 
   // Update the plateau pressure
-  m_plateauPressure = m_currentPressure;
+  m_plateauPressure = m_pressure;
 }
 
 void PressureController::exhale()
@@ -154,27 +163,30 @@ void PressureController::exhale()
       ANGLE_FERMETURE + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI;
 
   // Open the valve so the patient can exhale outside
-  m_patient.command = m_patient.failsafe;
+  m_patient.command = m_patient.failsafeCommand;
 
   // Update the PEEP
-  m_peep = m_currentPressure;
+  m_peep = m_pressure;
 }
 
-void PressureController::safeguards(uint16_t p_currentCentieme) {
-  // si pression crête > max, alors fermeture blower de 2°
-  if (m_currentPressure > m_maxPeakPressure) {
-    DBG_PRESSION_CRETE(p_currentCentieme, 80)
+void PressureController::safeguards(uint16_t p_centiSec)
+{
+  if (m_pressure > m_maxPeakPressure) {
+    DBG_PRESSION_CRETE(p_centiSec, 80)
+    // Close the blower's valve by 2°
     m_blower.command = m_blower.position - 2;
   }
-  // si pression plateau > consigne param, alors ouverture expiration de 1°
+
   if (m_phase == CyclePhases::PLATEAU &&
-      m_currentPressure > m_maxPlateauPressure) {
-    DBG_PRESSION_PLATEAU(p_currentCentieme, 80)
+      m_pressure > m_maxPlateauPressure) {
+    DBG_PRESSION_PLATEAU(p_centiSec, 80)
+    // Open the patient's valve by 1° to ease exhalation
     m_patient.command = m_blower.position + 1;
   }
-  // si pression PEP < PEP mini, alors fermeture complète valve expiration
-  if (m_currentPressure < m_minPeep) {
-    DBG_PRESSION_PEP(p_currentCentieme, 80)
+
+  if (m_pressure < m_minPeep) {
+    DBG_PRESSION_PEP(p_centiSec, 80)
+    // Close completely the patient's valve
     m_patient.command = ANGLE_FERMETURE;
     m_phase = CyclePhases::HOLD_EXHALATION;
   }
@@ -182,8 +194,8 @@ void PressureController::safeguards(uint16_t p_currentCentieme) {
 
 void PressureController::computeCentiSecParameters() {
   m_centiSecPerCycle = 60 * 100 / m_cyclesPerMinute;
-  // Inhalation = 1/3 of the cycle duration, Exhalation = 2/3 of the cycle
-  // duration
+  // Inhalation = 1/3 of the cycle duration,
+  // Exhalation = 2/3 of the cycle duration
   m_centiSecPerInhalation = m_centiSecPerCycle / 3;
 }
 

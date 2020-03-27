@@ -1,5 +1,5 @@
 /*=============================================================================
- * @file affichage.h
+ * @file pressure_controller.h
  *
  * COVID Respirator
  *
@@ -20,67 +20,71 @@
 #include <Servo.h>
 
 // Internal libraries
+#include "air_transistor.h"
 #include "common.h"
 
 // CLASS ======================================================================
 
-struct AirTransistor {
-  AirTransistor()
-      : minApertureAngle(ANGLE_OUVERTURE_MINI),
-        maxApertureAngle(ANGLE_OUVERTURE_MAXI),
-        defaultCommand(ANGLE_FERMETURE),
-        failsafe(ANGLE_FERMETURE - ANGLE_OUVERTURE_MAXI),
-        command(ANGLE_FERMETURE),
-        position(ANGLE_FERMETURE) {}
-
-  AirTransistor(int16_t p_minApertureAngle, int16_t p_maxApertureAngle,
-                int16_t p_defaultCommand, int16_t p_failsafe)
-      : minApertureAngle(p_minApertureAngle),
-        maxApertureAngle(p_maxApertureAngle),
-        defaultCommand(p_defaultCommand),
-        failsafe(p_failsafe),
-        command(ANGLE_FERMETURE),
-        position(ANGLE_FERMETURE) {}
-
-  void reset()
-  {
-      command = defaultCommand;
-      position = defaultCommand;
-  }
-
-  void execute()
-  {
-      if (command != position)
-      {
-          actuator.write(command);
-          position = command;
-      }
-  }
-
-  int16_t minApertureAngle;
-  int16_t maxApertureAngle;
-  int16_t defaultCommand;
-  int16_t failsafe;
-  int16_t command;
-  int16_t position;
-  Servo actuator;
-};
-
 class PressureController {
 public:
-  PressureController(const AirTransistor &p_blower, const AirTransistor &p_patient);
-  void setup();
-  void initLoop();
-  void updateCurrentPressure(int16_t p_currentPressure);
-  void compute(uint16_t p_currentCentieme);
-  void updatePhase(uint16_t p_currentCentieme);
-  void inhale();
-  void plateau();
-  void exhale();
-  void safeguards(uint16_t p_currentCentieme);
 
+  //! Default constructor
+  PressureController();
+
+  //! Parameterized constructor
+  PressureController(int16_t p_cyclesPerMinute, int16_t p_minPeep,
+                     int16_t p_maxPlateauPressure, int16_t p_aperture, int16_t p_maxPeakPressure, AirTransistor p_blower, AirTransistor p_patient);
+
+  //! This function initializes the actuators
+  void setup();
+
+  //! This function initializes the respiratory cycle
+  void initRespiratoryCycle();
+
+  /*! This function updates the pressure given the sensor's measure
+   *  \param p_pressure     Measured pressure
+   */
+  void updatePressure(int16_t p_pressure);
+
+  /*! This function performs the pressure control
+   *  \param p_centiSec     Current progress in the respiratory cycle in hundredth of second
+   */
+  void compute(uint16_t p_centiSec);
+
+  /*! This function updates the cycle phase
+   *  \param p_centiSec     Current progress in the respiratory cycle in hundredth of second
+   */
+  void updatePhase(uint16_t p_centiSec);
+
+  /*! This function performs the pressure control and computes the transistors commands
+   *  during the inhalation phase
+   */
+  void inhale();
+
+  /*! This function performs the pressure control and computes the transistors commands
+   *  during the plateau phase
+   */
+  void plateau();
+
+  /*! This function performs the pressure control and computes the transistors
+   * commands during the exhalation phase
+   */
+  void exhale();
+
+  /*! This function implements safeguards
+   *  \param p_centiSec     Current progress in the respiratory cycle in hundredth of second
+   */
+  void safeguards(uint16_t p_centiSec);
+
+  /*! This function computes:
+   *  - the number of hundredth of second per cycle
+   *  - the number of hundredth of second per inhalation
+   *  given the number of cycles per minute predefined by the operator
+   *  N.B.: Inhalation lasts 1/3 of a cycle while exhalation lasts 2/3 of a cycle
+   */
   void computeCentiSecParameters();
 
+  //! This function makes the actuators execute the computed commands
   void executeCommands();
 
   /*-----------------------------------------------------------------------------
@@ -94,48 +98,107 @@ public:
   void onPressionPlateauMinus();
   void onPressionPlateauPlus();
 
+  //! This function returns the number of cycles per minute desired by the operator
   inline uint16_t cyclesPerMinuteCommand() const
   {
     return m_cyclesPerMinuteCommand;
   }
+
+  //! This function returns the minimal PEEP desired by the operator
   inline uint16_t minPeepCommand() const { return m_minPeepCommand; }
+
+  //! This function returns the maximal plateau pressure desired by the operator
   inline uint16_t maxPlateauPressureCommand() const { return m_maxPlateauPressureCommand; }
+
+  //! This function returns the blower aperture desired by the operator
+  inline uint16_t apertureCommand() const { return m_apertureCommand; }
+
+  //! This function returns the number of cycles per minute
+  inline uint16_t cyclesPerMinute() const { return m_cyclesPerMinute; }
+
+  //! This function returns the number of hundredth of second per cycle
   inline uint16_t centiSecPerCycle() const { return m_centiSecPerCycle; }
-  inline int16_t currentPressure() const
+
+  //! This function returns the number of hundredth of second per inhalation
+  inline uint16_t centiSecPerInhalation() const { return m_centiSecPerInhalation; }
+
+  //! This function returns the current measured pressure
+  inline int16_t pressure() const
   {
-      return m_currentPressure;
+      return m_pressure;
   }
+
+  // This function returns the peak pressure
   inline int16_t peakPressure() const { return m_peakPressure; }
+
+  //! This function returns the plateau pressure
   inline int16_t plateauPressure() const { return m_plateauPressure; }
+
+  //! This function returns the PEEP
   inline int16_t peep() const { return m_peep; }
+
+  //! This function returns the current cycle phase
   inline CyclePhases phase() const { return m_phase; }
+
+  //! This function returns the blower's transistor
   inline const AirTransistor &blower() const { return m_blower; }
+
+  //! This function returns the patient's transistor
   inline const AirTransistor &patient() const { return m_patient; }
 
 private:
 
-  // Operator commands
+  /// Number of cycles per minute desired by the operator
   uint16_t m_cyclesPerMinuteCommand;
+
+  /// Minimal PEEP desired by the operator
   uint16_t m_minPeepCommand;
+
+  /// Maximal plateau pressure desired by the operator
   uint16_t m_maxPlateauPressureCommand;
+
+  /// Blower's valve aperture desired by the operator
   uint16_t m_apertureCommand;
 
+  /// Number of cycles per minute
   uint16_t m_cyclesPerMinute;
+
+  /// Number of hundredth of second per cycle
   uint16_t m_centiSecPerCycle;
+
+  /// Number of hundredth of second per inhalation
   uint16_t m_centiSecPerInhalation;
 
-  int16_t m_aperture;
+  /// Blower's valve aperture angle
+  uint16_t m_aperture;
 
-  int16_t m_maxPeakPressure;
-  int16_t m_maxPlateauPressure;
-  int16_t m_minPeep;
+  /// Maximal peak pressure
+  uint16_t m_maxPeakPressure;
 
-  int16_t m_currentPressure;
-  int16_t m_peakPressure;
-  int16_t m_plateauPressure;
-  int16_t m_peep;
+  /// Maximal plateau pressure
+  uint16_t m_maxPlateauPressure;
 
+  /// Minimal PEEP
+  uint16_t m_minPeep;
+
+  /// Measured pressure
+  uint16_t m_pressure;
+
+  /// Peak pressure
+  uint16_t m_peakPressure;
+
+  /// Plateau pressure
+  uint16_t m_plateauPressure;
+
+  /// Positive End Expiratory Pressure
+  uint16_t m_peep;
+
+  /// Current respiratory cycle phase
   CyclePhases m_phase;
+
+  /// Blower's transistor
   AirTransistor m_blower;
+
+  /// Patient's transistor
   AirTransistor m_patient;
 };

@@ -41,7 +41,7 @@ void startScreen();
  *
  *  \param peakPressure     The peak pressure
  *  \param plateauPressure  The plateau pressure
- *  \param peep             The positive End Expiratory Pressure (PEEP)
+ *  \param peep             The Positive End Expiratory Pressure (PEEP)
  */
 void displayEveryCycle(int peakPressure,
                        int plateauPressure,

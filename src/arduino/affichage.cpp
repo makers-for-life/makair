@@ -17,11 +17,15 @@
 // Associated header
 #include "affichage.h"
 
-// External libraries
+// External
 #include <LiquidCrystal.h>
 
-// Internal libraries
-#include "common.h"
+// Internal
+#include "parameters.h"
+
+// INITIALISATION =============================================================
+
+static LiquidCrystal screen(rs, en, d4, d5, d6, d7);
 
 // FUNCTIONS ==================================================================
 
