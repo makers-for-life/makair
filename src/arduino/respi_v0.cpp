@@ -3,9 +3,11 @@
 #include <LiquidCrystal.h>
 #include <AnalogButtons.h>
 
-
 //#define DEBUG // décommenter pour envoyer les messages de debug en série
 //#define SIMULATION // décommenter pour simuler des valeurs de capteur de pression au lieu de lire les vraies
+
+// Période en ms de la boucle de traitement
+const uint32_t PERIODE_DE_TRAITEMENT = 10ul;
 
 // amplitude radiale des servomoteurs
 const int ANGLE_OUVERTURE_MINI = 8;
@@ -311,146 +313,162 @@ void loop() {
   lcd.print("  ");
   #endif
 
-
   /********************************************/
   // Début d'un cycle
   /********************************************/
-  for (int currentCentieme = 0; currentCentieme < nbreCentiemeSecParCycle; currentCentieme++) {
+  int currentCentieme = 0;
 
-    /********************************************/
-    // Mesure pression pour rétro-action
-    /********************************************/
-    #ifdef SIMULATION
-    int currentPression = 0;
-    if (currentCentieme < 50) {
-      currentPression = 60;
-    } else {
-      currentPression = 30;
-    }
-    if (currentCentieme > nbreCentiemeSecParInspi) {
-      currentPression = 5;
-    }
-    #else
-    int currentPression = map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600) / 10;
-    #endif
+  while (currentCentieme < nbreCentiemeSecParCycle) {
 
-    /********************************************/
-    // Calcul des consignes normales
-    /********************************************/
-    if (currentCentieme <= nbreCentiemeSecParInspi) { // on est dans la phase temporelle d'inspiration (poussée puis plateau)
-      if (currentPression >= currentPressionCrete) {
-        currentPhase = PHASE_PUSH_INSPI;
-        currentPressionCrete = currentPression;
+    static uint32_t dateDernierTraitement = 0ul;
+    uint32_t dateCourante = millis();
+    if (dateCourante - dateDernierTraitement >= PERIODE_DE_TRAITEMENT) {
+      
+      currentCentieme++;
+      
+      /********************************************/
+      // Le traitement est effectué toutes les 
+      // PERIODE_DE_TRAITEMENT millisecondes
+      // Note sur la gestion du temps. La date en
+      // millisecondes de l'Arduino déborde tous
+      // les 40 jours environ. Il faut donc comparer
+      // des intervalles et non des dates absolues
+      // Sinon, au bout de 40 jours, ça plante.
+      /********************************************/
+      dateDernierTraitement = dateCourante;
 
-        consigneBlower = 90 - ANGLE_MULTIPLICATEUR * consigneOuverture; // on ouvre le blower vers patient à la consigne paramétrée
-        consignePatient = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on ouvre le flux IN patient
+      /********************************************/
+      // Mesure pression pour rétro-action
+      /********************************************/
+      #ifdef SIMULATION
+      int currentPression = 0;
+      if (currentCentieme < 50) {
+        currentPression = 60;
       } else {
-        currentPhase = PHASE_HOLD_INSPI;
-        currentPressionPlateau = currentPression;
-
-        consigneBlower = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
-        consignePatient = 90; // on bloque les flux patient
+        currentPression = 30;
       }
-    } else { // on gère l'expiration on est phase PHASE_EXPIRATION
-      currentPhase = PHASE_EXPIRATION;
-      currentPressionPep = currentPression;
-      consigneBlower = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
-      consignePatient = secu_ouvertureExpi; // on ouvre le flux OUT patient (expiration vers l'extérieur)
-    }
-
-    /********************************************/
-    // Calcul des consignes de mise en sécurité
-    /********************************************/
-    // si pression crête > max, alors fermeture blower de 2°
-    if (currentPression > consignePressionCrete) {
-      #ifdef DEBUG
-      if (currentCentieme % 80) {
-        Serial.println("Mise en securite : pression crete trop importante");
+      if (currentCentieme > nbreCentiemeSecParInspi) {
+        currentPression = 5;
       }
-      #endif
-      consigneBlower = positionBlower - 2;
-    }
-    // si pression plateau > consigne param, alors ouverture expiration de 1°
-    if (currentPhase == PHASE_HOLD_INSPI && currentPression > consignePressionPlateauMax) {
-      #ifdef DEBUG
-      if (currentCentieme % 80) {
-        Serial.println("Mise en securite : pression plateau trop importante");
-      }
-      #endif
-      consignePatient = positionBlower + 1;
-    }
-    // si pression PEP < PEP mini, alors fermeture complète valve expiration
-    if (currentPression < consignePressionPEP) {
-      #ifdef DEBUG
-      if (currentCentieme % 80) {
-        Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");
-      }
-      #endif
-      consignePatient = 90;
-      currentPhase = PHASE_HOLD_EXPI;
-    }
-
-    #ifdef DEBUG
-    if (currentCentieme % 50 == 0) {
-      Serial.print("Phase : ");
-      Serial.println(currentPhase);
-      Serial.print("Pression : ");
-      Serial.println(currentPression);
-    }
-    #endif
-
-    /********************************************/
-    // Envoi des nouvelles valeurs aux actionneurs
-    /********************************************/
-    if (consigneBlower != positionBlower) {
-      blower.write(consigneBlower);
-      positionBlower = consigneBlower;
-    }
-
-    if (consignePatient != positionPatient) {
-      patient.write(consignePatient);
-      positionPatient = consignePatient;
-    }
-
-    /********************************************/
-    // Préparation des valeurs pour affichage
-    /********************************************/
-    previousPressionCrete = currentPressionCrete;
-    previousPressionPlateau = currentPressionPlateau;
-    previousPressionPep = currentPressionPep;
-
-    /********************************************/
-    // Écoute des appuis boutons
-    /********************************************/
-    analogButtons.check();
-    //calibrateButtons();
-
-    /********************************************/
-    // Affichage pendant le cycle
-    /********************************************/
-    if (currentCentieme % LCD_UPDATE_PERIOD == 0) {
-      lcd.setCursor(0, 1);
-      #ifdef LCD_20_CHARS
-      lcd.print("c=");
-      lcd.print(futureConsigneNbCycle);
-      lcd.print("/pl=");
-      lcd.print(futureConsignePressionPlateauMax);
-      lcd.print("/pep=");
-      lcd.print(futureConsignePressionPEP);
-      lcd.print("|");
-      lcd.print(currentPression);
       #else
-      lcd.print("c");
-      lcd.print(futureConsigneNbCycle);
-      lcd.print("/pl");
-      lcd.print(futureConsignePressionPlateauMax);
-      lcd.print("/pep");
-      lcd.print(futureConsignePressionPEP);
+      int currentPression = map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600) / 10;
       #endif
+  
+      /********************************************/
+      // Calcul des consignes normales
+      /********************************************/
+      if (currentCentieme <= nbreCentiemeSecParInspi) { // on est dans la phase temporelle d'inspiration (poussée puis plateau)
+        if (currentPression >= currentPressionCrete) {
+          currentPhase = PHASE_PUSH_INSPI;
+          currentPressionCrete = currentPression;
+  
+          consigneBlower = 90 - ANGLE_MULTIPLICATEUR * consigneOuverture; // on ouvre le blower vers patient à la consigne paramétrée
+          consignePatient = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on ouvre le flux IN patient
+        } else {
+          currentPhase = PHASE_HOLD_INSPI;
+          currentPressionPlateau = currentPression;
+  
+          consigneBlower = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
+          consignePatient = 90; // on bloque les flux patient
+        }
+      } else { // on gère l'expiration on est phase PHASE_EXPIRATION
+        currentPhase = PHASE_EXPIRATION;
+        currentPressionPep = currentPression;
+        consigneBlower = 90 + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI; // on shunt vers l'extérieur
+        consignePatient = secu_ouvertureExpi; // on ouvre le flux OUT patient (expiration vers l'extérieur)
+      }
+  
+      /********************************************/
+      // Calcul des consignes de mise en sécurité
+      /********************************************/
+      // si pression crête > max, alors fermeture blower de 2°
+      if (currentPression > consignePressionCrete) {
+        #ifdef DEBUG
+        if (currentCentieme % 80) {
+          Serial.println("Mise en securite : pression crete trop importante");
+        }
+        #endif
+        consigneBlower = positionBlower - 2;
+      }
+      // si pression plateau > consigne param, alors ouverture expiration de 1°
+      if (currentPhase == PHASE_HOLD_INSPI && currentPression > consignePressionPlateauMax) {
+        #ifdef DEBUG
+        if (currentCentieme % 80) {
+          Serial.println("Mise en securite : pression plateau trop importante");
+        }
+        #endif
+        consignePatient = positionBlower + 1;
+      }
+      // si pression PEP < PEP mini, alors fermeture complète valve expiration
+      if (currentPression < consignePressionPEP) {
+        #ifdef DEBUG
+        if (currentCentieme % 80) {
+          Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");
+        }
+        #endif
+        consignePatient = 90;
+        currentPhase = PHASE_HOLD_EXPI;
+      }
+  
+      #ifdef DEBUG
+      if (currentCentieme % 50 == 0) {
+        Serial.print("Phase : ");
+        Serial.println(currentPhase);
+        Serial.print("Pression : ");
+        Serial.println(currentPression);
+      }
+      #endif
+  
+      /********************************************/
+      // Envoi des nouvelles valeurs aux actionneurs
+      /********************************************/
+      if (consigneBlower != positionBlower) {
+        blower.write(consigneBlower);
+        positionBlower = consigneBlower;
+      }
+  
+      if (consignePatient != positionPatient) {
+        patient.write(consignePatient);
+        positionPatient = consignePatient;
+      }
+  
+      /********************************************/
+      // Préparation des valeurs pour affichage
+      /********************************************/
+      previousPressionCrete = currentPressionCrete;
+      previousPressionPlateau = currentPressionPlateau;
+      previousPressionPep = currentPressionPep;
+  
+      /********************************************/
+      // Écoute des appuis boutons
+      /********************************************/
+      analogButtons.check();
+      //calibrateButtons();
+  
+      /********************************************/
+      // Affichage pendant le cycle
+      /********************************************/
+      if (currentCentieme % LCD_UPDATE_PERIOD == 0) {
+        lcd.setCursor(0, 1);
+        #ifdef LCD_20_CHARS
+        lcd.print("c=");
+        lcd.print(futureConsigneNbCycle);
+        lcd.print("/pl=");
+        lcd.print(futureConsignePressionPlateauMax);
+        lcd.print("/pep=");
+        lcd.print(futureConsignePressionPEP);
+        lcd.print("|");
+        lcd.print(currentPression);
+        #else
+        lcd.print("c");
+        lcd.print(futureConsigneNbCycle);
+        lcd.print("/pl");
+        lcd.print(futureConsignePressionPlateauMax);
+        lcd.print("/pep");
+        lcd.print(futureConsignePressionPEP);
+        #endif
+      }
     }
-
-    delay(10); // on attend 1 centième de seconde (on aura de la dérive en temps, sera corrigé par rtc au besoin)
-
   }
   /********************************************/
   // Fin du cycle
