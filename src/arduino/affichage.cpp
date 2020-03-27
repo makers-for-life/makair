@@ -23,11 +23,6 @@
 // Internal libraries
 #include "common.h"
 
-// INITIALISATION =============================================================
-
-// Creation of the LCD screen
-LiquidCrystal screen(rs, en, d4, d5, d6, d7);
-
 // FUNCTIONS ==================================================================
 
 void startScreen()

@@ -50,6 +50,7 @@ static const int BTN_NOMBRE_CYCLE_PLUS = A2;
 static const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
 static const ScreenSize screenSize{ScreenSize::CHARS_20};
 static const int LCD_UPDATE_PERIOD = 20; // période (en centièmes de secondes) de mise à jour du feedback des consignes sur le LCD
+static LiquidCrystal screen(rs, en, d4, d5, d6, d7);
 
 // phases possibles du cycle
 static const int PHASE_PUSH_INSPI =
