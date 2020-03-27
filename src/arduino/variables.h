@@ -15,27 +15,27 @@
 #pragma once
 
 // nombre de cycles par minute (cycle = inspi + plateau + expi)
-int consigneNbCycle = 20;
-int futureConsigneNbCycle = consigneNbCycle;
+int16_t consigneNbCycle = 20;
+int16_t futureConsigneNbCycle = consigneNbCycle;
 
 // degré d'ouverture de la valve blower (quantité d'air du blower qu'on envoie
 // vers le Air Transistor patient)
-int consigneOuverture = 45;
-int futureConsigneOuverture = consigneOuverture;
+int16_t consigneOuverture = 45;
+int16_t futureConsigneOuverture = consigneOuverture;
 
 // consigne de pression de crête maximum
-int consignePressionCrete = 60;
+int16_t consignePressionCrete = 60;
 
 // consigne de pression plateau maximum
-int consignePressionPlateauMax = 30;
-int futureConsignePressionPlateauMax = consignePressionPlateauMax;
+int16_t consignePressionPlateauMax = 30;
+int16_t futureConsignePressionPlateauMax = consignePressionPlateauMax;
 
 // consigne de pression PEP
-int consignePressionPEP = 5;
-int futureConsignePressionPEP = consignePressionPEP;
+int16_t consignePressionPEP = 5;
+int16_t futureConsignePressionPEP = consignePressionPEP;
 
 // données pour affichage (du cycle précédent pour ne pas afficher des valeurs
 // aberrantes)
-int previousPressionCrete = -1;
-int previousPressionPlateau = -1;
-int previousPressionPep = -1;
+int16_t previousPressionCrete = -1;
+int16_t previousPressionPlateau = -1;
+int16_t previousPressionPep = -1;

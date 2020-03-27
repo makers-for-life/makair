@@ -154,37 +154,37 @@ void setup() {
 /*
 //Call this in loop() to help find analog values of buttons
 void calibrateButtons() {
-	unsigned int value = analogRead(ANALOG_PIN);
+	uint16_t value = analogRead(ANALOG_PIN);
 	Serial.println(value);
 	delay(250);
 }
 */
 
 void loop() {
-  int nbreCentiemeSecParCycle = 60 * 100 / consigneNbCycle;
-  int nbreCentiemeSecParInspi = nbreCentiemeSecParCycle / 3; // inspiration = 1/3 du cycle, expiration = 2/3 du cycle
+  int16_t nbreCentiemeSecParCycle = 60 * 100 / consigneNbCycle;
+  int16_t nbreCentiemeSecParInspi = nbreCentiemeSecParCycle / 3; // inspiration = 1/3 du cycle, expiration = 2/3 du cycle
 
   DBG_AFFICHE_CSPCYCLE_CSPINSPI(nbreCentiemeSecParCycle,
                                 nbreCentiemeSecParInspi)
 
-  int currentPressionCrete = -1;
-  int currentPressionPlateau = -1;
-  int currentPressionPep = -1;
+  int16_t currentPressionCrete = -1;
+  int16_t currentPressionPlateau = -1;
+  int16_t currentPressionPep = -1;
 
-  //int currentPositionBlower = secu_coupureBlower;
+  //int16_t currentPositionBlower = secu_coupureBlower;
 
-  // int dureeBaissePression = 0; // compteur de centièmes pour la détection du pic de pression (pression crête) (Warning: unused)
+  // int16_t dureeBaissePression = 0; // compteur de centièmes pour la détection du pic de pression (pression crête) (Warning: unused)
 
   // phase courante du cycle
-  int currentPhase = PHASE_PUSH_INSPI;
+  int16_t currentPhase = PHASE_PUSH_INSPI;
 
   // état des actionneurs au tick précédent
-  int positionBlower = 90;
-  int positionPatient = 90;
+  int16_t positionBlower = 90;
+  int16_t positionPatient = 90;
 
   // nouvelles consignes pour les actionneurs
-  int consigneBlower = 90;
-  int consignePatient = 90;
+  int16_t consigneBlower = 90;
+  int16_t consignePatient = 90;
 
   consigneNbCycle = futureConsigneNbCycle;
   consigneOuverture = futureConsigneOuverture;
@@ -203,13 +203,13 @@ void loop() {
   /********************************************/
   // Début d'un cycle
   /********************************************/
-  for (int currentCentieme = 0; currentCentieme < nbreCentiemeSecParCycle; currentCentieme++) {
+  for (int16_t currentCentieme = 0; currentCentieme < nbreCentiemeSecParCycle; currentCentieme++) {
 
     /********************************************/
     // Mesure pression pour rétro-action
     /********************************************/
     #ifdef SIMULATION
-    int currentPression = 0;
+    int16_t currentPression = 0;
     if (currentCentieme < 50) {
       currentPression = 60;
     } else {
@@ -219,7 +219,7 @@ void loop() {
       currentPression = 5;
     }
     #else
-    int currentPression = map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600) / 10;
+    int16_t currentPression = map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600) / 10;
     #endif
 
     /********************************************/
