@@ -16,6 +16,10 @@
 
 // INCLUDES ===================================================================
 
+// External libraries
+#include <Servo.h>
+
+// Internal libraries
 #include "common.h"
 
 // CLASS ======================================================================
@@ -44,46 +48,55 @@ struct AirTransistor {
       position = defaultCommand;
   }
 
+  void execute()
+  {
+      if (command != position)
+      {
+          actuator.write(command);
+          position = command;
+      }
+  }
+
   int16_t minApertureAngle;
   int16_t maxApertureAngle;
   int16_t defaultCommand;
   int16_t failsafe;
   int16_t command;
   int16_t position;
+  Servo actuator;
 };
 
 class PressureController {
 public:
-    PressureController(const AirTransistor &p_blower, const AirTransistor &p_patient);
-    void initLoop();
-    void updateCurrentPressure(int16_t p_currentPressure);
-    void compute(uint16_t p_currentCentieme);
-    void updatePhase(uint16_t p_currentCentieme);
-    void inhale();
-    void plateau();
-    void exhale();
-    void safeguards(uint16_t p_currentCentieme);
+  PressureController(const AirTransistor &p_blower, const AirTransistor &p_patient);
+  void setup();
+  void initLoop();
+  void updateCurrentPressure(int16_t p_currentPressure);
+  void compute(uint16_t p_currentCentieme);
+  void updatePhase(uint16_t p_currentCentieme);
+  void inhale();
+  void plateau();
+  void exhale();
+  void safeguards(uint16_t p_currentCentieme);
 
-    void computeCentiSecPerCycle();
-    void computeCentiSecPerInhalation();
+  void computeCentiSecParameters();
 
-    void applyBlowerCommand() { m_blower.position = m_blower.command; }
-    void applyPatientCommand() { m_patient.position = m_patient.command; }
+  void executeCommands();
 
   /*-----------------------------------------------------------------------------
    * The following functions allow to modify the parameters of the breathing
    * cycle and are the interface to the keyboard user input.
    */
-    void onCycleMinus();
-    void onCyclePlus();
-    void onPressionPepMinus();
-    void onPressionPepPlus();
-    void onPressionPlateauMinus();
-    void onPressionPlateauPlus();
+  void onCycleMinus();
+  void onCyclePlus();
+  void onPressionPepMinus();
+  void onPressionPepPlus();
+  void onPressionPlateauMinus();
+  void onPressionPlateauPlus();
 
-    inline uint16_t cyclesPerMinuteCommand() const
-    {
-        return m_cyclesPerMinuteCommand;
+  inline uint16_t cyclesPerMinuteCommand() const
+  {
+    return m_cyclesPerMinuteCommand;
   }
   inline uint16_t minPeepCommand() const { return m_minPeepCommand; }
   inline uint16_t maxPlateauPressureCommand() const { return m_maxPlateauPressureCommand; }

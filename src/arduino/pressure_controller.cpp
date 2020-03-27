@@ -38,8 +38,18 @@ PressureController::PressureController(const AirTransistor &p_blower,
       m_patient(p_patient)
 
 {
-  computeCentiSecPerCycle();
-  computeCentiSecPerInhalation();
+  computeCentiSecParameters();
+}
+
+void PressureController::setup()
+{
+  m_blower.actuator.attach(PIN_SERVO_BLOWER);
+  m_patient.actuator.attach(PIN_SERVO_PATIENT);
+
+  DBG_DO(Serial.print("mise en secu initiale");)
+
+  m_blower.actuator.write(m_blower.failsafe);
+  m_patient.actuator.write(m_patient.failsafe);
 }
 
 void PressureController::initLoop() {
@@ -49,8 +59,7 @@ void PressureController::initLoop() {
   m_phase = CyclePhases::INHALATION;
   m_blower.reset();
   m_patient.reset();
-  computeCentiSecPerCycle();
-  computeCentiSecPerInhalation();
+  computeCentiSecParameters();
 
   DBG_AFFICHE_CSPCYCLE_CSPINSPI(m_centiSecPerCycle, m_centiSecPerInhalation)
 
@@ -89,6 +98,10 @@ void PressureController::compute(uint16_t p_currentCentieme) {
     case CyclePhases::HOLD_EXHALATION:
     {
         break;
+    }
+    default:
+    {
+        inhale();
     }
   }
 
@@ -167,14 +180,17 @@ void PressureController::safeguards(uint16_t p_currentCentieme) {
   }
 }
 
-void PressureController::computeCentiSecPerCycle() {
+void PressureController::computeCentiSecParameters() {
   m_centiSecPerCycle = 60 * 100 / m_cyclesPerMinute;
-}
-
-void PressureController::computeCentiSecPerInhalation() {
   // Inhalation = 1/3 of the cycle duration, Exhalation = 2/3 of the cycle
   // duration
   m_centiSecPerInhalation = m_centiSecPerCycle / 3;
+}
+
+void PressureController::executeCommands()
+{
+    m_blower.execute();
+    m_patient.execute();
 }
 
 void PressureController::onCycleMinus() {
