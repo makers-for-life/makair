@@ -1,9 +1,32 @@
+/*=============================================================================
+ * @file respi-tests.h
+ *
+ * COVID Respirator
+ *
+ * @section copyright Copyright
+ *
+ * Makers For Life
+ *
+ * @section descr File description
+ *
+ * This file execute the Makair program
+ */
+
+// INCLUDES ===================================================================
+
+// External
+#include <AnalogButtons.h>
 #include <Arduino.h>
-#include <Servo.h>
 #include <LiquidCrystal.h>
 #include <OneButton.h>
-#include <AnalogButtons.h>
-#include <common.h>
+#include <Servo.h>
+
+// Internal
+#include "affichage.h"
+#include "common.h"
+#include "config.h"
+#include "debug.h"
+#include "variables.h"
 
 // TODO extraire ces 2 lignes dans de la configuration
 const int LCD_LINE_LENGTH = 16;
@@ -13,7 +36,7 @@ const int SECONDS = 1000;
 
 /**
  * Liste de toutes les étapes de test du montage.
- * 
+ *
  * - TEST_STEP_START                  Affichage d'un pattern sur l'écran LCD
  * - TEST_BTN_PRESSION_PLATEAU_MINUS  Test du bouton pression plateau minus
  * - TEST_BTN_PRESSION_PLATEAU_PLUS   Test du bouton pression plateau plus
@@ -42,22 +65,22 @@ int validatedStep = TEST_STEP_START;
 
 /**
  * Affiche un pattern de la forme suivante sur l'écran LCD.
- * La taille du pattern s'adapte en fonction du nombre de ligne et 
+ * La taille du pattern s'adapte en fonction du nombre de ligne et
  * de caractères de l'écran LCD.
- * 
+ *
  * 01234567890123456789
  * 12345678901234567890
  * 23456789012345678901
  * 34567890123456789012
  */
 void printPatternOnLcd() {
-  lcd.setCursor(0, 0);
-  
+  screen.setCursor(0, 0);
+
   for (int line = 0; line < LCD_LINE_NUMBER; line++) {
     for (int character = 0; character < LCD_LINE_LENGTH; character++) {
-      lcd.print((character + line) % 10);
+      screen.print((character + line) % 10);
     }
-    lcd.println();
+    screen.println();
   }
 }
 
@@ -66,9 +89,9 @@ void onPressionPlateauPlusClick() {
   Serial.println("pression plateau ++");
   #endif
   if (validatedStep == TEST_STEP_START) {
-    lcd.setCursor(0, 0);
-    lcd.println("Btn Plateau + OK");
-    lcd.print("Push Plateau -");
+    screen.setCursor(0, 0);
+    screen.println("Btn Plateau + OK");
+    screen.print("Push Plateau -");
     validatedStep = TEST_BTN_PRESSION_PLATEAU_PLUS;
   }
 }
@@ -78,9 +101,9 @@ void onPressionPlateauMinusClick() {
   Serial.println("pression plateau --");
   #endif
   if (validatedStep == TEST_BTN_PRESSION_PLATEAU_PLUS) {
-    lcd.setCursor(0, 0);
-    lcd.println("Btn Plateau - OK");
-    lcd.print("Push PEP +");
+    screen.setCursor(0, 0);
+    screen.println("Btn Plateau - OK");
+    screen.print("Push PEP +");
     validatedStep = TEST_BTN_PRESSION_PLATEAU_MINUS;
   }
 }
@@ -90,9 +113,9 @@ void onPepPlusClick() {
   Serial.println("pression pep ++");
   #endif
   if (validatedStep == TEST_BTN_PRESSION_PLATEAU_MINUS) {
-    lcd.setCursor(0, 0);
-    lcd.println("Btn PEP + OK");
-    lcd.print("Push PEP -");
+    screen.setCursor(0, 0);
+    screen.println("Btn PEP + OK");
+    screen.print("Push PEP -");
     validatedStep = TEST_BTN_PEP_PLUS;
   }
 }
@@ -102,9 +125,9 @@ void onPepMinusClick() {
   Serial.println("pression pep --");
   #endif
   if (validatedStep == TEST_BTN_PEP_PLUS) {
-    lcd.setCursor(0, 0);
-    lcd.println("Btn PEP - OK");
-    lcd.print("Push RB +");
+    screen.setCursor(0, 0);
+    screen.println("Btn PEP - OK");
+    screen.print("Push RB +");
     validatedStep = TEST_BTN_PEP_MINUS;
   }
 }
@@ -114,9 +137,9 @@ void onRbPlusClick() {
   Serial.println("pression RB ++ ");
   #endif
   if (validatedStep == TEST_BTN_PEP_MINUS) {
-    lcd.setCursor(0, 0);
-    lcd.println("Btn RB + OK");
-    lcd.print("Push RB -");
+    screen.setCursor(0, 0);
+    screen.println("Btn RB + OK");
+    screen.print("Push RB -");
     validatedStep = TEST_BTN_RB_PLUS;
   }
 }
@@ -126,9 +149,9 @@ void onRbMinusClick() {
   Serial.println("pression RB -- ");
   #endif
   if (validatedStep == TEST_BTN_RB_PLUS) {
-    lcd.setCursor(0, 0);
-    lcd.println("Btn RB - OK");
-    lcd.print("Push Alarme ON");
+    screen.setCursor(0, 0);
+    screen.println("Btn RB - OK");
+    screen.print("Push Alarme ON");
     validatedStep = TEST_BTN_RB_MINUS;
   }
 }
@@ -138,9 +161,9 @@ void onAlarmeOnClick() {
   Serial.println("Alarme ON ");
   #endif
   if (validatedStep == TEST_BTN_RB_MINUS) {
-    lcd.setCursor(0, 0);
-    lcd.println("Alarme ON OK");
-    lcd.print("Push Alarme OFF");
+    screen.setCursor(0, 0);
+    screen.println("Alarme ON OK");
+    screen.print("Push Alarme OFF");
     validatedStep = TEST_BTN_ALARME_ON;
   }
 }
@@ -150,9 +173,9 @@ void onAlarmeOffClick() {
   Serial.println("Alarme OFF ");
   #endif
   if (validatedStep == TEST_BTN_ALARME_ON) {
-    lcd.setCursor(0, 0);
-    lcd.println("Alarme OFF OK");
-    lcd.print("Push Blower +");
+    screen.setCursor(0, 0);
+    screen.println("Alarme OFF OK");
+    screen.print("Push Blower +");
     validatedStep = TEST_BTN_ALARME_OFF;
   }
 }
@@ -162,9 +185,9 @@ void onValveBlowerPlusClick() {
   Serial.println("Valve Blower ++ ");
   #endif
   if (validatedStep == TEST_BTN_ALARME_OFF) {
-    lcd.setCursor(0, 0);
-    lcd.println("Btn Blower + OK");
-    lcd.print("Push Blower -");
+    screen.setCursor(0, 0);
+    screen.println("Btn Blower + OK");
+    screen.print("Push Blower -");
     validatedStep = TEST_BTN_VALVE_BLOWER_PLUS;
   }
 }
@@ -174,9 +197,9 @@ void onValveBlowerMinusClick() {
   Serial.println("Valve Blower -- ");
   #endif
   if (validatedStep == TEST_BTN_VALVE_BLOWER_PLUS) {
-    lcd.setCursor(0, 0);
-    lcd.println("Btn Blower - OK");
-    lcd.print("Push Patient +");
+    screen.setCursor(0, 0);
+    screen.println("Btn Blower - OK");
+    screen.print("Push Patient +");
     validatedStep = TEST_BTN_VALVE_BLOWER_MINUS;
   }
 }
@@ -186,9 +209,9 @@ void onValvePatientPlusClick() {
   Serial.println("Valve Patient ++ ");
   #endif
   if (validatedStep == TEST_BTN_VALVE_BLOWER_MINUS) {
-    lcd.setCursor(0, 0);
-    lcd.println("Btn Patient + OK");
-    lcd.print("Push Patient -");
+    screen.setCursor(0, 0);
+    screen.println("Btn Patient + OK");
+    screen.print("Push Patient -");
     validatedStep = TEST_BTN_VALVE_PATIENT_PLUS;
   }
 }
@@ -198,9 +221,9 @@ void onValvePatientMinusClick() {
   Serial.println("Valve Patient -- ");
   #endif
   if (validatedStep == TEST_BTN_VALVE_PATIENT_PLUS) {
-    lcd.setCursor(0, 0);
-    lcd.println("Btn Patient - OK");
-    lcd.print("Test end.");
+    screen.setCursor(0, 0);
+    screen.println("Btn Patient - OK");
+    screen.print("Test end.");
     validatedStep = TEST_BTN_VALVE_PATIENT_MINUS;
   }
 }
@@ -238,7 +261,7 @@ void setup() {
   buttons.add(btn_valve_blower_plus);
   buttons.add(btn_valve_blower_minus);
 
-  lcd.begin(LCD_LINE_LENGTH, LCD_LINE_NUMBER);
+  screen.begin(LCD_LINE_LENGTH, LCD_LINE_NUMBER);
 
   printPatternOnLcd();
 }

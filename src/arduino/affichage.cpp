@@ -17,20 +17,40 @@
 // Associated header
 #include "affichage.h"
 
-// Other libraries
+// External libraries
 #include <LiquidCrystal.h>
+
+// Internal libraries
+#include "common.h"
 
 // FUNCTIONS ==================================================================
 
-void displayEveryCycle(LiquidCrystal& screen,
-                       ScreenSize size,
-                       int peakPressure,
-                       int plateauPressure,
-                       int peep)
+void startScreen()
+{
+  switch (screenSize)
+  {
+  case ScreenSize::CHARS_16:
+  {
+    screen.begin(16, 2);
+    break;
+  }
+  case ScreenSize::CHARS_20:
+  {
+    screen.begin(20, 2);
+    break;
+  }
+  default:
+  {
+     screen.begin(16, 2);
+  }
+  }
+}
+
+void displayEveryCycle(int peakPressure, int plateauPressure, int peep)
 {
   screen.setCursor(0, 0);
 
-  switch (size)
+  switch (screenSize)
   {
   case ScreenSize::CHARS_16:
   {
@@ -67,16 +87,14 @@ void displayEveryCycle(LiquidCrystal& screen,
   }
 }
 
-void displayDuringCycle(LiquidCrystal& screen,
-                        ScreenSize size,
-                        int cyclesPerMinute,
+void displayDuringCycle(int cyclesPerMinute,
                         int maxPlateauPressure,
                         int peep,
                         int currentPressure)
 {
   screen.setCursor(0, 1);
 
-  switch (size) {
+  switch (screenSize) {
   case ScreenSize::CHARS_16: {
     screen.print("c");
     screen.print(cyclesPerMinute);

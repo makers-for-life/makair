@@ -50,9 +50,9 @@ int previousPressionCrete = -1;
 int previousPressionPlateau = -1;
 int previousPressionPep = -1;
 
-/*
- * The following function allow to modify the parameters of the breathing
- * cycle.
+/*-----------------------------------------------------------------------------
+ * The following functions allow to modify the parameters of the breathing
+ * cycle and are the interface to the keyboard user input.
  */
 void incConsigneNbCycle()
 {

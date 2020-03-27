@@ -32,19 +32,18 @@ enum ScreenSize
 
 // FUNCTIONS ==================================================================
 
+//! This function starts the screen
+void startScreen();
+
 /*! This function displays the relevant pressures on the HMI screen once every
  *  cycle
  *  N.B.: by default, the screen size is 16 chars
  *
- *  \param screen           The HMI screen
- *  \param ScreenSize       The screen size
  *  \param peakPressure     The peak pressure
  *  \param plateauPressure  The plateau pressure
  *  \param peep             The positive End Expiratory Pressure (PEEP)
  */
-void displayEveryCycle(LiquidCrystal& screen,
-                       ScreenSize size,
-                       int peakPressure,
+void displayEveryCycle(int peakPressure,
                        int plateauPressure,
                        int peep);
 
@@ -52,16 +51,12 @@ void displayEveryCycle(LiquidCrystal& screen,
  *  cycle.
  *  N.B.: by default, the screen size is 16 chars
  *
- *  \param screen               The HMI screen
- *  \param ScreenSize           The screen size
  *  \param cyclesPerMinute      Next desired number of cycles per minute
  *  \param maxPlateauPressure   Next maximal plateau pressure
  *  \param peep                 Next desired Positive End Expiratory Pressure (PEEP)
  *  \param currentPressure      Current pressure
  */
-void displayDuringCycle(LiquidCrystal& screen,
-                        ScreenSize size,
-                        int cyclesPerMinute,
+void displayDuringCycle(int cyclesPerMinute,
                         int maxPlateauPressure,
                         int peep,
                         int currentPressure);

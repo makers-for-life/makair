@@ -25,8 +25,8 @@ void respiLoop();
  * inc/decConsigneNbCycle increment and decrement the number of cycles
  * for the next breathing cycle
  */
- void incConsigneNbCycle();
- void decConsigneNbCycle();
+void incConsigneNbCycle();
+void decConsigneNbCycle();
 
 /*
  * inc/decConsignePressionPEP increment and decrement the pressure of PEP

@@ -12,3 +12,5 @@
  * Fichier définissant les fonctionnalités liées à la simulation du programme de
  * respiration artificielle
  */
+
+#pragma once
