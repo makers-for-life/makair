@@ -84,7 +84,7 @@ You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_
 
 #### ↘️ Thursday 26/03
 
-* **🇬🇧 French Video:**
+* **🇫🇷 French Video:**
 
 <a href="https://www.youtube.com/watch?v=olhgf6QtDVI" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/olhgf6QtDVI/0.jpg" height="240"></a>
 
