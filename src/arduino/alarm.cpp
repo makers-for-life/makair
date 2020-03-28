@@ -27,18 +27,41 @@
 #define BEEEEP_PAUSE     BEEEEP
 #define PAUSE_20S        (20 * 1000 * TIMER_TICK_PER_MS)
 #define PAUSE_10S        (10 * 1000 * TIMER_TICK_PER_MS)
+#define PAUSE_1S        (1 * 1000 * TIMER_TICK_PER_MS)
 
 /* Yellow Alarm pattern size */
 #define ALARM_YELLOW_SIZE  8
 
 /* Yellow alarm pattern definition, composed of multiple couple of states (Actif/Inactif) and duration (miliseconds) */
-const uint32_t Alarm_Yellow[ALARM_YELLOW_SIZE] = { 
+const uint32_t Alarm_Yellow[ALARM_YELLOW_SIZE] = {
   TIMER_OUTPUT_COMPARE_FORCED_ACTIVE,     BEEEEP,
   TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,   BEEEEP_PAUSE,
   TIMER_OUTPUT_COMPARE_FORCED_ACTIVE,     BEEEEP,
   TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,   PAUSE_20S
 };
 
+/* Red Alarm pattern size */
+#define ALARM_RED_SIZE  32
+
+/* Red alarm pattern definition, composed of multiple couple of states (Actif/Inactif) and duration (miliseconds) */
+const uint32_t Alarm_Red[ALARM_RED_SIZE] = { 
+  TIMER_OUTPUT_COMPARE_FORCED_ACTIVE,     BIP,
+  TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,   BIP_PAUSE,
+  TIMER_OUTPUT_COMPARE_FORCED_ACTIVE,     BIP,
+  TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,   BIP_PAUSE,
+  TIMER_OUTPUT_COMPARE_FORCED_ACTIVE,     BIP,
+  TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,   BIP_PAUSE,
+  TIMER_OUTPUT_COMPARE_FORCED_ACTIVE,     BEEEEP,
+  TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,   PAUSE_1S,
+  TIMER_OUTPUT_COMPARE_FORCED_ACTIVE,     BIP,
+  TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,   BIP_PAUSE,
+  TIMER_OUTPUT_COMPARE_FORCED_ACTIVE,     BIP,
+  TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,   BIP_PAUSE,
+  TIMER_OUTPUT_COMPARE_FORCED_ACTIVE,     BIP,
+  TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,   BIP_PAUSE,
+  TIMER_OUTPUT_COMPARE_FORCED_ACTIVE,     BEEEEP,
+  TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,   PAUSE_10S
+};
 
 /* Boot Alarm pattern size */
 #define ALARM_BOOT_SIZE  4
@@ -132,9 +155,18 @@ void Alarm_Start(const uint32_t *Alarm, uint32_t Size)
   * Activate an yellow alarm.
   * Input parameters: alarm pattern array and its size
   */
-void Alarm_yellow_Start(void)
+void Alarm_Yellow_Start(void)
 {
   Alarm_Start(Alarm_Yellow, ALARM_YELLOW_SIZE);
+}
+
+/**
+  * Activate an red alarm.
+  * Input parameters: alarm pattern array and its size
+  */
+void Alarm_Red_Start(void)
+{
+  Alarm_Start(Alarm_Red, ALARM_RED_SIZE);
 }
 
 /**

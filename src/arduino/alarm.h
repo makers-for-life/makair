@@ -25,13 +25,17 @@ void Alarm_Start(const uint32_t *Alarm, uint32_t Size);
 
 /**
   * Activate an yellow alarm.
-  * Input parameters: alarm pattern array and its size
   */
-void Alarm_yellow_Start(void);
+void Alarm_Yellow_Start(void);
+
+
+/**
+  * Activate an red alarm.
+  */
+void Alarm_Red_Start(void);
 
 /**
   * Activate boot bip.
-  * Input parameters: alarm pattern array and its size
   */
 void Alarm_Boot_Start(void);
 
