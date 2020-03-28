@@ -14,9 +14,6 @@
 
 // INCLUDES ==================================================================
 
-// Associated header
-#include "respi-prod.h"
-
 // External
 #include <AnalogButtons.h>
 #include <Arduino.h>
@@ -60,44 +57,52 @@ void loop()
     /********************************************/
     // START THE RESPIRATORY CYCLE
     /********************************************/
-    for (uint16_t centiSec = 0; centiSec < pController.centiSecPerCycle(); centiSec++)
+    uint16_t centiSec = 0;
+
+    while (centiSec < pController.centiSecPerCycle())
     {
+        static uint32_t lastpControllerComputeDate = 0ul;
+        uint32_t currentDate = millis();
+        if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD)
+        {
+            lastpControllerComputeDate = currentDate;
 
 // Get the measured pressure for the feedback control
 #ifdef SIMULATION
-        if (centiSec < uint16_t(50))
-        {
-            pController.updatePressure(60);
-        }
-        else
-        {
-            pController.updatePressure(30);
-        }
-        if (centiSec > pController.centiSecPerInhalation())
-        {
-            pController.updatePressure(5);
-        }
+            if (centiSec < uint16_t(50))
+            {
+                pController.updatePressure(60);
+            }
+            else
+            {
+                pController.updatePressure(30);
+            }
+            if (centiSec > pController.centiSecPerInhalation())
+            {
+                pController.updatePressure(5);
+            }
 #else
-        pController.updatePressure(map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600) / 10);
+            pController.updatePressure(map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600)
+                                       / 10);
 #endif
 
-        // Perform the pressure control
-        pController.compute(centiSec);
+            // Perform the pressure control
+            pController.compute(centiSec);
 
-        // Check if some buttons have been pushed
-        keyboardLoop();
+            // Check if some buttons have been pushed
+            keyboardLoop();
 
-        // Display relevant information during the cycle
-        if (centiSec % LCD_UPDATE_PERIOD == 0)
-        {
-            displayDuringCycle(pController.cyclesPerMinuteCommand(),
-                               pController.maxPlateauPressureCommand(),
-                               pController.minPeepCommand(), pController.pressure());
+            // Display relevant information during the cycle
+            if (centiSec % LCD_UPDATE_PERIOD == 0)
+            {
+                displayDuringCycle(pController.cyclesPerMinuteCommand(),
+                                   pController.maxPlateauPressureCommand(),
+                                   pController.minPeepCommand(), pController.pressure());
+            }
+
+            // next tick
+            centiSec++;
         }
-
-        // Wait 1/100 of second
-        // Warning: this introduces a time drift, that will be corrected by rtc if needed
-        delay(10);
     }
     /********************************************/
     // END OF THE RESPIRATORY CYCLE

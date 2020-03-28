@@ -12,6 +12,8 @@
  * Initialisation du logiciel et boucle principale.
  */
 
+#if 0
+
 #include <AnalogButtons.h>
 #include <Arduino.h>
 #include <LiquidCrystal.h>
@@ -492,3 +494,5 @@ void loop()
     // Fin du cycle
     /********************************************/
 }
+
+#endif

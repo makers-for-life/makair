@@ -13,7 +13,7 @@
  */
 
 // INCLUDES ===================================================================
-
+#if 0
 // External
 #include <AnalogButtons.h>
 #include <Arduino.h>
@@ -299,3 +299,4 @@ void setup()
 }
 
 void loop() { buttons.check(); }
+#endif

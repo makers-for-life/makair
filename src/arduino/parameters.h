@@ -72,6 +72,9 @@ static const ScreenSize screenSize{ScreenSize::CHARS_20};
 // consignes sur le LCD
 static const int16_t LCD_UPDATE_PERIOD = 20;
 
+// Periode de traitement en millisecondes
+static const uint32_t PCONTROLLER_COMPUTE_PERIOD = 10;
+
 // minimums et maximums possible des paramètres modifiables à l'exécution
 static const uint16_t BORNE_SUP_PRESSION_CRETE = 70;   // arbitraire
 static const uint16_t BORNE_INF_PRESSION_CRETE = 10;   // arbitraire
