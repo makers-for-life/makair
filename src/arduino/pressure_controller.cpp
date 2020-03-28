@@ -29,11 +29,11 @@ PressureController pController;
 // FUNCTIONS ==================================================================
 
 PressureController::PressureController()
-    : m_cyclesPerMinuteCommand(20),
+    : m_cyclesPerMinuteCommand(15),
       m_minPeepCommand(BORNE_INF_PRESSION_PEP), // mmH2O
       m_maxPlateauPressureCommand(BORNE_SUP_PRESSION_PLATEAU), //mmH20
       m_apertureCommand(ANGLE_OUVERTURE_MAXI),
-      m_cyclesPerMinute(20),
+      m_cyclesPerMinute(15),
       m_aperture(ANGLE_OUVERTURE_MAXI),
       m_maxPeakPressure(BORNE_SUP_PRESSION_CRETE), // mmH2O
       m_maxPlateauPressure(BORNE_SUP_PRESSION_PLATEAU), // mmH2O
@@ -230,28 +230,39 @@ void PressureController::onPressionCretePlus()
 
 void PressureController::updatePhase(uint16_t p_centiSec)
 {
-    if (p_centiSec == 0) 
-    {
+
+
+    if (p_centiSec < (m_centiSecPerInhalation * 0.6)) {
         m_phase = CyclePhases::INHALATION;
-    }
-    else if (p_centiSec <= m_centiSecPerInhalation && m_phase == CyclePhases::INHALATION)
-    {
-        m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION : CyclePhases::PLATEAU;        
-    }
-    else if (p_centiSec <= m_centiSecPerInhalation) 
-    {
+    } else if (p_centiSec < m_centiSecPerInhalation) {
         m_phase = CyclePhases::PLATEAU;
-    }
-    else
+    } else
     {
-        m_phase = CyclePhases::EXHALATION;
+         m_phase = CyclePhases::EXHALATION;
     }
+    
+    // if (p_centiSec == 0) 
+    // {
+    //     m_phase = CyclePhases::INHALATION;
+    // }
+    // else if (p_centiSec <= m_centiSecPerInhalation && m_phase == CyclePhases::INHALATION)
+    // {
+    //     m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION : CyclePhases::PLATEAU;        
+    // }
+    // else if (p_centiSec <= m_centiSecPerInhalation) 
+    // {
+    //     m_phase = CyclePhases::PLATEAU;
+    // }
+    // else
+    // {
+    //     m_phase = CyclePhases::EXHALATION;
+    // }
 }
 
 void PressureController::inhale()
 {
     // Open the air stream towards the patient's lungs
-    m_blower.command = 70;
+    m_blower.command = 80;
 
     // Direct the air stream towards the patient's lungs
     m_y.command = 65;
@@ -281,10 +292,10 @@ void PressureController::plateau()
 void PressureController::exhale()
 {
     // Deviate the air stream outside
-    m_blower.command = 25;
+    m_blower.command = 35;
 
     // Direct the air stream towards the patient's lungs
-    m_y.command = 0;
+    m_y.command = 65;
 
     // Open the valve so the patient can exhale outside
     m_patient.command = 25;
@@ -317,7 +328,7 @@ void PressureController::safeguards(uint16_t p_centiSec)
         }
     }
 
-    if (m_pressure < m_minPeep && CyclePhases::EXHALATION)
+    if (m_pressure < m_minPeep && m_phase == CyclePhases::EXHALATION)
     {
         DBG_PRESSION_PEP(p_centiSec, 80)
         // Close completely the patient's valve
@@ -336,6 +347,7 @@ void PressureController::computeCentiSecParameters()
 
 void PressureController::executeCommands()
 {
+    //Serial.println(m_blower.command);
     m_blower.execute();
     m_patient.execute();
     m_y.execute();

@@ -100,7 +100,7 @@ static const uint16_t BORNE_INF_PRESSION_CRETE =    100;//  80; // arbitraire mm
 static const uint16_t BORNE_SUP_PRESSION_PLATEAU =  400;//  60; // PP MAX SDRA = 300 mmH20
 static const uint16_t BORNE_INF_PRESSION_PLATEAU =  100;//  80; // arbitraire mmH2O
 static const uint16_t BORNE_SUP_PRESSION_PEP =      300;//  30; // PP MAX = 30, or PEP < PP mmH2O
-static const uint16_t BORNE_INF_PRESSION_PEP =       50;//   0; // arbitraire mais > 0 mmH2O
+static const uint16_t BORNE_INF_PRESSION_PEP =       80;//   0; // arbitraire mais > 0 mmH2O
 
 static const uint16_t BORNE_SUP_CYCLE = 35; // demande medical
 static const uint16_t BORNE_INF_CYCLE = 5;  // demande medical

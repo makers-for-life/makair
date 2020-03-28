@@ -47,7 +47,7 @@ int readPressureSensor()
 
     // Pression en kPA
     double pressure  = (vOut / V_SUPPLY - 0.04) / 0.09;
-
+    Serial.println(pressure * KPA_MMH2O);
     return pressure * KPA_MMH2O;
 }
 
@@ -61,6 +61,7 @@ void setup()
     pController.setup();
     startScreen();
     initKeyboard();
+    Serial.begin(9600);
 }
 
 void loop()
