@@ -35,7 +35,7 @@
 void setup()
 {
 
-    DBG_DO(Serial.begin(115200);)
+    DBG_DO(Serial.begin(9600);)
     DBG_DO(Serial.println("demarrage");)
 
     pController.setup();

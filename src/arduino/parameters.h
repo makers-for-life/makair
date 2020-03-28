@@ -107,27 +107,15 @@ static const uint16_t BORNE_INF_CYCLE = 5;  // demande medical
 // durée d'appui des boutons (en centièmes de secondes) avant prise en compte
 static const uint16_t MAINTIEN_PARAMETRAGE = 21;
 
-static const uint16_t BTN_FREE2 = 913;
-static const uint16_t BTN_FREE1 = 821;
-static const uint16_t BTN_ALARM_OFF = 745;
-static const uint16_t BTN_ALARM_ON = 607;
-static const uint16_t BTN_CYCLE_MINUS = 509;
-static const uint16_t BTN_CYCLE_PLUS = 413;
-static const uint16_t BTN_PRESSION_PEP_MINUS = 292;
-static const uint16_t BTN_PRESSION_PEP_PLUS = 215;
-static const uint16_t BTN_PRESSION_PLATEAU_MINUS = 109;
-static const uint16_t BTN_PRESSION_PLATEAU_PLUS = 0;
+static const uint16_t TENSION_BTN_PRESSION_P_CRETE_PLUS   = 915;
+static const uint16_t TENSION_BTN_PRESSION_P_CRETE_MINUS  = 800;
+static const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS   = 728;
+static const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS  = 598;
+static const uint16_t TENSION_BTN_PEP_PLUS                = 504;
+static const uint16_t TENSION_BTN_PEP_MINUS               = 410;
+static const uint16_t TENSION_BTN_CYCLE_PLUS              = 290;
+static const uint16_t TENSION_BTN_CYCLE_MINUS             = 215;
 
-// TODO revoir les tensions ici
-static const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS = BTN_PRESSION_PLATEAU_PLUS;
-static const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS = BTN_PRESSION_PLATEAU_MINUS;
-static const uint16_t TENSION_BTN_PEP_PLUS = BTN_PRESSION_PEP_PLUS;
-static const uint16_t TENSION_BTN_PEP_MINUS = BTN_PRESSION_PEP_MINUS;
-static const uint16_t TENSION_BTN_RB_PLUS = BTN_CYCLE_PLUS;
-static const uint16_t TENSION_BTN_RB_MINUS = BTN_CYCLE_MINUS;
-static const uint16_t TENSION_BTN_ALARME_ON = BTN_ALARM_ON;
-static const uint16_t TENSION_BTN_ALARME_OFF = BTN_ALARM_OFF;
-static const uint16_t TENSION_BTN_VALVE_BLOWER_PLUS = BTN_FREE1;
-static const uint16_t TENSION_BTN_VALVE_BLOWER_MINUS = BTN_FREE2;
-static const uint16_t TENSION_BTN_VALVE_PATIENT_PLUS = 971;
-static const uint16_t TENSION_BTN_VALVE_PATIENT_MINUS = 1012;
+const uint16_t TENSION_BTN_ALARME_ON        = 650;
+const uint16_t TENSION_BTN_ALARME_OFF       = 450;
+const uint16_t TENSION_BTN_ALARME_SILENCE   = 250; 

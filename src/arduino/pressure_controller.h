@@ -77,6 +77,12 @@ public:
     //! This function increases the desired plateau pressure
     void onPressionPlateauPlus();
 
+    //! This function decreases the desired crete pressure
+    void onPressionCreteMinus();
+
+    //! This function increases the desired crete pressure
+    void onPressionCretePlus();
+
     //! This function returns the number of cycles per minute desired by the operator
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
 

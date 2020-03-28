@@ -34,29 +34,11 @@ static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
  * Button handlers
  */
 
-/* Handler of the second free button */
-void onFree2() { DBG_DO(Serial.println("free2");) }
+/* Handler of the button to increment the Crete pressure */
+void onPressionCretePlus() { /* TODO */ }
 
-/* Handler of the first free button */
-void onFree1() { DBG_DO(Serial.println("free1");) }
-
-/* Handler of the button to switch the alarm off */
-void onAlarmOff() { DBG_DO(Serial.println("alarm OFF");) }
-
-/* Handler of the button to switch the alarm on */
-void onAlarmOn() { DBG_DO(Serial.println("alarm ON");) }
-
-/* Handler of the button to decrement the number of breathing cycles */
-void onCycleMinus() { pController.onCycleMinus(); }
-
-/* Handler of the button to increment the number of breathing cycles */
-void onCyclePlus() { pController.onCyclePlus(); }
-
-/* Handler of the button to decrement the PEP pressure */
-void onPressionPepMinus() { pController.onPressionPepMinus(); }
-
-/* Handler of the button to increment the PEP pressure */
-void onPressionPepPlus() { pController.onPressionPepPlus(); }
+/* Handler of the button to decrement the Crete pressure */
+void onPressionCreteMinus() { /* TODO */ }
 
 /* Handler of the button to decrement the plateau pressure */
 void onPressionPlateauMinus() { pController.onPressionPlateauMinus(); }
@@ -64,35 +46,44 @@ void onPressionPlateauMinus() { pController.onPressionPlateauMinus(); }
 /* Handler of the button to increment the plateau pressure */
 void onPressionPlateauPlus() { pController.onPressionPlateauPlus(); }
 
+/* Handler of the button to increment the PEP pressure */
+void onPressionPepPlus() { pController.onPressionPepPlus(); }
+
+/* Handler of the button to decrement the PEP pressure */
+void onPressionPepMinus() { pController.onPressionPepMinus(); }
+
+/* Handler of the button to increment the number of breathing cycles */
+void onCyclePlus() { pController.onCyclePlus(); }
+
+/* Handler of the button to decrement the number of breathing cycles */
+void onCycleMinus() { pController.onCycleMinus(); }
+
 /*
  * Buttons associations with analog levels and handlers
  */
-static Button btnFree2(BTN_FREE2, onFree2);
-static Button btnFree1(BTN_FREE1, onFree1);
-static Button btnAlarmOff(BTN_ALARM_OFF, onAlarmOff);
-static Button btnAlarmOn(BTN_ALARM_ON, onAlarmOn);
-static Button btnCycleMinus(BTN_CYCLE_MINUS, onCycleMinus);
-static Button btnCyclePlus(BTN_CYCLE_PLUS, onCyclePlus);
-static Button btnPressionPepMinus(BTN_PRESSION_PEP_MINUS, onPressionPepMinus);
-static Button btnPressionPepPlus(BTN_PRESSION_PEP_PLUS, onPressionPepPlus);
-static Button btnPressionPlateauMinus(BTN_PRESSION_PLATEAU_MINUS, onPressionPlateauMinus);
-static Button btnPressionPlateauPlus(BTN_PRESSION_PLATEAU_PLUS, onPressionPlateauPlus);
+
+Button btnPressionCretePlus(TENSION_BTN_PRESSION_P_CRETE_PLUS, &onPressionCretePlus);
+Button btnPressionCreteMinus(TENSION_BTN_PRESSION_P_CRETE_MINUS, &onPressionCreteMinus);
+Button btnPressionPlateauPlus(TENSION_BTN_PRESSION_PLATEAU_PLUS, &onPressionPlateauPlus);
+Button btnPressionPlateauMinus(TENSION_BTN_PRESSION_PLATEAU_MINUS, &onPressionPlateauMinus);
+Button btnPressionPepPlus(TENSION_BTN_PEP_PLUS, &onPressionPepPlus);
+Button btnPressionPepMinus(TENSION_BTN_PEP_MINUS, &onPressionPepMinus);
+Button btnCyclePlus(TENSION_BTN_CYCLE_PLUS, &onCyclePlus);
+Button btnCycleMinus(TENSION_BTN_CYCLE_MINUS, &onCycleMinus);
 
 /*-----------------------------------------------------------------------------
  * initKeyboard does the initializations to use a keyboard
  */
 void initKeyboard()
 {
-    analogButtons.add(btnFree2);
-    analogButtons.add(btnFree1);
-    analogButtons.add(btnAlarmOff);
-    analogButtons.add(btnAlarmOn);
-    analogButtons.add(btnCycleMinus);
-    analogButtons.add(btnCyclePlus);
-    analogButtons.add(btnPressionPepMinus);
-    analogButtons.add(btnPressionPepPlus);
-    analogButtons.add(btnPressionPlateauMinus);
-    analogButtons.add(btnPressionPlateauPlus);
+  analogButtons.add(btnPressionCretePlus);
+  analogButtons.add(btnPressionCretePlus);
+  analogButtons.add(btnPressionPlateauPlus);
+  analogButtons.add(btnPressionPlateauMinus);
+  analogButtons.add(btnPressionPepPlus);
+  analogButtons.add(btnPressionPepMinus);
+  analogButtons.add(btnCyclePlus);
+  analogButtons.add(btnCycleMinus);
 }
 
 /*-----------------------------------------------------------------------------

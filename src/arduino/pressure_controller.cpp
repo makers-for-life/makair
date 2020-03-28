@@ -210,6 +210,18 @@ void PressureController::onPressionPlateauPlus()
     }
 }
 
+void PressureController::onPressionCreteMinus()
+{
+    DBG_DO(Serial.println("pression crete --");)
+    // TODO
+}
+
+void PressureController::onPressionCretePlus()
+{
+    DBG_DO(Serial.println("pression plateau ++");)
+    // TODO
+}
+
 void PressureController::updatePhase(uint16_t p_centiSec)
 {
     if (p_centiSec <= m_centiSecPerInhalation)
