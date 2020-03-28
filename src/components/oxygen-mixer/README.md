@@ -6,12 +6,13 @@
 
 ## Assumptions
 
-O2 line with 4mm ID
+- O2 line with 4mm ID
+- O2 @ 6 Lpm
+- Air @ 60 Lpm
 
-O2 @ 6 Lpm
-Air @ 60 Lpm
 => FiO2 ~ 30% achieved at the output of the valve
 
+## Contact
 
 Better idea ? Reach `@Steven`, `@Yohann Nédélec`, `@Eliott` or `@valerian` on Slack !
 
