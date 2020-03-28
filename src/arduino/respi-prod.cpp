@@ -27,6 +27,7 @@
 // Internal
 #include "affichage.h"
 #include "air_transistor.h"
+#include "alarm.h"
 #include "clavier.h"
 #include "common.h"
 #include "debug.h"
@@ -101,6 +102,15 @@ void setup()
     hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(130),
                                       MICROSEC_COMPARE_FORMAT);
     DBG_DO(Serial.println("Esc blower is running!");)
+
+    Alarm_Init();
+    Alarm_Boot_Start();
+    delay(150);
+    Alarm_Stop();
+
+    /* Test purpose*/
+    delay(2000);
+    Alarm_Yellow_Start();
 }
 
 void loop()
