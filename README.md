@@ -49,8 +49,9 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Pressure Valve](./src/components/pressure-valve) | V4 | Smaller size, FDM printing optimizations | ✅ | [view model](https://a360.co/2WIQJRR) | Sebastien Le Loch + [@valeriansaliou](https://github.com/valeriansaliou)
 | [Two-Way Valve](./src/components/two-way-valve) | V1 | Initial design | ❌ | [view model](https://a360.co/2QNO9q8) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Oxygen Mixer](./src/components/oxygen-mixer) | V2 | Re-modeled properly | ❌ | [view model](https://a360.co/2UmAecQ) | [@Melkaz](https://github.com/Melkaz)
-| [Filter Box](./src/components/filter-box) | V4 | Add new lock system | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
+| [Filter Box](./src/components/filter-box) | V4 | Improved the screwing pitch, add markers | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
 | [Adapters](./src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
+
 
 ## Electronics
 
