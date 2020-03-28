@@ -45,11 +45,24 @@ struct AirTransistor
         }
     }
 
+    /// Minimal aperture angle of the transistor [°]
     uint16_t minApertureAngle;
+
+    /// Maximal aperture angle of the transistor [°]
     uint16_t maxApertureAngle;
+
+    /// Default angle command for resets [°]
     uint16_t defaultCommand;
+
+    /// Failsafe angle command [°]
     uint16_t failsafeCommand;
+
+    /// Angle command [°]
     uint16_t command;
+
+    /// Actual angle [°]
     uint16_t position;
+
+    /// Actuator
     Servo actuator;
 };
