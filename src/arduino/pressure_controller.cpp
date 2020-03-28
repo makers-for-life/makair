@@ -109,7 +109,7 @@ void PressureController::compute(uint16_t p_centiSec) {
     }
     case CyclePhases::HOLD_EXHALATION:
     {
-        break;
+      break;
     }
     default:
     {
