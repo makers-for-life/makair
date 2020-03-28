@@ -71,6 +71,7 @@ static const int16_t PIN_LED_GREEN = PB13;
 static const int16_t PIN_MOTEUR_VENTILATEUR = D5;
 static const int16_t PIN_SERVO_BLOWER = D2;
 static const int16_t PIN_SERVO_PATIENT = D4;
+static const int16_t PIN_SERVO_Y = D3;
 static const int16_t PIN_CONTROL_BUTTONS = A0;
 static const int16_t PIN_BATTERY = A2;
 /* Ecran LCD */

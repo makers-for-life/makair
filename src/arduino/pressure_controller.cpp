@@ -53,7 +53,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        int16_t p_aperture,
                                        int16_t p_maxPeakPressure,
                                        AirTransistor p_blower,
-                                       AirTransistor p_patient)
+                                       AirTransistor p_patient,
+                                       AirTransistor p_y)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
       m_minPeepCommand(p_minPeep),
       m_maxPlateauPressureCommand(p_maxPlateauPressure),
@@ -69,7 +70,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_peep(-1),
       m_phase(CyclePhases::INHALATION),
       m_blower(p_blower),
-      m_patient(p_patient)
+      m_patient(p_patient),
+      m_y(p_y)
 {
     computeCentiSecParameters();
 }
@@ -78,11 +80,13 @@ void PressureController::setup()
 {
     m_blower.actuator.attach(PIN_SERVO_BLOWER);
     m_patient.actuator.attach(PIN_SERVO_PATIENT);
+    m_y.actuator.attach(PIN_SERVO_Y);
 
     DBG_DO(Serial.print("mise en secu initiale");)
 
     m_blower.actuator.write(m_blower.failsafeCommand);
     m_patient.actuator.write(m_patient.failsafeCommand);
+    m_y.actuator.write(m_y.failsafeCommand);
 }
 
 void PressureController::initRespiratoryCycle()
@@ -93,6 +97,8 @@ void PressureController::initRespiratoryCycle()
     m_phase = CyclePhases::INHALATION;
     m_blower.reset();
     m_patient.reset();
+    m_y.reset();
+
     computeCentiSecParameters();
 
     DBG_AFFICHE_CSPCYCLE_CSPINSPI(m_centiSecPerCycle, m_centiSecPerInhalation)
@@ -237,10 +243,13 @@ void PressureController::updatePhase(uint16_t p_centiSec)
 void PressureController::inhale()
 {
     // Open the air stream towards the patient's lungs
-    m_blower.command = ANGLE_FERMETURE - ANGLE_MULTIPLICATEUR * m_aperture;
+    m_blower.command = 70;
+
+    // Direct the air stream towards the patient's lungs
+    m_y.command = 65;
 
     // Open the air stream towards the patient's lungs
-    m_patient.command = ANGLE_FERMETURE + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI;
+    m_patient.command = 80;
 
     // Update the peak pressure
     m_peakPressure = m_pressure;
@@ -249,10 +258,13 @@ void PressureController::inhale()
 void PressureController::plateau()
 {
     // Deviate the air stream outside
-    m_blower.command = ANGLE_FERMETURE + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI;
+    m_blower.command = 50;
+
+    // Direct the air stream towards the patient's lungs
+    m_y.command = 65;
 
     // Close the air stream towards the patient's lungs
-    m_patient.command = ANGLE_FERMETURE;
+    m_patient.command = 80;
 
     // Update the plateau pressure
     m_plateauPressure = m_pressure;
@@ -261,10 +273,13 @@ void PressureController::plateau()
 void PressureController::exhale()
 {
     // Deviate the air stream outside
-    m_blower.command = ANGLE_FERMETURE + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI;
+    m_blower.command = 25;
+
+    // Direct the air stream towards the patient's lungs
+    m_y.command = 0;
 
     // Open the valve so the patient can exhale outside
-    m_patient.command = m_patient.failsafeCommand;
+    m_patient.command = 25;
 
     // Update the PEEP
     m_peep = m_pressure;
@@ -277,6 +292,10 @@ void PressureController::safeguards(uint16_t p_centiSec)
         DBG_PRESSION_CRETE(p_centiSec, 80)
         // Close the blower's valve by 2°
         m_blower.command = m_blower.position - 2;
+
+        if (m_blower.command < 25) {
+            m_blower.command = 25;
+        }
     }
 
     if (m_phase == CyclePhases::PLATEAU && m_pressure > m_maxPlateauPressure)
@@ -284,13 +303,17 @@ void PressureController::safeguards(uint16_t p_centiSec)
         DBG_PRESSION_PLATEAU(p_centiSec, 80)
         // Open the patient's valve by 1° to ease exhalation
         m_patient.command = m_blower.position + 1;
+
+        if (m_patient.command > 80) {
+            m_patient.command = 80;
+        }
     }
 
     if (m_pressure < m_minPeep)
     {
         DBG_PRESSION_PEP(p_centiSec, 80)
         // Close completely the patient's valve
-        m_patient.command = ANGLE_FERMETURE;
+        m_patient.command = 80;
         m_phase = CyclePhases::HOLD_EXHALATION;
     }
 }
@@ -307,4 +330,5 @@ void PressureController::executeCommands()
 {
     m_blower.execute();
     m_patient.execute();
+    m_y.execute();
 }

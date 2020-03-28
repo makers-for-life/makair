@@ -40,7 +40,8 @@ public:
                        int16_t p_aperture,
                        int16_t p_maxPeakPressure,
                        AirTransistor p_blower,
-                       AirTransistor p_patient);
+                       AirTransistor p_patient,
+                       AirTransistor p_y);
 
     //! This function initializes the actuators
     void setup();
@@ -124,6 +125,9 @@ public:
 
     //! This function returns the patient's transistor
     inline const AirTransistor& patient() const { return m_patient; }
+
+    //! This function returns the Y's transistor
+    inline const AirTransistor& y() const { return m_y; }
 
 private:
     /*! This function updates the cycle phase
@@ -218,6 +222,9 @@ private:
 
     /// Patient's transistor
     AirTransistor m_patient;
+
+    /// Y's transistor
+    AirTransistor m_y;
 };
 
 // INITIALISATION =============================================================
