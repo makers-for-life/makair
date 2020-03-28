@@ -25,7 +25,10 @@
 
 // CLASS ======================================================================
 
-class PressureController {
+class PressureController
+{
+    // METHODS ----------------------------------------------------------------
+
 public:
 
   //! Default constructor
@@ -47,9 +50,78 @@ public:
   void updatePressure(int16_t p_pressure);
 
   /*! This function performs the pressure control
-   *  \param p_centiSec     Current progress in the respiratory cycle in hundredth of second
+   *  \param p_centiSec     Current progress in the respiratory cycle in
+   *                        hundredth of second
    */
   void compute(uint16_t p_centiSec);
+
+  //! This function decreases the desired number of cycles per minute
+  void onCycleMinus();
+
+  //! This function increases the desired number of cycles per minute
+  void onCyclePlus();
+
+  //! This function decreases the minimal PEEP desired
+  void onPressionPepMinus();
+
+  //! This function increases the minimal PEEP desired
+  void onPressionPepPlus();
+
+  //! This function decreases the desired plateau pressure
+  void onPressionPlateauMinus();
+
+  //! This function increases the desired plateau pressure
+  void onPressionPlateauPlus();
+
+  //! This function returns the number of cycles per minute desired by the operator
+  inline uint16_t cyclesPerMinuteCommand() const {
+    return m_cyclesPerMinuteCommand;
+  }
+
+  //! This function returns the minimal PEEP desired by the operator
+  inline uint16_t minPeepCommand() const { return m_minPeepCommand; }
+
+  //! This function returns the maximal plateau pressure desired by the operator
+  inline uint16_t maxPlateauPressureCommand() const {
+    return m_maxPlateauPressureCommand;
+  }
+
+  //! This function returns the blower aperture desired by the operator
+  inline uint16_t apertureCommand() const { return m_apertureCommand; }
+
+  //! This function returns the number of cycles per minute
+  inline uint16_t cyclesPerMinute() const { return m_cyclesPerMinute; }
+
+  //! This function returns the number of hundredth of second per cycle
+  inline uint16_t centiSecPerCycle() const { return m_centiSecPerCycle; }
+
+  //! This function returns the number of hundredth of second per inhalation
+  inline uint16_t centiSecPerInhalation() const {
+    return m_centiSecPerInhalation;
+  }
+
+  //! This function returns the current measured pressure
+  inline int16_t pressure() const { return m_pressure; }
+
+  // This function returns the peak pressure
+  inline int16_t peakPressure() const { return m_peakPressure; }
+
+  //! This function returns the plateau pressure
+  inline int16_t plateauPressure() const { return m_plateauPressure; }
+
+  //! This function returns the PEEP
+  inline int16_t peep() const { return m_peep; }
+
+  //! This function returns the current cycle phase
+  inline CyclePhases phase() const { return m_phase; }
+
+  //! This function returns the blower's transistor
+  inline const AirTransistor &blower() const { return m_blower; }
+
+  //! This function returns the patient's transistor
+  inline const AirTransistor &patient() const { return m_patient; }
+
+private:
 
   /*! This function updates the cycle phase
    *  \param p_centiSec     Current progress in the respiratory cycle in hundredth of second
@@ -87,64 +159,7 @@ public:
   //! This function makes the actuators execute the computed commands
   void executeCommands();
 
-  /*-----------------------------------------------------------------------------
-   * The following functions allow to modify the parameters of the breathing
-   * cycle and are the interface to the keyboard user input.
-   */
-  void onCycleMinus();
-  void onCyclePlus();
-  void onPressionPepMinus();
-  void onPressionPepPlus();
-  void onPressionPlateauMinus();
-  void onPressionPlateauPlus();
-
-  //! This function returns the number of cycles per minute desired by the operator
-  inline uint16_t cyclesPerMinuteCommand() const
-  {
-    return m_cyclesPerMinuteCommand;
-  }
-
-  //! This function returns the minimal PEEP desired by the operator
-  inline uint16_t minPeepCommand() const { return m_minPeepCommand; }
-
-  //! This function returns the maximal plateau pressure desired by the operator
-  inline uint16_t maxPlateauPressureCommand() const { return m_maxPlateauPressureCommand; }
-
-  //! This function returns the blower aperture desired by the operator
-  inline uint16_t apertureCommand() const { return m_apertureCommand; }
-
-  //! This function returns the number of cycles per minute
-  inline uint16_t cyclesPerMinute() const { return m_cyclesPerMinute; }
-
-  //! This function returns the number of hundredth of second per cycle
-  inline uint16_t centiSecPerCycle() const { return m_centiSecPerCycle; }
-
-  //! This function returns the number of hundredth of second per inhalation
-  inline uint16_t centiSecPerInhalation() const { return m_centiSecPerInhalation; }
-
-  //! This function returns the current measured pressure
-  inline int16_t pressure() const
-  {
-      return m_pressure;
-  }
-
-  // This function returns the peak pressure
-  inline int16_t peakPressure() const { return m_peakPressure; }
-
-  //! This function returns the plateau pressure
-  inline int16_t plateauPressure() const { return m_plateauPressure; }
-
-  //! This function returns the PEEP
-  inline int16_t peep() const { return m_peep; }
-
-  //! This function returns the current cycle phase
-  inline CyclePhases phase() const { return m_phase; }
-
-  //! This function returns the blower's transistor
-  inline const AirTransistor &blower() const { return m_blower; }
-
-  //! This function returns the patient's transistor
-  inline const AirTransistor &patient() const { return m_patient; }
+  // ATTRIBUTES ---------------------------------------------------------------
 
 private:
 
@@ -202,3 +217,7 @@ private:
   /// Patient's transistor
   AirTransistor m_patient;
 };
+
+// INITIALISATION =============================================================
+
+extern PressureController pController;

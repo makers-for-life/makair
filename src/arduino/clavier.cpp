@@ -12,13 +12,21 @@
  * This file is the implementation for input keyboard
  */
 
-#include "clavier.h"
-#include "debug.h"
-#include "respi-prod.h"
-#include "common.h"
+// INCLUDES ===================================================================
 
+// Associated header
+#include "clavier.h"
+
+// External
 /* For analog keyboard */
 #include <AnalogButtons.h>
+
+// Internal
+#include "debug.h"
+#include "parameters.h"
+#include "pressure_controller.h"
+
+// INITIALISATION =============================================================
 
 static AnalogButtons analogButtons(ANALOG_PIN, INPUT);
 
@@ -114,4 +122,11 @@ void initKeyboard()
 void keyboardLoop()
 {
   analogButtons.check();
+}
+
+void calibrateButtons()
+{
+  uint16_t value = analogRead(ANALOG_PIN);
+  Serial.println(value);
+  delay(250);
 }

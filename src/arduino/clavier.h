@@ -24,3 +24,7 @@ void initKeyboard();
  * in loop
  */
 void keyboardLoop();
+
+
+//Call this in loop() to help find analog values of buttons
+void calibrateButtons();

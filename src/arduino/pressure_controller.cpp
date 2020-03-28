@@ -22,6 +22,10 @@
 #include "debug.h"
 #include "parameters.h"
 
+// INITIALISATION =============================================================
+
+PressureController pController;
+
 // FUNCTIONS ==================================================================
 
 PressureController::PressureController()
@@ -120,18 +124,64 @@ void PressureController::compute(uint16_t p_centiSec) {
   executeCommands();
 }
 
+void PressureController::onCycleMinus() {
+  DBG_DO(Serial.println("nb cycle --");)
+  m_cyclesPerMinuteCommand--;
+  if (m_cyclesPerMinuteCommand < BORNE_INF_CYCLE) {
+    m_cyclesPerMinuteCommand = BORNE_INF_CYCLE;
+  }
+}
+
+void PressureController::onCyclePlus() {
+  DBG_DO(Serial.println("nb cycle ++");)
+  m_cyclesPerMinuteCommand++;
+  if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE) {
+    m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
+  }
+}
+
+void PressureController::onPressionPepMinus() {
+  DBG_DO(Serial.println("pression PEP --");)
+  m_minPeepCommand--;
+  if (m_minPeepCommand < BORNE_INF_PRESSION_PEP) {
+    m_minPeepCommand = BORNE_INF_PRESSION_PEP;
+  }
+}
+
+void PressureController::onPressionPepPlus() {
+  DBG_DO(Serial.println("pression PEP ++");)
+  m_minPeepCommand++;
+  if (m_minPeepCommand > BORNE_SUP_PRESSION_PEP) {
+    m_minPeepCommand = BORNE_SUP_PRESSION_PEP;
+  }
+}
+
+void PressureController::onPressionPlateauMinus() {
+  DBG_DO(Serial.println("pression plateau --");)
+  m_maxPlateauPressureCommand--;
+  if (m_maxPlateauPressureCommand < BORNE_INF_PRESSION_PLATEAU) {
+    m_maxPlateauPressureCommand = BORNE_INF_PRESSION_PLATEAU;
+  }
+}
+
+void PressureController::onPressionPlateauPlus() {
+  DBG_DO(Serial.println("pression plateau ++");)
+  m_maxPlateauPressureCommand++;
+  if (m_maxPlateauPressureCommand > BORNE_SUP_PRESSION_PLATEAU) {
+    m_maxPlateauPressureCommand = BORNE_SUP_PRESSION_PLATEAU;
+  }
+}
+
 void PressureController::updatePhase(uint16_t p_centiSec) {
   if (p_centiSec <= m_centiSecPerInhalation) {
-    m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION : CyclePhases::PLATEAU;
-  }
-  else
-  {
+    m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION
+                                           : CyclePhases::PLATEAU;
+  } else {
     m_phase = CyclePhases::EXHALATION;
   }
 }
 
-void PressureController::inhale()
-{
+void PressureController::inhale() {
   // Open the air stream towards the patient's lungs
   m_blower.command = ANGLE_FERMETURE - ANGLE_MULTIPLICATEUR * m_aperture;
 
@@ -143,8 +193,7 @@ void PressureController::inhale()
   m_peakPressure = m_pressure;
 }
 
-void PressureController::plateau()
-{
+void PressureController::plateau() {
   // Deviate the air stream outside
   m_blower.command =
       ANGLE_FERMETURE + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI;
@@ -156,8 +205,7 @@ void PressureController::plateau()
   m_plateauPressure = m_pressure;
 }
 
-void PressureController::exhale()
-{
+void PressureController::exhale() {
   // Deviate the air stream outside
   m_blower.command =
       ANGLE_FERMETURE + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI;
@@ -169,16 +217,14 @@ void PressureController::exhale()
   m_peep = m_pressure;
 }
 
-void PressureController::safeguards(uint16_t p_centiSec)
-{
+void PressureController::safeguards(uint16_t p_centiSec) {
   if (m_pressure > m_maxPeakPressure) {
     DBG_PRESSION_CRETE(p_centiSec, 80)
     // Close the blower's valve by 2°
     m_blower.command = m_blower.position - 2;
   }
 
-  if (m_phase == CyclePhases::PLATEAU &&
-      m_pressure > m_maxPlateauPressure) {
+  if (m_phase == CyclePhases::PLATEAU && m_pressure > m_maxPlateauPressure) {
     DBG_PRESSION_PLATEAU(p_centiSec, 80)
     // Open the patient's valve by 1° to ease exhalation
     m_patient.command = m_blower.position + 1;
@@ -199,68 +245,7 @@ void PressureController::computeCentiSecParameters() {
   m_centiSecPerInhalation = m_centiSecPerCycle / 3;
 }
 
-void PressureController::executeCommands()
-{
-    m_blower.execute();
-    m_patient.execute();
-}
-
-void PressureController::onCycleMinus() {
-#ifdef DEBUG
-  Serial.println("nb cycle --");
-#endif
-  m_cyclesPerMinuteCommand--;
-  if (m_cyclesPerMinuteCommand < BORNE_INF_CYCLE) {
-    m_cyclesPerMinuteCommand = BORNE_INF_CYCLE;
-  }
-}
-
-void PressureController::onCyclePlus() {
-#ifdef DEBUG
-  Serial.println("nb cycle ++");
-#endif
-  m_cyclesPerMinuteCommand++;
-  if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE) {
-    m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
-  }
-}
-
-void PressureController::onPressionPepMinus() {
-#ifdef DEBUG
-  Serial.println("pression PEP --");
-#endif
-  m_minPeepCommand--;
-  if (m_minPeepCommand < BORNE_INF_PRESSION_PEP) {
-    m_minPeepCommand = BORNE_INF_PRESSION_PEP;
-  }
-}
-
-void PressureController::onPressionPepPlus() {
-#ifdef DEBUG
-  Serial.println("pression PEP ++");
-#endif
-  m_minPeepCommand++;
-  if (m_minPeepCommand > BORNE_SUP_PRESSION_PEP) {
-    m_minPeepCommand = BORNE_SUP_PRESSION_PEP;
-  }
-}
-
-void PressureController::onPressionPlateauMinus() {
-#ifdef DEBUG
-  Serial.println("pression plateau --");
-#endif
-  m_maxPlateauPressureCommand--;
-  if (m_maxPlateauPressureCommand < BORNE_INF_PRESSION_PLATEAU) {
-    m_maxPlateauPressureCommand = BORNE_INF_PRESSION_PLATEAU;
-  }
-}
-
-void PressureController::onPressionPlateauPlus() {
-#ifdef DEBUG
-  Serial.println("pression plateau ++");
-#endif
-  m_maxPlateauPressureCommand++;
-  if (m_maxPlateauPressureCommand > BORNE_SUP_PRESSION_PLATEAU) {
-    m_maxPlateauPressureCommand = BORNE_SUP_PRESSION_PLATEAU;
-  }
+void PressureController::executeCommands() {
+  m_blower.execute();
+  m_patient.execute();
 }

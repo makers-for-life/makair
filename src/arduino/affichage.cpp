@@ -50,8 +50,8 @@ void startScreen()
   }
 }
 
-void displayRespiratoryEveryCycle(int peakPressure, int plateauPressure, int peep)
-{
+void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure,
+                                  int peep) {
   screen.setCursor(0, 0);
 
   switch (screenSize)

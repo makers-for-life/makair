@@ -54,15 +54,14 @@ static const int16_t PIN_SERVO_PATIENT = 2; // D2
 static const int16_t BTN_NOMBRE_CYCLE_MINUS = A3;
 static const int16_t BTN_NOMBRE_CYCLE_PLUS = A2;
 static const int16_t rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
-static const int16_t PIN_ANALOG_KEYBOARD = A0;
+static const int16_t ANALOG_PIN = A0;
 #else
 #error "Carte non supportee"
 #endif
 
 // contrôle de l'écran LCD
 static const ScreenSize screenSize{ScreenSize::CHARS_20};
-static const int16_t LCD_UPDATE_PERIOD =
-    20; // période (en centièmes de secondes) de mise à jour du feedback des
+static const int16_t LCD_UPDATE_PERIOD = 20; // période (en centièmes de secondes) de mise à jour du feedback des
         // consignes sur le LCD
 
 // minimums et maximums possible des paramètres modifiables à l'exécution
@@ -78,9 +77,6 @@ static const uint16_t BORNE_INF_CYCLE = 5;  // demande medical
 
 // durée d'appui des boutons (en centièmes de secondes) avant prise en compte
 static const uint16_t MAINTIEN_PARAMETRAGE = 21;
-
-static AnalogButtons buttons = AnalogButtons(PIN_ANALOG_KEYBOARD);
-static const int16_t ANALOG_PIN = PIN_ANALOG_KEYBOARD;
 
 static const uint16_t BTN_FREE2 = 913;
 static const uint16_t BTN_FREE1 = 821;
