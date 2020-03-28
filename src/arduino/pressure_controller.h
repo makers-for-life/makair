@@ -34,11 +34,11 @@ public:
     PressureController();
 
     //! Parameterized constructor
-    PressureController(int16_t p_cyclesPerMinute,
-                       int16_t p_minPeep,
-                       int16_t p_maxPlateauPressure,
-                       int16_t p_aperture,
-                       int16_t p_maxPeakPressure,
+    PressureController(uint16_t p_cyclesPerMinute,
+                       uint16_t p_minPeep,
+                       uint16_t p_maxPlateauPressure,
+                       uint16_t p_aperture,
+                       uint16_t p_maxPeakPressure,
                        AirTransistor p_blower,
                        AirTransistor p_patient);
 
@@ -71,7 +71,7 @@ public:
      *
      *  \param p_pressure     Measured pressure
      */
-    void updatePressure(int16_t p_pressure);
+    void updatePressure(uint16_t p_pressure);
 
     /*! This function performs the pressure control
      *  This function modifies the followint attributes:
@@ -150,16 +150,16 @@ public:
     inline uint16_t centiSecPerInhalation() const { return m_centiSecPerInhalation; }
 
     //! This function returns the current measured pressure
-    inline int16_t pressure() const { return m_pressure; }
+    inline uint16_t pressure() const { return m_pressure; }
 
     // This function returns the peak pressure
-    inline int16_t peakPressure() const { return m_peakPressure; }
+    inline uint16_t peakPressure() const { return m_peakPressure; }
 
     //! This function returns the plateau pressure
-    inline int16_t plateauPressure() const { return m_plateauPressure; }
+    inline uint16_t plateauPressure() const { return m_plateauPressure; }
 
     //! This function returns the PEEP
-    inline int16_t peep() const { return m_peep; }
+    inline uint16_t peep() const { return m_peep; }
 
     //! This function returns the current cycle phase
     inline CyclePhases phase() const { return m_phase; }
