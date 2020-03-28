@@ -55,13 +55,31 @@ static const int16_t PIN_SERVO_PATIENT = 2; // D2
 static const int16_t BTN_NOMBRE_CYCLE_MINUS = A3;
 static const int16_t BTN_NOMBRE_CYCLE_PLUS = A2;
 /* Ecran LCD */
-static const int16_t PIN_RS = 7;
-static const int16_t PIN_EN = 8;
-static const int16_t PIN_D4 = 9;
-static const int16_t PIN_D5 = 10;
-static const int16_t PIN_D6 = 11;
-static const int16_t PIN_D7 = 12;
-static const int16_t ANALOG_PIN = A0;
+static const int16_t PIN_LCD_RS = 7;
+static const int16_t PIN_LCD_EN = 8;
+static const int16_t PIN_LCD_D4 = 9;
+static const int16_t PIN_LCD_D5 = 10;
+static const int16_t PIN_LCD_D6 = 11;
+static const int16_t PIN_LCD_D7 = 12;
+/* clavier analogique */
+static const int16_t PIN_CONTROL_BUTTONS = A0;
+#elif defined(ARDUINO_NUCLEO_F411RE)
+static const int16_t PIN_CAPTEUR_PRESSION = A1;
+static const int16_t PIN_ALARM = D13;
+static const int16_t PIN_LED_RED = PC4;
+static const int16_t PIN_LED_GREEN = PB13;
+static const int16_t PIN_MOTEUR_VENTILATEUR = D5;
+static const int16_t PIN_SERVO_BLOWER = D2;
+static const int16_t PIN_SERVO_PATIENT = D4;
+static const int16_t PIN_CONTROL_BUTTONS = A0;
+static const int16_t PIN_BATTERY = A2;
+/* Ecran LCD */
+static const int16_t PIN_LCD_RS = D7;
+static const int16_t PIN_LCD_EN = D8;
+static const int16_t PIN_LCD_D4 = D9;
+static const int16_t PIN_LCD_D5 = D10;
+static const int16_t PIN_LCD_D6 = D11;
+static const int16_t PIN_LCD_D7 = D12;
 #else
 #error "Carte non supportee"
 #endif

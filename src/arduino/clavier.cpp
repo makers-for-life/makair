@@ -28,7 +28,7 @@
 
 // INITIALISATION =============================================================
 
-static AnalogButtons analogButtons(ANALOG_PIN, INPUT);
+static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
 
 /*-----------------------------------------------------------------------------
  * Button handlers
@@ -103,7 +103,7 @@ void keyboardLoop() { analogButtons.check(); }
 
 void calibrateButtons()
 {
-    uint16_t value = analogRead(ANALOG_PIN);
+    uint16_t value = analogRead(PIN_CONTROL_BUTTONS);
     Serial.println(value);
     delay(250);
 }
