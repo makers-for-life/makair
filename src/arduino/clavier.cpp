@@ -35,54 +35,34 @@ static AnalogButtons analogButtons(ANALOG_PIN, INPUT);
  */
 
 /* Handler of the second free button */
-void onFree2() {
-  DBG_DO(Serial.println("free2");)
-}
+void onFree2() { DBG_DO(Serial.println("free2");) }
 
 /* Handler of the first free button */
-void onFree1() {
-  DBG_DO(Serial.println("free1");)
-}
+void onFree1() { DBG_DO(Serial.println("free1");) }
 
 /* Handler of the button to switch the alarm off */
-void onAlarmOff() {
-  DBG_DO(Serial.println("alarm OFF");)
-}
+void onAlarmOff() { DBG_DO(Serial.println("alarm OFF");) }
 
 /* Handler of the button to switch the alarm on */
-void onAlarmOn() {
-  DBG_DO(Serial.println("alarm ON");)
-}
+void onAlarmOn() { DBG_DO(Serial.println("alarm ON");) }
 
 /* Handler of the button to decrement the number of breathing cycles */
-void onCycleMinus() {
-  pController.onCycleMinus();
-}
+void onCycleMinus() { pController.onCycleMinus(); }
 
 /* Handler of the button to increment the number of breathing cycles */
-void onCyclePlus() {
-  pController.onCyclePlus();
-}
+void onCyclePlus() { pController.onCyclePlus(); }
 
 /* Handler of the button to decrement the PEP pressure */
-void onPressionPepMinus() {
-  pController.onPressionPepMinus();
-}
+void onPressionPepMinus() { pController.onPressionPepMinus(); }
 
 /* Handler of the button to increment the PEP pressure */
-void onPressionPepPlus() {
-  pController.onPressionPepPlus();
-}
+void onPressionPepPlus() { pController.onPressionPepPlus(); }
 
 /* Handler of the button to decrement the plateau pressure */
-void onPressionPlateauMinus() {
-  pController.onPressionPlateauMinus();
-}
+void onPressionPlateauMinus() { pController.onPressionPlateauMinus(); }
 
 /* Handler of the button to increment the plateau pressure */
-void onPressionPlateauPlus() {
-  pController.onPressionPlateauPlus();
-}
+void onPressionPlateauPlus() { pController.onPressionPlateauPlus(); }
 
 /*
  * Buttons associations with analog levels and handlers
@@ -103,30 +83,27 @@ static Button btnPressionPlateauPlus(BTN_PRESSION_PLATEAU_PLUS, onPressionPlatea
  */
 void initKeyboard()
 {
-  analogButtons.add(btnFree2);
-  analogButtons.add(btnFree1);
-  analogButtons.add(btnAlarmOff);
-  analogButtons.add(btnAlarmOn);
-  analogButtons.add(btnCycleMinus);
-  analogButtons.add(btnCyclePlus);
-  analogButtons.add(btnPressionPepMinus);
-  analogButtons.add(btnPressionPepPlus);
-  analogButtons.add(btnPressionPlateauMinus);
-  analogButtons.add(btnPressionPlateauPlus);
+    analogButtons.add(btnFree2);
+    analogButtons.add(btnFree1);
+    analogButtons.add(btnAlarmOff);
+    analogButtons.add(btnAlarmOn);
+    analogButtons.add(btnCycleMinus);
+    analogButtons.add(btnCyclePlus);
+    analogButtons.add(btnPressionPepMinus);
+    analogButtons.add(btnPressionPepPlus);
+    analogButtons.add(btnPressionPlateauMinus);
+    analogButtons.add(btnPressionPlateauPlus);
 }
 
 /*-----------------------------------------------------------------------------
  * keyboardLoop triggers the reading of the buttons and call the handlers
  * Has to be called within the Pressure controller loop
  */
-void keyboardLoop()
-{
-  analogButtons.check();
-}
+void keyboardLoop() { analogButtons.check(); }
 
 void calibrateButtons()
 {
-  uint16_t value = analogRead(ANALOG_PIN);
-  Serial.println(value);
-  delay(250);
+    uint16_t value = analogRead(ANALOG_PIN);
+    Serial.println(value);
+    delay(250);
 }

@@ -30,8 +30,10 @@ struct AirTransistor
     AirTransistor();
 
     //! Parameterized constructor
-    AirTransistor(uint16_t p_minApertureAngle, uint16_t p_maxApertureAngle,
-                  uint16_t p_defaultCommand, uint16_t p_failsafeCommand);
+    AirTransistor(uint16_t p_minApertureAngle,
+                  uint16_t p_maxApertureAngle,
+                  uint16_t p_defaultCommand,
+                  uint16_t p_failsafeCommand);
 
     inline void reset()
     {
@@ -46,13 +48,13 @@ struct AirTransistor
             actuator.write(command);
             position = command;
         }
-  }
+    }
 
-  uint16_t minApertureAngle;
-  uint16_t maxApertureAngle;
-  uint16_t defaultCommand;
-  uint16_t failsafeCommand;
-  uint16_t command;
-  uint16_t position;
-  Servo actuator;
+    uint16_t minApertureAngle;
+    uint16_t maxApertureAngle;
+    uint16_t defaultCommand;
+    uint16_t failsafeCommand;
+    uint16_t command;
+    uint16_t position;
+    Servo actuator;
 };
