@@ -22,6 +22,7 @@
 // External
 #include <AnalogButtons.h>
 #include <Arduino.h>
+#include <IWatchdog.h>
 #include <LiquidCrystal.h>
 
 // Internal
@@ -51,6 +52,21 @@ void waitForInMs(uint16_t ms)
 
 void setup()
 {
+    /* Catch potential Watchdog reset */
+    if (IWatchdog.isReset(true))
+    {
+        /* Code in case of Watchdog detected */
+        /* TODO */
+        Alarm_Init();
+        Alarm_Red_Start();
+        while (1)
+        {
+        };
+    }
+
+    // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
+    IWatchdog.begin(WATCHDOG_TIMEOUT);
+
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("demarrage");)
     startScreen();
@@ -111,6 +127,8 @@ void setup()
     /* Test purpose*/
     delay(2000);
     Alarm_Yellow_Start();
+
+    IWatchdog.reload();
 }
 
 void loop()
@@ -159,6 +177,7 @@ void loop()
             // next tick
             centiSec++;
         }
+        IWatchdog.reload();
     }
     /********************************************/
     // END OF THE RESPIRATORY CYCLE
