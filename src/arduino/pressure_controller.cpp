@@ -30,14 +30,14 @@ PressureController pController;
 
 PressureController::PressureController()
     : m_cyclesPerMinuteCommand(20),
-      m_minPeepCommand(5),
-      m_maxPlateauPressureCommand(30),
+      m_minPeepCommand(BORNE_INF_PRESSION_PEP), // mmH2O
+      m_maxPlateauPressureCommand(BORNE_SUP_PRESSION_PLATEAU), //mmH20
       m_apertureCommand(ANGLE_OUVERTURE_MAXI),
       m_cyclesPerMinute(20),
       m_aperture(ANGLE_OUVERTURE_MAXI),
-      m_maxPeakPressure(60),
-      m_maxPlateauPressure(30),
-      m_minPeep(5),
+      m_maxPeakPressure(BORNE_SUP_PRESSION_CRETE), // mmH2O
+      m_maxPlateauPressure(BORNE_SUP_PRESSION_PLATEAU), // mmH2O
+      m_minPeep(BORNE_INF_PRESSION_PEP), //mmH2O
       m_pressure(-1),
       m_peakPressure(-1),
       m_plateauPressure(-1),
@@ -173,7 +173,7 @@ void PressureController::onCyclePlus()
 void PressureController::onPressionPepMinus()
 {
     DBG_DO(Serial.println("pression PEP --");)
-    m_minPeepCommand--;
+    m_minPeepCommand = m_minPeepCommand - 10;
     if (m_minPeepCommand < BORNE_INF_PRESSION_PEP)
     {
         m_minPeepCommand = BORNE_INF_PRESSION_PEP;
@@ -183,7 +183,7 @@ void PressureController::onPressionPepMinus()
 void PressureController::onPressionPepPlus()
 {
     DBG_DO(Serial.println("pression PEP ++");)
-    m_minPeepCommand++;
+    m_minPeepCommand = m_minPeepCommand + 10;
     if (m_minPeepCommand > BORNE_SUP_PRESSION_PEP)
     {
         m_minPeepCommand = BORNE_SUP_PRESSION_PEP;
@@ -193,7 +193,7 @@ void PressureController::onPressionPepPlus()
 void PressureController::onPressionPlateauMinus()
 {
     DBG_DO(Serial.println("pression plateau --");)
-    m_maxPlateauPressureCommand--;
+    m_maxPlateauPressureCommand = m_maxPlateauPressureCommand - 10;
     if (m_maxPlateauPressureCommand < BORNE_INF_PRESSION_PLATEAU)
     {
         m_maxPlateauPressureCommand = BORNE_INF_PRESSION_PLATEAU;
@@ -203,7 +203,7 @@ void PressureController::onPressionPlateauMinus()
 void PressureController::onPressionPlateauPlus()
 {
     DBG_DO(Serial.println("pression plateau ++");)
-    m_maxPlateauPressureCommand++;
+    m_maxPlateauPressureCommand = m_maxPlateauPressureCommand + 10;
     if (m_maxPlateauPressureCommand > BORNE_SUP_PRESSION_PLATEAU)
     {
         m_maxPlateauPressureCommand = BORNE_SUP_PRESSION_PLATEAU;
