@@ -105,24 +105,24 @@ void calibrateButtons() {
 }
 */
 
-void loop() {
+void loop()
+{
   /********************************************/
-  // Affichage une fois par cycle respiratoire
+  // INITIALIZE THE RESPIRATORY CYCLE
   /********************************************/
-  displayEveryCycle(pController.peakPressure(), pController.plateauPressure(),
+
+  displayEveryRespiratoryCycle(pController.peakPressure(), pController.plateauPressure(),
                     pController.peep());
 
   pController.initRespiratoryCycle();
 
   /********************************************/
-  // Début d'un cycle
+  // START THE RESPIRATORY CYCLE
   /********************************************/
   for (uint16_t centiSec = 0;
        centiSec < pController.centiSecPerCycle(); centiSec++) {
 
-    /********************************************/
-    // Mesure pression pour rétro-action
-    /********************************************/
+    // Get the measured pressure for the feedback control
     #ifdef SIMULATION
     if (centiSec < uint16_t(50)) {
       pController.updatePressure(60);
@@ -136,21 +136,15 @@ void loop() {
     pController.updatePressure(map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600) / 10);
     #endif
 
-    /********************************************/
-    // Calcul des consignes normales
-    /********************************************/
+    // Perform the pressure control
     pController.compute(centiSec);
 
 
-    /********************************************/
-    // Écoute des appuis boutons
-    /********************************************/
+    // Check if some buttons have been pushed
     analogButtons.check();
     //calibrateButtons();
 
-    /********************************************/
-    // Affichage pendant le cycle
-    /********************************************/
+    // Display relevant information during the cycle
     if (centiSec % LCD_UPDATE_PERIOD == 0) {
       displayDuringCycle(pController.cyclesPerMinuteCommand(),
                          pController.maxPlateauPressureCommand(),
@@ -158,11 +152,12 @@ void loop() {
                          pController.pressure());
     }
 
-    delay(10); // on attend 1 centième de seconde (on aura de la dérive en temps, sera corrigé par rtc au besoin)
-
+    // Wait 1/100 of second
+    // Warning: this introduces a time drift, that will be corrected by rtc if needed
+    delay(10);
   }
   /********************************************/
-  // Fin du cycle
+  // END OF THE RESPIRATORY CYCLE
   /********************************************/
 
 }
