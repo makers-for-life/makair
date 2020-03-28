@@ -32,13 +32,13 @@
  * de secondes par inspiration.
  */
 #ifdef DEBUG
-#define DBG_AFFICHE_CSPCYCLE_CSPINSPI(csparcycle, csparinspi) \
-  Serial.println();                                           \
-  Serial.println("------ Starting cycle ------");             \
-  Serial.print("nbreCentiemeSecParCycle = ");                 \
-  Serial.println(csparcycle);                                 \
-  Serial.print("nbreCentiemeSecParInspi = ");                 \
-  Serial.println(csparinspi);
+#define DBG_AFFICHE_CSPCYCLE_CSPINSPI(csparcycle, csparinspi)                                      \
+    Serial.println();                                                                              \
+    Serial.println("------ Starting cycle ------");                                                \
+    Serial.print("nbreCentiemeSecParCycle = ");                                                    \
+    Serial.println(csparcycle);                                                                    \
+    Serial.print("nbreCentiemeSecParInspi = ");                                                    \
+    Serial.println(csparinspi);
 #else
 #define DBG_AFFICHE_CSPCYCLE_CSPINSPI(cspc, cspi)
 #endif
@@ -47,15 +47,15 @@
  * macro d'affichage des consignes.
  */
 #ifdef DEBUG
-#define DBG_AFFICHE_CONSIGNES(csgNBcycle, csgOuverture, csgPPEP, csgPPM)  \
-  Serial.print("consigneNbCycle = ");                                     \
-  Serial.println(csgNBcycle);                                             \
-  Serial.print("consigneOuverture = ");                                   \
-  Serial.println(csgOuverture);                                           \
-  Serial.print("consignePressionPEP = ");                                 \
-  Serial.println(csgPPEP);                                                \
-  Serial.print("consignePressionPlateauMax = ");                          \
-  Serial.println(csgPPM);
+#define DBG_AFFICHE_CONSIGNES(csgNBcycle, csgOuverture, csgPPEP, csgPPM)                           \
+    Serial.print("consigneNbCycle = ");                                                            \
+    Serial.println(csgNBcycle);                                                                    \
+    Serial.print("consigneOuverture = ");                                                          \
+    Serial.println(csgOuverture);                                                                  \
+    Serial.print("consignePressionPEP = ");                                                        \
+    Serial.println(csgPPEP);                                                                       \
+    Serial.print("consignePressionPlateauMax = ");                                                 \
+    Serial.println(csgPPM);
 #else
 #define DBG_AFFICHE_CONSIGNES(csgNBcycle, csgOuverture, csgPPEP, csgPPM)
 #endif
@@ -64,10 +64,11 @@
  * Macro pour l'alerte de mise en securite pression crete
  */
 #ifdef DEBUG
-#define DBG_PRESSION_CRETE(centieme, periode)                           \
-if (centieme % periode) {                                               \
-  Serial.println("Mise en securite : pression crete trop importante");  \
-}
+#define DBG_PRESSION_CRETE(centieme, periode)                                                      \
+    if (centieme % periode)                                                                        \
+    {                                                                                              \
+        Serial.println("Mise en securite : pression crete trop importante");                       \
+    }
 #else
 #define DBG_PRESSION_CRETE(centieme, periode)
 #endif
@@ -76,10 +77,11 @@ if (centieme % periode) {                                               \
  * Macro pour l'alerte de mise en securite pression plateau
  */
 #ifdef DEBUG
-#define DBG_PRESSION_PLATEAU(centieme, periode)                           \
-if (centieme % periode) {                                                 \
-  Serial.println("Mise en securite : pression plateau trop importante");  \
-}
+#define DBG_PRESSION_PLATEAU(centieme, periode)                                                    \
+    if (centieme % periode)                                                                        \
+    {                                                                                              \
+        Serial.println("Mise en securite : pression plateau trop importante");                     \
+    }
 #else
 #define DBG_PRESSION_PLATEAU(centieme, periode)
 #endif
@@ -88,10 +90,11 @@ if (centieme % periode) {                                                 \
  * Macro pour l'alerte de mise en securite pression PEP
  */
 #ifdef DEBUG
-#define DBG_PRESSION_PEP(centieme, periode)                                               \
-if (centieme % periode) {                                                                 \
-  Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");  \
-}
+#define DBG_PRESSION_PEP(centieme, periode)                                                        \
+    if (centieme % periode)                                                                        \
+    {                                                                                              \
+        Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");     \
+    }
 #else
 #define DBG_PRESSION_PEP(centieme, periode)
 #endif
@@ -100,13 +103,14 @@ if (centieme % periode) {                                                       
  * Macro pour le message phase + pression
  */
 #ifdef DEBUG
-#define DBG_PHASE_PRESSION(centieme, periode, phase, pression)  \
-if (centieme % periode == 0) {                                  \
-  Serial.print("Phase : ");                                     \
-  Serial.println(phase);                                        \
-  Serial.print("Pression : ");                                  \
-  Serial.println(pression);                                     \
-}
+#define DBG_PHASE_PRESSION(centieme, periode, phase, pression)                                     \
+    if (centieme % periode == 0)                                                                   \
+    {                                                                                              \
+        Serial.print("Phase : ");                                                                  \
+        Serial.println(phase);                                                                     \
+        Serial.print("Pression : ");                                                               \
+        Serial.println(pression);                                                                  \
+    }
 #else
 #define DBG_PHASE_PRESSION(centieme, periode, phase, pression)
 #endif
