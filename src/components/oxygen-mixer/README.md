@@ -2,6 +2,7 @@
 
 | Version | Last Changelog | Ready? | Online CAD Models |
 | ------- | -------------- | ------ | ----------------- |
+| V2 | Adapted from existing models. Ready for test print today (27/03/20) | ❌ | [link](https://a360.co/2UmAecQ) |
 | V3 | Designed from scratched. Ready for test print today (28/03/20) | ❌ | [link](https://a360.co/2vV5s18) |
 
 ## Assumptions
