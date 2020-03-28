@@ -46,7 +46,7 @@ void startScreen()
     }
 }
 
-void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int peep)
+void displayEveryRespiratoryCycle(uint16_t peakPressure, uint16_t plateauPressure, uint16_t peep)
 {
     screen.setCursor(0, 0);
 
@@ -77,7 +77,10 @@ void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int pee
     }
 }
 
-void displayDuringCycle(int cyclesPerMinute, int maxPlateauPressure, int peep, int currentPressure)
+void displayDuringCycle(uint16_t cyclesPerMinute,
+                        uint16_t maxPlateauPressure,
+                        uint16_t peep,
+                        uint16_t currentPressure)
 {
     screen.setCursor(0, 1);
 
