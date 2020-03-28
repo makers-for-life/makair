@@ -26,5 +26,7 @@ void initKeyboard();
 void keyboardLoop();
 
 
-//Call this in loop() to help find analog values of buttons
+/*
+ * Call this in loop() to help find analog values of buttons
+ */
 void calibrateButtons();
