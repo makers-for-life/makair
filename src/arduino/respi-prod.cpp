@@ -1,5 +1,5 @@
 /*=============================================================================
- * @file respi-prod.cpp
+ * @file respi-prod.h
  *
  * COVID Respirator
  *
@@ -9,7 +9,7 @@
  *
  * @section descr File description
  *
- * This file execute the MakAir program
+ * This file execute the Makair program
  */
 
 // INCLUDES ==================================================================
@@ -28,38 +28,27 @@
 #include "keyboard.h"
 #include "parameters.h"
 #include "pressure_controller.h"
+#include "alarm.h"
 
 // PROGRAM =====================================================================
 
-double filteredVout = 0;
-const double RATIO_PONT_DIVISEUR = 0.8192;
-const double V_SUPPLY = 5.08;
-const double KPA_MMH2O = 101.97162129779;
-
-int readPressureSensor()
-{
-    double rawVout = analogRead(PIN_CAPTEUR_PRESSION) * 3.3 / 1024.0;
-    filteredVout = filteredVout + (rawVout - filteredVout) * 0.2;
-
-    // Ratio a cause du pont diviseur
-    double vOut = filteredVout / RATIO_PONT_DIVISEUR;
-
-    // Pression en kPA
-    double pressure = (vOut / V_SUPPLY - 0.04) / 0.09;
-
-    return pressure * KPA_MMH2O;
-}
-
 void setup()
 {
-    pinMode(PIN_CAPTEUR_PRESSION, INPUT);
 
     DBG_DO(Serial.begin(9600);)
-    DBG_DO(Serial.println("Start");)
+    DBG_DO(Serial.println("demarrage");)
 
     pController.setup();
     startScreen();
     initKeyboard();
+    Alarm_Init();
+    Alarm_Boot_Start();
+    delay(150);
+    Alarm_Stop();
+
+    /* Test purpose*/
+    delay(2000);
+    Alarm_Yellow_Start();
 }
 
 void loop()
@@ -101,7 +90,8 @@ void loop()
                 pController.updatePressure(5);
             }
 #else
-            pController.updatePressure(readPressureSensor());
+            pController.updatePressure(map(analogRead(PIN_CAPTEUR_PRESSION), 194, 245, 0, 600)
+                                       / 10);
 #endif
 
             // Perform the pressure control
