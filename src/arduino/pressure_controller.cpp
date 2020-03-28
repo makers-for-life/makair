@@ -47,11 +47,11 @@ PressureController::PressureController()
     computeCentiSecParameters();
 }
 
-PressureController::PressureController(int16_t p_cyclesPerMinute,
-                                       int16_t p_minPeep,
-                                       int16_t p_maxPlateauPressure,
-                                       int16_t p_aperture,
-                                       int16_t p_maxPeakPressure,
+PressureController::PressureController(uint16_t p_cyclesPerMinute,
+                                       uint16_t p_minPeep,
+                                       uint16_t p_maxPlateauPressure,
+                                       uint16_t p_aperture,
+                                       uint16_t p_maxPeakPressure,
                                        AirTransistor p_blower,
                                        AirTransistor p_patient)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
@@ -105,7 +105,7 @@ void PressureController::initRespiratoryCycle()
     DBG_AFFICHE_CONSIGNES(m_cyclesPerMinute, m_aperture, m_minPeep, m_maxPlateauPressure)
 }
 
-void PressureController::updatePressure(int16_t p_pressure) { m_pressure = p_pressure; }
+void PressureController::updatePressure(uint16_t p_pressure) { m_pressure = p_pressure; }
 
 void PressureController::compute(uint16_t p_centiSec)
 {
