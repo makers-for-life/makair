@@ -77,7 +77,7 @@ void onPressionPlateauPlus() {
 }
 
 /*
- * Buttons association with analog level and handlers
+ * Buttons associations with analog levels and handlers
  */
 static Button btnFree2(BTN_FREE2, onFree2);
 static Button btnFree1(BTN_FREE1, onFree1);
