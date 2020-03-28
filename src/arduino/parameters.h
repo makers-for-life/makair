@@ -95,12 +95,12 @@ static const int16_t LCD_UPDATE_PERIOD = 20;
 static const uint32_t PCONTROLLER_COMPUTE_PERIOD = 10;
 
 // minimums et maximums possible des paramètres modifiables à l'exécution
-static const uint16_t BORNE_SUP_PRESSION_CRETE = 700;   // arbitraire mmH2O
-static const uint16_t BORNE_INF_PRESSION_CRETE = 100;   // arbitraire mmH2O
-static const uint16_t BORNE_SUP_PRESSION_PLATEAU = 400; // PP MAX SDRA = 300 mmH20
-static const uint16_t BORNE_INF_PRESSION_PLATEAU = 100; // arbitraire mmH2O
-static const uint16_t BORNE_SUP_PRESSION_PEP = 300;     // PP MAX = 30, or PEP < PP mmH2O
-static const uint16_t BORNE_INF_PRESSION_PEP = 50;      // arbitraire mais > 0 mmH2O
+static const uint16_t BORNE_SUP_PRESSION_CRETE =    700;// 120; // arbitraire mmH2O
+static const uint16_t BORNE_INF_PRESSION_CRETE =    100;//  80; // arbitraire mmH2O
+static const uint16_t BORNE_SUP_PRESSION_PLATEAU =  400;//  60; // PP MAX SDRA = 300 mmH20
+static const uint16_t BORNE_INF_PRESSION_PLATEAU =  100;//  80; // arbitraire mmH2O
+static const uint16_t BORNE_SUP_PRESSION_PEP =      300;//  30; // PP MAX = 30, or PEP < PP mmH2O
+static const uint16_t BORNE_INF_PRESSION_PEP =       50;//   0; // arbitraire mais > 0 mmH2O
 
 static const uint16_t BORNE_SUP_CYCLE = 35; // demande medical
 static const uint16_t BORNE_INF_CYCLE = 5;  // demande medical

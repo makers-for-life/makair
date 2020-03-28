@@ -107,8 +107,8 @@
     if (centieme % periode == 0)                                                                   \
     {                                                                                              \
         Serial.print("Phase : ");                                                                  \
-        Serial.println(phase);                                                                     \
-        Serial.print("Pression : ");                                                               \
+        Serial.print(phase);                                                                       \
+        Serial.print(" - Pression : ");                                                            \
         Serial.println(pression);                                                                  \
     }
 #else

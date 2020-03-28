@@ -55,3 +55,5 @@ void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int pee
  *  \param currentPressure      Current pressure
  */
 void displayDuringCycle(int cyclesPerMinute, int maxPlateauPressure, int peep, int currentPressure);
+
+void displayConsigneServo(int blowerCommand, int yCommand, int patientCommand);

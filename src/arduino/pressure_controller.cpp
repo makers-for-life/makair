@@ -151,7 +151,7 @@ void PressureController::compute(uint16_t p_centiSec)
 
     safeguards(p_centiSec);
 
-    DBG_PHASE_PRESSION(p_centiSec, 50, m_phase, m_pressure)
+    DBG_PHASE_PRESSION(p_centiSec, 1, m_phase, m_pressure)
 
     executeCommands();
 }
@@ -230,9 +230,17 @@ void PressureController::onPressionCretePlus()
 
 void PressureController::updatePhase(uint16_t p_centiSec)
 {
-    if (p_centiSec <= m_centiSecPerInhalation)
+    if (p_centiSec == 0) 
     {
-        m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION : CyclePhases::PLATEAU;
+        m_phase = CyclePhases::INHALATION;
+    }
+    else if (p_centiSec <= m_centiSecPerInhalation && m_phase == CyclePhases::INHALATION)
+    {
+        m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION : CyclePhases::PLATEAU;        
+    }
+    else if (p_centiSec <= m_centiSecPerInhalation) 
+    {
+        m_phase = CyclePhases::PLATEAU;
     }
     else
     {
@@ -309,7 +317,7 @@ void PressureController::safeguards(uint16_t p_centiSec)
         }
     }
 
-    if (m_pressure < m_minPeep)
+    if (m_pressure < m_minPeep && CyclePhases::EXHALATION)
     {
         DBG_PRESSION_PEP(p_centiSec, 80)
         // Close completely the patient's valve
