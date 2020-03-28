@@ -29,6 +29,7 @@
 #include "parameters.h"
 #include "pressure_controller.h"
 #include "simulation.h"
+#include "alarm.h"
 
 // PROGRAM =====================================================================
 
@@ -41,6 +42,14 @@ void setup()
     pController.setup();
     startScreen();
     initKeyboard();
+    Alarm_Init();
+    Alarm_Boot_Start();
+    delay(150);
+
+    Alarm_Stop();
+
+    /* Test purpose*/
+    Alarm_Yellow_Start();
 }
 
 void loop()
