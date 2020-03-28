@@ -225,6 +225,8 @@ private:
 
     /// Y's transistor
     AirTransistor m_y;
+
+    uint16_t m_previousPhase;
 };
 
 // INITIALISATION =============================================================

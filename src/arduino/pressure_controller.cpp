@@ -154,6 +154,8 @@ void PressureController::compute(uint16_t p_centiSec)
     DBG_PHASE_PRESSION(p_centiSec, 1, m_phase, m_pressure)
 
     executeCommands();
+
+    m_previousPhase = m_phase;
 }
 
 void PressureController::onCycleMinus()
@@ -261,47 +263,56 @@ void PressureController::updatePhase(uint16_t p_centiSec)
 
 void PressureController::inhale()
 {
-    // Open the air stream towards the patient's lungs
-    m_blower.command = 80;
+    if (m_previousPhase != CyclePhases::INHALATION) 
+    {
+        // Open the air stream towards the patient's lungs
+        m_blower.command = 80;
 
-    // Direct the air stream towards the patient's lungs
-    m_y.command = 65;
+        // Direct the air stream towards the patient's lungs
+        m_y.command = 65;
 
-    // Open the air stream towards the patient's lungs
-    m_patient.command = 80;
+        // Open the air stream towards the patient's lungs
+        m_patient.command = 90;
 
-    // Update the peak pressure
-    m_peakPressure = m_pressure;
+        // Update the peak pressure
+        m_peakPressure = m_pressure;
+    }
 }
 
 void PressureController::plateau()
 {
-    // Deviate the air stream outside
-    m_blower.command = 50;
+    if (m_previousPhase != CyclePhases::PLATEAU) 
+    {
+        // Deviate the air stream outside
+        m_blower.command = 50;
 
-    // Direct the air stream towards the patient's lungs
-    m_y.command = 65;
+        // Direct the air stream towards the patient's lungs
+        m_y.command = 0;
 
-    // Close the air stream towards the patient's lungs
-    m_patient.command = 80;
+        // Close the air stream towards the patient's lungs
+        m_patient.command = 90;
 
-    // Update the plateau pressure
-    m_plateauPressure = m_pressure;
+        // Update the plateau pressure
+        m_plateauPressure = m_pressure;
+    }
 }
 
 void PressureController::exhale()
 {
-    // Deviate the air stream outside
-    m_blower.command = 35;
+    if (m_previousPhase != CyclePhases::EXHALATION)
+    {
+        // Deviate the air stream outside
+        m_blower.command = 35;
 
-    // Direct the air stream towards the patient's lungs
-    m_y.command = 65;
+        // Direct the air stream towards the patient's lungs
+        m_y.command = 65;
 
-    // Open the valve so the patient can exhale outside
-    m_patient.command = 25;
+        // Open the valve so the patient can exhale outside
+        m_patient.command = 25;
 
-    // Update the PEEP
-    m_peep = m_pressure;
+        // Update the PEEP
+        m_peep = m_pressure;
+    }
 }
 
 void PressureController::safeguards(uint16_t p_centiSec)
