@@ -147,7 +147,7 @@ void PressureController::compute(uint16_t p_centiSec)
     executeCommands();
 }
 
-void PressureController::onCycleMinus()
+void PressureController::decreaseCyclesPerMinute()
 {
     DBG_DO(Serial.println("nb cycle --");)
     m_cyclesPerMinuteCommand--;
@@ -157,7 +157,7 @@ void PressureController::onCycleMinus()
     }
 }
 
-void PressureController::onCyclePlus()
+void PressureController::increaseCyclesPerMinute()
 {
     DBG_DO(Serial.println("nb cycle ++");)
     m_cyclesPerMinuteCommand++;
@@ -167,7 +167,7 @@ void PressureController::onCyclePlus()
     }
 }
 
-void PressureController::onPressionPepMinus()
+void PressureController::decreasePeep()
 {
     DBG_DO(Serial.println("PEEP --");)
     m_minPeepCommand = m_minPeepCommand - 10;
@@ -177,7 +177,7 @@ void PressureController::onPressionPepMinus()
     }
 }
 
-void PressureController::onPressionPepPlus()
+void PressureController::increasePeep()
 {
     DBG_DO(Serial.println("PEEP ++");)
     m_minPeepCommand = m_minPeepCommand + 10;
@@ -187,7 +187,7 @@ void PressureController::onPressionPepPlus()
     }
 }
 
-void PressureController::onPressionPlateauMinus()
+void PressureController::decreasePlateauPressure()
 {
     DBG_DO(Serial.println("plateau pressure --");)
     m_maxPlateauPressureCommand = m_maxPlateauPressureCommand - 10;
@@ -197,7 +197,7 @@ void PressureController::onPressionPlateauMinus()
     }
 }
 
-void PressureController::onPressionPlateauPlus()
+void PressureController::increasePlateauPressure()
 {
     DBG_DO(Serial.println("plateau pressure ++");)
     m_maxPlateauPressureCommand = m_maxPlateauPressureCommand + 10;
@@ -207,13 +207,13 @@ void PressureController::onPressionPlateauPlus()
     }
 }
 
-void PressureController::onPressionCreteMinus()
+void PressureController::decreasePeakPressure()
 {
     DBG_DO(Serial.println("peak pressure --");)
     // TODO
 }
 
-void PressureController::onPressionCretePlus()
+void PressureController::increasePeakPressure()
 {
     DBG_DO(Serial.println("peak pressure ++");)
     // TODO
