@@ -48,9 +48,10 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Air Transistor](./src/components/air-transistor) | V4 | Moved away from the guillotine system | ✅ | [view model](https://a360.co/2wy4eZX) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Pressure Valve](./src/components/pressure-valve) | V4 | Smaller size, FDM printing optimizations | ✅ | [view model](https://a360.co/2WIQJRR) | Sebastien Le Loch + [@valeriansaliou](https://github.com/valeriansaliou)
 | [Two-Way Valve](./src/components/two-way-valve) | V1 | Initial design | ❌ | [view model](https://a360.co/2QNO9q8) | [@valeriansaliou](https://github.com/valeriansaliou)
-| [Oxygen Mixer](./src/components/oxygen-mixer) | V2 | Re-modeled properly | ❌ | [view model](https://a360.co/2UmAecQ) | [@Melkaz](https://github.com/Melkaz)
-| [Filter Box](./src/components/filter-box) | V4 | Add new lock system | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
+| [Oxygen Mixer](./src/components/oxygen-mixer) | V3 | Designed from scratched | ❌ | [view model](https://a360.co/2vV5s18) | [@Melkaz](https://github.com/Melkaz)
+| [Filter Box](./src/components/filter-box) | V4 | Improved the screwing pitch, add markers | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
 | [Adapters](./src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
+
 
 ## Electronics
 
@@ -84,7 +85,7 @@ You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_
 
 #### ↘️ Thursday 26/03
 
-* **🇬🇧 French Video:**
+* **🇫🇷 French Video:**
 
 <a href="https://www.youtube.com/watch?v=olhgf6QtDVI" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/olhgf6QtDVI/0.jpg" height="240"></a>
 
