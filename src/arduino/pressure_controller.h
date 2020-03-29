@@ -37,8 +37,8 @@ public:
     PressureController(int16_t p_cyclesPerMinute,
                        int16_t p_minPeep,
                        int16_t p_maxPlateauPressure,
-                       int16_t p_aperture,
                        int16_t p_maxPeakPressure,
+                       int16_t p_aperture,
                        AirTransistor p_blower,
                        AirTransistor p_patient,
                        AirTransistor p_y);
@@ -86,6 +86,9 @@ public:
 
     //! This function returns the number of cycles per minute desired by the operator
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
+
+    //! This function returns the max peak desired by the operator
+    inline uint16_t maxPeakCommand() const { return m_maxPeakCommand; }
 
     //! This function returns the minimal PEEP desired by the operator
     inline uint16_t minPeepCommand() const { return m_minPeepCommand; }
@@ -171,6 +174,9 @@ private:
 private:
     /// Number of cycles per minute desired by the operator
     uint16_t m_cyclesPerMinuteCommand;
+
+    /// Maximal peak pressure desired by the operator
+    uint16_t m_maxPeakCommand;
 
     /// Minimal PEEP desired by the operator
     uint16_t m_minPeepCommand;

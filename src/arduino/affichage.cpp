@@ -21,6 +21,7 @@
 #include <LiquidCrystal.h>
 
 // Internal
+#include "common.h"
 #include "parameters.h"
 
 // INITIALISATION =============================================================
@@ -50,83 +51,108 @@ void startScreen()
     }
 }
 
-void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int peep)
-{
+void displayPhase(CyclePhases phase) {
     screen.setCursor(0, 0);
-
-    switch (screenSize)
+    switch(phase)
     {
-    case ScreenSize::CHARS_16:
+    case CyclePhases::INHALATION:
     {
-        screen.print("pc");
-        screen.print(peakPressure);
-        screen.print("/pp");
-        screen.print(plateauPressure);
-        screen.print("/pep");
-        screen.print(peep);
-        screen.print("  ");
+        screen.print("Inhalation          ");
         break;
     }
-    case ScreenSize::CHARS_20:
+    case CyclePhases::PLATEAU :
     {
-        screen.print("pc=");
-        screen.print(peakPressure);
-        screen.print("/pp=");
-        screen.print(plateauPressure);
-        screen.print("/pep=");
-        screen.print(peep);
-        screen.print("  ");
+        screen.print("Plateau             ");
         break;
     }
-    default:
+    case CyclePhases::EXHALATION:
     {
-        screen.print("pc");
-        screen.print(peakPressure);
-        screen.print("/pp");
-        screen.print(plateauPressure);
-        screen.print("/pep");
-        screen.print(peep);
-        screen.print("  ");
+        screen.print("Exhalation          ");
+        break;
+    }
+    case CyclePhases::HOLD_EXHALATION:
+    {
+        screen.print("Hold exhalation     ");
+        break;
+    }
+    default: 
+    {
+        break;
     }
     }
 }
 
-void displayDuringCycle(int cyclesPerMinute, int maxPlateauPressure, int peep, int currentPressure)
+void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int peep, int pressure)
 {
-    screen.setCursor(0, 1);
 
     switch (screenSize)
     {
     case ScreenSize::CHARS_16:
     {
-        screen.print("c");
-        screen.print(cyclesPerMinute);
-        screen.print("/pl");
-        screen.print(maxPlateauPressure);
-        screen.print("/pep");
-        screen.print(peep);
+        screen.setCursor(0, 1);
+        screen.print(peakPressure / 10);
+        screen.print("  ");
+        screen.print(plateauPressure / 10);
+        screen.print("  ");
+        screen.print(peep / 10);
+        screen.print("  ");
+        screen.print(pressure / 10);
+        
         break;
     }
     case ScreenSize::CHARS_20:
     {
-        screen.print("c=");
-        screen.print(cyclesPerMinute);
-        screen.print("/pl=");
-        screen.print(maxPlateauPressure);
-        screen.print("/pep=");
-        screen.print(peep);
-        screen.print("|");
-        screen.print(currentPressure);
+        screen.setCursor(0, 1);
+        char msg[20];
+        sprintf(msg, "%-4u %-4u %-4u %-4u", peakPressure / 10, plateauPressure / 10, peep / 10, pressure / 10);
+        screen.print(msg);
         break;
     }
     default:
     {
-        screen.print("c");
-        screen.print(cyclesPerMinute);
-        screen.print("/pl");
-        screen.print(maxPlateauPressure);
-        screen.print("/pep");
-        screen.print(peep);
+        screen.print(peakPressure / 10);
+        screen.print("  ");
+        screen.print(plateauPressure / 10);
+        screen.print("  ");
+        screen.print(peep / 10);
+        screen.print("  ");
+        screen.print(pressure / 10);
+    }
+    }
+}
+
+void displayDuringCycle(int peakPressureMax, int plateauPressureMax, int peepMin, int cyclesPerMinute)
+{
+    screen.setCursor(0, 3);
+
+    switch (screenSize)
+    {
+    case ScreenSize::CHARS_16:
+    {
+        // screen.print("c");
+        // screen.print(cyclesPerMinute);
+        // screen.print("/pl");
+        // screen.print(maxPlateauPressure);
+        // screen.print("/pep");
+        // screen.print(peep);
+        break;
+    }
+    case ScreenSize::CHARS_20:
+    {
+
+        char msg[20];
+        sprintf(msg, "%-4u %-4u %-4u %-4u", peakPressureMax / 10, plateauPressureMax / 10, peepMin / 10, cyclesPerMinute);
+        screen.print(msg);
+        break;
+    }
+    default:
+    {
+        // screen.print("c");
+        // screen.print(cyclesPerMinute);
+        // screen.print("/pl");
+        // screen.print(maxPlateauPressure);
+        // screen.print("/pep");
+        // screen.print(peep);
     }
     }
 }
