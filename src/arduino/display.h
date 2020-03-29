@@ -43,7 +43,7 @@ void startScreen();
  *  \param plateauPressure  The plateau pressure
  *  \param peep             The Positive End Expiratory Pressure (PEEP)
  */
-void displayEveryRespiratoryCycle(uint16_t peakPressure, uint16_t plateauPressure, uint16_t peep);
+void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int peep);
 
 /*! This function displays the relevant pressures on the HMI screen during the
  *  cycle.
@@ -54,7 +54,4 @@ void displayEveryRespiratoryCycle(uint16_t peakPressure, uint16_t plateauPressur
  *  \param peep                 Next desired Positive End Expiratory Pressure (PEEP)
  *  \param currentPressure      Current pressure
  */
-void displayDuringCycle(uint16_t cyclesPerMinute,
-                        uint16_t maxPlateauPressure,
-                        uint16_t peep,
-                        uint16_t currentPressure);
+void displayDuringCycle(int cyclesPerMinute, int maxPlateauPressure, int peep, int currentPressure);
