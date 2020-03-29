@@ -90,43 +90,43 @@ public:
      *  This function modifies the followint attributes:
      *  -   m_cyclesPerMinuteCommand
      */
-    void onCycleMinus();
+    void decreaseCyclesPerMinute();
 
     /*! This function increases the desired number of cycles per minute
      *  This function modifies the followint attributes:
      *  -   m_cyclesPerMinuteCommand
      */
-    void onCyclePlus();
+    void increaseCyclesPerMinute();
 
     /*! This function decreases the minimal PEEP desired
      *  This function modifies the followint attributes:
      *  -   m_minPeepCommand
      */
-    void onPressionPepMinus();
+    void decreasePeep();
 
     /*! This function increases the minimal PEEP desired
      *  This function modifies the followint attributes:
      *  -   m_minPeepCommand
      */
-    void onPressionPepPlus();
+    void increasePeep();
 
     /*! This function decreases the desired plateau pressure
      *  This function modifies the followint attributes:
      *  -   m_maxPlateauPressureCommand
      */
-    void onPressionPlateauMinus();
+    void decreasePlateauPressure();
 
     /*! This function increases the desired plateau pressure
      *  This function modifies the followint attributes:
      *  -   m_maxPlateauPressureCommand
      */
-    void onPressionPlateauPlus();
+    void increasePlateauPressure();
 
     //! This function decreases the desired crete pressure (TODO)
-    void onPressionCreteMinus();
+    void decreasePeakPressure();
 
     //! This function increases the desired crete pressure (TODO)
-    void onPressionCretePlus();
+    void increasePeakPressure();
 
     //! This function returns the number of cycles per minute desired by the operator
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
