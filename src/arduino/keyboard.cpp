@@ -1,5 +1,5 @@
 /*=============================================================================
- * @file clavier.h
+ * @file keyboard.cpp
  *
  * COVID Respirator
  *
@@ -15,7 +15,7 @@
 // INCLUDES ===================================================================
 
 // Associated header
-#include "clavier.h"
+#include "keyboard.h"
 
 // External
 /* For analog keyboard */
@@ -35,55 +35,59 @@ static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
  */
 
 /* Handler of the button to increment the Crete pressure */
-void onPressionCretePlus() { /* TODO */ }
+void increasePeakPressure()
+{ /* TODO */
+}
 
 /* Handler of the button to decrement the Crete pressure */
-void onPressionCreteMinus() { /* TODO */ }
+void decreasePeakPressure()
+{ /* TODO */
+}
 
 /* Handler of the button to decrement the plateau pressure */
-void onPressionPlateauMinus() { pController.onPressionPlateauMinus(); }
+void decreasePlateauPressure() { pController.decreasePlateauPressure(); }
 
 /* Handler of the button to increment the plateau pressure */
-void onPressionPlateauPlus() { pController.onPressionPlateauPlus(); }
+void increasePlateauPressure() { pController.increasePlateauPressure(); }
 
 /* Handler of the button to increment the PEP pressure */
-void onPressionPepPlus() { pController.onPressionPepPlus(); }
+void increasePeep() { pController.increasePeep(); }
 
 /* Handler of the button to decrement the PEP pressure */
-void onPressionPepMinus() { pController.onPressionPepMinus(); }
+void decreasePeep() { pController.decreasePeep(); }
 
 /* Handler of the button to increment the number of breathing cycles */
-void onCyclePlus() { pController.onCyclePlus(); }
+void increaseCyclesPerMinute() { pController.increaseCyclesPerMinute(); }
 
 /* Handler of the button to decrement the number of breathing cycles */
-void onCycleMinus() { pController.onCycleMinus(); }
+void decreaseCyclesPerMinute() { pController.decreaseCyclesPerMinute(); }
 
 /*
  * Buttons associations with analog levels and handlers
  */
 
-Button btnPressionCretePlus(TENSION_BTN_PRESSION_P_CRETE_PLUS, &onPressionCretePlus);
-Button btnPressionCreteMinus(TENSION_BTN_PRESSION_P_CRETE_MINUS, &onPressionCreteMinus);
-Button btnPressionPlateauPlus(TENSION_BTN_PRESSION_PLATEAU_PLUS, &onPressionPlateauPlus);
-Button btnPressionPlateauMinus(TENSION_BTN_PRESSION_PLATEAU_MINUS, &onPressionPlateauMinus);
-Button btnPressionPepPlus(TENSION_BTN_PEP_PLUS, &onPressionPepPlus);
-Button btnPressionPepMinus(TENSION_BTN_PEP_MINUS, &onPressionPepMinus);
-Button btnCyclePlus(TENSION_BTN_CYCLE_PLUS, &onCyclePlus);
-Button btnCycleMinus(TENSION_BTN_CYCLE_MINUS, &onCycleMinus);
+Button btnPressionCretePlus(TENSION_BTN_PRESSION_P_CRETE_PLUS, &increasePeakPressure);
+Button btnPressionCreteMinus(TENSION_BTN_PRESSION_P_CRETE_MINUS, &decreasePeakPressure);
+Button btnPressionPlateauPlus(TENSION_BTN_PRESSION_PLATEAU_PLUS, &increasePlateauPressure);
+Button btnPressionPlateauMinus(TENSION_BTN_PRESSION_PLATEAU_MINUS, &decreasePlateauPressure);
+Button btnPressionPepPlus(TENSION_BTN_PEP_PLUS, &increasePeep);
+Button btnPressionPepMinus(TENSION_BTN_PEP_MINUS, &decreasePeep);
+Button btnCyclePlus(TENSION_BTN_CYCLE_PLUS, &increaseCyclesPerMinute);
+Button btnCycleMinus(TENSION_BTN_CYCLE_MINUS, &decreaseCyclesPerMinute);
 
 /*-----------------------------------------------------------------------------
  * initKeyboard does the initializations to use a keyboard
  */
 void initKeyboard()
 {
-  analogButtons.add(btnPressionCretePlus);
-  analogButtons.add(btnPressionCretePlus);
-  analogButtons.add(btnPressionPlateauPlus);
-  analogButtons.add(btnPressionPlateauMinus);
-  analogButtons.add(btnPressionPepPlus);
-  analogButtons.add(btnPressionPepMinus);
-  analogButtons.add(btnCyclePlus);
-  analogButtons.add(btnCycleMinus);
+    analogButtons.add(btnPressionCretePlus);
+    analogButtons.add(btnPressionCretePlus);
+    analogButtons.add(btnPressionPlateauPlus);
+    analogButtons.add(btnPressionPlateauMinus);
+    analogButtons.add(btnPressionPepPlus);
+    analogButtons.add(btnPressionPepMinus);
+    analogButtons.add(btnCyclePlus);
+    analogButtons.add(btnCycleMinus);
 }
 
 /*-----------------------------------------------------------------------------

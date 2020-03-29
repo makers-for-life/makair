@@ -19,11 +19,6 @@
 // External libraries
 #include <Servo.h>
 
-// servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou
-// vers l'extérieur 90° → tout est fermé entre 45° (90 - ANGLE_OUVERTURE_MAXI)
-// et 82° (90 - ANGLE_OUVERTURE_MINI) → envoi du flux vers l'extérieur entre 98°
-// (90 + ANGLE_OUVERTURE_MINI) et 135° (90 + ANGLE_OUVERTURE_MAXI) → envoi du
-// flux vers le Air Transistor patient
 struct AirTransistor
 {
     //! Default constructor
@@ -50,11 +45,24 @@ struct AirTransistor
         }
     }
 
+    /// Minimal aperture angle of the transistor [°]
     uint16_t minApertureAngle;
+
+    /// Maximal aperture angle of the transistor [°]
     uint16_t maxApertureAngle;
+
+    /// Default angle command for resets [°]
     uint16_t defaultCommand;
+
+    /// Failsafe angle command [°]
     uint16_t failsafeCommand;
+
+    /// Angle command [°]
     uint16_t command;
+
+    /// Actual angle [°]
     uint16_t position;
+
+    /// Actuator
     Servo actuator;
 };

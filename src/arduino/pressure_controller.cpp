@@ -1,5 +1,5 @@
 /*=============================================================================
- * @file pressure_controller.h
+ * @file pressure_controller.cpp
  *
  * COVID Respirator
  *
@@ -30,28 +30,29 @@ PressureController pController;
 
 PressureController::PressureController()
     : m_cyclesPerMinuteCommand(15),
-      m_minPeepCommand(BORNE_INF_PRESSION_PEP), // mmH2O
-      m_maxPlateauPressureCommand(BORNE_SUP_PRESSION_PLATEAU), //mmH20
+      m_minPeepCommand(BORNE_INF_PRESSION_PEP),
+      m_maxPlateauPressureCommand(BORNE_SUP_PRESSION_PLATEAU),
       m_apertureCommand(ANGLE_OUVERTURE_MAXI),
       m_cyclesPerMinute(15),
       m_aperture(ANGLE_OUVERTURE_MAXI),
-      m_maxPeakPressure(BORNE_SUP_PRESSION_CRETE), // mmH2O
-      m_maxPlateauPressure(BORNE_SUP_PRESSION_PLATEAU), // mmH2O
-      m_minPeep(BORNE_INF_PRESSION_PEP), //mmH2O
+      m_maxPeakPressure(BORNE_SUP_PRESSION_CRETE),
+      m_maxPlateauPressure(BORNE_SUP_PRESSION_PLATEAU),
+      m_minPeep(BORNE_INF_PRESSION_PEP),
       m_pressure(-1),
       m_peakPressure(-1),
       m_plateauPressure(-1),
       m_peep(-1),
+      m_previousPhase(CyclePhases::INHALATION),
       m_phase(CyclePhases::INHALATION)
 {
     computeCentiSecParameters();
 }
 
-PressureController::PressureController(int16_t p_cyclesPerMinute,
-                                       int16_t p_minPeep,
-                                       int16_t p_maxPlateauPressure,
-                                       int16_t p_aperture,
-                                       int16_t p_maxPeakPressure,
+PressureController::PressureController(uint16_t p_cyclesPerMinute,
+                                       uint16_t p_minPeep,
+                                       uint16_t p_maxPlateauPressure,
+                                       uint16_t p_aperture,
+                                       uint16_t p_maxPeakPressure,
                                        AirTransistor p_blower,
                                        AirTransistor p_patient,
                                        AirTransistor p_y)
@@ -68,6 +69,7 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_peakPressure(-1),
       m_plateauPressure(-1),
       m_peep(-1),
+      m_previousPhase(CyclePhases::INHALATION),
       m_phase(CyclePhases::INHALATION),
       m_blower(p_blower),
       m_patient(p_patient),
@@ -111,10 +113,7 @@ void PressureController::initRespiratoryCycle()
     DBG_AFFICHE_CONSIGNES(m_cyclesPerMinute, m_aperture, m_minPeep, m_maxPlateauPressure)
 }
 
-void PressureController::updatePressure(int16_t p_currentPressure)
-{
-    m_pressure = p_currentPressure;
-}
+void PressureController::updatePressure(uint16_t p_pressure) { m_pressure = p_pressure; }
 
 void PressureController::compute(uint16_t p_centiSec)
 {
@@ -141,7 +140,7 @@ void PressureController::compute(uint16_t p_centiSec)
     }
     case CyclePhases::HOLD_EXHALATION:
     {
-      break;
+        break;
     }
     default:
     {
@@ -158,7 +157,7 @@ void PressureController::compute(uint16_t p_centiSec)
     m_previousPhase = m_phase;
 }
 
-void PressureController::onCycleMinus()
+void PressureController::decreaseCyclesPerMinute()
 {
     DBG_DO(Serial.println("nb cycle --");)
     m_cyclesPerMinuteCommand--;
@@ -168,7 +167,7 @@ void PressureController::onCycleMinus()
     }
 }
 
-void PressureController::onCyclePlus()
+void PressureController::increaseCyclesPerMinute()
 {
     DBG_DO(Serial.println("nb cycle ++");)
     m_cyclesPerMinuteCommand++;
@@ -178,9 +177,9 @@ void PressureController::onCyclePlus()
     }
 }
 
-void PressureController::onPressionPepMinus()
+void PressureController::decreasePeep()
 {
-    DBG_DO(Serial.println("pression PEP --");)
+    DBG_DO(Serial.println("PEEP --");)
     m_minPeepCommand = m_minPeepCommand - 10;
     if (m_minPeepCommand < BORNE_INF_PRESSION_PEP)
     {
@@ -188,9 +187,9 @@ void PressureController::onPressionPepMinus()
     }
 }
 
-void PressureController::onPressionPepPlus()
+void PressureController::increasePeep()
 {
-    DBG_DO(Serial.println("pression PEP ++");)
+    DBG_DO(Serial.println("PEEP ++");)
     m_minPeepCommand = m_minPeepCommand + 10;
     if (m_minPeepCommand > BORNE_SUP_PRESSION_PEP)
     {
@@ -198,9 +197,9 @@ void PressureController::onPressionPepPlus()
     }
 }
 
-void PressureController::onPressionPlateauMinus()
+void PressureController::decreasePlateauPressure()
 {
-    DBG_DO(Serial.println("pression plateau --");)
+    DBG_DO(Serial.println("plateau pressure --");)
     m_maxPlateauPressureCommand = m_maxPlateauPressureCommand - 10;
     if (m_maxPlateauPressureCommand < BORNE_INF_PRESSION_PLATEAU)
     {
@@ -208,9 +207,9 @@ void PressureController::onPressionPlateauMinus()
     }
 }
 
-void PressureController::onPressionPlateauPlus()
+void PressureController::increasePlateauPressure()
 {
-    DBG_DO(Serial.println("pression plateau ++");)
+    DBG_DO(Serial.println("plateau pressure ++");)
     m_maxPlateauPressureCommand = m_maxPlateauPressureCommand + 10;
     if (m_maxPlateauPressureCommand > BORNE_SUP_PRESSION_PLATEAU)
     {
@@ -218,42 +217,53 @@ void PressureController::onPressionPlateauPlus()
     }
 }
 
-void PressureController::onPressionCreteMinus()
+void PressureController::decreasePeakPressure()
 {
-    DBG_DO(Serial.println("pression crete --");)
+    DBG_DO(Serial.println("peak pressure --");)
     // TODO
 }
 
-void PressureController::onPressionCretePlus()
+void PressureController::increasePeakPressure()
 {
-    DBG_DO(Serial.println("pression plateau ++");)
+    DBG_DO(Serial.println("peak pressure ++");)
     // TODO
 }
 
 void PressureController::updatePhase(uint16_t p_centiSec)
 {
-
-
-    if (p_centiSec < (m_centiSecPerInhalation * 0.6)) {
-        m_phase = CyclePhases::INHALATION;
-    } else if (p_centiSec < m_centiSecPerInhalation) {
-        m_phase = CyclePhases::PLATEAU;
-    } else
+    if (p_centiSec < (m_centiSecPerInhalation * 0.6))
     {
-         m_phase = CyclePhases::EXHALATION;
+        m_phase = CyclePhases::INHALATION;
     }
-    
-    // if (p_centiSec == 0) 
+    else if (p_centiSec < m_centiSecPerInhalation)
+    {
+        m_phase = CyclePhases::PLATEAU;
+    }
+    else
+    {
+        m_phase = CyclePhases::EXHALATION;
+    }
+
+    // if (p_centiSec == 0)
     // {
     //     m_phase = CyclePhases::INHALATION;
     // }
     // else if (p_centiSec <= m_centiSecPerInhalation && m_phase == CyclePhases::INHALATION)
     // {
-    //     m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION : CyclePhases::PLATEAU;        
+    //     m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION : CyclePhases::PLATEAU;
     // }
-    // else if (p_centiSec <= m_centiSecPerInhalation) 
+    // else if (p_centiSec <= m_centiSecPerInhalation)
     // {
     //     m_phase = CyclePhases::PLATEAU;
+    // }
+    // else
+    // {
+    //     m_phase = CyclePhases::EXHALATION;
+    // }
+
+    // if (p_centiSec <= m_centiSecPerInhalation)
+    // {
+    //     m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION : CyclePhases::PLATEAU;
     // }
     // else
     // {
@@ -263,7 +273,7 @@ void PressureController::updatePhase(uint16_t p_centiSec)
 
 void PressureController::inhale()
 {
-    if (m_previousPhase != CyclePhases::INHALATION) 
+    if (m_previousPhase != CyclePhases::INHALATION)
     {
         // Open the air stream towards the patient's lungs
         m_blower.command = 80;
@@ -281,7 +291,7 @@ void PressureController::inhale()
 
 void PressureController::plateau()
 {
-    if (m_previousPhase != CyclePhases::PLATEAU) 
+    if (m_previousPhase != CyclePhases::PLATEAU)
     {
         // Deviate the air stream outside
         m_blower.command = 50;
@@ -320,10 +330,11 @@ void PressureController::safeguards(uint16_t p_centiSec)
     if (m_pressure > m_maxPeakPressure)
     {
         DBG_PRESSION_CRETE(p_centiSec, 80)
-        // Close the blower's valve by 2°
+        // Close the blower's valve by 2�
         m_blower.command = m_blower.position - 2;
 
-        if (m_blower.command < 25) {
+        if (m_blower.command < 25)
+        {
             m_blower.command = 25;
         }
     }
@@ -334,7 +345,8 @@ void PressureController::safeguards(uint16_t p_centiSec)
         // Open the patient's valve by 1° to ease exhalation
         m_patient.command = m_blower.position + 1;
 
-        if (m_patient.command > 80) {
+        if (m_patient.command > 80)
+        {
             m_patient.command = 80;
         }
     }
@@ -358,7 +370,7 @@ void PressureController::computeCentiSecParameters()
 
 void PressureController::executeCommands()
 {
-    //Serial.println(m_blower.command);
+    // Serial.println(m_blower.command);
     m_blower.execute();
     m_patient.execute();
     m_y.execute();

@@ -9,22 +9,19 @@
  *
  * @section descr File description
  *
- * Fichier de configuration pour les differentes compilations conditionelles
- * possibles.
+ * This file configures the build, given various possible configurations
  */
 
 #pragma once
 
-/*
- * Lorsque DEBUG est defini, du code additionnel envoyant des infos sur
- * la ligne serie est compile.
- */
-//#define DEBUG
+//! When DEBUG is defined, some additional code sending infos is built
+#define DEBUG
 
-/*
- * Lorsque SIMULATION est defini, l'information n'est pas lue du capteur de
- * pression mais generee logiciellement
+/*! When SIMULATION is defined, the pressure is not received from the sensor but artificially
+ *  generated
  */
 //#define SIMULATION
 
 //#define __AVR_ATmega328P__
+
+#define ARDUINO_NUCLEO_F411RE

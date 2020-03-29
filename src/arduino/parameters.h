@@ -23,46 +23,50 @@
 #include <Servo.h>
 
 // Internal
-#include "affichage.h"
 #include "config.h"
+#include "display.h"
 
 // PARAMETERS =================================================================
 
-// amplitude radiale des servomoteurs
+// Radial magnitude of the servomotors
 // \warning ANGLE_FERMETURE has to be greater than ANGLE_OUVERTURE_MAXI
 static const uint16_t ANGLE_OUVERTURE_MINI = 8;
 static const uint16_t ANGLE_OUVERTURE_MAXI = 45;
 static const uint16_t ANGLE_FERMETURE = 90;
 
-// multiplicateur à modifier pour inverser les angles (en cas de suppression de
-// l'engrenage)
+// Multiplier coefficient to tune to reverse angles (if the gear is removed)
 static const int16_t ANGLE_MULTIPLICATEUR = 1;
 
-// borne pour le capteur de pression
-// a adapter lors de la calibration
+// Lower bound of the pressure sensor
+// N.B.: To tune following the calibration
 static const uint16_t CAPT_PRESSION_MINI = 0;
 
-// on ne va pas jusqu'à 1024 à cause de la saturation de l'AOP
-// -> à adapter avec meilleur AOP
+// Upper bound of the pressure sensor
+// N.B.: -  To tune following the calibration
+//       -  Clamp below 1024 due to the AOP saturation
 static const uint16_t CAPT_PRESSION_MAXI = 800;
 
-// entrées-sorties
+// Inputs & output
 #if defined(ARDUINO_AVR_UNO)
-/* Sur le prototype Arduino Uno */
+/* On the Arduino Uno prototype */
 static const int16_t PIN_CAPTEUR_PRESSION = A4;
 static const int16_t PIN_SERVO_BLOWER = 4;  // D4
 static const int16_t PIN_SERVO_PATIENT = 2; // D2
+static const int16_t PIN_SERVO_Y = -1;      // Warning: there is no Y servomotor
 static const int16_t BTN_NOMBRE_CYCLE_MINUS = A3;
 static const int16_t BTN_NOMBRE_CYCLE_PLUS = A2;
-/* Ecran LCD */
+
+/* LCD screen */
 static const int16_t PIN_LCD_RS = 7;
 static const int16_t PIN_LCD_EN = 8;
 static const int16_t PIN_LCD_D4 = 9;
 static const int16_t PIN_LCD_D5 = 10;
 static const int16_t PIN_LCD_D6 = 11;
 static const int16_t PIN_LCD_D7 = 12;
-/* clavier analogique */
+
+/* Analogic keyboard */
 static const int16_t PIN_CONTROL_BUTTONS = A0;
+
 #elif defined(ARDUINO_NUCLEO_F411RE)
 static const int16_t PIN_CAPTEUR_PRESSION = A1;
 static const int16_t PIN_ALARM = D13;
@@ -74,7 +78,8 @@ static const int16_t PIN_SERVO_PATIENT = D4;
 static const int16_t PIN_SERVO_Y = D3;
 static const int16_t PIN_CONTROL_BUTTONS = A0;
 static const int16_t PIN_BATTERY = A2;
-/* Ecran LCD */
+
+/* LCD screen */
 static const int16_t PIN_LCD_RS = D7;
 static const int16_t PIN_LCD_EN = D8;
 static const int16_t PIN_LCD_D4 = D9;
@@ -82,41 +87,44 @@ static const int16_t PIN_LCD_D5 = D10;
 static const int16_t PIN_LCD_D6 = D11;
 static const int16_t PIN_LCD_D7 = D12;
 #else
-#error "Carte non supportee"
+#error "Electronic board not supported"
 #endif
 
-// contrôle de l'écran LCD
+// LCD screen control
 static const ScreenSize screenSize{ScreenSize::CHARS_20};
-// période (en centièmes de secondes) de mise à jour du feedback des
-// consignes sur le LCD
+// Period (in hundredth of seconds) to update the LCD screen commands to display
 static const int16_t LCD_UPDATE_PERIOD = 20;
 
-// Periode de traitement en millisecondes
+// Computation period in milliseconds
 static const uint32_t PCONTROLLER_COMPUTE_PERIOD = 10;
 
-// minimums et maximums possible des paramètres modifiables à l'exécution
-static const uint16_t BORNE_SUP_PRESSION_CRETE =    700;// 120; // arbitraire mmH2O
-static const uint16_t BORNE_INF_PRESSION_CRETE =    100;//  80; // arbitraire mmH2O
-static const uint16_t BORNE_SUP_PRESSION_PLATEAU =  400;//  60; // PP MAX SDRA = 300 mmH20
-static const uint16_t BORNE_INF_PRESSION_PLATEAU =  100;//  80; // arbitraire mmH2O
-static const uint16_t BORNE_SUP_PRESSION_PEP =      300;//  30; // PP MAX = 30, or PEP < PP mmH2O
-static const uint16_t BORNE_INF_PRESSION_PEP =       80;//   0; // arbitraire mais > 0 mmH2O
+// Lower and upper bounds of the tunable parameters during the runtime
+static const uint16_t BORNE_SUP_PRESSION_CRETE = 700;   // arbitrary [mmH2O]
+static const uint16_t BORNE_INF_PRESSION_CRETE = 100;   // arbitrary [mmH2O]
+static const uint16_t BORNE_SUP_PRESSION_PLATEAU = 400; // PP MAX SDRA = 300 [mmH2O]
+static const uint16_t BORNE_INF_PRESSION_PLATEAU = 100; // arbitrary [mmH2O]
+static const uint16_t BORNE_SUP_PRESSION_PEP = 300;     // PP MAX = 30, or PEP < PP [mmH2O]
+static const uint16_t BORNE_INF_PRESSION_PEP = 50;      // arbitrary but has to be > 0 [mmH2O]
 
-static const uint16_t BORNE_SUP_CYCLE = 35; // demande medical
-static const uint16_t BORNE_INF_CYCLE = 5;  // demande medical
+static const uint16_t BORNE_SUP_CYCLE = 35; // medical input
+static const uint16_t BORNE_INF_CYCLE = 5;  // medical input
 
-// durée d'appui des boutons (en centièmes de secondes) avant prise en compte
+// Duration during which a button has to be pushed before the command is taken into account
 static const uint16_t MAINTIEN_PARAMETRAGE = 21;
 
-static const uint16_t TENSION_BTN_PRESSION_P_CRETE_PLUS   = 915;
-static const uint16_t TENSION_BTN_PRESSION_P_CRETE_MINUS  = 800;
-static const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS   = 728;
-static const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS  = 598;
-static const uint16_t TENSION_BTN_PEP_PLUS                = 504;
-static const uint16_t TENSION_BTN_PEP_MINUS               = 410;
-static const uint16_t TENSION_BTN_CYCLE_PLUS              = 290;
-static const uint16_t TENSION_BTN_CYCLE_MINUS             = 215;
+static const uint16_t TENSION_BTN_PRESSION_P_CRETE_PLUS = 915;
+static const uint16_t TENSION_BTN_PRESSION_P_CRETE_MINUS = 800;
+static const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS = 728;
+static const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS = 598;
+static const uint16_t TENSION_BTN_PEP_PLUS = 504;
+static const uint16_t TENSION_BTN_PEP_MINUS = 410;
+static const uint16_t TENSION_BTN_CYCLE_PLUS = 290;
+static const uint16_t TENSION_BTN_CYCLE_MINUS = 215;
 
-const uint16_t TENSION_BTN_ALARME_ON        = 650;
-const uint16_t TENSION_BTN_ALARME_OFF       = 450;
-const uint16_t TENSION_BTN_ALARME_SILENCE   = 250; 
+const uint16_t TENSION_BTN_ALARME_ON = 650;
+const uint16_t TENSION_BTN_ALARME_OFF = 450;
+const uint16_t TENSION_BTN_ALARME_SILENCE = 250;
+
+// Pressure sensor parameters
+const double RATIO_PONT_DIVISEUR = 0.8192;
+const double V_SUPPLY = 5.08;

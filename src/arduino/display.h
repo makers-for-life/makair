@@ -1,5 +1,5 @@
 /*=============================================================================
- * @file affichage.h
+ * @file display.h
  *
  * COVID Respirator
  *
@@ -9,7 +9,7 @@
  *
  * @section descr File description
  *
- * Fichier définissant les fonctionnalitées liés à l'affichage
+ * This file defines the display features
  */
 
 #pragma once
@@ -55,5 +55,3 @@ void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int pee
  *  \param currentPressure      Current pressure
  */
 void displayDuringCycle(int cyclesPerMinute, int maxPlateauPressure, int peep, int currentPressure);
-
-void displayConsigneServo(int blowerCommand, int yCommand, int patientCommand);

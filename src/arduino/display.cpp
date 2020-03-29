@@ -1,5 +1,5 @@
 /*=============================================================================
- * @file affichage.cpp
+ * @file display.cpp
  *
  * COVID Respirator
  *
@@ -9,13 +9,13 @@
  *
  * @section descr File description
  *
- * Fichier implémentant les fonctionnalitées liés à l'affichage
+ * This file implements the display features
  */
 
 // INCLUDES ===================================================================
 
 // Associated header
-#include "affichage.h"
+#include "display.h"
 
 // External
 #include <LiquidCrystal.h>
@@ -33,18 +33,14 @@ void startScreen()
 {
     switch (screenSize)
     {
-    case ScreenSize::CHARS_16:
-    {
-        screen.begin(16, 2);
-        break;
-    }
     case ScreenSize::CHARS_20:
     {
-        screen.begin(20, 4);
+        screen.begin(20, 2);
         break;
     }
     default:
     {
+        // Default case is ScreenSize::CHARS_16
         screen.begin(16, 2);
     }
     }
@@ -56,17 +52,6 @@ void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int pee
 
     switch (screenSize)
     {
-    case ScreenSize::CHARS_16:
-    {
-        screen.print("pc");
-        screen.print(peakPressure);
-        screen.print("/pp");
-        screen.print(plateauPressure);
-        screen.print("/pep");
-        screen.print(peep);
-        screen.print("  ");
-        break;
-    }
     case ScreenSize::CHARS_20:
     {
         screen.print("pc=");
@@ -80,6 +65,7 @@ void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int pee
     }
     default:
     {
+        // Default case is ScreenSize::CHARS_16
         screen.print("pc");
         screen.print(peakPressure);
         screen.print("/pp");
@@ -97,16 +83,6 @@ void displayDuringCycle(int cyclesPerMinute, int maxPlateauPressure, int peep, i
 
     switch (screenSize)
     {
-    case ScreenSize::CHARS_16:
-    {
-        screen.print("c");
-        screen.print(cyclesPerMinute);
-        screen.print("/pl");
-        screen.print(maxPlateauPressure);
-        screen.print("/pep");
-        screen.print(peep);
-        break;
-    }
     case ScreenSize::CHARS_20:
     {
         screen.print("c=");
@@ -121,6 +97,7 @@ void displayDuringCycle(int cyclesPerMinute, int maxPlateauPressure, int peep, i
     }
     default:
     {
+        // Default case is ScreenSize::CHARS_16
         screen.print("c");
         screen.print(cyclesPerMinute);
         screen.print("/pl");
@@ -130,14 +107,3 @@ void displayDuringCycle(int cyclesPerMinute, int maxPlateauPressure, int peep, i
     }
     }
 }
-
-void displayConsigneServo(int blowerCommand, int yCommand, int patientCommand)
-{
-    screen.setCursor(0, 3);
-    screen.print("b:");
-    screen.print(blowerCommand);
-    screen.print(" y:");
-    screen.print(yCommand);
-    screen.print(" p:");
-    screen.print(patientCommand);
-} 
