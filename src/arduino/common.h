@@ -34,3 +34,6 @@ enum CyclePhases
     EXHALATION,
     HOLD_EXHALATION
 };
+
+//! Constant to convert a pressure in [kPa] into a pressure in [mmH2O]
+const double KPA_MMH2O = 101.97162129779;
