@@ -47,21 +47,59 @@ int readPressureSensor()
 
     // Pression en kPA
     double pressure  = (vOut / V_SUPPLY - 0.04) / 0.09;
-    Serial.println(pressure * KPA_MMH2O);
+    
+    if (pressure <= 0.0) 
+    {
+        return 0;
+    }
     return pressure * KPA_MMH2O;
 }
 
+AirTransistor servoBlower;
+AirTransistor servoY;
+AirTransistor servoPatient;
 void setup()
 {
     pinMode(PIN_CAPTEUR_PRESSION, INPUT);
 
-    DBG_DO(Serial.begin(9600);)
+    DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("demarrage");)
 
+    servoBlower = AirTransistor(
+        5,
+        65,
+        5,
+        65
+    );
+
+    servoY = AirTransistor(
+        5,
+        65,
+        5,
+        65
+    );
+
+    servoPatient = AirTransistor(
+        40,
+        76,
+        76,
+        76
+    );
+
+    pController = PressureController( 
+            INITIAL_CYCLE_NB,
+            BORNE_INF_PRESSION_PEP,
+            BORNE_SUP_PRESSION_PLATEAU,
+            ANGLE_OUVERTURE_MAXI,
+            BORNE_SUP_PRESSION_CRETE,
+            servoBlower,
+            servoY,
+            servoPatient
+    );
     pController.setup();
     startScreen();
     initKeyboard();
-    Serial.begin(9600);
+    Serial.begin(115400);
 }
 
 void loop()
@@ -69,9 +107,6 @@ void loop()
     /********************************************/
     // INITIALIZE THE RESPIRATORY CYCLE
     /********************************************/
-
-    displayEveryRespiratoryCycle(pController.peakPressure(), pController.plateauPressure(),
-                                 pController.peep());
 
     pController.initRespiratoryCycle();
 
@@ -115,9 +150,19 @@ void loop()
             // Display relevant information during the cycle
             if (centiSec % LCD_UPDATE_PERIOD == 0)
             {
-                displayDuringCycle(pController.cyclesPerMinuteCommand(),
-                                   pController.maxPlateauPressureCommand(),
-                                   pController.minPeepCommand(), pController.pressure());
+                displayPhase(pController.phase());
+
+                displayEveryRespiratoryCycle(
+                                pController.peakPressure(),
+                                pController.plateauPressure(),
+                                pController.peep(),
+                                pController.pressure());
+
+                displayDuringCycle(0,
+                                pController.maxPlateauPressureCommand(),
+                                pController.minPeepCommand(),
+                                pController.cyclesPerMinuteCommand()
+                );
             }
 
             // next tick

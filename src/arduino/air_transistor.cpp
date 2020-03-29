@@ -40,7 +40,7 @@ AirTransistor::AirTransistor(uint16_t p_minApertureAngle,
       maxApertureAngle(p_maxApertureAngle),
       defaultCommand(p_defaultCommand),
       failsafeCommand(p_failsafeCommand),
-      command(ANGLE_FERMETURE),
-      position(ANGLE_FERMETURE)
+      command(p_defaultCommand),
+      position(p_defaultCommand)
 {
 }

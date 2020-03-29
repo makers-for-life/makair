@@ -106,9 +106,8 @@
 #define DBG_PHASE_PRESSION(centieme, periode, phase, pression)                                     \
     if (centieme % periode == 0)                                                                   \
     {                                                                                              \
-        Serial.print("Phase : ");                                                                  \
         Serial.print(phase);                                                                       \
-        Serial.print(" - Pression : ");                                                            \
+        Serial.print(";");                                                            \
         Serial.println(pression);                                                                  \
     }
 #else
