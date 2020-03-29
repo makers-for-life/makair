@@ -66,24 +66,24 @@ void setup()
     DBG_DO(Serial.println("demarrage");)
 
     servoBlower = AirTransistor(
-        5,
-        65,
-        5,
-        65
+        BLOWER_FERME,
+        BLOWER_OUVERT,
+        BLOWER_FERME,
+        BLOWER_OUVERT
     );
 
     servoY = AirTransistor(
-        5,
-        65,
-        5,
-        65
+        BLOWER_FERME,
+        BLOWER_OUVERT,
+        BLOWER_FERME,
+        BLOWER_OUVERT
     );
 
     servoPatient = AirTransistor(
-        40,
-        76,
-        76,
-        76
+        PATIENT_OUVERT,
+        PATIENT_FERME,
+        PATIENT_FERME,
+        PATIENT_FERME
     );
 
     pController = PressureController( 
