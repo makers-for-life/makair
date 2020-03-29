@@ -64,7 +64,7 @@
 //! Macro to alert about a safety procedure due to a peak pressure too high
 #ifdef DEBUG
 #define DBG_PRESSION_CRETE(centiSec, period)                                                       \
-    if (centiSec % period == 0)                                                                    \
+    if ((centiSec % period) == 0u)                                                                 \
     {                                                                                              \
         Serial.println("Safety procedure: peak pressure too high");                                \
     }
@@ -75,7 +75,7 @@
 //! Macro to alert about a safety procedure due to a plateau pressure too high
 #ifdef DEBUG
 #define DBG_PRESSION_PLATEAU(centiSec, period)                                                     \
-    if (centiSec % period == 0)                                                                    \
+    if ((centiSec % period) == 0u)                                                                 \
     {                                                                                              \
         Serial.println("Safety procedure: plateau pressure too high");                             \
     }
@@ -86,7 +86,7 @@
 //! Macro to alert about a safety procedure due to a PEEP too low
 #ifdef DEBUG
 #define DBG_PRESSION_PEP(centiSec, period)                                                         \
-    if (centiSec % period == 0)                                                                    \
+    if ((centiSec % period) == 0u)                                                                 \
     {                                                                                              \
         Serial.println("Safety procedure: PEEP too low");                                          \
     }
@@ -97,7 +97,7 @@
 //! Macro to display the current respiratory cycle phase and the current pressure
 #ifdef DEBUG
 #define DBG_PHASE_PRESSION(centiSec, period, phase, pressure)                                      \
-    if (centiSec % period == 0)                                                                    \
+    if ((centiSec % period) == 0u)                                                                 \
     {                                                                                              \
         Serial.print("Phase : ");                                                                  \
         Serial.println(phase);                                                                     \

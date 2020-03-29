@@ -35,7 +35,7 @@ static const uint16_t ANGLE_OUVERTURE_MAXI = 45;
 static const uint16_t ANGLE_FERMETURE = 90;
 
 // Multiplier coefficient to tune to reverse angles (if the gear is removed)
-static const int16_t ANGLE_MULTIPLICATEUR = 1;
+static const uint16_t ANGLE_MULTIPLICATEUR = 1;
 
 // Lower bound of the pressure sensor
 // N.B.: To tune following the calibration
@@ -87,7 +87,7 @@ static const int16_t PIN_LCD_D7 = D12;
 // LCD screen control
 static const ScreenSize screenSize{ScreenSize::CHARS_20};
 // Period (in hundredth of seconds) to update the LCD screen commands to display
-static const int16_t LCD_UPDATE_PERIOD = 20;
+static const uint16_t LCD_UPDATE_PERIOD = 20;
 
 // Computation period in milliseconds
 static const uint32_t PCONTROLLER_COMPUTE_PERIOD = 10;

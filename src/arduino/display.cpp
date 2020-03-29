@@ -31,18 +31,14 @@ static LiquidCrystal screen(PIN_LCD_RS, PIN_LCD_EN, PIN_LCD_D4, PIN_LCD_D5, PIN_
 
 void startScreen()
 {
-    switch (screenSize)
-    {
-    case ScreenSize::CHARS_20:
+    if (screenSize == ScreenSize::CHARS_20)
     {
         screen.begin(20, 2);
-        break;
     }
-    default:
+    else
     {
         // Default case is ScreenSize::CHARS_16
         screen.begin(16, 2);
-    }
     }
 }
 
@@ -50,9 +46,7 @@ void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int pee
 {
     screen.setCursor(0, 0);
 
-    switch (screenSize)
-    {
-    case ScreenSize::CHARS_20:
+    if (screenSize == ScreenSize::CHARS_20)
     {
         screen.print("pc=");
         screen.print(peakPressure);
@@ -61,9 +55,8 @@ void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int pee
         screen.print("/pep=");
         screen.print(peep);
         screen.print("  ");
-        break;
     }
-    default:
+    else
     {
         // Default case is ScreenSize::CHARS_16
         screen.print("pc");
@@ -74,16 +67,13 @@ void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int pee
         screen.print(peep);
         screen.print("  ");
     }
-    }
 }
 
 void displayDuringCycle(int cyclesPerMinute, int maxPlateauPressure, int peep, int currentPressure)
 {
     screen.setCursor(0, 1);
 
-    switch (screenSize)
-    {
-    case ScreenSize::CHARS_20:
+    if (screenSize == ScreenSize::CHARS_20)
     {
         screen.print("c=");
         screen.print(cyclesPerMinute);
@@ -93,9 +83,8 @@ void displayDuringCycle(int cyclesPerMinute, int maxPlateauPressure, int peep, i
         screen.print(peep);
         screen.print("|");
         screen.print(currentPressure);
-        break;
     }
-    default:
+    else
     {
         // Default case is ScreenSize::CHARS_16
         screen.print("c");
@@ -104,6 +93,5 @@ void displayDuringCycle(int cyclesPerMinute, int maxPlateauPressure, int peep, i
         screen.print(maxPlateauPressure);
         screen.print("/pep");
         screen.print(peep);
-    }
     }
 }

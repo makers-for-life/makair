@@ -55,13 +55,13 @@ int PressureSensor::read()
     m_rawTension = analogRead(PIN_CAPTEUR_PRESSION) * 3.3 / 1024.0;
 
     // Smooth the tension using a low-pass filter
-    m_filteredTension = m_filteredTension + (m_rawTension - m_filteredTension) * 0.2;
+    m_filteredTension = m_filteredTension + ((m_rawTension - m_filteredTension) * 0.2);
 
     // Apply the dividing bridge ratio
     m_finalTension = m_filteredTension / m_dividingBridgeRatio;
 
     // Compute the pressure in kPa
-    m_pressure = (m_finalTension / m_tensionSupply - 0.04) / 0.09;
+    m_pressure = ((m_finalTension / m_tensionSupply) - 0.04) / 0.09;
 
     // Derive the pressure in mmH2O
     m_pressure *= KPA_MMH2O;

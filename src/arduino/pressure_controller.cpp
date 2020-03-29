@@ -142,7 +142,7 @@ void PressureController::compute(uint16_t p_centiSec)
 
     safeguards(p_centiSec);
 
-    DBG_PHASE_PRESSION(p_centiSec, 50, m_phase, m_pressure)
+    DBG_PHASE_PRESSION(p_centiSec, 50u, m_phase, m_pressure)
 
     executeCommands();
 }
@@ -170,7 +170,7 @@ void PressureController::increaseCyclesPerMinute()
 void PressureController::decreasePeep()
 {
     DBG_DO(Serial.println("PEEP --");)
-    m_minPeepCommand = m_minPeepCommand - 10;
+    m_minPeepCommand = m_minPeepCommand - 10u;
     if (m_minPeepCommand < BORNE_INF_PRESSION_PEP)
     {
         m_minPeepCommand = BORNE_INF_PRESSION_PEP;
@@ -180,7 +180,7 @@ void PressureController::decreasePeep()
 void PressureController::increasePeep()
 {
     DBG_DO(Serial.println("PEEP ++");)
-    m_minPeepCommand = m_minPeepCommand + 10;
+    m_minPeepCommand = m_minPeepCommand + 10u;
     if (m_minPeepCommand > BORNE_SUP_PRESSION_PEP)
     {
         m_minPeepCommand = BORNE_SUP_PRESSION_PEP;
@@ -190,7 +190,7 @@ void PressureController::increasePeep()
 void PressureController::decreasePlateauPressure()
 {
     DBG_DO(Serial.println("plateau pressure --");)
-    m_maxPlateauPressureCommand = m_maxPlateauPressureCommand - 10;
+    m_maxPlateauPressureCommand = m_maxPlateauPressureCommand - 10u;
     if (m_maxPlateauPressureCommand < BORNE_INF_PRESSION_PLATEAU)
     {
         m_maxPlateauPressureCommand = BORNE_INF_PRESSION_PLATEAU;
@@ -200,7 +200,7 @@ void PressureController::decreasePlateauPressure()
 void PressureController::increasePlateauPressure()
 {
     DBG_DO(Serial.println("plateau pressure ++");)
-    m_maxPlateauPressureCommand = m_maxPlateauPressureCommand + 10;
+    m_maxPlateauPressureCommand = m_maxPlateauPressureCommand + 10u;
     if (m_maxPlateauPressureCommand > BORNE_SUP_PRESSION_PLATEAU)
     {
         m_maxPlateauPressureCommand = BORNE_SUP_PRESSION_PLATEAU;
@@ -223,7 +223,7 @@ void PressureController::updatePhase(uint16_t p_centiSec)
 {
     if (p_centiSec <= m_centiSecPerInhalation)
     {
-        m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION : CyclePhases::PLATEAU;
+        m_phase = (m_pressure >= m_peakPressure) ? CyclePhases::INHALATION : CyclePhases::PLATEAU;
     }
     else
     {
@@ -234,10 +234,10 @@ void PressureController::updatePhase(uint16_t p_centiSec)
 void PressureController::inhale()
 {
     // Open the air stream towards the patient's lungs
-    m_blower.command = ANGLE_FERMETURE - ANGLE_MULTIPLICATEUR * m_aperture;
+    m_blower.command = ANGLE_FERMETURE - (ANGLE_MULTIPLICATEUR * m_aperture);
 
     // Open the air stream towards the patient's lungs
-    m_patient.command = ANGLE_FERMETURE + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI;
+    m_patient.command = ANGLE_FERMETURE + (ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI);
 
     // Update the peak pressure
     m_peakPressure = m_pressure;
@@ -246,7 +246,7 @@ void PressureController::inhale()
 void PressureController::plateau()
 {
     // Deviate the air stream outside
-    m_blower.command = ANGLE_FERMETURE + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI;
+    m_blower.command = ANGLE_FERMETURE + (ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI);
 
     // Close the air stream towards the patient's lungs
     m_patient.command = ANGLE_FERMETURE;
@@ -258,7 +258,7 @@ void PressureController::plateau()
 void PressureController::exhale()
 {
     // Deviate the air stream outside
-    m_blower.command = ANGLE_FERMETURE + ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI;
+    m_blower.command = ANGLE_FERMETURE + (ANGLE_MULTIPLICATEUR * ANGLE_OUVERTURE_MAXI);
 
     // Open the valve so the patient can exhale outside
     m_patient.command = m_patient.failsafeCommand;
@@ -271,21 +271,21 @@ void PressureController::safeguards(uint16_t p_centiSec)
 {
     if (m_pressure > m_maxPeakPressure)
     {
-        DBG_PRESSION_CRETE(p_centiSec, 80)
+        DBG_PRESSION_CRETE(p_centiSec, 80u)
         // Close the blower's valve by 2°
-        m_blower.command = m_blower.position - 2;
+        m_blower.command = m_blower.position - 2u;
     }
 
-    if (m_phase == CyclePhases::PLATEAU && m_pressure > m_maxPlateauPressure)
+    if ((m_phase == CyclePhases::PLATEAU) && (m_pressure > m_maxPlateauPressure))
     {
-        DBG_PRESSION_PLATEAU(p_centiSec, 80)
+        DBG_PRESSION_PLATEAU(p_centiSec, 80u)
         // Open the patient's valve by 1° to ease exhalation
-        m_patient.command = m_blower.position + 1;
+        m_patient.command = m_blower.position + 1u;
     }
 
     if (m_pressure < m_minPeep)
     {
-        DBG_PRESSION_PEP(p_centiSec, 80)
+        DBG_PRESSION_PEP(p_centiSec, 80u)
         // Close completely the patient's valve
         m_patient.command = ANGLE_FERMETURE;
         m_phase = CyclePhases::HOLD_EXHALATION;
@@ -294,10 +294,10 @@ void PressureController::safeguards(uint16_t p_centiSec)
 
 void PressureController::computeCentiSecParameters()
 {
-    m_centiSecPerCycle = 60 * 100 / m_cyclesPerMinute;
+    m_centiSecPerCycle = 60u * 100u / m_cyclesPerMinute;
     // Inhalation = 1/3 of the cycle duration,
     // Exhalation = 2/3 of the cycle duration
-    m_centiSecPerInhalation = m_centiSecPerCycle / 3;
+    m_centiSecPerInhalation = m_centiSecPerCycle / 3u;
 }
 
 void PressureController::executeCommands()

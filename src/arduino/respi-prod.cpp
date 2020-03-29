@@ -62,9 +62,9 @@ void loop()
 
     while (centiSec < pController.centiSecPerCycle())
     {
-        static uint32_t lastpControllerComputeDate = 0ul;
+        static uint32_t lastpControllerComputeDate = 0uL;
         uint32_t currentDate = millis();
-        if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD)
+        if ((currentDate - lastpControllerComputeDate) >= PCONTROLLER_COMPUTE_PERIOD)
         {
             lastpControllerComputeDate = currentDate;
 
@@ -93,7 +93,7 @@ void loop()
             keyboardLoop();
 
             // Display relevant information during the cycle
-            if (centiSec % LCD_UPDATE_PERIOD == 0)
+            if ((centiSec % LCD_UPDATE_PERIOD) == 0u)
             {
                 displayDuringCycle(pController.cyclesPerMinuteCommand(),
                                    pController.maxPlateauPressureCommand(),
