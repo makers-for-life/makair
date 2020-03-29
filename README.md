@@ -134,7 +134,7 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## The "Oxygen Mixer"
 
-<img alt="Oxygen Mixer Concept" src="./src/components/oxygen-mixer/schemes/Oxygen%20Mixer%20(Render%201).jpg" height="240">
+<img alt="Oxygen Mixer Concept" src="./src/components/oxygen-mixer/schemes/oxygen_mixer_v3_render.png" height="240">
 
 ## The "Filter Box"
 
