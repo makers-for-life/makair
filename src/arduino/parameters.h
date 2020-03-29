@@ -46,6 +46,11 @@ static const uint16_t CAPT_PRESSION_MINI = 0;
 // -> à adapter avec meilleur AOP
 static const uint16_t CAPT_PRESSION_MAXI = 800;
 
+#define BLOWER_OUVERT  90// 5
+#define BLOWER_FERME    0// 65
+#define PATIENT_FERME  76
+#define PATIENT_OUVERT 40
+
 // entrées-sorties
 #if defined(ARDUINO_AVR_UNO)
 /* Sur le prototype Arduino Uno */

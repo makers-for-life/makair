@@ -87,6 +87,8 @@ void PressureController::setup()
     m_blower.actuator.write(m_blower.failsafeCommand);
     m_patient.actuator.write(m_patient.failsafeCommand);
     m_y.actuator.write(m_y.failsafeCommand);
+
+    m_cycleNb = 0;
 }
 
 void PressureController::initRespiratoryCycle()
@@ -98,6 +100,7 @@ void PressureController::initRespiratoryCycle()
     m_blower.reset();
     m_patient.reset();
     m_y.reset();
+    m_cycleNb++;
 
     computeCentiSecParameters();
 
@@ -154,7 +157,7 @@ void PressureController::compute(uint16_t p_centiSec)
 
     safeguards(p_centiSec);
 
-    DBG_PHASE_PRESSION(p_centiSec, 10, m_phase, m_pressure)
+    DBG_PHASE_PRESSION_4(m_cycleNb, p_centiSec, 10, m_phase, m_pressure, m_blower.command, m_blower.position, m_patient.command, m_patient.position)
 
     executeCommands();
 
@@ -235,8 +238,6 @@ void PressureController::onPressionCretePlus()
 
 void PressureController::updatePhase(uint16_t p_centiSec)
 {
-
-
     if (p_centiSec < (m_centiSecPerInhalation * 0.6)) {
         m_phase = CyclePhases::INHALATION;
     } else if (p_centiSec < m_centiSecPerInhalation) {
@@ -263,12 +264,6 @@ void PressureController::updatePhase(uint16_t p_centiSec)
     //     m_phase = CyclePhases::EXHALATION;
     // }
 }
-
-#define BLOWER_OUVERT  90// 5
-#define BLOWER_FERME    0// 65
-#define PATIENT_FERME  76
-#define PATIENT_OUVERT 40
-
 
 void PressureController::inhale()
 {
@@ -322,7 +317,7 @@ void PressureController::safeguards(uint16_t p_centiSec)
     // Gestion de la PEP MIN
     // Si pep < pepmin /!\ => on bloque les valves vers le patient
     if (m_pressure <= m_minPeep) {
-        DBG_PRESSION_PEP(p_centiSec, 80)
+        // DBG_PRESSION_PEP(p_centiSec, 80)
         
         // Deviate the air stream outside
         m_blower.command = BLOWER_FERME;
@@ -372,10 +367,6 @@ void PressureController::computeCentiSecParameters()
 
 void PressureController::executeCommands()
 {
-    // Serial.print("blower command: ");
-    // Serial.print(m_blower.command);
-    // Serial.print(" - patient command: ");
-    // Serial.println(m_patient.command);
     m_blower.execute();
     m_patient.execute();
     m_y.execute();

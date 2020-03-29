@@ -233,6 +233,8 @@ private:
     AirTransistor m_y;
 
     uint16_t m_previousPhase;
+
+    uint32_t m_cycleNb;
 };
 
 // INITIALISATION =============================================================
