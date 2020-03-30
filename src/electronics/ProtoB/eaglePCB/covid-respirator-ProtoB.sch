@@ -16265,6 +16265,8 @@ Source: www.kingbright.com</description>
 <part name="R30" library="rcl" deviceset="R-EU_" device="0207/10" value="10k"/>
 <part name="R11" library="rcl" deviceset="R-EU_" device="0207/10" value="9k1"/>
 <part name="R31" library="rcl" deviceset="R-EU_" device="0207/10" value="330"/>
+<part name="R32" library="rcl" deviceset="R-EU_" device="0207/10" value="12k"/>
+<part name="R33" library="rcl" deviceset="R-EU_" device="0207/10" value="100R"/>
 </parts>
 <sheets>
 <sheet>
@@ -16381,7 +16383,7 @@ Farnell : 2760747</text>
 <text x="124.46" y="30.48" size="1.778" layer="97">alarme off</text>
 <text x="152.4" y="15.24" size="1.778" layer="97">start</text>
 <text x="149.86" y="0" size="1.778" layer="97">stop</text>
-<text x="33.02" y="-121.92" size="1.9304" layer="97">B4</text>
+<text x="33.02" y="-121.92" size="1.9304" layer="97">B5</text>
 <wire x1="45.72" y1="53.34" x2="86.36" y2="53.34" width="0.1524" layer="97"/>
 <wire x1="86.36" y1="53.34" x2="86.36" y2="40.64" width="0.1524" layer="97"/>
 <wire x1="86.36" y1="40.64" x2="45.72" y2="40.64" width="0.1524" layer="97"/>
@@ -16441,7 +16443,7 @@ Farnell : 2760747</text>
 <instance part="GND10" gate="1" x="109.22" y="73.66"/>
 <instance part="LCD1" gate="G$1" x="0" y="-27.94"/>
 <instance part="R8" gate="G$1" x="-22.86" y="-22.86" rot="R270"/>
-<instance part="GND11" gate="1" x="-15.24" y="-73.66"/>
+<instance part="GND11" gate="1" x="-15.24" y="-81.28"/>
 <instance part="GND12" gate="1" x="-55.88" y="-33.02"/>
 <instance part="S1" gate="BEF1" x="68.58" y="-114.3" rot="R270"/>
 <instance part="S2" gate="BEF1" x="68.58" y="-104.14" rot="R270"/>
@@ -16500,6 +16502,8 @@ Farnell : 2760747</text>
 <instance part="R30" gate="G$1" x="231.14" y="58.42" rot="R270"/>
 <instance part="R11" gate="G$1" x="-33.02" y="-17.78"/>
 <instance part="R31" gate="G$1" x="-48.26" y="-17.78"/>
+<instance part="R32" gate="G$1" x="-25.4" y="-71.12" rot="R90"/>
+<instance part="R33" gate="G$1" x="-40.64" y="-60.96" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -16564,15 +16568,15 @@ Farnell : 2760747</text>
 <pinref part="LCD1" gate="G$1" pin="LEDK"/>
 <pinref part="GND11" gate="1" pin="GND"/>
 <wire x1="-12.7" y1="-66.04" x2="-15.24" y2="-66.04" width="0.1524" layer="91" style="longdash"/>
-<wire x1="-15.24" y1="-66.04" x2="-15.24" y2="-71.12" width="0.1524" layer="91" style="longdash"/>
-<wire x1="-15.24" y1="-66.04" x2="-15.24" y2="-38.1" width="0.1524" layer="91"/>
+<wire x1="-15.24" y1="-66.04" x2="-15.24" y2="-76.2" width="0.1524" layer="91" style="longdash"/>
+<wire x1="-15.24" y1="-76.2" x2="-15.24" y2="-78.74" width="0.1524" layer="91" style="longdash"/>
+<wire x1="-15.24" y1="-66.04" x2="-15.24" y2="-27.94" width="0.1524" layer="91"/>
 <junction x="-15.24" y="-66.04"/>
 <pinref part="LCD1" gate="G$1" pin="VSS"/>
-<wire x1="-15.24" y1="-38.1" x2="-15.24" y2="-27.94" width="0.1524" layer="91"/>
 <wire x1="-15.24" y1="-27.94" x2="-12.7" y2="-27.94" width="0.1524" layer="91"/>
-<pinref part="LCD1" gate="G$1" pin="R/W"/>
-<wire x1="-12.7" y1="-38.1" x2="-15.24" y2="-38.1" width="0.1524" layer="91"/>
-<junction x="-15.24" y="-38.1"/>
+<pinref part="R32" gate="G$1" pin="1"/>
+<wire x1="-25.4" y1="-76.2" x2="-15.24" y2="-76.2" width="0.1524" layer="91"/>
+<junction x="-15.24" y="-76.2"/>
 </segment>
 <segment>
 <pinref part="S8" gate="BEF1" pin="P"/>
@@ -17021,9 +17025,9 @@ Farnell : 2760747</text>
 </net>
 <net name="D12" class="0">
 <segment>
-<pinref part="LCD1" gate="G$1" pin="DB7"/>
-<wire x1="-12.7" y1="-60.96" x2="-40.64" y2="-60.96" width="0.1524" layer="91"/>
-<label x="-40.64" y="-60.96" size="1.778" layer="95" rot="R180" xref="yes"/>
+<label x="-53.34" y="-60.96" size="1.778" layer="95" rot="R180" xref="yes"/>
+<pinref part="R33" gate="G$1" pin="2"/>
+<wire x1="-45.72" y1="-60.96" x2="-53.34" y2="-60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="D11" class="0">
@@ -17273,6 +17277,24 @@ Farnell : 2760747</text>
 <wire x1="231.14" y1="63.5" x2="231.14" y2="81.28" width="0.1524" layer="91"/>
 <junction x="231.14" y="81.28"/>
 <label x="271.78" y="81.28" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="PA13" class="0">
+<segment>
+<pinref part="LCD1" gate="G$1" pin="R/W"/>
+<wire x1="-12.7" y1="-38.1" x2="-25.4" y2="-38.1" width="0.1524" layer="91"/>
+<label x="-33.02" y="-38.1" size="1.778" layer="95" rot="R180" xref="yes"/>
+<pinref part="R32" gate="G$1" pin="2"/>
+<wire x1="-25.4" y1="-38.1" x2="-33.02" y2="-38.1" width="0.1524" layer="91"/>
+<wire x1="-25.4" y1="-66.04" x2="-25.4" y2="-38.1" width="0.1524" layer="91"/>
+<junction x="-25.4" y="-38.1"/>
+</segment>
+</net>
+<net name="N$25" class="0">
+<segment>
+<pinref part="R33" gate="G$1" pin="1"/>
+<pinref part="LCD1" gate="G$1" pin="DB7"/>
+<wire x1="-35.56" y1="-60.96" x2="-12.7" y2="-60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
