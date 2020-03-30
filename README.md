@@ -49,7 +49,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Pressure Valve](./src/components/pressure-valve) | V4 | Smaller size, FDM printing optimizations | ✅ | [view model](https://a360.co/2WIQJRR) | Sebastien Le Loch + [@valeriansaliou](https://github.com/valeriansaliou)
 | [Two-Way Valve](./src/components/two-way-valve) | V1 | Initial design | ❌ | [view model](https://a360.co/2QNO9q8) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Oxygen Mixer](./src/components/oxygen-mixer) | V3 | Designed from scratched | ❌ | [view model](https://a360.co/2vV5s18) | [@Melkaz](https://github.com/Melkaz)
-| [Filter Box](./src/components/filter-box) | V4 | Improved the screwing pitch, add markers | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
+| [Filter Box](./src/components/filter-box) | V5 | Wall-mountable, 3D-printability optimizations | ❌ | [view model](https://a360.co/2Utff87) | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent) + [@valeriansaliou](https://github.com/valeriansaliou)
 | [Adapters](./src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 
 
@@ -138,4 +138,4 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## The "Filter Box"
 
-<img alt="Filter Box Concept" src="./src/components/filter-box/schemes/V3/Filter%20Box%20(Render%201).JPG" height="320">
+<img alt="Filter Box Concept" src="./src/components/filter-box/schemes/V5/Filter%20Box%20(Render%201).JPG" height="320">
