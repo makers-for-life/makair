@@ -46,10 +46,11 @@ static const uint16_t CAPT_PRESSION_MINI = 0;
 // -> à adapter avec meilleur AOP
 static const uint16_t CAPT_PRESSION_MAXI = 800;
 
-#define BLOWER_OUVERT  90// 5
-#define BLOWER_FERME    0// 65
-#define PATIENT_FERME  76
-#define PATIENT_OUVERT 40
+#define VERSION "v1.1.18"
+#define BLOWER_OUVERT  160//90// 5
+#define BLOWER_FERME     0// 0// 65
+#define PATIENT_OUVERT 160//40
+#define PATIENT_FERME    0//76
 
 // entrées-sorties
 #if defined(ARDUINO_AVR_UNO)
@@ -69,10 +70,12 @@ static const int16_t PIN_LCD_D7 = 12;
 /* clavier analogique */
 static const int16_t PIN_CONTROL_BUTTONS = A0;
 #elif defined(ARDUINO_NUCLEO_F411RE)
+
 static const int16_t PIN_CAPTEUR_PRESSION = A1;
 static const int16_t PIN_ALARM = D13;
 static const int16_t PIN_LED_RED = PC4;
 static const int16_t PIN_LED_GREEN = PB13;
+static const int16_t PIN_LED_YELLOW = PB14;
 static const int16_t PIN_MOTEUR_VENTILATEUR = D5;
 static const int16_t PIN_SERVO_BLOWER = D2;
 static const int16_t PIN_SERVO_PATIENT = D4;
@@ -81,6 +84,7 @@ static const int16_t PIN_CONTROL_BUTTONS = A0;
 static const int16_t PIN_BATTERY = A2;
 /* Ecran LCD */
 static const int16_t PIN_LCD_RS = D7;
+static const int16_t PIN_LCD_RW = PA13;
 static const int16_t PIN_LCD_EN = D8;
 static const int16_t PIN_LCD_D4 = D9;
 static const int16_t PIN_LCD_D5 = D10;
