@@ -82,11 +82,12 @@ void PressureController::setup()
     m_patient.actuator.attach(PIN_SERVO_PATIENT);
     m_y.actuator.attach(PIN_SERVO_Y);
 
-    DBG_DO(Serial.print("mise en secu initiale");)
+    DBG_DO(Serial.println(VERSION);)
+    DBG_DO(Serial.println("mise en secu initiale");)
 
     m_blower.actuator.write(m_blower.failsafeCommand);
-    m_patient.actuator.write(m_patient.failsafeCommand);
     m_y.actuator.write(m_y.failsafeCommand);
+    m_patient.actuator.write(m_patient.failsafeCommand);
 
     m_cycleNb = 0;
 }
@@ -97,9 +98,9 @@ void PressureController::initRespiratoryCycle()
     m_plateauPressure = 0;
     m_peep = 0;
     m_phase = CyclePhases::INHALATION;
-    m_blower.reset();
-    m_patient.reset();
-    m_y.reset();
+    // m_blower.reset();
+    // m_patient.reset();
+    // m_y.reset();
     m_cycleNb++;
 
     computeCentiSecParameters();
@@ -240,9 +241,12 @@ void PressureController::updatePhase(uint16_t p_centiSec)
 {
     if (p_centiSec < (m_centiSecPerInhalation * 0.6)) {
         m_phase = CyclePhases::INHALATION;
-    } else if (p_centiSec < m_centiSecPerInhalation) {
+    } 
+    else if (p_centiSec < m_centiSecPerInhalation) 
+    {
         m_phase = CyclePhases::PLATEAU;
-    } else
+    } 
+    else if (CyclePhases::EXHALATION != m_phase)
     {
          m_phase = CyclePhases::EXHALATION;
     }
@@ -314,17 +318,17 @@ void PressureController::safeguards(uint16_t p_centiSec)
 {
 
 
-    // Gestion de la PEP MIN
-    // Si pep < pepmin /!\ => on bloque les valves vers le patient
-    if (m_pressure <= m_minPeep) {
-        // DBG_PRESSION_PEP(p_centiSec, 80)
+    // // Gestion de la PEP MIN
+    // // Si pep < pepmin /!\ => on bloque les valves vers le patient
+    // if (m_pressure <= m_minPeep) {
+    //     // DBG_PRESSION_PEP(p_centiSec, 80)
         
-        // Deviate the air stream outside
-        m_blower.command = BLOWER_FERME;
-        // Close completely the patient's valve
-        m_patient.command = PATIENT_FERME;
-        m_phase = CyclePhases::HOLD_EXHALATION;
-    }
+    //     // Deviate the air stream outside
+    //     m_blower.command = BLOWER_FERME;
+    //     // Close completely the patient's valve
+    //     m_patient.command = PATIENT_FERME;
+    //     m_phase = CyclePhases::HOLD_EXHALATION;
+    // }
 
     // if (m_pressure > m_maxPeakPressure)
     // {
