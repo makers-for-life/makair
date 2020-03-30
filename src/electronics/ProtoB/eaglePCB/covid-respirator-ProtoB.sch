@@ -16372,8 +16372,8 @@ Farnell : 2760747</text>
 <wire x1="132.08" y1="83.82" x2="132.08" y2="76.2" width="0.1524" layer="97"/>
 <wire x1="132.08" y1="76.2" x2="104.14" y2="76.2" width="0.1524" layer="97"/>
 <wire x1="104.14" y1="76.2" x2="104.14" y2="83.82" width="0.1524" layer="97"/>
-<text x="109.22" y="96.52" size="1.778" layer="97">servo 1</text>
-<text x="109.22" y="78.74" size="1.778" layer="97">servo 2</text>
+<text x="109.22" y="96.52" size="1.778" layer="97">servo blower</text>
+<text x="109.22" y="78.74" size="1.778" layer="97">servo patient</text>
 <wire x1="-58.42" y1="127" x2="12.7" y2="127" width="0.1524" layer="97" style="longdash"/>
 <wire x1="12.7" y1="127" x2="12.7" y2="2.54" width="0.1524" layer="97" style="longdash"/>
 <wire x1="12.7" y1="2.54" x2="-58.42" y2="2.54" width="0.1524" layer="97" style="longdash"/>
@@ -16383,7 +16383,7 @@ Farnell : 2760747</text>
 <text x="124.46" y="30.48" size="1.778" layer="97">alarme off</text>
 <text x="152.4" y="15.24" size="1.778" layer="97">start</text>
 <text x="149.86" y="0" size="1.778" layer="97">stop</text>
-<text x="33.02" y="-121.92" size="1.9304" layer="97">B5</text>
+<text x="33.02" y="-121.92" size="1.9304" layer="97">B6</text>
 <wire x1="45.72" y1="53.34" x2="86.36" y2="53.34" width="0.1524" layer="97"/>
 <wire x1="86.36" y1="53.34" x2="86.36" y2="40.64" width="0.1524" layer="97"/>
 <wire x1="86.36" y1="40.64" x2="45.72" y2="40.64" width="0.1524" layer="97"/>
