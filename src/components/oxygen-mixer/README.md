@@ -2,11 +2,12 @@
 
 | Version | Last Changelog | Ready? | Online CAD Models |
 | ------- | -------------- | ------ | ----------------- |
-| V3 | Designed from scratched. Ready for test print today (28/03/20) | ❌ | [link](https://a360.co/2vV5s18) |
+| V3 | Designed from scratched. Printed OK | ❌ | [link](https://a360.co/2vV5s18) |
+| V4 | Updated with correct O2 ID diameter, reinforced O2 nipple. | ❌ | [link](https://a360.co/2UuPkNt) |
 
 ## Assumptions
 
-- O2 line with 4mm ID
+- O2 line with 6mm ID
 - O2 @ 6 Lpm
 - Air @ 60 Lpm
 
