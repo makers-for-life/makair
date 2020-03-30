@@ -90,6 +90,22 @@ static const int16_t PIN_LCD_D7 = D12;
 #error "Electronic board not supported"
 #endif
 
+// alarmes
+//#define YELLOW_LED_PIN_EXISTS
+#ifdef YELLOW_LED_PIN_EXISTS
+static const int16_t PIN_YELLOW_LED = 7;
+#endif
+
+//#define RED_LED_PIN_EXISTS
+#ifdef RED_LED_PIN_EXISTS
+static const int16_t PIN_RED_LED = 8;
+#endif
+
+//#define BEEPER_PIN_EXISTS
+#ifdef BEEPER_PIN_EXISTS
+static const int16_t PIN_BEEPER = 9;
+#endif
+
 // LCD screen control
 static const ScreenSize screenSize{ScreenSize::CHARS_20};
 // Period (in hundredth of seconds) to update the LCD screen commands to display
