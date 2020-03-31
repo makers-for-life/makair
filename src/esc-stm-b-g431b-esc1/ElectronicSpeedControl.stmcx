@@ -408,7 +408,7 @@
 								<item tag="2" text="Position control" />
 							</items>
 						</var>
-						<var version="1.0" type="MC_Int" name="Target speed" enable="true" visible="true" readonly="false" value="1440" />
+						<var version="1.0" type="MC_Int" name="Target speed" enable="true" visible="true" readonly="false" value="5384" />
 						<var version="1.0" type="MC_Double" name="Target stator current flux component" enable="false" visible="true" readonly="false" value="0" />
 						<var version="1.0" type="MC_Double" name="Target stator current torque component" enable="false" visible="true" readonly="false" value="0" />
 						<var version="1.0" type="MC_List" name="Torque&amp;Flux - Execution rate" enable="true" visible="true" readonly="false" value="0">
@@ -484,19 +484,19 @@
 						<var version="1.0" type="MC_Int" name="SL - ACP - Initial electrical angle" enable="true" visible="true" readonly="false" value="0" />
 						<var version="1.0" type="MC_Int" name="SL - ACP - Phase1 - Duration" enable="true" visible="true" readonly="false" value="1000" />
 						<var version="1.0" type="MC_Int" name="SL - ACP - Phase1 - Final speed" enable="true" visible="true" readonly="false" value="0" />
-						<var version="1.0" type="MC_Double" name="SL - ACP - Phase1 - Final current" enable="true" visible="true" readonly="false" value="1.6" />
-						<var version="1.0" type="MC_Int" name="SL - ACP - Phase2 - Duration" enable="true" visible="true" readonly="false" value="1600" />
-						<var version="1.0" type="MC_Int" name="SL - ACP - Phase2 - Final speed" enable="true" visible="true" readonly="false" value="1600" />
-						<var version="1.0" type="MC_Double" name="SL - ACP - Phase2 - Final current" enable="true" visible="true" readonly="false" value="1.6" />
+						<var version="1.0" type="MC_Double" name="SL - ACP - Phase1 - Final current" enable="true" visible="true" readonly="false" value="0.45" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase2 - Duration" enable="true" visible="true" readonly="false" value="10000" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase2 - Final speed" enable="true" visible="true" readonly="false" value="5982" />
+						<var version="1.0" type="MC_Double" name="SL - ACP - Phase2 - Final current" enable="true" visible="true" readonly="false" value="0.9" />
 						<var version="1.0" type="MC_Int" name="SL - ACP - Phase3 - Duration" enable="true" visible="true" readonly="false" value="0" />
-						<var version="1.0" type="MC_Int" name="SL - ACP - Phase3 - Final speed" enable="true" visible="true" readonly="false" value="1600" />
-						<var version="1.0" type="MC_Double" name="SL - ACP - Phase3 - Final current" enable="true" visible="true" readonly="false" value="1.6" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase3 - Final speed" enable="true" visible="true" readonly="false" value="5982" />
+						<var version="1.0" type="MC_Double" name="SL - ACP - Phase3 - Final current" enable="true" visible="true" readonly="false" value="0.9" />
 						<var version="1.0" type="MC_Int" name="SL - ACP - Phase4 - Duration" enable="true" visible="true" readonly="false" value="0" />
-						<var version="1.0" type="MC_Int" name="SL - ACP - Phase4 - Final speed" enable="true" visible="true" readonly="false" value="1600" />
-						<var version="1.0" type="MC_Double" name="SL - ACP - Phase4 - Final current" enable="true" visible="true" readonly="false" value="1.6" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase4 - Final speed" enable="true" visible="true" readonly="false" value="5982" />
+						<var version="1.0" type="MC_Double" name="SL - ACP - Phase4 - Final current" enable="true" visible="true" readonly="false" value="0.9" />
 						<var version="1.0" type="MC_Int" name="SL - ACP - Phase5 - Duration" enable="true" visible="true" readonly="false" value="0" />
-						<var version="1.0" type="MC_Int" name="SL - ACP - Phase5 - Final speed" enable="true" visible="true" readonly="false" value="1600" />
-						<var version="1.0" type="MC_Double" name="SL - ACP - Phase5 - Final current" enable="true" visible="true" readonly="false" value="1.6" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase5 - Final speed" enable="true" visible="true" readonly="false" value="5982" />
+						<var version="1.0" type="MC_Double" name="SL - ACP - Phase5 - Final current" enable="true" visible="true" readonly="false" value="0.9" />
 						<var version="1.0" type="MC_List" name="SL - ACP - Execute sensor-less algorithm starting from phase" enable="true" visible="true" readonly="false" value="1">
 							<items>
 								<item tag="1" text="1" />
@@ -507,7 +507,7 @@
 							</items>
 						</var>
 						<var version="1.0" type="MC_Int" name="SL - Consecutive succesful start-up output tests" enable="true" visible="true" readonly="false" value="2" />
-						<var version="1.0" type="MC_Int" name="SL - Minimum start-up output speed" enable="true" visible="true" readonly="false" value="1440" />
+						<var version="1.0" type="MC_Int" name="SL - Minimum start-up output speed" enable="true" visible="true" readonly="false" value="5384" />
 						<var version="1.0" type="MC_Double" name="SL - Estimated speed Band tolerance upper limit" enable="true" visible="true" readonly="false" value="106.25" />
 						<var version="1.0" type="MC_Double" name="SL - Estimated speed Band tolerance lower limit" enable="true" visible="true" readonly="false" value="93.75" />
 						<var version="1.0" type="MC_Int" name="SL - Rev-up to FOC switch-over duration" enable="true" visible="true" readonly="false" value="25" />
