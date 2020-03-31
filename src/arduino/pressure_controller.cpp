@@ -30,25 +30,27 @@ PressureController pController;
 
 PressureController::PressureController()
     : m_cyclesPerMinuteCommand(INITIAL_CYCLE_NB),
-      m_minPeepCommand(BORNE_INF_PRESSION_PEP), // mmH2O
+      m_minPeepCommand(DEFAULT_MIN_PEEP_COMMAND), // mmH2O
       m_maxPlateauPressureCommand(BORNE_SUP_PRESSION_PLATEAU), //mmH20
       m_apertureCommand(ANGLE_OUVERTURE_MAXI),
       m_cyclesPerMinute(INITIAL_CYCLE_NB),
       m_aperture(ANGLE_OUVERTURE_MAXI),
       m_maxPeakPressure(BORNE_SUP_PRESSION_CRETE), // mmH2O
       m_maxPlateauPressure(BORNE_SUP_PRESSION_PLATEAU), // mmH2O
-      m_minPeep(BORNE_INF_PRESSION_PEP), //mmH2O
+      m_minPeep(BORNE_INF_PRESSION_PEP), //TODO revoir la valeur mmH2O
       m_pressure(INITIAL_ZERO_PRESSURE),
       m_peakPressure(INITIAL_ZERO_PRESSURE),
       m_plateauPressure(INITIAL_ZERO_PRESSURE),
       m_peep(INITIAL_ZERO_PRESSURE),
-      m_phase(CyclePhases::INHALATION)
+      m_phase(CyclePhases::INHALATION),
+      m_franchissementSeuilHoldExpiDetectionTick(0),
+      m_franchissementSeuilHoldExpiDetectionTickSupprime(0)
 {
     computeCentiSecParameters();
 }
 
 PressureController::PressureController(int16_t p_cyclesPerMinute,
-                                       int16_t p_minPeep,
+                                       int16_t p_minPeepCommand,
                                        int16_t p_maxPlateauPressure,
                                        int16_t p_aperture,
                                        int16_t p_maxPeakPressure,
@@ -56,14 +58,14 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        AirTransistor p_patient,
                                        AirTransistor p_y)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
-      m_minPeepCommand(p_minPeep),
+      m_minPeepCommand(p_minPeepCommand),
       m_maxPlateauPressureCommand(p_maxPlateauPressure),
       m_apertureCommand(p_aperture),
       m_cyclesPerMinute(p_cyclesPerMinute),
       m_aperture(p_aperture),
       m_maxPeakPressure(p_maxPeakPressure),
       m_maxPlateauPressure(p_maxPlateauPressure),
-      m_minPeep(p_minPeep),
+      m_minPeep(p_minPeepCommand), // TODO revoir la valeur de démarage
       m_pressure(INITIAL_ZERO_PRESSURE),
       m_peakPressure(INITIAL_ZERO_PRESSURE),
       m_plateauPressure(INITIAL_ZERO_PRESSURE),
@@ -71,7 +73,9 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_phase(CyclePhases::INHALATION),
       m_blower(p_blower),
       m_patient(p_patient),
-      m_y(p_y)
+      m_y(p_y),
+      m_franchissementSeuilHoldExpiDetectionTick(0),
+      m_franchissementSeuilHoldExpiDetectionTickSupprime(0)
 {
     computeCentiSecParameters();
 }
@@ -86,7 +90,9 @@ void PressureController::setup()
     DBG_DO(Serial.println("mise en secu initiale");)
 
     m_blower.command = BLOWER_FERME;
+    m_blower.position = -1;
     m_patient.command = PATIENT_FERME;
+    m_patient.position = -1;
     m_blower.execute();
     m_patient.execute();
 
@@ -118,6 +124,7 @@ void PressureController::initRespiratoryCycle()
 
    // remise à zéro tick alarmes
    m_franchissementSeuilHoldExpiDetectionTick = 0;
+   m_franchissementSeuilHoldExpiDetectionTickSupprime = 0;
 }
 
 void PressureController::updatePressure(int16_t p_currentPressure)
@@ -131,7 +138,7 @@ void PressureController::compute(uint16_t p_centiSec)
     updatePhase(p_centiSec);
 
     // Act accordingly
-    switch (m_phase)
+    switch (m_subPhase)
     {
     case CycleSubPhases::INSPI:
     {
@@ -161,7 +168,7 @@ void PressureController::compute(uint16_t p_centiSec)
 
     safeguards(p_centiSec);
 
-    DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 1, m_phase, m_subPhase, m_pressure, m_blower.command, m_blower.position, m_patient.command, m_patient.position)
+    DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 10, m_phase, m_subPhase, m_pressure, m_blower.command, m_blower.position, m_patient.command, m_patient.position)
 
     executeCommands();
 
@@ -326,6 +333,7 @@ void PressureController::safeguards(uint16_t p_centiSec)
                     m_phase = CyclePhases::EXHALATION;
                 }
                 m_subPhase = CycleSubPhases::HOLD_EXHALE;
+                holdExhalation();
             }
         }
         else if (m_franchissementSeuilHoldExpiDetectionTick != 0) 

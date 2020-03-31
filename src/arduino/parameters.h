@@ -46,7 +46,7 @@ static const uint16_t CAPT_PRESSION_MINI = 0;
 // -> à adapter avec meilleur AOP
 static const uint16_t CAPT_PRESSION_MAXI = 800;
 
-#define VERSION "v1.1.25"
+#define VERSION "v1.1.36"
 #define BLOWER_OUVERT  160//90// 5
 #define BLOWER_FERME     0// 0// 65
 #define PATIENT_OUVERT 160//40
@@ -109,8 +109,10 @@ static const uint16_t BORNE_INF_PRESSION_CRETE =    100;//  80; // arbitraire mm
 static const uint16_t BORNE_SUP_PRESSION_PLATEAU =  400;//  60; // PP MAX SDRA = 300 mmH20
 static const uint16_t BORNE_INF_PRESSION_PLATEAU =  100;//  80; // arbitraire mmH2O
 static const uint16_t BORNE_SUP_PRESSION_PEP =      300;//  30; // PP MAX = 30, or PEP < PP mmH2O
-static const uint16_t BORNE_INF_PRESSION_PEP =       80;//   0; // arbitraire mais > 0 mmH2O
+static const uint16_t BORNE_INF_PRESSION_PEP =       50;//   0; // arbitraire mais > 0 mmH2O
 static const uint16_t INITIAL_ZERO_PRESSURE =         0; // [mmH2O]
+
+static const uint16_t DEFAULT_MIN_PEEP_COMMAND = 80;
 
 static const uint16_t INITIAL_CYCLE_NB = 20;
 static const uint16_t BORNE_SUP_CYCLE = 35; // demande medical

@@ -48,9 +48,8 @@ struct AirTransistor
         if (position < minApertureAngle)
         {
             position = minApertureAngle;
-        }
-
-        if (position > maxApertureAngle)
+        } 
+        else if (position > maxApertureAngle)
         {
             position = maxApertureAngle;
         }
