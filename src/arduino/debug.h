@@ -65,7 +65,7 @@
  */
 #ifdef DEBUG
 #define DBG_PRESSION_CRETE(centieme, periode)                                                      \
-    if (centieme % periode)                                                                        \
+    if (centieme % periode == 0)                                                                        \
     {                                                                                              \
         Serial.println("Mise en securite : pression crete trop importante");                       \
     }
@@ -78,7 +78,7 @@
  */
 #ifdef DEBUG
 #define DBG_PRESSION_PLATEAU(centieme, periode)                                                    \
-    if (centieme % periode)                                                                        \
+    if (centieme % periode == 0)                                                                        \
     {                                                                                              \
         Serial.println("Mise en securite : pression plateau trop importante");                     \
     }
@@ -91,7 +91,7 @@
  */
 #ifdef DEBUG
 #define DBG_PRESSION_PEP(centieme, periode)                                                        \
-    if (centieme % periode)                                                                        \
+    if (centieme % periode == 0)                                                                        \
     {                                                                                              \
         Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");     \
     }

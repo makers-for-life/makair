@@ -25,6 +25,6 @@
  * Lorsque SIMULATION est defini, l'information n'est pas lue du capteur de
  * pression mais generee logiciellement
  */
-#define SIMULATION
+//#define SIMULATION
 
 //#define __AVR_ATmega328P__

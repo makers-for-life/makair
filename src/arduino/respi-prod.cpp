@@ -80,15 +80,15 @@ void setup()
     );
 
     servoPatient = AirTransistor(
-        PATIENT_OUVERT,
         PATIENT_FERME,
+        PATIENT_OUVERT,
         PATIENT_FERME,
         PATIENT_FERME
     );
 
     pController = PressureController( 
             INITIAL_CYCLE_NB,
-            BORNE_INF_PRESSION_PEP,
+            DEFAULT_MIN_PEEP_COMMAND,
             BORNE_SUP_PRESSION_PLATEAU,
             ANGLE_OUVERTURE_MAXI,
             BORNE_SUP_PRESSION_CRETE,
@@ -128,17 +128,27 @@ void loop()
 
 // Get the measured pressure for the feedback control
 #ifdef SIMULATION
+
+
             if (centiSec < uint16_t(50))
             {
-                pController.updatePressure(60);
+                pController.updatePressure(600);
+            }
+            else if (centiSec < uint16_t(100))
+            {
+                pController.updatePressure(300);
+            }
+            else if (centiSec < 200)
+            {
+                pController.updatePressure(110);
+            }
+            else if  (centiSec < 250)
+            {
+                pController.updatePressure(90);
             }
             else
             {
-                pController.updatePressure(30);
-            }
-            if (centiSec > pController.centiSecPerInhalation())
-            {
-                pController.updatePressure(5);
+                pController.updatePressure(70);
             }
 #else
             pController.updatePressure(readPressureSensor());
