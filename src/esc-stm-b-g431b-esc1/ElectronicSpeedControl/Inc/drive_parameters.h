@@ -31,7 +31,7 @@
 /******** MAIN AND AUXILIARY SPEED/POSITION SENSOR(S) SETTINGS SECTION ********/
 
 /*** Speed measurement settings ***/
-#define MAX_APPLICATION_SPEED_RPM       35000 /*!< rpm, mechanical */
+#define MAX_APPLICATION_SPEED_RPM       50000 /*!< rpm, mechanical */
 #define MIN_APPLICATION_SPEED_RPM       0 /*!< rpm, mechanical,  
                                                            absolute value */
 #define MEAS_ERRORS_BEFORE_FAULTS       3 /*!< Number of speed  
@@ -49,10 +49,10 @@
 
 /* State observer constants */
 #define GAIN1                            -19944
-#define GAIN2                            23868
+#define GAIN2                            16907
 /*Only in case PLL is used, PLL gains */
-#define PLL_KP_GAIN                      1862
-#define PLL_KI_GAIN                      66
+#define PLL_KP_GAIN                      2660
+#define PLL_KI_GAIN                      94
 #define PLL_KPDIV     16384
 #define PLL_KPDIV_LOG LOG2(PLL_KPDIV)
 #define PLL_KIDIV     65535
@@ -131,7 +131,7 @@
 /* USER CODE END PID_SPEED_INTEGRAL_INIT_DIV */
 
 #define SPD_DIFFERENTIAL_TERM_ENABLING DISABLE
-#define IQMAX                          980
+#define IQMAX                          1541
 
 /* Default settings */
 #define DEFAULT_CONTROL_MODE           STC_SPEED_MODE /*!< STC_TORQUE_MODE or 
