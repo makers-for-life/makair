@@ -160,6 +160,10 @@ private:
      */
     void safeguards(uint16_t p_centiSec);
 
+    void safeguardHoldExpiration(uint16_t p_centiSec);
+    
+    void safeguardMaintienPeep(uint16_t p_centiSec);
+    
     /*! This function computes:
      *  - the number of hundredth of second per cycle
      *  - the number of hundredth of second per inhalation
