@@ -27,10 +27,16 @@
  *  -   Hold exhalation:
  *      +   Valves stay closed as the pressure is below the PEEP
  */
+enum CycleSubPhases
+{
+    INSPI,
+    HOLD_INSPI,
+    EXHALE,
+    HOLD_EXHALE
+};
+
 enum CyclePhases
 {
     INHALATION,
-    PLATEAU,
-    EXHALATION,
-    HOLD_EXHALATION
+    EXHALATION
 };

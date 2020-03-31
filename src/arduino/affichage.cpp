@@ -56,22 +56,22 @@ void displayPhase(CyclePhases phase) {
     screen.setCursor(0, 0);
     switch(phase)
     {
-    case CyclePhases::INHALATION:
+    case CycleSubPhases::INSPI:
     {
         screen.print("Inhalation          ");
         break;
     }
-    case CyclePhases::PLATEAU :
+    case CycleSubPhases::HOLD_INSPI :
     {
         screen.print("Plateau             ");
         break;
     }
-    case CyclePhases::EXHALATION:
+    case CycleSubPhases::EXHALE:
     {
         screen.print("Exhalation          ");
         break;
     }
-    case CyclePhases::HOLD_EXHALATION:
+    case CycleSubPhases::HOLD_EXHALE:
     {
         screen.print("Hold exhalation     ");
         break;
