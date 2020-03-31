@@ -4,10 +4,10 @@
 		<define key="POLE_PAIR_NUM" value="2" />
 		<define key="RS" value="0.98" />
 		<define key="LS" value="0.000130" />
-		<define key="NOMINAL_CURRENT" value="980" />
-		<define key="MOTOR_MAX_SPEED_RPM" value="35000" />
+		<define key="NOMINAL_CURRENT" value="1541" />
+		<define key="MOTOR_MAX_SPEED_RPM" value="50000" />
 		<define key="MOTOR_VOLTAGE_CONSTANT" value="0.5" />
-		<define key="ID_DEMAG" value="-980" />
+		<define key="ID_DEMAG" value="-1541" />
 		<define key="HALL_SENSORS_PLACEMENT" value="DEGREES_60" />
 		<define key="HALL_PHASE_SHIFT" value="300" />
 		<define key="ENCODER_PPR" value="400" />
@@ -15,7 +15,7 @@
 		<define key="ENCODER_AVAILABLE" value="TRUE" />
 		<define key="MOTOR_TYPE" value="PMSM" />
 		<define key="LDLQ_RATIO" value="1.000" />
-		<define key="DC_CURRENT_RS_MEAS" value="1.80" />
+		<define key="DC_CURRENT_RS_MEAS" value="2.83" />
 		<define key="PHASE_UH_POLARITY" value="H_ACTIVE_HIGH" />
 		<define key="PHASE_VH_POLARITY" value="H_ACTIVE_HIGH" />
 		<define key="PHASE_WH_POLARITY" value="H_ACTIVE_HIGH" />
@@ -53,7 +53,7 @@
 		<define key="SPEED_SENSOR_SELECTION" value="STATE_OBSERVER_PLL" />
 		<define key="SINGLEDRIVE" value="TRUE" />
 		<define key="DRIVES_NUMBER_SELECTION" value="SINGLEDRIVE" />
-		<define key="MAX_APPLICATION_SPEED" value="35000" />
+		<define key="MAX_APPLICATION_SPEED" value="50000" />
 		<define key="MIN_APPLICATION_SPEED" value="0" />
 		<define key="MEAS_ERRORS_BEFORE_FAULTS" value="3" />
 		<define key="ENC_MEAS_ERRORS_BEFORE_FAULTS" value="3" />
@@ -68,9 +68,9 @@
 		<define key="F1" value="16384" />
 		<define key="F2" value="4096" />
 		<define key="GAIN1" value="-19944" />
-		<define key="GAIN2" value="23868" />
-		<define key="PLL_KP_GAIN" value="1862" />
-		<define key="PLL_KI_GAIN" value="66" />
+		<define key="GAIN2" value="16907" />
+		<define key="PLL_KP_GAIN" value="2660" />
+		<define key="PLL_KI_GAIN" value="94" />
 		<define key="OBS_MEAS_ERRORS_BEFORE_FAULTS" value="3" />
 		<define key="STO_FIFO_DEPTH_DPP" value="64" />
 		<define key="STO_FIFO_DEPTH_01HZ" value="64" />
@@ -82,7 +82,7 @@
 		<define key="CORD_F1" value="16384" />
 		<define key="CORD_F2" value="4096" />
 		<define key="CORD_GAIN1" value="-19944" />
-		<define key="CORD_GAIN2" value="23868" />
+		<define key="CORD_GAIN2" value="16907" />
 		<define key="CORD_MEAS_ERRORS_BEFORE_FAULTS" value="3" />
 		<define key="CORD_FIFO_DEPTH_DPP" value="64" />
 		<define key="CORD_FIFO_DEPTH_01HZ" value="64" />
@@ -200,7 +200,7 @@
 		<define key="CONSTANT1_Q" value="469793" />
 		<define key="CONSTANT1_D" value="469793" />
 		<define key="CONSTANT2_QD" value="14632" />
-		<define key="IQMAX" value="980" />
+		<define key="IQMAX" value="1541" />
 		<define key="SEGDIV" value="0" />
 		<define key="ANGC" value="{0,0,0,0,0,0,0,0}" />
 		<define key="OFST" value="{0,0,0,0,0,0,0,0}" />
