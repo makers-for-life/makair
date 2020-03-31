@@ -35,23 +35,16 @@ struct AirTransistor
                   uint16_t p_defaultCommand,
                   uint16_t p_failsafeCommand);
 
-    inline void reset()
-    {
-        command = defaultCommand;
-        position = defaultCommand;
-    }
-
     inline void execute()
     {
-
         // On évite d'aller plus loin que les limites de la valve
-        if (position < minApertureAngle)
+        if (command < minApertureAngle)
         {
-            position = minApertureAngle;
+            command = minApertureAngle;
         } 
-        else if (position > maxApertureAngle)
+        else if (command > maxApertureAngle)
         {
-            position = maxApertureAngle;
+            command = maxApertureAngle;
         }
 
         if (command != position)

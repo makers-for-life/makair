@@ -187,12 +187,13 @@ void PressureController::onCycleMinus()
 
 void PressureController::onCyclePlus()
 {
-    DBG_DO(Serial.println("nb cycle ++");)
-    m_cyclesPerMinuteCommand++;
-    if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE)
-    {
-        m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
-    }
+    // TODO remettre le code (rayonnement cosmique...)
+    // DBG_DO(Serial.println("nb cycle ++");)
+    // m_cyclesPerMinuteCommand++;
+    // if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE)
+    // {
+    //     m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
+    // }
 }
 
 void PressureController::onPressionPepMinus()
@@ -317,7 +318,13 @@ void PressureController::holdExhalation()
 
 void PressureController::safeguards(uint16_t p_centiSec)
 {
-    if (p_centiSec != 0)
+    safeguardHoldExpiration(p_centiSec);
+    safeguardMaintienPeep(p_centiSec);
+}
+
+void PressureController::safeguardHoldExpiration(uint16_t p_centiSec)
+{
+    if (m_phase == CyclePhases::EXHALATION)
     {
         if (m_pressure <= m_minPeepCommand + 20)
         {
@@ -349,6 +356,15 @@ void PressureController::safeguards(uint16_t p_centiSec)
                 m_franchissementSeuilHoldExpiDetectionTickSupprime = 0;
             }
         }
+    }
+}
+
+void PressureController::safeguardMaintienPeep(uint16_t p_centiSec)
+{
+    if (m_pressure <= m_minPeepCommand)
+    {
+         
+        m_blower.command = m_blower.position + 2;
     }
 }
 
