@@ -43,6 +43,18 @@ struct AirTransistor
 
     inline void execute()
     {
+
+        // On évite d'aller plus loin que les limites de la valve
+        if (position < minApertureAngle)
+        {
+            position = minApertureAngle;
+        }
+
+        if (position > maxApertureAngle)
+        {
+            position = maxApertureAngle;
+        }
+
         if (command != position)
         {
             actuator.write(command);

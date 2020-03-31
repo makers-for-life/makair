@@ -85,9 +85,10 @@ void PressureController::setup()
     DBG_DO(Serial.println(VERSION);)
     DBG_DO(Serial.println("mise en secu initiale");)
 
-    m_blower.actuator.write(m_blower.failsafeCommand);
-    m_y.actuator.write(m_y.failsafeCommand);
-    m_patient.actuator.write(m_patient.failsafeCommand);
+    m_blower.command = BLOWER_FERME;
+    m_patient.command = PATIENT_FERME;
+    m_blower.execute();
+    m_patient.execute();
 
     m_cycleNb = 0;
 }
@@ -98,9 +99,7 @@ void PressureController::initRespiratoryCycle()
     m_plateauPressure = 0;
     m_peep = 0;
     m_phase = CyclePhases::INHALATION;
-    // m_blower.reset();
-    // m_patient.reset();
-    // m_y.reset();
+    m_subPhase = CycleSubPhases::INSPI;
     m_cycleNb++;
 
     computeCentiSecParameters();
@@ -116,6 +115,9 @@ void PressureController::initRespiratoryCycle()
     /*
     DBG_AFFICHE_CONSIGNES(m_cyclesPerMinute, m_aperture, m_minPeep, m_maxPlateauPressure)
     */
+
+   // remise à zéro tick alarmes
+   m_franchissementSeuilHoldExpiDetectionTick = 0;
 }
 
 void PressureController::updatePressure(int16_t p_currentPressure)
@@ -131,34 +133,35 @@ void PressureController::compute(uint16_t p_centiSec)
     // Act accordingly
     switch (m_phase)
     {
-    case CyclePhases::INHALATION:
+    case CycleSubPhases::INSPI:
     {
         inhale();
         break;
     }
-    case CyclePhases::PLATEAU:
+    case CycleSubPhases::HOLD_INSPI:
     {
         plateau();
         break;
     }
-    case CyclePhases::EXHALATION:
+    case CycleSubPhases::EXHALE:
     {
         exhale();
         break;
     }
-    case CyclePhases::HOLD_EXHALATION:
+    case CycleSubPhases::HOLD_EXHALE:
     {
+      holdExhalation();
       break;
     }
     default:
     {
-        inhale();
+        holdExhalation();
     }
     }
 
     safeguards(p_centiSec);
 
-    DBG_PHASE_PRESSION_4(m_cycleNb, p_centiSec, 10, m_phase, m_pressure, m_blower.command, m_blower.position, m_patient.command, m_patient.position)
+    DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 1, m_phase, m_subPhase, m_pressure, m_blower.command, m_blower.position, m_patient.command, m_patient.position)
 
     executeCommands();
 
@@ -239,126 +242,106 @@ void PressureController::onPressionCretePlus()
 
 void PressureController::updatePhase(uint16_t p_centiSec)
 {
-    if (p_centiSec < (m_centiSecPerInhalation * 0.6)) {
+    if (p_centiSec < m_centiSecPerInhalation) {
         m_phase = CyclePhases::INHALATION;
-    } 
-    else if (p_centiSec < m_centiSecPerInhalation) 
-    {
-        m_phase = CyclePhases::PLATEAU;
-    } 
-    else if (CyclePhases::EXHALATION != m_phase)
-    {
-         m_phase = CyclePhases::EXHALATION;
+        if (p_centiSec < (m_centiSecPerInhalation * 0.6)) 
+        {
+            m_subPhase = CycleSubPhases::INSPI;
+        } 
+        else
+        {
+            m_subPhase = CycleSubPhases::HOLD_INSPI;
+        } 
     }
-    
-    // if (p_centiSec == 0) 
-    // {
-    //     m_phase = CyclePhases::INHALATION;
-    // }
-    // else if (p_centiSec <= m_centiSecPerInhalation && m_phase == CyclePhases::INHALATION)
-    // {
-    //     m_phase = m_pressure >= m_peakPressure ? CyclePhases::INHALATION : CyclePhases::PLATEAU;        
-    // }
-    // else if (p_centiSec <= m_centiSecPerInhalation) 
-    // {
-    //     m_phase = CyclePhases::PLATEAU;
-    // }
-    // else
-    // {
-    //     m_phase = CyclePhases::EXHALATION;
-    // }
+    else
+    {
+        m_phase = CyclePhases::EXHALATION;
+        if (m_subPhase != CycleSubPhases::HOLD_EXHALE)
+        {
+            m_subPhase = CycleSubPhases::EXHALE;
+        }
+    }
 }
 
 void PressureController::inhale()
 {
-    if (m_previousPhase != CyclePhases::INHALATION) 
-    {
-        // Open the air stream towards the patient's lungs
-        m_blower.command = BLOWER_OUVERT;
+    // Open the air stream towards the patient's lungs
+    m_blower.command = BLOWER_OUVERT;
 
-        // Open the air stream towards the patient's lungs
-        m_patient.command = PATIENT_FERME;
+    // Open the air stream towards the patient's lungs
+    m_patient.command = PATIENT_FERME;
 
-        // Update the peak pressure
-        m_peakPressure = m_pressure;
-    }
+    // Update the peak pressure
+    m_peakPressure = m_pressure;
 }
 
 void PressureController::plateau()
 {
-    if (m_previousPhase != CyclePhases::PLATEAU) 
-    {
-        // Deviate the air stream outside
-        m_blower.command = BLOWER_FERME;
+    // Deviate the air stream outside
+    m_blower.command = BLOWER_FERME;
 
-        // Close the air stream towards the patient's lungs
-        m_patient.command = PATIENT_FERME;
+    // Close the air stream towards the patient's lungs
+    m_patient.command = PATIENT_FERME;
 
-        // Update the plateau pressure
-        m_plateauPressure = m_pressure;
-    }
+    // Update the plateau pressure
+    m_plateauPressure = m_pressure;
 }
 
 void PressureController::exhale()
 {
-    if (m_previousPhase != CyclePhases::EXHALATION)
-    {
-        // Deviate the air stream outside
-        m_blower.command = BLOWER_FERME;
+    // Deviate the air stream outside
+    m_blower.command = BLOWER_FERME;
 
-        // Open the valve so the patient can exhale outside
-        m_patient.command = PATIENT_OUVERT;
+    // Open the valve so the patient can exhale outside
+    m_patient.command = PATIENT_OUVERT;
 
-        // Update the PEEP
-        m_peep = m_pressure;
-    }
+    // Update the PEEP
+    m_peep = m_pressure;
+}
+
+void PressureController::holdExhalation() 
+{
+    // Deviate the air stream outside
+    m_blower.command = BLOWER_FERME;
+
+    // Close the valve so the patient can exhale outside
+    m_patient.command = PATIENT_FERME;
 }
 
 void PressureController::safeguards(uint16_t p_centiSec)
 {
+    if (p_centiSec != 0)
+    {
+        if (m_pressure <= m_minPeepCommand + 20)
+        {
+            if (m_franchissementSeuilHoldExpiDetectionTick == 0)
+            {
+                m_franchissementSeuilHoldExpiDetectionTick = p_centiSec;
+            }
 
+            if ((p_centiSec - m_franchissementSeuilHoldExpiDetectionTick) >= 10)
+            {
+                if (m_phase != CyclePhases::EXHALATION) 
+                {
+                    m_phase = CyclePhases::EXHALATION;
+                }
+                m_subPhase = CycleSubPhases::HOLD_EXHALE;
+            }
+        }
+        else if (m_franchissementSeuilHoldExpiDetectionTick != 0) 
+        {
+            if (m_franchissementSeuilHoldExpiDetectionTickSupprime == 0)
+            {
+                m_franchissementSeuilHoldExpiDetectionTickSupprime = p_centiSec;
+            }
 
-    // // Gestion de la PEP MIN
-    // // Si pep < pepmin /!\ => on bloque les valves vers le patient
-    // if (m_pressure <= m_minPeep) {
-    //     // DBG_PRESSION_PEP(p_centiSec, 80)
-        
-    //     // Deviate the air stream outside
-    //     m_blower.command = BLOWER_FERME;
-    //     // Close completely the patient's valve
-    //     m_patient.command = PATIENT_FERME;
-    //     m_phase = CyclePhases::HOLD_EXHALATION;
-    // }
-
-    // if (m_pressure > m_maxPeakPressure)
-    // {
-    //     DBG_PRESSION_CRETE(p_centiSec, 80)
-    //     // Close the blower's valve by 2°
-    //     m_blower.command = m_blower.position - 2;
-
-    //     if (m_blower.command < 25) {
-    //         m_blower.command = 25;
-    //     }
-    // }
-
-    // if (m_phase == CyclePhases::PLATEAU && m_pressure > m_maxPlateauPressure)
-    // {
-    //     DBG_PRESSION_PLATEAU(p_centiSec, 80)
-    //     // Open the patient's valve by 1° to ease exhalation
-    //     m_patient.command = m_blower.position + 1;
-
-    //     if (m_patient.command > 80) {
-    //         m_patient.command = 80;
-    //     }
-    // }
-
-    // if (m_pressure < m_minPeep && m_phase == CyclePhases::EXHALATION)
-    // {
-    //     DBG_PRESSION_PEP(p_centiSec, 80)
-    //     // Close completely the patient's valve
-    //     m_patient.command = 80;
-    //     m_phase = CyclePhases::HOLD_EXHALATION;
-    // }
+            if ((p_centiSec - m_franchissementSeuilHoldExpiDetectionTickSupprime) >= 3)
+            {
+                m_franchissementSeuilHoldExpiDetectionTick = 0;
+                m_franchissementSeuilHoldExpiDetectionTickSupprime = 0;
+            }
+        }
+    }
 }
 
 void PressureController::computeCentiSecParameters()

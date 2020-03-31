@@ -153,6 +153,8 @@ private:
      */
     void exhale();
 
+    void holdExhalation();
+
     /*! This function implements safeguards
      *  \param p_centiSec     Current progress in the respiratory cycle in hundredth of second
      */
@@ -180,6 +182,10 @@ private:
 
     /// Minimal PEEP desired by the operator
     uint16_t m_minPeepCommand;
+
+    uint16_t m_franchissementSeuilHoldExpiDetectionTick;
+
+    uint16_t m_franchissementSeuilHoldExpiDetectionTickSupprime;
 
     /// Maximal plateau pressure desired by the operator
     uint16_t m_maxPlateauPressureCommand;
@@ -222,6 +228,9 @@ private:
 
     /// Current respiratory cycle phase
     CyclePhases m_phase;
+
+    /// Current respiratory cycle phase
+    CycleSubPhases m_subPhase;
 
     /// Blower's transistor
     AirTransistor m_blower;

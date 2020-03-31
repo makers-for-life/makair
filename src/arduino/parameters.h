@@ -46,7 +46,7 @@ static const uint16_t CAPT_PRESSION_MINI = 0;
 // -> à adapter avec meilleur AOP
 static const uint16_t CAPT_PRESSION_MAXI = 800;
 
-#define VERSION "v1.1.18"
+#define VERSION "v1.1.25"
 #define BLOWER_OUVERT  160//90// 5
 #define BLOWER_FERME     0// 0// 65
 #define PATIENT_OUVERT 160//40
