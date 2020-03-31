@@ -1,0 +1,2063 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<STWorkBench>
+	<project>
+		<properties version="2.0">
+			<version value="5.04.03.00" />
+			<section>PMSM</section>
+			<type>SINGLE</type>
+			<example_prj>false</example_prj>
+			<output_setting version="1.0">
+				<project_name>ElectronicSpeedControl</project_name>
+			</output_setting>
+		</properties>
+		<systems>
+			<system type="motor 1">
+				<motor version="1.0">
+					<name>Motor</name>
+					<uid>M</uid>
+					<type>M</type>
+					<board_name>Shinano LA052-080E3NL1</board_name>
+					<original_board_name></original_board_name>
+					<vars>
+						<var version="1.0" type="MC_List" name="I/SM-PMSM" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="1" text="Internal PMSM" />
+								<item tag="0" text="Surface Mounted PMSM" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Int" name="Pole Pairs" enable="true" visible="true" readonly="false" value="2" />
+						<var version="1.0" type="MC_Int" name="Max Rated Speed" enable="true" visible="true" readonly="false" value="4000" />
+						<var version="1.0" type="MC_Double" name="Nominal Current" enable="true" visible="true" readonly="false" value="1.6" />
+						<var version="1.0" type="MC_Double" name="Nominal DC Voltage" enable="true" visible="true" readonly="false" value="24" />
+						<var version="1.0" type="MC_Double" name="Rs" enable="true" visible="true" readonly="false" value="0.35000000000000003" />
+						<var version="1.0" type="MC_Double" name="Ld" enable="true" visible="true" readonly="false" value="0.6" />
+						<var version="1.0" type="MC_Double" name="Lq" enable="true" visible="true" readonly="false" value="0.6" />
+						<var version="1.0" type="MC_Double" name="Ls" enable="true" visible="true" readonly="false" value="0.6" />
+						<var version="1.0" type="MC_Double" name="ld_lq_ratio" enable="true" visible="true" readonly="false" value="1" />
+						<var version="1.0" type="MC_Double" name="B-EmfConstant" enable="true" visible="true" readonly="false" value="4" />
+						<var version="1.0" type="MC_Double" name="inertia" enable="true" visible="true" readonly="false" value="5" />
+						<var version="1.0" type="MC_Double" name="friction" enable="true" visible="true" readonly="false" value="14" />
+						<var version="1.0" type="MC_Bool" name="Hall sensors" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_List" name="Sensors displacement" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="60" text="60" />
+								<item tag="120" text="120" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Int" name="Placement electrical angle" enable="true" visible="true" readonly="false" value="300" />
+						<var version="1.0" type="MC_Bool" name="Quadrature encoder" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Int" name="Pulses per mechanical revolution" enable="true" visible="true" readonly="false" value="400" />
+						<var version="1.0" type="MC_Bool" name="Has_Index_pin" enable="true" visible="true" readonly="false" value="false" />
+					</vars>
+				</motor>
+				<power_stage version="3.0">
+					<code_id>10015</code_id>
+					<name>Power Stage</name>
+					<uid>PS</uid>
+					<type>PS</type>
+					<board_name>B-G431B-ESC1</board_name>
+					<original_board_name>B-G431B-ESC1</original_board_name>
+					<vars>
+						<var version="1.0" type="MC_Int" name="Min dead-time" enable="true" visible="true" readonly="false" value="700" />
+						<var version="1.0" type="MC_Int" name="Max switching frequency" enable="true" visible="true" readonly="false" value="50" />
+						<var version="1.0" type="MC_Int" name="Max rated voltage" enable="true" visible="true" readonly="false" value="28" />
+						<var version="1.0" type="MC_Int" name="Min rated voltage" enable="true" visible="true" readonly="false" value="8" />
+						<var version="1.0" type="MC_Int" name="Nominal voltage" enable="true" visible="true" readonly="false" value="24" />
+						<var version="1.0" type="MC_Bool" name="Bus voltage sensing enable" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Double" name="Bus voltage divider" enable="false" visible="true" readonly="false" value="10.388888888888889" />
+						<var version="1.0" type="MC_Double" name="R1" enable="true" visible="true" readonly="false" value="169" />
+						<var version="1.0" type="MC_Double" name="R2" enable="true" visible="true" readonly="false" value="18" />
+						<var version="1.0" type="MC_Bool" name="Current sensing enable" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_List" name="Current reading topology" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="One Shunt Resistor" />
+								<item tag="1" text="Three Shunt Resistors" />
+								<item tag="2" text="Two Insulated Current Sensors" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Double" name="ICS gain" enable="false" visible="true" readonly="false" value="1" />
+						<var version="1.0" type="MC_Double" name="Shunt resistor(s) value" enable="true" visible="true" readonly="false" value="0.003" />
+						<var version="1.0" type="MC_Bool" name="Amplifying network gain available" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Double" name="Amplifying network gain" enable="false" visible="true" readonly="false" value="9.14" />
+						<var version="1.0" type="MC_Int" name="Tnoise" enable="true" visible="true" readonly="false" value="1000" />
+						<var version="1.0" type="MC_Int" name="Trise" enable="false" visible="true" readonly="false" value="1000" />
+						<var version="1.0" type="MC_Bool" name="Over current protection enable" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Double" name="Comparator threshold" enable="false" visible="true" readonly="false" value="0.5" />
+						<var version="1.0" type="MC_Double" name="Over current network offset" enable="false" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Double" name="Over current network gain" enable="false" visible="true" readonly="false" value="0.01" />
+						<var version="1.0" type="MC_Double" name="Expected over-current threshold" enable="false" visible="true" readonly="true" value="50" />
+						<var version="1.0" type="MC_List" name="Over-current feedback signal polarity" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="Over-current protection disabling network" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_List" name="Over-current protection disabling network polarity" enable="false" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="Dissipative brake enable" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_List" name="Dissipative brake polarity" enable="false" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="U Driver High side driving signal polarity" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="U Driver Low side driving signal polarity" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="U Driver enabling signal enable" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_List" name="U Driver enabling signal polarity" enable="false" visible="true" readonly="true" value="1">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="V Driver High side driving signal polarity" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="V Driver Low side driving signal polarity" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="V Driver enabling signal enable" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_List" name="V Driver enabling signal polarity" enable="false" visible="true" readonly="true" value="1">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="W Driver High side driving signal polarity" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="W Driver Low side driving signal polarity" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="W Driver enabling signal enable" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_List" name="W Driver enabling signal polarity" enable="false" visible="true" readonly="true" value="1">
+							<items>
+								<item tag="0" text="Active low" />
+								<item tag="1" text="Active high" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="x Driver complemented from high side" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="x Driver HW inserted dead time" enable="false" visible="true" readonly="false" value="500" />
+						<var version="1.0" type="MC_Bool" name="xAllDrive" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Bool" name="xAllDriver_signal_enable" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Bool" name="use_STGAP1S" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Double" name="SettParamGain - Input - Imax" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Double" name="SettParamGain - Input - Vm" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Double" name="SettParamGain - Input - Prating" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Double" name="SettParamGain - Input - R1" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Double" name="SettParamGain - Input - R2" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Double" name="SettParamGain - Input - R3" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Double" name="SettParamGain - Input - R4" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Double" name="SettParamGain - Input - R5" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Bool" name="SettParamGain - Input - R3using" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Bool" name="SettParamGain - Input - R4R5fixed" enable="true" visible="true" readonly="false" value="false" />
+					</vars>
+					<temperature_sensing version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="Temperature sensing enable" enable="true" visible="true" readonly="false" value="true" />
+							<var version="1.0" type="MC_Double" name="Temperature sensing - V0" enable="true" visible="true" readonly="false" value="1055" />
+							<var version="1.0" type="MC_Double" name="Temperature sensing - T0" enable="true" visible="true" readonly="false" value="25" />
+							<var version="1.0" type="MC_Double" name="Temperature sensing - Ratio V/T" enable="true" visible="true" readonly="false" value="22.700000000000003" />
+							<var version="1.0" type="MC_Int" name="Max working temperature on sensor" enable="true" visible="true" readonly="false" value="110" />
+						</vars>
+					</temperature_sensing>
+					<pfc version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="PFC availability" enable="true" visible="true" readonly="false" value="false" />
+							<var version="1.0" type="MC_Int" name="PFC - Nominal power" enable="true" visible="true" readonly="false" value="1000" />
+							<var version="1.0" type="MC_Double" name="PFC_nominal_current" enable="true" visible="true" readonly="true" value="6.149" />
+							<var version="1.0" type="MC_Double" name="PFC - Shunt resistor value" enable="true" visible="true" readonly="false" value="0.22" />
+							<var version="1.0" type="MC_Bool" name="PFC_OPAMP_presentOnboard" enable="true" visible="true" readonly="false" value="true" />
+							<var version="1.0" type="MC_Bool" name="PFC_useOPAMPForCurrentProtection" enable="true" visible="true" readonly="false" value="true" />
+							<var version="1.0" type="MC_Double" name="PFC_Comparator_threshold" enable="true" visible="true" readonly="false" value="1.2" />
+							<var version="1.0" type="MC_Double" name="PFC_Expected_overcurrent_threshold" enable="true" visible="true" readonly="true" value="1.976" />
+							<var version="1.0" type="MC_Double" name="PFC - Amplifying network gain" enable="true" visible="true" readonly="false" value="2.7600000000000002" />
+							<var version="1.0" type="MC_Int" name="PFC - AC voltage sensing divider" enable="true" visible="true" readonly="false" value="116" />
+							<var version="1.0" type="MC_Int" name="PFC - Ton propagation delay" enable="true" visible="true" readonly="false" value="2550" />
+							<var version="1.0" type="MC_Int" name="PFC - Toff propagation delay" enable="true" visible="true" readonly="false" value="2550" />
+							<var version="1.0" type="MC_List" name="PFC - Driving signal polarity" enable="true" visible="true" readonly="false" value="0">
+								<items>
+									<item tag="0" text="Active low" />
+									<item tag="1" text="Active high" />
+								</items>
+							</var>
+							<var version="1.0" type="MC_List" name="PFC - Overcurrent signal polarity" enable="true" visible="true" readonly="false" value="0">
+								<items>
+									<item tag="0" text="Active low" />
+									<item tag="1" text="Active high" />
+								</items>
+							</var>
+							<var version="1.0" type="MC_List" name="PFC - AC Mains synch signal polarity" enable="true" visible="true" readonly="false" value="0">
+								<items>
+									<item tag="0" text="Falling edge" />
+									<item tag="1" text="Rising edge" />
+								</items>
+							</var>
+							<var version="1.0" type="MC_Double" name="PFC_maxPowerTransistorCurrent" enable="true" visible="true" readonly="false" value="10" />
+						</vars>
+					</pfc>
+					<ac_input version="1.0">
+						<vars>
+							<var version="1.0" type="MC_List" name="AC_Main_Freq" enable="true" visible="true" readonly="false" value="0">
+								<items>
+									<item tag="50" text="50" />
+									<item tag="60" text="60" />
+								</items>
+							</var>
+							<var version="1.0" type="MC_Int" name="AC_Min_Input_Voltage" enable="true" visible="true" readonly="false" value="160" />
+							<var version="1.0" type="MC_Int" name="AC_Max_Input_Voltage" enable="true" visible="true" readonly="false" value="340" />
+							<var version="1.0" type="MC_List" name="AC_Voltage_Range" enable="true" visible="true" readonly="false" value="3">
+								<items>
+									<item tag="0" text="230 V - 50Hz" />
+									<item tag="1" text="115 V - 60Hz" />
+									<item tag="2" text="wide range - 50 Hz" />
+									<item tag="3" text="custom" />
+								</items>
+							</var>
+							<var version="1.0" type="MC_Int" name="AC_Nominal_Input_Voltage" enable="true" visible="true" readonly="false" value="230" />
+						</vars>
+					</ac_input>
+					<inrush_current_limiter version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="Inrush current limiter enable" enable="true" visible="true" readonly="false" value="false" />
+							<var version="1.0" type="MC_List" name="Inrush current limiter polarity" enable="true" visible="true" readonly="false" value="1">
+								<items>
+									<item tag="0" text="Active low" />
+									<item tag="1" text="Active high" />
+								</items>
+							</var>
+						</vars>
+					</inrush_current_limiter>
+				</power_stage>
+				<drive_management version="3.0">
+					<name>Drive Management</name>
+					<uid>DM</uid>
+					<type>DM</type>
+					<board_name></board_name>
+					<original_board_name></original_board_name>
+					<vars>
+						<var version="1.0" type="MC_List" name="Main - Sensor selection" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="Sensor-less (Observer+PLL)" />
+								<item tag="1" text="Sensor-less (Observer+Cordic)" />
+								<item tag="5" text="Sensor-less (HFI+Observer)" />
+								<item tag="2" text="Quadrature encoder" />
+								<item tag="3" text="Hall sensors" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Int" name="Main - Max allowed speed" enable="false" visible="false" readonly="false" value="4000" />
+						<var version="1.0" type="MC_Int" name="Main - Min allowed speed" enable="false" visible="false" readonly="false" value="0" />
+						<var version="1.0" type="MC_Int" name="Main - Max measurement errors number before fault" enable="true" visible="true" readonly="false" value="3" />
+						<var version="1.0" type="MC_Int" name="Main - Hall Sensors - Average speed FIFO depth" enable="false" visible="true" readonly="false" value="6" />
+						<var version="1.0" type="MC_Double" name="Main - Hall Sensors - Input Capture filter duration" enable="false" visible="true" readonly="false" value="1.3" />
+						<var version="1.0" type="MC_Bool" name="Main_ObsPLL_Use_MTPA" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="Main - Encoder - Average speed FIFO depth" enable="false" visible="true" readonly="false" value="16" />
+						<var version="1.0" type="MC_Double" name="Main - Encoder - Input Capture filter duration" enable="false" visible="true" readonly="false" value="0.70000000000000007" />
+						<var version="1.0" type="MC_Bool" name="Main - Encoder - Reverse counting direction" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Double" name="Main - ObsPLL - Variance threshold" enable="true" visible="true" readonly="false" value="10" />
+						<var version="1.0" type="MC_Double" name="Main - ObsPLL - B-emf consistency tolerance" enable="true" visible="true" readonly="false" value="100" />
+						<var version="1.0" type="MC_Double" name="Main - ObsPLL - B-emf consistency gain" enable="true" visible="true" readonly="false" value="100" />
+						<var version="1.0" type="MC_Bool" name="Main - ObsPLL - Manual editing enabled" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Bool" name="Main - ObsPLL - Back compatibility" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - F1" enable="false" visible="true" readonly="false" value="16384" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - F2" enable="false" visible="true" readonly="false" value="1024" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - G1" enable="false" visible="true" readonly="false" value="-24217" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - G2" enable="false" visible="true" readonly="false" value="26248" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - K1" enable="false" visible="true" readonly="false" value="-29562" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - K2" enable="false" visible="true" readonly="false" value="136312" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - Average speed FIFO depth for speed loop" enable="true" visible="true" readonly="false" value="64" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - Average speed FIFO depth for observer equations" enable="true" visible="true" readonly="false" value="64" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - P dividend" enable="false" visible="true" readonly="false" value="213" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - I dividend" enable="false" visible="true" readonly="false" value="7" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - P divisor" enable="false" visible="true" readonly="false" value="16384" />
+						<var version="1.0" type="MC_Int" name="Main - ObsPLL - I divisor" enable="false" visible="true" readonly="false" value="65536" />
+						<var version="1.0" type="MC_Double" name="Main - ObsCRD - Variance threshold" enable="false" visible="true" readonly="false" value="400" />
+						<var version="1.0" type="MC_Double" name="Main - ObsCRD - B-emf consistency tolerance" enable="false" visible="true" readonly="false" value="100" />
+						<var version="1.0" type="MC_Double" name="Main - ObsCRD - B-emf consistency gain" enable="false" visible="true" readonly="false" value="100" />
+						<var version="1.0" type="MC_Bool" name="Main - ObsCRD - Manual editing enabled" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Bool" name="Main - ObsCRD - Back compatibility" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="Main - ObsCRD - F1" enable="false" visible="true" readonly="false" value="16384" />
+						<var version="1.0" type="MC_Int" name="Main - ObsCRD - F2" enable="false" visible="true" readonly="false" value="1024" />
+						<var version="1.0" type="MC_Int" name="Main - ObsCRD - G1" enable="false" visible="true" readonly="false" value="-24217" />
+						<var version="1.0" type="MC_Int" name="Main - ObsCRD - G2" enable="false" visible="true" readonly="false" value="26248" />
+						<var version="1.0" type="MC_Int" name="Main - ObsCRD - K1" enable="false" visible="true" readonly="false" value="-29562" />
+						<var version="1.0" type="MC_Int" name="Main - ObsCRD - K2" enable="false" visible="true" readonly="false" value="136312" />
+						<var version="1.0" type="MC_Int" name="Main - ObsCRD - Average speed FIFO depth for speed loop" enable="false" visible="true" readonly="false" value="64" />
+						<var version="1.0" type="MC_Int" name="Main - ObsCRD - Average speed FIFO depth for observer equations" enable="false" visible="true" readonly="false" value="64" />
+						<var version="1.0" type="MC_Int" name="Main - ObsCRD - Maximum application acceleration" enable="false" visible="true" readonly="false" value="6000" />
+						<var version="1.0" type="MC_Double" name="Main - ObsCRD - B-emf quality factor" enable="false" visible="true" readonly="false" value="0.017" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_Frequency" enable="false" visible="true" readonly="false" value="400" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_Amplitude" enable="false" visible="true" readonly="false" value="25" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_P_dividend" enable="false" visible="true" readonly="false" value="800" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_P_divisor" enable="false" visible="true" readonly="false" value="16384" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_I_dividend" enable="false" visible="true" readonly="false" value="400" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_I_divisor" enable="false" visible="true" readonly="false" value="32768" />
+						<var version="1.0" type="MC_Double" name="Main_HFI_PLL_KP" enable="false" visible="true" readonly="false" value="0.00060000000000000006" />
+						<var version="1.0" type="MC_Double" name="Main_HFI_PLL_KI" enable="false" visible="true" readonly="false" value="0.004" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_MinSpeed_ObsReset" enable="false" visible="true" readonly="false" value="402" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_InitialScan_Frequency" enable="false" visible="true" readonly="false" value="10" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_InitialScan_RotationNumber" enable="false" visible="true" readonly="false" value="3" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_NS_Detection_WaitBefore" enable="false" visible="true" readonly="false" value="6" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_NS_Detection_WaitAfter" enable="false" visible="true" readonly="false" value="4" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_NS_Detection_PulseNum" enable="false" visible="true" readonly="false" value="20" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_NS_Detection_PulseSkipped" enable="false" visible="true" readonly="false" value="10" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_NS_Detection_Amplitude" enable="false" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_NS_Detection_MinSatDiff" enable="false" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_Consecutive_succesful_start_up_output_tests" enable="false" visible="true" readonly="false" value="2" />
+						<var version="1.0" type="MC_Int" name="Main_HFI_STO_THRESHOLD" enable="false" visible="true" readonly="false" value="580" />
+						<var version="1.0" type="MC_Int" name="Main_STO_HFI_THRESHOLD" enable="false" visible="true" readonly="false" value="460" />
+						<var version="1.0" type="MC_Double" name="Main_HFI_Estimated_speed_Band_tolerance_UL" enable="false" visible="true" readonly="false" value="106.25" />
+						<var version="1.0" type="MC_Double" name="Main_HFI_Estimated_speed_Band_tolerance_LL" enable="false" visible="true" readonly="false" value="93.75" />
+						<var version="1.0" type="MC_Bool" name="Main_HFI_Debug" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Bool" name="Main_HFI_RevertDirection" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Bool" name="Aux - Enable auxiliary sensor" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_List" name="Aux - Sensor selection" enable="false" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Sensor-less (Observer+PLL)" />
+								<item tag="1" text="Sensor-less (Observer+Cordic)" />
+								<item tag="2" text="Quadrature encoder" />
+								<item tag="3" text="Hall sensors" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Int" name="Aux - Max allowed speed" enable="false" visible="false" readonly="false" value="4000" />
+						<var version="1.0" type="MC_Int" name="Aux - Min allowed speed" enable="false" visible="false" readonly="false" value="0" />
+						<var version="1.0" type="MC_Int" name="Aux - Max measurement errors number before fault" enable="false" visible="true" readonly="false" value="3" />
+						<var version="1.0" type="MC_Int" name="Aux - Hall Sensors - Average speed FIFO depth" enable="false" visible="true" readonly="false" value="6" />
+						<var version="1.0" type="MC_Double" name="Aux - Hall Sensors - Input Capture filter duration" enable="false" visible="true" readonly="false" value="1.3" />
+						<var version="1.0" type="MC_Bool" name="Aux_ObsPLL_Use_MTPA" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="Aux - Encoder - Average speed FIFO depth" enable="false" visible="true" readonly="false" value="16" />
+						<var version="1.0" type="MC_Double" name="Aux - Encoder - Input Capture filter duration" enable="false" visible="true" readonly="false" value="0.70000000000000007" />
+						<var version="1.0" type="MC_Bool" name="Aux - Encoder - Reverse counting direction" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Double" name="Aux - ObsPLL - Variance threshold" enable="false" visible="true" readonly="false" value="6.25" />
+						<var version="1.0" type="MC_Double" name="Aux - ObsPLL - B-emf consistency tolerance" enable="false" visible="true" readonly="false" value="100" />
+						<var version="1.0" type="MC_Double" name="Aux - ObsPLL - B-emf consistency gain" enable="false" visible="true" readonly="false" value="100" />
+						<var version="1.0" type="MC_Bool" name="Aux - ObsPLL - Manual editing enabled" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Bool" name="Aux - ObsPLL - Back compatibility" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - F1" enable="false" visible="true" readonly="false" value="16384" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - F2" enable="false" visible="true" readonly="false" value="1024" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - G1" enable="false" visible="true" readonly="false" value="-24217" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - G2" enable="false" visible="true" readonly="false" value="26248" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - K1" enable="false" visible="true" readonly="false" value="-29562" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - K2" enable="false" visible="true" readonly="false" value="136312" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - Average speed FIFO depth for speed loop" enable="false" visible="true" readonly="false" value="64" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - Average speed FIFO depth for observer equations" enable="false" visible="true" readonly="false" value="64" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - P dividend" enable="false" visible="true" readonly="false" value="213" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - I dividend" enable="false" visible="true" readonly="false" value="7" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - P divisor" enable="false" visible="true" readonly="false" value="16384" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsPLL - I divisor" enable="false" visible="true" readonly="false" value="65536" />
+						<var version="1.0" type="MC_Double" name="Aux - ObsCRD - Variance threshold" enable="true" visible="true" readonly="false" value="400" />
+						<var version="1.0" type="MC_Double" name="Aux - ObsCRD - B-emf consistency tolerance" enable="true" visible="true" readonly="false" value="100" />
+						<var version="1.0" type="MC_Double" name="Aux - ObsCRD - B-emf consistency gain" enable="true" visible="true" readonly="false" value="100" />
+						<var version="1.0" type="MC_Bool" name="Aux - ObsCRD - Manual editing enabled" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Bool" name="Aux - ObsCRD - Back compatibility" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsCRD - F1" enable="false" visible="true" readonly="false" value="16384" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsCRD - F2" enable="false" visible="true" readonly="false" value="1024" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsCRD - G1" enable="false" visible="true" readonly="false" value="-24217" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsCRD - G2" enable="false" visible="true" readonly="false" value="26248" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsCRD - K1" enable="false" visible="true" readonly="false" value="-29562" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsCRD - K2" enable="false" visible="true" readonly="false" value="136312" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsCRD - Average speed FIFO depth for speed loop" enable="true" visible="true" readonly="false" value="64" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsCRD - Average speed FIFO depth for observer equations" enable="true" visible="true" readonly="false" value="64" />
+						<var version="1.0" type="MC_Int" name="Aux - ObsCRD - Maximum application acceleration" enable="true" visible="true" readonly="false" value="6000" />
+						<var version="1.0" type="MC_Double" name="Aux - ObsCRD - B-emf quality factor" enable="true" visible="true" readonly="false" value="0.017" />
+						<var version="1.0" type="MC_Int" name="PWM frequency" enable="true" visible="true" readonly="false" value="20000" />
+						<var version="1.0" type="MC_List" name="High sides PWM idle state" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Turn-on" />
+								<item tag="1" text="Turn-off" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Int" name="Dead time" enable="true" visible="true" readonly="false" value="800" />
+						<var version="1.0" type="MC_List" name="Low sides PWM idle state" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Turn-on" />
+								<item tag="1" text="Turn-off" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="Control mode" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Torque control" />
+								<item tag="1" text="Speed control" />
+								<item tag="2" text="Position control" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Int" name="Target speed" enable="true" visible="true" readonly="false" value="1440" />
+						<var version="1.0" type="MC_Double" name="Target stator current flux component" enable="false" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Double" name="Target stator current torque component" enable="false" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_List" name="Torque&amp;Flux - Execution rate" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="1" text="1" />
+								<item tag="2" text="2" />
+								<item tag="3" text="3" />
+								<item tag="4" text="4" />
+								<item tag="5" text="5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Int" name="Torque&amp;Flux - Cut-off frequency" enable="true" visible="true" readonly="false" value="6000" />
+						<var version="1.0" type="MC_Bool" name="Torque&amp;Flux - Manual editing enabled" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="Torque - P dividend" enable="false" visible="true" readonly="false" value="2311" />
+						<var version="1.0" type="MC_Int" name="Torque - P divisor" enable="false" visible="true" readonly="false" value="128" />
+						<var version="1.0" type="MC_Int" name="Torque - I dividend" enable="false" visible="true" readonly="false" value="2157" />
+						<var version="1.0" type="MC_Int" name="Torque - I divisor" enable="false" visible="true" readonly="false" value="4096" />
+						<var version="1.0" type="MC_Bool" name="Torque - Enable differential term" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="Torque - D dividend" enable="false" visible="true" readonly="false" value="100" />
+						<var version="1.0" type="MC_Int" name="Torque - D divisor" enable="false" visible="true" readonly="true" value="8192" />
+						<var version="1.0" type="MC_Int" name="Flux - P dividend" enable="false" visible="true" readonly="false" value="2311" />
+						<var version="1.0" type="MC_Int" name="Flux - P divisor" enable="false" visible="true" readonly="false" value="128" />
+						<var version="1.0" type="MC_Int" name="Flux - I dividend" enable="false" visible="true" readonly="false" value="2157" />
+						<var version="1.0" type="MC_Int" name="Flux - I divisor" enable="false" visible="true" readonly="false" value="4096" />
+						<var version="1.0" type="MC_Bool" name="Flux - Enable differential term" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="Flux - D dividend" enable="false" visible="true" readonly="false" value="100" />
+						<var version="1.0" type="MC_Int" name="Flux - D divisor" enable="false" visible="true" readonly="true" value="8192" />
+						<var version="1.0" type="MC_Bool" name="SpeedCtrl_Manual_editing" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Double" name="SpeedCtrl - Execution rate" enable="true" visible="true" readonly="false" value="1" />
+						<var version="1.0" type="MC_Int" name="SpeedCtrl - P dividend" enable="true" visible="true" readonly="false" value="3145" />
+						<var version="1.0" type="MC_Int" name="SpeedCtrl - P divisor" enable="true" visible="true" readonly="false" value="1024" />
+						<var version="1.0" type="MC_Int" name="SpeedCtrl - I dividend" enable="true" visible="true" readonly="false" value="141" />
+						<var version="1.0" type="MC_Int" name="SpeedCtrl - I divisor" enable="true" visible="true" readonly="false" value="16384" />
+						<var version="1.0" type="MC_Bool" name="SpeedCtrl - Enable differential term" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="SpeedCtrl - D dividend" enable="false" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Int" name="SpeedCtrl - D divisor" enable="true" visible="true" readonly="true" value="16" />
+						<var version="1.0" type="MC_Int" name="PositionControl_P_dividend" enable="true" visible="true" readonly="false" value="10000" />
+						<var version="1.0" type="MC_Int" name="PositionControl_P_divisor" enable="true" visible="true" readonly="false" value="1024" />
+						<var version="1.0" type="MC_Int" name="PositionControl_I_dividend" enable="true" visible="true" readonly="false" value="1000" />
+						<var version="1.0" type="MC_Int" name="PositionControl_I_divisor" enable="true" visible="true" readonly="false" value="32768" />
+						<var version="1.0" type="MC_Int" name="PositionControl_D_dividend" enable="true" visible="true" readonly="false" value="1000" />
+						<var version="1.0" type="MC_Int" name="PositionControl_D_divisor" enable="true" visible="true" readonly="false" value="16" />
+						<var version="1.0" type="MC_Bool" name="Bus voltage sensing" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Bool" name="Over-voltage" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Bool" name="Set intervention threshold to power stage max rated voltage" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Int" name="Over-voltage threshold" enable="false" visible="true" readonly="false" value="28" />
+						<var version="1.0" type="MC_List" name="On over voltage" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="Disable PWM generation" />
+								<item tag="1" text="Switch on brake resistor" />
+								<item tag="2" text="Turn on low side switches" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="On over-voltage, disable over-current protection by HW" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="Brake resistor switch-off threshold" enable="false" visible="false" readonly="false" value="22" />
+						<var version="1.0" type="MC_Bool" name="Under-voltage" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Bool" name="Set intervention threshold to power stage min rated voltage" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Int" name="Under-voltage threshold" enable="false" visible="true" readonly="false" value="8" />
+						<var version="1.0" type="MC_Bool" name="speed_feedback_check" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Int" name="Enc - Duration" enable="false" visible="true" readonly="false" value="700" />
+						<var version="1.0" type="MC_Int" name="Enc - Alignment electrical angle" enable="false" visible="true" readonly="false" value="90" />
+						<var version="1.0" type="MC_Double" name="Enc - Final current ramp value" enable="false" visible="true" readonly="false" value="1.95" />
+						<var version="1.0" type="MC_Bool" name="SL - Basic profile" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="SL - BP - Speed ramp duration" enable="false" visible="true" readonly="false" value="1500" />
+						<var version="1.0" type="MC_Int" name="SL - BP - Speed ramp final value" enable="false" visible="true" readonly="false" value="2700" />
+						<var version="1.0" type="MC_Double" name="SL - BP - Current ramp initial value" enable="false" visible="true" readonly="false" value="0.6" />
+						<var version="1.0" type="MC_Double" name="SL - BP - Current ramp final value" enable="false" visible="true" readonly="false" value="0.70000000000000007" />
+						<var version="1.0" type="MC_Int" name="SL - BP - Current ramp duration" enable="false" visible="true" readonly="false" value="350" />
+						<var version="1.0" type="MC_Bool" name="SL - BP - Include alignment before ramp-up" enable="false" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Int" name="SL - BP - Duration" enable="false" visible="true" readonly="false" value="700" />
+						<var version="1.0" type="MC_Int" name="SL - BP - Alignment electrical angle" enable="false" visible="true" readonly="false" value="90" />
+						<var version="1.0" type="MC_Double" name="SL - BP - Final current ramp value" enable="false" visible="true" readonly="false" value="0.6" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Initial electrical angle" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase1 - Duration" enable="true" visible="true" readonly="false" value="1000" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase1 - Final speed" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Double" name="SL - ACP - Phase1 - Final current" enable="true" visible="true" readonly="false" value="1.6" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase2 - Duration" enable="true" visible="true" readonly="false" value="1600" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase2 - Final speed" enable="true" visible="true" readonly="false" value="1600" />
+						<var version="1.0" type="MC_Double" name="SL - ACP - Phase2 - Final current" enable="true" visible="true" readonly="false" value="1.6" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase3 - Duration" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase3 - Final speed" enable="true" visible="true" readonly="false" value="1600" />
+						<var version="1.0" type="MC_Double" name="SL - ACP - Phase3 - Final current" enable="true" visible="true" readonly="false" value="1.6" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase4 - Duration" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase4 - Final speed" enable="true" visible="true" readonly="false" value="1600" />
+						<var version="1.0" type="MC_Double" name="SL - ACP - Phase4 - Final current" enable="true" visible="true" readonly="false" value="1.6" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase5 - Duration" enable="true" visible="true" readonly="false" value="0" />
+						<var version="1.0" type="MC_Int" name="SL - ACP - Phase5 - Final speed" enable="true" visible="true" readonly="false" value="1600" />
+						<var version="1.0" type="MC_Double" name="SL - ACP - Phase5 - Final current" enable="true" visible="true" readonly="false" value="1.6" />
+						<var version="1.0" type="MC_List" name="SL - ACP - Execute sensor-less algorithm starting from phase" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="1" text="1" />
+								<item tag="2" text="2" />
+								<item tag="3" text="3" />
+								<item tag="4" text="4" />
+								<item tag="5" text="5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Int" name="SL - Consecutive succesful start-up output tests" enable="true" visible="true" readonly="false" value="2" />
+						<var version="1.0" type="MC_Int" name="SL - Minimum start-up output speed" enable="true" visible="true" readonly="false" value="1440" />
+						<var version="1.0" type="MC_Double" name="SL - Estimated speed Band tolerance upper limit" enable="true" visible="true" readonly="false" value="106.25" />
+						<var version="1.0" type="MC_Double" name="SL - Estimated speed Band tolerance lower limit" enable="true" visible="true" readonly="false" value="93.75" />
+						<var version="1.0" type="MC_Int" name="SL - Rev-up to FOC switch-over duration" enable="true" visible="true" readonly="false" value="25" />
+						<var version="1.0" type="MC_Bool" name="SL - Rev-up to FOC switch-over duration enabling" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Bool" name="SL_start_up_on_fly" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Int" name="SL_startUP_detection_duration" enable="true" visible="true" readonly="false" value="1000" />
+						<var version="1.0" type="MC_Int" name="SL_startUP_braking_duration" enable="true" visible="true" readonly="false" value="1000" />
+						<var version="1.0" type="MC_Bool" name="DAC functionality" enable="true" visible="true" readonly="false" value="true" />
+					</vars>
+					<temperature_sensing version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="Temperature sensing" enable="true" visible="true" readonly="false" value="true" />
+							<var version="1.0" type="MC_Bool" name="Set intervention threshold to power stage max working temperature" enable="true" visible="true" readonly="false" value="true" />
+							<var version="1.0" type="MC_Int" name="Over-temperature threshold" enable="true" visible="true" readonly="false" value="110" />
+							<var version="1.0" type="MC_Int" name="Hysteresis" enable="true" visible="true" readonly="false" value="10" />
+							<var version="1.0" type="MC_Bool" name="use_temperature_protection" enable="true" visible="true" readonly="false" value="true" />
+						</vars>
+					</temperature_sensing>
+					<pfc version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="PFC - Enable" enable="true" visible="true" readonly="false" value="false" />
+							<var version="1.0" type="MC_Int" name="PFC - PWM frequency" enable="true" visible="true" readonly="false" value="40000" />
+							<var version="1.0" type="MC_List" name="PFC - Current regulation execution rate" enable="true" visible="true" readonly="false" value="0">
+								<items>
+									<item tag="1" text="1" />
+									<item tag="2" text="2" />
+									<item tag="3" text="3" />
+									<item tag="4" text="4" />
+									<item tag="5" text="5" />
+									<item tag="6" text="6" />
+									<item tag="7" text="7" />
+									<item tag="8" text="8" />
+								</items>
+							</var>
+							<var version="1.0" type="MC_Int" name="PFC - Current - P dividend" enable="true" visible="true" readonly="false" value="1000" />
+							<var version="1.0" type="MC_Int" name="PFC - Current - P divisor" enable="true" visible="true" readonly="false" value="16" />
+							<var version="1.0" type="MC_Int" name="PFC - Current - I dividend" enable="true" visible="true" readonly="false" value="700" />
+							<var version="1.0" type="MC_Int" name="PFC - Current - I divisor" enable="true" visible="true" readonly="false" value="256" />
+							<var version="1.0" type="MC_Int" name="PFC - Output voltage reference" enable="true" visible="true" readonly="false" value="350" />
+							<var version="1.0" type="MC_Int" name="PFC over-voltage threshold" enable="true" visible="true" readonly="false" value="370" />
+							<var version="1.0" type="MC_Int" name="PFC - Voltage regulation frequency" enable="true" visible="true" readonly="false" value="100" />
+							<var version="1.0" type="MC_Int" name="PFC - Voltage - P dividend" enable="true" visible="true" readonly="false" value="1000" />
+							<var version="1.0" type="MC_Int" name="PFC - Voltage - P divisor" enable="true" visible="true" readonly="false" value="16" />
+							<var version="1.0" type="MC_Int" name="PFC - Voltage - I dividend" enable="true" visible="true" readonly="false" value="700" />
+							<var version="1.0" type="MC_Int" name="PFC - Voltage - I divisor" enable="true" visible="true" readonly="false" value="256" />
+							<var version="1.0" type="MC_Int" name="PFC - Switch-on duration" enable="true" visible="true" readonly="false" value="300" />
+							<var version="1.0" type="MC_Int" name="PFC - Switch-on Power level" enable="true" visible="true" readonly="false" value="250" />
+							<var version="1.0" type="MC_Int" name="PFC - Switch-off Power level" enable="true" visible="true" readonly="false" value="50" />
+							<var version="1.0" type="MC_Double" name="PFC - Digital filter duration on AC sync pin" enable="true" visible="true" readonly="false" value="1.3" />
+							<var version="1.0" type="MC_Double" name="PFC - Digital filter duration on OCP pin" enable="true" visible="true" readonly="false" value="1.3" />
+							<var version="1.0" type="MC_Double" name="PFC_sw_overCurrentThreshold" enable="true" visible="true" readonly="false" value="4.999" />
+						</vars>
+					</pfc>
+					<ac_input version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="AC_Input_OverVoltage_FromPS" enable="true" visible="true" readonly="false" value="true" />
+							<var version="1.0" type="MC_Int" name="AC_Input_OverVoltage" enable="false" visible="true" readonly="false" value="340" />
+						</vars>
+					</ac_input>
+					<inrush_current_limiter version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="Inrush current limiter" enable="true" visible="true" readonly="false" value="false" />
+							<var version="1.0" type="MC_List" name="Power on state" enable="true" visible="true" readonly="false" value="0">
+								<items>
+									<item tag="0" text="Active" />
+									<item tag="1" text="Inactive" />
+								</items>
+							</var>
+							<var version="1.0" type="MC_Int" name="Change state after" enable="true" visible="true" readonly="false" value="1000" />
+						</vars>
+					</inrush_current_limiter>
+					<additional_features version="1.0">
+						<flux_weakening version="1.0">
+							<vars>
+								<var version="1.0" type="MC_Bool" name="AF_FluxWeakening" enable="true" visible="true" readonly="false" value="false" />
+								<var version="1.0" type="MC_Int" name="Flux weakening - P dividend" enable="true" visible="true" readonly="false" value="3000" />
+								<var version="1.0" type="MC_Int" name="Flux weakening - I dividend" enable="true" visible="true" readonly="false" value="5000" />
+								<var version="1.0" type="MC_Int" name="Flux weakening - P divisor" enable="true" visible="true" readonly="true" value="32768" />
+								<var version="1.0" type="MC_Int" name="Flux weakening - I divisor" enable="true" visible="true" readonly="true" value="32768" />
+								<var version="1.0" type="MC_Double" name="Voltage limit" enable="true" visible="true" readonly="false" value="98.5" />
+							</vars>
+						</flux_weakening>
+						<mtpa version="1.0">
+							<vars>
+								<var version="1.0" type="MC_Bool" name="AF_MTPA" enable="true" visible="true" readonly="false" value="false" />
+							</vars>
+						</mtpa>
+						<feed_forward version="1.0">
+							<vars>
+								<var version="1.0" type="MC_Bool" name="AF_Feed_Forward" enable="true" visible="true" readonly="false" value="false" />
+							</vars>
+						</feed_forward>
+					</additional_features>
+					<freertos version="1.0">
+						<item name="use_it" value="false" />
+						<item name="RTOS_USE_IRQ" value="false" />
+						<item name="timer" value="--" />
+					</freertos>
+					<joystic_lcd version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="Joystick_LCD_Enable" enable="true" visible="true" readonly="false" value="false" />
+							<var version="1.0" type="MC_Bool" name="Joystick_LCD" enable="true" visible="true" readonly="false" value="true" />
+						</vars>
+					</joystic_lcd>
+					<start_stop_button version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="Start_Stop_Button" enable="true" visible="true" readonly="false" value="true" />
+						</vars>
+					</start_stop_button>
+					<serial_communication version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="Serial_Communication_Enable" enable="true" visible="true" readonly="false" value="true" />
+							<var version="1.0" type="MC_Bool" name="Serial_Communication" enable="true" visible="true" readonly="false" value="true" />
+							<var version="1.0" type="MC_List" name="SC_Uni_CH1_Motor" enable="true" visible="true" readonly="true" value="0">
+								<items>
+									<item tag="1" text="M1" />
+									<item tag="2" text="M2" />
+								</items>
+							</var>
+							<var version="1.0" type="MC_List" name="SC_Uni_CH1_Variable" enable="true" visible="true" readonly="false" value="0">
+								<items>
+									<item tag="35" text="Ia" />
+									<item tag="36" text="Ib" />
+									<item tag="37" text="Ialpha" />
+									<item tag="38" text="Ibeta" />
+									<item tag="39" text="Iq" />
+									<item tag="40" text="Id" />
+									<item tag="41" text="Iq reference" />
+									<item tag="42" text="Id reference" />
+									<item tag="43" text="Vq" />
+									<item tag="44" text="Vd" />
+									<item tag="45" text="Valpha" />
+									<item tag="46" text="Vbeta" />
+									<item tag="47" text="Measured electrical angle" />
+									<item tag="48" text="Measured rotor speed" />
+									<item tag="49" text="Observer electrical angle (PLL)" />
+									<item tag="50" text="Observer rotor speed (PLL)" />
+									<item tag="51" text="Observer Ialpha (PLL)" />
+									<item tag="52" text="Observer Ibeta (PLL)" />
+									<item tag="53" text="Observer BEMF alpha (PLL)" />
+									<item tag="54" text="Observer BEMF beta (PLL)" />
+									<item tag="55" text="Observer electrical angle (CORDIC)" />
+									<item tag="56" text="Observer rotor speed (CORDIC)" />
+									<item tag="57" text="Observer Ialpha (CORDIC)" />
+									<item tag="58" text="Observer Ibeta (CORDIC)" />
+									<item tag="59" text="Observer BEMF alpha (CORDIC)" />
+									<item tag="60" text="Observer BEMF beta (CORDIC)" />
+									<item tag="61" text="User defined DAC 1" />
+									<item tag="62" text="User defined DAC 2" />
+									<item tag="93" text="HFI electrical angle" />
+									<item tag="94" text="HFI rotor speed" />
+									<item tag="95" text="HFI debug current" />
+									<item tag="96" text="HFI debug angle" />
+								</items>
+							</var>
+							<var version="1.0" type="MC_Bool" name="SC_Uni_CH2_Enable" enable="true" visible="true" readonly="false" value="true" />
+							<var version="1.0" type="MC_List" name="SC_Uni_CH2_Variable" enable="true" visible="true" readonly="false" value="0">
+								<items>
+									<item tag="35" text="Ia" />
+									<item tag="36" text="Ib" />
+									<item tag="37" text="Ialpha" />
+									<item tag="38" text="Ibeta" />
+									<item tag="39" text="Iq" />
+									<item tag="40" text="Id" />
+									<item tag="41" text="Iq reference" />
+									<item tag="42" text="Id reference" />
+									<item tag="43" text="Vq" />
+									<item tag="44" text="Vd" />
+									<item tag="45" text="Valpha" />
+									<item tag="46" text="Vbeta" />
+									<item tag="47" text="Measured electrical angle" />
+									<item tag="48" text="Measured rotor speed" />
+									<item tag="49" text="Observer electrical angle (PLL)" />
+									<item tag="50" text="Observer rotor speed (PLL)" />
+									<item tag="51" text="Observer Ialpha (PLL)" />
+									<item tag="52" text="Observer Ibeta (PLL)" />
+									<item tag="53" text="Observer BEMF alpha (PLL)" />
+									<item tag="54" text="Observer BEMF beta (PLL)" />
+									<item tag="55" text="Observer electrical angle (CORDIC)" />
+									<item tag="56" text="Observer rotor speed (CORDIC)" />
+									<item tag="57" text="Observer Ialpha (CORDIC)" />
+									<item tag="58" text="Observer Ibeta (CORDIC)" />
+									<item tag="59" text="Observer BEMF alpha (CORDIC)" />
+									<item tag="60" text="Observer BEMF beta (CORDIC)" />
+									<item tag="61" text="User defined DAC 1" />
+									<item tag="62" text="User defined DAC 2" />
+									<item tag="93" text="HFI electrical angle" />
+									<item tag="94" text="HFI rotor speed" />
+									<item tag="95" text="HFI debug current" />
+									<item tag="96" text="HFI debug angle" />
+								</items>
+							</var>
+						</vars>
+					</serial_communication>
+				</drive_management>
+			</system>
+			<system type="common">
+				<control_stage version="4.0">
+					<code_id>10015</code_id>
+					<name>Control Stage</name>
+					<uid>CS</uid>
+					<type>CS</type>
+					<board_name>B-G431B-ESC1</board_name>
+					<original_board_name>B-G431B-ESC1</original_board_name>
+					<vars>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Timer" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="1" text="TIM1" />
+								<item tag="8" text="TIM8" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Remap" enable="false" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="No remap" />
+								<item tag="2" text="Partial re-map" />
+								<item tag="3" text="Full re-map" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Pin - CH1" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="108" text="A8" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Pin - CH2" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="109" text="A9" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Pin - CH3" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="110" text="A10" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Pin - CH1N" enable="true" visible="true" readonly="false" value="3">
+							<items>
+								<item tag="107" text="A7" />
+								<item tag="111" text="A11" />
+								<item tag="213" text="B13" />
+								<item tag="313" text="C13" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Pin - CH2N" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="112" text="A12" />
+								<item tag="200" text="B0" />
+								<item tag="214" text="B14" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Pin - CH3N" enable="true" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="201" text="B1" />
+								<item tag="209" text="B9" />
+								<item tag="215" text="B15" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Pin - BKIN" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="111" text="A11" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Enb - CH1 - Port" enable="false" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="65" text="GPIOA" />
+								<item tag="66" text="GPIOB" />
+								<item tag="67" text="GPIOC" />
+								<item tag="68" text="GPIOD" />
+								<item tag="69" text="GPIOE" />
+								<item tag="70" text="GPIOF" />
+								<item tag="71" text="GPIOG" />
+								<item tag="72" text="GPIOH" />
+								<item tag="73" text="GPIOI" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Enb - CH1 - Pin" enable="false" visible="true" readonly="false" value="10">
+							<items>
+								<item tag="300" text="C0" />
+								<item tag="301" text="C1" />
+								<item tag="302" text="C2" />
+								<item tag="303" text="C3" />
+								<item tag="304" text="C4" />
+								<item tag="305" text="C5" />
+								<item tag="306" text="C6" />
+								<item tag="307" text="C7" />
+								<item tag="308" text="C8" />
+								<item tag="309" text="C9" />
+								<item tag="310" text="C10" />
+								<item tag="311" text="C11" />
+								<item tag="312" text="C12" />
+								<item tag="313" text="C13" />
+								<item tag="314" text="C14" />
+								<item tag="315" text="C15" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Enb - CH2 - Port" enable="false" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="65" text="GPIOA" />
+								<item tag="66" text="GPIOB" />
+								<item tag="67" text="GPIOC" />
+								<item tag="68" text="GPIOD" />
+								<item tag="69" text="GPIOE" />
+								<item tag="70" text="GPIOF" />
+								<item tag="71" text="GPIOG" />
+								<item tag="72" text="GPIOH" />
+								<item tag="73" text="GPIOI" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Enb - CH2 - Pin" enable="false" visible="true" readonly="false" value="11">
+							<items>
+								<item tag="300" text="C0" />
+								<item tag="301" text="C1" />
+								<item tag="302" text="C2" />
+								<item tag="303" text="C3" />
+								<item tag="304" text="C4" />
+								<item tag="305" text="C5" />
+								<item tag="306" text="C6" />
+								<item tag="307" text="C7" />
+								<item tag="308" text="C8" />
+								<item tag="309" text="C9" />
+								<item tag="310" text="C10" />
+								<item tag="311" text="C11" />
+								<item tag="312" text="C12" />
+								<item tag="313" text="C13" />
+								<item tag="314" text="C14" />
+								<item tag="315" text="C15" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Enb - CH3 - Port" enable="false" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="65" text="GPIOA" />
+								<item tag="66" text="GPIOB" />
+								<item tag="67" text="GPIOC" />
+								<item tag="68" text="GPIOD" />
+								<item tag="69" text="GPIOE" />
+								<item tag="70" text="GPIOF" />
+								<item tag="71" text="GPIOG" />
+								<item tag="72" text="GPIOH" />
+								<item tag="73" text="GPIOI" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - MCT - Enb - CH3 - Pin" enable="false" visible="true" readonly="false" value="12">
+							<items>
+								<item tag="300" text="C0" />
+								<item tag="301" text="C1" />
+								<item tag="302" text="C2" />
+								<item tag="303" text="C3" />
+								<item tag="304" text="C4" />
+								<item tag="305" text="C5" />
+								<item tag="306" text="C6" />
+								<item tag="307" text="C7" />
+								<item tag="308" text="C8" />
+								<item tag="309" text="C9" />
+								<item tag="310" text="C10" />
+								<item tag="311" text="C11" />
+								<item tag="312" text="C12" />
+								<item tag="313" text="C13" />
+								<item tag="314" text="C14" />
+								<item tag="315" text="C15" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - EIT - Timer" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="2" text="TIM2" />
+								<item tag="3" text="TIM3" />
+								<item tag="4" text="TIM4" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - EIT - Remap" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="No remap" />
+								<item tag="4" text="Partial re-map '01'" />
+								<item tag="5" text="Partial re-map '10'" />
+								<item tag="3" text="Full re-map" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - EIT - Pin - CH1" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="100" text="A0" />
+								<item tag="105" text="A5" />
+								<item tag="115" text="A15" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - EIT - Pin - CH2" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="101" text="A1" />
+								<item tag="203" text="B3" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - EIT - Pin - CH3" enable="false" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="102" text="A2" />
+								<item tag="109" text="A9" />
+								<item tag="210" text="B10" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - HIT - Timer" enable="false" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="2" text="TIM2" />
+								<item tag="3" text="TIM3" />
+								<item tag="4" text="TIM4" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - HIT - Remap" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="No remap" />
+								<item tag="4" text="Partial re-map '01'" />
+								<item tag="5" text="Partial re-map '10'" />
+								<item tag="3" text="Full re-map" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - HIT - Pin - CH1" enable="false" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="111" text="A11" />
+								<item tag="206" text="B6" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - HIT - Pin - CH2" enable="false" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="112" text="A12" />
+								<item tag="207" text="B7" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - HIT - Pin - CH3" enable="false" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="113" text="A13" />
+								<item tag="208" text="B8" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - DBO - Port" enable="false" visible="true" readonly="false" value="3">
+							<items>
+								<item tag="65" text="GPIOA" />
+								<item tag="66" text="GPIOB" />
+								<item tag="67" text="GPIOC" />
+								<item tag="68" text="GPIOD" />
+								<item tag="69" text="GPIOE" />
+								<item tag="70" text="GPIOF" />
+								<item tag="71" text="GPIOG" />
+								<item tag="72" text="GPIOH" />
+								<item tag="73" text="GPIOI" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - DBO - Pin" enable="false" visible="true" readonly="false" value="5">
+							<items>
+								<item tag="400" text="D0" />
+								<item tag="401" text="D1" />
+								<item tag="402" text="D2" />
+								<item tag="403" text="D3" />
+								<item tag="404" text="D4" />
+								<item tag="405" text="D5" />
+								<item tag="406" text="D6" />
+								<item tag="407" text="D7" />
+								<item tag="408" text="D8" />
+								<item tag="409" text="D9" />
+								<item tag="410" text="D10" />
+								<item tag="411" text="D11" />
+								<item tag="412" text="D12" />
+								<item tag="413" text="D13" />
+								<item tag="414" text="D14" />
+								<item tag="415" text="D15" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - ICL - Port" enable="false" visible="true" readonly="false" value="3">
+							<items>
+								<item tag="65" text="GPIOA" />
+								<item tag="66" text="GPIOB" />
+								<item tag="67" text="GPIOC" />
+								<item tag="68" text="GPIOD" />
+								<item tag="69" text="GPIOE" />
+								<item tag="70" text="GPIOF" />
+								<item tag="71" text="GPIOG" />
+								<item tag="72" text="GPIOH" />
+								<item tag="73" text="GPIOI" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - ICL - Pin" enable="false" visible="true" readonly="false" value="4">
+							<items>
+								<item tag="400" text="D0" />
+								<item tag="401" text="D1" />
+								<item tag="402" text="D2" />
+								<item tag="403" text="D3" />
+								<item tag="404" text="D4" />
+								<item tag="405" text="D5" />
+								<item tag="406" text="D6" />
+								<item tag="407" text="D7" />
+								<item tag="408" text="D8" />
+								<item tag="409" text="D9" />
+								<item tag="410" text="D10" />
+								<item tag="411" text="D11" />
+								<item tag="412" text="D12" />
+								<item tag="413" text="D13" />
+								<item tag="414" text="D14" />
+								<item tag="415" text="D15" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - OCPD - Port" enable="false" visible="true" readonly="false" value="3">
+							<items>
+								<item tag="65" text="GPIOA" />
+								<item tag="66" text="GPIOB" />
+								<item tag="67" text="GPIOC" />
+								<item tag="68" text="GPIOD" />
+								<item tag="69" text="GPIOE" />
+								<item tag="70" text="GPIOF" />
+								<item tag="71" text="GPIOG" />
+								<item tag="72" text="GPIOH" />
+								<item tag="73" text="GPIOI" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - OCPD - Pin" enable="false" visible="true" readonly="false" value="5">
+							<items>
+								<item tag="400" text="D0" />
+								<item tag="401" text="D1" />
+								<item tag="402" text="D2" />
+								<item tag="403" text="D3" />
+								<item tag="404" text="D4" />
+								<item tag="405" text="D5" />
+								<item tag="406" text="D6" />
+								<item tag="407" text="D7" />
+								<item tag="408" text="D8" />
+								<item tag="409" text="D9" />
+								<item tag="410" text="D10" />
+								<item tag="411" text="D11" />
+								<item tag="412" text="D12" />
+								<item tag="413" text="D13" />
+								<item tag="414" text="D14" />
+								<item tag="415" text="D15" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - PFC - Timer" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="16" text="TIM16" />
+								<item tag="4" text="TIM4" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - PFC - Remap" enable="false" visible="false" readonly="false" value="0">
+							<items>
+								<item tag="0" text="No remap" />
+								<item tag="2" text="Partial re-map" />
+								<item tag="3" text="Full re-map" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - PFC - F303TimerAux" enable="false" visible="false" readonly="false" value="0">
+							<items>
+								<item tag="4" text="TIM4" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - PFC - Pin - PWMOutput" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="--" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - PFC - Pin - ACMainsSynch" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="--" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - PFC - Pin - OvercurrentSignal" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="--" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - Comm - USART" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="1" text="USART1" />
+								<item tag="2" text="USART2" />
+								<item tag="3" text="USART3" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - Comm - USART - Remap" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="No remap" />
+								<item tag="1" text="Remap" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - Comm - USART - Baudrate" enable="true" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="921600" text="921600" />
+								<item tag="460800" text="460800" />
+								<item tag="115200" text="115200" />
+								<item tag="57800" text="57800" />
+								<item tag="38400" text="38400" />
+								<item tag="19200" text="19200" />
+								<item tag="9600" text="9600" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - Comm - USART - Pin - TX" enable="true" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="102" text="A2" />
+								<item tag="114" text="A14" />
+								<item tag="203" text="B3" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="DIO - Comm - USART - Pin - RX" enable="true" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="103" text="A3" />
+								<item tag="115" text="A15" />
+								<item tag="204" text="B4" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="AI - PCF - PGA" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Bool" name="AI - PCF - HW OCP" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - Setting - Sampling Time" enable="true" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="25" text="2.5" />
+								<item tag="65" text="6.5" />
+								<item tag="125" text="12.5" />
+								<item tag="245" text="24.5" />
+								<item tag="475" text="47.5" />
+								<item tag="925" text="92.5" />
+								<item tag="2475" text="247.5" />
+								<item tag="6405" text="640.5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Int" name="AI - PCF - Sens - Setting - MMI" enable="true" visible="true" readonly="true" value="95" />
+						<var version="1.0" type="MC_Int" name="AI - PCF - Sens - Setting - Sampling Time Converted" enable="true" visible="true" readonly="true" value="184" />
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - Setting - ADC Peripheral selection" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="3" text="ADC1/ADC2" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - Pin - ADC Ch - phase U" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="259" text="ADC1_IN3 (A2)" />
+								<item tag="260" text="ADC1_IN4 (A3)" />
+								<item tag="261" text="ADC1_IN5 (B14)" />
+								<item tag="267" text="ADC1_IN11 (B12)" />
+								<item tag="268" text="ADC1_IN12 (B1)" />
+								<item tag="271" text="ADC1_IN15 (B0)" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - Pin - ADC Ch - phase V" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="515" text="ADC2_IN3 (A6)" />
+								<item tag="516" text="ADC2_IN4 (A7)" />
+								<item tag="524" text="ADC2_IN12 (B2)" />
+								<item tag="525" text="ADC2_IN13 (A5)" />
+								<item tag="527" text="ADC2_IN15 (B15)" />
+								<item tag="529" text="ADC2_IN17 (A4)" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - Pin - ADC Ch - phase W" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="268" text="ADC1_IN12 (B1) /ADC2_VOPAMP3" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - Pin - ADC Ch - single" enable="false" visible="false" readonly="true" value="8">
+							<items>
+								<item tag="257" text="ADC1_IN1 (A0)" />
+								<item tag="258" text="ADC1_IN2 (A1)" />
+								<item tag="259" text="ADC1_IN3 (A2)" />
+								<item tag="260" text="ADC1_IN4 (A3)" />
+								<item tag="261" text="ADC1_IN5 (F4)" />
+								<item tag="774" text="ADC12_IN6 (C0)" />
+								<item tag="775" text="ADC12_IN7 (C1)" />
+								<item tag="776" text="ADC12_IN8 (C2)" />
+								<item tag="777" text="ADC12_IN9 (C3)" />
+								<item tag="778" text="ADC12_IN10 (F2)" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Setting - Selection" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="3" text="OPAMP1/OPAMP2" />
+								<item tag="7" text="OP1/OP2/OP3" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Setting - Type Gain" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="1" text="Internal" />
+								<item tag="0" text="External" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Setting - Internal gain factor" enable="true" visible="true" readonly="false" value="3">
+							<items>
+								<item tag="2" text="2" />
+								<item tag="4" text="4" />
+								<item tag="8" text="8" />
+								<item tag="16" text="16" />
+								<item tag="32" text="32" />
+								<item tag="64" text="64" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="AI - PCF - Sens - OPAMP - Setting - Feedback net filtering" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - Setting - Overall network gain" enable="true" visible="true" readonly="true" value="9.14" />
+						<var version="1.0" type="MC_Int" name="AI - PCF - Sens - OPAMP - Setting - Trise" enable="true" visible="true" readonly="false" value="2000" />
+						<var version="1.0" type="MC_Bool" name="AI - PCF - Sens - OPAMP - SettParamGain - Validity" enable="true" visible="true" readonly="true" value="true" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - Imax" enable="true" visible="true" readonly="true" value="40" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - Vm" enable="true" visible="true" readonly="true" value="3.3000000000000003" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - Rshunt" enable="true" visible="true" readonly="true" value="0.003" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - Prating" enable="true" visible="true" readonly="true" value="0.5" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - Vmcu" enable="true" visible="true" readonly="true" value="3.3000000000000003" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - R1" enable="true" visible="true" readonly="true" value="1500" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - R2" enable="true" visible="true" readonly="true" value="22000" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - R3" enable="true" visible="true" readonly="true" value="2200" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - R4" enable="true" visible="true" readonly="true" value="2700" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - R5" enable="true" visible="true" readonly="true" value="40500" />
+						<var version="1.0" type="MC_Bool" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - R3using" enable="true" visible="true" readonly="true" value="true" />
+						<var version="1.0" type="MC_Bool" name="AI - PCF - Sens - OPAMP - SettParamGain - Input - R4R5fixed" enable="true" visible="true" readonly="true" value="true" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Output - OverallGain" enable="true" visible="true" readonly="true" value="9.143" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Output - OffsetNetworkAttenuation" enable="true" visible="true" readonly="true" value="0.57100000000000006" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Output - OpampGain" enable="true" visible="true" readonly="true" value="16" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Output - Vout_pol" enable="true" visible="true" readonly="true" value="2.057" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Output - Vout_min" enable="true" visible="true" readonly="true" value="0.96" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Output - Vout_max" enable="true" visible="true" readonly="true" value="3.154" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Sens - OPAMP - SettParamGain - Output - Pdissipated" enable="true" visible="true" readonly="true" value="1.2" />
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - phase U - No inverting" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="101" text="A1" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - phase V - No inverting" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="107" text="A7" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - phase W - No inverting" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="200" text="B0" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - phase X - Inverting" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="103" text="A3" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - phase Y - Inverting" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="105" text="A5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - phase Z - Inverting" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="202" text="B2" />
+								<item tag="210" text="B10" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - phase X - Output" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="102" text="A2" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - phase Y - Output" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="106" text="A6" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - phase Z - Output" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="201" text="B1" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - single - No inverting" enable="false" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="101" text="A1" />
+								<item tag="107" text="A7" />
+								<item tag="103" text="A3" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - single - Inverting" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="103" text="A3" />
+								<item tag="305" text="C5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Sens - OPAMP - Pin - single - Output" enable="false" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="102" text="A2" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="AI - PCF - Protection - Over current using" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - Digital filter duration" enable="true" visible="true" readonly="false" value="3">
+							<items>
+								<item tag="0" text="0" />
+								<item tag="1" text="2" />
+								<item tag="2" text="4" />
+								<item tag="3" text="8" />
+								<item tag="4" text="24" />
+								<item tag="5" text="32" />
+								<item tag="6" text="48" />
+								<item tag="7" text="64" />
+								<item tag="8" text="96" />
+								<item tag="9" text="128" />
+								<item tag="10" text="160" />
+								<item tag="11" text="192" />
+								<item tag="12" text="256" />
+								<item tag="13" text="320" />
+								<item tag="14" text="384" />
+								<item tag="15" text="512" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Setting - Inverting input" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="1" text="Internal" />
+								<item tag="0" text="External" />
+								<item tag="2" text="DAC" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Double" name="AI - PCF - Protection - COMP_EMB - Setting - Current threshold" enable="true" visible="true" readonly="true" value="100" />
+						<var version="1.0" type="MC_Double" name="AI - PCF - Protection - COMP_EMB - Setting - Comparator input threshold" enable="true" visible="true" readonly="true" value="0.3" />
+						<var version="1.0" type="MC_Bool" name="AI - PCF - Protection - COMP_EMB - Setting - Output enable" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - phase U - Comp" enable="true" visible="true" readonly="true" value="1">
+							<items>
+								<item tag="0" text="NONE" />
+								<item tag="1" text="COMP1" />
+								<item tag="2" text="COMP2" />
+								<item tag="4" text="COMP3" />
+								<item tag="8" text="COMP4" />
+								<item tag="16" text="COMP5" />
+								<item tag="32" text="COMP6" />
+								<item tag="64" text="COMP7" />
+								<item tag="0" text="NONE" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - phase V - Comp" enable="true" visible="true" readonly="true" value="2">
+							<items>
+								<item tag="0" text="NONE" />
+								<item tag="1" text="COMP1" />
+								<item tag="2" text="COMP2" />
+								<item tag="4" text="COMP3" />
+								<item tag="8" text="COMP4" />
+								<item tag="16" text="COMP5" />
+								<item tag="32" text="COMP6" />
+								<item tag="64" text="COMP7" />
+								<item tag="0" text="NONE" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - phase W - Comp" enable="true" visible="true" readonly="true" value="4">
+							<items>
+								<item tag="0" text="NONE" />
+								<item tag="1" text="COMP1" />
+								<item tag="2" text="COMP2" />
+								<item tag="4" text="COMP3" />
+								<item tag="8" text="COMP4" />
+								<item tag="16" text="COMP5" />
+								<item tag="32" text="COMP6" />
+								<item tag="64" text="COMP7" />
+								<item tag="0" text="NONE" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - Inverting input" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="none" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - Inverting input phase V" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="none" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - Inverting input phase W" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="none" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - phase U - No inverting" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="101" text="A1" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - phase V - No inverting" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="107" text="A7" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - phase W - No inverting" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="200" text="B0" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - phase U - Output" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="100" text="A0" />
+								<item tag="106" text="A6" />
+								<item tag="111" text="A11" />
+								<item tag="208" text="B8" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - phase V - Output" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="102" text="A2" />
+								<item tag="107" text="A7" />
+								<item tag="112" text="A12" />
+								<item tag="209" text="B9" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - phase W - Output" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="201" text="B1" />
+								<item tag="206" text="B6" />
+								<item tag="214" text="B14" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - single - Comp" enable="false" visible="true" readonly="true" value="2">
+							<items>
+								<item tag="0" text="NONE" />
+								<item tag="1" text="COMP1" />
+								<item tag="2" text="COMP2" />
+								<item tag="4" text="COMP3" />
+								<item tag="8" text="COMP4" />
+								<item tag="16" text="COMP5" />
+								<item tag="32" text="COMP6" />
+								<item tag="64" text="COMP7" />
+								<item tag="0" text="NONE" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - single - No inverting" enable="false" visible="true" readonly="true" value="1">
+							<items>
+								<item tag="101" text="A1" />
+								<item tag="107" text="A7" />
+								<item tag="103" text="A3" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PCF - Protection - COMP_EMB - Pin - single - Output" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="102" text="A2" />
+								<item tag="107" text="A7" />
+								<item tag="112" text="A12" />
+								<item tag="209" text="B9" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - BVF - Sens - Setting - Sampling Time" enable="true" visible="true" readonly="false" value="4">
+							<items>
+								<item tag="25" text="2.5" />
+								<item tag="65" text="6.5" />
+								<item tag="125" text="12.5" />
+								<item tag="245" text="24.5" />
+								<item tag="475" text="47.5" />
+								<item tag="925" text="92.5" />
+								<item tag="2475" text="247.5" />
+								<item tag="6405" text="640.5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - BVF - Sens - Setting - ADC Peripheral selection" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="1" text="ADC1" />
+								<item tag="2" text="ADC2" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - BVF - Sens - Pin - ADC Channel" enable="true" visible="true" readonly="false" value="6">
+							<items>
+								<item tag="259" text="ADC1_IN3 (A2)" />
+								<item tag="260" text="ADC1_IN4 (A3)" />
+								<item tag="261" text="ADC1_IN5 (B14)" />
+								<item tag="267" text="ADC1_IN11 (B12)" />
+								<item tag="268" text="ADC1_IN12 (B1)" />
+								<item tag="271" text="ADC1_IN15 (B0)" />
+								<item tag="769" text="ADC12_IN1 (A0)" />
+								<item tag="770" text="ADC12_IN2 (A1)" />
+								<item tag="782" text="ADC12_IN14 (B11)" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="AI - BVF - Protection - OVP" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_List" name="AI - BVF - Protection - Setting - Inverting input" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="1" text="Internal" />
+								<item tag="0" text="External" />
+								<item tag="2" text="DAC" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Double" name="AI - BVF - Protection - Setting - Voltage threshold" enable="false" visible="true" readonly="true" value="12.466666666666667" />
+						<var version="1.0" type="MC_Double" name="AI - BVF - Protection - Setting - Comparator input threshold" enable="false" visible="true" readonly="true" value="1.2" />
+						<var version="1.0" type="MC_List" name="AI - BVF - Protection - Setting - On over voltage" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="Disable PWM generation" />
+								<item tag="1" text="Turn on low side switches" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="AI - BVF - Protection - Setting - Output enable" enable="false" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_List" name="AI - BVF - Protection - COMP_EMB - Pin - Inverting input" enable="false" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="0" text="none" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - BVF - Protection - COMP_EMB - Pin - Comp" enable="false" visible="true" readonly="true" value="2">
+							<items>
+								<item tag="0" text="NONE" />
+								<item tag="1" text="COMP1" />
+								<item tag="2" text="COMP2" />
+								<item tag="4" text="COMP3" />
+								<item tag="8" text="COMP4" />
+								<item tag="16" text="COMP5" />
+								<item tag="32" text="COMP6" />
+								<item tag="64" text="COMP7" />
+								<item tag="0" text="NONE" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - BVF - Protection - COMP_EMB - Pin - No inverting" enable="false" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="101" text="A1" />
+								<item tag="103" text="A3" />
+								<item tag="107" text="A7" />
+								<item tag="214" text="B14" />
+								<item tag="414" text="D14" />
+								<item tag="200" text="B0" />
+								<item tag="507" text="E7" />
+								<item tag="213" text="B13" />
+								<item tag="412" text="D12" />
+								<item tag="211" text="B11" />
+								<item tag="411" text="D11" />
+								<item tag="301" text="C1" />
+								<item tag="100" text="A0" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - BVF - Protection - COMP_EMB - Pin - Output" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="102" text="A2" />
+								<item tag="107" text="A7" />
+								<item tag="112" text="A12" />
+								<item tag="209" text="B9" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="AI_BVF_useR3" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Double" name="AI_BVF_R3" enable="false" visible="true" readonly="false" value="100" />
+						<var version="1.0" type="MC_List" name="AI - TF - Sens - Setting - Sampling Time" enable="true" visible="true" readonly="false" value="4">
+							<items>
+								<item tag="25" text="2.5" />
+								<item tag="65" text="6.5" />
+								<item tag="125" text="12.5" />
+								<item tag="245" text="24.5" />
+								<item tag="475" text="47.5" />
+								<item tag="925" text="92.5" />
+								<item tag="2475" text="247.5" />
+								<item tag="6405" text="640.5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - TF - Sens - Setting - ADC Peripheral selection" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="1" text="ADC1" />
+								<item tag="2" text="ADC2" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - TF - Sens - Pin - ADC Channel" enable="true" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="259" text="ADC1_IN3 (A2)" />
+								<item tag="260" text="ADC1_IN4 (A3)" />
+								<item tag="261" text="ADC1_IN5 (B14)" />
+								<item tag="267" text="ADC1_IN11 (B12)" />
+								<item tag="268" text="ADC1_IN12 (B1)" />
+								<item tag="271" text="ADC1_IN15 (B0)" />
+								<item tag="769" text="ADC12_IN1 (A0)" />
+								<item tag="770" text="ADC12_IN2 (A1)" />
+								<item tag="782" text="ADC12_IN14 (B11)" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PFC - CurrSens - Setting - Sampling Time" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="15" text="1.5" />
+								<item tag="75" text="7.5" />
+								<item tag="135" text="13.5" />
+								<item tag="285" text="28.5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PFC - CurrSens - Setting - ADC Peripheral selection" enable="false" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="2" text="ADC2" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PFC - CurrSens - Pin - ADC Channel" enable="false" visible="true" readonly="false" value="13">
+							<items>
+								<item tag="768" text="ADC12_IN0 (A0)" />
+								<item tag="769" text="ADC12_IN1 (A1)" />
+								<item tag="770" text="ADC12_IN2 (A2)" />
+								<item tag="771" text="ADC12_IN3 (A3)" />
+								<item tag="772" text="ADC12_IN4 (A4)" />
+								<item tag="773" text="ADC12_IN5 (A5)" />
+								<item tag="774" text="ADC12_IN6 (A6)" />
+								<item tag="775" text="ADC12_IN7 (A7)" />
+								<item tag="776" text="ADC12_IN8 (B0)" />
+								<item tag="777" text="ADC12_IN9 (B1)" />
+								<item tag="778" text="ADC12_IN10 (C0)" />
+								<item tag="779" text="ADC12_IN11 (C1)" />
+								<item tag="780" text="ADC12_IN12 (C2)" />
+								<item tag="781" text="ADC12_IN13 (C3)" />
+								<item tag="782" text="ADC12_IN14 (C4)" />
+								<item tag="783" text="ADC12_IN15 (C5)" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PFC - ACVoltSens - Setting - Sampling Time" enable="false" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="15" text="1.5" />
+								<item tag="75" text="7.5" />
+								<item tag="135" text="13.5" />
+								<item tag="285" text="28.5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PFC - ACVoltSens - Setting - ADC Peripheral selection" enable="false" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="2" text="ADC2" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI - PFC - ACVoltSens - Pin - ADC Channel" enable="false" visible="true" readonly="false" value="3">
+							<items>
+								<item tag="768" text="ADC12_IN0 (A0)" />
+								<item tag="769" text="ADC12_IN1 (A1)" />
+								<item tag="770" text="ADC12_IN2 (A2)" />
+								<item tag="771" text="ADC12_IN3 (A3)" />
+								<item tag="772" text="ADC12_IN4 (A4)" />
+								<item tag="773" text="ADC12_IN5 (A5)" />
+								<item tag="774" text="ADC12_IN6 (A6)" />
+								<item tag="775" text="ADC12_IN7 (A7)" />
+								<item tag="776" text="ADC12_IN8 (B0)" />
+								<item tag="777" text="ADC12_IN9 (B1)" />
+								<item tag="778" text="ADC12_IN10 (C0)" />
+								<item tag="779" text="ADC12_IN11 (C1)" />
+								<item tag="780" text="ADC12_IN12 (C2)" />
+								<item tag="781" text="ADC12_IN13 (C3)" />
+								<item tag="782" text="ADC12_IN14 (C4)" />
+								<item tag="783" text="ADC12_IN15 (C5)" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Bool" name="AI_PFC_CST_PGA" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Bool" name="AI_PFC_OCP_Embedded_HW" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_Bool" name="AI_PFC_OCP_ExternalProtection" enable="true" visible="true" readonly="false" value="true" />
+						<var version="1.0" type="MC_Bool" name="AI_PFC_OCP_NoProtection" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_List" name="AI_PFC_CS_Sampling_Time" enable="true" visible="true" readonly="false" value="3">
+							<items>
+								<item tag="15" text="1.5" />
+								<item tag="25" text="2.5" />
+								<item tag="45" text="4.5" />
+								<item tag="75" text="7.5" />
+								<item tag="195" text="19.5" />
+								<item tag="615" text="61.5" />
+								<item tag="1815" text="181.5" />
+								<item tag="6015" text="601.5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_CS_ADC" enable="true" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="2" text="ADC2" />
+								<item tag="4" text="ADC3" />
+								<item tag="8" text="ADC4" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_CS_Pin_ADC_Channel" enable="true" visible="true" readonly="false" value="2">
+							<items>
+								<item tag="2049" text="ADC4_IN1 (E14)" />
+								<item tag="2050" text="ADC4_IN2 (E15)" />
+								<item tag="2051" text="ADC4_IN3 (B12)" />
+								<item tag="2052" text="ADC4_IN4 (B14)" />
+								<item tag="2053" text="ADC4_IN5 (B15)" />
+								<item tag="2060" text="ADC4_IN12 (D8)" />
+								<item tag="2061" text="ADC4_IN13 (D9)" />
+								<item tag="3078" text="ADC34_IN6 (E8)" />
+								<item tag="3079" text="ADC34_IN7 (D10)" />
+								<item tag="3080" text="ADC34_IN8 (D11)" />
+								<item tag="3081" text="ADC34_IN9 (D12)" />
+								<item tag="3082" text="ADC34_IN10 (D13)" />
+								<item tag="3083" text="ADC34_IN11 (D14)" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_Sens_OPAMP_Selection" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="1" text="OPAMP1" />
+								<item tag="2" text="OPAMP2" />
+								<item tag="4" text="OPAMP3" />
+								<item tag="8" text="OPAMP4" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_Sens_OPAMP_Gain" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="1" text="Internal" />
+								<item tag="0" text="External" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_Sens_OPAMP_Internal_gain_factor" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="1" text="2" />
+								<item tag="2" text="4" />
+								<item tag="3" text="8" />
+								<item tag="4" text="16" />
+								<item tag="5" text="32" />
+								<item tag="6" text="64" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Double" name="AI_PFC_Sens_OPAMP_Overall_NetworkGain" enable="true" visible="true" readonly="false" value="2.7600000000000002" />
+						<var version="1.0" type="MC_List" name="AI_PFC_Sens_OPAMP_Pin_NoInv" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="101" text="A1" />
+								<item tag="107" text="A7" />
+								<item tag="103" text="A3" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_Sens_OPAMP_Pin_Inv" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="103" text="A3" />
+								<item tag="305" text="C5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_Sens_OPAMP_Pin_Out" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="102" text="A2" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_Protection_DigitalFilter" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="0" />
+								<item tag="1" text="2" />
+								<item tag="2" text="4" />
+								<item tag="3" text="8" />
+								<item tag="4" text="24" />
+								<item tag="5" text="32" />
+								<item tag="6" text="48" />
+								<item tag="7" text="64" />
+								<item tag="8" text="96" />
+								<item tag="9" text="128" />
+								<item tag="10" text="160" />
+								<item tag="11" text="192" />
+								<item tag="12" text="256" />
+								<item tag="13" text="320" />
+								<item tag="14" text="384" />
+								<item tag="15" text="512" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_Protection_InvertingInput" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="1" text="Internal" />
+								<item tag="0" text="External" />
+								<item tag="2" text="DAC" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_Double" name="AI_PFC_Protection_CurrentThreshold" enable="true" visible="true" readonly="false" value="5" />
+						<var version="1.0" type="MC_Double" name="AI_PFC_Protection_Comparator_Input_Threshold" enable="true" visible="true" readonly="false" value="1.2" />
+						<var version="1.0" type="MC_Bool" name="AI_PFC_Protection_Output_Enable" enable="true" visible="true" readonly="false" value="false" />
+						<var version="1.0" type="MC_List" name="AI_PFC_Protection_Pin_NoInv" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="213" text="B13" />
+								<item tag="411" text="D11" />
+								<item tag="211" text="B11" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_Protection_Pin_Inv" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="0" text="none" />
+								<item tag="104" text="A4" />
+								<item tag="1000" text="DAC" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_Protection_Pin_Out" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="307" text="C7" />
+								<item tag="109" text="A9" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_Protection_Pin_Comp" enable="true" visible="true" readonly="true" value="5">
+							<items>
+								<item tag="0" text="NONE" />
+								<item tag="1" text="COMP1" />
+								<item tag="2" text="COMP2" />
+								<item tag="4" text="COMP3" />
+								<item tag="8" text="COMP4" />
+								<item tag="16" text="COMP5" />
+								<item tag="32" text="COMP6" />
+								<item tag="64" text="COMP7" />
+								<item tag="0" text="NONE" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_ACVoltage_Sampling_Time" enable="true" visible="true" readonly="false" value="3">
+							<items>
+								<item tag="15" text="1.5" />
+								<item tag="25" text="2.5" />
+								<item tag="45" text="4.5" />
+								<item tag="75" text="7.5" />
+								<item tag="195" text="19.5" />
+								<item tag="615" text="61.5" />
+								<item tag="1815" text="181.5" />
+								<item tag="6015" text="601.5" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_ACVoltage_ADC" enable="true" visible="true" readonly="true" value="3">
+							<items>
+								<item tag="1" text="ADC1" />
+								<item tag="2" text="ADC2" />
+								<item tag="4" text="ADC3" />
+								<item tag="8" text="ADC4" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AI_PFC_ACVoltage_Pin_ADC_Channel" enable="true" visible="true" readonly="false" value="3">
+							<items>
+								<item tag="2049" text="ADC4_IN1 (--)" />
+								<item tag="2050" text="ADC4_IN2 (--)" />
+								<item tag="2051" text="ADC4_IN3 (--)" />
+								<item tag="2052" text="ADC4_IN4 (--)" />
+								<item tag="2053" text="ADC4_IN5 (--)" />
+								<item tag="2060" text="ADC4_IN12 (--)" />
+								<item tag="2061" text="ADC4_IN13 (--)" />
+								<item tag="3078" text="ADC34_IN6 (--)" />
+								<item tag="3079" text="ADC34_IN7 (--)" />
+								<item tag="3080" text="ADC34_IN8 (--)" />
+								<item tag="3081" text="ADC34_IN9 (--)" />
+								<item tag="3082" text="ADC34_IN10 (--)" />
+								<item tag="3083" text="ADC34_IN11 (--)" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AO_DAC_Emulater_Timer" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="3" text="TIM3" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AO - DAC_CH1 - Function" enable="true" visible="true" readonly="false" value="1">
+							<items>
+								<item tag="0" text="Not used" />
+								<item tag="1" text="Debug" />
+								<item tag="2" text="OCP" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AO - DAC_CH1 - Motor" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="1" text="M1" />
+								<item tag="2" text="M2" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AO - DAC_CH1 - Variable" enable="true" visible="true" readonly="false" value="14">
+							<items>
+								<item tag="35" text="Ia" />
+								<item tag="36" text="Ib" />
+								<item tag="37" text="Ialpha" />
+								<item tag="38" text="Ibeta" />
+								<item tag="39" text="Iq" />
+								<item tag="40" text="Id" />
+								<item tag="41" text="Iq reference" />
+								<item tag="42" text="Id reference" />
+								<item tag="43" text="Vq" />
+								<item tag="44" text="Vd" />
+								<item tag="45" text="Valpha" />
+								<item tag="46" text="Vbeta" />
+								<item tag="47" text="Measured electrical angle" />
+								<item tag="48" text="Measured rotor speed" />
+								<item tag="49" text="Observer electrical angle (PLL)" />
+								<item tag="50" text="Observer rotor speed (PLL)" />
+								<item tag="51" text="Observer Ialpha (PLL)" />
+								<item tag="52" text="Observer Ibeta (PLL)" />
+								<item tag="53" text="Observer BEMF alpha (PLL)" />
+								<item tag="54" text="Observer BEMF beta (PLL)" />
+								<item tag="55" text="Observer electrical angle (CORDIC)" />
+								<item tag="56" text="Observer rotor speed (CORDIC)" />
+								<item tag="57" text="Observer Ialpha (CORDIC)" />
+								<item tag="58" text="Observer Ibeta (CORDIC)" />
+								<item tag="59" text="Observer BEMF alpha (CORDIC)" />
+								<item tag="60" text="Observer BEMF beta (CORDIC)" />
+								<item tag="61" text="User defined DAC 1" />
+								<item tag="62" text="User defined DAC 2" />
+								<item tag="93" text="HFI electrical angle" />
+								<item tag="94" text="HFI rotor speed" />
+								<item tag="95" text="HFI debug current" />
+								<item tag="96" text="HFI debug angle" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AO - DAC_CH1 - Pin" enable="true" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="104" text="A4" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AO - DAC_CH2 - Function" enable="true" visible="true" readonly="false" value="0">
+							<items>
+								<item tag="0" text="Not used" />
+								<item tag="1" text="Debug" />
+								<item tag="2" text="OCP" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AO - DAC_CH2 - Motor" enable="false" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="1" text="M1" />
+								<item tag="2" text="M2" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AO - DAC_CH2 - Variable" enable="false" visible="true" readonly="true" value="1">
+							<items>
+								<item tag="35" text="Ia" />
+								<item tag="36" text="Ib" />
+								<item tag="37" text="Ialpha" />
+								<item tag="38" text="Ibeta" />
+								<item tag="39" text="Iq" />
+								<item tag="40" text="Id" />
+								<item tag="41" text="Iq reference" />
+								<item tag="42" text="Id reference" />
+								<item tag="43" text="Vq" />
+								<item tag="44" text="Vd" />
+								<item tag="45" text="Valpha" />
+								<item tag="46" text="Vbeta" />
+								<item tag="47" text="Measured electrical angle" />
+								<item tag="48" text="Measured rotor speed" />
+								<item tag="49" text="Observer electrical angle (PLL)" />
+								<item tag="50" text="Observer rotor speed (PLL)" />
+								<item tag="51" text="Observer Ialpha (PLL)" />
+								<item tag="52" text="Observer Ibeta (PLL)" />
+								<item tag="53" text="Observer BEMF alpha (PLL)" />
+								<item tag="54" text="Observer BEMF beta (PLL)" />
+								<item tag="55" text="Observer electrical angle (CORDIC)" />
+								<item tag="56" text="Observer rotor speed (CORDIC)" />
+								<item tag="57" text="Observer Ialpha (CORDIC)" />
+								<item tag="58" text="Observer Ibeta (CORDIC)" />
+								<item tag="59" text="Observer BEMF alpha (CORDIC)" />
+								<item tag="60" text="Observer BEMF beta (CORDIC)" />
+								<item tag="61" text="User defined DAC 1" />
+								<item tag="62" text="User defined DAC 2" />
+								<item tag="93" text="HFI electrical angle" />
+								<item tag="94" text="HFI rotor speed" />
+								<item tag="95" text="HFI debug current" />
+								<item tag="96" text="HFI debug angle" />
+							</items>
+						</var>
+						<var version="1.0" type="MC_List" name="AO - DAC_CH2 - Pin" enable="false" visible="true" readonly="true" value="0">
+							<items>
+								<item tag="0" text="--" />
+							</items>
+						</var>
+					</vars>
+					<joystic_lcd version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="LCD_implemented" enable="true" visible="true" readonly="false" value="false" />
+						</vars>
+					</joystic_lcd>
+					<start_stop_button version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="start_stop_btn_implemented" enable="true" visible="true" readonly="false" value="true" />
+							<var version="1.0" type="MC_List" name="DIO - BTN - polarity" enable="true" visible="true" readonly="false" value="0">
+								<items>
+									<item tag="0" text="Falling Edge" />
+									<item tag="1" text="Rising Edge" />
+								</items>
+							</var>
+							<var version="1.0" type="MC_List" name="start_stop_polarity_edge" enable="true" visible="true" readonly="false" value="0">
+								<items>
+									<item tag="0" text="No Pull up - No Pull down" />
+									<item tag="1" text="Pull up" />
+									<item tag="2" text="Pull down" />
+								</items>
+							</var>
+						</vars>
+						<gpio_start_stop version="1.0">
+							<item name="pin" value="C10" />
+						</gpio_start_stop>
+					</start_stop_button>
+					<serial_communication version="1.0">
+						<vars>
+							<var version="1.0" type="MC_Bool" name="serial_communication_onBoard" enable="true" visible="true" readonly="false" value="true" />
+						</vars>
+					</serial_communication>
+					<mcu_info version="1.0">
+						<item name="pn" value="STM32G431CB" />
+						<item name="supply_voltage" value="3.3" />
+						<item name="ccm_ram" value="true" />
+						<clock_source>
+							<item name="clk_src" value="8_crystal" />
+							<item name="frequency" value="170" />
+						</clock_source>
+					</mcu_info>
+				</control_stage>
+			</system>
+		</systems>
+	</project>
+	<communication version="1.0" motor_available="1" motor_target="1" commands_all_motor="false">
+		<registers version="1.0">
+			<reg version="1.0" id="0" name="Target motor" description="$$DESCR_AS_NAME$$" unit="" type="8" access_mode="2" value="0" value_previous="0" minimum="0" maximum="255" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="1" name="Flags" description="$$DESCR_AS_NAME$$" unit="" type="32" access_mode="0" value="0" value_previous="0" minimum="0" maximum="4294967295" period="200" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="2" name="Status" description="$$DESCR_AS_NAME$$" unit="" type="8" access_mode="0" value="0" value_previous="0" minimum="0" maximum="255" period="200" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="3" name="Control mode" description="$$DESCR_AS_NAME$$" unit="" type="8" access_mode="2" value="1" value_previous="1" minimum="0" maximum="255" period="500" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="4" name="Speed reference" description="$$DESCR_AS_NAME$$" unit="RPM" type="160" access_mode="0" value="1464" value_previous="1464" minimum="-5000" maximum="5000" period="200" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="5" name="Speed Kp" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="3145" value_previous="3145" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="6" name="Speed Ki" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="141" value_previous="141" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="7" name="Speed Kd" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="8" name="Torque reference (Iq)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="2" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="9" name="Torque Kp" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="2311" value_previous="2311" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="10" name="Torque Ki" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="2157" value_previous="2157" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="11" name="Torque Kd" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="12" name="Flux reference (Id)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="2" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="13" name="Flux Kp" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="2311" value_previous="2311" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="14" name="Flux Ki" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="2157" value_previous="2157" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="15" name="Flux Kd" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="16" name="Observer C1" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="2" value="-24217" value_previous="-24217" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="17" name="Observer C2" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="2" value="16153" value_previous="16153" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="18" name="Cordic Observer C1" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="2" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="19" name="Cordic Observer C2" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="2" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="20" name="PLL Ki" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="7" value_previous="7" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="21" name="PLL Kp" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="213" value_previous="213" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="22" name="Flux weakening Kp" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="23" name="Flux weakening Ki" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="24" name="Flux weakening BUS Voltage allowed percentage reference" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="25" name="Bus Voltage" description="$$DESCR_AS_NAME$$" unit="Volt" type="16" access_mode="0" value="24" value_previous="24" minimum="0" maximum="32" period="500" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="26" name="Heatsink Temperature" description="$$DESCR_AS_NAME$$" unit="°C" type="16" access_mode="0" value="24" value_previous="24" minimum="0" maximum="100" period="500" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="27" name="Motor Power" description="$$DESCR_AS_NAME$$" unit="W" type="16" access_mode="0" value="41" value_previous="41" minimum="0" maximum="200" period="500" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="28" name="DAC Out 1" description="$$DESCR_AS_NAME$$" unit="" type="8" access_mode="2" value="49" value_previous="49" minimum="0" maximum="255" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="29" name="DAC Out 2" description="$$DESCR_AS_NAME$$" unit="" type="8" access_mode="2" value="36" value_previous="36" minimum="0" maximum="255" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="30" name="Speed measured" description="$$DESCR_AS_NAME$$" unit="RPM" type="160" access_mode="0" value="0" value_previous="0" minimum="-5000" maximum="5000" period="200" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="31" name="Torque measured (Iq)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="200" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="32" name="Flux measured (Id)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="7" minimum="-32768" maximum="32767" period="200" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="33" name="Flux weakening BUS Voltage allowed percentage measured" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="0" value="0" value_previous="0" minimum="0" maximum="65535" period="200" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="34" name="Revup stage numbers" description="$$DESCR_AS_NAME$$" unit="" type="8" access_mode="0" value="5" value_previous="5" minimum="0" maximum="255" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="35" name="Ia" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="36" name="Ib" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="37" name="Ialpha" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="38" name="Ibeta" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="39" name="Iq" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="40" name="Id" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="41" name="Iq reference" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="42" name="Id reference" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="43" name="Vq" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="44" name="Vd" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="45" name="Valpha" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="46" name="Vbeta" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="47" name="Measured electrical angle" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="48" name="Measured rotor speed" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="49" name="Observer electrical angle (PLL)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="50" name="Observer rotor speed (PLL)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="51" name="Observer Ialpha (PLL)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="52" name="Observer Ibeta (PLL)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="53" name="Observer BEMF alpha (PLL)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="54" name="Observer BEMF beta (PLL)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="55" name="Observer electrical angle (CORDIC)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="56" name="Observer rotor speed (CORDIC)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="57" name="Observer Ialpha (CORDIC)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="58" name="Observer Ibeta (CORDIC)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="59" name="Observer BEMF alpha (CORDIC)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="60" name="Observer BEMF beta (CORDIC)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="61" name="User defined DAC 1" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="62" name="User defined DAC 2" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="63" name="Maximum application speed" description="$$DESCR_AS_NAME$$" unit="RPM" type="32" access_mode="0" value="0" value_previous="0" minimum="0" maximum="4294967295" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="64" name="Minimum application speed" description="$$DESCR_AS_NAME$$" unit="RPM" type="32" access_mode="0" value="0" value_previous="0" minimum="0" maximum="4294967295" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="65" name="Id reference in speed mode" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="2" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="66" name="Expected BEMF level (PLL)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="67" name="Observed BEMF level (PLL)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="68" name="Expected BEMF level (CORDIC)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="69" name="Observed BEMF level (CORDIC)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="70" name="Feedforward (1Q)" description="$$DESCR_AS_NAME$$" unit="" type="160" access_mode="2" value="0" value_previous="0" minimum="-2147483648" maximum="2147483647" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="71" name="Feedforward (1D)" description="$$DESCR_AS_NAME$$" unit="" type="160" access_mode="2" value="0" value_previous="0" minimum="-2147483648" maximum="2147483647" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="72" name="Feedforward (2)" description="$$DESCR_AS_NAME$$" unit="" type="160" access_mode="2" value="0" value_previous="0" minimum="-2147483648" maximum="2147483647" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="73" name="Feedforward (VQ)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="74" name="Feedforward (VD)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="75" name="Feedforward (VQ PI out)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="76" name="Feedforward (VD PI out)" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="77" name="PFC Status" description="$$DESCR_AS_NAME$$" unit="" type="8" access_mode="0" value="0" value_previous="0" minimum="0" maximum="255" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="78" name="PFC Flags" description="$$DESCR_AS_NAME$$" unit="" type="32" access_mode="0" value="0" value_previous="0" minimum="0" maximum="4294967295" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="79" name="PFC DC bus reference" description="$$DESCR_AS_NAME$$" unit="Volt" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="450" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="80" name="PFC DC bus measured" description="$$DESCR_AS_NAME$$" unit="Volt" type="16" access_mode="0" value="0" value_previous="0" minimum="0" maximum="450" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="81" name="AC Mains frequency" description="$$DESCR_AS_NAME$$" unit="1/10 Hz" type="16" access_mode="0" value="0" value_previous="0" minimum="0" maximum="100" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="82" name="AC Mains voltage 0-to-pk" description="$$DESCR_AS_NAME$$" unit="Volt" type="16" access_mode="0" value="0" value_previous="0" minimum="0" maximum="600" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="83" name="PFC Current loop Kp" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="84" name="PFC Current loop Ki" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="85" name="PFC Current loop Kd" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="86" name="PFC Voltage loop Kp" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="87" name="PFC Voltage loop Ki" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="88" name="PFC Voltage loop Kd" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="89" name="PFC startup duration" description="$$DESCR_AS_NAME$$" unit="ms" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="90" name="PFC abilitation status" description="$$DESCR_AS_NAME$$" unit="" type="8" access_mode="0" value="0" value_previous="0" minimum="0" maximum="1" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="91" name="Ramp final speed" description="$$DESCR_AS_NAME$$" unit="RMS" type="160" access_mode="2" value="1464" value_previous="1464" minimum="-5000" maximum="5000" period="200" modified="false" visible="true" enable="true" />
+			<reg version="1.0" id="92" name="Ramp duration" description="$$DESCR_AS_NAME$$" unit="ms" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="93" name="HFI electrical angle" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="94" name="HFI rotor speed" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="95" name="HFI debug current" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="96" name="HFI debug angle" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="0" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="97" name="HFI initial scan saturation difference" description="$$DESCR_AS_NAME$$" unit="" type="144" access_mode="2" value="0" value_previous="0" minimum="-32768" maximum="32767" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="100" name="HFI PI Track KP" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+			<reg version="1.0" id="101" name="HFI PI Track KI" description="$$DESCR_AS_NAME$$" unit="" type="16" access_mode="2" value="0" value_previous="0" minimum="0" maximum="65535" period="0" modified="false" visible="true" enable="false" />
+		</registers>
+	</communication>
+</STWorkBench>
