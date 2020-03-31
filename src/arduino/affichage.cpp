@@ -26,7 +26,7 @@
 
 // INITIALISATION =============================================================
 
-static LiquidCrystal screen(PIN_LCD_RS, PIN_LCD_EN, PIN_LCD_D4, PIN_LCD_D5, PIN_LCD_D6, PIN_LCD_D7);
+static LiquidCrystal screen(PIN_LCD_RS, PIN_LCD_RW, PIN_LCD_EN, PIN_LCD_D4, PIN_LCD_D5, PIN_LCD_D6, PIN_LCD_D7);
 
 // FUNCTIONS ==================================================================
 
