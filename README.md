@@ -83,6 +83,12 @@ _You may click on the scheme to enlarge._
 
 You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg).
 
+#### ↘️ Monday 30/03
+
+* **🇫🇷 French Video:**
+
+<a href="https://www.youtube.com/watch?v=9OVCqwCGC-o" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/9OVCqwCGC-o/0.jpg" height="240"></a>
+
 #### ↘️ Thursday 26/03
 
 * **🇫🇷 French Video:**
