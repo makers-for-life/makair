@@ -103,4 +103,4 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## The "Patient Filter Box"
 
-<img alt="Patient Filter Box Concept" src="./src/components/patient-filter-box/fdm/schemes/V4/Filter%20Box%20(Render%201).png" height="320">
+<img alt="Patient Filter Box Concept" src="./src/components/patient-filter-box/fdm/schemes/V4/Filter%20Box%20(Instructions).JPG" height="320">
