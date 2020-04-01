@@ -12,6 +12,9 @@
  * This file execute the Makair program
  */
 
+#include "config.h"
+#if MODE == MODE_PROD
+
 // INCLUDES ==================================================================
 
 // External
@@ -24,7 +27,6 @@
 #include "affichage.h"
 #include "clavier.h"
 #include "common.h"
-#include "config.h"
 #include "debug.h"
 #include "parameters.h"
 #include "pressure_controller.h"
@@ -133,3 +135,5 @@ void loop()
     // END OF THE RESPIRATORY CYCLE
     /********************************************/
 }
+
+#endif

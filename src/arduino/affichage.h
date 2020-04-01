@@ -37,6 +37,18 @@ enum ScreenSize
 //! This function starts the screen
 void startScreen();
 
+//! This function resets the screen
+void resetScreen();
+
+//! This function displays test characters on the screen
+void displayTestPattern();
+
+//! This function displays 2 lines of 16 characters (or less)
+void display(char line1[], char line2[]);
+
+//! This function displays only adds a status message in the 4th line
+void displayStatus(char msg[]);
+
 void displaySubPhase(CycleSubPhases phase);
 
 /*! This function displays the relevant pressures on the HMI screen once every
