@@ -70,9 +70,12 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 ## Pneumatic Circuit Scheme
 
 [![Pneumatic Circuit Scheme](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatic%20Circuit.png)](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatic%20Circuit.png)
-[![Pneumatic Circuit Drawing](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatics%20Drawing.jpg)](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatics%20Drawing.jpg)
 
 _You may click on the scheme to enlarge._
+
+## Pneumatic Circuit Drawing
+
+[![Pneumatic Circuit Drawing](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatics%20Drawing.jpg)](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatics%20Drawing.jpg)
 
 # News & Videos
 
