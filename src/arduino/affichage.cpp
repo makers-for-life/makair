@@ -52,9 +52,9 @@ void startScreen()
     }
 }
 
-void displayPhase(CyclePhases phase) {
+void displayPhase(CycleSubPhases subPhase) {
     screen.setCursor(0, 0);
-    switch(phase)
+    switch(subPhase)
     {
     case CycleSubPhases::INSPI:
     {
@@ -157,14 +157,3 @@ void displayDuringCycle(int peakPressureMax, int plateauPressureMax, int peepMin
     }
     }
 }
-
-void displayConsigneServo(int blowerCommand, int yCommand, int patientCommand)
-{
-    // screen.setCursor(0, 3);
-    // screen.print("b:");
-    // screen.print(blowerCommand);
-    // screen.print(" y:");
-    // screen.print(yCommand);
-    // screen.print(" p:");
-    // screen.print(patientCommand);
-} 

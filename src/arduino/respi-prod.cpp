@@ -37,7 +37,35 @@ const double RATIO_PONT_DIVISEUR = 0.8192;
 const double V_SUPPLY = 5.08;
 const double KPA_MMH2O = 101.97162129779;
 
-int readPressureSensor() 
+
+// Get the measured pressure for the feedback control
+#ifdef SIMULATION
+
+int readPressureSensor(uint16_t centiSec) 
+{
+    if (centiSec < uint16_t(50))
+    {
+        pController.updatePressure(600);
+    }
+    else if (centiSec < uint16_t(100))
+    {
+        pController.updatePressure(300);
+    }
+    else if (centiSec < 200)
+    {
+        pController.updatePressure(110);
+    }
+    else if  (centiSec < 250)
+    {
+        pController.updatePressure(90);
+    }
+    else
+    {
+        pController.updatePressure(70);
+    }
+}
+#else
+int readPressureSensor(uint16_t centiSec) 
 {
     double rawVout = analogRead(PIN_CAPTEUR_PRESSION) * 3.3 / 1024.0;
     filteredVout = filteredVout + (rawVout - filteredVout) * 0.2;
@@ -54,6 +82,7 @@ int readPressureSensor()
     }
     return pressure * KPA_MMH2O;
 }
+#endif
 
 AirTransistor servoBlower;
 AirTransistor servoY;
@@ -99,14 +128,10 @@ void setup()
     pController.setup();
     startScreen();
     initKeyboard();
-    Serial.begin(115400);
 }
 
 void loop()
 {
-
-
-
     /********************************************/
     // INITIALIZE THE RESPIRATORY CYCLE
     /********************************************/
@@ -126,33 +151,7 @@ void loop()
         {
             lastpControllerComputeDate = currentDate;
 
-// Get the measured pressure for the feedback control
-#ifdef SIMULATION
-
-
-            if (centiSec < uint16_t(50))
-            {
-                pController.updatePressure(600);
-            }
-            else if (centiSec < uint16_t(100))
-            {
-                pController.updatePressure(300);
-            }
-            else if (centiSec < 200)
-            {
-                pController.updatePressure(110);
-            }
-            else if  (centiSec < 250)
-            {
-                pController.updatePressure(90);
-            }
-            else
-            {
-                pController.updatePressure(70);
-            }
-#else
-            pController.updatePressure(readPressureSensor());
-#endif
+            pController.updatePressure(readPressureSensor(centiSec));
 
             // Perform the pressure control
             pController.compute(centiSec);

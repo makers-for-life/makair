@@ -187,13 +187,12 @@ void PressureController::onCycleMinus()
 
 void PressureController::onCyclePlus()
 {
-    // TODO remettre le code (rayonnement cosmique...)
-    // DBG_DO(Serial.println("nb cycle ++");)
-    // m_cyclesPerMinuteCommand++;
-    // if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE)
-    // {
-    //     m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
-    // }
+    DBG_DO(Serial.println("nb cycle ++");)
+    m_cyclesPerMinuteCommand++;
+    if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE)
+    {
+        m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
+    }
 }
 
 void PressureController::onPressionPepMinus()
@@ -363,7 +362,7 @@ void PressureController::safeguardMaintienPeep(uint16_t p_centiSec)
 {
     if (m_pressure <= m_minPeepCommand)
     {
-         
+
         m_blower.command = m_blower.position + 2;
     }
 }
