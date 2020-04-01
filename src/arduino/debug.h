@@ -105,7 +105,7 @@
 #ifdef DEBUG
 #define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,  positionBlower, consignePatient, positionPatient)   \
     if (centieme % periode == 0)                                                                                                  \
-    {                                                                                                                             \        
+    {                                                                                                                             \
         Serial.print(cycle * 300 + centieme);                                                                                                   \
         Serial.print(";");                                                                                                        \
         Serial.print(cycle);                                                                                                   \

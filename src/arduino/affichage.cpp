@@ -76,7 +76,7 @@ void displayPhase(CycleSubPhases subPhase) {
         screen.print("Hold exhalation     ");
         break;
     }
-    default: 
+    default:
     {
         break;
     }
@@ -98,7 +98,7 @@ void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int pee
         screen.print(peep / 10);
         screen.print("  ");
         screen.print(pressure / 10);
-        
+
         break;
     }
     case ScreenSize::CHARS_20:

@@ -41,7 +41,7 @@ const double KPA_MMH2O = 101.97162129779;
 // Get the measured pressure for the feedback control
 #ifdef SIMULATION
 
-int readPressureSensor(uint16_t centiSec) 
+int readPressureSensor(uint16_t centiSec)
 {
     if (centiSec < uint16_t(50))
     {
@@ -65,7 +65,7 @@ int readPressureSensor(uint16_t centiSec)
     }
 }
 #else
-int readPressureSensor(uint16_t centiSec) 
+int readPressureSensor(uint16_t centiSec)
 {
     double rawVout = analogRead(PIN_CAPTEUR_PRESSION) * 3.3 / 1024.0;
     filteredVout = filteredVout + (rawVout - filteredVout) * 0.2;
@@ -75,8 +75,8 @@ int readPressureSensor(uint16_t centiSec)
 
     // Pression en kPA
     double pressure  = (vOut / V_SUPPLY - 0.04) / 0.09;
-    
-    if (pressure <= 0.0) 
+
+    if (pressure <= 0.0)
     {
         return 0;
     }
@@ -115,7 +115,7 @@ void setup()
         PATIENT_FERME
     );
 
-    pController = PressureController( 
+    pController = PressureController(
             INITIAL_CYCLE_NB,
             DEFAULT_MIN_PEEP_COMMAND,
             BORNE_SUP_PRESSION_PLATEAU,
