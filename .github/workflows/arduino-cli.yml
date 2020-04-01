@@ -13,7 +13,9 @@ jobs:
       uses: arduino/setup-arduino-cli@v1.0.0
     - name: Install STM libs
       run: |
-        arduino-cli core update-index --additional-urls https://github.com/stm32duino/BoardManagerFiles/raw/master/STM32/package_stm_index.json
+        arduino-cli config init --additional-urls https://github.com/stm32duino/BoardManagerFiles/raw/master/STM32/package_stm_index.json
+        arduino-cli config dump
+        arduino-cli core update-index
         arduino-cli core install STM32:stm32
         arduino-cli lib install LiquidCrystal
         arduino-cli lib install "Analog Buttons"
