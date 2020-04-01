@@ -142,6 +142,10 @@
 
 /* USER CODE END temperature */
 
+/* Flux Weakening - Feed forward */
+#define M1_VQD_SW_FILTER_BW_FACTOR       128u
+#define M1_VQD_SW_FILTER_BW_FACTOR_LOG LOG2(M1_VQD_SW_FILTER_BW_FACTOR)
+
 #define PQD_CONVERSION_FACTOR (int32_t)(( 1000 * 3 * ADC_REFERENCE_VOLTAGE ) /\
              ( 1.732 * RSHUNT * AMPLIFICATION_GAIN ))
 
@@ -154,7 +158,7 @@
 #define DAC_OP_ENABLE | UI_CFGOPT_DAC
 
 /* Motor 1 settings */
-#define FW_ENABLE
+#define FW_ENABLE | UI_CFGOPT_FW
 
 #define DIFFTERM_ENABLE
 

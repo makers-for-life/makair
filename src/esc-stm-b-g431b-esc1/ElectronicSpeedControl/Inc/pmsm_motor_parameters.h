@@ -42,7 +42,7 @@
 */
 
 #define NOMINAL_CURRENT         1541
-#define MOTOR_MAX_SPEED_RPM     50000 /*!< Maximum rated speed  */
+#define MOTOR_MAX_SPEED_RPM     45000 /*!< Maximum rated speed  */
 #define MOTOR_VOLTAGE_CONSTANT  0.5 /*!< Volts RMS ph-ph /kRPM */
 #define ID_DEMAG                -1541 /*!< Demagnetization current */
 

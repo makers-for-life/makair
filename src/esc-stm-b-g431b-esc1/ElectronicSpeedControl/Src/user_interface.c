@@ -306,6 +306,27 @@ __weak bool UI_SetReg(UI_Handle_t *pHandle, MC_Protocol_REG_t bRegID, int32_t wV
     }
     break;
 
+  case MC_PROTOCOL_REG_FLUXWK_KP:
+    {
+      PID_SetKP(pMCT->pPIDFluxWeakening,(int16_t)wValue);
+    }
+    break;
+
+  case MC_PROTOCOL_REG_FLUXWK_KI:
+    {
+      PID_SetKI(pMCT->pPIDFluxWeakening,(int16_t)wValue);
+    }
+    break;
+
+  case MC_PROTOCOL_REG_FLUXWK_BUS:
+    {
+      if (pMCT->pFW)
+      {
+        FW_SetVref(pMCT->pFW,(uint16_t)wValue);
+      }
+    }
+    break;
+
   case MC_PROTOCOL_REG_IQ_SPEEDMODE:
     {
       MCI_SetIdref(pMCI,(int16_t)wValue);
@@ -742,6 +763,36 @@ __weak int32_t UI_GetReg(UI_Handle_t *pHandle, MC_Protocol_REG_t bRegID, bool * 
       if (pSPD != MC_NULL)
       {
         bRetVal = STO_PLL_GetObservedBemfLevel((STO_PLL_Handle_t*)pSPD) >> 16;
+      }
+    }
+    break;
+
+    case MC_PROTOCOL_REG_FLUXWK_KP:
+    {
+      bRetVal = PID_GetKP(pMCT->pPIDFluxWeakening);
+    }
+    break;
+
+    case MC_PROTOCOL_REG_FLUXWK_KI:
+    {
+      bRetVal = PID_GetKI(pMCT->pPIDFluxWeakening);
+    }
+    break;
+
+    case MC_PROTOCOL_REG_FLUXWK_BUS:
+    {
+      if (pMCT->pFW)
+      {
+        bRetVal = (int32_t)FW_GetVref(pMCT->pFW);
+      }
+    }
+    break;
+
+    case MC_PROTOCOL_REG_FLUXWK_BUS_MEAS:
+    {
+      if (pMCT->pFW)
+      {
+        bRetVal = ((int32_t)FW_GetAvVPercentage(pMCT->pFW));
       }
     }
     break;

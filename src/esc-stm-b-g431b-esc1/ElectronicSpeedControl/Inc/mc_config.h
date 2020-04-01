@@ -29,6 +29,7 @@
 #include "pwm_curr_fdbk.h"
 #include "r_divider_bus_voltage_sensor.h"
 #include "virtual_bus_voltage_sensor.h"
+#include "flux_weakening_ctrl.h"
 #include "pqd_motor_power_measurement.h"
  #include "user_interface.h"
 
@@ -55,6 +56,8 @@ extern PID_Handle_t PIDSpeedHandle_M1;
 extern PID_Handle_t PIDIqHandle_M1;
 extern PID_Handle_t PIDIdHandle_M1;
 extern NTC_Handle_t TempSensorParamsM1;
+extern PID_Handle_t PIDFluxWeakeningHandle_M1;
+extern FW_Handle_t FW_M1;
 extern PWMC_R3_2_Handle_t PWM_Handle_M1;
 extern SpeednTorqCtrl_Handle_t SpeednTorqCtrlM1;
 extern PQD_MotorPowMeas_Handle_t PQD_MotorPowMeasM1;

@@ -31,7 +31,7 @@
 /******** MAIN AND AUXILIARY SPEED/POSITION SENSOR(S) SETTINGS SECTION ********/
 
 /*** Speed measurement settings ***/
-#define MAX_APPLICATION_SPEED_RPM       50000 /*!< rpm, mechanical */
+#define MAX_APPLICATION_SPEED_RPM       45000 /*!< rpm, mechanical */
 #define MIN_APPLICATION_SPEED_RPM       0 /*!< rpm, mechanical,  
                                                            absolute value */
 #define MEAS_ERRORS_BEFORE_FAULTS       3 /*!< Number of speed  
@@ -49,10 +49,10 @@
 
 /* State observer constants */
 #define GAIN1                            -19944
-#define GAIN2                            16907
+#define GAIN2                            18444
 /*Only in case PLL is used, PLL gains */
-#define PLL_KP_GAIN                      2660
-#define PLL_KI_GAIN                      94
+#define PLL_KP_GAIN                      2394
+#define PLL_KI_GAIN                      84
 #define PLL_KPDIV     16384
 #define PLL_KPDIV_LOG LOG2(PLL_KPDIV)
 #define PLL_KIDIV     65535
@@ -217,6 +217,25 @@
 #define ADC_SAMPLING_CYCLES (12 + SAMPLING_CYCLE_CORRECTION)
 
 /******************************   ADDITIONAL FEATURES   **********************/
+
+#define FW_VOLTAGE_REF                985 /*!<Vs reference, tenth 
+                                                        of a percent */
+#define FW_KP_GAIN                    3000 /*!< Default Kp gain */
+#define FW_KI_GAIN                    5000 /*!< Default Ki gain */
+#define FW_KPDIV                      32768      
+                                                /*!< Kp gain divisor.If FULL_MISRA_C_COMPLIANCY
+                                                is not defined the divisor is implemented through       
+                                                algebrical right shifts to speed up PIs execution. 
+                                                Only in this case this parameter specifies the 
+                                                number of right shifts to be executed */
+#define FW_KIDIV                      32768
+                                                /*!< Ki gain divisor.If FULL_MISRA_C_COMPLIANCY
+                                                is not defined the divisor is implemented through       
+                                                algebrical right shifts to speed up PIs execution. 
+                                                Only in this case this parameter specifies the 
+                                                number of right shifts to be executed */
+#define FW_KPDIV_LOG                  LOG2(32768)
+#define FW_KIDIV_LOG                  LOG2(32768)
 
 /*** On the fly start-up ***/
 
