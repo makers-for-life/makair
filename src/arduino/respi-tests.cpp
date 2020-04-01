@@ -9,294 +9,275 @@
  *
  * @section descr File description
  *
- * This file execute the Makair program
+ * This file execute the MakAir test program
  */
 
+#include "config.h"
+#if MODE == MODE_TEST
+
 // INCLUDES ===================================================================
-#if 0
+
 // External
 #include <AnalogButtons.h>
 #include <Arduino.h>
 #include <LiquidCrystal.h>
-#include <OneButton.h>
 #include <Servo.h>
 
 // Internal
+#include "air_transistor.h"
 #include "affichage.h"
 #include "common.h"
-#include "config.h"
 #include "debug.h"
 #include "parameters.h"
-#include "pressure_controller.h"
-#include "simulation.h"
-
-// TODO extraire ces 2 lignes dans de la configuration
-const int LCD_LINE_LENGTH = 16;
-const int LCD_LINE_NUMBER = 2;
-
-const int SECONDS = 1000;
+#include "pression.h"
 
 /**
  * Liste de toutes les étapes de test du montage.
- *
- * - TEST_STEP_START                  Affichage d'un pattern sur l'écran LCD
- * - TEST_BTN_PRESSION_PLATEAU_MINUS  Test du bouton pression plateau minus
- * - TEST_BTN_PRESSION_PLATEAU_PLUS   Test du bouton pression plateau plus
- * - TEST_BTN_PRESSION_PEP_MINUS      Test du bouton pression pression PEP minus
- * - TEST_BTN_PRESSION_PEP_PLUS       Test du bouton pression pression PEP plus
- * - TEST_BTN_CYCLE_MINUS             Test du bouton pression cyle minus
- * - TEST_BTN_CYCLE_PLUS              Test du bouton pression cycle plus
- * - TEST_STEP_STOP                   Fin du test
  */
-const int TEST_STEP_START = 0;
-const int TEST_BTN_PRESSION_PLATEAU_PLUS = TEST_STEP_START + 1;
-const int TEST_BTN_PRESSION_PLATEAU_MINUS = TEST_BTN_PRESSION_PLATEAU_PLUS + 1;
-const int TEST_BTN_PEP_PLUS = TEST_BTN_PRESSION_PLATEAU_MINUS + 1;
-const int TEST_BTN_PEP_MINUS = TEST_BTN_PEP_PLUS + 1;
-const int TEST_BTN_RB_PLUS = TEST_BTN_PEP_MINUS + 1;
-const int TEST_BTN_RB_MINUS = TEST_BTN_RB_PLUS + 1;
-const int TEST_BTN_ALARME_ON = TEST_BTN_RB_MINUS + 1;
-const int TEST_BTN_ALARME_OFF = TEST_BTN_ALARME_ON + 1;
-const int TEST_BTN_VALVE_BLOWER_PLUS = TEST_BTN_ALARME_OFF + 1;
-const int TEST_BTN_VALVE_BLOWER_MINUS = TEST_BTN_VALVE_BLOWER_PLUS + 1;
-const int TEST_BTN_VALVE_PATIENT_PLUS = TEST_BTN_VALVE_BLOWER_MINUS + 1;
-const int TEST_BTN_VALVE_PATIENT_MINUS = TEST_BTN_VALVE_PATIENT_PLUS + 1;
-const int TEST_STEP_STOP = TEST_BTN_VALVE_PATIENT_MINUS + 1;
+#define STEP_LCD 1
+#define STEP_WELCOME 2
+#define STEP_BTN_PRESSION_CRETE_PLUS 3
+#define STEP_BTN_PRESSION_CRETE_MINUS 4
+#define STEP_BTN_PRESSION_PLATEAU_PLUS 5
+#define STEP_BTN_PRESSION_PLATEAU_MINUS 6
+#define STEP_BTN_PEP_PLUS 7
+#define STEP_BTN_PEP_MINUS 8
+#define STEP_BTN_CYCLE_PLUS 9
+#define STEP_BTN_CYCLE_MINUS 10
+#define STEP_DONE 11
 
-int validatedStep = TEST_STEP_START;
+static uint16_t step = STEP_LCD;
 
-/**
- * Affiche un pattern de la forme suivante sur l'écran LCD.
- * La taille du pattern s'adapte en fonction du nombre de ligne et
- * de caractères de l'écran LCD.
- *
- * 01234567890123456789
- * 12345678901234567890
- * 23456789012345678901
- * 34567890123456789012
- */
-void printPatternOnLcd()
+static uint16_t is_drawn = false;
+#define UNGREEDY(is_drawn, statement) if (is_drawn == 0) { statement; is_drawn = 1; }
+
+void changeStep(uint16_t new_step) {
+    step = new_step;
+    is_drawn = 0;
+}
+
+static uint16_t errors = 0;
+
+void onPressionCretePlusClick()
 {
-    screen.setCursor(0, 0);
+    DBG_DO(Serial.println("pression crete ++"));
+    if (step == STEP_LCD || step == STEP_WELCOME) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_PRESSION_CRETE_PLUS) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
+    }
+}
 
-    for (int line = 0; line < LCD_LINE_NUMBER; line++)
-    {
-        for (int character = 0; character < LCD_LINE_LENGTH; character++)
-        {
-            screen.print((character + line) % 10);
-        }
-        screen.println();
+void onPressionCreteMinusClick()
+{
+    DBG_DO(Serial.println("pression crete --"));
+    if (step == STEP_LCD || step == STEP_WELCOME) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_PRESSION_CRETE_MINUS) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
     }
 }
 
 void onPressionPlateauPlusClick()
 {
-#ifdef DEBUG
-    Serial.println("pression plateau ++");
-#endif
-    if (validatedStep == TEST_STEP_START)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Btn Plateau + OK");
-        screen.print("Push Plateau -");
-        validatedStep = TEST_BTN_PRESSION_PLATEAU_PLUS;
+    DBG_DO(Serial.println("pression plateau ++"));
+    if (step == STEP_LCD || step == STEP_WELCOME) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_PRESSION_PLATEAU_PLUS) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
     }
 }
 
 void onPressionPlateauMinusClick()
 {
-#ifdef DEBUG
-    Serial.println("pression plateau --");
-#endif
-    if (validatedStep == TEST_BTN_PRESSION_PLATEAU_PLUS)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Btn Plateau - OK");
-        screen.print("Push PEP +");
-        validatedStep = TEST_BTN_PRESSION_PLATEAU_MINUS;
+    DBG_DO(Serial.println("pression plateau --"));
+    if (step == STEP_LCD || step == STEP_WELCOME) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_PRESSION_PLATEAU_MINUS) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
     }
 }
 
 void onPepPlusClick()
 {
-#ifdef DEBUG
-    Serial.println("pression pep ++");
-#endif
-    if (validatedStep == TEST_BTN_PRESSION_PLATEAU_MINUS)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Btn PEP + OK");
-        screen.print("Push PEP -");
-        validatedStep = TEST_BTN_PEP_PLUS;
+    DBG_DO(Serial.println("pression pep ++"));
+    if (step == STEP_LCD || step == STEP_WELCOME) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_PEP_PLUS) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
     }
 }
 
 void onPepMinusClick()
 {
-#ifdef DEBUG
-    Serial.println("pression pep --");
-#endif
-    if (validatedStep == TEST_BTN_PEP_PLUS)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Btn PEP - OK");
-        screen.print("Push RB +");
-        validatedStep = TEST_BTN_PEP_MINUS;
+    DBG_DO(Serial.println("pression pep --"));
+    if (step == STEP_LCD || step == STEP_WELCOME) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_PEP_MINUS) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
     }
 }
 
-void onRbPlusClick()
+void onCyclePlusClick()
 {
-#ifdef DEBUG
-    Serial.println("pression RB ++ ");
-#endif
-    if (validatedStep == TEST_BTN_PEP_MINUS)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Btn RB + OK");
-        screen.print("Push RB -");
-        validatedStep = TEST_BTN_RB_PLUS;
+    DBG_DO(Serial.println("cycle ++"));
+    if (step == STEP_LCD || step == STEP_WELCOME) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_CYCLE_PLUS) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
     }
 }
 
-void onRbMinusClick()
+void onCycleMinusClick()
 {
-#ifdef DEBUG
-    Serial.println("pression RB -- ");
-#endif
-    if (validatedStep == TEST_BTN_RB_PLUS)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Btn RB - OK");
-        screen.print("Push Alarme ON");
-        validatedStep = TEST_BTN_RB_MINUS;
+    DBG_DO(Serial.println("cycle --"));
+    if (step == STEP_LCD || step == STEP_WELCOME) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_CYCLE_MINUS) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
     }
 }
 
-void onAlarmeOnClick()
-{
-#ifdef DEBUG
-    Serial.println("Alarme ON ");
-#endif
-    if (validatedStep == TEST_BTN_RB_MINUS)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Alarme ON OK");
-        screen.print("Push Alarme OFF");
-        validatedStep = TEST_BTN_ALARME_ON;
-    }
-}
+static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
 
-void onAlarmeOffClick()
-{
-#ifdef DEBUG
-    Serial.println("Alarme OFF ");
-#endif
-    if (validatedStep == TEST_BTN_ALARME_ON)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Alarme OFF OK");
-        screen.print("Push Blower +");
-        validatedStep = TEST_BTN_ALARME_OFF;
-    }
-}
-
-void onValveBlowerPlusClick()
-{
-#ifdef DEBUG
-    Serial.println("Valve Blower ++ ");
-#endif
-    if (validatedStep == TEST_BTN_ALARME_OFF)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Btn Blower + OK");
-        screen.print("Push Blower -");
-        validatedStep = TEST_BTN_VALVE_BLOWER_PLUS;
-    }
-}
-
-void onValveBlowerMinusClick()
-{
-#ifdef DEBUG
-    Serial.println("Valve Blower -- ");
-#endif
-    if (validatedStep == TEST_BTN_VALVE_BLOWER_PLUS)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Btn Blower - OK");
-        screen.print("Push Patient +");
-        validatedStep = TEST_BTN_VALVE_BLOWER_MINUS;
-    }
-}
-
-void onValvePatientPlusClick()
-{
-#ifdef DEBUG
-    Serial.println("Valve Patient ++ ");
-#endif
-    if (validatedStep == TEST_BTN_VALVE_BLOWER_MINUS)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Btn Patient + OK");
-        screen.print("Push Patient -");
-        validatedStep = TEST_BTN_VALVE_PATIENT_PLUS;
-    }
-}
-
-void onValvePatientMinusClick()
-{
-#ifdef DEBUG
-    Serial.println("Valve Patient -- ");
-#endif
-    if (validatedStep == TEST_BTN_VALVE_PATIENT_PLUS)
-    {
-        screen.setCursor(0, 0);
-        screen.println("Btn Patient - OK");
-        screen.print("Test end.");
-        validatedStep = TEST_BTN_VALVE_PATIENT_MINUS;
-    }
-}
-
-Button btn_pression_plateau_plus =
-    Button(TENSION_BTN_PRESSION_PLATEAU_PLUS, &onPressionPlateauPlusClick);
-Button btn_pression_plateau_minus =
-    Button(TENSION_BTN_PRESSION_PLATEAU_MINUS, &onPressionPlateauMinusClick);
+Button btn_pression_crete_plus = Button(TENSION_BTN_PRESSION_P_CRETE_PLUS, &onPressionCretePlusClick);
+Button btn_pression_crete_minus = Button(TENSION_BTN_PRESSION_P_CRETE_MINUS, &onPressionCreteMinusClick);
+Button btn_pression_plateau_plus = Button(TENSION_BTN_PRESSION_PLATEAU_PLUS, &onPressionPlateauPlusClick);
+Button btn_pression_plateau_minus = Button(TENSION_BTN_PRESSION_PLATEAU_MINUS, &onPressionPlateauMinusClick);
 Button btn_pep_plus = Button(TENSION_BTN_PEP_PLUS, &onPepPlusClick);
 Button btn_pep_minus = Button(TENSION_BTN_PEP_MINUS, &onPepMinusClick);
-Button btn_rb_plus = Button(TENSION_BTN_RB_PLUS, &onRbPlusClick);
+Button btn_cycle_plus = Button(TENSION_BTN_CYCLE_PLUS, &onCyclePlusClick);
+Button btn_cycle_minus = Button(TENSION_BTN_CYCLE_MINUS, &onCycleMinusClick);
+/*Button btn_rb_plus = Button(TENSION_BTN_RB_PLUS, &onRbPlusClick);
 Button btn_rb_minus = Button(TENSION_BTN_RB_MINUS, &onRbMinusClick);
 Button btn_alarme_on = Button(TENSION_BTN_ALARME_ON, &onAlarmeOnClick);
 Button btn_alarme_off = Button(TENSION_BTN_ALARME_OFF, &onAlarmeOffClick);
 Button btn_valve_blower_plus = Button(TENSION_BTN_VALVE_BLOWER_PLUS, &onValveBlowerPlusClick);
 Button btn_valve_blower_minus = Button(TENSION_BTN_VALVE_BLOWER_MINUS, &onValveBlowerMinusClick);
 Button btn_valve_patient_plus = Button(TENSION_BTN_VALVE_PATIENT_PLUS, &onValvePatientPlusClick);
-Button btn_valve_patient_minus = Button(TENSION_BTN_VALVE_PATIENT_MINUS, &onValvePatientMinusClick);
+Button btn_valve_patient_minus = Button(TENSION_BTN_VALVE_PATIENT_MINUS, &onValvePatientMinusClick);*/
+
+AirTransistor servoBlower;
+AirTransistor servoPatient;
 
 void setup()
 {
-#ifdef DEBUG
-    Serial.begin(115200);
-    Serial.println("demarrage");
-#endif
+    DBG_DO(Serial.begin(115200));
+    DBG_DO(Serial.println("demarrage"));
 
-    patient.attach(PIN_SERVO_PATIENT);
-    blower.attach(PIN_SERVO_BLOWER);
+    /*pinMode(PIN_CAPTEUR_PRESSION, INPUT);
 
-    buttons.add(btn_pression_plateau_plus);
-    buttons.add(btn_pression_plateau_minus);
-    buttons.add(btn_pep_plus);
-    buttons.add(btn_pep_minus);
-    buttons.add(btn_rb_plus);
-    buttons.add(btn_rb_minus);
-    buttons.add(btn_alarme_on);
-    buttons.add(btn_alarme_off);
-    buttons.add(btn_valve_blower_plus);
-    buttons.add(btn_valve_blower_minus);
+    servoBlower = AirTransistor(
+        BLOWER_FERME,
+        BLOWER_OUVERT,
+        BLOWER_FERME,
+        BLOWER_OUVERT
+    );
 
-    screen.begin(LCD_LINE_LENGTH, LCD_LINE_NUMBER);
+    servoPatient = AirTransistor(
+        PATIENT_FERME,
+        PATIENT_OUVERT,
+        PATIENT_FERME,
+        PATIENT_FERME
+    );*/
 
-    printPatternOnLcd();
+    analogButtons.add(btn_pression_crete_plus);
+    analogButtons.add(btn_pression_crete_minus);
+    analogButtons.add(btn_pression_plateau_plus);
+    analogButtons.add(btn_pression_plateau_minus);
+    analogButtons.add(btn_pep_plus);
+    analogButtons.add(btn_pep_minus);
+    analogButtons.add(btn_cycle_plus);
+    analogButtons.add(btn_cycle_minus);
+
+    startScreen();
 }
 
-void loop() { buttons.check(); }
+void loop() {
+    analogButtons.check();
+
+    switch (step) {
+        case STEP_LCD: {
+            UNGREEDY(is_drawn, displayTestPattern());
+            break;
+        }
+        case STEP_WELCOME: {
+            UNGREEDY(is_drawn, {
+                display("MakAir testing", "Press any button");
+                displayStatus(VERSION);
+            });
+            break;
+        }
+        case STEP_BTN_PRESSION_CRETE_PLUS: {
+            UNGREEDY(is_drawn, display("Press the button", "PCrete +"));
+            break;
+        }
+        case STEP_BTN_PRESSION_CRETE_MINUS: {
+            UNGREEDY(is_drawn, display("Press the button", "PCrete -"));
+            break;
+        }
+        case STEP_BTN_PRESSION_PLATEAU_PLUS: {
+            UNGREEDY(is_drawn, display("Press the button", "PPlateau +"));
+            break;
+        }
+        case STEP_BTN_PRESSION_PLATEAU_MINUS: {
+            UNGREEDY(is_drawn, display("Press the button", "PPlateau -"));
+            break;
+        }
+        case STEP_BTN_PEP_PLUS: {
+            UNGREEDY(is_drawn, display("Press the button", "PPep +"));
+            break;
+        }
+        case STEP_BTN_PEP_MINUS: {
+            UNGREEDY(is_drawn, display("Press the button", "PPep -"));
+            break;
+        }
+        case STEP_BTN_CYCLE_PLUS: {
+            UNGREEDY(is_drawn, display("Press the button", "Cycle +"));
+            break;
+        }
+        case STEP_BTN_CYCLE_MINUS: {
+            UNGREEDY(is_drawn, display("Press the button", "Cycle -"));
+            break;
+        }
+        case STEP_DONE: {
+            UNGREEDY(is_drawn, {
+                display("End of testing", "Success");
+                if (errors > 0) {
+                    char error_msg[20];
+                    sprintf(error_msg, "Errors: %d", errors);
+                    displayStatus(error_msg);
+                }
+            });
+            break;
+        }
+    }
+
+    delay(10);
+}
+
 #endif
