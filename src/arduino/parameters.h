@@ -132,4 +132,4 @@ static const uint16_t TENSION_BTN_CYCLE_MINUS             = 215;
 
 const uint16_t TENSION_BTN_ALARME_ON        = 650;
 const uint16_t TENSION_BTN_ALARME_OFF       = 450;
-const uint16_t TENSION_BTN_ALARME_SILENCE   = 250; 
+const uint16_t TENSION_BTN_ALARME_SILENCE   = 250;

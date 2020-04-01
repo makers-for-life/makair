@@ -61,7 +61,7 @@ void displaySubPhase(CycleSubPhases subPhase) {
         screen.print("Inhalation          ");
         break;
     }
-    case CycleSubPhases::HOLD_INSPI :
+    case CycleSubPhases::HOLD_INSPI:
     {
         screen.print("Plateau             ");
         break;
