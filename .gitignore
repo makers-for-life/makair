@@ -1,4 +1,4 @@
 /.pio/
 /.vscode/
 .DS_Store
-src/ardiuno/respi-prod.cpp.STM32.stm32.Nucleo_64.*
+src/arduino/respi-prod.cpp.STM32.stm32.Nucleo_64.*
