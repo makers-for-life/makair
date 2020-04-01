@@ -123,13 +123,13 @@ static const uint16_t BORNE_INF_CYCLE = 5;  // demande medical
 // durée d'appui des boutons (en centièmes de secondes) avant prise en compte
 static const uint16_t MAINTIEN_PARAMETRAGE = 21;
 
-static const uint16_t TENSION_BTN_PRESSION_P_CRETE_PLUS   = 915;
-static const uint16_t TENSION_BTN_PRESSION_P_CRETE_MINUS  = 800;
-static const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS   = 728;
+static const uint16_t TENSION_BTN_PRESSION_P_CRETE_PLUS   = 913;
+static const uint16_t TENSION_BTN_PRESSION_P_CRETE_MINUS  = 820;
+static const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS   = 745;
 static const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS  = 598;
-static const uint16_t TENSION_BTN_PEP_PLUS                = 504;
-static const uint16_t TENSION_BTN_PEP_MINUS               = 410;
-static const uint16_t TENSION_BTN_CYCLE_PLUS              = 290;
+static const uint16_t TENSION_BTN_PEP_PLUS                = 512;
+static const uint16_t TENSION_BTN_PEP_MINUS               = 414;
+static const uint16_t TENSION_BTN_CYCLE_PLUS              = 292;
 static const uint16_t TENSION_BTN_CYCLE_MINUS             = 215;
 
 const uint16_t TENSION_BTN_ALARME_ON        = 650;
