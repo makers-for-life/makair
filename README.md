@@ -44,10 +44,10 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | Component | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | --------- | ------- | -------------- | ------ | --------------- | ------------ |
 | [Blower](./src/components/blower) | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU) | Cooprint + [@baptistejamin](https://github.com/baptistejamin)
-| [Pressure Valve](./src/components/pressure-valve) | V1 | Brand new system | ❌ | none | Clément Niclot
+| [Pressure Valve](./src/components/pressure-valve) | V1 | Brand new system | ✅ | none | Clément Niclot
 | [Oxygen Mixer](./src/components/oxygen-mixer) | V3 | Designed from scratch | ❌ | [view model](https://a360.co/2vV5s18) | [@Melkaz](https://github.com/Melkaz)
 | [Machine Filter Box](./src/components/machine-filter-box) | V5 | Update input/output mensurations | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
-| [Patient Filter Box](./src/components/patient-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ❌ | [view model](https://a360.co/2Utff87) | [@valeriansaliou](https://github.com/valeriansaliou)
+| [Patient Filter Box](./src/components/patient-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2Utff87) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Adapters](./src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 
 
