@@ -83,30 +83,24 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 # Renders
 
-## The "Air Transistor"
-
-🎦 View: [Animation of the "Air Transistor"](./src/components/air-transistor/schemes/Air%20Transistor%20(Animation%201).mp4)
-
-<img alt="Air Transistor Concept" src="./src/components/air-transistor/schemes/Air%20Transistor%20(Render%201).png" height="240">
-
 ## The "Pressure Valve"
 
-<img alt="Pressure Valve Concept" src="./src/components/pressure-valve/schemes/Pressure%20Valve%20(Render%201).png" height="240">
-
-## The "Two-Way Valve"
-
-<img alt="Two-Way Valve Concept" src="./src/components/two-way-valve/schemes/Two-Way%20Valve%20(Render%201).png" height="240">
+🚧 _(work in progress)_
 
 ## The "Blower"
 
-🎦 View: [Animation of the "Blower"](./src/components/blower/schemes/Blower%20(Animation%201).mp4)
+🎦 View: [Animation of the "Blower"](./src/components/blower/fdm/schemes/Blower%20(Animation%201).mp4)
 
-<img alt="Blower Concept" src="./src/components/blower/schemes/Blower%20(Render%201).png" height="240">
+<img alt="Blower Concept" src="./src/components/blower/fdm/schemes/Blower%20(Render%201).png" height="240">
 
 ## The "Oxygen Mixer"
 
-<img alt="Oxygen Mixer Concept" src="./src/components/oxygen-mixer/schemes/oxygen_mixer_v3_render.png" height="240">
+<img alt="Oxygen Mixer Concept" src="./src/components/oxygen-mixer/fdm/schemes/oxygen_mixer_v3_render.png" height="240">
 
-## The "Filter Box"
+## The "Machine Filter Box"
 
-<img alt="Filter Box Concept" src="./src/components/filter-box/schemes/V5/Filter%20Box%20(Render%201).png" height="320">
+<img alt="Machine Filter Box Concept" src="./src/components/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Render%201).png" height="320">
+
+## The "Patient Filter Box"
+
+<img alt="Patient Filter Box Concept" src="./src/components/patient-filter-box/fdm/schemes/V4/Filter%20Box%20(Render%201).png" height="320">
