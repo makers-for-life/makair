@@ -67,6 +67,48 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 _You may click on the scheme to enlarge._
 
+## Pneumatic Circuit Drawing
+
+[![Pneumatic Circuit Drawing](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatics%20Drawing.jpg)](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatics%20Drawing.jpg)
+
+# News & Videos
+
+## Live Updates
+
+* Live updates on Telegram: [join channel](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ).
+
+## Checkpoint Videos
+
+You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg).
+
+#### ↘️ Monday 30/03
+
+* **🇫🇷 French Video:**
+
+<a href="https://www.youtube.com/watch?v=9OVCqwCGC-o" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/9OVCqwCGC-o/0.jpg" height="240"></a>
+
+#### ↘️ Thursday 26/03
+
+* **🇫🇷 French Video:**
+
+<a href="https://www.youtube.com/watch?v=olhgf6QtDVI" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/olhgf6QtDVI/0.jpg" height="240"></a>
+
+* [🇫🇷 French Video (in-depth)](https://www.youtube.com/watch?v=yDUS2cBBrT4)
+
+#### ↘️ Tuesday 24/03
+
+* [🇬🇧 English Video](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
+* [🇫🇷 French Video](https://www.youtube.com/watch?v=kASINWDjnBE)
+
+#### ↘️ Monday 23/03
+
+* [🇫🇷 French Video](https://www.youtube.com/watch?v=MW8I0W8OaoM)
+
+#### ↘️ Sunday 22/03
+
+* [🇬🇧 English Video](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
+* [🇫🇷 French Video](https://www.youtube.com/watch?v=GqGbh__ymw4)
+* [🇫🇷 French Video (in-depth)](https://www.youtube.com/watch?v=KqBkgTWbIlg)
 
 # Contact Us
 
