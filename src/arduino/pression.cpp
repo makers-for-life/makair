@@ -22,6 +22,7 @@
 
 // Internal
 #include "parameters.h"
+#include "pressure_controller.h"
 
 // PROGRAM =====================================================================
 
@@ -34,25 +35,41 @@ const double KPA_MMH2O = 101.97162129779;
 #ifdef SIMULATION
 int readPressureSensor(uint16_t centiSec)
 {
-    if (centiSec < uint16_t(50))
+    if (centiSec < uint16_t(10))
     {
-        pController.updatePressure(600);
+        return 350;
+    }
+    else if (centiSec < uint16_t(15))
+    {
+        return 400;
+    }
+    else if (centiSec < uint16_t(30))
+    {
+        return 600;
+    }
+    else if (centiSec < uint16_t(45))
+    {
+        return 700;
+    }
+    else if (centiSec < uint16_t(60))
+    {
+        return 500;
     }
     else if (centiSec < uint16_t(100))
     {
-        pController.updatePressure(300);
+        return 300;
     }
     else if (centiSec < 200)
     {
-        pController.updatePressure(110);
+        return 110;
     }
-    else if  (centiSec < 250)
+    else if (centiSec < 250)
     {
-        pController.updatePressure(90);
+        return 90;
     }
     else
     {
-        pController.updatePressure(70);
+        return 70;
     }
 }
 #else
@@ -65,7 +82,7 @@ int readPressureSensor(uint16_t centiSec)
     double vOut = filteredVout / RATIO_PONT_DIVISEUR;
 
     // Pression en kPA
-    double pressure  = (vOut / V_SUPPLY - 0.04) / 0.09;
+    double pressure = (vOut / V_SUPPLY - 0.04) / 0.09;
 
     if (pressure <= 0.0)
     {

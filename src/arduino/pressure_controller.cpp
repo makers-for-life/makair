@@ -30,14 +30,15 @@ PressureController pController;
 
 PressureController::PressureController()
     : m_cyclesPerMinuteCommand(INITIAL_CYCLE_NB),
-      m_minPeepCommand(DEFAULT_MIN_PEEP_COMMAND), // mmH2O
-      m_maxPlateauPressureCommand(BORNE_SUP_PRESSION_PLATEAU), //mmH20
+      m_minPeepCommand(DEFAULT_MIN_PEEP_COMMAND),                  // [mmH20]
+      m_maxPlateauPressureCommand(BORNE_SUP_PRESSION_PLATEAU),     // [mmH20]
+      m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND), // [mmH20]
       m_apertureCommand(ANGLE_OUVERTURE_MAXI),
       m_cyclesPerMinute(INITIAL_CYCLE_NB),
       m_aperture(ANGLE_OUVERTURE_MAXI),
-      m_maxPeakPressure(BORNE_SUP_PRESSION_CRETE), // mmH2O
-      m_maxPlateauPressure(BORNE_SUP_PRESSION_PLATEAU), // mmH2O
-      m_minPeep(BORNE_INF_PRESSION_PEP), //TODO revoir la valeur mmH2O
+      m_maxPeakPressure(BORNE_SUP_PRESSION_CRETE),      // [mmH20]
+      m_maxPlateauPressure(BORNE_SUP_PRESSION_PLATEAU), // [mmH20]
+      m_minPeep(BORNE_INF_PRESSION_PEP),                // TODO revoir la valeur [mmH20]
       m_pressure(INITIAL_ZERO_PRESSURE),
       m_peakPressure(INITIAL_ZERO_PRESSURE),
       m_plateauPressure(INITIAL_ZERO_PRESSURE),
@@ -60,6 +61,7 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
       m_minPeepCommand(p_minPeepCommand),
       m_maxPlateauPressureCommand(p_maxPlateauPressure),
+      m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),
       m_apertureCommand(p_aperture),
       m_cyclesPerMinute(p_cyclesPerMinute),
       m_aperture(p_aperture),
@@ -122,9 +124,9 @@ void PressureController::initRespiratoryCycle()
     DBG_AFFICHE_CONSIGNES(m_cyclesPerMinute, m_aperture, m_minPeep, m_maxPlateauPressure)
     */
 
-   // remise à zéro tick alarmes
-   m_franchissementSeuilHoldExpiDetectionTick = 0;
-   m_franchissementSeuilHoldExpiDetectionTickSupprime = 0;
+    // remise à zéro tick alarmes
+    m_franchissementSeuilHoldExpiDetectionTick = 0;
+    m_franchissementSeuilHoldExpiDetectionTickSupprime = 0;
 }
 
 void PressureController::updatePressure(int16_t p_currentPressure)
@@ -157,8 +159,8 @@ void PressureController::compute(uint16_t p_centiSec)
     }
     case CycleSubPhases::HOLD_EXHALE:
     {
-      holdExhalation();
-      break;
+        holdExhalation();
+        break;
     }
     default:
     {
@@ -168,7 +170,8 @@ void PressureController::compute(uint16_t p_centiSec)
 
     safeguards(p_centiSec);
 
-    DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 10, m_phase, m_subPhase, m_pressure, m_blower.command, m_blower.position, m_patient.command, m_patient.position)
+    DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 1, m_phase, m_subPhase, m_pressure, m_blower.command,
+                       m_blower.position, m_patient.command, m_patient.position)
 
     executeCommands();
 
@@ -187,12 +190,12 @@ void PressureController::onCycleMinus()
 
 void PressureController::onCyclePlus()
 {
-    DBG_DO(Serial.println("nb cycle ++");)
-    m_cyclesPerMinuteCommand++;
-    if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE)
-    {
-        m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
-    }
+    // DBG_DO(Serial.println("nb cycle ++");)
+    // m_cyclesPerMinuteCommand++;
+    // if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE)
+    // {
+    //     m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
+    // }
 }
 
 void PressureController::onPressionPepMinus()
@@ -238,27 +241,39 @@ void PressureController::onPressionPlateauPlus()
 void PressureController::onPressionCreteMinus()
 {
     DBG_DO(Serial.println("pression crete --");)
-    // TODO
+    m_maxPeakPressureCommand = m_maxPeakPressureCommand - 10;
+    if (m_maxPeakPressureCommand < BORNE_INF_PRESSION_CRETE)
+    {
+        m_maxPeakPressureCommand = BORNE_INF_PRESSION_CRETE;
+    }
 }
 
 void PressureController::onPressionCretePlus()
 {
-    DBG_DO(Serial.println("pression plateau ++");)
-    // TODO
+    DBG_DO(Serial.println("pression crete ++");)
+    m_maxPeakPressureCommand = m_maxPeakPressureCommand + 10;
+    if (m_maxPeakPressureCommand > BORNE_SUP_PRESSION_CRETE)
+    {
+        m_maxPeakPressureCommand = BORNE_SUP_PRESSION_CRETE;
+    }
 }
 
 void PressureController::updatePhase(uint16_t p_centiSec)
 {
-    if (p_centiSec < m_centiSecPerInhalation) {
+    if (p_centiSec < m_centiSecPerInhalation)
+    {
         m_phase = CyclePhases::INHALATION;
-        if (p_centiSec < (m_centiSecPerInhalation * 0.6)) 
+        if (p_centiSec < (m_centiSecPerInhalation * 0.6))
         {
-            m_subPhase = CycleSubPhases::INSPI;
-        } 
+            if (m_subPhase != CycleSubPhases::HOLD_INSPI)
+            {
+                m_subPhase = CycleSubPhases::INSPI;
+            }
+        }
         else
         {
             m_subPhase = CycleSubPhases::HOLD_INSPI;
-        } 
+        }
     }
     else
     {
@@ -306,7 +321,7 @@ void PressureController::exhale()
     m_peep = m_pressure;
 }
 
-void PressureController::holdExhalation() 
+void PressureController::holdExhalation()
 {
     // Deviate the air stream outside
     m_blower.command = BLOWER_FERME;
@@ -317,15 +332,57 @@ void PressureController::holdExhalation()
 
 void PressureController::safeguards(uint16_t p_centiSec)
 {
+    safeguardPressionCrete(p_centiSec);
     safeguardHoldExpiration(p_centiSec);
     safeguardMaintienPeep(p_centiSec);
 }
 
+void PressureController::safeguardPressionCrete(uint16_t p_centiSec)
+{
+    if (m_pressure >= (m_maxPeakPressureCommand - 20))
+    {
+        if (m_franchissementSeuilMaxPeakPressureDetectionTick == 0)
+        {
+            m_franchissementSeuilMaxPeakPressureDetectionTick = p_centiSec;
+        }
+
+        if ((p_centiSec - m_franchissementSeuilMaxPeakPressureDetectionTick) >= 10)
+        {
+            m_blower.command = BLOWER_DEMI_OUVERT;
+        }
+    }
+    else if (m_franchissementSeuilMaxPeakPressureDetectionTick != 0)
+    {
+        if (m_franchissementSeuilMaxPeakPressureDetectionTickSupprime == 0)
+        {
+            m_franchissementSeuilMaxPeakPressureDetectionTickSupprime = p_centiSec;
+        }
+
+        if ((p_centiSec - m_franchissementSeuilMaxPeakPressureDetectionTickSupprime) >= 3)
+        {
+            m_franchissementSeuilMaxPeakPressureDetectionTick = 0;
+            m_franchissementSeuilMaxPeakPressureDetectionTickSupprime = 0;
+        }
+    }
+
+    if (m_pressure >= m_maxPeakPressureCommand)
+    {
+        // TODO alarme
+        m_subPhase = CycleSubPhases::HOLD_INSPI;
+        plateau();
+    }
+
+    if (m_pressure >= (m_maxPeakPressureCommand + 10))
+    {
+        // TODO alarme
+        m_patient.command = m_patient.position + 2;
+    }
+}
 void PressureController::safeguardHoldExpiration(uint16_t p_centiSec)
 {
     if (m_phase == CyclePhases::EXHALATION)
     {
-        if (m_pressure <= m_minPeepCommand + 20)
+        if (m_pressure <= (m_minPeepCommand + 20))
         {
             if (m_franchissementSeuilHoldExpiDetectionTick == 0)
             {
@@ -334,7 +391,7 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec)
 
             if ((p_centiSec - m_franchissementSeuilHoldExpiDetectionTick) >= 10)
             {
-                if (m_phase != CyclePhases::EXHALATION) 
+                if (m_phase != CyclePhases::EXHALATION)
                 {
                     m_phase = CyclePhases::EXHALATION;
                 }
@@ -342,7 +399,7 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec)
                 holdExhalation();
             }
         }
-        else if (m_franchissementSeuilHoldExpiDetectionTick != 0) 
+        else if (m_franchissementSeuilHoldExpiDetectionTick != 0)
         {
             if (m_franchissementSeuilHoldExpiDetectionTickSupprime == 0)
             {
@@ -362,7 +419,6 @@ void PressureController::safeguardMaintienPeep(uint16_t p_centiSec)
 {
     if (m_pressure <= m_minPeepCommand)
     {
-
         m_blower.command = m_blower.position + 2;
     }
 }
