@@ -162,7 +162,7 @@ void loop()
             // Display relevant information during the cycle
             if (centiSec % LCD_UPDATE_PERIOD == 0)
             {
-                displayPhase(pController.phase());
+                displaySubPhase(pController.subPhase());
 
                 displayEveryRespiratoryCycle(
                                 pController.peakPressure(),

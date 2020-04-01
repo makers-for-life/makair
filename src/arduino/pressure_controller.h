@@ -123,6 +123,9 @@ public:
     //! This function returns the current cycle phase
     inline CyclePhases phase() const { return m_phase; }
 
+    //! This function returns the current cycle sub phase
+    inline CycleSubPhases subPhase() const { return m_subPhase; }
+
     //! This function returns the blower's transistor
     inline const AirTransistor& blower() const { return m_blower; }
 

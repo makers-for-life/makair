@@ -37,7 +37,7 @@ enum ScreenSize
 //! This function starts the screen
 void startScreen();
 
-void displayPhase(CyclePhases phase);
+void displaySubPhase(CycleSubPhases phase);
 
 /*! This function displays the relevant pressures on the HMI screen once every
  *  cycle

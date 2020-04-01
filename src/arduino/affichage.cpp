@@ -52,7 +52,7 @@ void startScreen()
     }
 }
 
-void displayPhase(CycleSubPhases subPhase) {
+void displaySubPhase(CycleSubPhases subPhase) {
     screen.setCursor(0, 0);
     switch(subPhase)
     {

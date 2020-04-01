@@ -127,5 +127,5 @@
         Serial.println(positionPatient);                                                                                           \
     }
 #else
-#define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, pression, consigneBlower,  positionBlower, consignePatient, positionPatient)
+#define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,  positionBlower, consignePatient, positionPatient)
 #endif
