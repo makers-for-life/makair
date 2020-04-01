@@ -1,0 +1,22 @@
+name: Arduino CLI CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Arduino CLI
+      uses: arduino/setup-arduino-cli@v1.0.0
+    - name: Install STM libs
+      run: |
+        arduino-cli core update-index --additional-urls https://github.com/stm32duino/BoardManagerFiles/raw/master/STM32/package_stm_index.json
+        arduino-cli core install STM32:stm32
+        arduino-cli lib install LiquidCrystal
+        arduino-cli lib install "Analog Buttons"
+    - name: Build prod
+      run: |
+        arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/arduino/respi-prod.cpp
