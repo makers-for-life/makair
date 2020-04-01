@@ -29,11 +29,10 @@ Roughly, the idea is as follow: hospitals will soon lack mechanical artificial r
 The overall system is composed of sub-components that can be plugged together and wired to form an air circuit, namely:
 
 - **Air pump** (called "Blower");
-- **Valve system (routing variant)** (called "Air Transistor" — _will be used in V2_);
-- **Valve system (depressuring variant)** (called "Pressure Valve" — _used in V1_);
-- **Valve system (two-way variant)** (PEEP valve, called "Two-Way Valve");
-- **Venturi valve** (called "Oxygen Mixer");
-- **Air filter casing** (called "Filter Box");
+- **Valve system** (called "Pressure Valve");
+- **Oxygen Mixer valve** (called "Oxygen Mixer");
+- **Air filter casing (machine variant)** (called "Machine Filter Box");
+- **Air filter casing (patient variant)** (called "Patient Filter Box");
 - **Pipe adapters** (called "Adapters");
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
@@ -45,11 +44,10 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | Component | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | --------- | ------- | -------------- | ------ | --------------- | ------------ |
 | [Blower](./src/components/blower) | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU) | Cooprint + [@baptistejamin](https://github.com/baptistejamin)
-| [Air Transistor](./src/components/air-transistor) | V4 | Moved away from the guillotine system | ✅ | [view model](https://a360.co/2wy4eZX) | [@valeriansaliou](https://github.com/valeriansaliou)
-| [Pressure Valve](./src/components/pressure-valve) | V4 | Smaller size, FDM printing optimizations | ✅ | [view model](https://a360.co/2WIQJRR) | Sebastien Le Loch + [@valeriansaliou](https://github.com/valeriansaliou)
-| [Two-Way Valve](./src/components/two-way-valve) | V1 | Initial design | ❌ | [view model](https://a360.co/2QNO9q8) | [@valeriansaliou](https://github.com/valeriansaliou)
-| [Oxygen Mixer](./src/components/oxygen-mixer) | V3 | Designed from scratched | ❌ | [view model](https://a360.co/2vV5s18) | [@Melkaz](https://github.com/Melkaz)
-| [Filter Box](./src/components/filter-box) | V5 | Wall-mountable, 3D-printability optimizations | ❌ | [view model](https://a360.co/2Utff87) | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent) + [@valeriansaliou](https://github.com/valeriansaliou)
+| [Pressure Valve](./src/components/pressure-valve) | V1 | Brand new system | ❌ | none | Clément Niclot
+| [Oxygen Mixer](./src/components/oxygen-mixer) | V3 | Designed from scratch | ❌ | [view model](https://a360.co/2vV5s18) | [@Melkaz](https://github.com/Melkaz)
+| [Machine Filter Box](./src/components/machine-filter-box) | V5 | Update input/output mensurations | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
+| [Patient Filter Box](./src/components/patient-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ❌ | [view model](https://a360.co/2Utff87) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Adapters](./src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 
 
@@ -63,54 +61,12 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 # Schemes
 
-## General Concept Scheme
-
-![Overview Scheme](./docs/Overview/Overview.png)
-
 ## Pneumatic Circuit Scheme
 
 [![Pneumatic Circuit Scheme](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatic%20Circuit.png)](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatic%20Circuit.png)
 
 _You may click on the scheme to enlarge._
 
-# News & Videos
-
-## Live Updates
-
-* Live updates on Telegram: [join channel](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ).
-
-## Checkpoint Videos
-
-You may subscribe to our [YouTube channel](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg).
-
-#### ↘️ Monday 30/03
-
-* **🇫🇷 French Video:**
-
-<a href="https://www.youtube.com/watch?v=9OVCqwCGC-o" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/9OVCqwCGC-o/0.jpg" height="240"></a>
-
-#### ↘️ Thursday 26/03
-
-* **🇫🇷 French Video:**
-
-<a href="https://www.youtube.com/watch?v=olhgf6QtDVI" title="Play English Video"><img alt="" src="https://img.youtube.com/vi/olhgf6QtDVI/0.jpg" height="240"></a>
-
-* [🇫🇷 French Video (in-depth)](https://www.youtube.com/watch?v=yDUS2cBBrT4)
-
-#### ↘️ Tuesday 24/03
-
-* [🇬🇧 English Video](https://www.youtube.com/watch?v=TJQ1DIsP8ls)
-* [🇫🇷 French Video](https://www.youtube.com/watch?v=kASINWDjnBE)
-
-#### ↘️ Monday 23/03
-
-* [🇫🇷 French Video](https://www.youtube.com/watch?v=MW8I0W8OaoM)
-
-#### ↘️ Sunday 22/03
-
-* [🇬🇧 English Video](https://www.youtube.com/watch?v=GLX5o_y0Vx0)
-* [🇫🇷 French Video](https://www.youtube.com/watch?v=GqGbh__ymw4)
-* [🇫🇷 French Video (in-depth)](https://www.youtube.com/watch?v=KqBkgTWbIlg)
 
 # Contact Us
 

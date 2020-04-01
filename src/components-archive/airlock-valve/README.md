@@ -1,4 +1,4 @@
-# Air Transistor Valve
+# Airlock Valve
 
 | Version | Team's focus | Ready? | Online CAD Models |
 | ------- | ------------ | ------ | ----------------- |
