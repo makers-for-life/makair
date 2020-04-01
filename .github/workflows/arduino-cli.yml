@@ -19,6 +19,8 @@ jobs:
         arduino-cli core install STM32:stm32
         arduino-cli lib install LiquidCrystal
         arduino-cli lib install "Analog Buttons"
+        sed -i '/recipe.output.tmp_file={build.project_name}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
+        sed -i '/recipe.output.save_file={build.project_name}.{build.variant}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
     - name: Build prod
       run: |
         arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/arduino/respi-prod.cpp
