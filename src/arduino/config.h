@@ -15,6 +15,13 @@
 
 #pragma once
 
+// Available modes
+#define MODE_PROD 1          // Ventilator
+#define MODE_QUALIFICATION 2 // Test electrical wiring
+
+// Define current mode
+#define MODE MODE_PROD
+
 /*
  * Lorsque DEBUG est defini, du code additionnel envoyant des infos sur
  * la ligne serie est compile.
