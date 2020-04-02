@@ -95,6 +95,9 @@ static const int16_t PIN_SERVO_PATIENT = D4;
 static const int16_t PIN_SERVO_Y = D3;
 static const int16_t PIN_CONTROL_BUTTONS = A0;
 static const int16_t PIN_BATTERY = A2;
+static const int16_t PIN_BTN_ALARM_OFF = PB2;
+static const int16_t PIN_BTN_START = PB1;
+static const int16_t PIN_BTN_STOP = PB15;
 /* Ecran LCD */
 static const int16_t PIN_LCD_RS = D7;
 static const int16_t PIN_LCD_RW = PA13;

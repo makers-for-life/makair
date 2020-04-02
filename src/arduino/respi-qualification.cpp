@@ -21,6 +21,7 @@
 
 // External
 #include <Arduino.h>
+#include <OneButton.h>
 
 // Internal
 #include "air_transistor.h"
@@ -43,7 +44,13 @@
 #define STEP_BTN_PEP_MINUS 8
 #define STEP_BTN_CYCLE_PLUS 9
 #define STEP_BTN_CYCLE_MINUS 10
-#define STEP_DONE 11
+#define STEP_BTN_ALARM_OFF 11
+#define STEP_BTN_START 12
+#define STEP_BTN_STOP 13
+#define STEP_LED_RED 14
+#define STEP_LED_YELLOW 15
+#define STEP_LED_GREEN 16
+#define STEP_DONE 17
 
 static uint16_t step = STEP_LCD;
 
@@ -215,6 +222,45 @@ void onCycleMinusClick()
     }
 }
 
+void onAlarmOffClick()
+{
+    DBG_DO(Serial.println("alarm off"));
+    if (step == STEP_LCD || step == STEP_WELCOME) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_ALARM_OFF) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
+    }
+}
+
+void onStartClick()
+{
+    DBG_DO(Serial.println("start"));
+    if (step == STEP_LCD || step == STEP_WELCOME || step == STEP_LED_RED || step == STEP_LED_GREEN) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_START) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
+    }
+}
+
+void onStopClick()
+{
+    DBG_DO(Serial.println("stop"));
+    if (step == STEP_LCD || step == STEP_WELCOME || step == STEP_LED_YELLOW) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_STOP) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
+    }
+}
+
 static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
 
 Button btn_pression_crete_plus = Button(TENSION_BTN_PRESSION_P_CRETE_PLUS, &onPressionCretePlusClick);
@@ -231,6 +277,10 @@ Button btn_valve_blower_plus = Button(TENSION_BTN_VALVE_BLOWER_PLUS, &onValveBlo
 Button btn_valve_blower_minus = Button(TENSION_BTN_VALVE_BLOWER_MINUS, &onValveBlowerMinusClick);
 Button btn_valve_patient_plus = Button(TENSION_BTN_VALVE_PATIENT_PLUS, &onValvePatientPlusClick);
 Button btn_valve_patient_minus = Button(TENSION_BTN_VALVE_PATIENT_MINUS, &onValvePatientMinusClick);*/
+
+OneButton btn_alarm_off(PIN_BTN_ALARM_OFF, false, false);
+OneButton btn_start(PIN_BTN_START, false, false);
+OneButton btn_stop(PIN_BTN_STOP, false, false);
 
 AirTransistor servoBlower;
 AirTransistor servoPatient;
@@ -265,11 +315,26 @@ void setup()
     analogButtons.add(btn_cycle_plus);
     analogButtons.add(btn_cycle_minus);
 
+    btn_alarm_off.attachClick(onAlarmOffClick);
+    btn_start.attachClick(onStartClick);
+    btn_stop.attachClick(onStopClick);
+
+    pinMode(PIN_LED_RED, OUTPUT);
+    pinMode(PIN_LED_YELLOW, OUTPUT);
+    pinMode(PIN_LED_GREEN, OUTPUT);
+
     startScreen();
 }
 
 void loop() {
     analogButtons.check();
+    btn_alarm_off.tick();
+    btn_start.tick();
+    btn_stop.tick();
+
+    digitalWrite(PIN_LED_RED, LOW);
+    digitalWrite(PIN_LED_YELLOW, LOW);
+    digitalWrite(PIN_LED_GREEN, LOW);
 
     switch (step) {
         case STEP_LCD: {
@@ -313,6 +378,33 @@ void loop() {
         }
         case STEP_BTN_CYCLE_MINUS: {
             UNGREEDY(is_drawn, display("Press the button", "Cycle -"));
+            break;
+        }
+        case STEP_BTN_ALARM_OFF: {
+            UNGREEDY(is_drawn, display("Press the button", "Alarm OFF"));
+            break;
+        }
+        case STEP_BTN_START: {
+            UNGREEDY(is_drawn, display("Press the button", "Start"));
+            break;
+        }
+        case STEP_BTN_STOP: {
+            UNGREEDY(is_drawn, display("Press the button", "Stop"));
+            break;
+        }
+        case STEP_LED_RED: {
+            UNGREEDY(is_drawn, display("Red LED is ON", "Press start"));
+            digitalWrite(PIN_LED_RED, HIGH);
+            break;
+        }
+        case STEP_LED_YELLOW: {
+            UNGREEDY(is_drawn, display("Yellow LED is ON", "Press stop"));
+            digitalWrite(PIN_LED_YELLOW, HIGH);
+            break;
+        }
+        case STEP_LED_GREEN: {
+            UNGREEDY(is_drawn, display("Green LED is ON", "Press start"));
+            digitalWrite(PIN_LED_GREEN, HIGH);
             break;
         }
         case STEP_DONE: {
