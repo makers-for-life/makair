@@ -15,7 +15,7 @@
 #pragma once
 
 #include "config.h"
-#if MODE == MODE_TEST
+#if MODE == MODE_QUALIFICATION
 
 // INCLUDES ===================================================================
 
