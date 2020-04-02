@@ -57,4 +57,7 @@ void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int pee
  *  \param peep                 Next desired Positive End Expiratory Pressure (PEEP) [mmH2O]
  *  \param cyclesPerMinute      Next desired number of cycles per minute
  */
-void displayDuringCycle(int peakPressureMax, int plateauPressureMax, int peepMin, int cyclesPerMinute);
+void displayDuringCycle(int peakPressureMax,
+                        int plateauPressureMax,
+                        int peepMin,
+                        int cyclesPerMinute);
