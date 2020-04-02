@@ -119,4 +119,5 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 <p>
   <img alt="Patient Filter Box Render" src="./src/components/patient-filter-box/fdm/schemes/V4/Filter%20Box%20(Instructions).JPG" height="320">
+  <img alt="Machine Filter Box Print" src="./src/components/patient-filter-box/fdm/schemes/V4/Filter%20Box%20(Print%201).jpg" height="320">
 </p>
