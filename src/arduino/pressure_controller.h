@@ -168,13 +168,17 @@ private:
      */
     void safeguardPressionCrete(uint16_t p_centiSec);
 
-    /*! This function implements a first safeguard for peep pressure
+    /*! This function implements a first safeguard for peep pressure.
+     * In this case, we hold the exhalation.
      * \param p_centiSec Current progress in the respiratory cycle in hundredth of second
      */
     void safeguardHoldExpiration(uint16_t p_centiSec);
 
-    /*! This function implements a second safeguard for peep pressure
-     * \param p_centiSec Current progress in the respiratory cycle in hundredth of second
+    /*! This function implements a second safeguard for peep pressure.
+     * If the hold exhalation is not enough, we start to open the blower valve in order to maintain
+     * a pressure.
+     * \param p_centiSec Current progress in the respiratory cycle in hundredth of
+     * second
      */
     void safeguardMaintienPeep(uint16_t p_centiSec);
 
