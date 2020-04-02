@@ -191,7 +191,7 @@ void PressureController::onCycleMinus()
 void PressureController::onCyclePlus()
 {
 #ifndef SIMULATION
-    // During simulation without electronic board there is a noise on the button pin. It increase
+    // During simulation without electronic board there is a noise on the button pin. It increases
     // the cycle and the simulation fail.
     DBG_DO(Serial.println("nb cycle ++");)
     m_cyclesPerMinuteCommand++;
