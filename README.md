@@ -29,6 +29,7 @@ Roughly, the idea is as follow: hospitals will soon lack mechanical artificial r
 The overall system is composed of sub-components that can be plugged together and wired to form an air circuit, namely:
 
 - **Air pump** (called "Blower");
+- **Air pump casing fit** (called "Blower Holder");
 - **Valve system** (called "Pressure Valve");
 - **Oxygen Mixer valve** (called "Oxygen Mixer");
 - **Air filter casing (machine variant)** (called "Machine Filter Box"; 2 directions);
@@ -97,7 +98,13 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 <p>
   <img alt="Blower Render" src="./src/components/blower/fdm/schemes/Blower%20(Render%201).png" height="240">
-  <img alt="Blower Holder Print" src="./src/components/blower/fdm/schemes/Blower%20Holder%20(Print%201).jpg" height="240">
+</p>
+
+## The "Blower Holder"
+
+<p>
+  <img alt="Blower Holder Render" src="./src/components/blower-holder/fdm/schemes/Blower%20Holder%20(Render%201).png" height="240">
+  <img alt="Blower Holder Print" src="./src/components/blower-holder/fdm/schemes/Blower%20Holder%20(Print%201).jpg" height="240">
 </p>
 
 ## The "Oxygen Mixer"
