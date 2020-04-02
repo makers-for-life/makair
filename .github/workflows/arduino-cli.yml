@@ -26,14 +26,14 @@ jobs:
         arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/arduino/respi-prod.cpp
         mkdir -p dist/
         VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/arduino/parameters.h)
-        cp src/arduino/respi-prod.cpp.STM32.stm32.Nucleo_64.bin "dist/respi-prod-$VERSION.bin"
+        cp src/arduino/respi-prod.cpp.STM32.stm32.Nucleo_64.bin "dist/respi-prod-$VERSION-$GITHUB_SHA.bin"
     - name: Build qualification
       run: |
         sed -i 's/#define MODE MODE_PROD/#define MODE MODE_QUALIFICATION/' src/arduino/config.h
         arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/arduino/respi-prod.cpp
         mkdir -p dist/
         VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/arduino/parameters.h)
-        cp src/arduino/respi-prod.cpp.STM32.stm32.Nucleo_64.bin "dist/respi-qualification-$VERSION.bin"
+        cp src/arduino/respi-prod.cpp.STM32.stm32.Nucleo_64.bin "dist/respi-qualification-$VERSION-$GITHUB_SHA.bin"
     - name: Archive binaries
       uses: actions/upload-artifact@v1
       with:
