@@ -33,7 +33,6 @@ The overall system is composed of sub-components that can be plugged together an
 - **Oxygen Mixer valve** (called "Oxygen Mixer");
 - **Air filter casing (machine variant)** (called "Machine Filter Box"; 2 directions);
 - **Air filter casing (patient variant)** (called "Patient Filter Box");
-- **Pipe adapters** (called "Adapters");
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
@@ -50,7 +49,6 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Patient Filter Box](./src/components/patient-filter-box) | V5 | Update input/output mensurations | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
 | [Machine Filter Box (Intake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Machine Filter Box (Outtake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2Utff87) | [@valeriansaliou](https://github.com/valeriansaliou)
-| [Adapters](./src/components/adapters) | N/A | Add a test lung adapter | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 
 
 ## Electronics
