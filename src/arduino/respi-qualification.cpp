@@ -50,7 +50,11 @@
 #define STEP_LED_RED 14
 #define STEP_LED_YELLOW 15
 #define STEP_LED_GREEN 16
-#define STEP_DONE 17
+#define STEP_PRESSURE_EMPTY 17
+#define STEP_PRESSURE_VAL1 18
+#define STEP_PRESSURE_VAL2 19
+#define STEP_PRESSURE_VAL3 20
+#define STEP_DONE 21
 
 static uint16_t step = STEP_LCD;
 
@@ -63,6 +67,18 @@ void changeStep(uint16_t new_step) {
 }
 
 static uint16_t errors = 0;
+
+#define PRESSURE_MARGIN_PER_CENT 5
+#define PRESSURE_EMPTY_MARGIN 5 // [mmH2O]
+#define PRESSURE_EMPTY 0 // [mmH2O]
+#define PRESSURE_VAL1 700 // [mmH2O]
+#define PRESSURE_VAL2 150 // [mmH2O]
+#define PRESSURE_VAL3 300 // [mmH2O]
+
+bool isPressureValueGoodEnough(int expected, int pressure) {
+    int epsylon = expected * PRESSURE_MARGIN_PER_CENT / 100;
+    return (pressure >= (expected - epsylon)) && (pressure <= (expected + epsylon));
+}
 
 /**
  * Affiche un pattern de la forme suivante sur l'écran LCD.
@@ -113,8 +129,10 @@ void display(char line1[], char line2[]) {
 }
 
 //! This function displays only adds a status message in the 4th line
-void displayStatus(char msg[]) {
-    screen.setCursor(0, 3);
+void displayStatus(char msg[], uint8_t line = 3) {
+    screen.setCursor(0, line);
+    screen.print("                    ");
+    screen.setCursor(0, line);
     screen.print(msg);
 }
 
@@ -242,6 +260,24 @@ void onStartClick()
         changeStep(step + 1);
     } else if (step == STEP_BTN_START) {
         changeStep(step + 1);
+    } else if (step == STEP_PRESSURE_EMPTY) {
+        int pressure = readPressureSensor(0);
+        if (pressure <= PRESSURE_EMPTY_MARGIN) {
+            changeStep(step + 1);
+        } else {
+            char error_msg[20];
+            sprintf(error_msg, "BAD PRESSURE: %d", pressure / 10);
+            displayStatus(error_msg);
+        }
+    } else if (step == STEP_PRESSURE_VAL2) {
+        int pressure = readPressureSensor(0);
+        if (isPressureValueGoodEnough(PRESSURE_VAL2, pressure)) {
+            changeStep(step + 1);
+        } else {
+            char error_msg[20];
+            sprintf(error_msg, "BAD PRESSURE: %d", pressure / 10);
+            displayStatus(error_msg);
+        }
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
         errors++;
@@ -255,6 +291,24 @@ void onStopClick()
         changeStep(step + 1);
     } else if (step == STEP_BTN_STOP) {
         changeStep(step + 1);
+    } else if (step == STEP_PRESSURE_VAL1) {
+        int pressure = readPressureSensor(0);
+        if (isPressureValueGoodEnough(PRESSURE_VAL1, pressure)) {
+            changeStep(step + 1);
+        } else {
+            char error_msg[20];
+            sprintf(error_msg, "BAD PRESSURE: %d", pressure / 10);
+            displayStatus(error_msg);
+        }
+    } else if (step == STEP_PRESSURE_VAL3) {
+        int pressure = readPressureSensor(0);
+        if (isPressureValueGoodEnough(PRESSURE_VAL3, pressure)) {
+            changeStep(step + 1);
+        } else {
+            char error_msg[20];
+            sprintf(error_msg, "BAD PRESSURE: %d", pressure / 10);
+            displayStatus(error_msg);
+        }
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
         errors++;
@@ -407,6 +461,34 @@ void loop() {
             digitalWrite(PIN_LED_GREEN, HIGH);
             break;
         }
+        case STEP_PRESSURE_EMPTY: {
+            UNGREEDY(is_drawn, display("Unplug pressure", "sensor, press start"));
+            break;
+        }
+        case STEP_PRESSURE_VAL1: {
+            UNGREEDY(is_drawn, {
+                char msg[20];
+                sprintf(msg, "Put a pressure of %d", PRESSURE_VAL1 / 10);
+                display(msg, "cmH2O, press stop");
+            });
+            break;
+        }
+        case STEP_PRESSURE_VAL2: {
+            UNGREEDY(is_drawn, {
+                char msg[20];
+                sprintf(msg, "Put a pressure of %d", PRESSURE_VAL2 / 10);
+                display(msg, "cmH2O, press start");
+            });
+            break;
+        }
+        case STEP_PRESSURE_VAL3: {
+            UNGREEDY(is_drawn, {
+                char msg[20];
+                sprintf(msg, "Put a pressure of %d", PRESSURE_VAL3 / 10);
+                display(msg, "cmH2O, press stop");
+            });
+            break;
+        }
         case STEP_DONE: {
             UNGREEDY(is_drawn, {
                 display("End of testing", "Success");
@@ -418,6 +500,12 @@ void loop() {
             });
             break;
         }
+    }
+
+    if (step == STEP_PRESSURE_EMPTY || step == STEP_PRESSURE_VAL1 || step == STEP_PRESSURE_VAL2 || step == STEP_PRESSURE_VAL3) {
+        char status_msg[20];
+        sprintf(status_msg, "Pressure: %d", readPressureSensor(0) / 10);
+        displayStatus(status_msg, 2);
     }
 
     delay(10);
