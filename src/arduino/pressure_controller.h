@@ -88,7 +88,7 @@ public:
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
 
     //! This function returns the max peak desired by the operator
-    inline uint16_t maxPeakCommand() const { return m_maxPeakPressureCommand; }
+    inline uint16_t maxPeakPressureCommand() const { return m_maxPeakPressureCommand; }
 
     //! This function returns the minimal PEEP desired by the operator
     inline uint16_t minPeepCommand() const { return m_minPeepCommand; }
@@ -208,7 +208,7 @@ private:
     /// Tick de détection initiale pour le maintien de la PEEP
     uint16_t m_franchissementSeuilHoldExpiDetectionTick;
 
-    /// Tick de détection initiale que la PEEP est maintenue
+    /// Tick de suppression du tick de détection initiale que la PEEP est maintenue
     uint16_t m_franchissementSeuilHoldExpiDetectionTickSupprime;
 
     /// Maximal plateau pressure desired by the operator

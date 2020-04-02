@@ -190,12 +190,14 @@ void PressureController::onCycleMinus()
 
 void PressureController::onCyclePlus()
 {
-    // DBG_DO(Serial.println("nb cycle ++");)
-    // m_cyclesPerMinuteCommand++;
-    // if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE)
-    // {
-    //     m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
-    // }
+#ifndef SIMULATION
+    DBG_DO(Serial.println("nb cycle ++");)
+    m_cyclesPerMinuteCommand++;
+    if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE)
+    {
+        m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
+    }
+#endif
 }
 
 void PressureController::onPressionPepMinus()
