@@ -328,12 +328,6 @@ Button btn_pep_plus = Button(TENSION_BTN_PEP_PLUS, &onPepPlusClick);
 Button btn_pep_minus = Button(TENSION_BTN_PEP_MINUS, &onPepMinusClick);
 Button btn_cycle_plus = Button(TENSION_BTN_CYCLE_PLUS, &onCyclePlusClick);
 Button btn_cycle_minus = Button(TENSION_BTN_CYCLE_MINUS, &onCycleMinusClick);
-/*Button btn_rb_plus = Button(TENSION_BTN_RB_PLUS, &onRbPlusClick);
-Button btn_rb_minus = Button(TENSION_BTN_RB_MINUS, &onRbMinusClick);
-Button btn_valve_blower_plus = Button(TENSION_BTN_VALVE_BLOWER_PLUS, &onValveBlowerPlusClick);
-Button btn_valve_blower_minus = Button(TENSION_BTN_VALVE_BLOWER_MINUS, &onValveBlowerMinusClick);
-Button btn_valve_patient_plus = Button(TENSION_BTN_VALVE_PATIENT_PLUS, &onValvePatientPlusClick);
-Button btn_valve_patient_minus = Button(TENSION_BTN_VALVE_PATIENT_MINUS, &onValvePatientMinusClick);*/
 
 OneButton btn_alarm_off(PIN_BTN_ALARM_OFF, false, false);
 OneButton btn_start(PIN_BTN_START, false, false);
@@ -346,22 +340,6 @@ void setup()
 {
     DBG_DO(Serial.begin(115200));
     DBG_DO(Serial.println("demarrage"));
-
-    /*pinMode(PIN_CAPTEUR_PRESSION, INPUT);
-
-    servoBlower = AirTransistor(
-        BLOWER_FERME,
-        BLOWER_OUVERT,
-        BLOWER_FERME,
-        BLOWER_OUVERT
-    );
-
-    servoPatient = AirTransistor(
-        PATIENT_FERME,
-        PATIENT_OUVERT,
-        PATIENT_FERME,
-        PATIENT_FERME
-    );*/
 
     analogButtons.add(btn_pression_crete_plus);
     analogButtons.add(btn_pression_crete_minus);
