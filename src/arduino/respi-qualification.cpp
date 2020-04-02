@@ -21,6 +21,7 @@
 
 // External
 #include <Arduino.h>
+#include <OneButton.h>
 
 // Internal
 #include "air_transistor.h"
@@ -43,19 +44,42 @@
 #define STEP_BTN_PEP_MINUS 8
 #define STEP_BTN_CYCLE_PLUS 9
 #define STEP_BTN_CYCLE_MINUS 10
-#define STEP_DONE 11
+#define STEP_BTN_ALARM_OFF 11
+#define STEP_BTN_START 12
+#define STEP_BTN_STOP 13
+#define STEP_LED_RED 14
+#define STEP_LED_YELLOW 15
+#define STEP_LED_GREEN 16
+#define STEP_ALARM 17
+#define STEP_PRESSURE_EMPTY 18
+#define STEP_PRESSURE_VAL1 19
+#define STEP_PRESSURE_VAL2 20
+#define STEP_PRESSURE_VAL3 21
+#define STEP_DONE 22
 
-static uint16_t step = STEP_LCD;
+static uint8_t step = STEP_LCD;
 
-static uint16_t is_drawn = false;
+static uint8_t is_drawn = false;
 #define UNGREEDY(is_drawn, statement) if (is_drawn == 0) { statement; is_drawn = 1; }
 
-void changeStep(uint16_t new_step) {
+void changeStep(uint8_t new_step) {
     step = new_step;
     is_drawn = 0;
 }
 
-static uint16_t errors = 0;
+static uint8_t errors = 0;
+
+#define PRESSURE_MARGIN_PER_CENT 5
+#define PRESSURE_EMPTY_MARGIN 5 // [mmH2O]
+#define PRESSURE_EMPTY 0 // [mmH2O]
+#define PRESSURE_VAL1 700 // [mmH2O]
+#define PRESSURE_VAL2 150 // [mmH2O]
+#define PRESSURE_VAL3 300 // [mmH2O]
+
+bool isPressureValueGoodEnough(int expected, int pressure) {
+    int epsylon = expected * PRESSURE_MARGIN_PER_CENT / 100;
+    return (pressure >= (expected - epsylon)) && (pressure <= (expected + epsylon));
+}
 
 /**
  * Affiche un pattern de la forme suivante sur l'écran LCD.
@@ -69,8 +93,8 @@ static uint16_t errors = 0;
  */
 void displayTestPattern()
 {
-    uint16_t line_number;
-    uint16_t line_length;
+    uint8_t line_number;
+    uint8_t line_length;
     switch (screenSize)
     {
     case ScreenSize::CHARS_20:
@@ -106,8 +130,10 @@ void display(char line1[], char line2[]) {
 }
 
 //! This function displays only adds a status message in the 4th line
-void displayStatus(char msg[]) {
-    screen.setCursor(0, 3);
+void displayStatus(char msg[], uint8_t line = 3) {
+    screen.setCursor(0, line);
+    screen.print("                    ");
+    screen.setCursor(0, line);
     screen.print(msg);
 }
 
@@ -215,6 +241,83 @@ void onCycleMinusClick()
     }
 }
 
+void onAlarmOffClick()
+{
+    DBG_DO(Serial.println("alarm off"));
+    if (step == STEP_LCD || step == STEP_WELCOME) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_ALARM_OFF) {
+        changeStep(step + 1);
+    } else if (step == STEP_ALARM) {
+        changeStep(step + 1);
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
+    }
+}
+
+void onStartClick()
+{
+    DBG_DO(Serial.println("start"));
+    if (step == STEP_LCD || step == STEP_WELCOME || step == STEP_LED_RED || step == STEP_LED_GREEN) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_START) {
+        changeStep(step + 1);
+    } else if (step == STEP_PRESSURE_EMPTY) {
+        int pressure = readPressureSensor(0);
+        if (pressure <= PRESSURE_EMPTY_MARGIN) {
+            changeStep(step + 1);
+        } else {
+            char error_msg[20];
+            sprintf(error_msg, "BAD PRESSURE: %d", pressure);
+            displayStatus(error_msg);
+        }
+    } else if (step == STEP_PRESSURE_VAL2) {
+        int pressure = readPressureSensor(0);
+        if (isPressureValueGoodEnough(PRESSURE_VAL2, pressure)) {
+            changeStep(step + 1);
+        } else {
+            char error_msg[20];
+            sprintf(error_msg, "BAD PRESSURE: %d", pressure);
+            displayStatus(error_msg);
+        }
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
+    }
+}
+
+void onStopClick()
+{
+    DBG_DO(Serial.println("stop"));
+    if (step == STEP_LCD || step == STEP_WELCOME || step == STEP_LED_YELLOW) {
+        changeStep(step + 1);
+    } else if (step == STEP_BTN_STOP) {
+        changeStep(step + 1);
+    } else if (step == STEP_PRESSURE_VAL1) {
+        int pressure = readPressureSensor(0);
+        if (isPressureValueGoodEnough(PRESSURE_VAL1, pressure)) {
+            changeStep(step + 1);
+        } else {
+            char error_msg[20];
+            sprintf(error_msg, "BAD PRESSURE: %d", pressure);
+            displayStatus(error_msg);
+        }
+    } else if (step == STEP_PRESSURE_VAL3) {
+        int pressure = readPressureSensor(0);
+        if (isPressureValueGoodEnough(PRESSURE_VAL3, pressure)) {
+            changeStep(step + 1);
+        } else {
+            char error_msg[20];
+            sprintf(error_msg, "BAD PRESSURE: %d", pressure);
+            displayStatus(error_msg);
+        }
+    } else if (step != STEP_DONE) {
+        displayStatus("WRONG BUTTON PUSHED");
+        errors++;
+    }
+}
+
 static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
 
 Button btn_pression_crete_plus = Button(TENSION_BTN_PRESSION_P_CRETE_PLUS, &onPressionCretePlusClick);
@@ -227,12 +330,14 @@ Button btn_cycle_plus = Button(TENSION_BTN_CYCLE_PLUS, &onCyclePlusClick);
 Button btn_cycle_minus = Button(TENSION_BTN_CYCLE_MINUS, &onCycleMinusClick);
 /*Button btn_rb_plus = Button(TENSION_BTN_RB_PLUS, &onRbPlusClick);
 Button btn_rb_minus = Button(TENSION_BTN_RB_MINUS, &onRbMinusClick);
-Button btn_alarme_on = Button(TENSION_BTN_ALARME_ON, &onAlarmeOnClick);
-Button btn_alarme_off = Button(TENSION_BTN_ALARME_OFF, &onAlarmeOffClick);
 Button btn_valve_blower_plus = Button(TENSION_BTN_VALVE_BLOWER_PLUS, &onValveBlowerPlusClick);
 Button btn_valve_blower_minus = Button(TENSION_BTN_VALVE_BLOWER_MINUS, &onValveBlowerMinusClick);
 Button btn_valve_patient_plus = Button(TENSION_BTN_VALVE_PATIENT_PLUS, &onValvePatientPlusClick);
 Button btn_valve_patient_minus = Button(TENSION_BTN_VALVE_PATIENT_MINUS, &onValvePatientMinusClick);*/
+
+OneButton btn_alarm_off(PIN_BTN_ALARM_OFF, false, false);
+OneButton btn_start(PIN_BTN_START, false, false);
+OneButton btn_stop(PIN_BTN_STOP, false, false);
 
 AirTransistor servoBlower;
 AirTransistor servoPatient;
@@ -267,11 +372,29 @@ void setup()
     analogButtons.add(btn_cycle_plus);
     analogButtons.add(btn_cycle_minus);
 
+    btn_alarm_off.attachClick(onAlarmOffClick);
+    btn_start.attachClick(onStartClick);
+    btn_stop.attachClick(onStopClick);
+
+    pinMode(PIN_LED_RED, OUTPUT);
+    pinMode(PIN_LED_YELLOW, OUTPUT);
+    pinMode(PIN_LED_GREEN, OUTPUT);
+
+    pinMode(PIN_ALARM, OUTPUT);
+
     startScreen();
 }
 
 void loop() {
     analogButtons.check();
+    btn_alarm_off.tick();
+    btn_start.tick();
+    btn_stop.tick();
+
+    digitalWrite(PIN_LED_RED, LOW);
+    digitalWrite(PIN_LED_YELLOW, LOW);
+    digitalWrite(PIN_LED_GREEN, LOW);
+    digitalWrite(PIN_ALARM, LOW);
 
     switch (step) {
         case STEP_LCD: {
@@ -317,6 +440,66 @@ void loop() {
             UNGREEDY(is_drawn, display("Press the button", "Cycle -"));
             break;
         }
+        case STEP_BTN_ALARM_OFF: {
+            UNGREEDY(is_drawn, display("Press the button", "Alarm OFF"));
+            break;
+        }
+        case STEP_BTN_START: {
+            UNGREEDY(is_drawn, display("Press the button", "Start"));
+            break;
+        }
+        case STEP_BTN_STOP: {
+            UNGREEDY(is_drawn, display("Press the button", "Stop"));
+            break;
+        }
+        case STEP_LED_RED: {
+            UNGREEDY(is_drawn, display("Red LED is ON", "Press start"));
+            digitalWrite(PIN_LED_RED, HIGH);
+            break;
+        }
+        case STEP_LED_YELLOW: {
+            UNGREEDY(is_drawn, display("Yellow LED is ON", "Press stop"));
+            digitalWrite(PIN_LED_YELLOW, HIGH);
+            break;
+        }
+        case STEP_LED_GREEN: {
+            UNGREEDY(is_drawn, display("Green LED is ON", "Press start"));
+            digitalWrite(PIN_LED_GREEN, HIGH);
+            break;
+        }
+        case STEP_ALARM: {
+            UNGREEDY(is_drawn, display("Alarm is ON", "Press alarm OFF"));
+            digitalWrite(PIN_ALARM, HIGH);
+            break;
+        }
+        case STEP_PRESSURE_EMPTY: {
+            UNGREEDY(is_drawn, display("Unplug pressure", "sensor, press start"));
+            break;
+        }
+        case STEP_PRESSURE_VAL1: {
+            UNGREEDY(is_drawn, {
+                char msg[20];
+                sprintf(msg, "Put pressure of %d", PRESSURE_VAL1);
+                display(msg, "mmH2O, press stop");
+            });
+            break;
+        }
+        case STEP_PRESSURE_VAL2: {
+            UNGREEDY(is_drawn, {
+                char msg[20];
+                sprintf(msg, "Put pressure of %d", PRESSURE_VAL2);
+                display(msg, "mmH2O, press start");
+            });
+            break;
+        }
+        case STEP_PRESSURE_VAL3: {
+            UNGREEDY(is_drawn, {
+                char msg[20];
+                sprintf(msg, "Put pressure of %d", PRESSURE_VAL3);
+                display(msg, "mmH2O, press stop");
+            });
+            break;
+        }
         case STEP_DONE: {
             UNGREEDY(is_drawn, {
                 display("End of testing", "Success");
@@ -328,6 +511,12 @@ void loop() {
             });
             break;
         }
+    }
+
+    if (step == STEP_PRESSURE_EMPTY || step == STEP_PRESSURE_VAL1 || step == STEP_PRESSURE_VAL2 || step == STEP_PRESSURE_VAL3) {
+        char status_msg[20];
+        sprintf(status_msg, "Pressure: %d", readPressureSensor(0));
+        displayStatus(status_msg, 2);
     }
 
     delay(10);

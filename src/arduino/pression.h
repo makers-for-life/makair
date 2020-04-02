@@ -15,5 +15,5 @@
 
 #pragma once
 
-// Get the measured or simulated pressure for the feedback control
+// Get the measured or simulated pressure for the feedback control (in mmH2O)
 int readPressureSensor(uint16_t centiSec);

@@ -20,7 +20,6 @@
 #include "clavier.h"
 
 // External
-/* For analog keyboard */
 #include <AnalogButtons.h>
 
 // Internal

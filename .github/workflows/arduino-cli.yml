@@ -19,6 +19,7 @@ jobs:
         arduino-cli core install STM32:stm32
         arduino-cli lib install LiquidCrystal
         arduino-cli lib install "Analog Buttons"
+        arduino-cli lib install OneButton
         sed -i '/recipe.output.tmp_file={build.project_name}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
         sed -i '/recipe.output.save_file={build.project_name}.{build.variant}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
     - name: Build prod

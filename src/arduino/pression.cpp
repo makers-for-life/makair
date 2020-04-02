@@ -30,7 +30,7 @@ const double RATIO_PONT_DIVISEUR = 0.8192;
 const double V_SUPPLY = 5.08;
 const double KPA_MMH2O = 101.97162129779;
 
-// Get the measured or simulated pressure for the feedback control
+// Get the measured or simulated pressure for the feedback control (in mmH2O)
 #ifdef SIMULATION
 int readPressureSensor(uint16_t centiSec)
 {
