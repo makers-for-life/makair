@@ -12,6 +12,8 @@
  * This file is the implementation for input keyboard
  */
 
+#pragma once
+
 // INCLUDES ===================================================================
 
 // Associated header

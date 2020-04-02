@@ -12,13 +12,12 @@
  * Fichier implémentant les fonctionnalitées liés à l'affichage
  */
 
+#pragma once
+
 // INCLUDES ===================================================================
 
 // Associated header
 #include "affichage.h"
-
-// External
-#include <LiquidCrystal.h>
 
 // Internal
 #include "common.h"
@@ -26,7 +25,7 @@
 
 // INITIALISATION =============================================================
 
-static LiquidCrystal screen(PIN_LCD_RS, PIN_LCD_RW, PIN_LCD_EN, PIN_LCD_D4, PIN_LCD_D5, PIN_LCD_D6, PIN_LCD_D7);
+LiquidCrystal screen(PIN_LCD_RS, PIN_LCD_RW, PIN_LCD_EN, PIN_LCD_D4, PIN_LCD_D5, PIN_LCD_D6, PIN_LCD_D7);
 
 // FUNCTIONS ==================================================================
 
@@ -34,11 +33,6 @@ void startScreen()
 {
     switch (screenSize)
     {
-    case ScreenSize::CHARS_16:
-    {
-        screen.begin(16, 2);
-        break;
-    }
     case ScreenSize::CHARS_20:
     {
         screen.begin(20, 4);
@@ -48,8 +42,14 @@ void startScreen()
     default:
     {
         screen.begin(16, 2);
+        screen.print(VERSION);
+        break;
     }
     }
+}
+
+void resetScreen() {
+    screen.clear();
 }
 
 void displaySubPhase(CycleSubPhases subPhase) {
@@ -61,7 +61,7 @@ void displaySubPhase(CycleSubPhases subPhase) {
         screen.print("Inhalation          ");
         break;
     }
-    case CycleSubPhases::HOLD_INSPI :
+    case CycleSubPhases::HOLD_INSPI:
     {
         screen.print("Plateau             ");
         break;

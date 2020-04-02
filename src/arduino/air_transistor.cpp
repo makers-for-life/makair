@@ -12,6 +12,8 @@
  * This file implements the AirTransistor object
  */
 
+#pragma once
+
 // INCLUDES ===================================================================
 
 // Associated header
