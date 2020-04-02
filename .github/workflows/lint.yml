@@ -7,8 +7,13 @@ name: "C++ Lint"
 
 on: [push]
 
-jobs: []
-# jobs:
+jobs:
+  dummy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: dummy
+      run: |
+        true
 #   cpp-lint:
 #     runs-on: ubuntu-latest
 #     steps:
