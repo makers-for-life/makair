@@ -91,16 +91,17 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 🎦 View: [Animation of the "Blower"](./src/components/blower/fdm/schemes/Blower%20(Animation%201).mp4)
 
-<img alt="Blower Concept" src="./src/components/blower/fdm/schemes/Blower%20(Render%201).png" height="240">
+<img alt="Blower Render" src="./src/components/blower/fdm/schemes/Blower%20(Render%201).png" height="240">
+<img alt="Blower Holder Print" src="./src/components/blower/fdm/schemes/Blower%20Holder%20(Print%201).jpg" height="240">
 
 ## The "Oxygen Mixer"
 
-<img alt="Oxygen Mixer Concept" src="./src/components/oxygen-mixer/fdm/schemes/oxygen_mixer_v3_render.png" height="240">
+<img alt="Oxygen Mixer Render" src="./src/components/oxygen-mixer/fdm/schemes/oxygen_mixer_v3_render.png" height="240">
 
 ## The "Machine Filter Box"
 
-<img alt="Machine Filter Box Concept" src="./src/components/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Render%201).png" height="320">
+<img alt="Machine Filter Box Render" src="./src/components/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Render%201).png" height="320">
 
 ## The "Patient Filter Box"
 
-<img alt="Patient Filter Box Concept" src="./src/components/patient-filter-box/fdm/schemes/V4/Filter%20Box%20(Instructions).JPG" height="320">
+<img alt="Patient Filter Box Render" src="./src/components/patient-filter-box/fdm/schemes/V4/Filter%20Box%20(Instructions).JPG" height="320">
