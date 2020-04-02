@@ -91,8 +91,10 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 🎦 View: [Animation of the "Blower"](./src/components/blower/fdm/schemes/Blower%20(Animation%201).mp4)
 
-<img alt="Blower Render" src="./src/components/blower/fdm/schemes/Blower%20(Render%201).png" height="240">
-<img alt="Blower Holder Print" src="./src/components/blower/fdm/schemes/Blower%20Holder%20(Print%201).jpg" height="240">
+<p>
+  <img alt="Blower Render" src="./src/components/blower/fdm/schemes/Blower%20(Render%201).png" height="240">
+  <img alt="Blower Holder Print" src="./src/components/blower/fdm/schemes/Blower%20Holder%20(Print%201).jpg" height="240">
+</p>
 
 ## The "Oxygen Mixer"
 
