@@ -113,6 +113,7 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 <p>
   <img alt="Oxygen Mixer Render" src="./src/components/oxygen-mixer/fdm/schemes/V5/Oxygen%20Mixer%20(Render%201).png" height="240">
+  <img alt="Oxygen Mixer Print" src="./src/components/oxygen-mixer/fdm/schemes/V5/Oxygen%20Mixer%20(Print%201).jpg" height="240">
 </p>
 
 ## The "Machine Filter Box"
@@ -133,7 +134,10 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 <p>
   <img alt="Pneumatic Connector Blower Render" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Blower%20V4)/Pneumatic%20Connector%20Blower%20V4.png" height="240">
+  <img alt="Pneumatic Connector Blower Print" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Blower%20V4)/Pneumatic%20Connector%20Blower%20V4%20Print.jpg" height="240">
   <img alt="Pneumatic Connector O2 Render" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(O2%20V3)/Pneumatic%20Connector%20O2%20V3.png" height="240">
+  <img alt="Pneumatic Connector O2 Print" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(O2%20V3)/Pneumatic%20Connector%20O2%20V3%20Print.jpg" height="240">
   <img alt="Pneumatic Connector No pressure Render" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Respiratory%20:%20No%20pressure)/Pneumatic%20Connector%20Respiratory%20No%20pressure.png" height="240">
+  <img alt="Pneumatic Connector No pressure Print" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Respiratory%20:%20No%20pressure)/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
   <img alt="Pneumatic Connector No pressure Render" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Respiratory%20:%20Pressure)/Pneumatic%20Connector%20Respiratory%20Pressure.png" height="240">
 </p>
