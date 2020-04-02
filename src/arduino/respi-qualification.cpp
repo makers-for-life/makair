@@ -50,11 +50,12 @@
 #define STEP_LED_RED 14
 #define STEP_LED_YELLOW 15
 #define STEP_LED_GREEN 16
-#define STEP_PRESSURE_EMPTY 17
-#define STEP_PRESSURE_VAL1 18
-#define STEP_PRESSURE_VAL2 19
-#define STEP_PRESSURE_VAL3 20
-#define STEP_DONE 21
+#define STEP_ALARM 17
+#define STEP_PRESSURE_EMPTY 18
+#define STEP_PRESSURE_VAL1 19
+#define STEP_PRESSURE_VAL2 20
+#define STEP_PRESSURE_VAL3 21
+#define STEP_DONE 22
 
 static uint16_t step = STEP_LCD;
 
@@ -247,6 +248,8 @@ void onAlarmOffClick()
         changeStep(step + 1);
     } else if (step == STEP_BTN_ALARM_OFF) {
         changeStep(step + 1);
+    } else if (step == STEP_ALARM) {
+        changeStep(step + 1);
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
         errors++;
@@ -377,6 +380,8 @@ void setup()
     pinMode(PIN_LED_YELLOW, OUTPUT);
     pinMode(PIN_LED_GREEN, OUTPUT);
 
+    pinMode(PIN_ALARM, OUTPUT);
+
     startScreen();
 }
 
@@ -389,6 +394,7 @@ void loop() {
     digitalWrite(PIN_LED_RED, LOW);
     digitalWrite(PIN_LED_YELLOW, LOW);
     digitalWrite(PIN_LED_GREEN, LOW);
+    digitalWrite(PIN_ALARM, LOW);
 
     switch (step) {
         case STEP_LCD: {
@@ -459,6 +465,11 @@ void loop() {
         case STEP_LED_GREEN: {
             UNGREEDY(is_drawn, display("Green LED is ON", "Press start"));
             digitalWrite(PIN_LED_GREEN, HIGH);
+            break;
+        }
+        case STEP_ALARM: {
+            UNGREEDY(is_drawn, display("Alarm is ON", "Press alarm OFF"));
+            digitalWrite(PIN_ALARM, HIGH);
             break;
         }
         case STEP_PRESSURE_EMPTY: {
