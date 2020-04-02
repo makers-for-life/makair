@@ -38,10 +38,6 @@ enum ScreenSize
     CHARS_20
 };
 
-// MACROS =================================================================
-
-#define Angle2MicroSeconds(value) map(value, 0, 180, 1000, 2000)
-
 // PARAMETERS =================================================================
 
 // amplitude radiale des servomoteurs
@@ -82,7 +78,6 @@ static const uint16_t CAPT_PRESSION_MAXI = 800;
 #define TIM_CHANNEL_SERVO_VALVE_BLOWER 3
 #define PIN_SERVO_PATIENT D4 // PB5 / TIM3_CH2
 #define TIM_CHANNEL_SERVO_VALVE_PATIENT 2
-#define PIN_SERVO_Y D3
 #define PIN_CONTROL_BUTTONS A0
 #define PIN_BATTERY A2
 /* Ecran LCD */

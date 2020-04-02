@@ -28,6 +28,7 @@
 
 // Internal
 #include "affichage.h"
+#include "air_transistor.h"
 #include "clavier.h"
 #include "common.h"
 #include "debug.h"
@@ -66,11 +67,13 @@ void setup()
     hardwareTimer3 = new HardwareTimer(TIM3);
     hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
+    // Servo blower setup
     servoBlower = AirTransistor(BLOWER_OUVERT, BLOWER_FERME, hardwareTimer1,
                                 TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER);
     servoBlower.setup();
     hardwareTimer1->resume();
 
+    // Servo patient setup
     servoPatient = AirTransistor(PATIENT_OUVERT, PATIENT_FERME, hardwareTimer3,
                                  TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
     servoPatient.setup();
@@ -97,7 +100,7 @@ void setup()
     waitForInMs(4000);
 
     // escBlower start
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(120),
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(80),
                                       MICROSEC_COMPARE_FORMAT);
     DBG_DO(Serial.println("Esc blower is running!");)
 }

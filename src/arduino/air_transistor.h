@@ -22,11 +22,12 @@
 // Internal libraries
 #include "parameters.h"
 
-// servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou
-// vers l'extérieur 90° → tout est fermé entre 45° (90 - ANGLE_OUVERTURE_MAXI)
-// et 82° (90 - ANGLE_OUVERTURE_MINI) → envoi du flux vers l'extérieur entre 98°
-// (90 + ANGLE_OUVERTURE_MINI) et 135° (90 + ANGLE_OUVERTURE_MAXI) → envoi du
-// flux vers le Air Transistor patient
+// MACROS =================================================================
+
+#define Angle2MicroSeconds(value) map(value, 0, 180, 1000, 2000)
+
+// CLASS =================================================================
+
 class AirTransistor
 {
 public:
