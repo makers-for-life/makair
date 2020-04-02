@@ -65,7 +65,7 @@
  */
 #ifdef DEBUG
 #define DBG_PRESSION_CRETE(centieme, periode)                                                      \
-    if (centieme % periode == 0)                                                                        \
+    if (centieme % periode == 0)                                                                   \
     {                                                                                              \
         Serial.println("Mise en securite : pression crete trop importante");                       \
     }
@@ -78,7 +78,7 @@
  */
 #ifdef DEBUG
 #define DBG_PRESSION_PLATEAU(centieme, periode)                                                    \
-    if (centieme % periode == 0)                                                                        \
+    if (centieme % periode == 0)                                                                   \
     {                                                                                              \
         Serial.println("Mise en securite : pression plateau trop importante");                     \
     }
@@ -91,7 +91,7 @@
  */
 #ifdef DEBUG
 #define DBG_PRESSION_PEP(centieme, periode)                                                        \
-    if (centieme % periode == 0)                                                                        \
+    if (centieme % periode == 0)                                                                   \
     {                                                                                              \
         Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");     \
     }
@@ -103,29 +103,31 @@
  * Macro pour le message phase + pression
  */
 #ifdef DEBUG
-#define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,  positionBlower, consignePatient, positionPatient)   \
-    if (centieme % periode == 0)                                                                                                  \
-    {                                                                                                                             \
-        Serial.print(cycle * 300 + centieme);                                                                                                   \
-        Serial.print(";");                                                                                                        \
-        Serial.print(cycle);                                                                                                   \
-        Serial.print(";");                                                                                                        \
-        Serial.print(centieme);                                                                                                   \
-        Serial.print(";");                                                                                                        \
-        Serial.print(300 - phase * 100);                                                                                                      \
-        Serial.print(";");                                                                                                        \
-        Serial.print(300 - subPhase * 100);                                                                                                      \
-        Serial.print(";");                                                                                                        \
-        Serial.print(pression);                                                                                                  \
-        Serial.print(";");                                                                                                        \
-        Serial.print(consigneBlower);                                                                                            \
-        Serial.print(";");                                                                                                        \
-        Serial.print(positionBlower);                                                                                            \
-        Serial.print(";");                                                                                                        \
-        Serial.print(consignePatient);                                                                                           \
-        Serial.print(";");                                                                                                        \
-        Serial.println(positionPatient);                                                                                           \
+#define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
+                           positionBlower, consignePatient, positionPatient)                       \
+    if (centieme % periode == 0)                                                                   \
+    {                                                                                              \
+        Serial.print(cycle * 300 + centieme);                                                      \
+        Serial.print(";");                                                                         \
+        Serial.print(cycle);                                                                       \
+        Serial.print(";");                                                                         \
+        Serial.print(centieme);                                                                    \
+        Serial.print(";");                                                                         \
+        Serial.print(300 - phase * 100);                                                           \
+        Serial.print(";");                                                                         \
+        Serial.print(300 - subPhase * 100);                                                        \
+        Serial.print(";");                                                                         \
+        Serial.print(pression);                                                                    \
+        Serial.print(";");                                                                         \
+        Serial.print(150 - consigneBlower);                                                        \
+        Serial.print(";");                                                                         \
+        Serial.print(150 - positionBlower);                                                        \
+        Serial.print(";");                                                                         \
+        Serial.print(150 - consignePatient);                                                       \
+        Serial.print(";");                                                                         \
+        Serial.println(150 - positionPatient);                                                     \
     }
 #else
-#define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,  positionBlower, consignePatient, positionPatient)
+#define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
+                           positionBlower, consignePatient, positionPatient)
 #endif

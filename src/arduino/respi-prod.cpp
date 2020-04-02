@@ -22,11 +22,13 @@
 // External
 #include <AnalogButtons.h>
 #include <Arduino.h>
+#include <HardwareTimer.h>
 #include <LiquidCrystal.h>
 #include <Servo.h>
 
 // Internal
 #include "affichage.h"
+#include "air_transistor.h"
 #include "clavier.h"
 #include "common.h"
 #include "debug.h"
@@ -37,27 +39,70 @@
 // PROGRAM =====================================================================
 
 AirTransistor servoBlower;
-AirTransistor servoY;
 AirTransistor servoPatient;
+HardwareTimer* hardwareTimer1;
+HardwareTimer* hardwareTimer3;
+
+void waitForInMs(uint16_t ms)
+{
+    uint16_t start = millis();
+    while ((millis() - start) < ms)
+        continue;
+}
+
 void setup()
 {
-    pinMode(PIN_CAPTEUR_PRESSION, INPUT);
-
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("demarrage");)
+    startScreen();
 
-    servoBlower = AirTransistor(BLOWER_FERME, BLOWER_OUVERT, BLOWER_FERME, BLOWER_OUVERT);
+    pinMode(PIN_CAPTEUR_PRESSION, INPUT);
+    pinMode(PIN_ALARM, OUTPUT);
 
-    servoY = AirTransistor(BLOWER_FERME, BLOWER_OUVERT, BLOWER_FERME, BLOWER_OUVERT);
+    // Timer for servoBlower
+    hardwareTimer1 = new HardwareTimer(TIM1);
+    hardwareTimer1->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
-    servoPatient = AirTransistor(PATIENT_FERME, PATIENT_OUVERT, PATIENT_FERME, PATIENT_FERME);
+    // Timer for servoPatient and escBlower
+    hardwareTimer3 = new HardwareTimer(TIM3);
+    hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+
+    // Servo blower setup
+    servoBlower = AirTransistor(BLOWER_OUVERT, BLOWER_FERME, hardwareTimer1,
+                                TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER);
+    servoBlower.setup();
+    hardwareTimer1->resume();
+
+    // Servo patient setup
+    servoPatient = AirTransistor(PATIENT_OUVERT, PATIENT_FERME, hardwareTimer3,
+                                 TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
+    servoPatient.setup();
+
+    // Manual escBlower setup
+    // Output compare activation on pin PIN_ESC_BLOWER
+    hardwareTimer3->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
+    // Set PPM width to 1ms
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(0),
+                                      MICROSEC_COMPARE_FORMAT);
+    hardwareTimer3->resume();
 
     pController = PressureController(INITIAL_CYCLE_NB, DEFAULT_MIN_PEEP_COMMAND,
                                      BORNE_SUP_PRESSION_PLATEAU, ANGLE_OUVERTURE_MAXI,
-                                     BORNE_SUP_PRESSION_CRETE, servoBlower, servoY, servoPatient);
+                                     BORNE_SUP_PRESSION_CRETE, servoBlower, servoPatient);
     pController.setup();
-    startScreen();
+
     initKeyboard();
+
+    // escBlower needs 5s at speed 0 to be properly initalized
+    digitalWrite(PIN_ALARM, HIGH);
+    waitForInMs(1000);
+    digitalWrite(PIN_ALARM, LOW);
+    waitForInMs(4000);
+
+    // escBlower start
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(80),
+                                      MICROSEC_COMPARE_FORMAT);
+    DBG_DO(Serial.println("Esc blower is running!");)
 }
 
 void loop()
