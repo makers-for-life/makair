@@ -57,17 +57,17 @@
 #define STEP_PRESSURE_VAL3 21
 #define STEP_DONE 22
 
-static uint16_t step = STEP_LCD;
+static uint8_t step = STEP_LCD;
 
-static uint16_t is_drawn = false;
+static uint8_t is_drawn = false;
 #define UNGREEDY(is_drawn, statement) if (is_drawn == 0) { statement; is_drawn = 1; }
 
-void changeStep(uint16_t new_step) {
+void changeStep(uint8_t new_step) {
     step = new_step;
     is_drawn = 0;
 }
 
-static uint16_t errors = 0;
+static uint8_t errors = 0;
 
 #define PRESSURE_MARGIN_PER_CENT 5
 #define PRESSURE_EMPTY_MARGIN 5 // [mmH2O]
@@ -93,8 +93,8 @@ bool isPressureValueGoodEnough(int expected, int pressure) {
  */
 void displayTestPattern()
 {
-    uint16_t line_number;
-    uint16_t line_length;
+    uint8_t line_number;
+    uint8_t line_length;
     switch (screenSize)
     {
     case ScreenSize::CHARS_20:
