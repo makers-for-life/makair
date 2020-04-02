@@ -146,12 +146,12 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 ## The "Box"
 
 <p>
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render201).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render202).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render203).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render204).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render205).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render206).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render207).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render208).png" height="240">
+  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%201).png" height="240">
+  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%202).png" height="240">
+  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%203).png" height="240">
+  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%204).png" height="240">
+  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%205).png" height="240">
+  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%206).png" height="240">
+  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%207).png" height="240">
+  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%208).png" height="240">
 </p>
