@@ -10,7 +10,7 @@
  * @section descr File description
  *
  * Fichier de configuration pour les differentes compilations conditionelles
- * possibles.
+ * possibles../bui
  */
 
 #pragma once

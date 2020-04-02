@@ -16,6 +16,8 @@
 
 // INCLUDES ===================================================================
 
+#include <HardwareTimer.h>
+
 // Associated header
 #include "air_transistor.h"
 
@@ -27,12 +29,12 @@ AirTransistor::AirTransistor() {}
 
 AirTransistor::AirTransistor(uint16_t p_minApertureAngle,
                              uint16_t p_maxApertureAngle,
-                             TIM_TypeDef* p_timInstance,
+                             HardwareTimer* p_hardwareTimer,
                              uint16_t p_timChannel,
                              uint16_t p_servoPin)
     : minApertureAngle(p_minApertureAngle),
       maxApertureAngle(p_maxApertureAngle),
-      timInstance(p_timInstance),
+      actuator(p_hardwareTimer),
       timChannel(p_timChannel),
       servoPin(p_servoPin)
 {
@@ -40,9 +42,6 @@ AirTransistor::AirTransistor(uint16_t p_minApertureAngle,
 
 void AirTransistor::setup()
 {
-    actuator = new HardwareTimer(timInstance);
     actuator->setMode(timChannel, TIMER_OUTPUT_COMPARE_PWM1, servoPin);
-    actuator->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
     actuator->setCaptureCompare(timChannel, 0, MICROSEC_COMPARE_FORMAT);
-    actuator->resume();
 }

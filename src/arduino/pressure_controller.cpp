@@ -85,8 +85,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
 
 void PressureController::setup()
 {
-    m_blower.setup();
-    m_patient.setup();
+    // m_blower.setup();
+    // m_patient.setup();
 
     DBG_DO(Serial.println(VERSION);)
     DBG_DO(Serial.println("mise en secu initiale");)

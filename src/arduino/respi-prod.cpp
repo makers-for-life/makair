@@ -22,6 +22,7 @@
 // External
 #include <AnalogButtons.h>
 #include <Arduino.h>
+#include <HardwareTimer.h>
 #include <LiquidCrystal.h>
 #include <Servo.h>
 
@@ -38,26 +39,54 @@
 
 AirTransistor servoBlower;
 AirTransistor servoPatient;
+HardwareTimer* hardwareTimer1;
+HardwareTimer* hardwareTimer3;
 
 void setup()
 {
-    pinMode(PIN_CAPTEUR_PRESSION, INPUT);
-
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("demarrage");)
+    startScreen();
 
-    servoBlower = AirTransistor(BLOWER_OUVERT, BLOWER_FERME, TIM_INSTANCE_SERVO_VALVE_BLOWER,
+    pinMode(PIN_CAPTEUR_PRESSION, INPUT);
+    pinMode(PIN_ALARM, OUTPUT);
+
+    hardwareTimer1 = new HardwareTimer(TIM1);
+    hardwareTimer1->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+    hardwareTimer3 = new HardwareTimer(TIM3);
+    hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+
+    servoBlower = AirTransistor(BLOWER_OUVERT, BLOWER_FERME, hardwareTimer1,
                                 TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER);
+    servoBlower.setup();
+    hardwareTimer1->resume();
 
-    servoPatient = AirTransistor(PATIENT_OUVERT, PATIENT_FERME, TIM_INSTANCE_SERVO_VALVE_PATIENT,
+    servoPatient = AirTransistor(PATIENT_OUVERT, PATIENT_FERME, hardwareTimer3,
                                  TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
+    servoPatient.setup();
+
+    // Setup du escBlower
+    hardwareTimer3->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(0),
+                                      MICROSEC_COMPARE_FORMAT);
+    hardwareTimer3->resume();
 
     pController = PressureController(INITIAL_CYCLE_NB, DEFAULT_MIN_PEEP_COMMAND,
                                      BORNE_SUP_PRESSION_PLATEAU, ANGLE_OUVERTURE_MAXI,
                                      BORNE_SUP_PRESSION_CRETE, servoBlower, servoPatient);
     pController.setup();
-    startScreen();
+
     initKeyboard();
+
+    digitalWrite(PIN_ALARM, HIGH);
+    uint16_t start = millis();
+    while ((millis() - start) < 5000)
+    {
+    }
+    digitalWrite(PIN_ALARM, LOW);
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(120),
+                                      MICROSEC_COMPARE_FORMAT);
+    DBG_DO(Serial.println("Esc blower is running!");)
 }
 
 void loop()

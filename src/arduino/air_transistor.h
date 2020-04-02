@@ -36,7 +36,7 @@ public:
     //! Parameterized constructor
     AirTransistor(uint16_t p_minApertureAngle,
                   uint16_t p_maxApertureAngle,
-                  TIM_TypeDef* p_timInstance,
+                  HardwareTimer* hardwareTimer,
                   uint16_t p_timChannel,
                   uint16_t p_servoPin);
 
@@ -68,7 +68,6 @@ public:
 private:
     uint16_t minApertureAngle;
     uint16_t maxApertureAngle;
-    TIM_TypeDef* timInstance;
     uint16_t timChannel;
     uint16_t servoPin;
     HardwareTimer* actuator;
