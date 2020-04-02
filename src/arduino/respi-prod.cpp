@@ -27,8 +27,8 @@
 #include "config.h"
 #include "debug.h"
 #include "parameters.h"
-#include "pressure_controller.h"
 #include "pression.h"
+#include "pressure_controller.h"
 
 // PROGRAM =====================================================================
 
@@ -42,37 +42,15 @@ void setup()
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("demarrage");)
 
-    servoBlower = AirTransistor(
-        BLOWER_FERME,
-        BLOWER_OUVERT,
-        BLOWER_FERME,
-        BLOWER_OUVERT
-    );
+    servoBlower = AirTransistor(BLOWER_FERME, BLOWER_OUVERT, BLOWER_FERME, BLOWER_OUVERT);
 
-    servoY = AirTransistor(
-        BLOWER_FERME,
-        BLOWER_OUVERT,
-        BLOWER_FERME,
-        BLOWER_OUVERT
-    );
+    servoY = AirTransistor(BLOWER_FERME, BLOWER_OUVERT, BLOWER_FERME, BLOWER_OUVERT);
 
-    servoPatient = AirTransistor(
-        PATIENT_FERME,
-        PATIENT_OUVERT,
-        PATIENT_FERME,
-        PATIENT_FERME
-    );
+    servoPatient = AirTransistor(PATIENT_FERME, PATIENT_OUVERT, PATIENT_FERME, PATIENT_FERME);
 
-    pController = PressureController(
-            INITIAL_CYCLE_NB,
-            DEFAULT_MIN_PEEP_COMMAND,
-            BORNE_SUP_PRESSION_PLATEAU,
-            ANGLE_OUVERTURE_MAXI,
-            BORNE_SUP_PRESSION_CRETE,
-            servoBlower,
-            servoY,
-            servoPatient
-    );
+    pController = PressureController(INITIAL_CYCLE_NB, DEFAULT_MIN_PEEP_COMMAND,
+                                     BORNE_SUP_PRESSION_PLATEAU, ANGLE_OUVERTURE_MAXI,
+                                     BORNE_SUP_PRESSION_CRETE, servoBlower, servoY, servoPatient);
     pController.setup();
     startScreen();
     initKeyboard();
@@ -112,17 +90,13 @@ void loop()
             {
                 displaySubPhase(pController.subPhase());
 
-                displayEveryRespiratoryCycle(
-                                pController.peakPressure(),
-                                pController.plateauPressure(),
-                                pController.peep(),
-                                pController.pressure());
+                displayEveryRespiratoryCycle(pController.peakPressure(),
+                                             pController.plateauPressure(), pController.peep(),
+                                             pController.pressure());
 
-                displayDuringCycle(0,
-                                pController.maxPlateauPressureCommand(),
-                                pController.minPeepCommand(),
-                                pController.cyclesPerMinuteCommand()
-                );
+                displayDuringCycle(
+                    pController.maxPeakPressureCommand(), pController.maxPlateauPressureCommand(),
+                    pController.minPeepCommand(), pController.cyclesPerMinuteCommand());
             }
 
             // next tick

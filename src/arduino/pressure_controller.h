@@ -88,7 +88,7 @@ public:
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
 
     //! This function returns the max peak desired by the operator
-    inline uint16_t maxPeakCommand() const { return m_maxPeakCommand; }
+    inline uint16_t maxPeakPressureCommand() const { return m_maxPeakPressureCommand; }
 
     //! This function returns the minimal PEEP desired by the operator
     inline uint16_t minPeepCommand() const { return m_minPeepCommand; }
@@ -163,8 +163,23 @@ private:
      */
     void safeguards(uint16_t p_centiSec);
 
+    /*! This function implements safeguard for peak pressure
+     * \param p_centiSec Current progress in the respiratory cycle in hundredth of second
+     */
+    void safeguardPressionCrete(uint16_t p_centiSec);
+
+    /*! This function implements a first safeguard for peep pressure.
+     * In this case, we hold the exhalation.
+     * \param p_centiSec Current progress in the respiratory cycle in hundredth of second
+     */
     void safeguardHoldExpiration(uint16_t p_centiSec);
 
+    /*! This function implements a second safeguard for peep pressure.
+     * If the hold exhalation is not enough, we start to open the blower valve in order to maintain
+     * a pressure.
+     * \param p_centiSec Current progress in the respiratory cycle in hundredth of
+     * second
+     */
     void safeguardMaintienPeep(uint16_t p_centiSec);
 
     /*! This function computes:
@@ -185,13 +200,19 @@ private:
     uint16_t m_cyclesPerMinuteCommand;
 
     /// Maximal peak pressure desired by the operator
-    uint16_t m_maxPeakCommand;
+    uint16_t m_maxPeakPressureCommand;
+
+    uint16_t m_franchissementSeuilMaxPeakPressureDetectionTick;
+
+    uint16_t m_franchissementSeuilMaxPeakPressureDetectionTickSupprime;
 
     /// Minimal PEEP desired by the operator
     uint16_t m_minPeepCommand;
 
+    /// Tick de détection initiale pour le maintien de la PEEP
     uint16_t m_franchissementSeuilHoldExpiDetectionTick;
 
+    /// Tick de suppression du tick de détection initiale que la PEEP est maintenue
     uint16_t m_franchissementSeuilHoldExpiDetectionTickSupprime;
 
     /// Maximal plateau pressure desired by the operator
