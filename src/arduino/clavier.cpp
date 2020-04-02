@@ -36,10 +36,10 @@ static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
  */
 
 /* Handler of the button to increment the Crete pressure */
-void onPressionCretePlus() { /* TODO */ }
+void onPressionCretePlus() { pController.onPressionCretePlus(); }
 
 /* Handler of the button to decrement the Crete pressure */
-void onPressionCreteMinus() { /* TODO */ }
+void onPressionCreteMinus() { pController.onPressionCreteMinus(); }
 
 /* Handler of the button to decrement the plateau pressure */
 void onPressionPlateauMinus() { pController.onPressionPlateauMinus(); }
@@ -77,14 +77,14 @@ Button btnCycleMinus(TENSION_BTN_CYCLE_MINUS, &onCycleMinus);
  */
 void initKeyboard()
 {
-  analogButtons.add(btnPressionCretePlus);
-  analogButtons.add(btnPressionCretePlus);
-  analogButtons.add(btnPressionPlateauPlus);
-  analogButtons.add(btnPressionPlateauMinus);
-  analogButtons.add(btnPressionPepPlus);
-  analogButtons.add(btnPressionPepMinus);
-  analogButtons.add(btnCyclePlus);
-  analogButtons.add(btnCycleMinus);
+    analogButtons.add(btnPressionCretePlus);
+    analogButtons.add(btnPressionCretePlus);
+    analogButtons.add(btnPressionPlateauPlus);
+    analogButtons.add(btnPressionPlateauMinus);
+    analogButtons.add(btnPressionPepPlus);
+    analogButtons.add(btnPressionPepMinus);
+    analogButtons.add(btnCyclePlus);
+    analogButtons.add(btnCycleMinus);
 }
 
 /*-----------------------------------------------------------------------------

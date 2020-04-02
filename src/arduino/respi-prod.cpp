@@ -100,7 +100,7 @@ void setup()
     waitForInMs(4000);
 
     // escBlower start
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(80),
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(120),
                                       MICROSEC_COMPARE_FORMAT);
     DBG_DO(Serial.println("Esc blower is running!");)
 }
