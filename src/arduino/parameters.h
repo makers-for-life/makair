@@ -110,18 +110,19 @@ static const uint16_t BORNE_SUP_PRESSION_PEP = 300;     // PP MAX = 300, or PEP 
 static const uint16_t BORNE_INF_PRESSION_PEP = 50;      // arbitraire mais > 0 [mmH2O]
 static const uint16_t INITIAL_ZERO_PRESSURE = 0;        // [mmH2O]
 
-static const uint16_t DEFAULT_MIN_PEEP_COMMAND = 80;
-static const uint16_t DEFAULT_MAX_PEAK_PRESSURE_COMMAND = 600;
+static const uint16_t DEFAULT_MIN_PEEP_COMMAND = 50;
+static const uint16_t DEFAULT_MAX_PLATEAU_COMMAND = 150;
+static const uint16_t DEFAULT_MAX_PEAK_PRESSURE_COMMAND = 200;
 
 static const uint16_t INITIAL_CYCLE_NB = 20;
 static const uint16_t BORNE_SUP_CYCLE = 35; // demande medical
 static const uint16_t BORNE_INF_CYCLE = 5;  // demande medical
 
 static const uint16_t TENSION_BTN_PRESSION_P_CRETE_PLUS = 913;
-static const uint16_t TENSION_BTN_PRESSION_P_CRETE_MINUS = 820;
+static const uint16_t TENSION_BTN_PRESSION_P_CRETE_MINUS = 819;
 static const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS = 745;
-static const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS = 607;
+static const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS = 608;
 static const uint16_t TENSION_BTN_PEP_PLUS = 512;
-static const uint16_t TENSION_BTN_PEP_MINUS = 414;
-static const uint16_t TENSION_BTN_CYCLE_PLUS = 292;
-static const uint16_t TENSION_BTN_CYCLE_MINUS = 215;
+static const uint16_t TENSION_BTN_PEP_MINUS = 415;
+static const uint16_t TENSION_BTN_CYCLE_PLUS = 294;
+static const uint16_t TENSION_BTN_CYCLE_MINUS = 216;

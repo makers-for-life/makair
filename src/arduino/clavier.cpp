@@ -29,7 +29,7 @@
 
 // INITIALISATION =============================================================
 
-static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
+static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT, 5, 30);
 
 /*-----------------------------------------------------------------------------
  * Button handlers
@@ -78,7 +78,7 @@ Button btnCycleMinus(TENSION_BTN_CYCLE_MINUS, &onCycleMinus);
 void initKeyboard()
 {
     analogButtons.add(btnPressionCretePlus);
-    analogButtons.add(btnPressionCretePlus);
+    analogButtons.add(btnPressionCreteMinus);
     analogButtons.add(btnPressionPlateauPlus);
     analogButtons.add(btnPressionPlateauMinus);
     analogButtons.add(btnPressionPepPlus);
