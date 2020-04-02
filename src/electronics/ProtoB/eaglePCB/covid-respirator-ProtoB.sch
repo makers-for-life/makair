@@ -16383,7 +16383,7 @@ Farnell : 2760747</text>
 <text x="124.46" y="30.48" size="1.778" layer="97">alarme off</text>
 <text x="152.4" y="15.24" size="1.778" layer="97">start</text>
 <text x="149.86" y="0" size="1.778" layer="97">stop</text>
-<text x="33.02" y="-121.92" size="1.9304" layer="97">B6</text>
+<text x="33.02" y="-121.92" size="1.9304" layer="97">B7</text>
 <wire x1="45.72" y1="53.34" x2="86.36" y2="53.34" width="0.1524" layer="97"/>
 <wire x1="86.36" y1="53.34" x2="86.36" y2="40.64" width="0.1524" layer="97"/>
 <wire x1="86.36" y1="40.64" x2="45.72" y2="40.64" width="0.1524" layer="97"/>
@@ -16397,6 +16397,11 @@ Farnell : 2760747</text>
 <wire x1="132.08" y1="50.8" x2="104.14" y2="50.8" width="0.1524" layer="97"/>
 <wire x1="104.14" y1="50.8" x2="104.14" y2="58.42" width="0.1524" layer="97"/>
 <text x="109.22" y="53.34" size="1.778" layer="97">servo 2</text>
+<text x="279.4" y="101.6" size="1.778" layer="97">D4 et D5 : timer3
+-&gt; deux servos à la meme
+fréquence de ppm
+D2 : l'esc peut avoir une
+fréquence de ppm différente</text>
 </plain>
 <instances>
 <instance part="BATTERY" gate="G$1" x="-22.86" y="35.56"/>
@@ -16739,19 +16744,6 @@ Farnell : 2760747</text>
 <pinref part="IC4" gate="A" pin="OUT"/>
 </segment>
 </net>
-<net name="D5" class="0">
-<segment>
-<pinref part="IC4" gate="A" pin="IN+"/>
-<wire x1="185.42" y1="114.3" x2="198.12" y2="114.3" width="0.1524" layer="91"/>
-<wire x1="198.12" y1="114.3" x2="198.12" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="198.12" y1="96.52" x2="254" y2="96.52" width="0.1524" layer="91"/>
-<label x="271.78" y="96.52" size="1.778" layer="95" xref="yes"/>
-<pinref part="R25" gate="G$1" pin="1"/>
-<wire x1="254" y1="96.52" x2="271.78" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="254" y1="63.5" x2="254" y2="96.52" width="0.1524" layer="91"/>
-<junction x="254" y="96.52"/>
-</segment>
-</net>
 <net name="A2" class="0">
 <segment>
 <pinref part="R2" gate="G$1" pin="1"/>
@@ -16981,20 +16973,20 @@ Farnell : 2760747</text>
 <wire x1="190.5" y1="78.74" x2="185.42" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="D2" class="0">
+<net name="D2/PA10/TIM1_CH3" class="0">
 <segment>
-<pinref part="IC3" gate="A" pin="IN+"/>
-<wire x1="185.42" y1="101.6" x2="195.58" y2="101.6" width="0.1524" layer="91"/>
-<wire x1="195.58" y1="101.6" x2="195.58" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="195.58" y1="91.44" x2="246.38" y2="91.44" width="0.1524" layer="91"/>
-<label x="271.78" y="91.44" size="1.778" layer="95" xref="yes"/>
-<pinref part="R24" gate="G$1" pin="1"/>
-<wire x1="246.38" y1="91.44" x2="271.78" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="246.38" y1="63.5" x2="246.38" y2="91.44" width="0.1524" layer="91"/>
-<junction x="246.38" y="91.44"/>
+<pinref part="IC4" gate="A" pin="IN+"/>
+<wire x1="185.42" y1="114.3" x2="198.12" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="198.12" y1="114.3" x2="198.12" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="198.12" y1="96.52" x2="254" y2="96.52" width="0.1524" layer="91"/>
+<label x="271.78" y="96.52" size="1.778" layer="95" xref="yes"/>
+<pinref part="R25" gate="G$1" pin="1"/>
+<wire x1="254" y1="96.52" x2="271.78" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="254" y1="63.5" x2="254" y2="96.52" width="0.1524" layer="91"/>
+<junction x="254" y="96.52"/>
 </segment>
 </net>
-<net name="D4" class="0">
+<net name="D4/PB5/TIM3_CH2" class="0">
 <segment>
 <pinref part="IC3" gate="B" pin="IN+"/>
 <wire x1="185.42" y1="88.9" x2="193.04" y2="88.9" width="0.1524" layer="91"/>
@@ -17295,6 +17287,19 @@ Farnell : 2760747</text>
 <pinref part="R33" gate="G$1" pin="1"/>
 <pinref part="LCD1" gate="G$1" pin="DB7"/>
 <wire x1="-35.56" y1="-60.96" x2="-12.7" y2="-60.96" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="D5/PB4/TIM3_CH1" class="0">
+<segment>
+<pinref part="IC3" gate="A" pin="IN+"/>
+<wire x1="185.42" y1="101.6" x2="195.58" y2="101.6" width="0.1524" layer="91"/>
+<wire x1="195.58" y1="101.6" x2="195.58" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="195.58" y1="91.44" x2="246.38" y2="91.44" width="0.1524" layer="91"/>
+<label x="271.78" y="91.44" size="1.778" layer="95" xref="yes"/>
+<pinref part="R24" gate="G$1" pin="1"/>
+<wire x1="246.38" y1="91.44" x2="271.78" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="246.38" y1="63.5" x2="246.38" y2="91.44" width="0.1524" layer="91"/>
+<junction x="246.38" y="91.44"/>
 </segment>
 </net>
 </nets>
