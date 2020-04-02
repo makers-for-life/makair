@@ -44,6 +44,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | Component | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | --------- | ------- | -------------- | ------ | --------------- | ------------ |
 | [Blower](./src/components/blower) | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU) | Cooprint + [@baptistejamin](https://github.com/baptistejamin)
+| [Blower Holder](./src/components/blower-holder) | V1 | Initial version | ✅ | none | Gabriel Moneyron + [@valeriansaliou](https://github.com/valeriansaliou)
 | [Pressure Valve](./src/components/pressure-valve) | V1 | Brand new system | ✅ | none | Clément Niclot
 | [Oxygen Mixer](./src/components/oxygen-mixer) | V3 | Designed from scratch | ❌ | [view model](https://a360.co/2vV5s18) | [@Melkaz](https://github.com/Melkaz)
 | [Patient Filter Box](./src/components/patient-filter-box) | V5 | Update input/output mensurations | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
