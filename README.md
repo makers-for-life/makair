@@ -29,6 +29,7 @@ Roughly, the idea is as follow: hospitals will soon lack mechanical artificial r
 The overall system is composed of sub-components that can be plugged together and wired to form an air circuit, namely:
 
 - **Air pump** (called "Blower");
+- **Air pump casing fit** (called "Blower Holder");
 - **Valve system** (called "Pressure Valve");
 - **Oxygen Mixer valve** (called "Oxygen Mixer");
 - **Air filter casing (machine variant)** (called "Machine Filter Box"; 2 directions);
@@ -46,7 +47,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Blower](./src/components/blower) | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU) | Gabriel Moneyron + [@baptistejamin](https://github.com/baptistejamin)
 | [Blower Holder](./src/components/blower-holder) | V1 | Initial version | ✅ | none | Gabriel Moneyron + [@valeriansaliou](https://github.com/valeriansaliou)
 | [Pressure Valve](./src/components/pressure-valve) | V1 | Brand new system | ✅ | none | Clément Niclot
-| [Oxygen Mixer](./src/components/oxygen-mixer) | V3 | Designed from scratch | ❌ | [view model](https://a360.co/2vV5s18) | [@Melkaz](https://github.com/Melkaz)
+| [Oxygen Mixer](./src/components/oxygen-mixer) | V5 | Adapted for internal piping system | ❌ | [view model](https://a360.co/3aG3pgK) | [@Melkaz](https://github.com/Melkaz)
 | [Patient Filter Box](./src/components/patient-filter-box) | V5 | Update input/output mensurations | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
 | [Machine Filter Box (Intake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Machine Filter Box (Outtake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2Utff87) | [@valeriansaliou](https://github.com/valeriansaliou)
@@ -100,13 +101,19 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 <p>
   <img alt="Blower Render" src="./src/components/blower/fdm/schemes/Blower%20(Render%201).png" height="240">
-  <img alt="Blower Holder Print" src="./src/components/blower/fdm/schemes/Blower%20Holder%20(Print%201).jpg" height="240">
+</p>
+
+## The "Blower Holder"
+
+<p>
+  <img alt="Blower Holder Render" src="./src/components/blower-holder/fdm/schemes/Blower%20Holder%20(Render%201).png" height="240">
+  <img alt="Blower Holder Print" src="./src/components/blower-holder/fdm/schemes/Blower%20Holder%20(Print%201).jpg" height="240">
 </p>
 
 ## The "Oxygen Mixer"
 
 <p>
-  <img alt="Oxygen Mixer Render" src="./src/components/oxygen-mixer/fdm/schemes/oxygen_mixer_v3_render.png" height="240">
+  <img alt="Oxygen Mixer Render" src="./src/components/oxygen-mixer/fdm/schemes/V5/Oxygen%20Mixer%20(Render%201).png" height="240">
 </p>
 
 ## The "Machine Filter Box"
