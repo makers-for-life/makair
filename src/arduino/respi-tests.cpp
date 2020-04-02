@@ -12,6 +12,8 @@
  * This file execute the MakAir test program
  */
 
+#pragma once
+
 #include "config.h"
 #if MODE == MODE_TEST
 
