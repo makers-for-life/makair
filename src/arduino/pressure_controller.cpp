@@ -340,37 +340,40 @@ void PressureController::safeguards(uint16_t p_centiSec)
 
 void PressureController::safeguardPressionCrete(uint16_t p_centiSec)
 {
-    if (m_pressure >= (m_maxPeakPressureCommand - 20))
+    if (m_subPhase == CycleSubPhases::INSPI)
     {
-        if (m_franchissementSeuilMaxPeakPressureDetectionTick == 0)
+        if (m_pressure >= (m_maxPeakPressureCommand - 30))
         {
-            m_franchissementSeuilMaxPeakPressureDetectionTick = p_centiSec;
+            if (m_franchissementSeuilMaxPeakPressureDetectionTick == 0)
+            {
+                m_franchissementSeuilMaxPeakPressureDetectionTick = p_centiSec;
+            }
+
+            if ((p_centiSec - m_franchissementSeuilMaxPeakPressureDetectionTick) >= 5)
+            {
+                m_blower.command = BLOWER_DEMI_OUVERT;
+            }
+        }
+        else if (m_franchissementSeuilMaxPeakPressureDetectionTick != 0)
+        {
+            if (m_franchissementSeuilMaxPeakPressureDetectionTickSupprime == 0)
+            {
+                m_franchissementSeuilMaxPeakPressureDetectionTickSupprime = p_centiSec;
+            }
+
+            if ((p_centiSec - m_franchissementSeuilMaxPeakPressureDetectionTickSupprime) >= 3)
+            {
+                m_franchissementSeuilMaxPeakPressureDetectionTick = 0;
+                m_franchissementSeuilMaxPeakPressureDetectionTickSupprime = 0;
+            }
         }
 
-        if ((p_centiSec - m_franchissementSeuilMaxPeakPressureDetectionTick) >= 10)
+        if (m_pressure >= m_maxPeakPressureCommand)
         {
-            m_blower.command = BLOWER_DEMI_OUVERT;
+            // TODO alarme
+            m_subPhase = CycleSubPhases::HOLD_INSPI;
+            plateau();
         }
-    }
-    else if (m_franchissementSeuilMaxPeakPressureDetectionTick != 0)
-    {
-        if (m_franchissementSeuilMaxPeakPressureDetectionTickSupprime == 0)
-        {
-            m_franchissementSeuilMaxPeakPressureDetectionTickSupprime = p_centiSec;
-        }
-
-        if ((p_centiSec - m_franchissementSeuilMaxPeakPressureDetectionTickSupprime) >= 3)
-        {
-            m_franchissementSeuilMaxPeakPressureDetectionTick = 0;
-            m_franchissementSeuilMaxPeakPressureDetectionTickSupprime = 0;
-        }
-    }
-
-    if (m_pressure >= m_maxPeakPressureCommand)
-    {
-        // TODO alarme
-        m_subPhase = CycleSubPhases::HOLD_INSPI;
-        plateau();
     }
 
     if (m_pressure >= (m_maxPeakPressureCommand + 10))
@@ -383,7 +386,7 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec)
 {
     if (m_phase == CyclePhases::EXHALATION)
     {
-        if (m_pressure <= (m_minPeepCommand + 20))
+        if (m_pressure <= (m_minPeepCommand + 30))
         {
             if (m_franchissementSeuilHoldExpiDetectionTick == 0)
             {
