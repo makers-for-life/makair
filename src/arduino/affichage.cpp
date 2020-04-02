@@ -12,6 +12,8 @@
  * Fichier implémentant les fonctionnalitées liés à l'affichage
  */
 
+#pragma once
+
 // INCLUDES ===================================================================
 
 // Associated header

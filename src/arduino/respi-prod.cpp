@@ -12,6 +12,8 @@
  * This file execute the Makair program
  */
 
+#pragma once
+
 #include "config.h"
 #if MODE == MODE_PROD
 

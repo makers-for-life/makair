@@ -12,6 +12,8 @@
  * This file implements the PressureController object
  */
 
+#pragma once
+
 // INCLUDES ===================================================================
 
 // Associated header
