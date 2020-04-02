@@ -2,6 +2,7 @@
 /.vscode/
 .DS_Store
 src/arduino/respi-prod.cpp.STM32.stm32.Nucleo_64.*
+src/arduino/respi-qualification.cpp.STM32.stm32.Nucleo_64.*
 src/arduino/*.csv
 src/arduino/*.ods
 src/arduino/*.csv#
