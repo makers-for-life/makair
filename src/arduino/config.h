@@ -16,8 +16,8 @@
 #pragma once
 
 // Available modes
-#define MODE_PROD 1 // Ventilator
-#define MODE_TEST 2 // Test electrical wiring
+#define MODE_PROD 1          // Ventilator
+#define MODE_QUALIFICATION 2 // Test electrical wiring
 
 // Define current mode
 #define MODE MODE_PROD
