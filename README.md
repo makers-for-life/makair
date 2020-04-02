@@ -92,6 +92,7 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 🚧 _(work in progress)_
 
 <p>
+  <img alt="Pressure Valve Render" src="./src/components/pressure-valve/fdm/schemes/Pressure%20Valve%20(Render%201).png" height="240">
   <img alt="Pressure Valve Print" src="./src/components/pressure-valve/fdm/schemes/Pressure%20Valve%20(Print%201).jpg" height="240">
 </p>
 
