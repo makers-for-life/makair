@@ -46,11 +46,12 @@ static const uint16_t CAPT_PRESSION_MINI = 0;
 // -> à adapter avec meilleur AOP
 static const uint16_t CAPT_PRESSION_MAXI = 800;
 
-#define VERSION "v1.1.36"
-#define BLOWER_OUVERT  160//90// 5
-#define BLOWER_FERME     0// 0// 65
-#define PATIENT_OUVERT 160//40
-#define PATIENT_FERME    0//76
+#define VERSION "v1.1.39"
+#define BLOWER_OUVERT 160
+#define BLOWER_DEMI_OUVERT 80
+#define BLOWER_FERME 0
+#define PATIENT_OUVERT 160
+#define PATIENT_FERME 0
 
 // entrées-sorties
 #if defined(ARDUINO_AVR_UNO)
@@ -104,15 +105,16 @@ static const int16_t LCD_UPDATE_PERIOD = 20;
 static const uint32_t PCONTROLLER_COMPUTE_PERIOD = 10;
 
 // minimums et maximums possible des paramètres modifiables à l'exécution
-static const uint16_t BORNE_SUP_PRESSION_CRETE =    700;// 120; // arbitraire mmH2O
-static const uint16_t BORNE_INF_PRESSION_CRETE =    100;//  80; // arbitraire mmH2O
-static const uint16_t BORNE_SUP_PRESSION_PLATEAU =  400;//  60; // PP MAX SDRA = 300 mmH20
-static const uint16_t BORNE_INF_PRESSION_PLATEAU =  100;//  80; // arbitraire mmH2O
-static const uint16_t BORNE_SUP_PRESSION_PEP =      300;//  30; // PP MAX = 30, or PEP < PP mmH2O
-static const uint16_t BORNE_INF_PRESSION_PEP =       50;//   0; // arbitraire mais > 0 mmH2O
-static const uint16_t INITIAL_ZERO_PRESSURE =         0; // [mmH2O]
+static const uint16_t BORNE_SUP_PRESSION_CRETE = 700;   // arbitraire [mmH2O]
+static const uint16_t BORNE_INF_PRESSION_CRETE = 100;   // arbitraire [mmH2O]
+static const uint16_t BORNE_SUP_PRESSION_PLATEAU = 400; // PP MAX SDRA = 300 [mmH2O]
+static const uint16_t BORNE_INF_PRESSION_PLATEAU = 100; // arbitraire [mmH2O]
+static const uint16_t BORNE_SUP_PRESSION_PEP = 300;     // PP MAX = 300, or PEP < PP [mmH2O]
+static const uint16_t BORNE_INF_PRESSION_PEP = 50;      // arbitraire mais > 0 [mmH2O]
+static const uint16_t INITIAL_ZERO_PRESSURE = 0;        // [mmH2O]
 
 static const uint16_t DEFAULT_MIN_PEEP_COMMAND = 80;
+static const uint16_t DEFAULT_MAX_PEAK_PRESSURE_COMMAND = 600;
 
 static const uint16_t INITIAL_CYCLE_NB = 20;
 static const uint16_t BORNE_SUP_CYCLE = 35; // demande medical
@@ -121,15 +123,15 @@ static const uint16_t BORNE_INF_CYCLE = 5;  // demande medical
 // durée d'appui des boutons (en centièmes de secondes) avant prise en compte
 static const uint16_t MAINTIEN_PARAMETRAGE = 21;
 
-static const uint16_t TENSION_BTN_PRESSION_P_CRETE_PLUS   = 915;
-static const uint16_t TENSION_BTN_PRESSION_P_CRETE_MINUS  = 800;
-static const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS   = 728;
-static const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS  = 598;
-static const uint16_t TENSION_BTN_PEP_PLUS                = 504;
-static const uint16_t TENSION_BTN_PEP_MINUS               = 410;
-static const uint16_t TENSION_BTN_CYCLE_PLUS              = 290;
-static const uint16_t TENSION_BTN_CYCLE_MINUS             = 215;
+static const uint16_t TENSION_BTN_PRESSION_P_CRETE_PLUS = 915;
+static const uint16_t TENSION_BTN_PRESSION_P_CRETE_MINUS = 800;
+static const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS = 728;
+static const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS = 598;
+static const uint16_t TENSION_BTN_PEP_PLUS = 504;
+static const uint16_t TENSION_BTN_PEP_MINUS = 410;
+static const uint16_t TENSION_BTN_CYCLE_PLUS = 290;
+static const uint16_t TENSION_BTN_CYCLE_MINUS = 215;
 
-const uint16_t TENSION_BTN_ALARME_ON        = 650;
-const uint16_t TENSION_BTN_ALARME_OFF       = 450;
-const uint16_t TENSION_BTN_ALARME_SILENCE   = 250; 
+const uint16_t TENSION_BTN_ALARME_ON = 650;
+const uint16_t TENSION_BTN_ALARME_OFF = 450;
+const uint16_t TENSION_BTN_ALARME_SILENCE = 250;
