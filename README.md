@@ -143,7 +143,7 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
   <img alt="Pneumatic Connector No pressure Print" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Respiratory%20:%20No%20pressure)/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
 </p>
 
-## The "Box Box"
+## The "Box"
 
 <p>
   <img alt="Box Render" src="./src/components/patient-filter-box/acrylic/schemes/Box%20(Render201).png" height="240">
