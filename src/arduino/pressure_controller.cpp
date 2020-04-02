@@ -20,6 +20,7 @@
 #include "pressure_controller.h"
 
 // Internal libraries
+#include "air_transistor.h"
 #include "config.h"
 #include "debug.h"
 #include "parameters.h"
@@ -58,8 +59,7 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        int16_t p_aperture,
                                        int16_t p_maxPeakPressure,
                                        AirTransistor p_blower,
-                                       AirTransistor p_patient,
-                                       AirTransistor p_y)
+                                       AirTransistor p_patient)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
       m_minPeepCommand(p_minPeepCommand),
       m_maxPlateauPressureCommand(p_maxPlateauPressure),
@@ -77,7 +77,6 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_phase(CyclePhases::INHALATION),
       m_blower(p_blower),
       m_patient(p_patient),
-      m_y(p_y),
       m_franchissementSeuilHoldExpiDetectionTick(0),
       m_franchissementSeuilHoldExpiDetectionTickSupprime(0)
 {
@@ -86,9 +85,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
 
 void PressureController::setup()
 {
-    m_blower.actuator.attach(PIN_SERVO_BLOWER);
-    m_patient.actuator.attach(PIN_SERVO_PATIENT);
-    m_y.actuator.attach(PIN_SERVO_Y);
+    m_blower.setup();
+    m_patient.setup();
 
     DBG_DO(Serial.println(VERSION);)
     DBG_DO(Serial.println("mise en secu initiale");)
@@ -381,7 +379,7 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec)
     if (m_pressure >= (m_maxPeakPressureCommand + 10))
     {
         // TODO alarme
-        m_patient.command = m_patient.position + 2;
+        m_patient.command = m_patient.position - 2;
     }
 }
 void PressureController::safeguardHoldExpiration(uint16_t p_centiSec)
@@ -425,7 +423,7 @@ void PressureController::safeguardMaintienPeep(uint16_t p_centiSec)
 {
     if (m_pressure <= m_minPeepCommand)
     {
-        m_blower.command = m_blower.position + 2;
+        m_blower.command = m_blower.position - 2;
     }
 }
 
@@ -441,5 +439,4 @@ void PressureController::executeCommands()
 {
     m_blower.execute();
     m_patient.execute();
-    m_y.execute();
 }

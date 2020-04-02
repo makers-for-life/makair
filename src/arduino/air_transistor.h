@@ -16,24 +16,31 @@
 
 // INCLUDES ===================================================================
 
-// External libraries
-#include <Servo.h>
+// External
+#include <HardwareTimer.h>
+
+// Internal libraries
+#include "parameters.h"
 
 // servomoteur blower : connecte le flux d'air vers le Air Transistor patient ou
 // vers l'extérieur 90° → tout est fermé entre 45° (90 - ANGLE_OUVERTURE_MAXI)
 // et 82° (90 - ANGLE_OUVERTURE_MINI) → envoi du flux vers l'extérieur entre 98°
 // (90 + ANGLE_OUVERTURE_MINI) et 135° (90 + ANGLE_OUVERTURE_MAXI) → envoi du
 // flux vers le Air Transistor patient
-struct AirTransistor
+class AirTransistor
 {
+public:
     //! Default constructor
     AirTransistor();
 
     //! Parameterized constructor
     AirTransistor(uint16_t p_minApertureAngle,
                   uint16_t p_maxApertureAngle,
-                  uint16_t p_defaultCommand,
-                  uint16_t p_failsafeCommand);
+                  TIM_TypeDef* p_timInstance,
+                  uint16_t p_timChannel,
+                  uint16_t p_servoPin);
+
+    void setup();
 
     inline void execute()
     {
@@ -41,7 +48,7 @@ struct AirTransistor
         if (command < minApertureAngle)
         {
             command = minApertureAngle;
-        } 
+        }
         else if (command > maxApertureAngle)
         {
             command = maxApertureAngle;
@@ -49,16 +56,20 @@ struct AirTransistor
 
         if (command != position)
         {
-            actuator.write(command);
+            actuator->setCaptureCompare(timChannel, Angle2MicroSeconds(command),
+                                        MICROSEC_COMPARE_FORMAT);
             position = command;
         }
     }
 
-    uint16_t minApertureAngle;
-    uint16_t maxApertureAngle;
-    uint16_t defaultCommand;
-    uint16_t failsafeCommand;
     uint16_t command;
     uint16_t position;
-    Servo actuator;
+
+private:
+    uint16_t minApertureAngle;
+    uint16_t maxApertureAngle;
+    TIM_TypeDef* timInstance;
+    uint16_t timChannel;
+    uint16_t servoPin;
+    HardwareTimer* actuator;
 };

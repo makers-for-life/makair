@@ -37,8 +37,8 @@
 // PROGRAM =====================================================================
 
 AirTransistor servoBlower;
-AirTransistor servoY;
 AirTransistor servoPatient;
+
 void setup()
 {
     pinMode(PIN_CAPTEUR_PRESSION, INPUT);
@@ -46,15 +46,15 @@ void setup()
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("demarrage");)
 
-    servoBlower = AirTransistor(BLOWER_FERME, BLOWER_OUVERT, BLOWER_FERME, BLOWER_OUVERT);
+    servoBlower = AirTransistor(BLOWER_OUVERT, BLOWER_FERME, TIM_INSTANCE_SERVO_VALVE_BLOWER,
+                                TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER);
 
-    servoY = AirTransistor(BLOWER_FERME, BLOWER_OUVERT, BLOWER_FERME, BLOWER_OUVERT);
-
-    servoPatient = AirTransistor(PATIENT_FERME, PATIENT_OUVERT, PATIENT_FERME, PATIENT_FERME);
+    servoPatient = AirTransistor(PATIENT_OUVERT, PATIENT_FERME, TIM_INSTANCE_SERVO_VALVE_PATIENT,
+                                 TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
 
     pController = PressureController(INITIAL_CYCLE_NB, DEFAULT_MIN_PEEP_COMMAND,
                                      BORNE_SUP_PRESSION_PLATEAU, ANGLE_OUVERTURE_MAXI,
-                                     BORNE_SUP_PRESSION_CRETE, servoBlower, servoY, servoPatient);
+                                     BORNE_SUP_PRESSION_CRETE, servoBlower, servoPatient);
     pController.setup();
     startScreen();
     initKeyboard();

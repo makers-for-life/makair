@@ -38,6 +38,10 @@ enum ScreenSize
     CHARS_20
 };
 
+// MACROS =================================================================
+
+#define Angle2MicroSeconds(value) map(value, 0, 180, 1000, 2000)
+
 // PARAMETERS =================================================================
 
 // amplitude radiale des servomoteurs
@@ -58,54 +62,38 @@ static const uint16_t CAPT_PRESSION_MINI = 0;
 // -> à adapter avec meilleur AOP
 static const uint16_t CAPT_PRESSION_MAXI = 800;
 
-#define VERSION "v1.1.39"
-#define BLOWER_OUVERT 160
-#define BLOWER_DEMI_OUVERT 80
-#define BLOWER_FERME 0
-#define PATIENT_OUVERT 160
-#define PATIENT_FERME 0
+#define VERSION "v1.1.41"
+#define BLOWER_OUVERT 25
+#define BLOWER_DEMI_OUVERT 90
+#define BLOWER_FERME 150
+#define PATIENT_OUVERT 25
+#define PATIENT_FERME 150
 
-// entrées-sorties
-#if defined(ARDUINO_AVR_UNO)
-/* Sur le prototype Arduino Uno */
-static const int16_t PIN_CAPTEUR_PRESSION = A4;
-static const int16_t PIN_SERVO_BLOWER = 4;  // D4
-static const int16_t PIN_SERVO_PATIENT = 2; // D2
-static const int16_t BTN_NOMBRE_CYCLE_MINUS = A3;
-static const int16_t BTN_NOMBRE_CYCLE_PLUS = A2;
-/* Ecran LCD */
-static const int16_t PIN_LCD_RS = 7;
-static const int16_t PIN_LCD_EN = 8;
-static const int16_t PIN_LCD_D4 = 9;
-static const int16_t PIN_LCD_D5 = 10;
-static const int16_t PIN_LCD_D6 = 11;
-static const int16_t PIN_LCD_D7 = 12;
-/* clavier analogique */
-static const int16_t PIN_CONTROL_BUTTONS = A0;
-#elif defined(ARDUINO_NUCLEO_F411RE)
+#define SERVO_VALVE_PERIOD 2000 // 500Hz --> 2000 microseconds
 
-static const int16_t PIN_CAPTEUR_PRESSION = A1;
-static const int16_t PIN_ALARM = D13;
-static const int16_t PIN_LED_RED = PC4;
-static const int16_t PIN_LED_GREEN = PB13;
-static const int16_t PIN_LED_YELLOW = PB14;
-static const int16_t PIN_MOTEUR_VENTILATEUR = D5;
-static const int16_t PIN_SERVO_BLOWER = D2;
-static const int16_t PIN_SERVO_PATIENT = D4;
-static const int16_t PIN_SERVO_Y = D3;
-static const int16_t PIN_CONTROL_BUTTONS = A0;
-static const int16_t PIN_BATTERY = A2;
+#define PIN_CAPTEUR_PRESSION A1
+#define PIN_ALARM D13
+#define PIN_LED_RED PC4
+#define PIN_LED_GREEN PB13
+#define PIN_LED_YELLOW PB14
+#define PIN_MOTEUR_VENTILATEUR D5
+#define PIN_SERVO_BLOWER D2
+#define TIM_INSTANCE_SERVO_VALVE_BLOWER TIM1
+#define TIM_CHANNEL_SERVO_VALVE_BLOWER 3
+#define PIN_SERVO_PATIENT D4
+#define TIM_INSTANCE_SERVO_VALVE_PATIENT TIM3
+#define TIM_CHANNEL_SERVO_VALVE_PATIENT 2
+#define PIN_SERVO_Y D3
+#define PIN_CONTROL_BUTTONS A0
+#define PIN_BATTERY A2
 /* Ecran LCD */
-static const int16_t PIN_LCD_RS = D7;
-static const int16_t PIN_LCD_RW = PA13;
-static const int16_t PIN_LCD_EN = D8;
-static const int16_t PIN_LCD_D4 = D9;
-static const int16_t PIN_LCD_D5 = D10;
-static const int16_t PIN_LCD_D6 = D11;
-static const int16_t PIN_LCD_D7 = D12;
-#else
-#error "Carte non supportee"
-#endif
+#define PIN_LCD_RS D7
+#define PIN_LCD_RW PA13
+#define PIN_LCD_EN D8
+#define PIN_LCD_D4 D9
+#define PIN_LCD_D5 D10
+#define PIN_LCD_D6 D11
+#define PIN_LCD_D7 D12
 
 // contrôle de l'écran LCD
 static const ScreenSize screenSize{ScreenSize::CHARS_20};
@@ -135,15 +123,15 @@ static const uint16_t BORNE_INF_CYCLE = 5;  // demande medical
 // durée d'appui des boutons (en centièmes de secondes) avant prise en compte
 static const uint16_t MAINTIEN_PARAMETRAGE = 21;
 
-static const uint16_t TENSION_BTN_PRESSION_P_CRETE_PLUS   = 913;
-static const uint16_t TENSION_BTN_PRESSION_P_CRETE_MINUS  = 820;
-static const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS   = 745;
-static const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS  = 598;
-static const uint16_t TENSION_BTN_PEP_PLUS                = 512;
-static const uint16_t TENSION_BTN_PEP_MINUS               = 414;
-static const uint16_t TENSION_BTN_CYCLE_PLUS              = 292;
-static const uint16_t TENSION_BTN_CYCLE_MINUS             = 215;
+static const uint16_t TENSION_BTN_PRESSION_P_CRETE_PLUS = 913;
+static const uint16_t TENSION_BTN_PRESSION_P_CRETE_MINUS = 820;
+static const uint16_t TENSION_BTN_PRESSION_PLATEAU_PLUS = 745;
+static const uint16_t TENSION_BTN_PRESSION_PLATEAU_MINUS = 598;
+static const uint16_t TENSION_BTN_PEP_PLUS = 512;
+static const uint16_t TENSION_BTN_PEP_MINUS = 414;
+static const uint16_t TENSION_BTN_CYCLE_PLUS = 292;
+static const uint16_t TENSION_BTN_CYCLE_MINUS = 215;
 
-const uint16_t TENSION_BTN_ALARME_ON        = 650;
-const uint16_t TENSION_BTN_ALARME_OFF       = 450;
-const uint16_t TENSION_BTN_ALARME_SILENCE   = 250;
+const uint16_t TENSION_BTN_ALARME_ON = 650;
+const uint16_t TENSION_BTN_ALARME_OFF = 450;
+const uint16_t TENSION_BTN_ALARME_SILENCE = 250;

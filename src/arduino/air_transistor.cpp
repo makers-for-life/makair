@@ -23,26 +23,26 @@
 #include "parameters.h"
 
 // FUNCTIONS ==================================================================
-
-AirTransistor::AirTransistor()
-    : minApertureAngle(ANGLE_OUVERTURE_MINI),
-      maxApertureAngle(ANGLE_OUVERTURE_MAXI),
-      defaultCommand(ANGLE_FERMETURE),
-      failsafeCommand(ANGLE_FERMETURE - ANGLE_OUVERTURE_MAXI),
-      command(ANGLE_FERMETURE),
-      position(ANGLE_FERMETURE)
-{
-}
+AirTransistor::AirTransistor() {}
 
 AirTransistor::AirTransistor(uint16_t p_minApertureAngle,
                              uint16_t p_maxApertureAngle,
-                             uint16_t p_defaultCommand,
-                             uint16_t p_failsafeCommand)
+                             TIM_TypeDef* p_timInstance,
+                             uint16_t p_timChannel,
+                             uint16_t p_servoPin)
     : minApertureAngle(p_minApertureAngle),
       maxApertureAngle(p_maxApertureAngle),
-      defaultCommand(p_defaultCommand),
-      failsafeCommand(p_failsafeCommand),
-      command(p_defaultCommand),
-      position(p_defaultCommand)
+      timInstance(p_timInstance),
+      timChannel(p_timChannel),
+      servoPin(p_servoPin)
 {
+}
+
+void AirTransistor::setup()
+{
+    actuator = new HardwareTimer(timInstance);
+    actuator->setMode(timChannel, TIMER_OUTPUT_COMPARE_PWM1, servoPin);
+    actuator->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+    actuator->setCaptureCompare(timChannel, 0, MICROSEC_COMPARE_FORMAT);
+    actuator->resume();
 }
