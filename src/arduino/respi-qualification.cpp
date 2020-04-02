@@ -22,6 +22,7 @@
 // External
 #include <Arduino.h>
 #include <OneButton.h>
+#include <HardwareTimer.h>
 
 // Internal
 #include "air_transistor.h"
@@ -51,11 +52,17 @@
 #define STEP_LED_YELLOW 15
 #define STEP_LED_GREEN 16
 #define STEP_ALARM 17
-#define STEP_PRESSURE_EMPTY 18
-#define STEP_PRESSURE_VAL1 19
-#define STEP_PRESSURE_VAL2 20
-#define STEP_PRESSURE_VAL3 21
-#define STEP_DONE 22
+#define STEP_SERVO_BLOWER_OPEN 18
+#define STEP_SERVO_BLOWER_CLOSE 19
+#define STEP_SERVO_PATIENT_OPEN 20
+#define STEP_SERVO_PATIENT_CLOSE 21
+#define STEP_SERVOS 22
+#define STEP_BLOWER 23
+#define STEP_PRESSURE_EMPTY 24
+#define STEP_PRESSURE_VAL1 25
+#define STEP_PRESSURE_VAL2 26
+#define STEP_PRESSURE_VAL3 27
+#define STEP_DONE 28
 
 static uint8_t step = STEP_LCD;
 
@@ -137,12 +144,19 @@ void displayStatus(char msg[], uint8_t line = 3) {
     screen.print(msg);
 }
 
+AirTransistor servoBlower;
+AirTransistor servoPatient;
+HardwareTimer* hardwareTimer1;
+HardwareTimer* hardwareTimer3;
+
 void onPressionCretePlusClick()
 {
     DBG_DO(Serial.println("pression crete ++"));
     if (step == STEP_LCD || step == STEP_WELCOME) {
         changeStep(step + 1);
     } else if (step == STEP_BTN_PRESSION_CRETE_PLUS) {
+        changeStep(step + 1);
+    } else if (step == STEP_SERVO_BLOWER_OPEN) {
         changeStep(step + 1);
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
@@ -157,6 +171,8 @@ void onPressionCreteMinusClick()
         changeStep(step + 1);
     } else if (step == STEP_BTN_PRESSION_CRETE_MINUS) {
         changeStep(step + 1);
+    } else if (step == STEP_SERVO_BLOWER_CLOSE) {
+        changeStep(step + 1);
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
         errors++;
@@ -169,6 +185,8 @@ void onPressionPlateauPlusClick()
     if (step == STEP_LCD || step == STEP_WELCOME) {
         changeStep(step + 1);
     } else if (step == STEP_BTN_PRESSION_PLATEAU_PLUS) {
+        changeStep(step + 1);
+    } else if (step == STEP_SERVO_PATIENT_OPEN) {
         changeStep(step + 1);
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
@@ -183,6 +201,8 @@ void onPressionPlateauMinusClick()
         changeStep(step + 1);
     } else if (step == STEP_BTN_PRESSION_PLATEAU_MINUS) {
         changeStep(step + 1);
+    } else if (step == STEP_SERVO_PATIENT_CLOSE) {
+        changeStep(step + 1);
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
         errors++;
@@ -196,6 +216,8 @@ void onPepPlusClick()
         changeStep(step + 1);
     } else if (step == STEP_BTN_PEP_PLUS) {
         changeStep(step + 1);
+    } else if (step == STEP_SERVOS) {
+        changeStep(step + 1);
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
         errors++;
@@ -208,6 +230,9 @@ void onPepMinusClick()
     if (step == STEP_LCD || step == STEP_WELCOME) {
         changeStep(step + 1);
     } else if (step == STEP_BTN_PEP_MINUS) {
+        changeStep(step + 1);
+    } else if (step == STEP_BLOWER) {
+        hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(0), MICROSEC_COMPARE_FORMAT);
         changeStep(step + 1);
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
@@ -333,9 +358,6 @@ OneButton btn_alarm_off(PIN_BTN_ALARM_OFF, false, false);
 OneButton btn_start(PIN_BTN_START, false, false);
 OneButton btn_stop(PIN_BTN_STOP, false, false);
 
-AirTransistor servoBlower;
-AirTransistor servoPatient;
-
 void setup()
 {
     DBG_DO(Serial.begin(115200));
@@ -360,10 +382,44 @@ void setup()
 
     pinMode(PIN_ALARM, OUTPUT);
 
+    // Timer for servoBlower
+    hardwareTimer1 = new HardwareTimer(TIM1);
+    hardwareTimer1->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+
+    // Timer for servoPatient and escBlower
+    hardwareTimer3 = new HardwareTimer(TIM3);
+    hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+
+    // Servo blower setup
+    servoBlower = AirTransistor(BLOWER_OUVERT, BLOWER_FERME, hardwareTimer1,
+                                TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER);
+    servoBlower.setup();
+    hardwareTimer1->resume();
+
+    // Servo patient setup
+    servoPatient = AirTransistor(PATIENT_OUVERT, PATIENT_FERME, hardwareTimer3,
+                                 TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
+    servoPatient.setup();
+
+    // Manual escBlower setup
+    // Output compare activation on pin PIN_ESC_BLOWER
+    hardwareTimer3->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
+    // Set PPM width to 1ms
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(0),
+                                      MICROSEC_COMPARE_FORMAT);
+    hardwareTimer3->resume();
+
     startScreen();
 }
 
+#define CYCLE_TICKS 100
+int16_t remainingTicks = -1;
+
 void loop() {
+    if (remainingTicks < 0) {
+        remainingTicks = CYCLE_TICKS;
+    }
+
     analogButtons.check();
     btn_alarm_off.tick();
     btn_start.tick();
@@ -450,6 +506,52 @@ void loop() {
             digitalWrite(PIN_ALARM, HIGH);
             break;
         }
+        case STEP_SERVO_BLOWER_OPEN: {
+            UNGREEDY(is_drawn, display("Servo blower opened", "Press PCrete +"));
+            servoBlower.command = BLOWER_OUVERT;
+            servoBlower.execute();
+            break;
+        }
+        case STEP_SERVO_BLOWER_CLOSE: {
+            UNGREEDY(is_drawn, display("Servo blower closed", "Press PCrete -"));
+            servoBlower.command = BLOWER_FERME;
+            servoBlower.execute();
+            break;
+        }
+        case STEP_SERVO_PATIENT_OPEN: {
+            UNGREEDY(is_drawn, display("Servo patient opened", "Press PPlateau +"));
+            servoPatient.command = PATIENT_OUVERT;
+            servoPatient.execute();
+            break;
+        }
+        case STEP_SERVO_PATIENT_CLOSE: {
+            UNGREEDY(is_drawn, display("Servo patient closed", "Press PPlateau -"));
+            servoPatient.command = PATIENT_FERME;
+            servoPatient.execute();
+            break;
+        }
+        case STEP_SERVOS: {
+            UNGREEDY(is_drawn, display("Both servos moving", "Press PPep +"));
+            if (remainingTicks == (CYCLE_TICKS / 2)) {
+                servoBlower.command = BLOWER_OUVERT;
+                servoPatient.command = PATIENT_OUVERT;
+                servoBlower.execute();
+                servoPatient.execute();
+            } else if (remainingTicks == 0) {
+                servoBlower.command = BLOWER_FERME;
+                servoBlower.execute();
+                servoPatient.command = PATIENT_FERME;
+                servoPatient.execute();
+            }
+            break;
+        }
+        case STEP_BLOWER: {
+            UNGREEDY(is_drawn, {
+                display("Blower is ON", "Press PPee -");
+                hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(120), MICROSEC_COMPARE_FORMAT);
+            });
+            break;
+        }
         case STEP_PRESSURE_EMPTY: {
             UNGREEDY(is_drawn, display("Unplug pressure", "sensor, press start"));
             break;
@@ -497,6 +599,7 @@ void loop() {
         displayStatus(status_msg, 2);
     }
 
+    remainingTicks--;
     delay(10);
 }
 
