@@ -20,10 +20,7 @@
 // INCLUDES ===================================================================
 
 // External
-#include <AnalogButtons.h>
 #include <Arduino.h>
-#include <LiquidCrystal.h>
-#include <Servo.h>
 
 // Internal
 #include "air_transistor.h"
@@ -59,6 +56,60 @@ void changeStep(uint16_t new_step) {
 }
 
 static uint16_t errors = 0;
+
+/**
+ * Affiche un pattern de la forme suivante sur l'écran LCD.
+ * La taille du pattern s'adapte en fonction du nombre de ligne et
+ * de caractères de l'écran LCD.
+ *
+ * 01234567890123456789
+ * 12345678901234567890
+ * 23456789012345678901
+ * 34567890123456789012
+ */
+void displayTestPattern()
+{
+    uint16_t line_number;
+    uint16_t line_length;
+    switch (screenSize)
+    {
+    case ScreenSize::CHARS_20:
+    {
+        line_number = 4;
+        line_length = 20;
+        break;
+    }
+    default:
+    {
+        line_number = 2;
+        line_length = 16;
+    }
+    }
+
+    for (int line = 0; line < line_number; line++)
+    {
+        screen.setCursor(0, line);
+        for (int character = 0; character < line_length; character++)
+        {
+            screen.print((character + line) % 10);
+        }
+    }
+}
+
+//! This function displays 2 lines of 16 characters (or less)
+void display(char line1[], char line2[]) {
+    resetScreen();
+    screen.setCursor(0, 0);
+    screen.print(line1);
+    screen.setCursor(0, 1);
+    screen.print(line2);
+}
+
+//! This function displays only adds a status message in the 4th line
+void displayStatus(char msg[]) {
+    screen.setCursor(0, 3);
+    screen.print(msg);
+}
 
 void onPressionCretePlusClick()
 {

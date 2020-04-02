@@ -14,23 +14,18 @@
 
 #pragma once
 
+// INCLUDES ===================================================================
+
+// External
+#include <LiquidCrystal.h>
+
+// Internal
 #include "common.h"
+#include "parameters.h"
 
-// FORWARD DECLARATIONS =======================================================
-class LiquidCrystal;
+// INITIALISATION =============================================================
 
-// STRUCTURES =================================================================
-
-/*! This enum lists the different screen sizes
- *  2 LCD versions are supported:
- *  -   LCD with 16 columns and 2 rows (16x2)
- *  -   LCD with 20 columns and 4 rows (20x4)
- */
-enum ScreenSize
-{
-    CHARS_16,
-    CHARS_20
-};
+extern LiquidCrystal screen;
 
 // FUNCTIONS ==================================================================
 
@@ -39,15 +34,6 @@ void startScreen();
 
 //! This function resets the screen
 void resetScreen();
-
-//! This function displays test characters on the screen
-void displayTestPattern();
-
-//! This function displays 2 lines of 16 characters (or less)
-void display(char line1[], char line2[]);
-
-//! This function displays only adds a status message in the 4th line
-void displayStatus(char msg[]);
 
 void displaySubPhase(CycleSubPhases phase);
 
