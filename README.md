@@ -53,7 +53,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Machine Filter Box (Intake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Machine Filter Box (Outtake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2Utff87) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Pneumatic Connectors](./src/components/pneumatic-connectors) | N/A | Initial version | ✅ | none | Gabriel Moneyron
-| [Box](./src/components/box) | N/A | Initial design & fits | ❌ | none | Arthur Dagard
+| [Box](./src/components/box) | V1 | Initial design & fits | ❌ | none | Arthur Dagard
 
 ## Electronics
 
