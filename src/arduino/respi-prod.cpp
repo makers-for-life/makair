@@ -42,6 +42,13 @@ AirTransistor servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
 
+void waitForInMs(uint16_t ms)
+{
+    uint16_t start = millis();
+    while ((millis() - start) < ms)
+        continue;
+}
+
 void setup()
 {
     DBG_DO(Serial.begin(115200);)
@@ -51,8 +58,11 @@ void setup()
     pinMode(PIN_CAPTEUR_PRESSION, INPUT);
     pinMode(PIN_ALARM, OUTPUT);
 
+    // Timer for servoBlower
     hardwareTimer1 = new HardwareTimer(TIM1);
     hardwareTimer1->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+
+    // Timer for servoPatient and escBlower
     hardwareTimer3 = new HardwareTimer(TIM3);
     hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
@@ -65,8 +75,10 @@ void setup()
                                  TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
     servoPatient.setup();
 
-    // Setup du escBlower
+    // Manual escBlower setup
+    // Output compare activation on pin PIN_ESC_BLOWER
     hardwareTimer3->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
+    // Set PPM width to 1ms
     hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(0),
                                       MICROSEC_COMPARE_FORMAT);
     hardwareTimer3->resume();
@@ -78,12 +90,13 @@ void setup()
 
     initKeyboard();
 
+    // escBlower needs 5s at speed 0 to be properly initalized
     digitalWrite(PIN_ALARM, HIGH);
-    uint16_t start = millis();
-    while ((millis() - start) < 5000)
-    {
-    }
+    waitForInMs(1000);
     digitalWrite(PIN_ALARM, LOW);
+    waitForInMs(4000);
+
+    // escBlower start
     hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(120),
                                       MICROSEC_COMPARE_FORMAT);
     DBG_DO(Serial.println("Esc blower is running!");)
