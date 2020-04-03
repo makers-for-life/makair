@@ -77,7 +77,7 @@ _(designed by [@valeriansaliou](https://github.com/valeriansaliou))_
 
 ## Container Layout
 
-[![Container Layout Drawing 1](./docs/Container/Container%20Layout/Container20Layout%201.jpg)](./docs/Container/Container%20Layout/Container20Layout%201.jpg)
+[![Container Layout Drawing 1](./docs/Container/Container%20Layout/Container%20Layout%201.jpg)](./docs/Container/Container%20Layout/Container%20Layout%201.jpg)
 
 _(designed by Arthur Dagard + [@valeriansaliou](https://github.com/valeriansaliou))_
 
