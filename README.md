@@ -35,7 +35,7 @@ The overall system is composed of sub-components that can be plugged together an
 - **Air filter casing (machine variant)** (called "Machine Filter Box"; 2 directions);
 - **Air filter casing (patient variant)** (called "Patient Filter Box");
 - **Connectors** (called "Pneumatic Connectors");
-- **Housing container** (called "Box");
+- **Housing container** (called "Container");
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
@@ -53,7 +53,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Machine Filter Box (Intake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Machine Filter Box (Outtake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2Utff87) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Pneumatic Connectors](./src/components/pneumatic-connectors) | N/A | Initial version | ✅ | none | Gabriel Moneyron
-| [Box](./src/components/box) | V1 | Initial design & fits | ❌ | none | Arthur Dagard
+| [Container](./src/components/container) | V1 | Initial design & fits | ❌ | none | Arthur Dagard
 
 ## Electronics
 
@@ -142,15 +142,15 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
   <img alt="Pneumatic Connector No pressure Print" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Respiratory%20:%20No%20pressure)/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
 </p>
 
-## The "Box"
+## The "Container"
 
 <p>
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%201).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%202).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%203).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%204).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%205).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%206).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%207).png" height="240">
-  <img alt="Box Render" src="./src/components/box/acrylic/schemes/Box%20(Render%208).png" height="240">
+  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%201).png" height="240">
+  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%202).png" height="240">
+  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%203).png" height="240">
+  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%204).png" height="240">
+  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%205).png" height="240">
+  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%206).png" height="240">
+  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%207).png" height="240">
+  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%208).png" height="240">
 </p>
