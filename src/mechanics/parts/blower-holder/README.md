@@ -2,4 +2,4 @@
 
 | Version | Last Changelog | Ready? | Online CAD Models |
 | ------- | -------------- | ------ | ----------------- |
-| V1 | Initial version | ✅ | [core link](https://a360.co/2X7eoLW), [casing link](https://a360.co/2X5DwCR)
+| V1 | Initial version | ✅ | [core link](https://a360.co/2X7eoLW) + [casing link](https://a360.co/2X5DwCR)
