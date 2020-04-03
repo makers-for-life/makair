@@ -43,7 +43,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 ## Mechanics
 
-| Component | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
+| Component | Version | Last Changelog | Tested? | Live CAD Models | Contributors |
 | --------- | ------- | -------------- | ------ | --------------- | ------------ |
 | [Blower](./src/mechanics/parts/blower) | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU) | Gabriel Moneyron + [@baptistejamin](https://github.com/baptistejamin)
 | [Blower Holder](./src/mechanics/parts/blower-holder) | V1 | Initial version | ✅ | none | Gabriel Moneyron + [@valeriansaliou](https://github.com/valeriansaliou)
@@ -57,13 +57,13 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 ## Electronics
 
-| Runtime | Version | Major Changes | Ready? | Contributors |
+| Runtime | Version | Major Changes | Tested? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
 | [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | Tronico + [@pi-r-p](https://github.com/pi-r-p)
 
 ## Software
 
-| Runtime | Version | Major Changes | Ready? | Contributors |
+| Runtime | Version | Major Changes | Tested? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
 | [Respiratory Firmware](./src/arduino) | V1.1 | Initial test working | ✅ | Gautier de Saint Martin Lacaze + [@jabby](https://github.com/jabby) + [@dsferruzza](https://github.com/dsferruzza)
 
