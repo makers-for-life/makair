@@ -32,8 +32,8 @@ The overall system is composed of sub-components that can be plugged together an
 - **Air pump casing fit** (called "Blower Holder");
 - **Valve system** (called "Pressure Valve");
 - **Oxygen Mixer valve** (called "Oxygen Mixer");
-- **Air filter casing (machine variant)** (called "Machine Filter Box"; 2 directions);
 - **Air filter casing (patient variant)** (called "Patient Filter Box");
+- **Air filter casing (machine variant)** (called "Machine Filter Box"; 2 directions);
 - **Connectors** (called "Pneumatic Connectors");
 - **Housing container** (called "Container");
 
