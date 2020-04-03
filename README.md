@@ -7,7 +7,7 @@ We are a distributed team of 50+ contributors, mostly spread through France. Mak
 
 If you're new there, please read the explanations below. _Your contributions are much welcome!_
 
-![MakAir Logo](./res/brand/assets/logo-readme.png)
+![MakAir Logo](./res/assets/logo-readme.png)
 
 ---
 
