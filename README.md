@@ -43,7 +43,7 @@ This project provides all the parts required to build a good-enough [ARDS](https
 
 We target a per-unit cost well under 500 EUR, which could easily be shrunk down to 200 EUR or even 100 EUR per respirator given proper economies of scale, as well as choices of cheaper on-the-shelf components (eg. servomotors).
 
-_We re-iterate: though 3D-printing (FDM and SLA) can be used to build your own respirator — this will definitely not scale well to mass-produce MakAir respirators, and parts might be brittle or leak air. Please work with proper industrial methods and processes if you want to make your own._
+_We re-iterate: though 3D-printing (FDM and SLA) can be used to build your own respirator — this will definitely not scale well to mass-produce MakAir respirators, and parts might be brittle or leak air. Please work with proper industrial methods and processes if you want to build your own MakAir respirators._
 
 # Components
 
