@@ -1,7 +1,7 @@
 MakAir — Covid-19 Respirator
 =====
 
-**Mass-producible Covid-19 respirator (caused by the SARS-CoV-2 virus). Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak.**
+**Mass-producible Covid-19 respirator (caused by the SARS-CoV-2 virus). Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak. Worldwide.**
 
 We are a distributed team of 50+ contributors, mostly spread through France. Makers, developers, university teachers, researchers and medical teams collaborated on this project. Our testing assembly operations are located in Nantes, France.
 
@@ -40,6 +40,8 @@ The overall system is composed of sub-components that can be plugged together an
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
 This project provides all the parts required to build a good-enough [ARDS](https://en.wikipedia.org/wiki/Acute_respiratory_distress_syndrome) respirator from mass-produced components. We provide all the required mechanical parts, electronics designs & boards, and firmwares. This respirator can be 3D-printed and ran on an Arduino board (the maker way), though we **highly advise** that you work with industrial processes as to mold plastic parts and assemble the whole respirator (this would be required for the built respirator to pass all medical certifications).
+
+We target a per-unit cost well under 500 EUR, which could easily be shrunk down to 200 EUR or even 100 EUR per respirator given proper economies of scale, as well as choices of cheaper on-the-shelf components (eg. servomotors).
 
 _We re-iterate: 3D-printing (FDM and SLA) can be used to build your own respirator, though this will definitely not scale well to mass-produce MakAir respirators, and parts might be brittle or leak air. Please work with proper industrial methods and processes if you want to make your own._
 
