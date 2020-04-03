@@ -4,7 +4,7 @@
 | ------- | -------------- | ------ | ----------------- |
 | V2 | Adapted from existing models. Test print on (27/03/20) | ❌ | [link](https://a360.co/2UmAecQ) |
 | V3 | Designed from scratched. Test print on (28/03/20) | ❌ | [link](https://a360.co/2vV5s18) |
-| V4 | Updated with correct O2 ID diameter, reinforced O2 nipple. | ❌ | [link](https://a360.co/2UuPkNt) |
+| V4 | Updated with correct O2 ID diameter, reinforced O2 nipple. | ❌ | [link](https://a360.co/345fsS2) |
 | V5 | Adapted for internal piping system. | ❌ | [link](https://a360.co/3aG3pgK) |
 
 ## Assumptions
