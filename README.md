@@ -65,7 +65,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 | Runtime | Version | Major Changes | Ready? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
-| [Motherboard](./src/arduino) | V1.1 | Initial test working | ✅ | Gautier de Saint Martin Lacaze + [@jabby](https://github.com/jabby) + [@dsferruzza](https://github.com/dsferruzza)
+| [Respiratory Firmware](./src/arduino) | V1.1 | Initial test working | ✅ | Gautier de Saint Martin Lacaze + [@jabby](https://github.com/jabby) + [@dsferruzza](https://github.com/dsferruzza)
 
 # Schemes
 
