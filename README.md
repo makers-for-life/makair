@@ -79,13 +79,13 @@ _(design by [@valeriansaliou](https://github.com/valeriansaliou))_
 
 ### Top Part: Electronics (Power & Controllers)
 
-[![Container Layout Electronics Drawing](./docs/Container/Container%20Layout/Container%20Layout%201.jpg)](./docs/Container/Container%20Layout/Container%20Layout%20Electronics.jpg)
+[![Container Layout Electronics Drawing](./docs/Container/Container%20Layout/Container%20Layout%20Electronics.jpg)](./docs/Container/Container%20Layout/Container%20Layout%20Electronics.jpg)
 
 _(design by Arthur Dagard; drawing by [@valeriansaliou](https://github.com/valeriansaliou))_
 
 ### Bottom Part: Pneumatics
 
-[![Container Layout Pneumatics Drawing](./docs/Container/Container%20Layout/Container%20Layout%201.jpg)](./docs/Container/Container%20Layout/Container%20Layout%20Pneumatics.jpg)
+[![Container Layout Pneumatics Drawing](./docs/Container/Container%20Layout/Container%20Layout%20Pneumatics.jpg)](./docs/Container/Container%20Layout/Container%20Layout%20Pneumatics.jpg)
 
 _(design by Arthur Dagard; drawing by [@valeriansaliou](https://github.com/valeriansaliou))_
 
