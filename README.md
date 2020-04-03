@@ -73,13 +73,21 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 [![Pneumatic Circuit Scheme](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatic%20Circuit.png)](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatic%20Circuit.png)
 
-_(designed by [@valeriansaliou](https://github.com/valeriansaliou))_
+_(design by [@valeriansaliou](https://github.com/valeriansaliou))_
 
 ## Container Layout
 
-[![Container Layout Drawing 1](./docs/Container/Container%20Layout/Container%20Layout%201.jpg)](./docs/Container/Container%20Layout/Container%20Layout%201.jpg)
+### Top Part: Electronics (Power & Controllers)
 
-_(designed by Arthur Dagard + [@valeriansaliou](https://github.com/valeriansaliou))_
+[![Container Layout Electronics Drawing](./docs/Container/Container%20Layout/Container%20Layout%201.jpg)](./docs/Container/Container%20Layout/Container%20Layout%20Electronics.jpg)
+
+_(design by Arthur Dagard; drawing by [@valeriansaliou](https://github.com/valeriansaliou))_
+
+### Bottom Part: Pneumatics
+
+[![Container Layout Pneumatics Drawing](./docs/Container/Container%20Layout/Container%20Layout%201.jpg)](./docs/Container/Container%20Layout/Container%20Layout%20Pneumatics.jpg)
+
+_(design by Arthur Dagard; drawing by [@valeriansaliou](https://github.com/valeriansaliou))_
 
 # News
 
