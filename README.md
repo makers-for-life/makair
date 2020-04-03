@@ -96,10 +96,10 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 ## The "Blower"
 
-🎦 View: [Animation of the "Blower"](./src/mechanics/parts/blower/fdm/schemes/Blower%20(Animation%201).mp4)
+🎦 View: [Animation of the "Blower"](./src/mechanics/parts/blower/fdm/schemes/V7/Blower%20(Animation%201).mp4)
 
 <p>
-  <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/Blower%20(Render%201).png" height="240">
+  <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V7/Blower%20(Render%201).png" height="240">
 </p>
 
 ## The "Blower Holder"
@@ -145,12 +145,12 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 ## The "Container"
 
 <p>
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%201).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%202).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%203).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%204).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%205).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%206).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%207).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%208).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%201).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%202).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%203).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%204).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%205).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%206).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%207).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%208).png" height="240">
 </p>
