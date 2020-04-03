@@ -334,6 +334,7 @@ void PressureController::holdExhalation()
 void PressureController::safeguards(uint16_t p_centiSec)
 {
     safeguardPressionCrete(p_centiSec);
+    safeguardPressionPlateau(p_centiSec);
     safeguardHoldExpiration(p_centiSec);
     safeguardMaintienPeep(p_centiSec);
 }
@@ -382,6 +383,41 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec)
         m_patient.command = m_patient.position - 2;
     }
 }
+
+void PressureController::safeguardPressionPlateau(uint16_t p_centiSec)
+{
+    if (m_subPhase == CycleSubPhases::HOLD_INSPI)
+    {
+        if (m_pressure >= m_maxPlateauPressureCommand)
+        {
+            if (m_franchissementSeuilMaxPlateauPressureDetectionTick == 0)
+            {
+                m_franchissementSeuilMaxPlateauPressureDetectionTick = p_centiSec;
+            }
+
+            if ((p_centiSec - m_franchissementSeuilMaxPlateauPressureDetectionTick) >= 10)
+            {
+                m_patient.command = m_patient.position - 2;
+                // TODO alarme franchissement plateau haut
+            }
+        }
+        else if (m_franchissementSeuilMaxPlateauPressureDetectionTick != 0)
+        {
+            if (m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime == 0)
+            {
+                m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime = p_centiSec;
+            }
+
+            if ((p_centiSec - m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime) >= 3)
+            {
+                m_franchissementSeuilMaxPlateauPressureDetectionTick = 0;
+                m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime = 0;
+                plateau();
+            }
+        }
+    }
+}
+
 void PressureController::safeguardHoldExpiration(uint16_t p_centiSec)
 {
     if (m_phase == CyclePhases::EXHALATION)
