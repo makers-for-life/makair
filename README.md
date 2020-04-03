@@ -57,7 +57,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 ## Electronics
 
-| Runtime | Version | Major Changes | Tested? | Contributors |
+| Board | Version | Major Changes | Tested? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
 | [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | Tronico + [@pi-r-p](https://github.com/pi-r-p)
 
