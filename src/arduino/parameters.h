@@ -25,19 +25,6 @@
 // Internal
 #include "config.h"
 
-// STRUCTURES =================================================================
-
-/*! This enum lists the different screen sizes
- *  2 LCD versions are supported:
- *  -   LCD with 16 columns and 2 rows (16x2)
- *  -   LCD with 20 columns and 4 rows (20x4)
- */
-enum ScreenSize
-{
-    CHARS_16,
-    CHARS_20
-};
-
 // PARAMETERS =================================================================
 
 // amplitude radiale des servomoteurs
@@ -93,7 +80,8 @@ static const uint16_t CAPT_PRESSION_MAXI = 800;
 #define PIN_LCD_D7 D12
 
 // contrôle de l'écran LCD
-static const ScreenSize screenSize{ScreenSize::CHARS_20};
+#define SCREEN_LINE_NUMBER 4
+#define SCREEN_LINE_LENGTH 20
 // période (en centièmes de secondes) de mise à jour du feedback des
 // consignes sur le LCD
 static const int16_t LCD_UPDATE_PERIOD = 20;
