@@ -203,11 +203,11 @@ private:
     /// Maximal peak pressure desired by the operator
     uint16_t m_maxPeakPressureCommand;
 
-    /// Tick de détection initiale pour le dépassement de la consigne de crete
+    /// Tick de détection initiale pour le dépassement de la consigne de crête
     uint16_t m_franchissementSeuilMaxPeakPressureDetectionTick;
 
     /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
-    /// crete
+    /// crête
     uint16_t m_franchissementSeuilMaxPeakPressureDetectionTickSupprime;
 
     /// Maximal plateau pressure desired by the operator
