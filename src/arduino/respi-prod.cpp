@@ -22,9 +22,7 @@
 // External
 #include <AnalogButtons.h>
 #include <Arduino.h>
-#include <HardwareTimer.h>
 #include <LiquidCrystal.h>
-#include <Servo.h>
 
 // Internal
 #include "affichage.h"

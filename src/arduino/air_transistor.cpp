@@ -16,8 +16,6 @@
 
 // INCLUDES ===================================================================
 
-#include <HardwareTimer.h>
-
 // Associated header
 #include "air_transistor.h"
 

@@ -22,11 +22,10 @@
 // External
 #include <Arduino.h>
 #include <OneButton.h>
-#include <HardwareTimer.h>
 
 // Internal
-#include "air_transistor.h"
 #include "affichage.h"
+#include "air_transistor.h"
 #include "common.h"
 #include "debug.h"
 #include "parameters.h"
