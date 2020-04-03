@@ -58,13 +58,10 @@ static const uint16_t CAPT_PRESSION_MINI = 0;
 // -> à adapter avec meilleur AOP
 static const uint16_t CAPT_PRESSION_MAXI = 800;
 
-#define VERSION "v1.1.41"
-#define BLOWER_OUVERT 25
-#define BLOWER_DEMI_OUVERT 90
-#define BLOWER_FERME 150
-#define PATIENT_OUVERT 25
-#define PATIENT_DEMI_OUVERT 90
-#define PATIENT_FERME 150
+#define VERSION "v1.1.43"
+#define VALVE_OUVERT 25
+#define VALVE_DEMI_OUVERT 90
+#define VALVE_FERME 150
 
 #define SERVO_VALVE_PERIOD 20000
 
@@ -113,7 +110,7 @@ static const uint16_t INITIAL_ZERO_PRESSURE = 0;        // [mmH2O]
 
 static const uint16_t DEFAULT_MIN_PEEP_COMMAND = 50;
 static const uint16_t DEFAULT_MAX_PLATEAU_COMMAND = 150;
-static const uint16_t DEFAULT_MAX_PEAK_PRESSURE_COMMAND = 200;
+static const uint16_t DEFAULT_MAX_PEAK_PRESSURE_COMMAND = 240;
 
 static const uint16_t INITIAL_CYCLE_NB = 20;
 static const uint16_t BORNE_SUP_CYCLE = 35; // demande medical

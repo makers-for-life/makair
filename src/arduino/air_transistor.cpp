@@ -45,3 +45,13 @@ void AirTransistor::setup()
     actuator->setMode(timChannel, TIMER_OUTPUT_COMPARE_PWM1, servoPin);
     actuator->setCaptureCompare(timChannel, 0, MICROSEC_COMPARE_FORMAT);
 }
+
+void AirTransistor::ouvrir() { command = VALVE_OUVERT; }
+
+void AirTransistor::ouvrirIntermediaire() { command = VALVE_DEMI_OUVERT; }
+
+void AirTransistor::fermer() { command = VALVE_FERME; }
+
+void AirTransistor::reduireOuverture() { command = position + 2; }
+
+void AirTransistor::augmenterOuverture() { command = position - 2; }

@@ -194,11 +194,16 @@ private:
     //! This function makes the actuators execute the computed commands
     void executeCommands();
 
+    void setSubPhase(CycleSubPhases p_subPhase);
+
     // ATTRIBUTES ---------------------------------------------------------------
 
 private:
     /// Number of cycles per minute desired by the operator
     uint16_t m_cyclesPerMinuteCommand;
+
+    /// True when safety mode is ON, false when in normal mode
+    bool m_vigilance;
 
     /// Maximal peak pressure desired by the operator
     uint16_t m_maxPeakPressureCommand;
