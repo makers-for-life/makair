@@ -48,7 +48,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 | [Blower](./src/components/blower) | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU) | Gabriel Moneyron + [@baptistejamin](https://github.com/baptistejamin)
 | [Blower Holder](./src/components/blower-holder) | V1 | Initial version | ✅ | none | Gabriel Moneyron + [@valeriansaliou](https://github.com/valeriansaliou)
 | [Pressure Valve](./src/components/pressure-valve) | V5 | Build fixes | ✅ | none | Clément Niclot
-| [Oxygen Mixer](./src/components/oxygen-mixer) | V5 | Adapted for internal piping system | ❌ | [view model](https://a360.co/3aG3pgK) | [@Melkaz](https://github.com/Melkaz)
+| [Oxygen Mixer](./src/components/oxygen-mixer) | V4 | Updated with correct O2 ID diameter, reinforced O2 nipple | ❌ | [view model](https://a360.co/345fsS2) | [@Melkaz](https://github.com/Melkaz)
 | [Patient Filter Box](./src/components/patient-filter-box) | V5 | Update input/output mensurations | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
 | [Machine Filter Box (Intake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | none | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Machine Filter Box (Outtake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2Utff87) | [@valeriansaliou](https://github.com/valeriansaliou)
