@@ -137,13 +137,13 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 ## The "Pneumatic Connectors"
 
 <p>
-  <img alt="Pneumatic Connector Blower Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Blower%20V4/Pneumatic%20Connectors%20Blower%20V4.png" height="240">
-  <img alt="Pneumatic Connector O2 Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/O2%20V3/Pneumatic%20Connectors%20O2%20V3.png" height="240">
-  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Respiratory%20:%20No%20pressure/Pneumatic%20Connectors%20Respiratory%20No%20pressure.png" height="240">
-  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Respiratory%20:%20Pressure/Pneumatic%20Connectors%20Respiratory%20Pressure.png" height="240">
-  <img alt="Pneumatic Connector O2 Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/O2%20V3/Pneumatic%20Connectors%20O2%20V3%20Print.jpg" height="240">
-  <img alt="Pneumatic Connector Blower Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Blower%20V4/Pneumatic%20Connectors%20Blower%20V4%20Print.jpg" height="240">
-  <img alt="Pneumatic Connector No pressure Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Respiratory%20:%20No%20pressure/Pneumatic%20Connectors%20Respiratory%20No%20pressure%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector Blower Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Blower%20V4/Pneumatic%20Connector%20Blower%20V4.png" height="240">
+  <img alt="Pneumatic Connector O2 Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/O2%20V3/Pneumatic%20Connector%20O2%20V3.png" height="240">
+  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Respiratory%20:%20No%20pressure/Pneumatic%20Connector%20Respiratory%20No%20pressure.png" height="240">
+  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Respiratory%20:%20Pressure/Pneumatic%20Connector%20Respiratory%20Pressure.png" height="240">
+  <img alt="Pneumatic Connector O2 Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/O2%20V3/Pneumatic%20Connector%20O2%20V3%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector Blower Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Blower%20V4/Pneumatic%20Connector%20Blower%20V4%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector No pressure Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Respiratory%20:%20No%20pressure/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
 </p>
 
 ## The "Container"
