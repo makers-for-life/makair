@@ -116,7 +116,7 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
   <img alt="Oxygen Mixer Print" src="./src/components/oxygen-mixer/fdm/schemes/V4/Oxygen%20Mixer%20(Print%201).jpg" height="240">
 </p>
 
-## The "Machine Filter Box"
+## The "Machine Filter Box" (Both Directions)
 
 <p>
   <img alt="Machine Filter Box Render" src="./src/components/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Render%201).png" height="320">
