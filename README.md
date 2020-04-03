@@ -89,15 +89,10 @@ _(design by Arthur Dagard; drawing by [@valeriansaliou](https://github.com/valer
 
 _(design by Arthur Dagard; drawing by [@valeriansaliou](https://github.com/valeriansaliou))_
 
-# News
-
-## Live Updates
+# News & Contact
 
 * Live updates on Telegram: [join channel](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ).
-
-# Contact Us
-
-Please [open an issue on GitHub](https://github.com/covid-response-projects/covid-respirator/issues/new) to contact us.
+* Contact us: [open an issue on GitHub](https://github.com/covid-response-projects/covid-respirator/issues/new).
 
 # Renders
 
