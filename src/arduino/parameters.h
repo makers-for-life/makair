@@ -20,7 +20,6 @@
 #include <AnalogButtons.h>
 #include <Arduino.h>
 #include <LiquidCrystal.h>
-#include <Servo.h>
 
 // Internal
 #include "config.h"

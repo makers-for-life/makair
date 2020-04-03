@@ -17,7 +17,6 @@
 // INCLUDES ===================================================================
 
 // External libraries
-#include <Servo.h>
 
 // Internal libraries
 #include "air_transistor.h"
