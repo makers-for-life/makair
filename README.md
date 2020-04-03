@@ -45,15 +45,15 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 | Component | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | --------- | ------- | -------------- | ------ | --------------- | ------------ |
-| [Blower](./src/components/blower) | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU) | Gabriel Moneyron + [@baptistejamin](https://github.com/baptistejamin)
-| [Blower Holder](./src/components/blower-holder) | V1 | Initial version | ✅ | none | Gabriel Moneyron + [@valeriansaliou](https://github.com/valeriansaliou)
-| [Pressure Valve](./src/components/pressure-valve) | V5 | Build fixes | ✅ | none | Clément Niclot
-| [Oxygen Mixer](./src/components/oxygen-mixer) | V4 | Updated with correct O2 ID diameter, reinforced O2 nipple | ❌ | [view model](https://a360.co/345fsS2) | [@Melkaz](https://github.com/Melkaz)
-| [Patient Filter Box](./src/components/patient-filter-box) | V5 | Update input/output mensurations | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
-| [Machine Filter Box (Intake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2wZids4) | [@valeriansaliou](https://github.com/valeriansaliou)
-| [Machine Filter Box (Outtake)](./src/components/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2JyLaxG) | [@valeriansaliou](https://github.com/valeriansaliou)
-| [Pneumatic Connectors](./src/components/pneumatic-connectors) | N/A | Initial version | ✅ | none | Gabriel Moneyron
-| [Container](./src/components/container) | V1 | Initial design & fits | ❌ | none | Arthur Dagard
+| [Blower](./src/mechanics/parts/blower) | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU) | Gabriel Moneyron + [@baptistejamin](https://github.com/baptistejamin)
+| [Blower Holder](./src/mechanics/parts/blower-holder) | V1 | Initial version | ✅ | none | Gabriel Moneyron + [@valeriansaliou](https://github.com/valeriansaliou)
+| [Pressure Valve](./src/mechanics/parts/pressure-valve) | V5 | Build fixes | ✅ | none | Clément Niclot
+| [Oxygen Mixer](./src/mechanics/parts/oxygen-mixer) | V4 | Updated with correct O2 ID diameter, reinforced O2 nipple | ❌ | [view model](https://a360.co/345fsS2) | [@Melkaz](https://github.com/Melkaz)
+| [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V5 | Update input/output mensurations | ❌ | none | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
+| [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2wZids4) | [@valeriansaliou](https://github.com/valeriansaliou)
+| [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2JyLaxG) | [@valeriansaliou](https://github.com/valeriansaliou)
+| [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | N/A | Initial version | ✅ | none | Gabriel Moneyron
+| [Container](./src/mechanics/container) | V1 | Initial design & fits | ❌ | none | Arthur Dagard
 
 ## Electronics
 
@@ -90,67 +90,67 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 ## The "Pressure Valve"
 
 <p>
-  <img alt="Pressure Valve Render" src="./src/components/pressure-valve/fdm/schemes/Pressure%20Valve%20(Render%201).png" height="240">
-  <img alt="Pressure Valve Print" src="./src/components/pressure-valve/fdm/schemes/Pressure%20Valve%20(Print%201).jpg" height="240">
+  <img alt="Pressure Valve Render" src="./src/mechanics/parts/pressure-valve/fdm/schemes/Pressure%20Valve%20(Render%201).png" height="240">
+  <img alt="Pressure Valve Print" src="./src/mechanics/parts/pressure-valve/fdm/schemes/Pressure%20Valve%20(Print%201).jpg" height="240">
 </p>
 
 ## The "Blower"
 
-🎦 View: [Animation of the "Blower"](./src/components/blower/fdm/schemes/Blower%20(Animation%201).mp4)
+🎦 View: [Animation of the "Blower"](./src/mechanics/parts/blower/fdm/schemes/Blower%20(Animation%201).mp4)
 
 <p>
-  <img alt="Blower Render" src="./src/components/blower/fdm/schemes/Blower%20(Render%201).png" height="240">
+  <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/Blower%20(Render%201).png" height="240">
 </p>
 
 ## The "Blower Holder"
 
 <p>
-  <img alt="Blower Holder Render" src="./src/components/blower-holder/fdm/schemes/Blower%20Holder%20(Render%201).png" height="240">
-  <img alt="Blower Holder Print" src="./src/components/blower-holder/fdm/schemes/Blower%20Holder%20(Print%201).jpg" height="240">
+  <img alt="Blower Holder Render" src="./src/mechanics/parts/blower-holder/fdm/schemes/Blower%20Holder%20(Render%201).png" height="240">
+  <img alt="Blower Holder Print" src="./src/mechanics/parts/blower-holder/fdm/schemes/Blower%20Holder%20(Print%201).jpg" height="240">
 </p>
 
 ## The "Oxygen Mixer"
 
 <p>
-  <img alt="Oxygen Mixer Render" src="./src/components/oxygen-mixer/fdm/schemes/V4/Oxygen%20Mixer%20(Render%201).png" height="240">
-  <img alt="Oxygen Mixer Print" src="./src/components/oxygen-mixer/fdm/schemes/V4/Oxygen%20Mixer%20(Print%201).jpg" height="240">
+  <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/fdm/schemes/V4/Oxygen%20Mixer%20(Render%201).png" height="240">
+  <img alt="Oxygen Mixer Print" src="./src/mechanics/parts/oxygen-mixer/fdm/schemes/V4/Oxygen%20Mixer%20(Print%201).jpg" height="240">
 </p>
 
 ## The "Machine Filter Box" (Both Directions)
 
 <p>
-  <img alt="Machine Filter Box Render" src="./src/components/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Render%201).png" height="320">
-  <img alt="Machine Filter Box Print" src="./src/components/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Print%201).jpg" height="320">
+  <img alt="Machine Filter Box Render" src="./src/mechanics/parts/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Render%201).png" height="320">
+  <img alt="Machine Filter Box Print" src="./src/mechanics/parts/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Print%201).jpg" height="320">
 </p>
 
 ## The "Patient Filter Box"
 
 <p>
-  <img alt="Patient Filter Box Render" src="./src/components/patient-filter-box/fdm/schemes/V4/Filter%20Box%20(Instructions).JPG" height="320">
-  <img alt="Machine Filter Box Print" src="./src/components/patient-filter-box/fdm/schemes/V4/Filter%20Box%20(Print%201).jpg" height="320">
+  <img alt="Patient Filter Box Render" src="./src/mechanics/parts/patient-filter-box/fdm/schemes/V4/Filter%20Box%20(Instructions).JPG" height="320">
+  <img alt="Machine Filter Box Print" src="./src/mechanics/parts/patient-filter-box/fdm/schemes/V4/Filter%20Box%20(Print%201).jpg" height="320">
 </p>
 
 ## The "Pneumatic Connectors"
 
 <p>
-  <img alt="Pneumatic Connector Blower Render" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Blower%20V4)/Pneumatic%20Connector%20Blower%20V4.png" height="240">
-  <img alt="Pneumatic Connector O2 Render" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(O2%20V3)/Pneumatic%20Connector%20O2%20V3.png" height="240">
-  <img alt="Pneumatic Connector No pressure Render" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Respiratory%20:%20No%20pressure)/Pneumatic%20Connector%20Respiratory%20No%20pressure.png" height="240">
-  <img alt="Pneumatic Connector No pressure Render" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Respiratory%20:%20Pressure)/Pneumatic%20Connector%20Respiratory%20Pressure.png" height="240">
-  <img alt="Pneumatic Connector O2 Print" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(O2%20V3)/Pneumatic%20Connector%20O2%20V3%20Print.jpg" height="240">
-  <img alt="Pneumatic Connector Blower Print" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Blower%20V4)/Pneumatic%20Connector%20Blower%20V4%20Print.jpg" height="240">
-  <img alt="Pneumatic Connector No pressure Print" src="./src/components/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Respiratory%20:%20No%20pressure)/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector Blower Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Blower%20V4)/Pneumatic%20Connector%20Blower%20V4.png" height="240">
+  <img alt="Pneumatic Connector O2 Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(O2%20V3)/Pneumatic%20Connector%20O2%20V3.png" height="240">
+  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Respiratory%20:%20No%20pressure)/Pneumatic%20Connector%20Respiratory%20No%20pressure.png" height="240">
+  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Respiratory%20:%20Pressure)/Pneumatic%20Connector%20Respiratory%20Pressure.png" height="240">
+  <img alt="Pneumatic Connector O2 Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(O2%20V3)/Pneumatic%20Connector%20O2%20V3%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector Blower Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Blower%20V4)/Pneumatic%20Connector%20Blower%20V4%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector No pressure Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/Pneumatic%20Connector%20V1%20(Respiratory%20:%20No%20pressure)/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
 </p>
 
 ## The "Container"
 
 <p>
-  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%201).png" height="240">
-  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%202).png" height="240">
-  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%203).png" height="240">
-  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%204).png" height="240">
-  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%205).png" height="240">
-  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%206).png" height="240">
-  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%207).png" height="240">
-  <img alt="Container Render" src="./src/components/container/acrylic/schemes/Container%20(Render%208).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%201).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%202).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%203).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%204).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%205).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%206).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%207).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/Container%20(Render%208).png" height="240">
 </p>
