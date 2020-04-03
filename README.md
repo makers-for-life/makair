@@ -145,8 +145,8 @@ _(design by Arthur Dagard; drawing by [@valeriansaliou](https://github.com/valer
 ### The "Patient Filter Box"
 
 <p>
-  <img alt="Patient Filter Box Render" src="./src/mechanics/parts/patient-filter-box/fdm/schemes/V6/Filter%20Box%20(Mensurations).jpg" height="320">
-  <img alt="Machine Filter Box Print" src="./src/mechanics/parts/patient-filter-box/fdm/schemes/V5/Filter%20Box%20(Print%201).jpg" height="320">
+  <img alt="Patient Filter Box Render" src="./src/mechanics/parts/patient-filter-box/fdm/schemes/V6/Filter%20Box%20(Mensurations).JPG" height="320">
+  <img alt="Machine Filter Box Print" src="./src/mechanics/parts/patient-filter-box/fdm/schemes/Archives/V5/Filter%20Box%20(Print%201).jpg" height="320">
 </p>
 
 ### The "Pneumatic Connectors"
