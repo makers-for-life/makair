@@ -11,7 +11,7 @@ If you're new there, please read the explanations below. _Your contributions are
 
 ---
 
-**⚠️ NOT READY YET, FURTHER INFORMATION WILL COME SHORTLY!**
+**⚠️ WORK IN PROGRESS — PLEASE DO NOT CONSIDER ALL PROJECT COMPONENTS READY FOR LIVE CLINICAL USE!**
 
 ---
 
