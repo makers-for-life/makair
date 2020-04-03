@@ -73,11 +73,13 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 [![Pneumatic Circuit Scheme](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatic%20Circuit.png)](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatic%20Circuit.png)
 
-_You may click on the scheme to enlarge._
+_(designed by [@valeriansaliou](https://github.com/valeriansaliou))_
 
-## Pneumatic Circuit Drawing
+## Container Layout
 
-[![Pneumatic Circuit Drawing](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatics%20Drawing.jpg)](./docs/Pneumatics/Pneumatic%20Circuit/Pneumatics%20Drawing.jpg)
+[![Container Layout Drawing 1](./docs/Container/Container%20Layout/Container20Layout%201.jpg)](./docs/Container/Container%20Layout/Container20Layout%201.jpg)
+
+_(designed by Arthur Dagard + [@valeriansaliou](https://github.com/valeriansaliou))_
 
 # News
 
