@@ -32,24 +32,11 @@ LiquidCrystal
 
 void startScreen()
 {
-    switch (screenSize)
-    {
-    case ScreenSize::CHARS_20:
-    {
-        screen.begin(20, 4);
-        screen.setCursor(0, 0);
-        screen.print("Initialisation      ");
-        screen.setCursor(0, 1);
-        screen.print(VERSION);
-        break;
-    }
-    default:
-    {
-        screen.begin(16, 2);
-        screen.print(VERSION);
-        break;
-    }
-    }
+    screen.begin(SCREEN_LINE_LENGTH, SCREEN_LINE_NUMBER);
+    screen.setCursor(0, 0);
+    screen.print("Initialisation      ");
+    screen.setCursor(0, 1);
+    screen.print(VERSION);
 }
 
 void resetScreen() { screen.clear(); }
@@ -88,42 +75,11 @@ void displaySubPhase(CycleSubPhases subPhase)
 
 void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int peep, int pressure)
 {
-
-    switch (screenSize)
-    {
-    case ScreenSize::CHARS_16:
-    {
-        screen.setCursor(0, 1);
-        screen.print(peakPressure / 10);
-        screen.print("  ");
-        screen.print(plateauPressure / 10);
-        screen.print("  ");
-        screen.print(peep / 10);
-        screen.print("  ");
-        screen.print(pressure / 10);
-
-        break;
-    }
-    case ScreenSize::CHARS_20:
-    {
-        screen.setCursor(0, 1);
-        char msg[20];
-        sprintf(msg, "%-4u %-4u %-4u %-4u", peakPressure / 10, plateauPressure / 10, peep / 10,
-                pressure / 10);
-        screen.print(msg);
-        break;
-    }
-    default:
-    {
-        screen.print(peakPressure / 10);
-        screen.print("  ");
-        screen.print(plateauPressure / 10);
-        screen.print("  ");
-        screen.print(peep / 10);
-        screen.print("  ");
-        screen.print(pressure / 10);
-    }
-    }
+    screen.setCursor(0, 1);
+    char msg[SCREEN_LINE_LENGTH];
+    sprintf(msg, "%-4u %-4u %-4u %-4u", peakPressure / 10, plateauPressure / 10, peep / 10,
+            pressure / 10);
+    screen.print(msg);
 }
 
 void displayDuringCycle(int peakPressureMax,
@@ -132,36 +88,8 @@ void displayDuringCycle(int peakPressureMax,
                         int cyclesPerMinute)
 {
     screen.setCursor(0, 3);
-
-    switch (screenSize)
-    {
-    case ScreenSize::CHARS_16:
-    {
-        // screen.print("c");
-        // screen.print(cyclesPerMinute);
-        // screen.print("/pl");
-        // screen.print(maxPlateauPressure);
-        // screen.print("/pep");
-        // screen.print(peep);
-        break;
-    }
-    case ScreenSize::CHARS_20:
-    {
-
-        char msg[20];
-        sprintf(msg, "%-4u %-4u %-4u %-4u", peakPressureMax / 10, plateauPressureMax / 10,
-                peepMin / 10, cyclesPerMinute);
-        screen.print(msg);
-        break;
-    }
-    default:
-    {
-        // screen.print("c");
-        // screen.print(cyclesPerMinute);
-        // screen.print("/pl");
-        // screen.print(maxPlateauPressure);
-        // screen.print("/pep");
-        // screen.print(peep);
-    }
-    }
+    char msg[SCREEN_LINE_LENGTH];
+    sprintf(msg, "%-4u %-4u %-4u %-4u", peakPressureMax / 10, plateauPressureMax / 10,
+            peepMin / 10, cyclesPerMinute);
+    screen.print(msg);
 }

@@ -33,5 +33,3 @@
  * pression mais generee logiciellement
  */
 // #define SIMULATION
-
-//#define __AVR_ATmega328P__
