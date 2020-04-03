@@ -77,10 +77,10 @@ public:
     //! This function increases the desired plateau pressure
     void onPressionPlateauPlus();
 
-    //! This function decreases the desired crete pressure
+    //! This function decreases the desired crête pressure
     void onPressionCreteMinus();
 
-    //! This function increases the desired crete pressure
+    //! This function increases the desired crête pressure
     void onPressionCretePlus();
 
     //! This function returns the number of cycles per minute desired by the operator
