@@ -43,8 +43,8 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 
 ## Mechanics
 
-| Component | Version | Last Changelog | Tested? | Live CAD Models | Contributors |
-| --------- | ------- | -------------- | ------ | --------------- | ------------ |
+| Part | Version | Last Changelog | Tested? | Live CAD Models | Contributors |
+| ---- | ------- | -------------- | ------ | --------------- | ------------ |
 | [Blower](./src/mechanics/parts/blower) | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU) | Gabriel Moneyron + [@baptistejamin](https://github.com/baptistejamin)
 | [Blower Holder](./src/mechanics/parts/blower-holder) | V1 | Initial version | ✅ | [view core model](https://a360.co/2X7eoLW) + [view casing model](https://a360.co/2X5DwCR) | Gabriel Moneyron + [@valeriansaliou](https://github.com/valeriansaliou)
 | [Pressure Valve](./src/mechanics/parts/pressure-valve) | V5 | Build fixes | ✅ | [view model](https://a360.co/2xOa2ic) | [@clementniclot](https://github.com/clementniclot)
@@ -58,7 +58,7 @@ In order to ensure a proper breathing cycle (inhale + exhale), multiple valves n
 ## Electronics
 
 | Board | Version | Major Changes | Tested? | Contributors |
-| ------- | ------- | ------------- | ------ | ------------ |
+| ----- | ------- | ------------- | ------ | ------------ |
 | [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | Tronico + [@pi-r-p](https://github.com/pi-r-p)
 
 ## Software
@@ -101,14 +101,16 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
 
 # Renders
 
-## The "Pressure Valve"
+## Mechanics
+
+### The "Pressure Valve"
 
 <p>
   <img alt="Pressure Valve Render" src="./src/mechanics/parts/pressure-valve/fdm/schemes/Pressure%20Valve%20(Render%201).png" height="240">
   <img alt="Pressure Valve Print" src="./src/mechanics/parts/pressure-valve/fdm/schemes/Pressure%20Valve%20(Print%201).jpg" height="240">
 </p>
 
-## The "Blower"
+### The "Blower"
 
 🎦 View: [Animation of the "Blower"](./src/mechanics/parts/blower/fdm/schemes/V7/Blower%20(Animation%201).mp4)
 
@@ -116,35 +118,35 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
   <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V7/Blower%20(Render%201).png" height="240">
 </p>
 
-## The "Blower Holder"
+### The "Blower Holder"
 
 <p>
   <img alt="Blower Holder Render" src="./src/mechanics/parts/blower-holder/fdm/schemes/V1/Blower%20Holder%20(Render%201).png" height="240">
   <img alt="Blower Holder Print" src="./src/mechanics/parts/blower-holder/fdm/schemes/V1/Blower%20Holder%20(Print%201).jpg" height="240">
 </p>
 
-## The "Oxygen Mixer"
+### The "Oxygen Mixer"
 
 <p>
   <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/fdm/schemes/V4/Oxygen%20Mixer%20(Render%201).png" height="240">
   <img alt="Oxygen Mixer Print" src="./src/mechanics/parts/oxygen-mixer/fdm/schemes/V4/Oxygen%20Mixer%20(Print%201).jpg" height="240">
 </p>
 
-## The "Machine Filter Box" (Both Directions)
+### The "Machine Filter Box" (Both Directions)
 
 <p>
   <img alt="Machine Filter Box Render" src="./src/mechanics/parts/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Render%201).png" height="320">
   <img alt="Machine Filter Box Print" src="./src/mechanics/parts/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Print%201).jpg" height="320">
 </p>
 
-## The "Patient Filter Box"
+### The "Patient Filter Box"
 
 <p>
   <img alt="Patient Filter Box Render" src="./src/mechanics/parts/patient-filter-box/fdm/schemes/V5/Filter%20Box%20(Render%201).png" height="320">
   <img alt="Machine Filter Box Print" src="./src/mechanics/parts/patient-filter-box/fdm/schemes/V5/Filter%20Box%20(Print%201).jpg" height="320">
 </p>
 
-## The "Pneumatic Connectors"
+### The "Pneumatic Connectors"
 
 <p>
   <img alt="Pneumatic Connector Blower Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Blower%20V4/Pneumatic%20Connector%20Blower%20V4.png" height="240">
@@ -156,7 +158,7 @@ Please [open an issue on GitHub](https://github.com/covid-response-projects/covi
   <img alt="Pneumatic Connector No pressure Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Respiratory%20-%20No%20pressure/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
 </p>
 
-## The "Container"
+### The "Container"
 
 <p>
   <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%201).png" height="240">
