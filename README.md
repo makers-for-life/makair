@@ -13,6 +13,8 @@ If you're new there, please read the explanations below. _Your contributions are
 
 **⚠️ WORK IN PROGRESS — PLEASE DO NOT CONSIDER ALL PROJECT COMPONENTS READY FOR LIVE CLINICAL USE!**
 
+➡️ **Updates:** We are ongoing finalization, endurance testing and final industrialization of our V1 MakAir respirator design. In the meantime, clinical trials have been started. We will provide more information gradually as we know more.
+
 ---
 
 **Shortcut links:**
