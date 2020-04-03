@@ -17,7 +17,6 @@
 // INCLUDES ===================================================================
 
 // External
-#include <HardwareTimer.h>
 
 // Internal libraries
 #include "parameters.h"
