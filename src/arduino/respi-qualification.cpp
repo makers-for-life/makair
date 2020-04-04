@@ -373,13 +373,13 @@ void setup()
     hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
     // Servo blower setup
-    servoBlower = AirTransistor(BLOWER_OUVERT, BLOWER_FERME, hardwareTimer1,
+    servoBlower = AirTransistor(VALVE_OUVERT, VALVE_FERME, hardwareTimer1,
                                 TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER);
     servoBlower.setup();
     hardwareTimer1->resume();
 
     // Servo patient setup
-    servoPatient = AirTransistor(PATIENT_OUVERT, PATIENT_FERME, hardwareTimer3,
+    servoPatient = AirTransistor(VALVE_OUVERT, VALVE_FERME, hardwareTimer3,
                                  TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
     servoPatient.setup();
 
@@ -490,39 +490,39 @@ void loop() {
         }
         case STEP_SERVO_BLOWER_OPEN: {
             UNGREEDY(is_drawn, display("Servo blower opened", "Press PCrete +"));
-            servoBlower.command = BLOWER_OUVERT;
+            servoBlower.ouvrir();
             servoBlower.execute();
             break;
         }
         case STEP_SERVO_BLOWER_CLOSE: {
             UNGREEDY(is_drawn, display("Servo blower closed", "Press PCrete -"));
-            servoBlower.command = BLOWER_FERME;
+            servoBlower.fermer();
             servoBlower.execute();
             break;
         }
         case STEP_SERVO_PATIENT_OPEN: {
             UNGREEDY(is_drawn, display("Servo patient opened", "Press PPlateau +"));
-            servoPatient.command = PATIENT_OUVERT;
+            servoPatient.ouvrir();
             servoPatient.execute();
             break;
         }
         case STEP_SERVO_PATIENT_CLOSE: {
             UNGREEDY(is_drawn, display("Servo patient closed", "Press PPlateau -"));
-            servoPatient.command = PATIENT_FERME;
+            servoPatient.fermer();
             servoPatient.execute();
             break;
         }
         case STEP_SERVOS: {
             UNGREEDY(is_drawn, display("Both servos moving", "Press PPep +"));
             if (remainingTicks == (CYCLE_TICKS / 2)) {
-                servoBlower.command = BLOWER_OUVERT;
-                servoPatient.command = PATIENT_OUVERT;
+                servoBlower.ouvrir();
+                servoPatient.ouvrir();
                 servoBlower.execute();
                 servoPatient.execute();
             } else if (remainingTicks == 0) {
-                servoBlower.command = BLOWER_FERME;
+                servoBlower.fermer();
                 servoBlower.execute();
-                servoPatient.command = PATIENT_FERME;
+                servoPatient.fermer();
                 servoPatient.execute();
             }
             break;
