@@ -202,7 +202,7 @@ private:
     /// Number of cycles per minute desired by the operator
     uint16_t m_cyclesPerMinuteCommand;
 
-    /// True when safety mode is ON, false when in normal mode
+    /// True when safety mode is ON, false in normal mode
     bool m_vigilance;
 
     /// Maximal peak pressure desired by the operator

@@ -297,7 +297,9 @@ void PressureController::inhale()
     m_patient.fermer();
 
     // TODO vérifier si la pression de crête est toujours la dernière pression mesurée sur la
-    // sous-phase INSPI Update the peak pressure
+    // sous-phase INSPI
+
+    // Update the peak pressure
     m_peakPressure = m_pressure;
 }
 
