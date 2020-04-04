@@ -1,7 +1,7 @@
 MakAir — Covid-19 Respirator
 =====
 
-**Mass-producible Covid-19 respirator (caused by the SARS-CoV-2 virus). Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak. Worldwide.**
+**Mass-producible Covid-19 ARDS respirator. Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak. Worldwide.**
 
 We are a distributed team of 200+ contributors, mostly spread through France. Makers, developers, university teachers, researchers and medical teams collaborated on this project. Our testing & assembly operations are located in France.
 
