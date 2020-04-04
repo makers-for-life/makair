@@ -1,16 +1,13 @@
-/*=============================================================================
- * @file clavier.h
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
+ * @file clavier.cpp
+ * @brief Analog buttons related functions
  *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * This file is the implementation for input keyboard
- */
+ * This relies on the Analog Buttons library (https://github.com/rlogiacco/AnalogButtons).
+ *****************************************************************************/
 
 #pragma once
 
@@ -31,6 +28,7 @@
 
 // INITIALISATION =============================================================
 
+/// Abstraction to handle buttons connected to one analog pin through a voltage divider
 static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT, 5, 30);
 static OneButton btn_alarm_off(PIN_BTN_ALARM_OFF, false, false);
 static OneButton btn_start(PIN_BTN_START, false, false);
@@ -40,40 +38,43 @@ static OneButton btn_stop(PIN_BTN_STOP, false, false);
  * Button handlers
  */
 
-/* Handler of the button to increment the Crete pressure */
+/// Handler of the button to increment the crete pressure
 void onPressionCretePlus() { pController.onPressionCretePlus(); }
 
-/* Handler of the button to decrement the Crete pressure */
+/// Handler of the button to decrement the crete pressure
 void onPressionCreteMinus() { pController.onPressionCreteMinus(); }
 
-/* Handler of the button to decrement the plateau pressure */
+/// Handler of the button to decrement the plateau pressure
 void onPressionPlateauMinus() { pController.onPressionPlateauMinus(); }
 
-/* Handler of the button to increment the plateau pressure */
+/// Handler of the button to increment the plateau pressure
 void onPressionPlateauPlus() { pController.onPressionPlateauPlus(); }
 
-/* Handler of the button to increment the PEP pressure */
+/// Handler of the button to increment the PEP pressure
 void onPressionPepPlus() { pController.onPressionPepPlus(); }
 
-/* Handler of the button to decrement the PEP pressure */
+/// Handler of the button to decrement the PEP pressure
 void onPressionPepMinus() { pController.onPressionPepMinus(); }
 
-/* Handler of the button to increment the number of breathing cycles */
+/// Handler of the button to increment the number of breathing cycles
 void onCyclePlus() { pController.onCyclePlus(); }
 
-/* Handler of the button to decrement the number of breathing cycles */
+/// Handler of the button to decrement the number of breathing cycles
 void onCycleMinus() { pController.onCycleMinus(); }
 
+/// Handler of the button to stop alarm
 void onAlarmOff() { Alarm_Stop(); }
 
+/// Handler of the button to start
 void onStart() {}
 
+/// Handler of the button to stop
 void onStop() {}
 
-/*
- * Buttons associations with analog levels and handlers
+/**
+ * @name Bindings between analog levels and handlers
  */
-
+///@{
 Button btnPressionCretePlus(TENSION_BTN_PRESSION_P_CRETE_PLUS, &onPressionCretePlus);
 Button btnPressionCreteMinus(TENSION_BTN_PRESSION_P_CRETE_MINUS, &onPressionCreteMinus);
 Button btnPressionPlateauPlus(TENSION_BTN_PRESSION_PLATEAU_PLUS, &onPressionPlateauPlus);
@@ -82,10 +83,8 @@ Button btnPressionPepPlus(TENSION_BTN_PEP_PLUS, &onPressionPepPlus);
 Button btnPressionPepMinus(TENSION_BTN_PEP_MINUS, &onPressionPepMinus);
 Button btnCyclePlus(TENSION_BTN_CYCLE_PLUS, &onCyclePlus);
 Button btnCycleMinus(TENSION_BTN_CYCLE_MINUS, &onCycleMinus);
+///@}
 
-/*-----------------------------------------------------------------------------
- * initKeyboard does the initializations to use a keyboard
- */
 void initKeyboard()
 {
     analogButtons.add(btnPressionCretePlus);
@@ -102,10 +101,6 @@ void initKeyboard()
     btn_stop.attachClick(onStop);
 }
 
-/*-----------------------------------------------------------------------------
- * keyboardLoop triggers the reading of the buttons and call the handlers
- * Has to be called within the Pressure controller loop
- */
 void keyboardLoop()
 {
     analogButtons.check();

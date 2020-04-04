@@ -1,16 +1,11 @@
-/*=============================================================================
- * @file respi-prod.h
- *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * This file execute the Makair program
- */
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
+ * @file respi-prod.cpp
+ * @brief Entry point of ventilator program
+ *****************************************************************************/
 
 #pragma once
 
@@ -43,6 +38,11 @@ AirTransistor servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
 
+/**
+ * Block execution for a given duration
+ *
+ * @param ms  Duration of the blocking in millisecond
+ */
 void waitForInMs(uint16_t ms)
 {
     uint16_t start = millis();
@@ -157,11 +157,11 @@ void loop()
             {
                 displaySubPhase(pController.subPhase());
 
-                displayEveryRespiratoryCycle(pController.peakPressure(),
+                displayInstantInfo(pController.peakPressure(),
                                              pController.plateauPressure(), pController.peep(),
                                              pController.pressure());
 
-                displayDuringCycle(
+                displaySettings(
                     pController.maxPeakPressureCommand(), pController.maxPlateauPressureCommand(),
                     pController.minPeepCommand(), pController.cyclesPerMinuteCommand());
             }

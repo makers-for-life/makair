@@ -1,16 +1,11 @@
-/*=============================================================================
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
  * @file air_transistor.cpp
- *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * This file implements the AirTransistor object
- */
+ * @brief Tools to control an Air Transistor's servomotor
+ *****************************************************************************/
 
 #pragma once
 

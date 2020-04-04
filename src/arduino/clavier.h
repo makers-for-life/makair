@@ -1,31 +1,29 @@
-/*=============================================================================
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
  * @file clavier.h
+ * @brief Analog buttons related functions
  *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * This file is the header for input keyboard
- */
+ * This relies on the Analog Buttons library (https://github.com/rlogiacco/AnalogButtons).
+ *****************************************************************************/
 
 #pragma once
 
-/*
- * initKeyboard does the initializations to use a keyboard
+/**
+ * Initialize keyboard abstraction
+ *
+ * @warning It must be called once to be able to use the buttons
  */
 void initKeyboard();
 
-/*
- * keyboardLoop does the polling of the keyboard. It has to be called
- * in loop
+/**
+ * Handle button events
+ *
+ * @warning It must be called in the program loop
  */
 void keyboardLoop();
 
-/*
- * Call this in loop() to help find analog values of buttons
- */
+/// Helper to calibrate analog values of buttons
 void calibrateButtons();
