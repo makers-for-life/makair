@@ -85,8 +85,7 @@ Button btnCyclePlus(TENSION_BTN_CYCLE_PLUS, &onCyclePlus);
 Button btnCycleMinus(TENSION_BTN_CYCLE_MINUS, &onCycleMinus);
 ///@}
 
-void initKeyboard()
-{
+void initKeyboard() {
     analogButtons.add(btnPressionCretePlus);
     analogButtons.add(btnPressionCreteMinus);
     analogButtons.add(btnPressionPlateauPlus);
@@ -101,16 +100,14 @@ void initKeyboard()
     btn_stop.attachClick(onStop);
 }
 
-void keyboardLoop()
-{
+void keyboardLoop() {
     analogButtons.check();
     btn_alarm_off.tick();
     btn_start.tick();
     btn_stop.tick();
 }
 
-void calibrateButtons()
-{
+void calibrateButtons() {
     uint16_t value = analogRead(PIN_CONTROL_BUTTONS);
     Serial.println(value);
     delay(250);

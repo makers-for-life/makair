@@ -29,8 +29,7 @@ LiquidCrystal
 
 // FUNCTIONS ==================================================================
 
-void startScreen()
-{
+void startScreen() {
     screen.begin(SCREEN_LINE_LENGTH, SCREEN_LINE_NUMBER);
     screen.setCursor(0, 0);
     screen.print("Initialisation      ");
@@ -40,40 +39,32 @@ void startScreen()
 
 void resetScreen() { screen.clear(); }
 
-void displaySubPhase(CycleSubPhases subPhase)
-{
+void displaySubPhase(CycleSubPhases subPhase) {
     screen.setCursor(0, 0);
-    switch (subPhase)
-    {
-    case CycleSubPhases::INSPI:
-    {
+    switch (subPhase) {
+    case CycleSubPhases::INSPI: {
         screen.print("Inhalation          ");
         break;
     }
-    case CycleSubPhases::HOLD_INSPI:
-    {
+    case CycleSubPhases::HOLD_INSPI: {
         screen.print("Plateau             ");
         break;
     }
-    case CycleSubPhases::EXHALE:
-    {
+    case CycleSubPhases::EXHALE: {
         screen.print("Exhalation          ");
         break;
     }
-    case CycleSubPhases::HOLD_EXHALE:
-    {
+    case CycleSubPhases::HOLD_EXHALE: {
         screen.print("Hold exhalation     ");
         break;
     }
-    default:
-    {
+    default: {
         break;
     }
     }
 }
 
-void displayInstantInfo(int peakPressure, int plateauPressure, int peep, int pressure)
-{
+void displayInstantInfo(int peakPressure, int plateauPressure, int peep, int pressure) {
     screen.setCursor(0, 1);
     char msg[SCREEN_LINE_LENGTH];
     sprintf(msg, "%-4u %-4u %-4u %-4u", peakPressure / 10, plateauPressure / 10, peep / 10,
@@ -84,11 +75,10 @@ void displayInstantInfo(int peakPressure, int plateauPressure, int peep, int pre
 void displaySettings(int peakPressureMax,
                      int plateauPressureMax,
                      int peepMin,
-                     int cyclesPerMinute)
-{
+                     int cyclesPerMinute) {
     screen.setCursor(0, 3);
     char msg[SCREEN_LINE_LENGTH];
-    sprintf(msg, "%-4u %-4u %-4u %-4u", peakPressureMax / 10, plateauPressureMax / 10,
-            peepMin / 10, cyclesPerMinute);
+    sprintf(msg, "%-4u %-4u %-4u %-4u", peakPressureMax / 10, plateauPressureMax / 10, peepMin / 10,
+            cyclesPerMinute);
     screen.print(msg);
 }
