@@ -12,6 +12,8 @@
  * This file is the implementation of Alarms
  */
 
+#pragma once
+
 /// Externals
 
 #include "Arduino.h"
@@ -36,7 +38,8 @@ frequency eitehr 84 or 100 MHz*/
 /* Yellow Alarm pattern size */
 #define ALARM_YELLOW_SIZE 8
 
-/* Yellow alarm pattern definition, composed of multiple couple of states (Actif/Inactif) and duration (miliseconds) */
+/* Yellow alarm pattern definition, composed of multiple couple of states (Actif/Inactif) and
+ * duration (miliseconds) */
 const uint32_t Alarm_Yellow[ALARM_YELLOW_SIZE] = {
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BEEEEP_PAUSE,
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PAUSE_20S};
@@ -44,7 +47,8 @@ const uint32_t Alarm_Yellow[ALARM_YELLOW_SIZE] = {
 /* Red Alarm pattern size */
 #define ALARM_RED_SIZE 32
 
-/* Red alarm pattern definition, composed of multiple couple of states (Actif/Inactif) and duration (miliseconds) */
+/* Red alarm pattern definition, composed of multiple couple of states (Actif/Inactif) and duration
+ * (miliseconds) */
 const uint32_t Alarm_Red[ALARM_RED_SIZE] = {
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
@@ -58,7 +62,8 @@ const uint32_t Alarm_Red[ALARM_RED_SIZE] = {
 /* Boot Alarm pattern size */
 #define ALARM_BOOT_SIZE 4
 
-/* Yellow alarm pattern definition, composed of multiple couple of states (Actif/Inactif) and duration (miliseconds) */
+/* Yellow alarm pattern definition, composed of multiple couple of states (Actif/Inactif) and
+ * duration (miliseconds) */
 const uint32_t Alarm_Boot[ALARM_BOOT_SIZE] = {TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP,
                                               TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BEEEEP_PAUSE};
 
@@ -77,12 +82,13 @@ uint32_t AlarmTimchannel;
  * Not: API update since version 1.9.0 of Arduino_Core_STM32
  */
 #if (STM32_CORE_VERSION < 0x01090000)
-void Update_IT_callback(HardwareTimer*)
+void Update_IT_callback(HardwareTimer*)  // NOLINT(readability/casting)
 #else
 void Update_IT_callback(void)
 #endif
 {
-    /* patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)*/
+    /* patterns are composed of multiple couple of states (Actif/Inactif) and duration
+     * (miliseconds)*/
     /* Previous state is finished, switch to next one */
     AlarmTim->setMode(AlarmTimchannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
     AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1], TICK_FORMAT);
@@ -93,22 +99,22 @@ void Update_IT_callback(void)
 /**
  * Initialization of HardwareTimer for Alarm purpose
  */
-void Alarm_Init()
-{
+void Alarm_Init() {
     // Automatically retrieve timer instance and channel associated with the pin
     // Useful in case of board change
-    TIM_TypeDef* Instance =
-        (TIM_TypeDef*)pinmap_peripheral(digitalPinToPinName(PIN_ALARM), PinMap_PWM);
+    TIM_TypeDef* Instance = reinterpret_cast<TIM_TypeDef*>(
+        pinmap_peripheral(digitalPinToPinName(PIN_ALARM), PinMap_PWM));
     AlarmTimchannel = STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(PIN_ALARM), PinMap_PWM));
 
     // Alarm HardwareTimer object creation
     AlarmTim = new HardwareTimer(Instance);
 
     AlarmTim->setMode(AlarmTimchannel, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PIN_ALARM);
-    /* 4 TICK = 1 ms  ( not possible to have 1TICK = 1millisec because prescalor is 16bit anf input frequency eitehr 84 or 100 MHz*/
+    /* 4 TICK = 1 ms  ( not possible to have 1TICK = 1millisec because prescalor is 16bit anf input
+     * frequency eitehr 84 or 100 MHz*/
     /* Use of TICK format o avoid computation within interrupt handler */
     AlarmTim->setPrescaleFactor(AlarmTim->getTimerClkFreq() / (TIMER_TICK_PER_MS * 1000));
-    AlarmTim->setOverflow(100 * TIMER_TICK_PER_MS, TICK_FORMAT); // Default 100milisecondes
+    AlarmTim->setOverflow(100 * TIMER_TICK_PER_MS, TICK_FORMAT);  // Default 100milisecondes
 
     /* Start with inactive state without interruptions */
     AlarmTim->resume();
@@ -118,14 +124,14 @@ void Alarm_Init()
  * Generic function to activate an alarm.
  * Input parameters: alarm pattern array and its size
  */
-void Alarm_Start(const uint32_t* Alarm, uint32_t Size)
-{
+void Alarm_Start(const uint32_t* Alarm, uint32_t Size) {
     AlarmTim->setCount(0);
     Active_Alarm = Alarm;
     Active_Alarm_Index = 0;
     Active_Alarm_Size = Size;
 
-    /* patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds) */
+    /* patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
+     */
     /* Configuration of first etat of pattern */
     AlarmTim->setMode(AlarmTimchannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
     AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1], TICK_FORMAT);

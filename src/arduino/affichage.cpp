@@ -67,8 +67,8 @@ void displaySubPhase(CycleSubPhases subPhase) {
 void displayInstantInfo(int peakPressure, int plateauPressure, int peep, int pressure) {
     screen.setCursor(0, 1);
     char msg[SCREEN_LINE_LENGTH];
-    sprintf(msg, "%-4u %-4u %-4u %-4u", peakPressure / 10, plateauPressure / 10, peep / 10,
-            pressure / 10);
+    snprintf(msg, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressure / 10,
+             plateauPressure / 10, peep / 10, pressure / 10);
     screen.print(msg);
 }
 
@@ -78,7 +78,7 @@ void displaySettings(int peakPressureMax,
                      int cyclesPerMinute) {
     screen.setCursor(0, 3);
     char msg[SCREEN_LINE_LENGTH];
-    sprintf(msg, "%-4u %-4u %-4u %-4u", peakPressureMax / 10, plateauPressureMax / 10, peepMin / 10,
-            cyclesPerMinute);
+    snprintf(msg, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressureMax / 10,
+             plateauPressureMax / 10, peepMin / 10, cyclesPerMinute);
     screen.print(msg);
 }

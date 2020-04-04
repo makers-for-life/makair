@@ -57,7 +57,7 @@ void setup() {
         Alarm_Init();
         Alarm_Red_Start();
         while (1) {
-        };
+        }
     }
 
     DBG_DO(Serial.begin(115200);)
