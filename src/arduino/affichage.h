@@ -6,7 +6,7 @@
  * @file affichage.h
  * @brief Display and LCD screen related functions
  *
- * This relies on the LiquidCrytal library (https://github.com/arduino-libraries/LiquidCrystal).
+ * This relies on the LiquidCrystal library (https://github.com/arduino-libraries/LiquidCrystal).
  * LCD screen must have 4 lines of 20 characters.
  *****************************************************************************/
 
