@@ -111,6 +111,3 @@ static const uint16_t TENSION_BTN_PEP_PLUS = 512;
 static const uint16_t TENSION_BTN_PEP_MINUS = 415;
 static const uint16_t TENSION_BTN_CYCLE_PLUS = 294;
 static const uint16_t TENSION_BTN_CYCLE_MINUS = 216;
-
-/* Watchdog timeout in microseconds */
-#define WATCHDOG_TIMEOUT 1000000

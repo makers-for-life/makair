@@ -12,6 +12,9 @@
  * This file is the implementation of Alarms
  */
 
+/* Watchdog timeout in microseconds */
+#define WATCHDOG_TIMEOUT 1000000
+
 /**
  * Initialization of HardwareTimer for Alarm purpose
  */
