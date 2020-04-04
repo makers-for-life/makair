@@ -64,9 +64,6 @@ void setup()
         };
     }
 
-    // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
-    IWatchdog.begin(WATCHDOG_TIMEOUT);
-
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("demarrage");)
     startScreen();
@@ -108,10 +105,12 @@ void setup()
 
     initKeyboard();
 
+    Alarm_Init();
+
     // escBlower needs 5s at speed 0 to be properly initalized
-    digitalWrite(PIN_ALARM, HIGH);
+    Alarm_Boot_Start();
     waitForInMs(1000);
-    digitalWrite(PIN_ALARM, LOW);
+    Alarm_Stop();
     waitForInMs(4000);
 
     // escBlower start
@@ -119,15 +118,8 @@ void setup()
                                       MICROSEC_COMPARE_FORMAT);
     DBG_DO(Serial.println("Esc blower is running!");)
 
-    Alarm_Init();
-    Alarm_Boot_Start();
-    delay(150);
-    Alarm_Stop();
-
-    /* Test purpose*/
-    delay(2000);
-    Alarm_Yellow_Start();
-
+    // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
+    IWatchdog.begin(WATCHDOG_TIMEOUT);
     IWatchdog.reload();
 }
 

@@ -21,8 +21,10 @@
 
 // External
 #include <AnalogButtons.h>
+#include <OneButton.h>
 
 // Internal
+#include "alarm.h"
 #include "debug.h"
 #include "parameters.h"
 #include "pressure_controller.h"
@@ -30,6 +32,9 @@
 // INITIALISATION =============================================================
 
 static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT, 5, 30);
+static OneButton btn_alarm_off(PIN_BTN_ALARM_OFF, false, false);
+static OneButton btn_start(PIN_BTN_START, false, false);
+static OneButton btn_stop(PIN_BTN_STOP, false, false);
 
 /*-----------------------------------------------------------------------------
  * Button handlers
@@ -85,13 +90,23 @@ void initKeyboard()
     analogButtons.add(btnPressionPepMinus);
     analogButtons.add(btnCyclePlus);
     analogButtons.add(btnCycleMinus);
+
+    btn_alarm_off.attachClick(onAlarmOffClick);
+    btn_start.attachClick(onStartClick);
+    btn_stop.attachClick(onStopClick);
 }
 
 /*-----------------------------------------------------------------------------
  * keyboardLoop triggers the reading of the buttons and call the handlers
  * Has to be called within the Pressure controller loop
  */
-void keyboardLoop() { analogButtons.check(); }
+void keyboardLoop()
+{
+    analogButtons.check();
+    btn_alarm_off.tick();
+    btn_start.tick();
+    btn_stop.tick();
+}
 
 void calibrateButtons()
 {
@@ -99,3 +114,9 @@ void calibrateButtons()
     Serial.println(value);
     delay(250);
 }
+
+void onAlarmOffClick() { Alarm_Stop(); }
+
+void onStartClick() {}
+
+void onStopClick() {}
