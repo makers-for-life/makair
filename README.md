@@ -61,7 +61,7 @@ _We re-iterate: though 3D-printing (FDM and SLA) can be used to build your own r
 | [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2wZids4) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2JyLaxG) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | N/A | Initial version | ✅ | none | Gabriel Moneyron
-| [Container](./src/mechanics/container) | V1 | Initial design & fits | ❌ | [view model](https://a360.co/2JyIU9P) | Arthur Dagard
+| [Container](./src/mechanics/container) | V2 | Update mensurations | ❌ | [view model](https://a360.co/3dVmJbR) | Arthur Dagard
 
 ## Electronics
 
@@ -164,12 +164,10 @@ _(design by Arthur Dagard; drawing by [@valeriansaliou](https://github.com/valer
 ### The "Container"
 
 <p>
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%201).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%202).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%203).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%204).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%205).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%206).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%207).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V1/Container%20(Render%208).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%201).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%202).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%204).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%206).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%207).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%208).png" height="240">
 </p>
