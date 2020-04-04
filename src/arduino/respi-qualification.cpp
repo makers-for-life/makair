@@ -529,7 +529,7 @@ void loop() {
         }
         case STEP_BLOWER: {
             UNGREEDY(is_drawn, {
-                display("Blower is ON", "Press PPee -");
+                display("Blower is ON", "Press PPeP -");
                 hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(120), MICROSEC_COMPARE_FORMAT);
             });
             break;
