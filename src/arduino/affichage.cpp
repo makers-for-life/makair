@@ -1,16 +1,14 @@
-/*=============================================================================
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
  * @file affichage.cpp
+ * @brief Display and LCD screen related functions
  *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * Fichier implémentant les fonctionnalitées liés à l'affichage
- */
+ * This relies on the LiquidCrytal library (https://github.com/arduino-libraries/LiquidCrystal).
+ * LCD screen must have 4 lines of 20 characters.
+ *****************************************************************************/
 
 #pragma once
 
@@ -25,6 +23,7 @@
 
 // INITIALISATION =============================================================
 
+/// Instance of the screen controller
 LiquidCrystal
     screen(PIN_LCD_RS, PIN_LCD_RW, PIN_LCD_EN, PIN_LCD_D4, PIN_LCD_D5, PIN_LCD_D6, PIN_LCD_D7);
 
@@ -73,7 +72,7 @@ void displaySubPhase(CycleSubPhases subPhase)
     }
 }
 
-void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int peep, int pressure)
+void displayInstantInfo(int peakPressure, int plateauPressure, int peep, int pressure)
 {
     screen.setCursor(0, 1);
     char msg[SCREEN_LINE_LENGTH];
@@ -82,10 +81,10 @@ void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int pee
     screen.print(msg);
 }
 
-void displayDuringCycle(int peakPressureMax,
-                        int plateauPressureMax,
-                        int peepMin,
-                        int cyclesPerMinute)
+void displaySettings(int peakPressureMax,
+                     int plateauPressureMax,
+                     int peepMin,
+                     int cyclesPerMinute)
 {
     screen.setCursor(0, 3);
     char msg[SCREEN_LINE_LENGTH];

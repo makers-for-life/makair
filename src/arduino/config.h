@@ -1,35 +1,31 @@
-/*=============================================================================
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
  * @file config.h
- *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * Fichier de configuration pour les differentes compilations conditionelles
- * possibles.
- */
+ * @brief Main configuration
+ *****************************************************************************/
 
 #pragma once
 
 // Available modes
-#define MODE_PROD 1          // Ventilator
-#define MODE_QUALIFICATION 2 // Test electrical wiring
+#define MODE_PROD 1          ///< Ventilator mode
+#define MODE_QUALIFICATION 2 ///< Test electrical wiring mode
 
-// Define current mode
+/// Defines the current mode
 #define MODE MODE_PROD
 
-/*
- * Lorsque DEBUG est defini, du code additionnel envoyant des infos sur
- * la ligne serie est compile.
+/**
+ * Activates debug traces
+ *
+ * When DEBUG = 1, additional code is added to send debug traces using serial
  */
-#define DEBUG
+#define DEBUG 1
 
-/*
- * Lorsque SIMULATION est defini, l'information n'est pas lue du capteur de
- * pression mais generee logiciellement
+/**
+ * Activates pressure sensor simulation
+ *
+ * When SIMULATION = 1, the current pressure value will not be read from the sensor but computed by a basic and deterministic model
  */
-// #define SIMULATION
+#define SIMULATION 0

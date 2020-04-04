@@ -1,16 +1,11 @@
-/*=============================================================================
- * @file pressure_controller.h
- *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * This file implements the PressureController object
- */
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
+ * @file pressure_controller.cpp
+ * @brief Core logic to control the breathing cycle
+ *****************************************************************************/
 
 #pragma once
 

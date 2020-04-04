@@ -1,17 +1,11 @@
-/*=============================================================================
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
  * @file pression.cpp
- *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * Fichier définissant les fonctionnalités liées à l'acquisition ou la simulation
- * du capteur de pression
- */
+ * @brief Pressure sensor related functions
+ *****************************************************************************/
 
 #pragma once
 
@@ -31,7 +25,7 @@ const double V_SUPPLY = 5.08;
 const double KPA_MMH2O = 101.97162129779;
 
 // Get the measured or simulated pressure for the feedback control (in mmH2O)
-#ifdef SIMULATION
+#if SIMULATION == 1
 int readPressureSensor(uint16_t centiSec)
 {
     if (centiSec < uint16_t(10))
