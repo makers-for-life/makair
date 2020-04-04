@@ -64,6 +64,12 @@ void onCyclePlus() { pController.onCyclePlus(); }
 /* Handler of the button to decrement the number of breathing cycles */
 void onCycleMinus() { pController.onCycleMinus(); }
 
+void onAlarmOff() { Alarm_Stop(); }
+
+void onStart() {}
+
+void onStop() {}
+
 /*
  * Buttons associations with analog levels and handlers
  */
@@ -91,9 +97,9 @@ void initKeyboard()
     analogButtons.add(btnCyclePlus);
     analogButtons.add(btnCycleMinus);
 
-    btn_alarm_off.attachClick(onAlarmOffClick);
-    btn_start.attachClick(onStartClick);
-    btn_stop.attachClick(onStopClick);
+    btn_alarm_off.attachClick(onAlarmOff);
+    btn_start.attachClick(onStart);
+    btn_stop.attachClick(onStop);
 }
 
 /*-----------------------------------------------------------------------------
@@ -114,9 +120,3 @@ void calibrateButtons()
     Serial.println(value);
     delay(250);
 }
-
-void onAlarmOffClick() { Alarm_Stop(); }
-
-void onStartClick() {}
-
-void onStopClick() {}

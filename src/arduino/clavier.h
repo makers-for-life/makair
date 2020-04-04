@@ -29,9 +29,3 @@ void keyboardLoop();
  * Call this in loop() to help find analog values of buttons
  */
 void calibrateButtons();
-
-void onAlarmOffClick();
-
-void onStartClick();
-
-void onStopClick();
