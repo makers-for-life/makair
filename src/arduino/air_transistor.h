@@ -42,6 +42,16 @@ public:
 
     void setup();
 
+    void ouvrir();
+
+    void ouvrirIntermediaire();
+
+    void fermer();
+
+    void reduireOuverture();
+
+    void augmenterOuverture();
+
     inline void execute()
     {
         // On évite d'aller plus loin que les limites de la valve
