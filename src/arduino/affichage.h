@@ -1,16 +1,14 @@
-/*=============================================================================
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
  * @file affichage.h
+ * @brief Display and LCD screen related functions
  *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * Fichier définissant les fonctionnalitées liés à l'affichage
- */
+ * This relies on the LiquidCrytal library (https://github.com/arduino-libraries/LiquidCrystal).
+ * LCD screen must have 4 lines of 20 characters.
+ *****************************************************************************/
 
 #pragma once
 
@@ -25,39 +23,43 @@
 
 // INITIALISATION =============================================================
 
+/// Instance of the screen controller
 extern LiquidCrystal screen;
 
 // FUNCTIONS ==================================================================
 
-//! This function starts the screen
+/**
+ * Start the screen
+ *
+ * @warning It must be called once to be able to use the screen
+ */
 void startScreen();
 
-//! This function resets the screen
+/// Erase everything that is on the screen
 void resetScreen();
 
+/// Display the current step of the breathing
 void displaySubPhase(CycleSubPhases phase);
 
-/*! This function displays the relevant pressures on the HMI screen once every
- *  cycle
- *  N.B.: by default, the screen size is 16 chars
+/**
+ * Display relevant values from the ongoing cycle
  *
- *  \param peakPressure     The peak pressure [mmH2O]
- *  \param plateauPressure  The plateau pressure [mmH2O]
- *  \param peep             The Positive End Expiratory Pressure (PEEP) [mmH2O]
- *  \param pressure         Current pressure [mmH2O]
+ * @param peakPressure     The peak pressure [mmH2O]
+ * @param plateauPressure  The plateau pressure [mmH2O]
+ * @param peep             The Positive End Expiratory Pressure (PEEP) [mmH2O]
+ * @param pressure         The current pressure [mmH2O]
  */
-void displayEveryRespiratoryCycle(int peakPressure, int plateauPressure, int peep, int pressure);
+void displayInstantInfo(int peakPressure, int plateauPressure, int peep, int pressure);
 
-/*! This function displays the relevant pressures on the HMI screen during the
- *  cycle.
- *  N.B.: by default, the screen size is 16 chars
+/**
+ * Display the current settings
  *
- *  \param peakPressureMax      PeakPressureMax [mmH2O]
- *  \param maxPlateauPressure   Next maximal plateau pressure [mmH2O]
- *  \param peep                 Next desired Positive End Expiratory Pressure (PEEP) [mmH2O]
- *  \param cyclesPerMinute      Next desired number of cycles per minute
+ * @param peakPressureMax      PeakPressureMax [mmH2O]
+ * @param plateauPressureMax   Next maximal plateau pressure [mmH2O]
+ * @param peepMin              Next desired Positive End Expiratory Pressure (PEEP) [mmH2O]
+ * @param cyclesPerMinute      Next desired number of cycles per minute
  */
-void displayDuringCycle(int peakPressureMax,
-                        int plateauPressureMax,
-                        int peepMin,
-                        int cyclesPerMinute);
+void displaySettings(int peakPressureMax,
+                     int plateauPressureMax,
+                     int peepMin,
+                     int cyclesPerMinute);

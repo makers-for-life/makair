@@ -1,16 +1,11 @@
-/*=============================================================================
- * @file respi-prod.h
- *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * This file execute the Makair program
- */
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
+ * @file respi-prod.cpp
+ * @brief Entry point of ventilator program
+ *****************************************************************************/
 
 #pragma once
 
@@ -22,11 +17,13 @@
 // External
 #include <AnalogButtons.h>
 #include <Arduino.h>
+#include <IWatchdog.h>
 #include <LiquidCrystal.h>
 
 // Internal
 #include "affichage.h"
 #include "air_transistor.h"
+#include "alarm.h"
 #include "clavier.h"
 #include "common.h"
 #include "debug.h"
@@ -41,15 +38,28 @@ AirTransistor servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
 
-void waitForInMs(uint16_t ms)
-{
+/**
+ * Block execution for a given duration
+ *
+ * @param ms  Duration of the blocking in millisecond
+ */
+void waitForInMs(uint16_t ms) {
     uint16_t start = millis();
     while ((millis() - start) < ms)
         continue;
 }
 
-void setup()
-{
+void setup() {
+    /* Catch potential Watchdog reset */
+    if (IWatchdog.isReset(true)) {
+        /* Code in case of Watchdog detected */
+        /* TODO */
+        Alarm_Init();
+        Alarm_Red_Start();
+        while (1) {
+        }
+    }
+
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("demarrage");)
     startScreen();
@@ -91,20 +101,25 @@ void setup()
 
     initKeyboard();
 
+    Alarm_Init();
+
     // escBlower needs 5s at speed 0 to be properly initalized
-    digitalWrite(PIN_ALARM, HIGH);
+    Alarm_Boot_Start();
     waitForInMs(1000);
-    digitalWrite(PIN_ALARM, LOW);
+    Alarm_Stop();
     waitForInMs(4000);
 
     // escBlower start
     hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(130),
                                       MICROSEC_COMPARE_FORMAT);
     DBG_DO(Serial.println("Esc blower is running!");)
+
+    // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
+    IWatchdog.begin(WATCHDOG_TIMEOUT);
+    IWatchdog.reload();
 }
 
-void loop()
-{
+void loop() {
     /********************************************/
     // INITIALIZE THE RESPIRATORY CYCLE
     /********************************************/
@@ -116,12 +131,10 @@ void loop()
     /********************************************/
     uint16_t centiSec = 0;
 
-    while (centiSec < pController.centiSecPerCycle())
-    {
+    while (centiSec < pController.centiSecPerCycle()) {
         static uint32_t lastpControllerComputeDate = 0ul;
         uint32_t currentDate = millis();
-        if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD)
-        {
+        if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD) {
             lastpControllerComputeDate = currentDate;
 
             pController.updatePressure(readPressureSensor(centiSec));
@@ -133,22 +146,21 @@ void loop()
             keyboardLoop();
 
             // Display relevant information during the cycle
-            if (centiSec % LCD_UPDATE_PERIOD == 0)
-            {
+            if (centiSec % LCD_UPDATE_PERIOD == 0) {
                 displaySubPhase(pController.subPhase());
 
-                displayEveryRespiratoryCycle(pController.peakPressure(),
-                                             pController.plateauPressure(), pController.peep(),
-                                             pController.pressure());
+                displayInstantInfo(pController.peakPressure(), pController.plateauPressure(),
+                                   pController.peep(), pController.pressure());
 
-                displayDuringCycle(
-                    pController.maxPeakPressureCommand(), pController.maxPlateauPressureCommand(),
-                    pController.minPeepCommand(), pController.cyclesPerMinuteCommand());
+                displaySettings(pController.maxPeakPressureCommand(),
+                                pController.maxPlateauPressureCommand(),
+                                pController.minPeepCommand(), pController.cyclesPerMinuteCommand());
             }
 
             // next tick
             centiSec++;
         }
+        IWatchdog.reload();
     }
     /********************************************/
     // END OF THE RESPIRATORY CYCLE

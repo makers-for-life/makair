@@ -1,16 +1,11 @@
-/*=============================================================================
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
  * @file pressure_controller.h
- *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * This file defines the pressure control functions
- */
+ * @brief Core logic to control the breathing cycle
+ *****************************************************************************/
 
 #pragma once
 
@@ -24,15 +19,23 @@
 
 // CLASS ======================================================================
 
-class PressureController
-{
-    // METHODS ----------------------------------------------------------------
-
-public:
-    //! Default constructor
+/// Controls breathing cycle
+class PressureController {
+ public:
+    /// Default constructor
     PressureController();
 
-    //! Parameterized constructor
+    /**
+     * Parameterized constructor
+     *
+     * @param p_cyclesPerMinute     Initial number of breathing cycles per minute
+     * @param p_minPeep             Initial minimum PEEP pressure (in mmH2O)
+     * @param p_maxPlateauPressure  Initial maximum plateau pressure (in mmH2O)
+     * @param p_maxPeakPressure     Initial maximum peak pressure (in MMH2O)
+     * @param p_aperture
+     * @param p_blower              Air Transistor between blower and patient
+     * @param p_patient             Air Transistor between patient and atmosphere
+     */
     PressureController(int16_t p_cyclesPerMinute,
                        int16_t p_minPeep,
                        int16_t p_maxPlateauPressure,
@@ -41,167 +44,183 @@ public:
                        AirTransistor p_blower,
                        AirTransistor p_patient);
 
-    //! This function initializes the actuators
+    /// Initialize actuators
     void setup();
 
-    //! This function initializes the respiratory cycle
+    /// Begin a respiratory cycle
     void initRespiratoryCycle();
 
-    /*! This function updates the pressure given the sensor's measure
-     *  \param p_pressure     Measured pressure
+    /**
+     * Input a pressure reading
+     * @param p_pressure  Measured pressure
      */
     void updatePressure(int16_t p_pressure);
 
-    /*! This function performs the pressure control
-     *  \param p_centiSec     Current progress in the respiratory cycle in
-     *                        hundredth of second
+    /**
+     * Perform the pressure control
+     *
+     * @param p_centiSec  Duration in hundredth of second from the begining of the cycle
      */
     void compute(uint16_t p_centiSec);
 
-    //! This function decreases the desired number of cycles per minute
+    /// Decrease the desired number of cycles per minute
     void onCycleMinus();
 
-    //! This function increases the desired number of cycles per minute
+    /// Increase the desired number of cycles per minute
     void onCyclePlus();
 
-    //! This function decreases the minimal PEEP desired
+    /// Decrease the minimal PEEP desired
     void onPressionPepMinus();
 
-    //! This function increases the minimal PEEP desired
+    /// Increase the minimal PEEP desired
     void onPressionPepPlus();
 
-    //! This function decreases the desired plateau pressure
+    /// Decrease the desired plateau pressure
     void onPressionPlateauMinus();
 
-    //! This function increases the desired plateau pressure
+    /// Increase the desired plateau pressure
     void onPressionPlateauPlus();
 
-    //! This function decreases the desired crête pressure
+    /// Decrease the desired crête pressure
     void onPressionCreteMinus();
 
-    //! This function increases the desired crête pressure
+    /// Increase the desired crête pressure
     void onPressionCretePlus();
 
-    //! This function returns the number of cycles per minute desired by the operator
+    /// Get the desired number of cycles per minute
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
 
-    //! This function returns the max peak desired by the operator
+    /// Get the desired max peak
     inline uint16_t maxPeakPressureCommand() const { return m_maxPeakPressureCommand; }
 
-    //! This function returns the minimal PEEP desired by the operator
+    /// Get the desired minimal PEEP
     inline uint16_t minPeepCommand() const { return m_minPeepCommand; }
 
-    //! This function returns the maximal plateau pressure desired by the operator
+    /// Get the desired maximal plateau pressure
     inline uint16_t maxPlateauPressureCommand() const { return m_maxPlateauPressureCommand; }
 
-    //! This function returns the blower aperture desired by the operator
+    /// Get the desired blower aperture
     inline uint16_t apertureCommand() const { return m_apertureCommand; }
 
-    //! This function returns the number of cycles per minute
+    /// Get the number of cycles per minute
     inline uint16_t cyclesPerMinute() const { return m_cyclesPerMinute; }
 
-    //! This function returns the number of hundredth of second per cycle
+    /// Get the duration of a cycle in hundredth of second
     inline uint16_t centiSecPerCycle() const { return m_centiSecPerCycle; }
 
-    //! This function returns the number of hundredth of second per inhalation
+    /// Get the duration of an inhalation in hundredth of second
     inline uint16_t centiSecPerInhalation() const { return m_centiSecPerInhalation; }
 
-    //! This function returns the current measured pressure
+    /// Get the current measured pressure
     inline int16_t pressure() const { return m_pressure; }
 
-    // This function returns the peak pressure
+    /// Get the peak pressure
     inline int16_t peakPressure() const { return m_peakPressure; }
 
-    //! This function returns the plateau pressure
+    /// Get the plateau pressure
     inline int16_t plateauPressure() const { return m_plateauPressure; }
 
-    //! This function returns the PEEP
+    /// Get the PEEP
     inline int16_t peep() const { return m_peep; }
 
-    //! This function returns the current cycle phase
+    /// Get the current cycle phase
     inline CyclePhases phase() const { return m_phase; }
 
-    //! This function returns the current cycle sub phase
+    /// Get the current cycle subphase
     inline CycleSubPhases subPhase() const { return m_subPhase; }
 
-    //! This function returns the blower's transistor
+    /// Get the blower's Air Transistor instance
     inline const AirTransistor& blower() const { return m_blower; }
 
-    //! This function returns the patient's transistor
+    /// Get the patient's Air Transistor instance
     inline const AirTransistor& patient() const { return m_patient; }
 
-private:
-    /*! This function updates the cycle phase
-     *  \param p_centiSec     Current progress in the respiratory cycle in hundredth of second
+ private:
+    /**
+     * Update the cycle phase
+     *
+     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
     void updatePhase(uint16_t p_centiSec);
 
-    /*! This function performs the pressure control and computes the transistors commands
-     *  during the inhalation phase
-     */
+    /// Perform the pressure control and compute the transistors commands during the inhalation
+    /// phase
     void inhale();
 
-    /*! This function performs the pressure control and computes the transistors commands
-     *  during the plateau phase
-     */
+    /// Perform the pressure control and compute the transistors commands during the plateau phase
     void plateau();
 
-    /*! This function performs the pressure control and computes the transistors
-     * commands during the exhalation phase
-     */
+    /// Perform the pressure control and compute the transistors commands during the exhalation
+    /// phase
     void exhale();
 
+    /// Perform the pressure control and compute the transistors commands during the hold exhalation
+    /// phase
     void holdExhalation();
 
-    /*! This function implements safeguards
-     *  \param p_centiSec     Current progress in the respiratory cycle in hundredth of second
+    /**
+     * Run safeguards
+     *
+     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
     void safeguards(uint16_t p_centiSec);
 
-    /*! This function implements safeguard for peak pressure
-     * \param p_centiSec Current progress in the respiratory cycle in hundredth of second
+    /**
+     * Implement safeguard for peak pressure
+     *
+     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
     void safeguardPressionCrete(uint16_t p_centiSec);
 
-    /*! This function implements safeguard for plateau pressure max
-     * \param p_centiSec Current progress in the respiratory cycle in hundredth of second
+    /**
+     * Implement safeguard for max plateau pressure
+     *
+     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
-    void safeguardPressionPlateau(uint16_t p_censiSec);
+    void safeguardPressionPlateau(uint16_t p_centiSec);
 
-    /*! This function implements a first safeguard for peep pressure.
+    /**
+     * Implement a first safeguard for peep pressure
+     *
      * In this case, we hold the exhalation.
-     * \param p_centiSec Current progress in the respiratory cycle in hundredth of second
+     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
     void safeguardHoldExpiration(uint16_t p_centiSec);
 
-    /*! This function implements a second safeguard for peep pressure.
+    /**
+     * Implement a second safeguard for peep pressure
+     *
      * If the hold exhalation is not enough, we start to open the blower valve in order to maintain
-     * a pressure.
-     * \param p_centiSec Current progress in the respiratory cycle in hundredth of
-     * second
+     * a pressure
+     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
     void safeguardMaintienPeep(uint16_t p_centiSec);
 
-    /*! This function computes:
-     *  - the number of hundredth of second per cycle
-     *  - the number of hundredth of second per inhalation
-     *  given the number of cycles per minute predefined by the operator
+    /**
+     * Compute various cycle durations given the desired number of cycles per minute
+     *
+     * - duration of a cycle in hundredth of second
+     * - duration of the inhalation phase in hundredth of second
+     *
      *  N.B.: Inhalation lasts 1/3 of a cycle while exhalation lasts 2/3 of a cycle
      */
     void computeCentiSecParameters();
 
-    //! This function makes the actuators execute the computed commands
+    /// Give the computed commands to actuators
     void executeCommands();
 
+    /// Make a transition toward another subphase
     void setSubPhase(CycleSubPhases p_subPhase);
 
-    // ATTRIBUTES ---------------------------------------------------------------
-
-private:
+ private:
     /// Number of cycles per minute desired by the operator
     uint16_t m_cyclesPerMinuteCommand;
 
-    /// True when safety mode is ON, false in normal mode
+    /**
+     * Vigilance mode
+     *
+     * True when safety mode is ON, false in normal mode
+     */
     bool m_vigilance;
 
     /// Maximal peak pressure desired by the operator
@@ -283,9 +302,11 @@ private:
 
     uint16_t m_previousPhase;
 
+    /// Number of passed cycles
     uint32_t m_cycleNb;
 };
 
 // INITIALISATION =============================================================
 
+/// Instance of the pressure controller
 extern PressureController pController;
