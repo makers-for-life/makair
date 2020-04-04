@@ -21,6 +21,7 @@
 
 // External
 #include <Arduino.h>
+#include <AnalogButtons.h>
 #include <OneButton.h>
 
 // Internal
