@@ -1,16 +1,12 @@
-/*=============================================================================
- * @file respi-tests.h
- *
- * COVID Respirator
- *
- * @section copyright Copyright
- *
- * Makers For Life
- *
- * @section descr File description
- *
- * This file execute the MakAir test program
- */
+/*
+    Copyright (C) 2020 Makers For Life
+*/
+/******************************************************************************
+ * @author Makers For Life
+ * @file respi-qualification.cpp
+ * @brief Entry point of electrical wiring qualification program
+ *****************************************************************************/
+
 
 #pragma once
 
