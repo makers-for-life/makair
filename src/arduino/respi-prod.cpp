@@ -22,11 +22,13 @@
 // External
 #include <AnalogButtons.h>
 #include <Arduino.h>
+#include <IWatchdog.h>
 #include <LiquidCrystal.h>
 
 // Internal
 #include "affichage.h"
 #include "air_transistor.h"
+#include "alarm.h"
 #include "clavier.h"
 #include "common.h"
 #include "debug.h"
@@ -50,6 +52,18 @@ void waitForInMs(uint16_t ms)
 
 void setup()
 {
+    /* Catch potential Watchdog reset */
+    if (IWatchdog.isReset(true))
+    {
+        /* Code in case of Watchdog detected */
+        /* TODO */
+        Alarm_Init();
+        Alarm_Red_Start();
+        while (1)
+        {
+        };
+    }
+
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("demarrage");)
     startScreen();
@@ -91,16 +105,22 @@ void setup()
 
     initKeyboard();
 
+    Alarm_Init();
+
     // escBlower needs 5s at speed 0 to be properly initalized
-    digitalWrite(PIN_ALARM, HIGH);
+    Alarm_Boot_Start();
     waitForInMs(1000);
-    digitalWrite(PIN_ALARM, LOW);
+    Alarm_Stop();
     waitForInMs(4000);
 
     // escBlower start
     hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(130),
                                       MICROSEC_COMPARE_FORMAT);
     DBG_DO(Serial.println("Esc blower is running!");)
+
+    // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
+    IWatchdog.begin(WATCHDOG_TIMEOUT);
+    IWatchdog.reload();
 }
 
 void loop()
@@ -149,6 +169,7 @@ void loop()
             // next tick
             centiSec++;
         }
+        IWatchdog.reload();
     }
     /********************************************/
     // END OF THE RESPIRATORY CYCLE

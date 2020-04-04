@@ -21,6 +21,7 @@
 
 // Internal libraries
 #include "air_transistor.h"
+#include "alarm.h"
 #include "config.h"
 #include "debug.h"
 #include "parameters.h"
@@ -95,14 +96,15 @@ void PressureController::setup()
     m_blower.execute();
     m_patient.execute();
 
+    m_peakPressure = 0;
+    m_plateauPressure = 0;
+    m_peep = 0;
+
     m_cycleNb = 0;
 }
 
 void PressureController::initRespiratoryCycle()
 {
-    m_peakPressure = 0;
-    m_plateauPressure = 0;
-    m_peep = 0;
     m_phase = CyclePhases::INHALATION;
     setSubPhase(CycleSubPhases::INSPI);
     m_cycleNb++;
@@ -266,7 +268,7 @@ void PressureController::updatePhase(uint16_t p_centiSec)
     if (p_centiSec < m_centiSecPerInhalation)
     {
         m_phase = CyclePhases::INHALATION;
-        if (p_centiSec < (m_centiSecPerInhalation * 0.6))
+        if (p_centiSec < (m_centiSecPerInhalation * 80 / 100))
         {
             if (m_subPhase != CycleSubPhases::HOLD_INSPI)
             {
@@ -377,16 +379,16 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec)
 
         if (m_pressure >= m_maxPeakPressureCommand)
         {
-            // TODO alarme
             setSubPhase(CycleSubPhases::HOLD_INSPI);
+            Alarm_Yellow_Start();
             plateau();
         }
     }
 
     if (m_pressure >= (m_maxPeakPressureCommand + 10))
     {
-        // TODO alarme
         m_patient.augmenterOuverture();
+        Alarm_Yellow_Start();
     }
 }
 
@@ -428,7 +430,8 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec)
 {
     if (m_phase == CyclePhases::EXHALATION)
     {
-        if (m_pressure <= (m_minPeepCommand + 30))
+        // TODO asservir m_minPeepCommand + X à la vitesse du volume estimé
+        if (m_pressure <= (m_minPeepCommand + 20))
         {
             if (m_franchissementSeuilHoldExpiDetectionTick == 0)
             {
@@ -437,10 +440,6 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec)
 
             if ((p_centiSec - m_franchissementSeuilHoldExpiDetectionTick) >= 10)
             {
-                if (m_phase != CyclePhases::EXHALATION)
-                {
-                    m_phase = CyclePhases::EXHALATION;
-                }
                 setSubPhase(CycleSubPhases::HOLD_EXHALE);
                 holdExhalation();
             }
@@ -466,6 +465,7 @@ void PressureController::safeguardMaintienPeep(uint16_t p_centiSec)
     if (m_pressure <= m_minPeepCommand)
     {
         m_blower.augmenterOuverture();
+        Alarm_Red_Start();
     }
 }
 

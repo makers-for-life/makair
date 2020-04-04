@@ -95,9 +95,9 @@ static const uint16_t BORNE_SUP_PRESSION_PEP = 300;     // PP MAX = 300, or PEP 
 static const uint16_t BORNE_INF_PRESSION_PEP = 50;      // arbitraire mais > 0 [mmH2O]
 static const uint16_t INITIAL_ZERO_PRESSURE = 0;        // [mmH2O]
 
-static const uint16_t DEFAULT_MIN_PEEP_COMMAND = 50;
-static const uint16_t DEFAULT_MAX_PLATEAU_COMMAND = 150;
-static const uint16_t DEFAULT_MAX_PEAK_PRESSURE_COMMAND = 240;
+static const uint16_t DEFAULT_MIN_PEEP_COMMAND = 80;
+static const uint16_t DEFAULT_MAX_PLATEAU_COMMAND = 300;
+static const uint16_t DEFAULT_MAX_PEAK_PRESSURE_COMMAND = 600;
 
 static const uint16_t INITIAL_CYCLE_NB = 20;
 static const uint16_t BORNE_SUP_CYCLE = 35; // demande medical
