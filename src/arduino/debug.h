@@ -115,7 +115,7 @@
         Serial.print(";");                                                                         \
         Serial.print(300 - phase * 100);                                                           \
         Serial.print(";");                                                                         \
-        Serial.print(300 - subPhase * 100);                                                        \
+        Serial.print(300 - subPhase * 50);                                                         \
         Serial.print(";");                                                                         \
         Serial.print(pression);                                                                    \
         Serial.print(";");                                                                         \

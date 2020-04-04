@@ -76,10 +76,10 @@ public:
     //! This function increases the desired plateau pressure
     void onPressionPlateauPlus();
 
-    //! This function decreases the desired crete pressure
+    //! This function decreases the desired crête pressure
     void onPressionCreteMinus();
 
-    //! This function increases the desired crete pressure
+    //! This function increases the desired crête pressure
     void onPressionCretePlus();
 
     //! This function returns the number of cycles per minute desired by the operator
@@ -163,6 +163,11 @@ private:
      */
     void safeguardPressionCrete(uint16_t p_centiSec);
 
+    /*! This function implements safeguard for plateau pressure max
+     * \param p_centiSec Current progress in the respiratory cycle in hundredth of second
+     */
+    void safeguardPressionPlateau(uint16_t p_censiSec);
+
     /*! This function implements a first safeguard for peep pressure.
      * In this case, we hold the exhalation.
      * \param p_centiSec Current progress in the respiratory cycle in hundredth of second
@@ -188,18 +193,36 @@ private:
     //! This function makes the actuators execute the computed commands
     void executeCommands();
 
+    void setSubPhase(CycleSubPhases p_subPhase);
+
     // ATTRIBUTES ---------------------------------------------------------------
 
 private:
     /// Number of cycles per minute desired by the operator
     uint16_t m_cyclesPerMinuteCommand;
 
+    /// True when safety mode is ON, false in normal mode
+    bool m_vigilance;
+
     /// Maximal peak pressure desired by the operator
     uint16_t m_maxPeakPressureCommand;
 
+    /// Tick de détection initiale pour le dépassement de la consigne de crête
     uint16_t m_franchissementSeuilMaxPeakPressureDetectionTick;
 
+    /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
+    /// crête
     uint16_t m_franchissementSeuilMaxPeakPressureDetectionTickSupprime;
+
+    /// Maximal plateau pressure desired by the operator
+    uint16_t m_maxPlateauPressureCommand;
+
+    /// Tick de détection initiale pour le dépassement de la consigne de plateau
+    uint16_t m_franchissementSeuilMaxPlateauPressureDetectionTick;
+
+    /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
+    /// plateau
+    uint16_t m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime;
 
     /// Minimal PEEP desired by the operator
     uint16_t m_minPeepCommand;
@@ -209,9 +232,6 @@ private:
 
     /// Tick de suppression du tick de détection initiale que la PEEP est maintenue
     uint16_t m_franchissementSeuilHoldExpiDetectionTickSupprime;
-
-    /// Maximal plateau pressure desired by the operator
-    uint16_t m_maxPlateauPressureCommand;
 
     /// Blower's valve aperture desired by the operator
     uint16_t m_apertureCommand;

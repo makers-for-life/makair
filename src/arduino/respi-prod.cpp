@@ -66,13 +66,13 @@ void setup()
     hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
     // Servo blower setup
-    servoBlower = AirTransistor(BLOWER_OUVERT, BLOWER_FERME, hardwareTimer1,
+    servoBlower = AirTransistor(VALVE_OUVERT, VALVE_FERME, hardwareTimer1,
                                 TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER);
     servoBlower.setup();
     hardwareTimer1->resume();
 
     // Servo patient setup
-    servoPatient = AirTransistor(PATIENT_OUVERT, PATIENT_FERME, hardwareTimer3,
+    servoPatient = AirTransistor(VALVE_OUVERT, VALVE_FERME, hardwareTimer3,
                                  TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
     servoPatient.setup();
 
