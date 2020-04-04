@@ -115,10 +115,8 @@ _(design by Arthur Dagard; drawing by [@valeriansaliou](https://github.com/valer
 
 ### The "Blower"
 
-🎦 View: [Animation of the "Blower"](./src/mechanics/parts/blower/fdm/schemes/V7/Blower%20(Animation%201).mp4)
-
 <p>
-  <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V7/Blower%20(Render%201).png" height="240">
+  <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V14/Blower%20(Render%201).png" height="240">
 </p>
 
 ### The "Blower Holder"
