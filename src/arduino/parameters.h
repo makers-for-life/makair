@@ -30,21 +30,21 @@
 #define PCONTROLLER_COMPUTE_PERIOD 10
 
 // Minimums et maximums possible des paramètres modifiables à l'exécution
-#define BORNE_SUP_PRESSION_CRETE 700   // arbitraire [mmH2O]
-#define BORNE_INF_PRESSION_CRETE 100   // arbitraire [mmH2O]
-#define BORNE_SUP_PRESSION_PLATEAU 400 // PP MAX SDRA = 300 [mmH2O]
-#define BORNE_INF_PRESSION_PLATEAU 100 // arbitraire [mmH2O]
-#define BORNE_SUP_PRESSION_PEP 300     // PP MAX = 300, or PEP < PP [mmH2O]
-#define BORNE_INF_PRESSION_PEP 50      // arbitraire mais > 0 [mmH2O]
-#define INITIAL_ZERO_PRESSURE 0        // [mmH2O]
+#define BORNE_SUP_PRESSION_CRETE 700    // arbitraire [mmH2O]
+#define BORNE_INF_PRESSION_CRETE 100    // arbitraire [mmH2O]
+#define BORNE_SUP_PRESSION_PLATEAU 400  // PP MAX SDRA = 300 [mmH2O]
+#define BORNE_INF_PRESSION_PLATEAU 100  // arbitraire [mmH2O]
+#define BORNE_SUP_PRESSION_PEP 300      // PP MAX = 300, or PEP < PP [mmH2O]
+#define BORNE_INF_PRESSION_PEP 50       // arbitraire mais > 0 [mmH2O]
+#define INITIAL_ZERO_PRESSURE 0         // [mmH2O]
 
 #define DEFAULT_MIN_PEEP_COMMAND 80
 #define DEFAULT_MAX_PLATEAU_COMMAND 300
 #define DEFAULT_MAX_PEAK_PRESSURE_COMMAND 600
 
 #define INITIAL_CYCLE_NB 20
-#define BORNE_SUP_CYCLE 35 // demande medical
-#define BORNE_INF_CYCLE 5  // demande medical
+#define BORNE_SUP_CYCLE 35  // demande medical
+#define BORNE_INF_CYCLE 5   // demande medical
 
 ///@}
 
@@ -63,9 +63,9 @@
 #define VALVE_FERME 150
 
 #define SERVO_VALVE_PERIOD 20000
-#define PIN_SERVO_BLOWER D2 // PA10 / TIM1_CH3
+#define PIN_SERVO_BLOWER D2  // PA10 / TIM1_CH3
 #define TIM_CHANNEL_SERVO_VALVE_BLOWER 3
-#define PIN_SERVO_PATIENT D4 // PB5 / TIM3_CH2
+#define PIN_SERVO_PATIENT D4  // PB5 / TIM3_CH2
 #define TIM_CHANNEL_SERVO_VALVE_PATIENT 2
 
 ///@}
@@ -124,12 +124,11 @@
 #define PIN_LED_RED PC4
 #define PIN_LED_GREEN PB13
 #define PIN_LED_YELLOW PB14
-#define PIN_ESC_BLOWER D5 // PB4 / TIM3_CH1
+#define PIN_ESC_BLOWER D5  // PB4 / TIM3_CH1
 #define TIM_CHANNEL_ESC_BLOWER 1
 #define PIN_BATTERY A2
 
 ///@}
-
 
 // USELESS?
 

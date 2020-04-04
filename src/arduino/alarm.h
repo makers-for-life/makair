@@ -12,6 +12,8 @@
  * This file is the implementation of Alarms
  */
 
+#pragma once
+
 /* Watchdog timeout in microseconds */
 #define WATCHDOG_TIMEOUT 1000000
 

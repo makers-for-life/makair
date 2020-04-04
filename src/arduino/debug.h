@@ -65,8 +65,7 @@
 /// Send debug trace to serial when crete pressure safeguard is activated
 #if DEBUG == 1
 #define DBG_PRESSION_CRETE(centieme, periode)                                                      \
-    if (centieme % periode == 0)                                                                   \
-    {                                                                                              \
+    if (centieme % periode == 0) {                                                                 \
         Serial.println("Mise en securite : pression crete trop importante");                       \
     }
 #else
@@ -76,8 +75,7 @@
 /// Send debug trace to serial when plateau pressure safeguard is activated
 #if DEBUG == 1
 #define DBG_PRESSION_PLATEAU(centieme, periode)                                                    \
-    if (centieme % periode == 0)                                                                   \
-    {                                                                                              \
+    if (centieme % periode == 0) {                                                                 \
         Serial.println("Mise en securite : pression plateau trop importante");                     \
     }
 #else
@@ -87,8 +85,7 @@
 /// Send debug trace to serial when PEEP pressure safeguard is activated
 #if DEBUG == 1
 #define DBG_PRESSION_PEP(centieme, periode)                                                        \
-    if (centieme % periode == 0)                                                                   \
-    {                                                                                              \
+    if (centieme % periode == 0) {                                                                 \
         Serial.println("Mise en securite : pression d'expiration positive (PEP) trop faible");     \
     }
 #else
@@ -112,8 +109,7 @@
 #if DEBUG == 1
 #define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
                            positionBlower, consignePatient, positionPatient)                       \
-    if (centieme % periode == 0)                                                                   \
-    {                                                                                              \
+    if (centieme % periode == 0) {                                                                 \
         Serial.print(cycle * 300 + centieme);                                                      \
         Serial.print(";");                                                                         \
         Serial.print(cycle);                                                                       \

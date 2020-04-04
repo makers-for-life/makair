@@ -20,9 +20,8 @@
 // CLASS ======================================================================
 
 /// Controls breathing cycle
-class PressureController
-{
-public:
+class PressureController {
+ public:
     /// Default constructor
     PressureController();
 
@@ -136,7 +135,7 @@ public:
     /// Get the patient's Air Transistor instance
     inline const AirTransistor& patient() const { return m_patient; }
 
-private:
+ private:
     /**
      * Update the cycle phase
      *
@@ -144,16 +143,19 @@ private:
      */
     void updatePhase(uint16_t p_centiSec);
 
-    /// Perform the pressure control and compute the transistors commands during the inhalation phase
+    /// Perform the pressure control and compute the transistors commands during the inhalation
+    /// phase
     void inhale();
 
     /// Perform the pressure control and compute the transistors commands during the plateau phase
     void plateau();
 
-    /// Perform the pressure control and compute the transistors commands during the exhalation phase
+    /// Perform the pressure control and compute the transistors commands during the exhalation
+    /// phase
     void exhale();
 
-    /// Perform the pressure control and compute the transistors commands during the hold exhalation phase
+    /// Perform the pressure control and compute the transistors commands during the hold exhalation
+    /// phase
     void holdExhalation();
 
     /**
@@ -188,7 +190,8 @@ private:
     /**
      * Implement a second safeguard for peep pressure
      *
-     * If the hold exhalation is not enough, we start to open the blower valve in order to maintain a pressure
+     * If the hold exhalation is not enough, we start to open the blower valve in order to maintain
+     * a pressure
      * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
     void safeguardMaintienPeep(uint16_t p_centiSec);
@@ -209,7 +212,7 @@ private:
     /// Make a transition toward another subphase
     void setSubPhase(CycleSubPhases p_subPhase);
 
-private:
+ private:
     /// Number of cycles per minute desired by the operator
     uint16_t m_cyclesPerMinuteCommand;
 

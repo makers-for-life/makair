@@ -1,4 +1,4 @@
-AccessModifierOffset: -4
+AccessModifierOffset: -3
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortIfStatementsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
@@ -6,7 +6,7 @@ AlwaysBreakAfterReturnType: None
 AlwaysBreakTemplateDeclarations: true
 BinPackParameters: false
 BreakBeforeBinaryOperators: NonAssignment
-BreakBeforeBraces: Allman
+BreakBeforeBraces: Attach
 ColumnLimit: 100
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
@@ -19,3 +19,4 @@ MacroBlockEnd: "^MAPS_END_[A-Z]*_DEFINITION$"
 PointerAlignment: Left
 SpacesInParentheses: false
 UseTab: Never
+SpacesBeforeTrailingComments: 2

@@ -10,8 +10,7 @@
 #pragma once
 
 /// Defines the 4 phases of the respiratory cycle
-enum CycleSubPhases
-{
+enum CycleSubPhases {
     /**
      * Push inhalation:
      * - Send air until the peak pressure is reached
@@ -38,8 +37,7 @@ enum CycleSubPhases
 };
 
 /// Defines the 2 main phases of the respiratory cycle
-enum CyclePhases
-{
+enum CyclePhases {
     /// Inspiration and inspiration holding
     INHALATION,
     /// Exhalation and pause

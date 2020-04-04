@@ -11,6 +11,9 @@
 
 // INCLUDES ==================================================================
 
+// Associated header
+#include "pression.h"
+
 // External
 #include <Arduino.h>
 
@@ -26,48 +29,29 @@ const double KPA_MMH2O = 101.97162129779;
 
 // Get the measured or simulated pressure for the feedback control (in mmH2O)
 #if SIMULATION == 1
-int readPressureSensor(uint16_t centiSec)
-{
-    if (centiSec < uint16_t(10))
-    {
+int readPressureSensor(uint16_t centiSec) {
+    if (centiSec < uint16_t(10)) {
         return 350;
-    }
-    else if (centiSec < uint16_t(15))
-    {
+    } else if (centiSec < uint16_t(15)) {
         return 400;
-    }
-    else if (centiSec < uint16_t(30))
-    {
+    } else if (centiSec < uint16_t(30)) {
         return 600;
-    }
-    else if (centiSec < uint16_t(45))
-    {
+    } else if (centiSec < uint16_t(45)) {
         return 700;
-    }
-    else if (centiSec < uint16_t(60))
-    {
+    } else if (centiSec < uint16_t(60)) {
         return 500;
-    }
-    else if (centiSec < uint16_t(100))
-    {
+    } else if (centiSec < uint16_t(100)) {
         return 300;
-    }
-    else if (centiSec < 200)
-    {
+    } else if (centiSec < 200) {
         return 110;
-    }
-    else if (centiSec < 250)
-    {
+    } else if (centiSec < 250) {
         return 90;
-    }
-    else
-    {
+    } else {
         return 70;
     }
 }
 #else
-int readPressureSensor(uint16_t centiSec)
-{
+int readPressureSensor(uint16_t centiSec) {
     double rawVout = analogRead(PIN_CAPTEUR_PRESSION) * 3.3 / 1024.0;
     filteredVout = filteredVout + (rawVout - filteredVout) * 0.2;
 
@@ -77,8 +61,7 @@ int readPressureSensor(uint16_t centiSec)
     // Pression en kPA
     double pressure = (vOut / V_SUPPLY - 0.04) / 0.09;
 
-    if (pressure <= 0.0)
-    {
+    if (pressure <= 0.0) {
         return 0;
     }
     return pressure * KPA_MMH2O;

@@ -43,25 +43,21 @@ HardwareTimer* hardwareTimer3;
  *
  * @param ms  Duration of the blocking in millisecond
  */
-void waitForInMs(uint16_t ms)
-{
+void waitForInMs(uint16_t ms) {
     uint16_t start = millis();
     while ((millis() - start) < ms)
         continue;
 }
 
-void setup()
-{
+void setup() {
     /* Catch potential Watchdog reset */
-    if (IWatchdog.isReset(true))
-    {
+    if (IWatchdog.isReset(true)) {
         /* Code in case of Watchdog detected */
         /* TODO */
         Alarm_Init();
         Alarm_Red_Start();
-        while (1)
-        {
-        };
+        while (1) {
+        }
     }
 
     DBG_DO(Serial.begin(115200);)
@@ -123,8 +119,7 @@ void setup()
     IWatchdog.reload();
 }
 
-void loop()
-{
+void loop() {
     /********************************************/
     // INITIALIZE THE RESPIRATORY CYCLE
     /********************************************/
@@ -136,12 +131,10 @@ void loop()
     /********************************************/
     uint16_t centiSec = 0;
 
-    while (centiSec < pController.centiSecPerCycle())
-    {
+    while (centiSec < pController.centiSecPerCycle()) {
         static uint32_t lastpControllerComputeDate = 0ul;
         uint32_t currentDate = millis();
-        if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD)
-        {
+        if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD) {
             lastpControllerComputeDate = currentDate;
 
             pController.updatePressure(readPressureSensor(centiSec));
@@ -153,17 +146,15 @@ void loop()
             keyboardLoop();
 
             // Display relevant information during the cycle
-            if (centiSec % LCD_UPDATE_PERIOD == 0)
-            {
+            if (centiSec % LCD_UPDATE_PERIOD == 0) {
                 displaySubPhase(pController.subPhase());
 
-                displayInstantInfo(pController.peakPressure(),
-                                             pController.plateauPressure(), pController.peep(),
-                                             pController.pressure());
+                displayInstantInfo(pController.peakPressure(), pController.plateauPressure(),
+                                   pController.peep(), pController.pressure());
 
-                displaySettings(
-                    pController.maxPeakPressureCommand(), pController.maxPlateauPressureCommand(),
-                    pController.minPeepCommand(), pController.cyclesPerMinuteCommand());
+                displaySettings(pController.maxPeakPressureCommand(),
+                                pController.maxPlateauPressureCommand(),
+                                pController.minPeepCommand(), pController.cyclesPerMinuteCommand());
             }
 
             // next tick

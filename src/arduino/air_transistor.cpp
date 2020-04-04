@@ -29,12 +29,9 @@ AirTransistor::AirTransistor(uint16_t p_minApertureAngle,
       maxApertureAngle(p_maxApertureAngle),
       actuator(p_hardwareTimer),
       timChannel(p_timChannel),
-      servoPin(p_servoPin)
-{
-}
+      servoPin(p_servoPin) {}
 
-void AirTransistor::setup()
-{
+void AirTransistor::setup() {
     actuator->setMode(timChannel, TIMER_OUTPUT_COMPARE_PWM1, servoPin);
     actuator->setCaptureCompare(timChannel, 0, MICROSEC_COMPARE_FORMAT);
 }

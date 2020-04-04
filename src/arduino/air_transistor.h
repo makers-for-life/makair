@@ -22,9 +22,8 @@
 // CLASS =================================================================
 
 /// Controls an Air Transistor's servomotor
-class AirTransistor
-{
-public:
+class AirTransistor {
+ public:
     /// Default constructor
     AirTransistor();
 
@@ -70,20 +69,15 @@ public:
      *
      * @note Nothing will happen if this function is not called after requesting a new aperture
      */
-    inline void execute()
-    {
+    inline void execute() {
         // On évite d'aller plus loin que les limites de la valve
-        if (command < minApertureAngle)
-        {
+        if (command < minApertureAngle) {
             command = minApertureAngle;
-        }
-        else if (command > maxApertureAngle)
-        {
+        } else if (command > maxApertureAngle) {
             command = maxApertureAngle;
         }
 
-        if (command != position)
-        {
+        if (command != position) {
             actuator->setCaptureCompare(timChannel, Angle2MicroSeconds(command),
                                         MICROSEC_COMPARE_FORMAT);
             position = command;
@@ -96,7 +90,7 @@ public:
     /// Current aperture
     uint16_t position;
 
-private:
+ private:
     /// Minimum servomotor aperture angle in degrees
     uint16_t minApertureAngle;
 
