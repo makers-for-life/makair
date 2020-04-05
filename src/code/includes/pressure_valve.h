@@ -3,8 +3,8 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file air_transistor.h
- * @brief Tools to control an Air Transistor's servomotor
+ * @file pressure_valve.h
+ * @brief Tools to control an Pressure Valve's servomotor
  *****************************************************************************/
 
 #pragma once
@@ -21,11 +21,11 @@
 
 // CLASS =================================================================
 
-/// Controls an Air Transistor's servomotor
-class AirTransistor {
+/// Controls an Pressure Valve's servomotor
+class PressureValve {
  public:
     /// Default constructor
-    AirTransistor();
+    PressureValve();
 
     /**
      * Parameterized constructor
@@ -36,7 +36,7 @@ class AirTransistor {
      * @param p_timChannel        TIM channel for this servomotor
      * @param p_servoPin          Data pin for this servomotor
      */
-    AirTransistor(uint16_t p_minApertureAngle,
+    PressureValve(uint16_t p_minApertureAngle,
                   uint16_t p_maxApertureAngle,
                   HardwareTimer* hardwareTimer,
                   uint16_t p_timChannel,
@@ -45,24 +45,24 @@ class AirTransistor {
     /**
      * Initialize this servomotor
      *
-     * This must be called once to be able to use this Air Transistor
+     * This must be called once to be able to use this Pressure Valve
      */
     void setup();
 
-    /// Request opening of the Air Transistor
-    void ouvrir();
+    /// Request opening of the Pressure Valve
+    void open();
 
-    /// Request half-opening of the Air Transistor
-    void ouvrirIntermediaire();
+    /// Request half-opening of the Pressure Valve
+    void openMiddle();
 
-    /// Request closing of the Air Transistor
-    void fermer();
+    /// Request closing of the Pressure Valve
+    void close();
 
-    /// Request reducing the opening of the Air Transistor
-    void reduireOuverture();
+    /// Request reducing the opening of the Pressure Valve
+    void decrease();
 
-    /// Request increasing the opening of the Air Transistor
-    void augmenterOuverture();
+    /// Request increasing the opening of the Pressure Valve
+    void increase();
 
     /**
      * Command the servomotor to go to the requested aperture

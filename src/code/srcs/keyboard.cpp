@@ -3,7 +3,7 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file clavier.cpp
+ * @file keyboard.cpp
  * @brief Analog buttons related functions
  *
  * This relies on the Analog Buttons library (https://github.com/rlogiacco/AnalogButtons).
@@ -14,7 +14,7 @@
 // INCLUDES ===================================================================
 
 // Associated header
-#include "../includes/clavier.h"
+#include "../includes/keyboard.h"
 
 // External
 #include <AnalogButtons.h>
