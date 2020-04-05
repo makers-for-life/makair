@@ -314,22 +314,22 @@ void PressureController::safeguards(uint16_t p_centiSec) {
 void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
   if (m_subPhase == CycleSubPhases::INSPIRATION) {
     if (m_pressure >= (m_maxPeakPressureCommand - 30)) {
-      if (m_triggersMaxPeakPressureDetectionTick == 0) {
-        m_triggersMaxPeakPressureDetectionTick = p_centiSec;
+      if (m_triggerMaxPeakPressureDetectionTick == 0) {
+        m_triggerMaxPeakPressureDetectionTick = p_centiSec;
       }
 
-      if ((p_centiSec - m_triggersMaxPeakPressureDetectionTick) >= 5) {
-        m_blower.openMiddle();
+      if ((p_centiSec - m_triggerMaxPeakPressureDetectionTick) >= 5) {
+        m_blower.halfOpen();
         m_vigilance = true;
       }
-    } else if (m_triggersMaxPeakPressureDetectionTick != 0) {
-      if (m_triggersMaxPeakPressureDetectionTickSupprime == 0) {
-        m_triggersMaxPeakPressureDetectionTickSupprime = p_centiSec;
+    } else if (m_triggerMaxPeakPressureDetectionTick != 0) {
+      if (m_triggerMaxPeakPressureDetectionTickSupprime == 0) {
+        m_triggerMaxPeakPressureDetectionTickSupprime = p_centiSec;
       }
 
-      if ((p_centiSec - m_triggersMaxPeakPressureDetectionTickSupprime) >= 3) {
-        m_triggersMaxPeakPressureDetectionTick = 0;
-        m_triggersMaxPeakPressureDetectionTickSupprime = 0;
+      if ((p_centiSec - m_triggerMaxPeakPressureDetectionTickSupprime) >= 3) {
+        m_triggerMaxPeakPressureDetectionTick = 0;
+        m_triggerMaxPeakPressureDetectionTickSupprime = 0;
       }
     }
 

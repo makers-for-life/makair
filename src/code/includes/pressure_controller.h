@@ -223,11 +223,11 @@ class PressureController {
     uint16_t m_maxPeakPressureCommand;
 
     /// Tick de détection initiale pour le dépassement de la consigne de crête
-    uint16_t m_triggersMaxPeakPressureDetectionTick;
+    uint16_t m_triggerMaxPeakPressureDetectionTick;
 
     /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
     /// crête
-    uint16_t m_triggersMaxPeakPressureDetectionTickSupprime;
+    uint16_t m_triggerMaxPeakPressureDetectionTickSupprime;
 
     /// Maximal plateau pressure desired by the operator
     uint16_t m_maxPlateauPressureCommand;

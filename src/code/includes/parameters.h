@@ -54,7 +54,7 @@
 ///@{
 
 /// Angle when opened
-#define VALVE_OPENED_STATE 25
+#define VALVE_OPEN_STATE 25
 
 /// Angle when half-opened
 #define VALVE_MIDDLE_STATE 90

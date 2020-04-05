@@ -36,9 +36,9 @@ void PressureValve::setup() {
   actuator->setCaptureCompare(timerChannel, 0, MICROSEC_COMPARE_FORMAT);
 }
 
-void PressureValve::open() { command = VALVE_OPENED_STATE; }
+void PressureValve::open() { command = VALVE_OPEN_STATE; }
 
-void PressureValve::openMiddle() { command = VALVE_MIDDLE_STATE; }
+void PressureValve::halfOpen() { command = VALVE_MIDDLE_STATE; }
 
 void PressureValve::close() { command = VALVE_CLOSED_STATE; }
 
