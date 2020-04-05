@@ -33,7 +33,7 @@ class PressureValve {
      * @param p_minApertureAngle  Minimum servomotor aperture angle in degrees
      * @param p_maxApertureAngle  Maximum servomotor aperture angle in degrees
      * @param hardwareTimer       Hardware time for this servomotor
-     * @param p_timerChannel        TIM channel for this servomotor
+     * @param p_timerChannel      TIM channel for this servomotor
      * @param p_servoPin          Data pin for this servomotor
      */
     PressureValve(uint16_t p_minApertureAngle,

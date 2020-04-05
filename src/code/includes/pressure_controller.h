@@ -233,20 +233,20 @@ class PressureController {
     uint16_t m_maxPlateauPressureCommand;
 
     /// Tick de détection initiale pour le dépassement de la consigne de plateau
-    uint16_t m_triggersMaxPlateauPressureDetectionTick;
+    uint16_t m_triggerMaxPlateauPressureDetectionTick;
 
     /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
     /// plateau
-    uint16_t m_triggersMaxPlateauPressureDetectionTickSupprime;
+    uint16_t m_triggerMaxPlateauPressureDetectionTickSupprime;
 
     /// Minimal PEEP desired by the operator
     uint16_t m_minPeepCommand;
 
     /// Tick de détection initiale pour le maintien de la PEEP
-    uint16_t m_triggersHoldExpiDetectionTick;
+    uint16_t m_triggerHoldExpiDetectionTick;
 
     /// Tick de suppression du tick de détection initiale que la PEEP est maintenue
-    uint16_t m_triggersHoldExpiDetectionTickSupprime;
+    uint16_t m_triggerHoldExpiDetectionTickSupprime;
 
     /// Blower's valve aperture desired by the operator
     uint16_t m_apertureCommand;
