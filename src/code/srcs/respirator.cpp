@@ -21,10 +21,10 @@
 #include <LiquidCrystal.h>
 
 // Internal
-#include "../includes/affichage.h"
-#include "../includes/air_transistor.h"
+#include "../includes/screen.h"
+#include "../includes/pressure_valve.h"
 #include "../includes/alarm.h"
-#include "../includes/clavier.h"
+#include "../includes/keyboard.h"
 #include "../includes/common.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
@@ -33,8 +33,8 @@
 
 // PROGRAM =====================================================================
 
-AirTransistor servoBlower;
-AirTransistor servoPatient;
+PressureValve servoBlower;
+PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
 
@@ -76,13 +76,13 @@ void setup() {
     hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
     // Servo blower setup
-    servoBlower = AirTransistor(VALVE_OUVERT, VALVE_FERME, hardwareTimer1,
+    servoBlower = PressureValve(VALVE_OUVERT, VALVE_FERME, hardwareTimer1,
                                 TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER);
     servoBlower.setup();
     hardwareTimer1->resume();
 
     // Servo patient setup
-    servoPatient = AirTransistor(VALVE_OUVERT, VALVE_FERME, hardwareTimer3,
+    servoPatient = PressureValve(VALVE_OUVERT, VALVE_FERME, hardwareTimer3,
                                  TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
     servoPatient.setup();
 

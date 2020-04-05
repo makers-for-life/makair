@@ -3,7 +3,7 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file affichage.cpp
+ * @file screen.cpp
  * @brief Display and LCD screen related functions
  *
  * This relies on the LiquidCrystal library (https://github.com/arduino-libraries/LiquidCrystal).
@@ -15,7 +15,7 @@
 // INCLUDES ===================================================================
 
 // Associated header
-#include "../includes/affichage.h"
+#include "../includes/screen.h"
 
 // Internal
 #include "../includes/common.h"

@@ -15,7 +15,7 @@
 #include "../includes/pressure_controller.h"
 
 // Internal libraries
-#include "../includes/air_transistor.h"
+#include "../includes/pressure_valve.h"
 #include "../includes/alarm.h"
 #include "../includes/config.h"
 #include "../includes/debug.h"
@@ -53,8 +53,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        int16_t p_maxPlateauPressure,
                                        int16_t p_aperture,
                                        int16_t p_maxPeakPressure,
-                                       AirTransistor p_blower,
-                                       AirTransistor p_patient)
+                                       PressureValve p_blower,
+                                       PressureValve p_patient)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
       m_minPeepCommand(p_minPeepCommand),
       m_maxPlateauPressureCommand(p_maxPlateauPressure),
@@ -81,9 +81,9 @@ void PressureController::setup() {
     DBG_DO(Serial.println(VERSION);)
     DBG_DO(Serial.println("mise en secu initiale");)
 
-    m_blower.fermer();
+    m_blower.close();
     m_blower.position = -1;
-    m_patient.fermer();
+    m_patient.close();
     m_patient.position = -1;
     m_blower.execute();
     m_patient.execute();
@@ -130,25 +130,25 @@ void PressureController::compute(uint16_t p_centiSec) {
     if (!m_vigilance) {
         // Act accordingly
         switch (m_subPhase) {
-        case CycleSubPhases::INSPI: {
-            inhale();
-            break;
-        }
-        case CycleSubPhases::HOLD_INSPI: {
-            plateau();
-            break;
-        }
-        case CycleSubPhases::EXHALE: {
-            exhale();
-            break;
-        }
-        case CycleSubPhases::HOLD_EXHALE: {
-            holdExhalation();
-            break;
-        }
-        default: {
-            holdExhalation();
-        }
+            case CycleSubPhases::INSPI: {
+                inhale();
+                break;
+            }
+            case CycleSubPhases::HOLD_INSPI: {
+                plateau();
+                break;
+            }
+            case CycleSubPhases::EXHALE: {
+                exhale();
+                break;
+            }
+            case CycleSubPhases::HOLD_EXHALE: {
+                holdExhalation();
+                break;
+            }
+            default: {
+                holdExhalation();
+            }
         }
     }
     safeguards(p_centiSec);
@@ -249,10 +249,10 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
 
 void PressureController::inhale() {
     // Open the air stream towards the patient's lungs
-    m_blower.ouvrir();
+    m_blower.open();
 
     // Open the air stream towards the patient's lungs
-    m_patient.fermer();
+    m_patient.close();
 
     // TODO vérifier si la pression de crête est toujours la dernière pression mesurée sur la
     // sous-phase INSPI
@@ -263,10 +263,10 @@ void PressureController::inhale() {
 
 void PressureController::plateau() {
     // Deviate the air stream outside
-    m_blower.fermer();
+    m_blower.close();
 
     // Close the air stream towards the patient's lungs
-    m_patient.fermer();
+    m_patient.close();
 
     // Update the plateau pressure
     m_plateauPressure = m_pressure;
@@ -274,10 +274,10 @@ void PressureController::plateau() {
 
 void PressureController::exhale() {
     // Deviate the air stream outside
-    m_blower.fermer();
+    m_blower.close();
 
     // Open the valve so the patient can exhale outside
-    m_patient.ouvrir();
+    m_patient.open();
 
     // Update the PEEP
     m_peep = m_pressure;
@@ -285,10 +285,10 @@ void PressureController::exhale() {
 
 void PressureController::holdExhalation() {
     // Deviate the air stream outside
-    m_blower.fermer();
+    m_blower.close();
 
     // Close the valve so the patient can exhale outside
-    m_patient.fermer();
+    m_patient.close();
 }
 
 void PressureController::safeguards(uint16_t p_centiSec) {
@@ -306,7 +306,7 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
             }
 
             if ((p_centiSec - m_franchissementSeuilMaxPeakPressureDetectionTick) >= 5) {
-                m_blower.ouvrirIntermediaire();
+                m_blower.openMiddle();
                 m_vigilance = true;
             }
         } else if (m_franchissementSeuilMaxPeakPressureDetectionTick != 0) {
@@ -328,7 +328,7 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
     }
 
     if (m_pressure >= (m_maxPeakPressureCommand + 10)) {
-        m_patient.augmenterOuverture();
+        m_patient.increase();
         Alarm_Yellow_Start();
     }
 }
@@ -385,7 +385,7 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
 
 void PressureController::safeguardMaintienPeep(uint16_t p_centiSec) {
     if (m_pressure <= m_minPeepCommand) {
-        m_blower.augmenterOuverture();
+        m_blower.increase();
         Alarm_Red_Start();
     }
 }

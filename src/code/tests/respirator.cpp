@@ -21,8 +21,8 @@
 #include <OneButton.h>
 
 // Internal
-#include "affichage.h"
-#include "air_transistor.h"
+#include "screen.h"
+#include "pressure_valve.h"
 #include "common.h"
 #include "debug.h"
 #include "parameters.h"
@@ -124,8 +124,8 @@ void displayStatus(char msg[], uint8_t line = 3) {
     screen.print(msg);
 }
 
-AirTransistor servoBlower;
-AirTransistor servoPatient;
+PressureValve servoBlower;
+PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
 
@@ -365,13 +365,13 @@ void setup() {
     hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
     // Servo blower setup
-    servoBlower = AirTransistor(VALVE_OUVERT, VALVE_FERME, hardwareTimer1,
+    servoBlower = PressureValve(VALVE_OUVERT, VALVE_FERME, hardwareTimer1,
                                 TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER);
     servoBlower.setup();
     hardwareTimer1->resume();
 
     // Servo patient setup
-    servoPatient = AirTransistor(VALVE_OUVERT, VALVE_FERME, hardwareTimer3,
+    servoPatient = PressureValve(VALVE_OUVERT, VALVE_FERME, hardwareTimer3,
                                  TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
     servoPatient.setup();
 
@@ -482,39 +482,39 @@ void loop() {
     }
     case STEP_SERVO_BLOWER_OPEN: {
         UNGREEDY(is_drawn, display("Servo blower opened", "Press PCrete +"));
-        servoBlower.ouvrir();
+        servoBlower.open();
         servoBlower.execute();
         break;
     }
     case STEP_SERVO_BLOWER_CLOSE: {
         UNGREEDY(is_drawn, display("Servo blower closed", "Press PCrete -"));
-        servoBlower.fermer();
+        servoBlower.close();
         servoBlower.execute();
         break;
     }
     case STEP_SERVO_PATIENT_OPEN: {
         UNGREEDY(is_drawn, display("Servo patient opened", "Press PPlateau +"));
-        servoPatient.ouvrir();
+        servoPatient.open();
         servoPatient.execute();
         break;
     }
     case STEP_SERVO_PATIENT_CLOSE: {
         UNGREEDY(is_drawn, display("Servo patient closed", "Press PPlateau -"));
-        servoPatient.fermer();
+        servoPatient.close();
         servoPatient.execute();
         break;
     }
     case STEP_SERVOS: {
         UNGREEDY(is_drawn, display("Both servos moving", "Press PPep +"));
         if (remainingTicks == (CYCLE_TICKS / 2)) {
-            servoBlower.ouvrir();
-            servoPatient.ouvrir();
+            servoBlower.open();
+            servoPatient.open();
             servoBlower.execute();
             servoPatient.execute();
         } else if (remainingTicks == 0) {
-            servoBlower.fermer();
+            servoBlower.close();
             servoBlower.execute();
-            servoPatient.fermer();
+            servoPatient.close();
             servoPatient.execute();
         }
         break;

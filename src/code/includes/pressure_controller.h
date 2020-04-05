@@ -14,7 +14,7 @@
 // External libraries
 
 // Internal libraries
-#include "air_transistor.h"
+#include "pressure_valve.h"
 #include "common.h"
 
 // CLASS ======================================================================
@@ -33,16 +33,16 @@ class PressureController {
      * @param p_maxPlateauPressure  Initial maximum plateau pressure (in mmH2O)
      * @param p_maxPeakPressure     Initial maximum peak pressure (in MMH2O)
      * @param p_aperture
-     * @param p_blower              Air Transistor between blower and patient
-     * @param p_patient             Air Transistor between patient and atmosphere
+     * @param p_blower              Pressure Valve between blower and patient
+     * @param p_patient             Pressure Valve between patient and atmosphere
      */
     PressureController(int16_t p_cyclesPerMinute,
                        int16_t p_minPeep,
                        int16_t p_maxPlateauPressure,
                        int16_t p_maxPeakPressure,
                        int16_t p_aperture,
-                       AirTransistor p_blower,
-                       AirTransistor p_patient);
+                       PressureValve p_blower,
+                       PressureValve p_patient);
 
     /// Initialize actuators
     void setup();
@@ -129,11 +129,11 @@ class PressureController {
     /// Get the current cycle subphase
     inline CycleSubPhases subPhase() const { return m_subPhase; }
 
-    /// Get the blower's Air Transistor instance
-    inline const AirTransistor& blower() const { return m_blower; }
+    /// Get the blower's Pressure Valve instance
+    inline const PressureValve& blower() const { return m_blower; }
 
-    /// Get the patient's Air Transistor instance
-    inline const AirTransistor& patient() const { return m_patient; }
+    /// Get the patient's Pressure Valve instance
+    inline const PressureValve& patient() const { return m_patient; }
 
  private:
     /**
@@ -295,10 +295,10 @@ class PressureController {
     CycleSubPhases m_subPhase;
 
     /// Blower's transistor
-    AirTransistor m_blower;
+    PressureValve m_blower;
 
     /// Patient's transistor
-    AirTransistor m_patient;
+    PressureValve m_patient;
 
     uint16_t m_previousPhase;
 
