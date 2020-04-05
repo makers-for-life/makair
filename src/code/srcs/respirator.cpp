@@ -64,7 +64,7 @@ void setup() {
   
   startScreen();
 
-  pinMode(PIN_CAPTEUR_PRESSION, INPUT);
+  pinMode(PIN_PRESSURE_SENSOR, INPUT);
   pinMode(PIN_ALARM, OUTPUT);
 
   // Timer for servoBlower
@@ -95,7 +95,7 @@ void setup() {
   hardwareTimer3->resume();
 
   pController = PressureController(INITIAL_CYCLE_NB, DEFAULT_MIN_PEEP_COMMAND,
-                                   BORNE_SUP_PRESSION_PLATEAU, ANGLE_OUVERTURE_MAXI,
+                                   BORNE_SUP_PRESSION_PLATEAU,
                                    BORNE_SUP_PRESSION_CRETE, servoBlower, servoPatient);
   pController.setup();
 
