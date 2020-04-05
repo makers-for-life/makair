@@ -134,3 +134,13 @@
 #define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
                            positionBlower, consignePatient, positionPatient)
 #endif
+
+#define DBG_PID_PLOTTER(pressionTheorique, pressionMesure, consigneBlower, consignePatient)        \
+    Serial.print(pressionTheorique);                                                               \
+    Serial.print("\t");                                                                            \
+    Serial.print(pressionMesure);                                                                  \
+    Serial.println("\t");
+// Serial.print("\t");                                                                            \
+    // Serial.print(consigneBlower);                                                                  \
+    // Serial.print("\t");                                                                            \
+    // Serial.print(consignePatient);                                                                 \

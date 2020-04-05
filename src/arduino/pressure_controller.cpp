@@ -21,6 +21,55 @@
 #include "debug.h"
 #include "parameters.h"
 
+int32_t MAX = 145;
+int32_t MIN = 25;
+
+int32_t blower_erreur = 0;
+int32_t blower_sommeErreur = 0;
+int32_t blower_derivee = 0;
+int32_t blower_cmd = 0;
+int32_t blower_kp = 1 * 2 * 2 * 2 / 2;
+int32_t blower_ki = 1 * 2 * 2 * 2;
+int32_t blower_kd = 5 * 2;
+int32_t blower_BORNE_MAX = 1000;
+int32_t blower_BORNE_MIN = -1 * blower_BORNE_MAX;
+
+int32_t calculConsigneVanneBlower(int32_t consigne, int32_t reel, int32_t dt) {
+    blower_erreur = blower_kp * (consigne - reel);  // erreur entre la consigne et la realite
+    blower_sommeErreur += blower_ki * blower_erreur * dt / 1000000.0;
+    blower_sommeErreur = max(blower_BORNE_MIN, min(blower_BORNE_MAX, blower_sommeErreur));
+    blower_derivee = 1000000.0 * blower_erreur / dt;
+
+    blower_cmd = blower_erreur + blower_sommeErreur
+                 + blower_kd * blower_derivee / 1000;  // calcul de la commande
+
+    uint32_t consigneBlower = max(MIN, min(MAX, MAX - (blower_cmd + 1000) * (MAX - MIN) / 2000));
+    return consigneBlower;
+}
+
+int32_t patient_erreur = 0;
+int32_t patient_sommeErreur = 0;
+int32_t patient_derivee = 0;
+int32_t patient_cmd = 0;
+int32_t patient_kp = 1 * 2 * 2 * 2 / 2;
+int32_t patient_ki = 1 * 2 * 2 * 2;
+int32_t patient_kd = 5 * 2;
+int32_t patient_BORNE_MAX = 1000;
+int32_t patient_BORNE_MIN = -1 * patient_BORNE_MAX;
+
+int32_t calculConsigneVannePatient(int32_t consigne, int32_t reel, int32_t dt) {
+    patient_erreur = patient_kp * (consigne - reel);  // erreur entre la consigne et la realite
+    patient_sommeErreur += patient_ki * patient_erreur * dt / 1000000.0;
+    patient_sommeErreur = max(patient_BORNE_MIN, min(patient_BORNE_MAX, patient_sommeErreur));
+    patient_derivee = 1000000.0 * patient_erreur / dt;
+
+    patient_cmd = patient_erreur + patient_sommeErreur
+                  + patient_kd * patient_derivee / 1000;  // calcul de la commande
+
+    uint32_t consignepatient = max(MIN, min(MAX, MIN + (patient_cmd + 1000) * (MAX - MIN) / 2000));
+    return consignepatient;
+}
+
 // INITIALISATION =============================================================
 
 PressureController pController;
@@ -143,7 +192,8 @@ void PressureController::compute(uint16_t p_centiSec) {
             break;
         }
         case CycleSubPhases::HOLD_EXHALE: {
-            holdExhalation();
+            exhale();
+            // holdExhalation();
             break;
         }
         default: {
@@ -153,11 +203,11 @@ void PressureController::compute(uint16_t p_centiSec) {
     }
     safeguards(p_centiSec);
 
-    DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 1, m_phase, m_subPhase, m_pressure, m_blower.command,
-                       m_blower.position, m_patient.command, m_patient.position)
+    // DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 1, m_phase, m_subPhase, m_pressure,
+    // m_blower.command,  m_blower.position, m_patient.command, m_patient.position)
 
     executeCommands();
-
+    DBG_PID_PLOTTER(m_consignePression, m_pressure, m_blower.position, m_patient.position);
     m_previousPhase = m_phase;
 }
 
@@ -232,15 +282,19 @@ void PressureController::onPressionCretePlus() {
 void PressureController::updatePhase(uint16_t p_centiSec) {
     if (p_centiSec < m_centiSecPerInhalation) {
         m_phase = CyclePhases::INHALATION;
-        if (p_centiSec < (m_centiSecPerInhalation * 80 / 100)) {
+        if (p_centiSec < (m_centiSecPerInhalation * 80 / 100)
+            && m_pressure < DEFAULT_MAX_PEAK_PRESSURE_COMMAND) {
             if (m_subPhase != CycleSubPhases::HOLD_INSPI) {
+                m_consignePression = DEFAULT_MAX_PEAK_PRESSURE_COMMAND;
                 setSubPhase(CycleSubPhases::INSPI);
             }
         } else {
+            m_consignePression = DEFAULT_MAX_PLATEAU_COMMAND;
             setSubPhase(CycleSubPhases::HOLD_INSPI);
         }
     } else {
         m_phase = CyclePhases::EXHALATION;
+        m_consignePression = DEFAULT_MIN_PEEP_COMMAND;
         if (m_subPhase != CycleSubPhases::HOLD_EXHALE) {
             setSubPhase(CycleSubPhases::EXHALE);
         }
@@ -249,7 +303,7 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
 
 void PressureController::inhale() {
     // Open the air stream towards the patient's lungs
-    m_blower.ouvrir();
+    m_blower.ouvrirImmediatement(calculConsigneVanneBlower(m_consignePression, m_pressure, m_dt));
 
     // Open the air stream towards the patient's lungs
     m_patient.fermer();
@@ -266,7 +320,7 @@ void PressureController::plateau() {
     m_blower.fermer();
 
     // Close the air stream towards the patient's lungs
-    m_patient.fermer();
+    m_patient.ouvrirImmediatement(calculConsigneVannePatient(m_consignePression, m_pressure, m_dt));
 
     // Update the plateau pressure
     m_plateauPressure = m_pressure;
@@ -277,7 +331,7 @@ void PressureController::exhale() {
     m_blower.fermer();
 
     // Open the valve so the patient can exhale outside
-    m_patient.ouvrir();
+    m_patient.ouvrirImmediatement(calculConsigneVannePatient(m_consignePression, m_pressure, m_dt));
 
     // Update the PEEP
     m_peep = m_pressure;
@@ -291,33 +345,20 @@ void PressureController::holdExhalation() {
     m_patient.fermer();
 }
 
+void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
+
 void PressureController::safeguards(uint16_t p_centiSec) {
-    safeguardPressionCrete(p_centiSec);
-    safeguardPressionPlateau(p_centiSec);
-    safeguardHoldExpiration(p_centiSec);
-    safeguardMaintienPeep(p_centiSec);
+    // safeguardPressionCrete(p_centiSec);
+    // safeguardPressionPlateau(p_centiSec);
+    // safeguardHoldExpiration(p_centiSec);
+    // safeguardMaintienPeep(p_centiSec);
 }
 
 void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
     if (m_subPhase == CycleSubPhases::INSPI) {
         if (m_pressure >= (m_maxPeakPressureCommand - 30)) {
-            if (m_franchissementSeuilMaxPeakPressureDetectionTick == 0) {
-                m_franchissementSeuilMaxPeakPressureDetectionTick = p_centiSec;
-            }
-
-            if ((p_centiSec - m_franchissementSeuilMaxPeakPressureDetectionTick) >= 5) {
-                m_blower.ouvrirIntermediaire();
-                m_vigilance = true;
-            }
-        } else if (m_franchissementSeuilMaxPeakPressureDetectionTick != 0) {
-            if (m_franchissementSeuilMaxPeakPressureDetectionTickSupprime == 0) {
-                m_franchissementSeuilMaxPeakPressureDetectionTickSupprime = p_centiSec;
-            }
-
-            if ((p_centiSec - m_franchissementSeuilMaxPeakPressureDetectionTickSupprime) >= 3) {
-                m_franchissementSeuilMaxPeakPressureDetectionTick = 0;
-                m_franchissementSeuilMaxPeakPressureDetectionTickSupprime = 0;
-            }
+            m_blower.ouvrirIntermediaire();
+            m_vigilance = true;
         }
 
         if (m_pressure >= m_maxPeakPressureCommand) {
@@ -336,24 +377,10 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
 void PressureController::safeguardPressionPlateau(uint16_t p_centiSec) {
     if (m_subPhase == CycleSubPhases::HOLD_INSPI) {
         if (m_pressure >= m_maxPlateauPressureCommand) {
-            if (m_franchissementSeuilMaxPlateauPressureDetectionTick == 0) {
-                m_franchissementSeuilMaxPlateauPressureDetectionTick = p_centiSec;
-            }
-
-            if ((p_centiSec - m_franchissementSeuilMaxPlateauPressureDetectionTick) >= 10) {
-                // TODO vérifier avec médical si on doit délester la pression
-                // TODO alarme franchissement plateau haut
-            }
-        } else if (m_franchissementSeuilMaxPlateauPressureDetectionTick != 0) {
-            if (m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime == 0) {
-                m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime = p_centiSec;
-            }
-
-            if ((p_centiSec - m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime) >= 3) {
-                m_franchissementSeuilMaxPlateauPressureDetectionTick = 0;
-                m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime = 0;
-                plateau();
-            }
+            // TODO vérifier avec médical si on doit délester la pression
+            // TODO alarme franchissement plateau haut
+        } else {
+            plateau();
         }
     }
 }
@@ -362,23 +389,8 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
     if (m_phase == CyclePhases::EXHALATION) {
         // TODO asservir m_minPeepCommand + X à la vitesse du volume estimé
         if (m_pressure <= (m_minPeepCommand + 20)) {
-            if (m_franchissementSeuilHoldExpiDetectionTick == 0) {
-                m_franchissementSeuilHoldExpiDetectionTick = p_centiSec;
-            }
-
-            if ((p_centiSec - m_franchissementSeuilHoldExpiDetectionTick) >= 10) {
-                setSubPhase(CycleSubPhases::HOLD_EXHALE);
-                holdExhalation();
-            }
-        } else if (m_franchissementSeuilHoldExpiDetectionTick != 0) {
-            if (m_franchissementSeuilHoldExpiDetectionTickSupprime == 0) {
-                m_franchissementSeuilHoldExpiDetectionTickSupprime = p_centiSec;
-            }
-
-            if ((p_centiSec - m_franchissementSeuilHoldExpiDetectionTickSupprime) >= 3) {
-                m_franchissementSeuilHoldExpiDetectionTick = 0;
-                m_franchissementSeuilHoldExpiDetectionTickSupprime = 0;
-            }
+            setSubPhase(CycleSubPhases::HOLD_EXHALE);
+            holdExhalation();
         }
     }
 }

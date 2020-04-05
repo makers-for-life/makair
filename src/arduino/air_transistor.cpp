@@ -18,6 +18,9 @@
 #include "parameters.h"
 
 // FUNCTIONS ==================================================================
+
+int32_t calculConsigneMoteur(int32_t consigne, int32_t reel, int32_t dt) {}
+
 AirTransistor::AirTransistor() {}
 
 AirTransistor::AirTransistor(uint16_t p_minApertureAngle,
@@ -45,3 +48,8 @@ void AirTransistor::fermer() { command = VALVE_FERME; }
 void AirTransistor::reduireOuverture() { command = position + 2; }
 
 void AirTransistor::augmenterOuverture() { command = position - 2; }
+
+void AirTransistor::ouvrirImmediatement(uint16_t p_command) {
+    command = p_command;
+    execute();
+}

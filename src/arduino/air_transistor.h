@@ -64,6 +64,10 @@ class AirTransistor {
     /// Request increasing the opening of the Air Transistor
     void augmenterOuverture();
 
+    void ouvrirImmediatement(uint16_t p_command);
+
+    uint16_t calculConsigneMoteur(int32_t consigne, int32_t reel, int32_t dt);
+
     /**
      * Command the servomotor to go to the requested aperture
      *

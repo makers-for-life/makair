@@ -12,6 +12,7 @@
 // Available modes
 #define MODE_PROD 1           ///< Ventilator mode
 #define MODE_QUALIFICATION 2  ///< Test electrical wiring mode
+#define MODE_DEBUG_PID 3      ///< Test PID wiring mode
 
 /// Defines the current mode
 #define MODE MODE_PROD

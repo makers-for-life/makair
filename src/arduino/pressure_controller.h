@@ -135,6 +135,8 @@ class PressureController {
     /// Get the patient's Air Transistor instance
     inline const AirTransistor& patient() const { return m_patient; }
 
+    void updateDt(int32_t p_dt);
+
  private:
     /**
      * Update the cycle phase
@@ -304,6 +306,8 @@ class PressureController {
 
     /// Number of passed cycles
     uint32_t m_cycleNb;
+    int32_t m_dt;
+    int32_t m_consignePression;
 };
 
 // INITIALISATION =============================================================
