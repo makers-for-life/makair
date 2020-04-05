@@ -15,11 +15,11 @@
 // INCLUDES ===================================================================
 
 // Associated header
-#include "affichage.h"
+#include "../includes/affichage.h"
 
 // Internal
-#include "common.h"
-#include "parameters.h"
+#include "../includes/common.h"
+#include "../includes/parameters.h"
 
 // INITIALISATION =============================================================
 

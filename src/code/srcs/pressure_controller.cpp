@@ -12,14 +12,14 @@
 // INCLUDES ===================================================================
 
 // Associated header
-#include "pressure_controller.h"
+#include "../includes/pressure_controller.h"
 
 // Internal libraries
-#include "air_transistor.h"
-#include "alarm.h"
-#include "config.h"
-#include "debug.h"
-#include "parameters.h"
+#include "../includes/air_transistor.h"
+#include "../includes/alarm.h"
+#include "../includes/config.h"
+#include "../includes/debug.h"
+#include "../includes/parameters.h"
 
 // INITIALISATION =============================================================
 

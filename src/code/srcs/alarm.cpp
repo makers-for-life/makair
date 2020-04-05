@@ -20,8 +20,8 @@
 
 /// Internals
 
-#include "alarm.h"
-#include "parameters.h"
+#include "../includes/alarm.h"
+#include "../includes/parameters.h"
 
 /* Definition of all bip duration */
 /* 4 TICK = 1 ms  ( not possible to have 1TICK = 1millisec because prescalor is 16bit anf input
