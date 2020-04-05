@@ -53,7 +53,7 @@ class PressureValve {
     void open();
 
     /// Request half-opening of the Pressure Valve
-    void openMiddle();
+    void halfOpen();
 
     /// Request closing of the Pressure Valve
     void close();
