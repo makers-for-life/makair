@@ -7,7 +7,6 @@
  * @brief Entry point of electrical wiring qualification program
  *****************************************************************************/
 
-
 #pragma once
 
 #include "config.h"
@@ -16,8 +15,9 @@
 // INCLUDES ===================================================================
 
 // External
-#include <Arduino.h>
 #include <AnalogButtons.h>
+#include <Arduino.h>
+#include <IWatchdog.h>
 #include <OneButton.h>
 
 // Internal
@@ -54,11 +54,13 @@
 #define STEP_SERVO_PATIENT_CLOSE 21
 #define STEP_SERVOS 22
 #define STEP_BLOWER 23
-#define STEP_PRESSURE_EMPTY 24
-#define STEP_PRESSURE_VAL1 25
-#define STEP_PRESSURE_VAL2 26
-#define STEP_PRESSURE_VAL3 27
-#define STEP_DONE 28
+#define STEP_WATCHDOG 24
+#define STEP_WATCHDOG_SUCCESS 25
+#define STEP_PRESSURE_EMPTY 26
+#define STEP_PRESSURE_VAL1 27
+#define STEP_PRESSURE_VAL2 28
+#define STEP_PRESSURE_VAL3 29
+#define STEP_DONE 30
 
 static uint8_t step = STEP_LCD;
 
@@ -247,6 +249,8 @@ void onAlarmOffClick() {
         changeStep(step + 1);
     } else if (step == STEP_ALARM) {
         changeStep(step + 1);
+    } else if (step == STEP_WATCHDOG_SUCCESS) {
+        changeStep(step + 1);
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
         errors++;
@@ -382,6 +386,18 @@ void setup() {
     hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(0),
                                       MICROSEC_COMPARE_FORMAT);
     hardwareTimer3->resume();
+
+    // Activate watchdog
+    IWatchdog.begin(2000000);  // in microseconds
+    IWatchdog.reload();
+
+    if (IWatchdog.isReset(true)) {
+        Serial.println("watchdog reset");
+        step = STEP_WATCHDOG_SUCCESS;
+        digitalWrite(PIN_ALARM, HIGH);
+        delay(100);
+        digitalWrite(PIN_ALARM, LOW);
+    }
 
     startScreen();
 }
@@ -527,6 +543,16 @@ void loop() {
         });
         break;
     }
+    case STEP_WATCHDOG: {
+        UNGREEDY(is_drawn, display("Begin infinite loop", "Wait for watchdog"));
+        while (true) {
+        }
+        break;
+    }
+    case STEP_WATCHDOG_SUCCESS: {
+        UNGREEDY(is_drawn, display("MC was restarted", "Press alarm OFF"));
+        break;
+    }
     case STEP_PRESSURE_EMPTY: {
         UNGREEDY(is_drawn, display("Unplug pressure", "sensor, press start"));
         break;
@@ -574,6 +600,8 @@ void loop() {
         snprintf(status_msg, SCREEN_LINE_LENGTH, "Pressure: %d", readPressureSensor(0));
         displayStatus(status_msg, 2);
     }
+
+    IWatchdog.reload();
 
     remainingTicks--;
     delay(10);
