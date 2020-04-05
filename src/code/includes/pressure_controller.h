@@ -223,30 +223,30 @@ class PressureController {
     uint16_t m_maxPeakPressureCommand;
 
     /// Tick de détection initiale pour le dépassement de la consigne de crête
-    uint16_t m_franchissementSeuilMaxPeakPressureDetectionTick;
+    uint16_t m_triggersMaxPeakPressureDetectionTick;
 
     /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
     /// crête
-    uint16_t m_franchissementSeuilMaxPeakPressureDetectionTickSupprime;
+    uint16_t m_triggersMaxPeakPressureDetectionTickSupprime;
 
     /// Maximal plateau pressure desired by the operator
     uint16_t m_maxPlateauPressureCommand;
 
     /// Tick de détection initiale pour le dépassement de la consigne de plateau
-    uint16_t m_franchissementSeuilMaxPlateauPressureDetectionTick;
+    uint16_t m_triggersMaxPlateauPressureDetectionTick;
 
     /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
     /// plateau
-    uint16_t m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime;
+    uint16_t m_triggersMaxPlateauPressureDetectionTickSupprime;
 
     /// Minimal PEEP desired by the operator
     uint16_t m_minPeepCommand;
 
     /// Tick de détection initiale pour le maintien de la PEEP
-    uint16_t m_franchissementSeuilHoldExpiDetectionTick;
+    uint16_t m_triggersHoldExpiDetectionTick;
 
     /// Tick de suppression du tick de détection initiale que la PEEP est maintenue
-    uint16_t m_franchissementSeuilHoldExpiDetectionTickSupprime;
+    uint16_t m_triggersHoldExpiDetectionTickSupprime;
 
     /// Blower's valve aperture desired by the operator
     uint16_t m_apertureCommand;
