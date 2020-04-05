@@ -28,18 +28,18 @@ PressureController pController;
 // FUNCTIONS ==================================================================
 
 PressureController::PressureController()
-  : m_cyclesPerMinuteCommand(INITIAL_CYCLE_NB),
+  : m_cyclesPerMinuteCommand(INITIAL_CYCLE_NUMBER),
     m_minPeepCommand(DEFAULT_MIN_PEEP_COMMAND),                   // [mmH20]
     m_maxPlateauPressureCommand(DEFAULT_MAX_PLATEAU_COMMAND),     // [mmH20]
     m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),  // [mmH20]
-    m_cyclesPerMinute(INITIAL_CYCLE_NB),
-    m_maxPeakPressure(BORNE_SUP_PRESSION_CRETE),       // [mmH20]
-    m_maxPlateauPressure(BORNE_SUP_PRESSION_PLATEAU),  // [mmH20]
-    m_minPeep(BORNE_INF_PRESSION_PEP),                 // TODO revoir la valeur [mmH20]
-    m_pressure(INITIAL_ZERO_PRESSURE),
-    m_peakPressure(INITIAL_ZERO_PRESSURE),
-    m_plateauPressure(INITIAL_ZERO_PRESSURE),
-    m_peep(INITIAL_ZERO_PRESSURE),
+    m_cyclesPerMinute(INITIAL_CYCLE_NUMBER),
+    m_maxPeakPressure(CONST_MAX_PEAK_PRESSURE),       // [mmH20]
+    m_maxPlateauPressure(CONST_MAX_PLATEAU_PRESSURE),  // [mmH20]
+    m_minPeep(CONST_MIN_PEEP_PRESSURE),                 // TODO revoir la valeur [mmH20]
+    m_pressure(CONST_INITIAL_ZERO_PRESSURE),
+    m_peakPressure(CONST_INITIAL_ZERO_PRESSURE),
+    m_plateauPressure(CONST_INITIAL_ZERO_PRESSURE),
+    m_peep(CONST_INITIAL_ZERO_PRESSURE),
     m_phase(CyclePhases::INHALATION),
     m_triggersHoldExpiDetectionTick(0),
     m_triggersHoldExpiDetectionTickSupprime(0) {
@@ -54,16 +54,16 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        PressureValve p_patient)
   : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
     m_minPeepCommand(p_minPeepCommand),
-  m_maxPlateauPressureCommand(p_maxPlateauPressure),
+    m_maxPlateauPressureCommand(p_maxPlateauPressure),
     m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),
     m_cyclesPerMinute(p_cyclesPerMinute),
     m_maxPeakPressure(p_maxPeakPressure),
     m_maxPlateauPressure(p_maxPlateauPressure),
     m_minPeep(p_minPeepCommand),  // TODO revoir la valeur de démarage
-    m_pressure(INITIAL_ZERO_PRESSURE),
-    m_peakPressure(INITIAL_ZERO_PRESSURE),
-    m_plateauPressure(INITIAL_ZERO_PRESSURE),
-    m_peep(INITIAL_ZERO_PRESSURE),
+    m_pressure(CONST_INITIAL_ZERO_PRESSURE),
+    m_peakPressure(CONST_INITIAL_ZERO_PRESSURE),
+    m_plateauPressure(CONST_INITIAL_ZERO_PRESSURE),
+    m_peep(CONST_INITIAL_ZERO_PRESSURE),
     m_phase(CyclePhases::INHALATION),
     m_blower(p_blower),
     m_patient(p_patient),
@@ -164,8 +164,8 @@ void PressureController::onCycleIncrease() {
   
   m_cyclesPerMinuteCommand++;
   
-  if (m_cyclesPerMinuteCommand > BORNE_SUP_CYCLE) {
-      m_cyclesPerMinuteCommand = BORNE_SUP_CYCLE;
+  if (m_cyclesPerMinuteCommand > CONST_MAX_CYCLE) {
+      m_cyclesPerMinuteCommand = CONST_MAX_CYCLE;
   }
   
   #endif
@@ -175,8 +175,8 @@ void PressureController::onCycleDecrease() {
   DBG_DO(Serial.println("Cycle --");)
   m_cyclesPerMinuteCommand--;
 
-  if (m_cyclesPerMinuteCommand < BORNE_INF_CYCLE) {
-    m_cyclesPerMinuteCommand = BORNE_INF_CYCLE;
+  if (m_cyclesPerMinuteCommand < CONST_MIN_CYCLE) {
+    m_cyclesPerMinuteCommand = CONST_MIN_CYCLE;
   }
 }
 
@@ -185,8 +185,8 @@ void PressureController::onPeepPressureIncrease() {
   
   m_minPeepCommand = m_minPeepCommand + 10;
 
-  if (m_minPeepCommand > BORNE_SUP_PRESSION_PEP) {
-    m_minPeepCommand = BORNE_SUP_PRESSION_PEP;
+  if (m_minPeepCommand > CONST_MAX_PEEP_PRESSURE) {
+    m_minPeepCommand = CONST_MAX_PEEP_PRESSURE;
   }
 }
 
@@ -195,8 +195,8 @@ void PressureController::onPeepPressureDecrease() {
   
   m_minPeepCommand = m_minPeepCommand - 10;
 
-  if (m_minPeepCommand < BORNE_INF_PRESSION_PEP) {
-    m_minPeepCommand = BORNE_INF_PRESSION_PEP;
+  if (m_minPeepCommand < CONST_MIN_PEEP_PRESSURE) {
+    m_minPeepCommand = CONST_MIN_PEEP_PRESSURE;
   }
 }
 
@@ -205,8 +205,8 @@ void PressureController::onPlateauPressureIncrease() {
   
   m_maxPlateauPressureCommand = m_maxPlateauPressureCommand + 10;
   
-  if (m_maxPlateauPressureCommand > BORNE_SUP_PRESSION_PLATEAU) {
-    m_maxPlateauPressureCommand = BORNE_SUP_PRESSION_PLATEAU;
+  if (m_maxPlateauPressureCommand > CONST_MAX_PLATEAU_PRESSURE) {
+    m_maxPlateauPressureCommand = CONST_MAX_PLATEAU_PRESSURE;
   }
 }
 
@@ -215,8 +215,8 @@ void PressureController::onPlateauPressureDecrease() {
   
   m_maxPlateauPressureCommand = m_maxPlateauPressureCommand - 10;
   
-  if (m_maxPlateauPressureCommand < BORNE_INF_PRESSION_PLATEAU) {
-    m_maxPlateauPressureCommand = BORNE_INF_PRESSION_PLATEAU;
+  if (m_maxPlateauPressureCommand < CONST_MIN_PLATEAU_PRESSURE) {
+    m_maxPlateauPressureCommand = CONST_MIN_PLATEAU_PRESSURE;
   }
 }
 
@@ -225,8 +225,8 @@ void PressureController::onPeekPressureIncrease() {
 
   m_maxPeakPressureCommand = m_maxPeakPressureCommand + 10;
 
-  if (m_maxPeakPressureCommand > BORNE_SUP_PRESSION_CRETE) {
-      m_maxPeakPressureCommand = BORNE_SUP_PRESSION_CRETE;
+  if (m_maxPeakPressureCommand > CONST_MAX_PEAK_PRESSURE) {
+      m_maxPeakPressureCommand = CONST_MAX_PEAK_PRESSURE;
   }
 }
 
@@ -235,8 +235,8 @@ void PressureController::onPeekPressureDecrease() {
   
   m_maxPeakPressureCommand = m_maxPeakPressureCommand - 10;
 
-  if (m_maxPeakPressureCommand < BORNE_INF_PRESSION_CRETE) {
-      m_maxPeakPressureCommand = BORNE_INF_PRESSION_CRETE;
+  if (m_maxPeakPressureCommand < CONST_MIN_PEAK_PRESSURE) {
+      m_maxPeakPressureCommand = CONST_MIN_PEAK_PRESSURE;
   }
 }
 
