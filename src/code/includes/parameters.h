@@ -103,14 +103,14 @@
 #define PIN_BTN_ALARM_OFF PB2
 #define PIN_BTN_START PB1
 #define PIN_BTN_STOP PB15
-#define TENSION_BTN_PRESSION_P_CRETE_PLUS 913
-#define TENSION_BTN_PRESSION_P_CRETE_MINUS 819
-#define TENSION_BTN_PRESSION_PLATEAU_PLUS 745
-#define TENSION_BTN_PRESSION_PLATEAU_MINUS 608
-#define TENSION_BTN_PEP_PLUS 512
-#define TENSION_BTN_PEP_MINUS 415
-#define TENSION_BTN_CYCLE_PLUS 294
-#define TENSION_BTN_CYCLE_MINUS 216
+#define VOLTAGE_BUTTON_PEAK_PRESSURE_INCREASE 913
+#define VOLTAGE_BUTTON_PEAK_PRESSURE_DECREASE 819
+#define VOLTAGE_BUTTON_PLATEAU_PRESSURE_INCREASE 745
+#define VOLTAGE_BUTTON_PLATEAU_PRESSURE_DECREASE 608
+#define VOLTAGE_BUTTON_PEEP_PRESSURE_INCREASE 512
+#define VOLTAGE_BUTTON_PEEP_PRESSURE_DECREASE 415
+#define VOLTAGE_BUTTON_CYCLE_INCREASE 294
+#define VOLTAGE_BUTTON_CYCLE_DECREASE 216
 
 ///@}
 
@@ -119,7 +119,7 @@
  */
 ///@{
 
-#define PIN_CAPTEUR_PRESSION A1
+#define PIN_PRESSURE_SENSOR A1
 #define PIN_ALARM D13
 #define PIN_LED_RED PC4
 #define PIN_LED_GREEN PB13
@@ -130,22 +130,3 @@
 
 ///@}
 
-// USELESS?
-
-// amplitude radiale des servomoteurs
-// \warning ANGLE_FERMETURE has to be greater than ANGLE_OUVERTURE_MAXI
-static const uint16_t ANGLE_OUVERTURE_MINI = 8;
-static const uint16_t ANGLE_OUVERTURE_MAXI = 45;
-static const uint16_t ANGLE_FERMETURE = 90;
-
-// multiplicateur à modifier pour inverser les angles (en cas de suppression de
-// l'engrenage)
-static const int16_t ANGLE_MULTIPLICATEUR = 1;
-
-// borne pour le capteur de pression
-// a adapter lors de la calibration
-static const uint16_t CAPT_PRESSION_MINI = 0;
-
-// on ne va pas jusqu'à 1024 à cause de la saturation de l'AOP
-// -> à adapter avec meilleur AOP
-static const uint16_t CAPT_PRESSION_MAXI = 800;

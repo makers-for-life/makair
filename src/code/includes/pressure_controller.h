@@ -40,7 +40,6 @@ class PressureController {
                        int16_t p_minPeep,
                        int16_t p_maxPlateauPressure,
                        int16_t p_maxPeakPressure,
-                       int16_t p_aperture,
                        PressureValve p_blower,
                        PressureValve p_patient);
 
@@ -64,28 +63,28 @@ class PressureController {
     void compute(uint16_t p_centiSec);
 
     /// Decrease the desired number of cycles per minute
-    void onCycleMinus();
+    void onCycleDecrease();
 
     /// Increase the desired number of cycles per minute
-    void onCyclePlus();
+    void onCycleIncrease();
 
     /// Decrease the minimal PEEP desired
-    void onPressionPepMinus();
+    void onPeepPressureDecrease();
 
     /// Increase the minimal PEEP desired
-    void onPressionPepPlus();
+    void onPeepPressureIncrease();
 
     /// Decrease the desired plateau pressure
-    void onPressionPlateauMinus();
+    void onPlateauPressureDecrease();
 
     /// Increase the desired plateau pressure
-    void onPressionPlateauPlus();
+    void onPlateauPressureIncrease();
 
     /// Decrease the desired crête pressure
-    void onPressionCreteMinus();
+    void onPeekPressureDecrease();
 
     /// Increase the desired crête pressure
-    void onPressionCretePlus();
+    void onPeekPressureIncrease();
 
     /// Get the desired number of cycles per minute
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
@@ -98,9 +97,6 @@ class PressureController {
 
     /// Get the desired maximal plateau pressure
     inline uint16_t maxPlateauPressureCommand() const { return m_maxPlateauPressureCommand; }
-
-    /// Get the desired blower aperture
-    inline uint16_t apertureCommand() const { return m_apertureCommand; }
 
     /// Get the number of cycles per minute
     inline uint16_t cyclesPerMinute() const { return m_cyclesPerMinute; }

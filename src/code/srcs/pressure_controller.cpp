@@ -32,9 +32,7 @@ PressureController::PressureController()
     m_minPeepCommand(DEFAULT_MIN_PEEP_COMMAND),                   // [mmH20]
     m_maxPlateauPressureCommand(DEFAULT_MAX_PLATEAU_COMMAND),     // [mmH20]
     m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),  // [mmH20]
-    m_apertureCommand(ANGLE_OUVERTURE_MAXI),
     m_cyclesPerMinute(INITIAL_CYCLE_NB),
-    m_aperture(ANGLE_OUVERTURE_MAXI),
     m_maxPeakPressure(BORNE_SUP_PRESSION_CRETE),       // [mmH20]
     m_maxPlateauPressure(BORNE_SUP_PRESSION_PLATEAU),  // [mmH20]
     m_minPeep(BORNE_INF_PRESSION_PEP),                 // TODO revoir la valeur [mmH20]
@@ -51,7 +49,6 @@ PressureController::PressureController()
 PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        int16_t p_minPeepCommand,
                                        int16_t p_maxPlateauPressure,
-                                       int16_t p_aperture,
                                        int16_t p_maxPeakPressure,
                                        PressureValve p_blower,
                                        PressureValve p_patient)
@@ -59,9 +56,7 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
     m_minPeepCommand(p_minPeepCommand),
   m_maxPlateauPressureCommand(p_maxPlateauPressure),
     m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),
-    m_apertureCommand(p_aperture),
     m_cyclesPerMinute(p_cyclesPerMinute),
-    m_aperture(p_aperture),
     m_maxPeakPressure(p_maxPeakPressure),
     m_maxPlateauPressure(p_maxPlateauPressure),
     m_minPeep(p_minPeepCommand),  // TODO revoir la valeur de démarage
@@ -107,7 +102,6 @@ void PressureController::initRespiratoryCycle() {
   */
 
   m_cyclesPerMinute = m_cyclesPerMinuteCommand;
-  m_aperture = m_apertureCommand;
   m_minPeep = m_minPeepCommand;
   m_maxPlateauPressure = m_maxPlateauPressureCommand;
   /*
@@ -162,20 +156,11 @@ void PressureController::compute(uint16_t p_centiSec) {
   m_previousPhase = m_phase;
 }
 
-void PressureController::onCycleMinus() {
-  DBG_DO(Serial.println("nb cycle --");)
-  m_cyclesPerMinuteCommand--;
-
-  if (m_cyclesPerMinuteCommand < BORNE_INF_CYCLE) {
-    m_cyclesPerMinuteCommand = BORNE_INF_CYCLE;
-  }
-}
-
-void PressureController::onCyclePlus() {
+void PressureController::onCycleIncrease() {
   #ifndef SIMULATION
   // During simulation without electronic board there is a noise on the button pin. It increases
   // the cycle and the simulation fail.
-  DBG_DO(Serial.println("nb cycle ++");)
+  DBG_DO(Serial.println("Cycle ++");)
   
   m_cyclesPerMinuteCommand++;
   
@@ -186,18 +171,17 @@ void PressureController::onCyclePlus() {
   #endif
 }
 
-void PressureController::onPressionPepMinus() {
-  DBG_DO(Serial.println("pression PEP --");)
-  
-  m_minPeepCommand = m_minPeepCommand - 10;
+void PressureController::onCycleDecrease() {
+  DBG_DO(Serial.println("Cycle --");)
+  m_cyclesPerMinuteCommand--;
 
-  if (m_minPeepCommand < BORNE_INF_PRESSION_PEP) {
-    m_minPeepCommand = BORNE_INF_PRESSION_PEP;
+  if (m_cyclesPerMinuteCommand < BORNE_INF_CYCLE) {
+    m_cyclesPerMinuteCommand = BORNE_INF_CYCLE;
   }
 }
 
-void PressureController::onPressionPepPlus() {
-  DBG_DO(Serial.println("pression PEP ++");)
+void PressureController::onPeepPressureIncrease() {
+  DBG_DO(Serial.println("Peep Pressure ++");)
   
   m_minPeepCommand = m_minPeepCommand + 10;
 
@@ -206,18 +190,18 @@ void PressureController::onPressionPepPlus() {
   }
 }
 
-void PressureController::onPressionPlateauMinus() {
-  DBG_DO(Serial.println("pression plateau --");)
+void PressureController::onPeepPressureDecrease() {
+  DBG_DO(Serial.println("Peep Pressure --");)
   
-  m_maxPlateauPressureCommand = m_maxPlateauPressureCommand - 10;
-  
-  if (m_maxPlateauPressureCommand < BORNE_INF_PRESSION_PLATEAU) {
-    m_maxPlateauPressureCommand = BORNE_INF_PRESSION_PLATEAU;
+  m_minPeepCommand = m_minPeepCommand - 10;
+
+  if (m_minPeepCommand < BORNE_INF_PRESSION_PEP) {
+    m_minPeepCommand = BORNE_INF_PRESSION_PEP;
   }
 }
 
-void PressureController::onPressionPlateauPlus() {
-  DBG_DO(Serial.println("pression plateau ++");)
+void PressureController::onPlateauPressureIncrease() {
+  DBG_DO(Serial.println("Plateau Pressure ++");)
   
   m_maxPlateauPressureCommand = m_maxPlateauPressureCommand + 10;
   
@@ -226,23 +210,33 @@ void PressureController::onPressionPlateauPlus() {
   }
 }
 
-void PressureController::onPressionCreteMinus() {
-  DBG_DO(Serial.println("pression crete --");)
+void PressureController::onPlateauPressureDecrease() {
+  DBG_DO(Serial.println("Plateau Pressure --");)
   
-  m_maxPeakPressureCommand = m_maxPeakPressureCommand - 10;
-
-  if (m_maxPeakPressureCommand < BORNE_INF_PRESSION_CRETE) {
-      m_maxPeakPressureCommand = BORNE_INF_PRESSION_CRETE;
+  m_maxPlateauPressureCommand = m_maxPlateauPressureCommand - 10;
+  
+  if (m_maxPlateauPressureCommand < BORNE_INF_PRESSION_PLATEAU) {
+    m_maxPlateauPressureCommand = BORNE_INF_PRESSION_PLATEAU;
   }
 }
 
-void PressureController::onPressionCretePlus() {
-  DBG_DO(Serial.println("pression crete ++");)
+void PressureController::onPeekPressureIncrease() {
+  DBG_DO(Serial.println("Peek Pressure ++");)
 
   m_maxPeakPressureCommand = m_maxPeakPressureCommand + 10;
 
   if (m_maxPeakPressureCommand > BORNE_SUP_PRESSION_CRETE) {
       m_maxPeakPressureCommand = BORNE_SUP_PRESSION_CRETE;
+  }
+}
+
+void PressureController::onPeekPressureDecrease() {
+  DBG_DO(Serial.println("Peek Pressure --");)
+  
+  m_maxPeakPressureCommand = m_maxPeakPressureCommand - 10;
+
+  if (m_maxPeakPressureCommand < BORNE_INF_PRESSION_CRETE) {
+      m_maxPeakPressureCommand = BORNE_INF_PRESSION_CRETE;
   }
 }
 

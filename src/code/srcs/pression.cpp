@@ -56,7 +56,7 @@ int readPressureSensor(uint16_t centiSec) {
 #else
 
 int readPressureSensor(uint16_t centiSec) {
-  double rawVout = analogRead(PIN_CAPTEUR_PRESSION) * 3.3 / 1024.0;
+  double rawVout = analogRead(PIN_PRESSURE_SENSOR) * 3.3 / 1024.0;
   filteredVout = filteredVout + (rawVout - filteredVout) * 0.2;
 
   // Ratio a cause du pont diviseur
