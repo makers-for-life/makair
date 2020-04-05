@@ -86,29 +86,29 @@ Button btnCycleMinus(TENSION_BTN_CYCLE_MINUS, &onCycleMinus);
 ///@}
 
 void initKeyboard() {
-    analogButtons.add(btnPressionCretePlus);
-    analogButtons.add(btnPressionCreteMinus);
-    analogButtons.add(btnPressionPlateauPlus);
-    analogButtons.add(btnPressionPlateauMinus);
-    analogButtons.add(btnPressionPepPlus);
-    analogButtons.add(btnPressionPepMinus);
-    analogButtons.add(btnCyclePlus);
-    analogButtons.add(btnCycleMinus);
+  analogButtons.add(btnPressionCretePlus);
+  analogButtons.add(btnPressionCreteMinus);
+  analogButtons.add(btnPressionPlateauPlus);
+  analogButtons.add(btnPressionPlateauMinus);
+  analogButtons.add(btnPressionPepPlus);
+  analogButtons.add(btnPressionPepMinus);
+  analogButtons.add(btnCyclePlus);
+  analogButtons.add(btnCycleMinus);
 
-    btn_alarm_off.attachClick(onAlarmOff);
-    btn_start.attachClick(onStart);
-    btn_stop.attachClick(onStop);
+  btn_alarm_off.attachClick(onAlarmOff);
+  btn_start.attachClick(onStart);
+  btn_stop.attachClick(onStop);
 }
 
 void keyboardLoop() {
-    analogButtons.check();
-    btn_alarm_off.tick();
-    btn_start.tick();
-    btn_stop.tick();
+  analogButtons.check();
+  btn_alarm_off.tick();
+  btn_start.tick();
+  btn_stop.tick();
 }
 
 void calibrateButtons() {
-    uint16_t value = analogRead(PIN_CONTROL_BUTTONS);
-    Serial.println(value);
-    delay(250);
+  uint16_t value = analogRead(PIN_CONTROL_BUTTONS);
+  Serial.println(value);
+  delay(250);
 }

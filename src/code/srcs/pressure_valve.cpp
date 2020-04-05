@@ -25,15 +25,15 @@ PressureValve::PressureValve(uint16_t p_minApertureAngle,
                              HardwareTimer* p_hardwareTimer,
                              uint16_t p_timChannel,
                              uint16_t p_servoPin)
-    : minApertureAngle(p_minApertureAngle),
-      maxApertureAngle(p_maxApertureAngle),
-      actuator(p_hardwareTimer),
-      timChannel(p_timChannel),
-      servoPin(p_servoPin) {}
+  : minApertureAngle(p_minApertureAngle),
+    maxApertureAngle(p_maxApertureAngle),
+    actuator(p_hardwareTimer),
+    timChannel(p_timChannel),
+    servoPin(p_servoPin) {}
 
 void PressureValve::setup() {
-    actuator->setMode(timChannel, TIMER_OUTPUT_COMPARE_PWM1, servoPin);
-    actuator->setCaptureCompare(timChannel, 0, MICROSEC_COMPARE_FORMAT);
+  actuator->setMode(timChannel, TIMER_OUTPUT_COMPARE_PWM1, servoPin);
+  actuator->setCaptureCompare(timChannel, 0, MICROSEC_COMPARE_FORMAT);
 }
 
 void PressureValve::open() { command = VALVE_OUVERT; }
