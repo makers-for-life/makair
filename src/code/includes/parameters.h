@@ -29,22 +29,22 @@
 // Période de traitement en millisecondes
 #define PCONTROLLER_COMPUTE_PERIOD 10
 
-// Minimums et maximums possible des paramètres modifiables à l'exécution
-#define BORNE_SUP_PRESSION_CRETE 700    // arbitraire [mmH2O]
-#define BORNE_INF_PRESSION_CRETE 100    // arbitraire [mmH2O]
-#define BORNE_SUP_PRESSION_PLATEAU 400  // PP MAX SDRA = 300 [mmH2O]
-#define BORNE_INF_PRESSION_PLATEAU 100  // arbitraire [mmH2O]
-#define BORNE_SUP_PRESSION_PEP 300      // PP MAX = 300, or PEP < PP [mmH2O]
-#define BORNE_INF_PRESSION_PEP 50       // arbitraire mais > 0 [mmH2O]
-#define INITIAL_ZERO_PRESSURE 0         // [mmH2O]
+// Minimum & maximum execution parameters
+#define CONST_MAX_PEAK_PRESSURE 700    // arbitrary [mmH2O]
+#define CONST_MIN_PEAK_PRESSURE 100    // arbitrary [mmH2O]
+#define CONST_MAX_PLATEAU_PRESSURE 400  // PP MAX ARDS = 300 [mmH2O]
+#define CONST_MIN_PLATEAU_PRESSURE 100  // arbitrary [mmH2O]
+#define CONST_MAX_PEEP_PRESSURE 300      // PP MAX = 300, or PEEP < PP [mmH2O]
+#define CONST_MIN_PEEP_PRESSURE 50       // arbitrary but > 0 [mmH2O]
+#define CONST_INITIAL_ZERO_PRESSURE 0         // [mmH2O]
 
 #define DEFAULT_MIN_PEEP_COMMAND 80
 #define DEFAULT_MAX_PLATEAU_COMMAND 300
 #define DEFAULT_MAX_PEAK_PRESSURE_COMMAND 600
 
-#define INITIAL_CYCLE_NB 20
-#define BORNE_SUP_CYCLE 35  // demande medical
-#define BORNE_INF_CYCLE 5   // demande medical
+#define INITIAL_CYCLE_NUMBER 20
+#define CONST_MAX_CYCLE 35
+#define CONST_MIN_CYCLE 5
 
 ///@}
 
@@ -53,10 +53,10 @@
  */
 ///@{
 
-/// Angle when open
+/// Angle when opened
 #define VALVE_OPENED_STATE 25
 
-/// Angle when half-open
+/// Angle when half-opened
 #define VALVE_MIDDLE_STATE 90
 
 /// Angle when closed

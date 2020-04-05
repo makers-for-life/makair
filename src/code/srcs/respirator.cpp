@@ -94,9 +94,9 @@ void setup() {
                                     MICROSEC_COMPARE_FORMAT);
   hardwareTimer3->resume();
 
-  pController = PressureController(INITIAL_CYCLE_NB, DEFAULT_MIN_PEEP_COMMAND,
-                                   BORNE_SUP_PRESSION_PLATEAU,
-                                   BORNE_SUP_PRESSION_CRETE, servoBlower, servoPatient);
+  pController = PressureController(INITIAL_CYCLE_NUMBER, DEFAULT_MIN_PEEP_COMMAND,
+                                   CONST_MAX_PLATEAU_PRESSURE,
+                                   CONST_MAX_PEAK_PRESSURE, servoBlower, servoPatient);
   pController.setup();
 
   initKeyboard();
