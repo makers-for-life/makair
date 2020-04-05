@@ -41,8 +41,8 @@ PressureController::PressureController()
     m_plateauPressure(INITIAL_ZERO_PRESSURE),
     m_peep(INITIAL_ZERO_PRESSURE),
     m_phase(CyclePhases::INHALATION),
-    m_franchissementSeuilHoldExpiDetectionTick(0),
-    m_franchissementSeuilHoldExpiDetectionTickSupprime(0) {
+    m_triggersHoldExpiDetectionTick(0),
+    m_triggersHoldExpiDetectionTickSupprime(0) {
   computeCentiSecParameters();
 }
 
@@ -67,14 +67,14 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
     m_phase(CyclePhases::INHALATION),
     m_blower(p_blower),
     m_patient(p_patient),
-    m_franchissementSeuilHoldExpiDetectionTick(0),
-    m_franchissementSeuilHoldExpiDetectionTickSupprime(0) {
+    m_triggersHoldExpiDetectionTick(0),
+    m_triggersHoldExpiDetectionTickSupprime(0) {
   computeCentiSecParameters();
 }
 
 void PressureController::setup() {
   DBG_DO(Serial.println(VERSION);)
-  DBG_DO(Serial.println("mise en secu initiale");)
+  DBG_DO(Serial.println("Setup pressure controler");)
 
   m_blower.close();
   m_blower.position = -1;
@@ -109,8 +109,8 @@ void PressureController::initRespiratoryCycle() {
   */
 
   // remise à zéro tick alarmes
-  m_franchissementSeuilHoldExpiDetectionTick = 0;
-  m_franchissementSeuilHoldExpiDetectionTickSupprime = 0;
+  m_triggersHoldExpiDetectionTick = 0;
+  m_triggersHoldExpiDetectionTickSupprime = 0;
 }
 
 void PressureController::updatePressure(int16_t p_currentPressure) {
@@ -314,22 +314,22 @@ void PressureController::safeguards(uint16_t p_centiSec) {
 void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
   if (m_subPhase == CycleSubPhases::INSPI) {
     if (m_pressure >= (m_maxPeakPressureCommand - 30)) {
-      if (m_franchissementSeuilMaxPeakPressureDetectionTick == 0) {
-        m_franchissementSeuilMaxPeakPressureDetectionTick = p_centiSec;
+      if (m_triggersMaxPeakPressureDetectionTick == 0) {
+        m_triggersMaxPeakPressureDetectionTick = p_centiSec;
       }
 
-      if ((p_centiSec - m_franchissementSeuilMaxPeakPressureDetectionTick) >= 5) {
+      if ((p_centiSec - m_triggersMaxPeakPressureDetectionTick) >= 5) {
         m_blower.openMiddle();
         m_vigilance = true;
       }
-    } else if (m_franchissementSeuilMaxPeakPressureDetectionTick != 0) {
-      if (m_franchissementSeuilMaxPeakPressureDetectionTickSupprime == 0) {
-        m_franchissementSeuilMaxPeakPressureDetectionTickSupprime = p_centiSec;
+    } else if (m_triggersMaxPeakPressureDetectionTick != 0) {
+      if (m_triggersMaxPeakPressureDetectionTickSupprime == 0) {
+        m_triggersMaxPeakPressureDetectionTickSupprime = p_centiSec;
       }
 
-      if ((p_centiSec - m_franchissementSeuilMaxPeakPressureDetectionTickSupprime) >= 3) {
-        m_franchissementSeuilMaxPeakPressureDetectionTick = 0;
-        m_franchissementSeuilMaxPeakPressureDetectionTickSupprime = 0;
+      if ((p_centiSec - m_triggersMaxPeakPressureDetectionTickSupprime) >= 3) {
+        m_triggersMaxPeakPressureDetectionTick = 0;
+        m_triggersMaxPeakPressureDetectionTickSupprime = 0;
       }
     }
 
@@ -349,22 +349,22 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
 void PressureController::safeguardPressionPlateau(uint16_t p_centiSec) {
   if (m_subPhase == CycleSubPhases::HOLD_INSPI) {
     if (m_pressure >= m_maxPlateauPressureCommand) {
-      if (m_franchissementSeuilMaxPlateauPressureDetectionTick == 0) {
-        m_franchissementSeuilMaxPlateauPressureDetectionTick = p_centiSec;
+      if (m_triggersMaxPlateauPressureDetectionTick == 0) {
+        m_triggersMaxPlateauPressureDetectionTick = p_centiSec;
       }
 
-      if ((p_centiSec - m_franchissementSeuilMaxPlateauPressureDetectionTick) >= 10) {
+      if ((p_centiSec - m_triggersMaxPlateauPressureDetectionTick) >= 10) {
         // TODO vérifier avec médical si on doit délester la pression
         // TODO alarme franchissement plateau haut
       }
-    } else if (m_franchissementSeuilMaxPlateauPressureDetectionTick != 0) {
-      if (m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime == 0) {
-        m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime = p_centiSec;
+    } else if (m_triggersMaxPlateauPressureDetectionTick != 0) {
+      if (m_triggersMaxPlateauPressureDetectionTickSupprime == 0) {
+        m_triggersMaxPlateauPressureDetectionTickSupprime = p_centiSec;
       }
 
-      if ((p_centiSec - m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime) >= 3) {
-        m_franchissementSeuilMaxPlateauPressureDetectionTick = 0;
-        m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime = 0;
+      if ((p_centiSec - m_triggersMaxPlateauPressureDetectionTickSupprime) >= 3) {
+        m_triggersMaxPlateauPressureDetectionTick = 0;
+        m_triggersMaxPlateauPressureDetectionTickSupprime = 0;
         plateau();
       }
     }
@@ -375,22 +375,22 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
   if (m_phase == CyclePhases::EXHALATION) {
     // TODO asservir m_minPeepCommand + X à la vitesse du volume estimé
     if (m_pressure <= (m_minPeepCommand + 20)) {
-      if (m_franchissementSeuilHoldExpiDetectionTick == 0) {
-        m_franchissementSeuilHoldExpiDetectionTick = p_centiSec;
+      if (m_triggersHoldExpiDetectionTick == 0) {
+        m_triggersHoldExpiDetectionTick = p_centiSec;
       }
 
-      if ((p_centiSec - m_franchissementSeuilHoldExpiDetectionTick) >= 10) {
+      if ((p_centiSec - m_triggersHoldExpiDetectionTick) >= 10) {
         setSubPhase(CycleSubPhases::HOLD_EXHALE);
         holdExhalation();
       }
-    } else if (m_franchissementSeuilHoldExpiDetectionTick != 0) {
-      if (m_franchissementSeuilHoldExpiDetectionTickSupprime == 0) {
-        m_franchissementSeuilHoldExpiDetectionTickSupprime = p_centiSec;
+    } else if (m_triggersHoldExpiDetectionTick != 0) {
+      if (m_triggersHoldExpiDetectionTickSupprime == 0) {
+        m_triggersHoldExpiDetectionTickSupprime = p_centiSec;
       }
 
-      if ((p_centiSec - m_franchissementSeuilHoldExpiDetectionTickSupprime) >= 3) {
-        m_franchissementSeuilHoldExpiDetectionTick = 0;
-      m_franchissementSeuilHoldExpiDetectionTickSupprime = 0;
+      if ((p_centiSec - m_triggersHoldExpiDetectionTickSupprime) >= 3) {
+        m_triggersHoldExpiDetectionTick = 0;
+      m_triggersHoldExpiDetectionTickSupprime = 0;
       }
     }
   }

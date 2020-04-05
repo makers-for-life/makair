@@ -59,10 +59,10 @@ int readPressureSensor(uint16_t centiSec) {
   double rawVout = analogRead(PIN_PRESSURE_SENSOR) * 3.3 / 1024.0;
   filteredVout = filteredVout + (rawVout - filteredVout) * 0.2;
 
-  // Ratio a cause du pont diviseur
+  // Voltage divider ratio
   double vOut = filteredVout / RATIO_PONT_DIVISEUR;
 
-  // Pression en kPA
+  // Pressure converted to kPA
   double pressure = (vOut / V_SUPPLY - 0.04) / 0.09;
 
   if (pressure <= 0.0) {
