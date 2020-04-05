@@ -14,6 +14,9 @@
 // Associated header
 #include "pressure_controller.h"
 
+// External libraries
+#include <algorithm>
+
 // Internal libraries
 #include "air_transistor.h"
 #include "alarm.h"
@@ -163,8 +166,6 @@ void PressureController::compute(uint16_t p_centiSec) {
                        m_blower.position, m_patient.command, m_patient.position)
 
     executeCommands();
-
-    m_previousPhase = m_phase;
 }
 
 void PressureController::onCycleMinus() {
@@ -376,7 +377,6 @@ void PressureController::setSubPhase(CycleSubPhases p_subPhase) {
 }
 
 int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPressure, int32_t dt) {
-
     // Compute error
     int32_t error = targetPressure - currentPressure;
 
@@ -402,7 +402,6 @@ int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPre
 
 int32_t
 PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, int32_t dt) {
-
     // Compute error
     int32_t error = targetPressure - currentPressure;
 
@@ -423,18 +422,5 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
                 m_patient.minAperture()
                     + (patientCommand + 1000) * (m_patient.maxAperture() - m_patient.minAperture())
                           / 2000));
-
-    Serial.print(targetPressure);
-    Serial.print("\t");
-    Serial.print(currentPressure);
-    Serial.print("\t");
-    Serial.print(PID_PATIENT_KP * error);
-    Serial.print("\t");
-    Serial.print(patientIntegral);
-    Serial.print("\t");
-    Serial.print(PID_PATIENT_KD * derivative / 1000);
-    Serial.print("\t");
-    Serial.print(consignePatient);
-    Serial.print("\n");
     return consignePatient;
 }

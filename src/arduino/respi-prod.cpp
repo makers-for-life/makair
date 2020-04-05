@@ -119,6 +119,7 @@ void setup() {
     IWatchdog.reload();
 }
 
+// Time of the previous loop iteration
 int32_t lastMicro = 0;
 
 void loop() {

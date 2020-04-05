@@ -26,13 +26,12 @@ AirTransistor::AirTransistor(HardwareTimer* p_hardwareTimer,
                              uint16_t p_servoPin,
                              uint16_t p_openApertureAngle,
                              uint16_t p_closeApertureAngle) {
-
     actuator = p_hardwareTimer;
     timChannel = p_timChannel;
     servoPin = p_servoPin;
     openApertureAngle = p_openApertureAngle;
     closeApertureAngle = p_closeApertureAngle;
-    if (p_openApertureAngle > p_closeApertureAngle) {
+    if (p_openApertureAngle > p_closeApertureAngle) { // TODO: use min() and max() instead of a condition
         minApertureAngle = p_closeApertureAngle;
         maxApertureAngle = p_openApertureAngle;
     } else {

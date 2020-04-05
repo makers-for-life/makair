@@ -30,10 +30,10 @@ class AirTransistor {
     /**
      * Parameterized constructor
      *
-     * @param hardwareTimer       Hardware time for this servomotor
-     * @param p_timChannel        TIM channel for this servomotor
-     * @param p_servoPin          Data pin for this servomotor
-     * @param p_openApertureAngle  Open aperture angle in degrees
+     * @param p_hardwareTimer       Hardware time for this servomotor
+     * @param p_timChannel          TIM channel for this servomotor
+     * @param p_servoPin            Data pin for this servomotor
+     * @param p_openApertureAngle   Open aperture angle in degrees
      * @param p_closeApertureAngle  Close aperture angle in degrees
      */
     AirTransistor(HardwareTimer* p_hardwareTimer,
@@ -52,6 +52,11 @@ class AirTransistor {
     /// Request opening of the Air Transistor
     void open();
 
+    /**
+     * Request opening of the Air Transistor with a given angle
+     *
+     * @param command The angle in degree
+     */
     void open(int32_t command);
 
     /// Request closing of the Air Transistor

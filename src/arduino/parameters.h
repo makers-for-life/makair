@@ -49,6 +49,25 @@
 ///@}
 
 /**
+ * @name PID gains & settings
+ */
+///@{
+static const int32_t PID_BLOWER_KP = 4;
+static const int32_t PID_BLOWER_KI = 32;
+static const int32_t PID_BLOWER_KD = 4;
+
+static const int32_t PID_BLOWER_INTEGRAL_MAX = 1000;
+static const int32_t PID_BLOWER_INTEGRAL_MIN = -1000;
+
+static const int32_t PID_PATIENT_KP = 64;
+static const int32_t PID_PATIENT_KI = 100;
+static const int32_t PID_PATIENT_KD = 4;
+
+static const int32_t PID_PATIENT_INTEGRAL_MAX = 1000;
+static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
+///@}
+
+/**
  * @name Valves
  */
 ///@{
@@ -64,20 +83,6 @@
 #define TIM_CHANNEL_SERVO_VALVE_BLOWER 3
 #define PIN_SERVO_PATIENT D4  // PB5 / TIM3_CH2
 #define TIM_CHANNEL_SERVO_VALVE_PATIENT 2
-
-static const int32_t PID_BLOWER_KP = 4;
-static const int32_t PID_BLOWER_KI = 32;
-static const int32_t PID_BLOWER_KD = 4;
-
-static const int32_t PID_BLOWER_INTEGRAL_MAX = 1000;
-static const int32_t PID_BLOWER_INTEGRAL_MIN = -1000;
-
-static const int32_t PID_PATIENT_KP = 64;
-static const int32_t PID_PATIENT_KI = 100;
-static const int32_t PID_PATIENT_KD = 4;
-
-static const int32_t PID_PATIENT_INTEGRAL_MAX = 1000;
-static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 
 ///@}
 
