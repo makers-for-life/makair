@@ -75,7 +75,7 @@ uint32_t Active_Alarm_Index = 0;
 uint32_t Active_Alarm_Size = 2;
 
 HardwareTimer* AlarmTim;
-uint32_t AlarmTimchannel;
+uint32_t AlarmtimerChannel;
 
 /**
  * When timer period expires, switch to next state in the pattern of the alarm
@@ -90,7 +90,7 @@ void Update_IT_callback(void)
   /* patterns are composed of multiple couple of states (Actif/Inactif) and duration
    * (miliseconds)*/
   /* Previous state is finished, switch to next one */
-  AlarmTim->setMode(AlarmTimchannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
+  AlarmTim->setMode(AlarmtimerChannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
   AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1], TICK_FORMAT);
   Active_Alarm_Index = (Active_Alarm_Index + 2) % Active_Alarm_Size;
   AlarmTim->resume();
@@ -104,12 +104,12 @@ void Alarm_Init() {
   // Useful in case of board change
   TIM_TypeDef* Instance = reinterpret_cast<TIM_TypeDef*>(
       pinmap_peripheral(digitalPinToPinName(PIN_ALARM), PinMap_PWM));
-  AlarmTimchannel = STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(PIN_ALARM), PinMap_PWM));
+  AlarmtimerChannel = STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(PIN_ALARM), PinMap_PWM));
 
   // Alarm HardwareTimer object creation
   AlarmTim = new HardwareTimer(Instance);
 
-  AlarmTim->setMode(AlarmTimchannel, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PIN_ALARM);
+  AlarmTim->setMode(AlarmtimerChannel, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PIN_ALARM);
   /* 4 TICK = 1 ms  ( not possible to have 1TICK = 1millisec because prescalor is 16bit anf input
    * frequency eitehr 84 or 100 MHz*/
   /* Use of TICK format o avoid computation within interrupt handler */
@@ -133,7 +133,7 @@ void Alarm_Start(const uint32_t* Alarm, uint32_t Size) {
   /* patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
    */
   /* Configuration of first etat of pattern */
-  AlarmTim->setMode(AlarmTimchannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
+  AlarmTim->setMode(AlarmtimerChannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
   AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1], TICK_FORMAT);
 
   /* Activate interrupt callback to handle further states */

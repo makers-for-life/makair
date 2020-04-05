@@ -33,13 +33,13 @@ class PressureValve {
      * @param p_minApertureAngle  Minimum servomotor aperture angle in degrees
      * @param p_maxApertureAngle  Maximum servomotor aperture angle in degrees
      * @param hardwareTimer       Hardware time for this servomotor
-     * @param p_timChannel        TIM channel for this servomotor
+     * @param p_timerChannel        TIM channel for this servomotor
      * @param p_servoPin          Data pin for this servomotor
      */
     PressureValve(uint16_t p_minApertureAngle,
                   uint16_t p_maxApertureAngle,
                   HardwareTimer* hardwareTimer,
-                  uint16_t p_timChannel,
+                  uint16_t p_timerChannel,
                   uint16_t p_servoPin);
 
     /**
@@ -78,7 +78,7 @@ class PressureValve {
         }
 
         if (command != position) {
-            actuator->setCaptureCompare(timChannel, Angle2MicroSeconds(command),
+            actuator->setCaptureCompare(timerChannel, Angle2MicroSeconds(command),
                                         MICROSEC_COMPARE_FORMAT);
             position = command;
         }
@@ -98,7 +98,7 @@ class PressureValve {
     uint16_t maxApertureAngle;
 
     /// TIM channel for this servomotor
-    uint16_t timChannel;
+    uint16_t timerChannel;
 
     /// Data pin for this servomotor
     uint16_t servoPin;

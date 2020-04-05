@@ -54,13 +54,13 @@
 ///@{
 
 /// Angle when open
-#define VALVE_OUVERT 25
+#define VALVE_OPENED_STATE 25
 
 /// Angle when half-open
-#define VALVE_DEMI_OUVERT 90
+#define VALVE_MIDDLE_STATE 90
 
 /// Angle when closed
-#define VALVE_FERME 150
+#define VALVE_CLOSED_STATE 150
 
 #define SERVO_VALVE_PERIOD 20000
 #define PIN_SERVO_BLOWER D2  // PA10 / TIM1_CH3
