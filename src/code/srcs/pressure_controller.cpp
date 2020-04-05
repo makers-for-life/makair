@@ -161,13 +161,13 @@ void PressureController::onCycleIncrease() {
   // During simulation without electronic board there is a noise on the button pin. It increases
   // the cycle and the simulation fail.
   DBG_DO(Serial.println("Cycle ++");)
-  
+
   m_cyclesPerMinuteCommand++;
-  
+
   if (m_cyclesPerMinuteCommand > CONST_MAX_CYCLE) {
-      m_cyclesPerMinuteCommand = CONST_MAX_CYCLE;
+    m_cyclesPerMinuteCommand = CONST_MAX_CYCLE;
   }
-  
+
   #endif
 }
 
@@ -182,7 +182,7 @@ void PressureController::onCycleDecrease() {
 
 void PressureController::onPeepPressureIncrease() {
   DBG_DO(Serial.println("Peep Pressure ++");)
-  
+
   m_minPeepCommand = m_minPeepCommand + 10;
 
   if (m_minPeepCommand > CONST_MAX_PEEP_PRESSURE) {
@@ -192,7 +192,7 @@ void PressureController::onPeepPressureIncrease() {
 
 void PressureController::onPeepPressureDecrease() {
   DBG_DO(Serial.println("Peep Pressure --");)
-  
+
   m_minPeepCommand = m_minPeepCommand - 10;
 
   if (m_minPeepCommand < CONST_MIN_PEEP_PRESSURE) {
@@ -202,9 +202,9 @@ void PressureController::onPeepPressureDecrease() {
 
 void PressureController::onPlateauPressureIncrease() {
   DBG_DO(Serial.println("Plateau Pressure ++");)
-  
+
   m_maxPlateauPressureCommand = m_maxPlateauPressureCommand + 10;
-  
+
   if (m_maxPlateauPressureCommand > CONST_MAX_PLATEAU_PRESSURE) {
     m_maxPlateauPressureCommand = CONST_MAX_PLATEAU_PRESSURE;
   }
@@ -212,9 +212,9 @@ void PressureController::onPlateauPressureIncrease() {
 
 void PressureController::onPlateauPressureDecrease() {
   DBG_DO(Serial.println("Plateau Pressure --");)
-  
+
   m_maxPlateauPressureCommand = m_maxPlateauPressureCommand - 10;
-  
+
   if (m_maxPlateauPressureCommand < CONST_MIN_PLATEAU_PRESSURE) {
     m_maxPlateauPressureCommand = CONST_MIN_PLATEAU_PRESSURE;
   }
@@ -232,7 +232,7 @@ void PressureController::onPeekPressureIncrease() {
 
 void PressureController::onPeekPressureDecrease() {
   DBG_DO(Serial.println("Peek Pressure --");)
-  
+
   m_maxPeakPressureCommand = m_maxPeakPressureCommand - 10;
 
   if (m_maxPeakPressureCommand < CONST_MIN_PEAK_PRESSURE) {
@@ -243,7 +243,7 @@ void PressureController::onPeekPressureDecrease() {
 void PressureController::updatePhase(uint16_t p_centiSec) {
   if (p_centiSec < m_centiSecPerInhalation) {
     m_phase = CyclePhases::INHALATION;
-    
+
     if (p_centiSec < (m_centiSecPerInhalation * 80 / 100)) {
       if (m_subPhase != CycleSubPhases::HOLD_INSPIRATION) {
         setSubPhase(CycleSubPhases::INSPIRATION);
@@ -253,7 +253,7 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
     }
   } else {
     m_phase = CyclePhases::EXHALATION;
-    
+
     if (m_subPhase != CycleSubPhases::HOLD_EXHALE) {
       setSubPhase(CycleSubPhases::EXHALE);
     }

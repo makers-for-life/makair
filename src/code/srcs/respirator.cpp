@@ -61,7 +61,7 @@ void setup() {
 
   DBG_DO(Serial.begin(115200);)
   DBG_DO(Serial.println("Booting the system...");)
-  
+
   startScreen();
 
   pinMode(PIN_PRESSURE_SENSOR, INPUT);
@@ -106,7 +106,7 @@ void setup() {
   // escBlower needs 5s at speed 0 to be properly initalized
   Alarm_Boot_Start();
   waitForInMs(1000);
-  
+
   Alarm_Stop();
   waitForInMs(4000);
 

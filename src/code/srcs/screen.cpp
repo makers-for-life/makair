@@ -41,7 +41,7 @@ void resetScreen() { screen.clear(); }
 
 void displaySubPhase(CycleSubPhases subPhase) {
   screen.setCursor(0, 0);
-  
+
   switch (subPhase) {
     case CycleSubPhases::INSPIRATION: {
       screen.print("Inhalation          ");

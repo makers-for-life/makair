@@ -75,14 +75,36 @@ void onStop() {}
  * @name Bindings between analog levels and handlers
  */
 ///@{
-Button buttonPeekPressureIncrease(VOLTAGE_BUTTON_PEAK_PRESSURE_INCREASE, &onPeekPressureIncrease);
-Button buttonPeekPressureDecrease(VOLTAGE_BUTTON_PEAK_PRESSURE_DECREASE, &onPeekPressureDecrease);
-Button buttonPlateauPressureIncrease(VOLTAGE_BUTTON_PLATEAU_PRESSURE_INCREASE, &onPlateauPressureIncrease);
-Button buttonPlateauPressureDecrease(VOLTAGE_BUTTON_PLATEAU_PRESSURE_DECREASE, &onPlateauPressureDecrease);
-Button buttonPeepPressureIncrease(VOLTAGE_BUTTON_PEEP_PRESSURE_INCREASE, &onPeekPressureIncrease);
-Button buttonPeepPressureDecrease(VOLTAGE_BUTTON_PEEP_PRESSURE_DECREASE, &onPeekPressureDecrease);
-Button buttonCycleIncrease(VOLTAGE_BUTTON_CYCLE_INCREASE, &onCycleIncrease);
-Button buttonCycleDecrease(VOLTAGE_BUTTON_CYCLE_DECREASE, &onCycleDecrease);
+Button buttonPeekPressureIncrease(
+  VOLTAGE_BUTTON_PEAK_PRESSURE_INCREASE, &onPeekPressureIncrease
+);
+Button buttonPeekPressureDecrease(
+  VOLTAGE_BUTTON_PEAK_PRESSURE_DECREASE, &onPeekPressureDecrease
+);
+Button buttonPlateauPressureIncrease(
+  VOLTAGE_BUTTON_PLATEAU_PRESSURE_INCREASE,
+  &onPlateauPressureIncrease
+);
+Button buttonPlateauPressureDecrease(
+  VOLTAGE_BUTTON_PLATEAU_PRESSURE_DECREASE,
+  &onPlateauPressureDecrease
+);
+Button buttonPeepPressureIncrease(
+  VOLTAGE_BUTTON_PEEP_PRESSURE_INCREASE,
+  &onPeekPressureIncrease
+);
+Button buttonPeepPressureDecrease(
+  VOLTAGE_BUTTON_PEEP_PRESSURE_DECREASE,
+  &onPeekPressureDecrease
+);
+Button buttonCycleIncrease(
+  VOLTAGE_BUTTON_CYCLE_INCREASE,
+  &onCycleIncrease
+);
+Button buttonCycleDecrease(
+  VOLTAGE_BUTTON_CYCLE_DECREASE,
+  &onCycleDecrease
+);
 ///@}
 
 void initKeyboard() {
