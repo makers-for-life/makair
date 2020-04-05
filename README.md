@@ -60,7 +60,7 @@ _We re-iterate: though 3D-printing (FDM and SLA) can be used to build your own r
 | [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V6 | Update input/output mensurations | ❌ | [view model](https://a360.co/2X5VvJq) | Martial Medjber + [@eliottvincent](https://github.com/eliottvincent)
 | [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2wZids4) | [@valeriansaliou](https://github.com/valeriansaliou)
 | [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2JyLaxG) | [@valeriansaliou](https://github.com/valeriansaliou)
-| [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | N/A | Initial version | ✅ | none | Gabriel Moneyron
+| [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V2 | Initial version | ✅ | none | Gabriel Moneyron
 | [Container](./src/mechanics/container) | V2 | Update mensurations | ❌ | [view model](https://a360.co/3dVmJbR) | Arthur Dagard
 
 ## Electronics
@@ -154,13 +154,13 @@ _(design by Arthur Dagard; drawing by [@valeriansaliou](https://github.com/valer
 ### The "Pneumatic Connectors"
 
 <p>
-  <img alt="Pneumatic Connector Blower Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Blower%20V4/Pneumatic%20Connector%20Blower%20V4.png" height="240">
-  <img alt="Pneumatic Connector O2 Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/O2%20V3/Pneumatic%20Connector%20O2%20V3.png" height="240">
-  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Respiratory%20-%20No%20pressure/Pneumatic%20Connector%20Respiratory%20No%20pressure.png" height="240">
-  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Respiratory%20-%20Pressure/Pneumatic%20Connector%20Respiratory%20Pressure.png" height="240">
-  <img alt="Pneumatic Connector O2 Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/O2%20V3/Pneumatic%20Connector%20O2%20V3%20Print.jpg" height="240">
-  <img alt="Pneumatic Connector Blower Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Blower%20V4/Pneumatic%20Connector%20Blower%20V4%20Print.jpg" height="240">
-  <img alt="Pneumatic Connector No pressure Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V1/Respiratory%20-%20No%20pressure/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector Blower Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V2/Blower%20V5/Pneumatic%20Connector%20Blower%20V5.png" height="240">
+  <img alt="Pneumatic Connector O2 Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V2/O2%20V3/Pneumatic%20Connector%20O2%20V3.png" height="240">
+  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V2/Respiratory%20-%20No%20pressure/Pneumatic%20Connector%20Respiratory%20No%20pressure.png" height="240">
+  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V2/Respiratory%20-%20Pressure/Pneumatic%20Connector%20Respiratory%20Pressure.png" height="240">
+  <img alt="Pneumatic Connector O2 Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V2/O2%20V3/Pneumatic%20Connector%20O2%20V3%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector Blower Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V2/Blower%20V5/Pneumatic%20Connector%20Blower%20V4%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector No pressure Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V2/Respiratory%20-%20No%20pressure/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
 </p>
 
 ### The "Container"
