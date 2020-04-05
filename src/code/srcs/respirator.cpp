@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "config.h"
+#include "../includes/config.h"
 #if MODE == MODE_PROD
 
 // INCLUDES ==================================================================
@@ -21,15 +21,15 @@
 #include <LiquidCrystal.h>
 
 // Internal
-#include "affichage.h"
-#include "air_transistor.h"
-#include "alarm.h"
-#include "clavier.h"
-#include "common.h"
-#include "debug.h"
-#include "parameters.h"
-#include "pression.h"
-#include "pressure_controller.h"
+#include "../includes/affichage.h"
+#include "../includes/air_transistor.h"
+#include "../includes/alarm.h"
+#include "../includes/clavier.h"
+#include "../includes/common.h"
+#include "../includes/debug.h"
+#include "../includes/parameters.h"
+#include "../includes/pression.h"
+#include "../includes/pressure_controller.h"
 
 // PROGRAM =====================================================================
 
@@ -110,7 +110,7 @@ void setup() {
     waitForInMs(4000);
 
     // escBlower start
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(130),
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(170),
                                       MICROSEC_COMPARE_FORMAT);
     DBG_DO(Serial.println("Esc blower is running!");)
 

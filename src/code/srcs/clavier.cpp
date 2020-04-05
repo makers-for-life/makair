@@ -14,17 +14,17 @@
 // INCLUDES ===================================================================
 
 // Associated header
-#include "clavier.h"
+#include "../includes/clavier.h"
 
 // External
 #include <AnalogButtons.h>
 #include <OneButton.h>
 
 // Internal
-#include "alarm.h"
-#include "debug.h"
-#include "parameters.h"
-#include "pressure_controller.h"
+#include "../includes/alarm.h"
+#include "../includes/debug.h"
+#include "../includes/parameters.h"
+#include "../includes/pressure_controller.h"
 
 // INITIALISATION =============================================================
 

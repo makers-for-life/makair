@@ -12,10 +12,10 @@
 // INCLUDES ===================================================================
 
 // Associated header
-#include "air_transistor.h"
+#include "../includes/air_transistor.h"
 
 // Internal libraries
-#include "parameters.h"
+#include "../includes/parameters.h"
 
 // FUNCTIONS ==================================================================
 AirTransistor::AirTransistor() {}
