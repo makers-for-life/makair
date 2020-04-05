@@ -76,14 +76,14 @@ void setup() {
     hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
     // Servo blower setup
-    servoBlower = AirTransistor(VALVE_OUVERT, VALVE_FERME, hardwareTimer1,
-                                TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER);
+    servoBlower = AirTransistor(hardwareTimer1, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
+                                VALVE_OUVERT, VALVE_FERME);
     servoBlower.setup();
     hardwareTimer1->resume();
 
     // Servo patient setup
-    servoPatient = AirTransistor(VALVE_OUVERT, VALVE_FERME, hardwareTimer3,
-                                 TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
+    servoPatient = AirTransistor(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT,
+                                 VALVE_OUVERT, VALVE_FERME);
     servoPatient.setup();
 
     // Manual escBlower setup
@@ -95,8 +95,8 @@ void setup() {
     hardwareTimer3->resume();
 
     pController = PressureController(INITIAL_CYCLE_NB, DEFAULT_MIN_PEEP_COMMAND,
-                                     BORNE_SUP_PRESSION_PLATEAU, ANGLE_OUVERTURE_MAXI,
-                                     BORNE_SUP_PRESSION_CRETE, servoBlower, servoPatient);
+                                     DEFAULT_MAX_PLATEAU_COMMAND, ANGLE_OUVERTURE_MAXI,
+                                     DEFAULT_MAX_PEAK_PRESSURE_COMMAND, servoBlower, servoPatient);
     pController.setup();
 
     initKeyboard();
@@ -110,7 +110,7 @@ void setup() {
     waitForInMs(4000);
 
     // escBlower start
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(130),
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(170),
                                       MICROSEC_COMPARE_FORMAT);
     DBG_DO(Serial.println("Esc blower is running!");)
 
@@ -118,6 +118,8 @@ void setup() {
     IWatchdog.begin(WATCHDOG_TIMEOUT);
     IWatchdog.reload();
 }
+
+int32_t lastMicro = 0;
 
 void loop() {
     /********************************************/
@@ -132,13 +134,15 @@ void loop() {
     uint16_t centiSec = 0;
 
     while (centiSec < pController.centiSecPerCycle()) {
+        pController.updatePressure(readPressureSensor(centiSec));
         static uint32_t lastpControllerComputeDate = 0ul;
         uint32_t currentDate = millis();
         if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD) {
             lastpControllerComputeDate = currentDate;
 
-            pController.updatePressure(readPressureSensor(centiSec));
-
+            int32_t currentMicro = micros();
+            pController.updateDt(currentMicro - lastMicro);
+            lastMicro = currentMicro;
             // Perform the pressure control
             pController.compute(centiSec);
 

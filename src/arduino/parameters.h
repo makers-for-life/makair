@@ -19,7 +19,7 @@
 // PARAMETERS =================================================================
 
 /// Current version of the software
-#define VERSION "v1.1.43"
+#define VERSION "v1.1.45"
 
 /**
  * @name Core parameters
@@ -40,7 +40,7 @@
 
 #define DEFAULT_MIN_PEEP_COMMAND 80
 #define DEFAULT_MAX_PLATEAU_COMMAND 300
-#define DEFAULT_MAX_PEAK_PRESSURE_COMMAND 600
+#define DEFAULT_MAX_PEAK_PRESSURE_COMMAND 320
 
 #define INITIAL_CYCLE_NB 20
 #define BORNE_SUP_CYCLE 35  // demande medical
@@ -56,17 +56,28 @@
 /// Angle when open
 #define VALVE_OUVERT 25
 
-/// Angle when half-open
-#define VALVE_DEMI_OUVERT 90
-
 /// Angle when closed
-#define VALVE_FERME 150
+#define VALVE_FERME 145
 
 #define SERVO_VALVE_PERIOD 20000
 #define PIN_SERVO_BLOWER D2  // PA10 / TIM1_CH3
 #define TIM_CHANNEL_SERVO_VALVE_BLOWER 3
 #define PIN_SERVO_PATIENT D4  // PB5 / TIM3_CH2
 #define TIM_CHANNEL_SERVO_VALVE_PATIENT 2
+
+static const int32_t PID_BLOWER_KP = 4;
+static const int32_t PID_BLOWER_KI = 32;
+static const int32_t PID_BLOWER_KD = 4;
+
+static const int32_t PID_BLOWER_INTEGRAL_MAX = 1000;
+static const int32_t PID_BLOWER_INTEGRAL_MIN = -1000;
+
+static const int32_t PID_PATIENT_KP = 64;
+static const int32_t PID_PATIENT_KI = 100;
+static const int32_t PID_PATIENT_KD = 4;
+
+static const int32_t PID_PATIENT_INTEGRAL_MAX = 1000;
+static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 
 ///@}
 

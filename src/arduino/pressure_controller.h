@@ -135,6 +135,8 @@ class PressureController {
     /// Get the patient's Air Transistor instance
     inline const AirTransistor& patient() const { return m_patient; }
 
+    void updateDt(int32_t p_dt);
+
  private:
     /**
      * Update the cycle phase
@@ -211,6 +213,10 @@ class PressureController {
 
     /// Make a transition toward another subphase
     void setSubPhase(CycleSubPhases p_subPhase);
+
+    int32_t pidBlower(int32_t targetPressure, int32_t currentPressure, int32_t deltaTime);
+
+    int32_t pidPatient(int32_t targetPressure, int32_t currentPressure, int32_t deltaTime);
 
  private:
     /// Number of cycles per minute desired by the operator
@@ -304,6 +310,16 @@ class PressureController {
 
     /// Number of passed cycles
     uint32_t m_cycleNb;
+    int32_t m_dt;
+    int32_t m_consignePression;
+
+    int32_t blowerIntegral;
+
+    int32_t blowerLastError;
+
+    int32_t patientIntegral;
+
+    int32_t patientLastError;
 };
 
 // INITIALISATION =============================================================
