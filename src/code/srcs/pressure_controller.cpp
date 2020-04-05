@@ -92,7 +92,7 @@ void PressureController::setup() {
 
 void PressureController::initRespiratoryCycle() {
   m_phase = CyclePhases::INHALATION;
-  setSubPhase(CycleSubPhases::INSPI);
+  setSubPhase(CycleSubPhases::INSPIRATION);
   m_cycleNb++;
 
   computeCentiSecParameters();
@@ -124,11 +124,11 @@ void PressureController::compute(uint16_t p_centiSec) {
   if (!m_vigilance) {
     // Act accordingly
     switch (m_subPhase) {
-      case CycleSubPhases::INSPI: {
+      case CycleSubPhases::INSPIRATION: {
         inhale();
         break;
       }
-      case CycleSubPhases::HOLD_INSPI: {
+      case CycleSubPhases::HOLD_INSPIRATION: {
         plateau();
         break;
       }
@@ -245,11 +245,11 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
     m_phase = CyclePhases::INHALATION;
     
     if (p_centiSec < (m_centiSecPerInhalation * 80 / 100)) {
-      if (m_subPhase != CycleSubPhases::HOLD_INSPI) {
-        setSubPhase(CycleSubPhases::INSPI);
+      if (m_subPhase != CycleSubPhases::HOLD_INSPIRATION) {
+        setSubPhase(CycleSubPhases::INSPIRATION);
       }
     } else {
-      setSubPhase(CycleSubPhases::HOLD_INSPI);
+      setSubPhase(CycleSubPhases::HOLD_INSPIRATION);
     }
   } else {
     m_phase = CyclePhases::EXHALATION;
@@ -312,7 +312,7 @@ void PressureController::safeguards(uint16_t p_centiSec) {
 }
 
 void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
-  if (m_subPhase == CycleSubPhases::INSPI) {
+  if (m_subPhase == CycleSubPhases::INSPIRATION) {
     if (m_pressure >= (m_maxPeakPressureCommand - 30)) {
       if (m_triggersMaxPeakPressureDetectionTick == 0) {
         m_triggersMaxPeakPressureDetectionTick = p_centiSec;
@@ -334,7 +334,7 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
     }
 
     if (m_pressure >= m_maxPeakPressureCommand) {
-      setSubPhase(CycleSubPhases::HOLD_INSPI);
+      setSubPhase(CycleSubPhases::HOLD_INSPIRATION);
       Alarm_Yellow_Start();
       plateau();
     }
@@ -347,7 +347,7 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
 }
 
 void PressureController::safeguardPressionPlateau(uint16_t p_centiSec) {
-  if (m_subPhase == CycleSubPhases::HOLD_INSPI) {
+  if (m_subPhase == CycleSubPhases::HOLD_INSPIRATION) {
     if (m_pressure >= m_maxPlateauPressureCommand) {
       if (m_triggersMaxPlateauPressureDetectionTick == 0) {
         m_triggersMaxPlateauPressureDetectionTick = p_centiSec;

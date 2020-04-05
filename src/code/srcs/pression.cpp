@@ -23,7 +23,7 @@
 // PROGRAM =====================================================================
 
 double filteredVout = 0;
-const double RATIO_PONT_DIVISEUR = 0.8192;
+const double RATIO_VOLTAGE_DIVIDER = 0.8192;
 const double V_SUPPLY = 5.08;
 const double KPA_MMH2O = 101.97162129779;
 
@@ -60,7 +60,7 @@ int readPressureSensor(uint16_t centiSec) {
   filteredVout = filteredVout + (rawVout - filteredVout) * 0.2;
 
   // Voltage divider ratio
-  double vOut = filteredVout / RATIO_PONT_DIVISEUR;
+  double vOut = filteredVout / RATIO_VOLTAGE_DIVIDER;
 
   // Pressure converted to kPA
   double pressure = (vOut / V_SUPPLY - 0.04) / 0.09;
