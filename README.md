@@ -24,7 +24,7 @@ If you're new there, please read the explanations below. _Your contributions are
 
 ---
 
-# Concept
+# Abstract
 
 Roughly, the idea is as follows: hospitals will soon lack mechanical artificial respirators. We built a pump, and a valve system (controlled by electronics). This way, the breathing cycle can be enforced by proper air routing through the valve system.
 
