@@ -87,6 +87,9 @@ void PressureController::setup() {
     DBG_DO(Serial.println(VERSION);)
     DBG_DO(Serial.println("mise en secu initiale");)
 
+    m_blower.close();
+    m_patient.close();
+
     m_blower.execute();
     m_patient.execute();
 
