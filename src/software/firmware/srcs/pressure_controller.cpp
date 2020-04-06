@@ -38,9 +38,9 @@ PressureController::PressureController()
       m_minPeepCommand(DEFAULT_MIN_PEEP_COMMAND),                   // [mmH20]
       m_maxPlateauPressureCommand(DEFAULT_MAX_PLATEAU_COMMAND),     // [mmH20]
       m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),  // [mmH20]
-      m_maxPeakPressure(CONST_MAX_PEAK_PRESSURE),       // [mmH20]
-      m_maxPlateauPressure(CONST_MAX_PLATEAU_PRESSURE),  // [mmH20]
-      m_minPeep(CONST_MIN_PEEP_PRESSURE),                 // TODO revoir la valeur [mmH20]
+      m_maxPeakPressure(CONST_MAX_PEAK_PRESSURE),                   // [mmH20]
+      m_maxPlateauPressure(CONST_MAX_PLATEAU_PRESSURE),             // [mmH20]
+      m_minPeep(CONST_MIN_PEEP_PRESSURE),                           // TODO revoir la valeur [mmH20]
       m_pressure(CONST_INITIAL_ZERO_PRESSURE),
       m_peakPressure(CONST_INITIAL_ZERO_PRESSURE),
       m_plateauPressure(CONST_INITIAL_ZERO_PRESSURE),
@@ -434,12 +434,12 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
     int32_t patientCommand = PID_PATIENT_KP * error + patientIntegral
                              + PID_PATIENT_KD * derivative / 1000;  // calcul de la commande
 
-    uint32_t patientAperture =
-        max(m_patient.minAperture(),
-            min(m_patient.maxAperture(),
-                m_patient.minAperture()
-                    + (patientCommand + 1000) * (m_patient.maxAperture() - m_patient.minAperture())
-                          / 2000));
+    uint32_t patientAperture = max(
+        m_patient.minAperture(),
+        min(m_patient.maxAperture(), m_patient.minAperture()
+                                         + (patientCommand + targetPressure)
+                                               * (m_patient.maxAperture() - m_patient.minAperture())
+                                               / (2 * targetPressure)));
 
     return patientAperture;
 }

@@ -59,8 +59,8 @@ static const int32_t PID_BLOWER_KD = 4;
 static const int32_t PID_BLOWER_INTEGRAL_MAX = 1000;
 static const int32_t PID_BLOWER_INTEGRAL_MIN = -1000;
 
-static const int32_t PID_PATIENT_KP = 64;
-static const int32_t PID_PATIENT_KI = 100;
+static const int32_t PID_PATIENT_KP = 1;
+static const int32_t PID_PATIENT_KI = 2;
 static const int32_t PID_PATIENT_KD = 4;
 
 static const int32_t PID_PATIENT_INTEGRAL_MAX = 1000;
@@ -73,13 +73,10 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 ///@{
 
 /// Angle when opened
-#define VALVE_OPEN_STATE 25
-
-/// Angle when half-opened
-#define VALVE_MIDDLE_STATE 90
+#define VALVE_OPEN_STATE 10
 
 /// Angle when closed
-#define VALVE_CLOSED_STATE 145
+#define VALVE_CLOSED_STATE 120
 
 #define SERVO_VALVE_PERIOD 20000
 #define PIN_SERVO_BLOWER D2  // PA10 / TIM1_CH3
