@@ -67,7 +67,7 @@ _We re-iterate: though 3D-printing (FDM and SLA) can be used to build your own r
 
 | Board | Version | Major Changes | Tested? | Contributors |
 | ----- | ------- | ------------- | ------ | ------------ |
-| [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | [Tronico](https://www.tronico-alcen.com/) + Cherine Kamel + [Pierre Papin](https://github.com/pi-r-p)
+| [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | [Tronico (company)](https://www.tronico-alcen.com/) + Cherine Kamel + [Pierre Papin](https://github.com/pi-r-p)
 
 ## Software
 
