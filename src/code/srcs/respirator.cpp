@@ -142,9 +142,9 @@ void loop() {
 
   while (centiSec < pController.centiSecPerCycle()) {
     pController.updatePressure(readPressureSensor(centiSec));
-    
+
     uint32_t currentDate = millis();
-    
+
     if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD) {
       lastpControllerComputeDate = currentDate;
 
