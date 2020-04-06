@@ -24,6 +24,9 @@
 /// Controls an Air Transistor's servomotor
 class AirTransistor {
  public:
+    /// Default constructor
+    AirTransistor();
+
     /**
      * Parameterized constructor
      *
