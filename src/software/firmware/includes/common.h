@@ -9,7 +9,7 @@
 
 #pragma once
 
-// Enums =================================================================
+// ENUMS =================================================================
 
 /// Defines the 4 phases of the respiratory cycle
 enum CycleSubPhases {
