@@ -10,8 +10,10 @@
 
 // INCLUDES ===================================================================
 
+#ifndef UNIT_TEST
 // External
 #include <Arduino.h>
+
 
 // Internal
 #include "config.h"
@@ -148,3 +150,4 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 #define PIN_BATTERY A2
 
 ///@}
+#endif

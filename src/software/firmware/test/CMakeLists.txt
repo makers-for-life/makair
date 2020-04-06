@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.5)
+
+set(CMAKE_CXX_STANDARD 14)
+
+project(UnitTest)
+
+enable_testing()
+find_package(GTest REQUIRED)
+
+add_definitions(-DUNIT_TEST)
+
+set(TEST_PRESSION_SRC test_pression.cpp
+                      ../srcs/pression.cpp                        
+)
+
+add_executable(test_pression ${TEST_PRESSION_SRC})
+target_link_libraries(test_pression GTest::GTest GTest::Main)
+
+add_test(TestPression test_pression)
