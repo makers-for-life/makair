@@ -74,7 +74,7 @@ _MakAir and Makers For Life should not be held resposible — at any time, for h
 
 ## Mechanics
 
-| Part | Version | Last Changelog | Tested? | Live CAD Models | Contributors |
+| Part | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | ---- | ------- | -------------- | ------ | --------------- | ------------ |
 | [Blower](./src/mechanics/parts/blower) | V14 | Smaller form factor & more powerful | ❌ | [view model](https://a360.co/39JpHg9) | Gabriel Moneyron + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou)
 | [Blower Holder](./src/mechanics/parts/blower-holder) | V1 | Initial version | ✅ | [view core model](https://a360.co/2X7eoLW) + [view casing model](https://a360.co/2X5DwCR) | Gabriel Moneyron + [Valerian Saliou](https://github.com/valeriansaliou)
@@ -88,13 +88,13 @@ _MakAir and Makers For Life should not be held resposible — at any time, for h
 
 ## Electronics
 
-| Board | Version | Major Changes | Tested? | Contributors |
+| Board | Version | Major Changes | Ready? | Contributors |
 | ----- | ------- | ------------- | ------ | ------------ |
 | [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | [Tronico (company)](https://www.tronico-alcen.com/) + Cherine Kamel + [Pierre Papin](https://github.com/pi-r-p)
 
 ## Software
 
-| Runtime | Version | Major Changes | Tested? | Contributors |
+| Runtime | Version | Major Changes | Ready? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
 | [Respiratory Firmware](./src/software/firmware) | V1.1.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou) + Gabriel Moneyron
 | [Control Unit](./src/software/control) | V0.1.x | Project started | ❌ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce)
