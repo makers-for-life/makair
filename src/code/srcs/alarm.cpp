@@ -89,9 +89,8 @@ void Update_IT_callback(HardwareTimer*)  // NOLINT(readability/casting)
 void Update_IT_callback(void)
 #endif
 {
-    /* patterns are composed of multiple couple of states (Actif/Inactif) and duration
-     * (miliseconds)*/
-    /* Previous state is finished, switch to next one */
+    // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
+    // Previous state is finished, switch to next one
     AlarmTim->setMode(AlarmTimerChannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
     AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1], TICK_FORMAT);
     Active_Alarm_Index = (Active_Alarm_Index + 2) % Active_Alarm_Size;
@@ -110,13 +109,13 @@ void Alarm_Init() {
     AlarmTim = new HardwareTimer(Instance);
 
     AlarmTim->setMode(AlarmTimerChannel, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PIN_ALARM);
-    /* 4 TICK = 1 ms  ( not possible to have 1TICK = 1millisec because prescalor is 16bit anf input
-     * frequency eitehr 84 or 100 MHz*/
-    /* Use of TICK format o avoid computation within interrupt handler */
+    // 4 ticks = 1 ms  (it is not possible to have 1 tick = 1 ms because prescaler is 16 bit and
+    // input frequency either 84 or 100 MHz Use of tick format to avoid computation within interrupt
+    // handler
     AlarmTim->setPrescaleFactor(AlarmTim->getTimerClkFreq() / (TIMER_TICK_PER_MS * 1000));
     AlarmTim->setOverflow(100 * TIMER_TICK_PER_MS, TICK_FORMAT);  // Default 100milisecondes
 
-    /* Start with inactive state without interruptions */
+    // Start with inactive state without interruptions
     AlarmTim->resume();
 }
 
@@ -126,17 +125,16 @@ void Alarm_Start(const uint32_t* Alarm, uint32_t Size) {
     Active_Alarm_Index = 0;
     Active_Alarm_Size = Size;
 
-    /* patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
-     */
-    /* Configuration of first etat of pattern */
+    // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
+    // Configuration of first state of pattern
     AlarmTim->setMode(AlarmTimerChannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
     AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1], TICK_FORMAT);
 
-    /* Activate interrupt callback to handle further states */
+    // Activate interrupt callback to handle further states
     AlarmTim->attachInterrupt(Update_IT_callback);
     Active_Alarm_Index = (Active_Alarm_Index + 2) % Active_Alarm_Size;
 
-    /* Time stars. Required to configure output on GPIO */
+    // Timer starts. Required to configure output on GPIO
     AlarmTim->resume();
 }
 
