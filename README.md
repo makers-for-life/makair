@@ -136,6 +136,16 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 * Industry relations: [Quentin Adam](http://waxzce.org/)
 * Engineering contacts: [Valerian Saliou](https://valeriansaliou.name/), [Eliott Vincent](https://eliottvincent.com/)
 
+# Sponsors
+
+This project would not have been possible without the support of those companies and organizations, which have put human, real estate and/or financial resources at work on the project:
+
+* [Clever Cloud](https://www.clever-cloud.com/) (founding team)
+* [Crisp](https://crisp.chat/) (founding team)
+* [Cooprint](https://cooprint.fr/) (CAD)
+* [Tronico](https://www.tronico-alcen.com/) (PCB design)
+* [Le Palace Nantes](https://lepalace.work/)
+
 # Renders
 
 ## Mechanics
