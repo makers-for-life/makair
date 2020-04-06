@@ -49,7 +49,10 @@ void displaySubPhase(CycleSubPhases subPhase);
  * @param peep             The Positive End Expiratory Pressure (PEEP) [mmH2O]
  * @param pressure         The current pressure [mmH2O]
  */
-void displayCurrentInformation(int peakPressure, int plateauPressure, int peep, int pressure);
+void displayCurrentInformation(uint16_t peakPressure,
+                               uint16_t plateauPressure,
+                               uint16_t peep,
+                               uint16_t pressure);
 
 /**
  * Display the current settings

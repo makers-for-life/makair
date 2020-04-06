@@ -65,7 +65,10 @@ void displaySubPhase(CycleSubPhases subPhase) {
     }
 }
 
-void displayCurrentInformation(int peakPressure, int plateauPressure, int peep, int pressure) {
+void displayCurrentInformation(uint16_t peakPressure,
+                               uint16_t plateauPressure,
+                               uint16_t peep,
+                               uint16_t pressure) {
     screen.setCursor(0, 1);
     char message[SCREEN_LINE_LENGTH];
 
