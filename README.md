@@ -166,12 +166,12 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 ### The "Container"
 
 <p>
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%201).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%202).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%204).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%206).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%207).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%208).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%201).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%202).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%204).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%206).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%207).png" height="240">
+  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%208).png" height="240">
 </p>
 
 ## Electronics
