@@ -173,3 +173,11 @@ _(design by Arthur Dagard; drawing by [@valeriansaliou](https://github.com/valer
   <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%207).png" height="240">
   <img alt="Container Render" src="./src/mechanics/container/acrylic/schemes/V2/Container%20(Render%208).png" height="240">
 </p>
+
+## Electronics
+
+### The "Motherboard"
+
+<p>
+  <img alt="Motherboard Picture" src="./src/electronics/motherboard/schemes/V1/Motherboard%20(Picture%201).jpg" height="240">
+</p>
