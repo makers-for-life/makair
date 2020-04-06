@@ -66,6 +66,10 @@ All those components are fitted in box (ie. a container) that we designed:
 
 _MakAir and Makers For Life should not be held resposible — at any time, for harm caused to human life (eg. lung damage or loss of life). By building your own MakAir, you are held responsible for its safety validations & use._
 
+# How To Build?
+
+🚧 (work in progress)
+
 # Components
 
 ## Mechanics
