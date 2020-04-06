@@ -3,7 +3,7 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file affichage.h
+ * @file screen.h
  * @brief Display and LCD screen related functions
  *
  * This relies on the LiquidCrystal library (https://github.com/arduino-libraries/LiquidCrystal).
@@ -49,10 +49,10 @@ void displaySubPhase(CycleSubPhases subPhase);
  * @param peep             The Positive End Expiratory Pressure (PEEP) [mmH2O]
  * @param pressure         The current pressure [mmH2O]
  */
-void displayInstantInfo(uint16_t peakPressure,
-                        uint16_t plateauPressure,
-                        uint16_t peep,
-                        uint16_t pressure);
+void displayCurrentInformation(uint16_t peakPressure,
+                               uint16_t plateauPressure,
+                               uint16_t peep,
+                               uint16_t pressure);
 
 /**
  * Display the current settings

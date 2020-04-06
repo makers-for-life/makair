@@ -101,10 +101,10 @@
  * @param phase            Current phase
  * @param subPhase         Current subphase
  * @param pression         Current pressure
- * @param consigneBlower   Requested aperture for the blower Air Transistor
- * @param positionBlower   Current aperture of the blower Air Transistor
- * @param consignePatient  Requested aperture for the patient Air Transistor
- * @param positionPatient  Current aperture of the patient Air Transistor
+ * @param consigneBlower   Requested aperture for the blower Pressure Valve
+ * @param positionBlower   Current aperture of the blower Pressure Valve
+ * @param consignePatient  Requested aperture for the patient Pressure Valve
+ * @param positionPatient  Current aperture of the patient Pressure Valve
  */
 #if DEBUG == 1
 #define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
