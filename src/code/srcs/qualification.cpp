@@ -317,17 +317,17 @@ void onStopClick() {
 static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
 
 Button btn_pression_crete_plus =
-    Button(TENSION_BTN_PRESSION_P_CRETE_PLUS, &onPressionCretePlusClick);
+    Button(VOLTAGE_BUTTON_PEAK_PRESSURE_INCREASE, &onPressionCretePlusClick);
 Button btn_pression_crete_minus =
-    Button(TENSION_BTN_PRESSION_P_CRETE_MINUS, &onPressionCreteMinusClick);
+    Button(VOLTAGE_BUTTON_PEAK_PRESSURE_DECREASE, &onPressionCreteMinusClick);
 Button btn_pression_plateau_plus =
-    Button(TENSION_BTN_PRESSION_PLATEAU_PLUS, &onPressionPlateauPlusClick);
+    Button(VOLTAGE_BUTTON_PLATEAU_PRESSURE_INCREASE, &onPressionPlateauPlusClick);
 Button btn_pression_plateau_minus =
-    Button(TENSION_BTN_PRESSION_PLATEAU_MINUS, &onPressionPlateauMinusClick);
-Button btn_pep_plus = Button(TENSION_BTN_PEP_PLUS, &onPepPlusClick);
-Button btn_pep_minus = Button(TENSION_BTN_PEP_MINUS, &onPepMinusClick);
-Button btn_cycle_plus = Button(TENSION_BTN_CYCLE_PLUS, &onCyclePlusClick);
-Button btn_cycle_minus = Button(TENSION_BTN_CYCLE_MINUS, &onCycleMinusClick);
+    Button(VOLTAGE_BUTTON_PLATEAU_PRESSURE_DECREASE, &onPressionPlateauMinusClick);
+Button btn_pep_plus = Button(VOLTAGE_BUTTON_PEEP_PRESSURE_INCREASE, &onPepPlusClick);
+Button btn_pep_minus = Button(VOLTAGE_BUTTON_PEEP_PRESSURE_DECREASE, &onPepMinusClick);
+Button btn_cycle_plus = Button(VOLTAGE_BUTTON_CYCLE_INCREASE, &onCyclePlusClick);
+Button btn_cycle_minus = Button(VOLTAGE_BUTTON_CYCLE_DECREASE, &onCycleMinusClick);
 
 OneButton btn_alarm_off(PIN_BTN_ALARM_OFF, false, false);
 OneButton btn_start(PIN_BTN_START, false, false);
@@ -365,13 +365,13 @@ void setup() {
     hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
     // Servo blower setup
-    servoBlower = PressureValve(VALVE_OUVERT, VALVE_FERME, hardwareTimer1,
+    servoBlower = PressureValve(VALVE_OPEN_STATE, VALVE_CLOSED_STATE, hardwareTimer1,
                                 TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER);
     servoBlower.setup();
     hardwareTimer1->resume();
 
     // Servo patient setup
-    servoPatient = PressureValve(VALVE_OUVERT, VALVE_FERME, hardwareTimer3,
+    servoPatient = PressureValve(VALVE_OPEN_STATE, VALVE_CLOSED_STATE, hardwareTimer3,
                                  TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT);
     servoPatient.setup();
 
