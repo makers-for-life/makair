@@ -17,7 +17,8 @@
 // MACROS =================================================================
 
 /// Convert an angle in degrees to a value in microseconds for the servomotor controller
-#define Angle2MicroSeconds(value) map(value, 0, 180, 1000, 2000)
+#define ValveAngle2MicroSeconds(value) map(value, 0, 125, 800, 2200)
+#define BlowerAngle2MicroSeconds(value) map(value, 0, 180, 1000, 2000)
 
 // CLASS =================================================================
 
@@ -75,7 +76,7 @@ class PressureValve {
         }
 
         if (command != position) {
-            actuator->setCaptureCompare(timerChannel, Angle2MicroSeconds(command),
+            actuator->setCaptureCompare(timerChannel, ValveAngle2MicroSeconds(command),
                                         MICROSEC_COMPARE_FORMAT);
             position = command;
         }

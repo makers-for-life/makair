@@ -208,7 +208,7 @@ void onPepMinusClick() {
     } else if (step == STEP_BTN_PEP_MINUS) {
         changeStep(step + 1);
     } else if (step == STEP_BLOWER) {
-        hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(0),
+        hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, ValveAngle2MicroSeconds(0),
                                           MICROSEC_COMPARE_FORMAT);
         changeStep(step + 1);
     } else if (step != STEP_DONE) {
@@ -384,7 +384,7 @@ void setup() {
     // Output compare activation on pin PIN_ESC_BLOWER
     hardwareTimer3->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
     // Set PPM width to 1ms
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(0),
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerAngle2MicroSeconds(0),
                                       MICROSEC_COMPARE_FORMAT);
     hardwareTimer3->resume();
 
@@ -539,7 +539,7 @@ void loop() {
     case STEP_BLOWER: {
         UNGREEDY(is_drawn, {
             display("Blower is ON", "Press PPeP -");
-            hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(120),
+            hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerAngle2MicroSeconds(120),
                                               MICROSEC_COMPARE_FORMAT);
         });
         break;

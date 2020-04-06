@@ -92,7 +92,7 @@ void setup() {
     // Output compare activation on pin PIN_ESC_BLOWER
     hardwareTimer3->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
     // Set PPM width to 1ms
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(0),
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerAngle2MicroSeconds(0),
                                       MICROSEC_COMPARE_FORMAT);
     hardwareTimer3->resume();
 
@@ -126,13 +126,13 @@ void setup() {
     waitForInMs(4000);
 
     // escBlower start
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(170),
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerAngle2MicroSeconds(170),
                                       MICROSEC_COMPARE_FORMAT);
     DBG_DO(Serial.println("Blower is running.");)
 
     // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
-    IWatchdog.begin(WATCHDOG_TIMEOUT);
-    IWatchdog.reload();
+    // IWatchdog.begin(WATCHDOG_TIMEOUT);
+    // IWatchdog.reload();
 }
 
 // Time of the previous loop iteration
