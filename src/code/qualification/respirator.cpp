@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "config.h"
+#include "../includes/config.h"
 #if MODE == MODE_QUALIFICATION
 
 // INCLUDES ===================================================================
@@ -21,12 +21,12 @@
 #include <OneButton.h>
 
 // Internal
-#include "screen.h"
-#include "pressure_valve.h"
-#include "common.h"
-#include "debug.h"
-#include "parameters.h"
-#include "pression.h"
+#include "../includes/screen.h"
+#include "../includes/pressure_valve.h"
+#include "../includes/common.h"
+#include "../includes/debug.h"
+#include "../includes/parameters.h"
+#include "../includes/pression.h"
 
 /**
  * Liste de toutes les étapes de test du montage.

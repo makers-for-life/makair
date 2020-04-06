@@ -31,10 +31,10 @@ jobs:
     - name: Build qualification
       run: |
         sed -i 's/#define MODE MODE_PROD/#define MODE MODE_QUALIFICATION/' src/code/includes/config.h
-        arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/code/srcs/respirator.cpp
+        arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/code/qualification/respirator.cpp
         mkdir -p dist/
         VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/code/includes/parameters.h)
-        cp src/code/respirator-prod.cpp.STM32.stm32.Nucleo_64.bin "dist/respirator-qualification-$VERSION-$GITHUB_SHA.bin"
+        cp src/code/output/respirator.bin "dist/respirator-qualification-$VERSION-$GITHUB_SHA.bin"
     - name: Archive binaries
       uses: actions/upload-artifact@v1
       with:
