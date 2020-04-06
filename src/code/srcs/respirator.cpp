@@ -98,8 +98,8 @@ void setup() {
   hardwareTimer3->resume();
 
   pController = PressureController(INITIAL_CYCLE_NUMBER, DEFAULT_MIN_PEEP_COMMAND,
-                                   CONST_MAX_PLATEAU_PRESSURE,
-                                   CONST_MAX_PEAK_PRESSURE, servoBlower, servoPatient);
+                                   DEFAULT_MAX_PLATEAU_COMMAND,
+                                   DEFAULT_MAX_PEAK_PRESSURE_COMMAND, servoBlower, servoPatient);
   pController.setup();
 
   initKeyboard();
