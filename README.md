@@ -125,7 +125,7 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 
 ## Contacts
 
-* Open-source project contact: [open an issue on GitHub](https://github.com/covid-response-projects/covid-respirator/issues/new).
+* Open-source & questions: [please open an issue on GitHub](https://github.com/covid-response-projects/covid-respirator/issues/new).
 * Press contacts: Grégory Thibord
 * Medical contacts: Pierre Antoine Gourraud
 * Industry relations: [Quentin Adam](http://waxzce.org/)
