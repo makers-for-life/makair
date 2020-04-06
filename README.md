@@ -5,6 +5,8 @@ MakAir — Covid-19 Respirator
 
 We are a distributed team of 200+ contributors, mostly spread through France. Makers, developers, university teachers, researchers and medical teams collaborated on this project. Our testing & assembly operations are located in France.
 
+As to ensure international outreach, we made sure that contents required to build your own MakAir respirator are available in English.
+
 If you're new there, please read the explanations below. _Your contributions are much welcome!_
 
 ![MakAir Logo](./res/assets/logo-readme.png)
