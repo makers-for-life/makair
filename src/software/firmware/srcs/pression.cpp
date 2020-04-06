@@ -28,8 +28,7 @@ const double RATIO_VOLTAGE_DIVIDER = 0.8192;
 const double V_SUPPLY = 5.08;
 const double KPA_MMH2O = 101.97162129779;
 
-int convertSensor2Pressure(uint16_t sensorValue)
-{
+int convertSensor2Pressure(uint16_t sensorValue) {
     double rawVout =  sensorValue * 3.3 / 1024.0;
     filteredVout = filteredVout + (rawVout - filteredVout) * 0.2;
 
