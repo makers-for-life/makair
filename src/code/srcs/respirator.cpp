@@ -123,6 +123,10 @@ void setup() {
   IWatchdog.reload();
 }
 
+// Time of the previous loop iteration
+int32_t lastMicro = 0;
+
+
 void loop() {
   /********************************************/
   // INITIALIZE THE RESPIRATORY CYCLE
@@ -134,14 +138,19 @@ void loop() {
   // START THE RESPIRATORY CYCLE
   /********************************************/
   uint16_t centiSec = 0;
+  uint32_t lastpControllerComputeDate = 0uL;
 
   while (centiSec < pController.centiSecPerCycle()) {
-    static uint32_t lastpControllerComputeDate = 0ul;
+    pController.updatePressure(readPressureSensor(centiSec));
+    
     uint32_t currentDate = millis();
+    
     if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD) {
       lastpControllerComputeDate = currentDate;
 
-      pController.updatePressure(readPressureSensor(centiSec));
+      int32_t currentMicro = micros();
+            pController.updateDt(currentMicro - lastMicro);
+            lastMicro = currentMicro;
 
       // Perform the pressure control
       pController.compute(centiSec);
