@@ -73,7 +73,8 @@ _We re-iterate: though 3D-printing (FDM and SLA) can be used to build your own r
 
 | Runtime | Version | Major Changes | Tested? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
-| [Respiratory Firmware](./src/arduino) | V1.1.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza)
+| [Respiratory Firmware](./src/arduino) | V1.1.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou) + Gabriel Moneyron
+| [Control Unit](./src/software/control) | V0.1.x | Project started | ❌ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce)
 
 # Schemes
 
