@@ -106,10 +106,18 @@ void setup() {
     Alarm_Init();
 
     // escBlower needs 5s at speed 0 to be properly initalized
-    Alarm_Boot_Start();
-    waitForInMs(1000);
 
+    // RCM-SW-17 (Christmas tree at startup)
+    Alarm_Boot_Start();
+    digitalWrite(PIN_LED_GREEN, HIGH);
+    digitalWrite(PIN_LED_RED, HIGH);
+    digitalWrite(PIN_LED_YELLOW, HIGH);
+    waitForInMs(1000);
     Alarm_Stop();
+    digitalWrite(PIN_LED_GREEN, LOW);
+    digitalWrite(PIN_LED_RED, LOW);
+    digitalWrite(PIN_LED_YELLOW, LOW);
+
     waitForInMs(4000);
 
     // escBlower start
