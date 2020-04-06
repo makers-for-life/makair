@@ -37,7 +37,7 @@ class PressureValve {
      * @param p_closeApertureAngle  Close aperture angle in degrees
      */
     PressureValve(HardwareTimer* p_hardwareTimer,
-                  uint16_t p_timChannel,
+                  uint16_t p_timerChannel,
                   uint16_t p_servoPin,
                   uint16_t p_openApertureAngle,
                   uint16_t p_closeApertureAngle);

@@ -3,7 +3,7 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file respi-prod.cpp
+ * @file respirator.cpp
  * @brief Entry point of ventilator program
  *****************************************************************************/
 

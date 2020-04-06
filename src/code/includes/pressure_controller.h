@@ -32,7 +32,6 @@ class PressureController {
      * @param p_minPeep             Initial minimum PEEP pressure (in mmH2O)
      * @param p_maxPlateauPressure  Initial maximum plateau pressure (in mmH2O)
      * @param p_maxPeakPressure     Initial maximum peak pressure (in MMH2O)
-     * @param p_aperture
      * @param p_blower              Pressure Valve between blower and patient
      * @param p_patient             Pressure Valve between patient and atmosphere
      */

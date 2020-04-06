@@ -3,7 +3,7 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file respi-qualification.cpp
+ * @file qualification.cpp
  * @brief Entry point of electrical wiring qualification program
  *****************************************************************************/
 
