@@ -121,11 +121,11 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 
 ## Updates
 
-* Live updates on Telegram: [join channel](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ).
+* Live updates on Telegram: [join channel](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ)
 
 ## Contacts
 
-* Open-source & questions: [please open an issue on GitHub](https://github.com/covid-response-projects/covid-respirator/issues/new).
+* Open-source & questions: [please open an issue on GitHub](https://github.com/covid-response-projects/covid-respirator/issues/new)
 * Press contacts: Grégory Thibord
 * Medical contacts: Pierre Antoine Gourraud
 * Industry relations: [Quentin Adam](http://waxzce.org/)
