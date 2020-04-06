@@ -54,9 +54,9 @@ class PressureValve {
     /**
      * Request opening of the Air Transistor with a given angle
      *
-     * @param command The angle in degree
+     * @param p_command The angle in degree
      */
-    void open(int32_t command);
+    void open(int32_t p_command);
 
     /// Request closing of the Pressure Valve
     void close();
@@ -81,9 +81,9 @@ class PressureValve {
         }
     }
 
-    inline int32_t minAperture() { return minApertureAngle; }
+    inline int32_t minAperture() const { return minApertureAngle; }
 
-    inline int32_t maxAperture() { return maxApertureAngle; }
+    inline int32_t maxAperture() const { return maxApertureAngle; }
 
     /// Value of the requested aperture
     uint16_t command;
@@ -102,12 +102,12 @@ class PressureValve {
 
     uint16_t closeApertureAngle;
 
+    /// Hardware time for this servomotor
+    HardwareTimer* actuator;
+
     /// TIM channel for this servomotor
     uint16_t timerChannel;
 
     /// Data pin for this servomotor
     uint16_t servoPin;
-
-    /// Hardware time for this servomotor
-    HardwareTimer* actuator;
 };

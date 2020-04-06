@@ -74,11 +74,11 @@ _MakAir and Makers For Life should not be held resposible — at any time, for h
 
 ## Mechanics
 
-| Part | Version | Last Changelog | Tested? | Live CAD Models | Contributors |
+| Part | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | ---- | ------- | -------------- | ------ | --------------- | ------------ |
 | [Blower](./src/mechanics/parts/blower) | V14 | Smaller form factor & more powerful | ❌ | [view model](https://a360.co/39JpHg9) | Gabriel Moneyron + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou)
 | [Blower Holder](./src/mechanics/parts/blower-holder) | V1 | Initial version | ✅ | [view core model](https://a360.co/2X7eoLW) + [view casing model](https://a360.co/2X5DwCR) | Gabriel Moneyron + [Valerian Saliou](https://github.com/valeriansaliou)
-| [Pressure Valve](./src/mechanics/parts/pressure-valve) | V5 | Build fixes | ✅ | [view model](https://a360.co/2xOa2ic) | [Clement Niclot](https://github.com/clementniclot)
+| [Pressure Valve](./src/mechanics/parts/pressure-valve) | V6 | General improvements | ✅ | [view model](https://a360.co/2xUBD1e) | [Clement Niclot](https://github.com/clementniclot)
 | [Oxygen Mixer](./src/mechanics/parts/oxygen-mixer) | V4 | Updated with correct O2 ID diameter, reinforced O2 nipple | ✅ | [view model](https://a360.co/345fsS2) | [Yohann Nédélec](https://github.com/Melkaz)
 | [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2X5VvJq) | Martial Medjber + [Eliott Vincent](https://github.com/eliottvincent)
 | [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2wZids4) | [Valerian Saliou](https://github.com/valeriansaliou)
@@ -88,15 +88,15 @@ _MakAir and Makers For Life should not be held resposible — at any time, for h
 
 ## Electronics
 
-| Board | Version | Major Changes | Tested? | Contributors |
+| Board | Version | Major Changes | Ready? | Contributors |
 | ----- | ------- | ------------- | ------ | ------------ |
 | [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | [Tronico (company)](https://www.tronico-alcen.com/) + Cherine Kamel + [Pierre Papin](https://github.com/pi-r-p)
 
 ## Software
 
-| Runtime | Version | Major Changes | Tested? | Contributors |
+| Runtime | Version | Major Changes | Ready? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
-| [Respiratory Firmware](./src/software/firmware) | V1.1.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou) + Gabriel Moneyron
+| [Respiratory Firmware](./src/software/firmware) | V1.1.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + Gabriel Moneyron
 | [Control Unit](./src/software/control) | V0.1.x | Project started | ❌ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce)
 
 # Schemes
@@ -155,8 +155,8 @@ Adding to that, 200+ individual members of the project who contributed to techni
 ### The "Pressure Valve"
 
 <p>
-  <img alt="Pressure Valve Render" src="./src/mechanics/parts/pressure-valve/fdm/schemes/Pressure%20Valve%20(Render%201).png" height="240">
-  <img alt="Pressure Valve Print" src="./src/mechanics/parts/pressure-valve/fdm/schemes/Pressure%20Valve%20(Print%201).jpg" height="240">
+  <img alt="Pressure Valve Render" src="./src/mechanics/parts/pressure-valve/fdm/schemes/V6/Pressure%20Valve%20(Render%201).png" height="240">
+  <img alt="Pressure Valve Print" src="./src/mechanics/parts/pressure-valve/fdm/schemes/V6/Pressure%20Valve%20(Print%201).jpg" height="240">
 </p>
 
 ### The "Blower"
@@ -167,6 +167,7 @@ Adding to that, 200+ individual members of the project who contributed to techni
   <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V14/Blower%20(Render%201).png" height="240">
   <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V14/Blower%20(Render%202).png" height="240">
   <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V14/Blower%20(Print%201).jpg" height="240">
+  <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V14/Blower%20(Print%202).jpg" height="240">
 </p>
 
 ### The "Blower Holder"

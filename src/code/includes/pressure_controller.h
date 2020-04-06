@@ -29,14 +29,14 @@ class PressureController {
      * Parameterized constructor
      *
      * @param p_cyclesPerMinute     Initial number of breathing cycles per minute
-     * @param p_minPeep             Initial minimum PEEP pressure (in mmH2O)
+     * @param p_minPeepCommand      Initial minimum PEEP pressure (in mmH2O)
      * @param p_maxPlateauPressure  Initial maximum plateau pressure (in mmH2O)
-     * @param p_maxPeakPressure     Initial maximum peak pressure (in MMH2O)
+     * @param p_maxPeakPressure     Initial maximum peak pressure (in mmH2O)
      * @param p_blower              Pressure Valve between blower and patient
      * @param p_patient             Pressure Valve between patient and atmosphere
      */
     PressureController(int16_t p_cyclesPerMinute,
-                       int16_t p_minPeep,
+                       int16_t p_minPeepCommand,
                        int16_t p_maxPlateauPressure,
                        int16_t p_maxPeakPressure,
                        PressureValve p_blower,
@@ -50,9 +50,9 @@ class PressureController {
 
     /**
      * Input a pressure reading
-     * @param p_pressure  Measured pressure
+     * @param p_currentPressure  Measured pressure
      */
-    void updatePressure(int16_t p_pressure);
+    void updatePressure(int16_t p_currentPressure);
 
     /**
      * Perform the pressure control
@@ -271,9 +271,6 @@ class PressureController {
     /// Tick de suppression du tick de détection initiale que la PEEP est maintenue
     uint16_t m_triggerHoldExpiDetectionTickDeletion;
 
-    /// Blower's valve aperture desired by the operator
-    uint16_t m_apertureCommand;
-
     /// Number of cycles per minute
     uint16_t m_cyclesPerMinute;
 
@@ -282,9 +279,6 @@ class PressureController {
 
     /// Number of hundredth of second per inhalation
     uint16_t m_centiSecPerInhalation;
-
-    /// Blower's valve aperture angle
-    uint16_t m_aperture;
 
     /// Maximal peak pressure
     uint16_t m_maxPeakPressure;

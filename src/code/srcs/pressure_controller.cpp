@@ -34,13 +34,13 @@ PressureController pController;
 
 PressureController::PressureController()
     : m_cyclesPerMinuteCommand(INITIAL_CYCLE_NUMBER),
+      m_vigilance(false),
       m_minPeepCommand(DEFAULT_MIN_PEEP_COMMAND),                   // [mmH20]
       m_maxPlateauPressureCommand(DEFAULT_MAX_PLATEAU_COMMAND),     // [mmH20]
       m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),  // [mmH20]
-      m_cyclesPerMinute(INITIAL_CYCLE_NUMBER),
-      m_maxPeakPressure(CONST_MAX_PEAK_PRESSURE),        // [mmH20]
+      m_maxPeakPressure(CONST_MAX_PEAK_PRESSURE),       // [mmH20]
       m_maxPlateauPressure(CONST_MAX_PLATEAU_PRESSURE),  // [mmH20]
-      m_minPeep(CONST_MIN_PEEP_PRESSURE),                // TODO rework value [mmH20]
+      m_minPeep(CONST_MIN_PEEP_PRESSURE),                 // TODO revoir la valeur [mmH20]
       m_pressure(CONST_INITIAL_ZERO_PRESSURE),
       m_peakPressure(CONST_INITIAL_ZERO_PRESSURE),
       m_plateauPressure(CONST_INITIAL_ZERO_PRESSURE),
@@ -54,15 +54,17 @@ PressureController::PressureController()
 PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        int16_t p_minPeepCommand,
                                        int16_t p_maxPlateauPressure,
-                                       int16_t p_maxPeakPressureCommand,
+                                       int16_t p_maxPeakPressure,
                                        PressureValve p_blower,
                                        PressureValve p_patient)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
+
+      m_vigilance(false),
       m_minPeepCommand(p_minPeepCommand),
       m_maxPlateauPressureCommand(p_maxPlateauPressure),
-      m_maxPeakPressureCommand(p_maxPeakPressureCommand),
+      m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),
       m_cyclesPerMinute(p_cyclesPerMinute),
-      m_maxPeakPressure(p_maxPeakPressureCommand),
+      m_maxPeakPressure(p_maxPeakPressure),
       m_maxPlateauPressure(p_maxPlateauPressure),
       m_minPeep(p_minPeepCommand),  // TODO revoir la valeur de démarage
       m_pressure(CONST_INITIAL_ZERO_PRESSURE),
@@ -82,9 +84,8 @@ void PressureController::setup() {
     DBG_DO(Serial.println("mise en secu initiale");)
 
     m_blower.close();
-    m_blower.position = -1;
     m_patient.close();
-    m_patient.position = -1;
+
     m_blower.execute();
     m_patient.execute();
 

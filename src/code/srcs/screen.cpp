@@ -75,10 +75,10 @@ void displayCurrentInformation(int peakPressure, int plateauPressure, int peep, 
     screen.print(message);
 }
 
-void displaySettings(int peakPressureMax,
-                     int plateauPressureMax,
-                     int peepMin,
-                     int cyclesPerMinute) {
+void displaySettings(uint16_t peakPressureMax,
+                     uint16_t plateauPressureMax,
+                     uint16_t peepMin,
+                     uint16_t cyclesPerMinute) {
     screen.setCursor(0, 3);
     char message[SCREEN_LINE_LENGTH];
 
