@@ -26,7 +26,7 @@ If you're new there, please read the explanations below. _Your contributions are
 
 # Abstract
 
-Roughly, the idea is as follows: hospitals will soon lack mechanical artificial respirators. We built a pump, and a valve system (controlled by electronics). This way, the breathing cycle can be enforced by proper air routing through the valve system.
+Roughly, the idea is as follows: as of April 2020 and due to the Covid-19 pandemic, hospitals will soon start lacking mechanical artificial respirators. We built a pump, and a valve system (controlled by electronics). This way, the breathing cycle can be enforced by proper air routing through the valve system.
 
 Our respirator is able to handle pressure-controlled breathing, stabilized using a [PID controller](https://en.wikipedia.org/wiki/PID_controller) in the software.
 
@@ -61,6 +61,8 @@ All those components are fitted in box (ie. a container) that we designed:
 3. Medical-grade plastic should be used to produce ventilators, and any kind of grease or adhesive chemicals must be avoided in the respirator. The ventilators should be produced in a [cleanroom](https://en.wikipedia.org/wiki/Cleanroom) as to avoid dust & germ contaminations.
 
 4. The pneumatic circuit should be thoroughly tested for leaks and its ability to withstand elevated positive air pressure. Joints should be used where relevant, and medical-grade flexible pipes should be used between components.
+
+5. While the MakAir respirators produced on-site in France were validated by a medical & engineering board, you should independantly seek validation of the MakAir respirators that you produce; as your assembly methods or parts may vary with ours.
 
 _MakAir and Makers For Life should not be held resposible — at any time, for harm caused to human life (eg. lung damage or loss of life). By building your own MakAir, you are held responsible for its safety validations & use._
 
