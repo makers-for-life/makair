@@ -55,7 +55,7 @@ class AirTransistor {
     /**
      * Request opening of the Air Transistor with a given angle
      *
-     * @param command The angle in degree
+     * @param p_command The angle in degree
      */
     void open(int32_t p_command);
 
