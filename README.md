@@ -214,4 +214,5 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 
 <p>
   <img alt="Motherboard Picture" src="./src/electronics/motherboard/schemes/V1/Motherboard%20(Picture%201).jpg" height="240">
+  <img alt="Motherboard Picture" src="./src/electronics/motherboard/schemes/V1/Motherboard%20(Picture%202).jpg" height="240">
 </p>
