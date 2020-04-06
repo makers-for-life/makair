@@ -13,7 +13,7 @@ If you're new there, please read the explanations below. _Your contributions are
 
 ---
 
-➡️ **Update (6th April 2020):** We are ongoing finalization, endurance testing and final industrialization of our V1 MakAir respirator design. In the meantime, clinical trials have been started. We will provide more information gradually as we know more.
+➡️ **Update (6th April 2020):** We are ongoing finalization, endurance testing and final industrialization of our V1 MakAir respirator design. In the meantime, clinical trials have been started. We will provide more information (very) soon.
 
 ---
 
@@ -192,6 +192,7 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
   <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%206).png" height="240">
   <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%207).png" height="240">
   <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%208).png" height="240">
+  <img alt="Container Assembly" src="./src/mechanics/container/molding/schemes/V2/Container%20(Assembly%201).jpg" height="240">
 </p>
 
 ## Electronics
