@@ -14,8 +14,8 @@
 // External libraries
 
 // Internal libraries
-#include "air_transistor.h"
 #include "common.h"
+#include "pressure_valve.h"
 
 // CLASS ======================================================================
 
@@ -31,18 +31,16 @@ class PressureController {
      * @param p_cyclesPerMinute     Initial number of breathing cycles per minute
      * @param p_minPeepCommand      Initial minimum PEEP pressure (in mmH2O)
      * @param p_maxPlateauPressure  Initial maximum plateau pressure (in mmH2O)
-     * @param p_aperture
-     * @param p_maxPeakPressure     Initial maximum peak pressure (in MMH2O)
-     * @param p_blower              Air Transistor between blower and patient
-     * @param p_patient             Air Transistor between patient and atmosphere
+     * @param p_maxPeakPressure     Initial maximum peak pressure (in mmH2O)
+     * @param p_blower              Pressure Valve between blower and patient
+     * @param p_patient             Pressure Valve between patient and atmosphere
      */
     PressureController(int16_t p_cyclesPerMinute,
                        int16_t p_minPeepCommand,
                        int16_t p_maxPlateauPressure,
-                       int16_t p_aperture,
                        int16_t p_maxPeakPressure,
-                       AirTransistor p_blower,
-                       AirTransistor p_patient);
+                       PressureValve p_blower,
+                       PressureValve p_patient);
 
     /// Initialize actuators
     void setup();
@@ -64,28 +62,28 @@ class PressureController {
     void compute(uint16_t p_centiSec);
 
     /// Decrease the desired number of cycles per minute
-    void onCycleMinus();
+    void onCycleDecrease();
 
     /// Increase the desired number of cycles per minute
-    void onCyclePlus();
+    void onCycleIncrease();
 
     /// Decrease the minimal PEEP desired
-    void onPressionPepMinus();
+    void onPeepPressureDecrease();
 
     /// Increase the minimal PEEP desired
-    void onPressionPepPlus();
+    void onPeepPressureIncrease();
 
     /// Decrease the desired plateau pressure
-    void onPressionPlateauMinus();
+    void onPlateauPressureDecrease();
 
     /// Increase the desired plateau pressure
-    void onPressionPlateauPlus();
+    void onPlateauPressureIncrease();
 
     /// Decrease the desired crête pressure
-    void onPressionCreteMinus();
+    void onPeekPressureDecrease();
 
     /// Increase the desired crête pressure
-    void onPressionCretePlus();
+    void onPeekPressureIncrease();
 
     /// Get the desired number of cycles per minute
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
@@ -98,9 +96,6 @@ class PressureController {
 
     /// Get the desired maximal plateau pressure
     inline uint16_t maxPlateauPressureCommand() const { return m_maxPlateauPressureCommand; }
-
-    /// Get the desired blower aperture
-    inline uint16_t apertureCommand() const { return m_apertureCommand; }
 
     /// Get the number of cycles per minute
     inline uint16_t cyclesPerMinute() const { return m_cyclesPerMinute; }
@@ -129,11 +124,11 @@ class PressureController {
     /// Get the current cycle subphase
     inline CycleSubPhases subPhase() const { return m_subPhase; }
 
-    /// Get the blower's Air Transistor instance
-    inline const AirTransistor& blower() const { return m_blower; }
+    /// Get the blower's Pressure Valve instance
+    inline const PressureValve& blower() const { return m_blower; }
 
-    /// Get the patient's Air Transistor instance
-    inline const AirTransistor& patient() const { return m_patient; }
+    /// Get the patient's Pressure Valve instance
+    inline const PressureValve& patient() const { return m_patient; }
 
     /**
      * Input the real duration since the last pressure controller computation
@@ -252,33 +247,29 @@ class PressureController {
     uint16_t m_maxPeakPressureCommand;
 
     /// Tick de détection initiale pour le dépassement de la consigne de crête
-    uint16_t m_franchissementSeuilMaxPeakPressureDetectionTick;
+    uint16_t m_triggerMaxPeakPressureDetectionTick;
 
     /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
     /// crête
-    uint16_t m_franchissementSeuilMaxPeakPressureDetectionTickSupprime;
+    uint16_t m_triggerMaxPeakPressureDetectionTickDeletion;
 
     /// Maximal plateau pressure desired by the operator
     uint16_t m_maxPlateauPressureCommand;
 
-    /// Tick de détection initiale pour le dépassement de la consigne de plateau
-    uint16_t m_franchissementSeuilMaxPlateauPressureDetectionTick;
+    /// Tick to detect initial plateau pression overflow
+    uint16_t m_triggerMaxPlateauPressureDetectionTick;
 
-    /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
-    /// plateau
-    uint16_t m_franchissementSeuilMaxPlateauPressureDetectionTickSupprime;
+    /// Tick to delete initial plateau overflow
+    uint16_t m_triggerMaxPlateauPressureDetectionTickDeletion;
 
     /// Minimal PEEP desired by the operator
     uint16_t m_minPeepCommand;
 
-    /// Tick de détection initiale pour le maintien de la PEEP
-    uint16_t m_franchissementSeuilHoldExpiDetectionTick;
+    /// Initial tick detection to maintain Peep
+    uint16_t m_triggerHoldExpiDetectionTick;
 
     /// Tick de suppression du tick de détection initiale que la PEEP est maintenue
-    uint16_t m_franchissementSeuilHoldExpiDetectionTickSupprime;
-
-    /// Blower's valve aperture desired by the operator
-    uint16_t m_apertureCommand;
+    uint16_t m_triggerHoldExpiDetectionTickDeletion;
 
     /// Number of cycles per minute
     uint16_t m_cyclesPerMinute;
@@ -288,9 +279,6 @@ class PressureController {
 
     /// Number of hundredth of second per inhalation
     uint16_t m_centiSecPerInhalation;
-
-    /// Blower's valve aperture angle
-    uint16_t m_aperture;
 
     /// Maximal peak pressure
     uint16_t m_maxPeakPressure;
@@ -320,10 +308,10 @@ class PressureController {
     CycleSubPhases m_subPhase;
 
     /// Blower's transistor
-    AirTransistor m_blower;
+    PressureValve m_blower;
 
     /// Patient's transistor
-    AirTransistor m_patient;
+    PressureValve m_patient;
 
     /// Number of passed cycles
     uint32_t m_cycleNb;

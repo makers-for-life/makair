@@ -3,8 +3,8 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file air_transistor.cpp
- * @brief Tools to control an Air Transistor's servomotor
+ * @file pressure_valve.cpp
+ * @brief Tools to control an Pressure Valve's servomotor
  *****************************************************************************/
 
 #pragma once
@@ -12,22 +12,21 @@
 // INCLUDES ===================================================================
 
 // Associated header
-#include "air_transistor.h"
+#include "../includes/pressure_valve.h"
 
 // Internal libraries
-#include "parameters.h"
+#include "../includes/parameters.h"
 
 // FUNCTIONS ==================================================================
+PressureValve::PressureValve() {}
 
-AirTransistor::AirTransistor() {}
-
-AirTransistor::AirTransistor(HardwareTimer* p_hardwareTimer,
-                             uint16_t p_timChannel,
+PressureValve::PressureValve(HardwareTimer* p_hardwareTimer,
+                             uint16_t p_timerChannel,
                              uint16_t p_servoPin,
                              uint16_t p_openApertureAngle,
                              uint16_t p_closeApertureAngle) {
     actuator = p_hardwareTimer;
-    timChannel = p_timChannel;
+    timerChannel = p_timerChannel;
     servoPin = p_servoPin;
     openApertureAngle = p_openApertureAngle;
     closeApertureAngle = p_closeApertureAngle;
@@ -43,13 +42,13 @@ AirTransistor::AirTransistor(HardwareTimer* p_hardwareTimer,
     position = -1;
 }
 
-void AirTransistor::setup() {
-    actuator->setMode(timChannel, TIMER_OUTPUT_COMPARE_PWM1, servoPin);
-    actuator->setCaptureCompare(timChannel, 0, MICROSEC_COMPARE_FORMAT);
+void PressureValve::setup() {
+    actuator->setMode(timerChannel, TIMER_OUTPUT_COMPARE_PWM1, servoPin);
+    actuator->setCaptureCompare(timerChannel, 0, MICROSEC_COMPARE_FORMAT);
 }
 
-void AirTransistor::open() { command = openApertureAngle; }
+void PressureValve::open() { command = openApertureAngle; }
 
-void AirTransistor::close() { command = closeApertureAngle; }
+void PressureValve::close() { command = closeApertureAngle; }
 
-void AirTransistor::open(int32_t p_command) { command = p_command; }
+void PressureValve::open(int32_t p_command) { command = p_command; }

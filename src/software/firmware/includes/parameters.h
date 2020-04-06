@@ -29,22 +29,22 @@
 // Période de traitement en millisecondes
 #define PCONTROLLER_COMPUTE_PERIOD 10
 
-// Minimums et maximums possible des paramètres modifiables à l'exécution
-#define BORNE_SUP_PRESSION_CRETE 700    // arbitraire [mmH2O]
-#define BORNE_INF_PRESSION_CRETE 100    // arbitraire [mmH2O]
-#define BORNE_SUP_PRESSION_PLATEAU 400  // PP MAX SDRA = 300 [mmH2O]
-#define BORNE_INF_PRESSION_PLATEAU 100  // arbitraire [mmH2O]
-#define BORNE_SUP_PRESSION_PEP 300      // PP MAX = 300, or PEP < PP [mmH2O]
-#define BORNE_INF_PRESSION_PEP 50       // arbitraire mais > 0 [mmH2O]
-#define INITIAL_ZERO_PRESSURE 0         // [mmH2O]
+// Minimum & maximum execution parameters
+#define CONST_MAX_PEAK_PRESSURE 700     // arbitrary [mmH2O]
+#define CONST_MIN_PEAK_PRESSURE 100     // arbitrary [mmH2O]
+#define CONST_MAX_PLATEAU_PRESSURE 400  // PP MAX ARDS = 300 [mmH2O]
+#define CONST_MIN_PLATEAU_PRESSURE 100  // arbitrary [mmH2O]
+#define CONST_MAX_PEEP_PRESSURE 300     // PP MAX = 300, or PEEP < PP [mmH2O]
+#define CONST_MIN_PEEP_PRESSURE 50      // arbitrary but > 0 [mmH2O]
+#define CONST_INITIAL_ZERO_PRESSURE 0   // [mmH2O]
 
 #define DEFAULT_MIN_PEEP_COMMAND 80
 #define DEFAULT_MAX_PLATEAU_COMMAND 300
 #define DEFAULT_MAX_PEAK_PRESSURE_COMMAND 320
 
-#define INITIAL_CYCLE_NB 20
-#define BORNE_SUP_CYCLE 35  // demande medical
-#define BORNE_INF_CYCLE 5   // demande medical
+#define INITIAL_CYCLE_NUMBER 20
+#define CONST_MAX_CYCLE 35
+#define CONST_MIN_CYCLE 5
 
 ///@}
 
@@ -72,11 +72,14 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
  */
 ///@{
 
-/// Angle when open
-#define VALVE_OUVERT 25
+/// Angle when opened
+#define VALVE_OPEN_STATE 25
+
+/// Angle when half-opened
+#define VALVE_MIDDLE_STATE 90
 
 /// Angle when closed
-#define VALVE_FERME 145
+#define VALVE_CLOSED_STATE 145
 
 #define SERVO_VALVE_PERIOD 20000
 #define PIN_SERVO_BLOWER D2  // PA10 / TIM1_CH3
@@ -119,14 +122,14 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 #define PIN_BTN_ALARM_OFF PB2
 #define PIN_BTN_START PB1
 #define PIN_BTN_STOP PB15
-#define TENSION_BTN_PRESSION_P_CRETE_PLUS 913
-#define TENSION_BTN_PRESSION_P_CRETE_MINUS 819
-#define TENSION_BTN_PRESSION_PLATEAU_PLUS 745
-#define TENSION_BTN_PRESSION_PLATEAU_MINUS 608
-#define TENSION_BTN_PEP_PLUS 512
-#define TENSION_BTN_PEP_MINUS 415
-#define TENSION_BTN_CYCLE_PLUS 294
-#define TENSION_BTN_CYCLE_MINUS 216
+#define VOLTAGE_BUTTON_PEAK_PRESSURE_INCREASE 913
+#define VOLTAGE_BUTTON_PEAK_PRESSURE_DECREASE 819
+#define VOLTAGE_BUTTON_PLATEAU_PRESSURE_INCREASE 745
+#define VOLTAGE_BUTTON_PLATEAU_PRESSURE_DECREASE 608
+#define VOLTAGE_BUTTON_PEEP_PRESSURE_INCREASE 512
+#define VOLTAGE_BUTTON_PEEP_PRESSURE_DECREASE 415
+#define VOLTAGE_BUTTON_CYCLE_INCREASE 294
+#define VOLTAGE_BUTTON_CYCLE_DECREASE 216
 
 ///@}
 
@@ -135,7 +138,7 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
  */
 ///@{
 
-#define PIN_CAPTEUR_PRESSION A1
+#define PIN_PRESSURE_SENSOR A1
 #define PIN_ALARM D13
 #define PIN_LED_RED PC4
 #define PIN_LED_GREEN PB13
@@ -145,23 +148,3 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 #define PIN_BATTERY A2
 
 ///@}
-
-// USELESS?
-
-// amplitude radiale des servomoteurs
-// \warning ANGLE_FERMETURE has to be greater than ANGLE_OUVERTURE_MAXI
-static const uint16_t ANGLE_OUVERTURE_MINI = 8;
-static const uint16_t ANGLE_OUVERTURE_MAXI = 45;
-static const uint16_t ANGLE_FERMETURE = 90;
-
-// multiplicateur à modifier pour inverser les angles (en cas de suppression de
-// l'engrenage)
-static const int16_t ANGLE_MULTIPLICATEUR = 1;
-
-// borne pour le capteur de pression
-// a adapter lors de la calibration
-static const uint16_t CAPT_PRESSION_MINI = 0;
-
-// on ne va pas jusqu'à 1024 à cause de la saturation de l'AOP
-// -> à adapter avec meilleur AOP
-static const uint16_t CAPT_PRESSION_MAXI = 800;

@@ -3,13 +3,13 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file respi-qualification.cpp
+ * @file qualification.cpp
  * @brief Entry point of electrical wiring qualification program
  *****************************************************************************/
 
 #pragma once
 
-#include "config.h"
+#include "../includes/config.h"
 #if MODE == MODE_QUALIFICATION
 
 // INCLUDES ===================================================================
@@ -21,12 +21,12 @@
 #include <OneButton.h>
 
 // Internal
-#include "affichage.h"
-#include "air_transistor.h"
-#include "common.h"
-#include "debug.h"
-#include "parameters.h"
-#include "pression.h"
+#include "../includes/common.h"
+#include "../includes/debug.h"
+#include "../includes/parameters.h"
+#include "../includes/pression.h"
+#include "../includes/pressure_valve.h"
+#include "../includes/screen.h"
 
 /**
  * Liste de toutes les étapes de test du montage.
@@ -126,8 +126,8 @@ void displayStatus(char msg[], uint8_t line = 3) {
     screen.print(msg);
 }
 
-AirTransistor servoBlower;
-AirTransistor servoPatient;
+PressureValve servoBlower;
+PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
 
@@ -321,17 +321,17 @@ void onStopClick() {
 static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
 
 Button btn_pression_crete_plus =
-    Button(TENSION_BTN_PRESSION_P_CRETE_PLUS, &onPressionCretePlusClick);
+    Button(VOLTAGE_BUTTON_PEAK_PRESSURE_INCREASE, &onPressionCretePlusClick);
 Button btn_pression_crete_minus =
-    Button(TENSION_BTN_PRESSION_P_CRETE_MINUS, &onPressionCreteMinusClick);
+    Button(VOLTAGE_BUTTON_PEAK_PRESSURE_DECREASE, &onPressionCreteMinusClick);
 Button btn_pression_plateau_plus =
-    Button(TENSION_BTN_PRESSION_PLATEAU_PLUS, &onPressionPlateauPlusClick);
+    Button(VOLTAGE_BUTTON_PLATEAU_PRESSURE_INCREASE, &onPressionPlateauPlusClick);
 Button btn_pression_plateau_minus =
-    Button(TENSION_BTN_PRESSION_PLATEAU_MINUS, &onPressionPlateauMinusClick);
-Button btn_pep_plus = Button(TENSION_BTN_PEP_PLUS, &onPepPlusClick);
-Button btn_pep_minus = Button(TENSION_BTN_PEP_MINUS, &onPepMinusClick);
-Button btn_cycle_plus = Button(TENSION_BTN_CYCLE_PLUS, &onCyclePlusClick);
-Button btn_cycle_minus = Button(TENSION_BTN_CYCLE_MINUS, &onCycleMinusClick);
+    Button(VOLTAGE_BUTTON_PLATEAU_PRESSURE_DECREASE, &onPressionPlateauMinusClick);
+Button btn_pep_plus = Button(VOLTAGE_BUTTON_PEEP_PRESSURE_INCREASE, &onPepPlusClick);
+Button btn_pep_minus = Button(VOLTAGE_BUTTON_PEEP_PRESSURE_DECREASE, &onPepMinusClick);
+Button btn_cycle_plus = Button(VOLTAGE_BUTTON_CYCLE_INCREASE, &onCyclePlusClick);
+Button btn_cycle_minus = Button(VOLTAGE_BUTTON_CYCLE_DECREASE, &onCycleMinusClick);
 
 OneButton btn_alarm_off(PIN_BTN_ALARM_OFF, false, false);
 OneButton btn_start(PIN_BTN_START, false, false);
@@ -369,14 +369,15 @@ void setup() {
     hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
     // Servo blower setup
-    servoBlower = AirTransistor(hardwareTimer1, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
-                                VALVE_OUVERT, VALVE_FERME);
+    servoBlower = PressureValve(hardwareTimer1, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
+                                VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
     servoBlower.setup();
     hardwareTimer1->resume();
 
     // Servo patient setup
-    servoPatient = AirTransistor(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT,
-                                 VALVE_OUVERT, VALVE_FERME);
+    servoPatient = PressureValve(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT,
+                                 VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
+
     servoPatient.setup();
 
     // Manual escBlower setup

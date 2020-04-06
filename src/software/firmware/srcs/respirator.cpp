@@ -3,13 +3,13 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file respi-prod.cpp
+ * @file respirator.cpp
  * @brief Entry point of ventilator program
  *****************************************************************************/
 
 #pragma once
 
-#include "config.h"
+#include "../includes/config.h"
 #if MODE == MODE_PROD
 
 // INCLUDES ==================================================================
@@ -21,20 +21,20 @@
 #include <LiquidCrystal.h>
 
 // Internal
-#include "affichage.h"
-#include "air_transistor.h"
-#include "alarm.h"
-#include "clavier.h"
-#include "common.h"
-#include "debug.h"
-#include "parameters.h"
-#include "pression.h"
-#include "pressure_controller.h"
+#include "../includes/alarm.h"
+#include "../includes/common.h"
+#include "../includes/debug.h"
+#include "../includes/keyboard.h"
+#include "../includes/parameters.h"
+#include "../includes/pression.h"
+#include "../includes/pressure_controller.h"
+#include "../includes/pressure_valve.h"
+#include "../includes/screen.h"
 
 // PROGRAM =====================================================================
 
-AirTransistor servoBlower;
-AirTransistor servoPatient;
+PressureValve servoBlower;
+PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
 
@@ -61,10 +61,11 @@ void setup() {
     }
 
     DBG_DO(Serial.begin(115200);)
-    DBG_DO(Serial.println("demarrage");)
+    DBG_DO(Serial.println("Booting the system...");)
+
     startScreen();
 
-    pinMode(PIN_CAPTEUR_PRESSION, INPUT);
+    pinMode(PIN_PRESSURE_SENSOR, INPUT);
     pinMode(PIN_ALARM, OUTPUT);
 
     // Timer for servoBlower
@@ -76,14 +77,15 @@ void setup() {
     hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
     // Servo blower setup
-    servoBlower = AirTransistor(hardwareTimer1, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
-                                VALVE_OUVERT, VALVE_FERME);
+    servoBlower = PressureValve(hardwareTimer1, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
+                                VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
+
     servoBlower.setup();
     hardwareTimer1->resume();
 
     // Servo patient setup
-    servoPatient = AirTransistor(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT,
-                                 VALVE_OUVERT, VALVE_FERME);
+    servoPatient = PressureValve(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT,
+                                 VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
     servoPatient.setup();
 
     // Manual escBlower setup
@@ -94,9 +96,9 @@ void setup() {
                                       MICROSEC_COMPARE_FORMAT);
     hardwareTimer3->resume();
 
-    pController = PressureController(INITIAL_CYCLE_NB, DEFAULT_MIN_PEEP_COMMAND,
-                                     DEFAULT_MAX_PLATEAU_COMMAND, ANGLE_OUVERTURE_MAXI,
-                                     DEFAULT_MAX_PEAK_PRESSURE_COMMAND, servoBlower, servoPatient);
+    pController = PressureController(INITIAL_CYCLE_NUMBER, DEFAULT_MIN_PEEP_COMMAND,
+                                     DEFAULT_MAX_PLATEAU_COMMAND, DEFAULT_MAX_PEAK_PRESSURE_COMMAND,
+                                     servoBlower, servoPatient);
     pController.setup();
 
     initKeyboard();
@@ -106,13 +108,14 @@ void setup() {
     // escBlower needs 5s at speed 0 to be properly initalized
     Alarm_Boot_Start();
     waitForInMs(1000);
+
     Alarm_Stop();
     waitForInMs(4000);
 
     // escBlower start
     hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(170),
                                       MICROSEC_COMPARE_FORMAT);
-    DBG_DO(Serial.println("Esc blower is running!");)
+    DBG_DO(Serial.println("Blower is running.");)
 
     // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
     IWatchdog.begin(WATCHDOG_TIMEOUT);
@@ -139,12 +142,15 @@ void loop() {
         pController.updatePressure(readPressureSensor(centiSec));
 
         uint32_t currentDate = millis();
+
         if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD) {
             lastpControllerComputeDate = currentDate;
 
             int32_t currentMicro = micros();
+
             pController.updateDt(currentMicro - lastMicro);
             lastMicro = currentMicro;
+
             // Perform the pressure control
             pController.compute(centiSec);
 
@@ -155,8 +161,8 @@ void loop() {
             if (centiSec % LCD_UPDATE_PERIOD == 0) {
                 displaySubPhase(pController.subPhase());
 
-                displayInstantInfo(pController.peakPressure(), pController.plateauPressure(),
-                                   pController.peep(), pController.pressure());
+                displayCurrentInformation(pController.peakPressure(), pController.plateauPressure(),
+                                          pController.peep(), pController.pressure());
 
                 displaySettings(pController.maxPeakPressureCommand(),
                                 pController.maxPlateauPressureCommand(),
@@ -168,6 +174,7 @@ void loop() {
         }
         IWatchdog.reload();
     }
+
     /********************************************/
     // END OF THE RESPIRATORY CYCLE
     /********************************************/
