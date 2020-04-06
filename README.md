@@ -125,7 +125,7 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 
 ## Updates
 
-* Live updates on Telegram: [join channel](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ)
+* Live updates on Telegram: [join "Newsroom Covid-19 Respirator"](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ)
 
 ## Contacts
 
