@@ -2,9 +2,9 @@
 /.vscode/
 .DS_Store
 docs/Software/
-src/code/output/*
-!src/code/output/.gitkeep
-src/code/*.csv
-src/code/*.ods
-src/code/*.csv#
-src/code/*.ods#
+src/software/firmware/output/*
+!src/software/firmware/output/.gitkeep
+src/software/firmware/*.csv
+src/software/firmware/*.ods
+src/software/firmware/*.csv#
+src/software/firmware/*.ods#

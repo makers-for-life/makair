@@ -15,7 +15,7 @@ jobs:
     - name: action-cpp-lint
       uses: CyberZHG/github-action-cpp-lint@0.0.2
       with:
-        args: "--recursive ./src/code/"
+        args: "--recursive ./src/software/firmware/"
 
 #   cppcheck:
 #     runs-on: ubuntu-18.04
@@ -32,7 +32,7 @@ jobs:
 #     - name: run cppcheck
 #       run: |
 #         cppcheck --version
-#         cppcheck --error-exitcode=1 --enable=all ./src/arduino/
+#         cppcheck --error-exitcode=1 --enable=all ./src/software/firmware/
 #         echo $?
-#         cppcheck --error-exitcode=1 --addon=cert ./src/arduino/
-#         #cppcheck --error-exitcode=1 --addon=misra ./src/arduino/
+#         cppcheck --error-exitcode=1 --addon=cert ./src/software/firmware/
+#         #cppcheck --error-exitcode=1 --addon=misra ./src/software/firmware/
