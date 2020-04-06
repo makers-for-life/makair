@@ -7,4 +7,4 @@
 | V9 |  | ❌ | [view model](https://a360.co/2J9ldEw)
 | V12 | Increase air compression rate | ❌ | [view model](https://a360.co/2y59eWF)
 | V13 | Increased air compression rate | ❌ | [view model](https://a360.co/2UsIdDU)
-| V14 | Smaller form factor & more powerful | ❌ | [view model](https://a360.co/39JpHg9)
+| V14 | Smaller form factor & more powerful | ✅ | [view model](https://a360.co/39JpHg9)
