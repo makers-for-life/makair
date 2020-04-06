@@ -31,7 +31,8 @@ AirTransistor::AirTransistor(HardwareTimer* p_hardwareTimer,
     servoPin = p_servoPin;
     openApertureAngle = p_openApertureAngle;
     closeApertureAngle = p_closeApertureAngle;
-    if (p_openApertureAngle > p_closeApertureAngle) { // TODO: use min() and max() instead of a condition
+    // TODO: use min() and max() instead of a condition
+    if (p_openApertureAngle > p_closeApertureAngle) {
         minApertureAngle = p_closeApertureAngle;
         maxApertureAngle = p_openApertureAngle;
     } else {
