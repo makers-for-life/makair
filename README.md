@@ -119,8 +119,17 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 
 # News & Contact
 
+## Updates
+
 * Live updates on Telegram: [join channel](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ).
-* Contact us: [open an issue on GitHub](https://github.com/covid-response-projects/covid-respirator/issues/new).
+
+## Contacts
+
+* Open-source project contact: [open an issue on GitHub](https://github.com/covid-response-projects/covid-respirator/issues/new).
+* Press contacts: Grégory Thibord
+* Medical contacts: Pierre Antoine Gourraud
+* Industry relations: [Quentin Adam](http://waxzce.org/)
+* Engineering contacts: [Valerian Saliou](https://valeriansaliou.name/), [Eliott Vincent](https://eliottvincent.com/)
 
 # Renders
 
