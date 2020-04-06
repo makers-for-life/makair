@@ -21,12 +21,12 @@
 #include <OneButton.h>
 
 // Internal
-#include "../includes/screen.h"
-#include "../includes/pressure_valve.h"
 #include "../includes/common.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
 #include "../includes/pression.h"
+#include "../includes/pressure_valve.h"
+#include "../includes/screen.h"
 
 /**
  * Liste de toutes les étapes de test du montage.

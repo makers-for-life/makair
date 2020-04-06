@@ -30,46 +30,48 @@ LiquidCrystal
 // FUNCTIONS ==================================================================
 
 void startScreen() {
-  screen.begin(SCREEN_LINE_LENGTH, SCREEN_LINE_NUMBER);
-  screen.setCursor(0, 0);
-  screen.print("Initialization      ");
-  screen.setCursor(0, 1);
-  screen.print(VERSION);
+    screen.begin(SCREEN_LINE_LENGTH, SCREEN_LINE_NUMBER);
+    screen.setCursor(0, 0);
+    screen.print("Initialization      ");
+    screen.setCursor(0, 1);
+    screen.print(VERSION);
 }
 
 void resetScreen() { screen.clear(); }
 
 void displaySubPhase(CycleSubPhases subPhase) {
-  screen.setCursor(0, 0);
+    screen.setCursor(0, 0);
 
-  switch (subPhase) {
+    switch (subPhase) {
     case CycleSubPhases::INSPIRATION: {
-      screen.print("Inhalation          ");
-      break;
+        screen.print("Inhalation          ");
+        break;
     }
     case CycleSubPhases::HOLD_INSPIRATION: {
-      screen.print("Plateau             ");
-      break;
+        screen.print("Plateau             ");
+        break;
     }
     case CycleSubPhases::EXHALE: {
-      screen.print("Exhalation          ");
-      break;
+        screen.print("Exhalation          ");
+        break;
     }
     case CycleSubPhases::HOLD_EXHALE: {
-      screen.print("Hold exhalation     ");
-      break;
+        screen.print("Hold exhalation     ");
+        break;
     }
     default: {
-      break;
+        break;
     }
-  }
+    }
 }
 
 void displayCurrentInformation(int peakPressure, int plateauPressure, int peep, int pressure) {
     screen.setCursor(0, 1);
     char message[SCREEN_LINE_LENGTH];
-    snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressure / 10,
-             plateauPressure / 10, peep / 10, pressure / 10);
+
+    snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressure / 10u,
+             plateauPressure / 10u, peep / 10u, pressure / 10u);
+
     screen.print(message);
 }
 
@@ -79,7 +81,9 @@ void displaySettings(int peakPressureMax,
                      int cyclesPerMinute) {
     screen.setCursor(0, 3);
     char message[SCREEN_LINE_LENGTH];
-    snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressureMax / 10,
-             plateauPressureMax / 10, peepMin / 10, cyclesPerMinute);
+
+    snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressureMax / 10u,
+             plateauPressureMax / 10u, peepMin / 10u, cyclesPerMinute);
+
     screen.print(message);
 }

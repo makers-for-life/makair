@@ -14,8 +14,8 @@
 // External libraries
 
 // Internal libraries
-#include "pressure_valve.h"
 #include "common.h"
+#include "pressure_valve.h"
 
 // CLASS ======================================================================
 

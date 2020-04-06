@@ -41,8 +41,8 @@ PressureValve::PressureValve(HardwareTimer* p_hardwareTimer,
 }
 
 void PressureValve::setup() {
-  actuator->setMode(timerChannel, TIMER_OUTPUT_COMPARE_PWM1, servoPin);
-  actuator->setCaptureCompare(timerChannel, 0, MICROSEC_COMPARE_FORMAT);
+    actuator->setMode(timerChannel, TIMER_OUTPUT_COMPARE_PWM1, servoPin);
+    actuator->setCaptureCompare(timerChannel, 0, MICROSEC_COMPARE_FORMAT);
 }
 
 void PressureValve::open() { command = openApertureAngle; }

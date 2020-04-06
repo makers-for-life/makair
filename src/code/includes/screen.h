@@ -59,7 +59,4 @@ void displayCurrentInformation(int peakPressure, int plateauPressure, int peep, 
  * @param peepMin              Next desired Positive End Expiratory Pressure (PEEP) [mmH2O]
  * @param cyclesPerMinute      Next desired number of cycles per minute
  */
-void displaySettings(int peakPressureMax,
-                     int plateauPressureMax,
-                     int peepMin,
-                     int cyclesPerMinute);
+void displaySettings(int peakPressureMax, int plateauPressureMax, int peepMin, int cyclesPerMinute);

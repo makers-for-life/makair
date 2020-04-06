@@ -30,13 +30,13 @@
 #define PCONTROLLER_COMPUTE_PERIOD 10
 
 // Minimum & maximum execution parameters
-#define CONST_MAX_PEAK_PRESSURE 700    // arbitrary [mmH2O]
-#define CONST_MIN_PEAK_PRESSURE 100    // arbitrary [mmH2O]
+#define CONST_MAX_PEAK_PRESSURE 700     // arbitrary [mmH2O]
+#define CONST_MIN_PEAK_PRESSURE 100     // arbitrary [mmH2O]
 #define CONST_MAX_PLATEAU_PRESSURE 400  // PP MAX ARDS = 300 [mmH2O]
 #define CONST_MIN_PLATEAU_PRESSURE 100  // arbitrary [mmH2O]
-#define CONST_MAX_PEEP_PRESSURE 300      // PP MAX = 300, or PEEP < PP [mmH2O]
-#define CONST_MIN_PEEP_PRESSURE 50       // arbitrary but > 0 [mmH2O]
-#define CONST_INITIAL_ZERO_PRESSURE 0         // [mmH2O]
+#define CONST_MAX_PEEP_PRESSURE 300     // PP MAX = 300, or PEEP < PP [mmH2O]
+#define CONST_MIN_PEEP_PRESSURE 50      // arbitrary but > 0 [mmH2O]
+#define CONST_INITIAL_ZERO_PRESSURE 0   // [mmH2O]
 
 #define DEFAULT_MIN_PEEP_COMMAND 80
 #define DEFAULT_MAX_PLATEAU_COMMAND 300
@@ -148,4 +148,3 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 #define PIN_BATTERY A2
 
 ///@}
-
