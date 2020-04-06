@@ -22,19 +22,21 @@ jobs:
         arduino-cli lib install OneButton
         sed -i '/recipe.output.tmp_file={build.project_name}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
         sed -i '/recipe.output.save_file={build.project_name}.{build.variant}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
-    - name: Build prod
+    - name: Build production
       run: |
-        arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/arduino/respi-prod.cpp
+        mkdir -p src/code/output/
+        arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/code/srcs/respirator.cpp --output src/code/output/respirator-production
         mkdir -p dist/
-        VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/arduino/parameters.h)
-        cp src/arduino/respi-prod.cpp.STM32.stm32.Nucleo_64.bin "dist/respi-prod-$VERSION-$GITHUB_SHA.bin"
+        VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/code/includes/parameters.h)
+        cp src/code/output/respirator-production.bin "dist/respirator-production-$VERSION-$GITHUB_SHA.bin"
     - name: Build qualification
       run: |
-        sed -i 's/#define MODE MODE_PROD/#define MODE MODE_QUALIFICATION/' src/arduino/config.h
-        arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/arduino/respi-prod.cpp
+        mkdir -p src/code/output/
+        sed -i 's/#define MODE MODE_PROD/#define MODE MODE_QUALIFICATION/' src/code/includes/config.h
+        arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/code/srcs/qualification.cpp --output src/code/output/respirator-qualification
         mkdir -p dist/
-        VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/arduino/parameters.h)
-        cp src/arduino/respi-prod.cpp.STM32.stm32.Nucleo_64.bin "dist/respi-qualification-$VERSION-$GITHUB_SHA.bin"
+        VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/code/includes/parameters.h)
+        cp src/code/output/respirator-qualification.bin "dist/respirator-qualification-$VERSION-$GITHUB_SHA.bin"
     - name: Archive binaries
       uses: actions/upload-artifact@v1
       with:

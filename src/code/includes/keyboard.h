@@ -3,7 +3,7 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file clavier.h
+ * @file keyboard.h
  * @brief Analog buttons related functions
  *
  * This relies on the Analog Buttons library (https://github.com/rlogiacco/AnalogButtons).

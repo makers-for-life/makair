@@ -2,8 +2,8 @@
 /.vscode/
 .DS_Store
 docs/Software/
-src/arduino/respi-prod.cpp.STM32.stm32.Nucleo_64.*
-src/arduino/*.csv
-src/arduino/*.ods
-src/arduino/*.csv#
-src/arduino/*.ods#
+src/code/output/*
+src/code/*.csv
+src/code/*.ods
+src/code/*.csv#
+src/code/*.ods#

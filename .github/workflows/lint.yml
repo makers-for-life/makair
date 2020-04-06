@@ -15,7 +15,7 @@ jobs:
     - name: action-cpp-lint
       uses: CyberZHG/github-action-cpp-lint@0.0.2
       with:
-        args: "--recursive ./src/arduino/"
+        args: "--recursive ./src/code/"
 
 #   cppcheck:
 #     runs-on: ubuntu-18.04

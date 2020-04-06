@@ -3,8 +3,8 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file air_transistor.h
- * @brief Tools to control an Air Transistor's servomotor
+ * @file pressure_valve.h
+ * @brief Tools to control an Pressure Valve's servomotor
  *****************************************************************************/
 
 #pragma once
@@ -21,35 +21,34 @@
 
 // CLASS =================================================================
 
-/// Controls an Air Transistor's servomotor
-class AirTransistor {
+/// Controls an Pressure Valve's servomotor
+class PressureValve {
  public:
     /// Default constructor
-    AirTransistor();
+    PressureValve();
 
     /**
      * Parameterized constructor
      *
      * @param p_hardwareTimer       Hardware time for this servomotor
-     * @param p_timChannel          TIM channel for this servomotor
+     * @param p_timerChannel        TIM channel for this servomotor
      * @param p_servoPin            Data pin for this servomotor
      * @param p_openApertureAngle   Open aperture angle in degrees
      * @param p_closeApertureAngle  Close aperture angle in degrees
      */
-    AirTransistor(HardwareTimer* p_hardwareTimer,
+    PressureValve(HardwareTimer* p_hardwareTimer,
                   uint16_t p_timChannel,
                   uint16_t p_servoPin,
                   uint16_t p_openApertureAngle,
                   uint16_t p_closeApertureAngle);
-
     /**
      * Initialize this servomotor
      *
-     * This must be called once to be able to use this Air Transistor
+     * This must be called once to be able to use this Pressure Valve
      */
     void setup();
 
-    /// Request opening of the Air Transistor
+    /// Request opening of the Pressure Valve
     void open();
 
     /**
@@ -59,7 +58,7 @@ class AirTransistor {
      */
     void open(int32_t command);
 
-    /// Request closing of the Air Transistor
+    /// Request closing of the Pressure Valve
     void close();
 
     /**
@@ -76,7 +75,7 @@ class AirTransistor {
         }
 
         if (command != position) {
-            actuator->setCaptureCompare(timChannel, Angle2MicroSeconds(command),
+            actuator->setCaptureCompare(timerChannel, Angle2MicroSeconds(command),
                                         MICROSEC_COMPARE_FORMAT);
             position = command;
         }
@@ -104,7 +103,7 @@ class AirTransistor {
     uint16_t closeApertureAngle;
 
     /// TIM channel for this servomotor
-    uint16_t timChannel;
+    uint16_t timerChannel;
 
     /// Data pin for this servomotor
     uint16_t servoPin;
