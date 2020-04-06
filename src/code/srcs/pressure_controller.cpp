@@ -252,7 +252,7 @@ void PressureController::onPeekPressureIncrease() {
 void PressureController::updatePhase(uint16_t p_centiSec) {
   if (p_centiSec < m_centiSecPerInhalation) {
     m_phase = CyclePhases::INHALATION;
-    
+
     if (p_centiSec < (m_centiSecPerInhalation * 80 / 100)
       && m_pressure < m_maxPeakPressureCommand) {
       if (m_subPhase != CycleSubPhases::HOLD_INSPIRATION) {
@@ -266,7 +266,7 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
   } else {
     m_phase = CyclePhases::EXHALATION;
     m_consignePression = m_minPeepCommand;
-    
+
     if (m_subPhase != CycleSubPhases::HOLD_EXHALE) {
         setSubPhase(CycleSubPhases::EXHALE);
     }
@@ -415,7 +415,7 @@ int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPre
         m_blower.maxAperture()
           - (blowerCommand + 1000) * (m_blower.maxAperture() - m_blower.minAperture())
             / 2000));
-  
+
   return blowerAperture;
 }
 
@@ -444,6 +444,6 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
           m_patient.minAperture()
             + (patientCommand + 1000) * (m_patient.maxAperture() - m_patient.minAperture())
               / 2000));
-  
+
   return patientAperture;
 }
