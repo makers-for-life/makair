@@ -35,6 +35,19 @@ jobs:
         mkdir -p dist/
         VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
         cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-qualification-$VERSION-$GITHUB_SHA.bin"
+    - name: Unit Test
+      run: |
+        wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz
+        tar xf release-1.10.0.tar.gz
+        cd googletest-release-1.10.0
+        cmake .
+        cmake --build . --target install
+        mkdir build_test
+        cd build_test
+        cmake src/software/firmware/test
+        cmake --build
+        ctest
+        
     - name: Archive binaries
       uses: actions/upload-artifact@v1
       with:

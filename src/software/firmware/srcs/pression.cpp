@@ -77,7 +77,7 @@ int readPressureSensor(uint16_t centiSec) {
 int readPressureSensor(uint16_t centiSec) {
     (void) centiSec;
 #ifndef UNIT_TEST
-    return convertSensor2Pressure(analogRead(PIN_PRESSURE_SENSOR))
+    return convertSensor2Pressure(analogRead(PIN_PRESSURE_SENSOR));
 #else
     return 0;
 #endif
