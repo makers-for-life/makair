@@ -24,6 +24,8 @@
 #include "debug.h"
 #include "parameters.h"
 
+static const int32_t INVALID_ERROR_MARKER = INT32_MIN;
+
 // INITIALISATION =============================================================
 
 PressureController pController;
@@ -105,9 +107,9 @@ void PressureController::initRespiratoryCycle() {
 
     // Reset PID integrals
     blowerIntegral = 0;
-    blowerLastError = 0;
+    blowerLastError = INVALID_ERROR_MARKER;
     patientIntegral = 0;
-    patientLastError = 0;
+    patientLastError = INVALID_ERROR_MARKER;
 
     computeCentiSecParameters();
 
@@ -385,7 +387,10 @@ int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPre
     blowerIntegral = max(PID_BLOWER_INTEGRAL_MIN, min(PID_BLOWER_INTEGRAL_MAX, blowerIntegral));
 
     // Compute derivative
-    int32_t derivative = 1000000 * (error - blowerLastError) / dt;
+    int32_t derivative =
+            (blowerLastError == INVALID_ERROR_MARKER || dt == 0) ?
+            0 :
+            derivative = 1000000.0 * (error - blowerLastError) / dt;
     blowerLastError = error;
 
     int32_t blowerCommand = PID_BLOWER_KP * error + blowerIntegral
@@ -410,7 +415,10 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
     patientIntegral = max(PID_PATIENT_INTEGRAL_MIN, min(PID_PATIENT_INTEGRAL_MAX, patientIntegral));
 
     // Compute derivative
-    int32_t derivative = 1000000.0 * (error - patientLastError) / dt;
+    int32_t derivative =
+            (patientLastError == INVALID_ERROR_MARKER || dt == 0) ?
+            0 :
+            derivative = 1000000.0 * (error - patientLastError) / dt;
     patientLastError = error;
 
     int32_t patientCommand = PID_PATIENT_KP * error + patientIntegral
