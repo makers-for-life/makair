@@ -18,30 +18,36 @@
 #include "parameters.h"
 
 // FUNCTIONS ==================================================================
+
 AirTransistor::AirTransistor() {}
 
-AirTransistor::AirTransistor(uint16_t p_minApertureAngle,
-                             uint16_t p_maxApertureAngle,
-                             HardwareTimer* p_hardwareTimer,
+AirTransistor::AirTransistor(HardwareTimer* p_hardwareTimer,
                              uint16_t p_timChannel,
-                             uint16_t p_servoPin)
-    : minApertureAngle(p_minApertureAngle),
-      maxApertureAngle(p_maxApertureAngle),
-      actuator(p_hardwareTimer),
-      timChannel(p_timChannel),
-      servoPin(p_servoPin) {}
+                             uint16_t p_servoPin,
+                             uint16_t p_openApertureAngle,
+                             uint16_t p_closeApertureAngle) {
+    actuator = p_hardwareTimer;
+    timChannel = p_timChannel;
+    servoPin = p_servoPin;
+    openApertureAngle = p_openApertureAngle;
+    closeApertureAngle = p_closeApertureAngle;
+    // TODO: use min() and max() instead of a condition
+    if (p_openApertureAngle > p_closeApertureAngle) {
+        minApertureAngle = p_closeApertureAngle;
+        maxApertureAngle = p_openApertureAngle;
+    } else {
+        maxApertureAngle = p_closeApertureAngle;
+        minApertureAngle = p_openApertureAngle;
+    }
+}
 
 void AirTransistor::setup() {
     actuator->setMode(timChannel, TIMER_OUTPUT_COMPARE_PWM1, servoPin);
     actuator->setCaptureCompare(timChannel, 0, MICROSEC_COMPARE_FORMAT);
 }
 
-void AirTransistor::ouvrir() { command = VALVE_OUVERT; }
+void AirTransistor::open() { command = openApertureAngle; }
 
-void AirTransistor::ouvrirIntermediaire() { command = VALVE_DEMI_OUVERT; }
+void AirTransistor::close() { command = closeApertureAngle; }
 
-void AirTransistor::fermer() { command = VALVE_FERME; }
-
-void AirTransistor::reduireOuverture() { command = position + 2; }
-
-void AirTransistor::augmenterOuverture() { command = position - 2; }
+void AirTransistor::open(int32_t p_command) { command = p_command; }

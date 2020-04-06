@@ -135,6 +135,13 @@ class PressureController {
     /// Get the patient's Air Transistor instance
     inline const AirTransistor& patient() const { return m_patient; }
 
+    /**
+     * Input the real duration since the last pressure controller computation
+     *
+     * @param p_dt Duration in microsecond
+     */
+    void updateDt(int32_t p_dt);
+
  private:
     /**
      * Update the cycle phase
@@ -211,6 +218,24 @@ class PressureController {
 
     /// Make a transition toward another subphase
     void setSubPhase(CycleSubPhases p_subPhase);
+
+    /**
+     * PID to controller the blower valve during some specific steps of the cycle
+     *
+     * @param targetPressure The pressure we want (in mmH2O)
+     * @param currentPressure The pressure measured by the sensor (in mmH2O)
+     * @param dt Time since the last computation (in microsecond)
+     */
+    int32_t pidBlower(int32_t targetPressure, int32_t currentPressure, int32_t dt);
+
+    /**
+     * PID to controller the patient valve during some specific steps of the cycle
+     *
+     * @param targetPressure The pressure we want (in mmH2O)
+     * @param currentPressure The pressure measured by the sensor (in mmH2O)
+     * @param dt Time since the last computation (in microsecond)
+     */
+    int32_t pidPatient(int32_t targetPressure, int32_t currentPressure, int32_t dt);
 
  private:
     /// Number of cycles per minute desired by the operator
@@ -300,10 +325,42 @@ class PressureController {
     /// Patient's transistor
     AirTransistor m_patient;
 
-    uint16_t m_previousPhase;
-
     /// Number of passed cycles
     uint32_t m_cycleNb;
+
+    /// Time since the last computation (in microsecond)
+    int32_t m_dt;
+
+    /// Requested pressure at a given point in time
+    int32_t m_consignePression;
+
+    /**
+     * Integral gain of the blower PID
+     *
+     * @note This must be persisted between computations
+     */
+    int32_t blowerIntegral;
+
+    /**
+     * Error of the last computation of the blower PID
+     *
+     * @note This must be persisted between computation in order to compute derivative gain
+     */
+    int32_t blowerLastError;
+
+    /**
+     * Integral gain of the patient PID
+     *
+     * @note This must be persisted between computations
+     */
+    int32_t patientIntegral;
+
+    /**
+     * Error of the last computation of the patient PID
+     *
+     * @note This must be persisted between computation in order to compute derivative gain
+     */
+    int32_t patientLastError;
 };
 
 // INITIALISATION =============================================================

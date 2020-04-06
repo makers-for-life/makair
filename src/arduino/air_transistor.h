@@ -30,17 +30,17 @@ class AirTransistor {
     /**
      * Parameterized constructor
      *
-     * @param p_minApertureAngle  Minimum servomotor aperture angle in degrees
-     * @param p_maxApertureAngle  Maximum servomotor aperture angle in degrees
-     * @param hardwareTimer       Hardware time for this servomotor
-     * @param p_timChannel        TIM channel for this servomotor
-     * @param p_servoPin          Data pin for this servomotor
+     * @param p_hardwareTimer       Hardware time for this servomotor
+     * @param p_timChannel          TIM channel for this servomotor
+     * @param p_servoPin            Data pin for this servomotor
+     * @param p_openApertureAngle   Open aperture angle in degrees
+     * @param p_closeApertureAngle  Close aperture angle in degrees
      */
-    AirTransistor(uint16_t p_minApertureAngle,
-                  uint16_t p_maxApertureAngle,
-                  HardwareTimer* hardwareTimer,
+    AirTransistor(HardwareTimer* p_hardwareTimer,
                   uint16_t p_timChannel,
-                  uint16_t p_servoPin);
+                  uint16_t p_servoPin,
+                  uint16_t p_openApertureAngle,
+                  uint16_t p_closeApertureAngle);
 
     /**
      * Initialize this servomotor
@@ -50,19 +50,17 @@ class AirTransistor {
     void setup();
 
     /// Request opening of the Air Transistor
-    void ouvrir();
+    void open();
 
-    /// Request half-opening of the Air Transistor
-    void ouvrirIntermediaire();
+    /**
+     * Request opening of the Air Transistor with a given angle
+     *
+     * @param command The angle in degree
+     */
+    void open(int32_t command);
 
     /// Request closing of the Air Transistor
-    void fermer();
-
-    /// Request reducing the opening of the Air Transistor
-    void reduireOuverture();
-
-    /// Request increasing the opening of the Air Transistor
-    void augmenterOuverture();
+    void close();
 
     /**
      * Command the servomotor to go to the requested aperture
@@ -84,6 +82,10 @@ class AirTransistor {
         }
     }
 
+    inline int32_t minAperture() { return minApertureAngle; }
+
+    inline int32_t maxAperture() { return maxApertureAngle; }
+
     /// Value of the requested aperture
     uint16_t command;
 
@@ -92,10 +94,14 @@ class AirTransistor {
 
  private:
     /// Minimum servomotor aperture angle in degrees
-    uint16_t minApertureAngle;
+    int32_t minApertureAngle;
 
     /// Maximum servomotor aperture angle in degrees
-    uint16_t maxApertureAngle;
+    int32_t maxApertureAngle;
+
+    uint16_t openApertureAngle;
+
+    uint16_t closeApertureAngle;
 
     /// TIM channel for this servomotor
     uint16_t timChannel;
