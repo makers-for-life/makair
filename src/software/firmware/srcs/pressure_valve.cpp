@@ -14,6 +14,9 @@
 // Associated header
 #include "../includes/pressure_valve.h"
 
+// External libraries
+#include <algorithm>
+
 // Internal libraries
 #include "../includes/parameters.h"
 
@@ -30,14 +33,8 @@ PressureValve::PressureValve(HardwareTimer* p_hardwareTimer,
     servoPin = p_servoPin;
     openApertureAngle = p_openApertureAngle;
     closeApertureAngle = p_closeApertureAngle;
-    // TODO: use min() and max() instead of a condition
-    if (p_openApertureAngle > p_closeApertureAngle) {
-        minApertureAngle = p_closeApertureAngle;
-        maxApertureAngle = p_openApertureAngle;
-    } else {
-        maxApertureAngle = p_closeApertureAngle;
-        minApertureAngle = p_openApertureAngle;
-    }
+    minApertureAngle = min(p_closeApertureAngle, p_openApertureAngle);
+    maxApertureAngle = max(p_closeApertureAngle, p_openApertureAngle);
     command = p_closeApertureAngle;
     position = -1;
 }
