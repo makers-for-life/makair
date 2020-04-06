@@ -3,6 +3,7 @@
 .DS_Store
 docs/Software/
 src/code/output/*
+!src/code/output/.gitkeep
 src/code/*.csv
 src/code/*.ods
 src/code/*.csv#
