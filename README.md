@@ -43,7 +43,7 @@ Mechanically-speaking, the overall system is composed of sub-components that can
 - **Valve system** (called "Pressure Valve");
 - **Oxygen Mixer valve** (called "Oxygen Mixer");
 - **Air filter casing (patient variant)** (called "Patient Filter Box");
-- **Air filter casing (machine variant)** (called "Machine Filter Box"; 2 directions);
+- **Air filter casing (machine variant)** (called "Machine Filter Box"; intake + outtake);
 - **Connectors** (called "Pneumatic Connectors");
 
 All those components are fitted in box (ie. a container) that we designed:
