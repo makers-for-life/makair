@@ -39,10 +39,10 @@ static OneButton buttonStop(PIN_BTN_STOP, false, false);
  */
 
 /// Handler of the button to increase the crete pressure
-void onPeekPressureIncrease() { pController.onPeekPressureIncrease(); }
+void onPeakPressureIncrease() { pController.onPeakPressureIncrease(); }
 
 /// Handler of the button to decrease the crete pressure
-void onPeekPressureDecrease() { pController.onPeekPressureDecrease(); }
+void onPeakPressureDecrease() { pController.onPeakPressureDecrease(); }
 
 /// Handler of the button to increase the plateau pressure
 void onPlateauPressureIncrease() { pController.onPlateauPressureIncrease(); }
@@ -75,8 +75,8 @@ void onStop() {}
  * @name Bindings between analog levels and handlers
  */
 ///@{
-Button buttonPeekPressureIncrease(VOLTAGE_BUTTON_PEAK_PRESSURE_INCREASE, &onPeekPressureIncrease);
-Button buttonPeekPressureDecrease(VOLTAGE_BUTTON_PEAK_PRESSURE_DECREASE, &onPeekPressureDecrease);
+Button buttonPeakPressureIncrease(VOLTAGE_BUTTON_PEAK_PRESSURE_INCREASE, &onPeakPressureIncrease);
+Button buttonPeakPressureDecrease(VOLTAGE_BUTTON_PEAK_PRESSURE_DECREASE, &onPeakPressureDecrease);
 Button buttonPlateauPressureIncrease(VOLTAGE_BUTTON_PLATEAU_PRESSURE_INCREASE,
                                      &onPlateauPressureIncrease);
 Button buttonPlateauPressureDecrease(VOLTAGE_BUTTON_PLATEAU_PRESSURE_DECREASE,
@@ -88,8 +88,8 @@ Button buttonCycleDecrease(VOLTAGE_BUTTON_CYCLE_DECREASE, &onCycleDecrease);
 ///@}
 
 void initKeyboard() {
-    analogButtons.add(buttonPeekPressureIncrease);
-    analogButtons.add(buttonPeekPressureDecrease);
+    analogButtons.add(buttonPeakPressureIncrease);
+    analogButtons.add(buttonPeakPressureDecrease);
     analogButtons.add(buttonPlateauPressureIncrease);
     analogButtons.add(buttonPlateauPressureDecrease);
     analogButtons.add(buttonPeepPressureIncrease);

@@ -227,8 +227,8 @@ void PressureController::onPlateauPressureIncrease() {
     }
 }
 
-void PressureController::onPeekPressureDecrease() {
-    DBG_DO(Serial.println("Peek Pressure --");)
+void PressureController::onPeakPressureDecrease() {
+    DBG_DO(Serial.println("Peak Pressure --");)
 
     m_maxPeakPressureCommand = m_maxPeakPressureCommand - 10;
 
@@ -237,8 +237,8 @@ void PressureController::onPeekPressureDecrease() {
     }
 }
 
-void PressureController::onPeekPressureIncrease() {
-    DBG_DO(Serial.println("Peek Pressure ++");)
+void PressureController::onPeakPressureIncrease() {
+    DBG_DO(Serial.println("Peak Pressure ++");)
 
     m_maxPeakPressureCommand = m_maxPeakPressureCommand + 10;
 

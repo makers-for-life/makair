@@ -80,10 +80,10 @@ class PressureController {
     void onPlateauPressureIncrease();
 
     /// Decrease the desired crête pressure
-    void onPeekPressureDecrease();
+    void onPeakPressureDecrease();
 
     /// Increase the desired crête pressure
-    void onPeekPressureIncrease();
+    void onPeakPressureIncrease();
 
     /// Get the desired number of cycles per minute
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
