@@ -96,7 +96,7 @@ _MakAir and Makers For Life should not be held resposible — at any time, for h
 
 | Runtime | Version | Major Changes | Ready? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
-| [Respiratory Firmware](./src/software/firmware) | V1.1.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou) + Gabriel Moneyron
+| [Respiratory Firmware](./src/software/firmware) | V1.1.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + Gabriel Moneyron
 | [Control Unit](./src/software/control) | V0.1.x | Project started | ❌ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce)
 
 # Schemes
