@@ -136,7 +136,7 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 * Industry relations: [Quentin Adam](http://waxzce.org/)
 * Engineering contacts: [Valerian Saliou](https://valeriansaliou.name/), [Eliott Vincent](https://eliottvincent.com/)
 
-# Sponsors
+# Sponsors & Contributors
 
 This project would not have been possible without the support of those companies and organizations, which have put human, real estate and/or financial resources at work on the project:
 
@@ -145,6 +145,8 @@ This project would not have been possible without the support of those companies
 * [Cooprint](https://cooprint.fr/) (CAD)
 * [Tronico](https://www.tronico-alcen.com/) (PCB design)
 * [Le Palace Nantes](https://lepalace.work/)
+
+Adding to that, 200+ individual members of the project who contributed to technical, legal, medical and press subjects (and more).
 
 # Renders
 
