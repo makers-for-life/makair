@@ -101,6 +101,11 @@ void setup() {
                                      servoBlower, servoPatient);
     pController.setup();
 
+    // Prepare LEDs
+    pinMode(PIN_LED_RED, OUTPUT);
+    pinMode(PIN_LED_YELLOW, OUTPUT);
+    pinMode(PIN_LED_GREEN, OUTPUT);
+
     initKeyboard();
 
     Alarm_Init();
