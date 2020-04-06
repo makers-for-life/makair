@@ -90,7 +90,7 @@ _MakAir and Makers For Life should not be held resposible — at any time, for h
 
 | Board | Version | Major Changes | Ready? | Schematics | Contributors |
 | ----- | ------- | ------------- | ------ | ---------- | ------------ |
-| [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | [view schematic](./src/electronics/motherboard/schematics/V1/Electrical%20Schematics.pdf) | [Tronico (company)](https://www.tronico-alcen.com/) + Cherine Kamel + [Pierre Papin](https://github.com/pi-r-p)
+| [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | [view schematic](./src/electronics/motherboard/schematics/V1/Electrical%20Schematics.pdf) | Vincent Le Cunff + Cherine Kamel + [Pierre Papin](https://github.com/pi-r-p)
 
 ## Software
 
