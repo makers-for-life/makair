@@ -1,5 +1,5 @@
 # Adapters
 
-| Version | Last Changelog | Ready? | Online CAD Models |
-| ------- | -------------- | ------ | ----------------- |
+| Version | Last Changelog | Ready? | Live CAD Models |
+| ------- | -------------- | ------ | --------------- |
 | N/A | Add a test lung adapter | ✅ | none
