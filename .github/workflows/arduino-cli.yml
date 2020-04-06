@@ -41,10 +41,11 @@ jobs:
         tar xf release-1.10.0.tar.gz
         cd googletest-release-1.10.0
         cmake .
-        cmake --build . --target install
+        sudo cmake --build . --target install
+        cd
         mkdir build_test
         cd build_test
-        cmake src/software/firmware/test
+        cmake ../src/software/firmware/test
         cmake --build
         ctest
         
