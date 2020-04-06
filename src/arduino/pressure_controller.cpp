@@ -34,9 +34,12 @@ PressureController pController;
 
 PressureController::PressureController()
     : m_cyclesPerMinuteCommand(INITIAL_CYCLE_NB),
-      m_minPeepCommand(DEFAULT_MIN_PEEP_COMMAND),                   // [mmH20]
-      m_maxPlateauPressureCommand(DEFAULT_MAX_PLATEAU_COMMAND),     // [mmH20]
+      m_vigilance(false),
       m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),  // [mmH20]
+      m_maxPlateauPressureCommand(DEFAULT_MAX_PLATEAU_COMMAND),     // [mmH20]
+      m_minPeepCommand(DEFAULT_MIN_PEEP_COMMAND),                   // [mmH20]
+      m_franchissementSeuilHoldExpiDetectionTick(0),
+      m_franchissementSeuilHoldExpiDetectionTickSupprime(0),
       m_apertureCommand(ANGLE_OUVERTURE_MAXI),
       m_cyclesPerMinute(INITIAL_CYCLE_NB),
       m_aperture(ANGLE_OUVERTURE_MAXI),
@@ -47,9 +50,7 @@ PressureController::PressureController()
       m_peakPressure(INITIAL_ZERO_PRESSURE),
       m_plateauPressure(INITIAL_ZERO_PRESSURE),
       m_peep(INITIAL_ZERO_PRESSURE),
-      m_phase(CyclePhases::INHALATION),
-      m_franchissementSeuilHoldExpiDetectionTick(0),
-      m_franchissementSeuilHoldExpiDetectionTickSupprime(0) {
+      m_phase(CyclePhases::INHALATION) {
     computeCentiSecParameters();
 }
 
@@ -57,17 +58,21 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        int16_t p_minPeepCommand,
                                        int16_t p_maxPlateauPressure,
                                        int16_t p_aperture,
-                                       int16_t p_maxPeakPressureCommand,
+                                       int16_t p_maxPeakPressure,
                                        AirTransistor p_blower,
                                        AirTransistor p_patient)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
-      m_minPeepCommand(p_minPeepCommand),
+
+      m_vigilance(false),
+      m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),
       m_maxPlateauPressureCommand(p_maxPlateauPressure),
-      m_maxPeakPressureCommand(p_maxPeakPressureCommand),
+      m_minPeepCommand(p_minPeepCommand),
+      m_franchissementSeuilHoldExpiDetectionTick(0),
+      m_franchissementSeuilHoldExpiDetectionTickSupprime(0),
       m_apertureCommand(p_aperture),
       m_cyclesPerMinute(p_cyclesPerMinute),
       m_aperture(p_aperture),
-      m_maxPeakPressure(p_maxPeakPressureCommand),
+      m_maxPeakPressure(p_maxPeakPressure),
       m_maxPlateauPressure(p_maxPlateauPressure),
       m_minPeep(p_minPeepCommand),  // TODO revoir la valeur de démarage
       m_pressure(INITIAL_ZERO_PRESSURE),
@@ -76,9 +81,7 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_peep(INITIAL_ZERO_PRESSURE),
       m_phase(CyclePhases::INHALATION),
       m_blower(p_blower),
-      m_patient(p_patient),
-      m_franchissementSeuilHoldExpiDetectionTick(0),
-      m_franchissementSeuilHoldExpiDetectionTickSupprime(0) {
+      m_patient(p_patient) {
     computeCentiSecParameters();
 }
 
@@ -87,9 +90,8 @@ void PressureController::setup() {
     DBG_DO(Serial.println("mise en secu initiale");)
 
     m_blower.close();
-    m_blower.position = -1;
     m_patient.close();
-    m_patient.position = -1;
+
     m_blower.execute();
     m_patient.execute();
 

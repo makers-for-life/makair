@@ -133,10 +133,11 @@ void loop() {
     // START THE RESPIRATORY CYCLE
     /********************************************/
     uint16_t centiSec = 0;
+    uint32_t lastpControllerComputeDate = 0uL;
 
     while (centiSec < pController.centiSecPerCycle()) {
         pController.updatePressure(readPressureSensor(centiSec));
-        static uint32_t lastpControllerComputeDate = 0ul;
+
         uint32_t currentDate = millis();
         if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD) {
             lastpControllerComputeDate = currentDate;

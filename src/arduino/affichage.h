@@ -39,7 +39,7 @@ void startScreen();
 void resetScreen();
 
 /// Display the current step of the breathing
-void displaySubPhase(CycleSubPhases phase);
+void displaySubPhase(CycleSubPhases subPhase);
 
 /**
  * Display relevant values from the ongoing cycle
@@ -49,7 +49,10 @@ void displaySubPhase(CycleSubPhases phase);
  * @param peep             The Positive End Expiratory Pressure (PEEP) [mmH2O]
  * @param pressure         The current pressure [mmH2O]
  */
-void displayInstantInfo(int peakPressure, int plateauPressure, int peep, int pressure);
+void displayInstantInfo(uint16_t peakPressure,
+                        uint16_t plateauPressure,
+                        uint16_t peep,
+                        uint16_t pressure);
 
 /**
  * Display the current settings
@@ -59,7 +62,7 @@ void displayInstantInfo(int peakPressure, int plateauPressure, int peep, int pre
  * @param peepMin              Next desired Positive End Expiratory Pressure (PEEP) [mmH2O]
  * @param cyclesPerMinute      Next desired number of cycles per minute
  */
-void displaySettings(int peakPressureMax,
-                     int plateauPressureMax,
-                     int peepMin,
-                     int cyclesPerMinute);
+void displaySettings(uint16_t peakPressureMax,
+                     uint16_t plateauPressureMax,
+                     uint16_t peepMin,
+                     uint16_t cyclesPerMinute);
