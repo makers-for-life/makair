@@ -115,9 +115,6 @@ void PressureController::initRespiratoryCycle() {
     m_cyclesPerMinute = m_cyclesPerMinuteCommand;
     m_minPeep = m_minPeepCommand;
     m_maxPlateauPressure = m_maxPlateauPressureCommand;
-    /*
-    DBG_AFFICHE_CONSIGNES(m_cyclesPerMinute, m_minPeep, m_maxPlateauPressure)
-    */
 
     // Reset Tick Alarms to zero
     m_triggerHoldExpiDetectionTick = 0;
