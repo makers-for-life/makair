@@ -22,6 +22,7 @@
 
 // Internal
 #include "../includes/alarm.h"
+#include "../includes/battery.h"
 #include "../includes/common.h"
 #include "../includes/debug.h"
 #include "../includes/keyboard.h"
@@ -66,6 +67,7 @@ void setup() {
     startScreen();
 
     pinMode(PIN_PRESSURE_SENSOR, INPUT);
+    pinMode(PIN_BATTERY, INPUT);
     pinMode(PIN_ALARM, OUTPUT);
 
     // Timer for servoBlower
@@ -156,6 +158,9 @@ void loop() {
 
             // Check if some buttons have been pushed
             keyboardLoop();
+
+            // Check if battery state has changed
+            batteryLoop();
 
             // Display relevant information during the cycle
             if (centiSec % LCD_UPDATE_PERIOD == 0) {
