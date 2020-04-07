@@ -81,8 +81,8 @@ _MakAir and Makers For Life should not be held resposible — at any time, for h
 | [Pressure Valve](./src/mechanics/parts/pressure-valve) | V6 | General improvements | ✅ | [view model](https://a360.co/2xUBD1e) | [Clement Niclot](https://github.com/clementniclot)
 | [Oxygen Mixer](./src/mechanics/parts/oxygen-mixer) | V5 | New compact design with integration plate | ✅ | [view model](https://a360.co/2Rgpefc) | [Yohann Nédélec](https://github.com/Melkaz) + Steven Daix
 | [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2X5VvJq) | Martial Medjber + [Eliott Vincent](https://github.com/eliottvincent)
-| [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2wZids4) | [Valerian Saliou](https://github.com/valeriansaliou)
-| [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2JyLaxG) | [Valerian Saliou](https://github.com/valeriansaliou)
+| [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | none | [Valerian Saliou](https://github.com/valeriansaliou)
+| [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | none | [Valerian Saliou](https://github.com/valeriansaliou)
 | [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V2 | Updated version | ✅ | none | Gabriel Moneyron
 | [Container](./src/mechanics/container) | V2 | Update mensurations | ✅ | [view model](https://a360.co/3dVmJbR) | Arthur Dagard
 | [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V3 | Comply to ISO 5356-1 | ✅ | none | Gabriel Moneyron
@@ -189,8 +189,8 @@ Adding to that, 200+ individual members of the project who contributed to techni
 ### The "Machine Filter Box" (Both Directions)
 
 <p>
-  <img alt="Machine Filter Box Render" src="./src/mechanics/parts/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Render%201).png" height="320">
-  <img alt="Machine Filter Box Print" src="./src/mechanics/parts/machine-filter-box/fdm/schemes/V1/Filter%20Box%20(Print%201).jpg" height="320">
+  <img alt="Machine Filter Box Render" src="./src/mechanics/parts/machine-filter-box/fdm/schemes/Archives/V1/Filter%20Box%20(Render%201).png" height="320">
+  <img alt="Machine Filter Box Print" src="./src/mechanics/parts/machine-filter-box/fdm/schemes/Archives/V1/Filter%20Box%20(Print%201).jpg" height="320">
 </p>
 
 ### The "Patient Filter Box"
