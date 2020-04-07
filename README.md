@@ -109,11 +109,13 @@ The motherboard electronic schematics and wiring diagrams [can be found there](.
 
 If you need help on this step, you may [open an issue](https://github.com/covid-response-projects/covid-respirator/issues/new).
 
-🚧 (work in progress)
-
 ## 3️⃣ Flash the firmware
 
-🚧 (work in progress)
+Now that both mechanical parts and electronics are ready, you may flash the latest MakAir firmware binary on your firmware controller board (Arduino, ST Nucleo, or other).
+
+Firmware release binaries are available for download on our [releases page](https://github.com/covid-response-projects/covid-respirator/releases).
+
+If you need help on this step, you may [open an issue](https://github.com/covid-response-projects/covid-respirator/issues/new).
 
 # Components
 
