@@ -17,8 +17,7 @@
 #define V_SUPPLY 5.08
 
 /// Old converting function using floats
-int16_t convertSensor2PressureFloat(uint16_t sensorValue)
-{
+int16_t convertSensor2PressureFloat(uint16_t sensorValue) {
     static float filteredVout = 0;
     double rawVout =  sensorValue * 3.3 / 1024.0;
     filteredVout = filteredVout + (rawVout - filteredVout) * 0.2;
