@@ -66,12 +66,12 @@ void updateBatteryState() {
         // TODO: Run an alarm?
         isRunningOnBattery = true;
 
-        DBG_DO(Serial.println("Running on the battery"))
+        DBG_DO(Serial.println("Running on the battery");)
     } else if (batteryMeanVoltage > DEFAULT_BATTERY_VOLTAGE && isRunningOnBattery == true) {
         // We are not running on the AC
         isRunningOnBattery = false;
 
-        DBG_DO(Serial.println("Running on the AC"))
+        DBG_DO(Serial.println("Running on the AC");)
     }
 }
 
