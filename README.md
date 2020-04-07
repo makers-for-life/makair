@@ -101,7 +101,7 @@ _Please ensure that you cut your acrylic panels using the same sizes than stated
 
 ## 2️⃣ Setup the electronics
 
-Electronics are comprised of 2 parts: the firmware controller board (typically, an Arduino), and the "raw" PCB electronics (LCD, interface buttons, alarm beeper, etc.).
+Electronics are comprised of two parts: the firmware controller board (typically, an Arduino), and the "raw" PCB electronics (LCD, interface buttons, alarm beeper, etc.). Those parts make up the motherboard, on the top of which a rigid panel is mounted, and user instructions are printed (eg. control button bindings).
 
 ### 1. Motherboard
 
