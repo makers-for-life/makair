@@ -21,6 +21,7 @@
 #include "../includes/parameters.h"
 
 // FUNCTIONS ==================================================================
+PressureValve::PressureValve() {}
 
 PressureValve::PressureValve(HardwareTimer* p_hardwareTimer,
                              uint16_t p_timerChannel,

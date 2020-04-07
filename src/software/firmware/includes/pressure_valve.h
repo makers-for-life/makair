@@ -24,6 +24,8 @@
 /// Controls an Pressure Valve's servomotor
 class PressureValve {
  public:
+    /// Default constructor
+    PressureValve();
 
     /**
      * Parameterized constructor
