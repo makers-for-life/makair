@@ -99,4 +99,8 @@ int16_t readPressureSensor(uint16_t centiSec) {
 #endif
 }
 
+void resetFilteredRawPressure() {
+    filteredRawPressure = 0;
+}
+
 #endif

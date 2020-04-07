@@ -8,6 +8,8 @@
  */
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
 #include <vector>
 #include <iostream>
 #include "../includes/pression.h"
@@ -41,11 +43,21 @@ int16_t convertSensor2PressureFloat(uint16_t sensorValue) {
  */
 class PressionTest : public ::testing::Test {
  protected:
-    PressionTest(){}
+    PressionTest() {}
+
+    virtual void SetUp() {
+        resetFilteredRawPressure();
+    }
+
+    std::vector<uint16_t> input = {0, 100, 1000, 5000, 8000, 16000, 24000, 65535};
 };
 
-TEST_F(PressionTest, testConvertSensor2Pressure) {
-    std::vector<uint16_t> input = {0, 100, 1000, 5000, 8000, 16000, 24000, 65535};
+#define NEAR_EQUAL_DIFF 2
+/**
+ * Test convertSensor2Pressure with comparison with old floating point function
+ * 
+ */
+TEST_F(PressionTest, testConvertSensor2PressureCompWithFloat) {
     std::vector<uint16_t> outputTruth;
     std::vector<uint16_t> output;
 
@@ -57,6 +69,23 @@ TEST_F(PressionTest, testConvertSensor2Pressure) {
     }
 
     for (int i = 0; i < output.size(); i++) {
-        ASSERT_EQ(outputTruth[i], output[i]);
+        ASSERT_LE(std::abs(outputTruth[i] - output[i]), 2);
     }
+}
+
+/**
+ * Test convertSensor2Pressure with comparison against hard coded values
+ * 
+ */
+TEST_F(PressionTest, testConvertSensor2Pressure) {
+    std::vector<uint16_t> outputTruth = {0, 0, 144, 984, 2182, 4545, 7839, 17762};
+    std::vector<uint16_t> output;
+
+    for (int i = 0; i < input.size(); i++) {
+        output.push_back(convertSensor2Pressure(input[i]));
+
+        std::cout <<  output.back() << std::endl;
+    }
+
+    ASSERT_THAT(output, testing::ElementsAreArray(outputTruth));
 }
