@@ -70,7 +70,7 @@ _MakAir and Makers For Life should not be held resposible — at any time, for h
 
 This section aims at introducing you on how to manufacture your own MakAir — _the 3D-printed way_. In other words, we will explain there how to build a DIY MakAir using on-the-shelf parts and 3D printers.
 
-## 1️⃣ — Print all the parts
+## 1️⃣ Print all the parts
 
 In order to 3D-print your MakAir, please first ensure you have access to a [SLS](https://en.wikipedia.org/wiki/Selective_laser_sintering) 3D printer at best (eg. [HP Multi Jet Fusion](https://www8.hp.com/us/en/printers/3d-printers/products/multi-jet-technology.html)), or otherwise a [SLA](https://en.wikipedia.org/wiki/Stereolithography) printer (eg. [Formlabs Form 3](https://formlabs.com/3d-printers/form-3/)). If you want to use a [FDM](https://en.wikipedia.org/wiki/Fused_filament_fabrication) printer (eg. [MakerBot Method](https://www.makerbot.com/3d-printers/method/)), please note that some precise parts have been optimized for SLA or SLS printing. Some parts may not print well using FDM printers, even on decent hardware.
 
@@ -78,15 +78,28 @@ In order to 3D-print your MakAir, please first ensure you have access to a [SLS]
 
 You can find a list of all parts that should be 3D-printed, as well as the number of parts that should be printed for each one (pick the last active version for each part):
 
-- 1 x **Blower** — Print [all STL parts](./src/mechanics/parts/blower/fdm/stl) using the same printer (SLA or SLS; FDM discouraged);
+- 1 x **Blower** — Print [all STL parts](./src/mechanics/parts/blower/fdm/stl) using the same printer (SLA or SLS; FDM discouraged; 50 microns minimum);
+- 2 x **Pressure Valve** — Print [all STL parts](./src/mechanics/parts/pressure-valve/fdm/stl) using the same printer (SLA, SLS or FDM; 200 microns minimum);
+- 1 x **Oxygen Mixer** — Print the [STL part](./src/mechanics/parts/oxygen-mixer/fdm/stl) (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x TODO — air filter patient
+- 1 x TODO — air filter machine intake
+- 1 x TODO — air filter machine outtake
+- 1 x TODO — pneumatic connectors 1
+- 1 x TODO — pneumatic connectors 2
+- 1 x TODO — pneumatic connectors 3
+- 1 x TODO — pneumatic connectors 4
 
-If you are using your own proprietary blower — in addition to the parts above — please adjust the [Blower Holder](./src/mechanics/parts/blower-holder) CAD model and print it as well.
+If you are using your own proprietary blower — in addition to the parts above — please adjust the [Blower Holder](./src/mechanics/parts/blower-holder) CAD model and print it as well (this one prints well using a FDM printer at worst).
 
-## 2️⃣ — Setup the electronics
+Now that you got all parts printed, you may assemble them in the MakAir container box. We recommend that you build the container using laser-cut acrylic panels. You may find the container CAD model for [Fusion 360](./src/mechanics/container/molding/fusion) or as a [STEP file](./src/mechanics/container/molding/step).
+
+_Please ensure that you cut your acrylic panels using the same sizes than stated on our models; as those sizes are optimized to contain all required parts and electronics in the minimum amount of space._
+
+## 2️⃣ Setup the electronics
 
 🚧 (work in progress)
 
-## 3️⃣ — Flash the firmware
+## 3️⃣ Flash the firmware
 
 🚧 (work in progress)
 
