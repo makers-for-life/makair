@@ -22,6 +22,7 @@
 #include "../includes/config.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
+#include "../includes/pression.h"
 #include "../includes/pressure_valve.h"
 
 static const int32_t INVALID_ERROR_MARKER = INT32_MIN;
@@ -445,4 +446,34 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
                                        / (2 * targetPressure)));
 
     return patientAperture;
+}
+
+void PressureController::test() {
+    m_blower.open(0);
+    m_blower.execute();
+
+    delay(6000);
+
+    int pressure = 0;
+    for (int n = 0; n <= 50; n++) {
+        pressure += readPressureSensor(0);
+    }
+
+    for (int i = 0; i <= 125; i += 2) {
+        Serial.print(i);
+        Serial.print(";");
+
+        m_blower.open(i);
+        m_blower.execute();
+
+        delay(2000);
+
+        pressure = 0;
+
+        for (int n = 0; n <= 50; n++) {
+            pressure += readPressureSensor(0);
+        }
+
+        Serial.println(pressure / 50);
+    }
 }

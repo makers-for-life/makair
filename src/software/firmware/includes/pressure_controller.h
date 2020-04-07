@@ -45,6 +45,9 @@ class PressureController {
     /// Initialize actuators
     void setup();
 
+    /// Test
+    void test();
+
     /// Begin a respiratory cycle
     void initRespiratoryCycle();
 
