@@ -108,6 +108,9 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 /// Period between screen updates in hundredth of second
 #define LCD_UPDATE_PERIOD 20u
 
+/// Period between screen resets in minutes
+#define LCD_RESET_PERIOD 5
+
 ///@}
 
 /**
@@ -136,7 +139,7 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 ///@{
 
 #define PIN_PRESSURE_SENSOR A1
-#define PIN_ALARM D13
+#define PIN_BUZZER D13
 #define PIN_LED_RED PC4
 #define PIN_LED_GREEN PB13
 #define PIN_LED_YELLOW PB14

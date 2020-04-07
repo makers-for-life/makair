@@ -3,8 +3,8 @@
 */
 /******************************************************************************
  * @author Makers For Life
- * @file alarm.cpp
- * @brief Alarm related functions
+ * @file buzzer.cpp
+ * @brief Buzzer related functions
  *****************************************************************************/
 
 #pragma once
@@ -16,7 +16,7 @@
 
 /// Internals
 
-#include "../includes/alarm.h"
+#include "../includes/buzzer.h"
 #include "../includes/parameters.h"
 
 // PROGRAM =====================================================================
@@ -38,21 +38,21 @@
 #define PAUSE_1S (1 * 1000 * TIMER_TICK_PER_MS)
 ///@}
 
-/// Yellow alarm pattern size
-#define ALARM_YELLOW_SIZE 8
+/// Medium buzzer pattern size
+#define BUZZER_MEDIUM_SIZE 8
 
-/// Yellow alarm pattern definition, composed of multiple couple of states (Actif/Inactif) and
+/// Medium buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
 /// duration (miliseconds)
-const uint32_t Alarm_Yellow[ALARM_YELLOW_SIZE] = {
+const uint32_t Buzzer_Medium[BUZZER_MEDIUM_SIZE] = {
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BEEEEP_PAUSE,
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PAUSE_20S};
 
-/// Red alarm pattern size
-#define ALARM_RED_SIZE 32
+/// Long buzzer pattern size
+#define BUZZER_LONG_SIZE 32
 
-/// Red alarm pattern definition, composed of multiple couple of states (Actif/Inactif) and duration
-/// (miliseconds)
-const uint32_t Alarm_Red[ALARM_RED_SIZE] = {
+/// Long buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
+/// duration (miliseconds)
+const uint32_t Buzzer_Long[BUZZER_LONG_SIZE] = {
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
@@ -62,25 +62,25 @@ const uint32_t Alarm_Red[ALARM_RED_SIZE] = {
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PAUSE_10S};
 
-/// Boot alarm pattern size
-#define ALARM_BOOT_SIZE 4
+/// Boot buzzer pattern size
+#define BUZZER_BOOT_SIZE 4
 
-/// Yellow alarm pattern definition, composed of multiple couple of states (Actif/Inactif) and
+/// Medium buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
 /// duration (miliseconds)
-const uint32_t Alarm_Boot[ALARM_BOOT_SIZE] = {TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP,
-                                              TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BEEEEP_PAUSE};
+const uint32_t Buzzer_Boot[BUZZER_BOOT_SIZE] = {TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP,
+                                                TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BEEEEP_PAUSE};
 
 // INITIALISATION =============================================================
 
-const uint32_t* Active_Alarm = nullptr;
-uint32_t Active_Alarm_Index = 0;
-uint32_t Active_Alarm_Size = 2;
+const uint32_t* Active_Buzzer = nullptr;
+uint32_t Active_Buzzer_Index = 0;
+uint32_t Active_Buzzer_Size = 2;
 
-HardwareTimer* AlarmTim;
-uint32_t AlarmTimerChannel;
+HardwareTimer* BuzzerTim;
+uint32_t BuzzerTimerChannel;
 
 /**
- * When timer period expires, switch to next state in the pattern of the alarm
+ * When timer period expires, switch to next state in the pattern of the buzzer
  * @note API update since version 1.9.0 of Arduino_Core_STM32
  */
 #if (STM32_CORE_VERSION < 0x01090000)
@@ -91,57 +91,59 @@ void Update_IT_callback(void)
 {
     // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
     // Previous state is finished, switch to next one
-    AlarmTim->setMode(AlarmTimerChannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
-    AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1u], TICK_FORMAT);
-    Active_Alarm_Index = (Active_Alarm_Index + 2u) % Active_Alarm_Size;
-    AlarmTim->resume();
+    BuzzerTim->setMode(BuzzerTimerChannel, (TimerModes_t)Active_Buzzer[Active_Buzzer_Index],
+                       PIN_BUZZER);
+    BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
+    Active_Buzzer_Index = (Active_Buzzer_Index + 2u) % Active_Buzzer_Size;
+    BuzzerTim->resume();
 }
 
-void Alarm_Init() {
+void Buzzer_Init() {
     // Automatically retrieve timer instance and channel associated with the pin
     // Useful in case of board change
     TIM_TypeDef* Instance = reinterpret_cast<TIM_TypeDef*>(
-        pinmap_peripheral(digitalPinToPinName(PIN_ALARM), PinMap_PWM));
-    AlarmTimerChannel =
-        STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(PIN_ALARM), PinMap_PWM));
+        pinmap_peripheral(digitalPinToPinName(PIN_BUZZER), PinMap_PWM));
+    BuzzerTimerChannel =
+        STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(PIN_BUZZER), PinMap_PWM));
 
-    // Alarm HardwareTimer object creation
-    AlarmTim = new HardwareTimer(Instance);
+    // Buzzer HardwareTimer object creation
+    BuzzerTim = new HardwareTimer(Instance);
 
-    AlarmTim->setMode(AlarmTimerChannel, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PIN_ALARM);
+    BuzzerTim->setMode(BuzzerTimerChannel, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PIN_BUZZER);
     // 4 ticks = 1 ms  (it is not possible to have 1 tick = 1 ms because prescaler is 16 bit and
     // input frequency either 84 or 100 MHz Use of tick format to avoid computation within interrupt
     // handler
-    AlarmTim->setPrescaleFactor(AlarmTim->getTimerClkFreq() / (TIMER_TICK_PER_MS * 1000));
-    AlarmTim->setOverflow(100 * TIMER_TICK_PER_MS, TICK_FORMAT);  // Default 100milisecondes
+    BuzzerTim->setPrescaleFactor(BuzzerTim->getTimerClkFreq() / (TIMER_TICK_PER_MS * 1000));
+    BuzzerTim->setOverflow(100 * TIMER_TICK_PER_MS, TICK_FORMAT);  // Default 100milisecondes
 
     // Start with inactive state without interruptions
-    AlarmTim->resume();
+    BuzzerTim->resume();
 }
 
-void Alarm_Start(const uint32_t* Alarm, uint32_t Size) {
-    AlarmTim->setCount(0);
-    Active_Alarm = Alarm;
-    Active_Alarm_Index = 0;
-    Active_Alarm_Size = Size;
+void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size) {
+    BuzzerTim->setCount(0);
+    Active_Buzzer = Buzzer;
+    Active_Buzzer_Index = 0;
+    Active_Buzzer_Size = Size;
 
     // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
     // Configuration of first state of pattern
-    AlarmTim->setMode(AlarmTimerChannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
-    AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1u], TICK_FORMAT);
+    BuzzerTim->setMode(BuzzerTimerChannel, (TimerModes_t)Active_Buzzer[Active_Buzzer_Index],
+                       PIN_BUZZER);
+    BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
 
     // Activate interrupt callback to handle further states
-    AlarmTim->attachInterrupt(Update_IT_callback);
-    Active_Alarm_Index = (Active_Alarm_Index + 2u) % Active_Alarm_Size;
+    BuzzerTim->attachInterrupt(Update_IT_callback);
+    Active_Buzzer_Index = (Active_Buzzer_Index + 2u) % Active_Buzzer_Size;
 
     // Timer starts. Required to configure output on GPIO
-    AlarmTim->resume();
+    BuzzerTim->resume();
 }
 
-void Alarm_Yellow_Start(void) { Alarm_Start(Alarm_Yellow, ALARM_YELLOW_SIZE); }
+void Buzzer_Medium_Start(void) { Buzzer_Start(Buzzer_Medium, BUZZER_MEDIUM_SIZE); }
 
-void Alarm_Red_Start(void) { Alarm_Start(Alarm_Red, ALARM_RED_SIZE); }
+void Buzzer_Long_Start(void) { Buzzer_Start(Buzzer_Long, BUZZER_LONG_SIZE); }
 
-void Alarm_Boot_Start(void) { Alarm_Start(Alarm_Boot, ALARM_BOOT_SIZE); }
+void Buzzer_Boot_Start(void) { Buzzer_Start(Buzzer_Boot, BUZZER_BOOT_SIZE); }
 
-void Alarm_Stop(void) { AlarmTim->pause(); }
+void Buzzer_Stop(void) { BuzzerTim->pause(); }

@@ -18,7 +18,7 @@
 #include <algorithm>
 
 // Internal libraries
-#include "../includes/alarm.h"
+#include "../includes/buzzer.h"
 #include "../includes/config.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
@@ -333,14 +333,14 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
 
         if (m_pressure >= m_maxPeakPressureCommand) {
             setSubPhase(CycleSubPhases::HOLD_INSPIRATION);
-            Alarm_Yellow_Start();
+            Buzzer_Medium_Start();
             plateau();
         }
     }
 
     if (m_pressure >= (m_maxPeakPressureCommand + 10u)) {
         // m_patient.augmenterOuverture();
-        Alarm_Yellow_Start();
+        Buzzer_Medium_Start();
     }
 }
 
@@ -368,7 +368,7 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
 void PressureController::safeguardMaintienPeep(uint16_t p_centiSec) {
     if (m_pressure <= m_minPeepCommand) {
         // m_blower.augmenterOuverture();
-        Alarm_Red_Start();
+        Buzzer_Long_Start();
     }
 }
 

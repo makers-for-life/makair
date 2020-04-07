@@ -47,7 +47,7 @@
 #define STEP_LED_RED 14
 #define STEP_LED_YELLOW 15
 #define STEP_LED_GREEN 16
-#define STEP_ALARM 17
+#define STEP_BUZZER 17
 #define STEP_SERVO_BLOWER_OPEN 18
 #define STEP_SERVO_BLOWER_CLOSE 19
 #define STEP_SERVO_PATIENT_OPEN 20
@@ -247,7 +247,7 @@ void onAlarmOffClick() {
         changeStep(step + 1);
     } else if (step == STEP_BTN_ALARM_OFF) {
         changeStep(step + 1);
-    } else if (step == STEP_ALARM) {
+    } else if (step == STEP_BUZZER) {
         changeStep(step + 1);
     } else if (step == STEP_WATCHDOG_SUCCESS) {
         changeStep(step + 1);
@@ -358,7 +358,7 @@ void setup() {
     pinMode(PIN_LED_YELLOW, OUTPUT);
     pinMode(PIN_LED_GREEN, OUTPUT);
 
-    pinMode(PIN_ALARM, OUTPUT);
+    pinMode(PIN_BUZZER, OUTPUT);
 
     // Timer for servoBlower
     hardwareTimer1 = new HardwareTimer(TIM1);
@@ -395,9 +395,9 @@ void setup() {
     if (IWatchdog.isReset(true)) {
         Serial.println("watchdog reset");
         step = STEP_WATCHDOG_SUCCESS;
-        digitalWrite(PIN_ALARM, HIGH);
+        digitalWrite(PIN_BUZZER, HIGH);
         delay(100);
-        digitalWrite(PIN_ALARM, LOW);
+        digitalWrite(PIN_BUZZER, LOW);
     }
 
     startScreen();
@@ -419,7 +419,7 @@ void loop() {
     digitalWrite(PIN_LED_RED, LOW);
     digitalWrite(PIN_LED_YELLOW, LOW);
     digitalWrite(PIN_LED_GREEN, LOW);
-    digitalWrite(PIN_ALARM, LOW);
+    digitalWrite(PIN_BUZZER, LOW);
 
     switch (step) {
     case STEP_LCD: {
@@ -492,9 +492,9 @@ void loop() {
         digitalWrite(PIN_LED_GREEN, HIGH);
         break;
     }
-    case STEP_ALARM: {
-        UNGREEDY(is_drawn, display("Alarm is ON", "Press alarm OFF"));
-        digitalWrite(PIN_ALARM, HIGH);
+    case STEP_BUZZER: {
+        UNGREEDY(is_drawn, display("Buzzer is ON", "Press Buzzer OFF"));
+        digitalWrite(PIN_BUZZER, HIGH);
         break;
     }
     case STEP_SERVO_BLOWER_OPEN: {

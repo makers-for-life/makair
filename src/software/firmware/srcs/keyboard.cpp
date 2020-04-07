@@ -21,7 +21,7 @@
 #include <OneButton.h>
 
 // Internal
-#include "../includes/alarm.h"
+#include "../includes/buzzer.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
 #include "../includes/pressure_controller.h"
@@ -63,7 +63,7 @@ void onCycleIncrease() { pController.onCycleIncrease(); }
 void onCycleDecrease() { pController.onCycleDecrease(); }
 
 /// Handler of the button to stop alarm
-void onAlarmOff() { Alarm_Stop(); }
+void onAlarmOff() { Buzzer_Stop(); }
 
 /// Handler of the button to start
 void onStart() {}
