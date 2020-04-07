@@ -80,16 +80,16 @@ In order to 3D-print your MakAir, please first ensure you have access to a [SLS]
 
 You can find a list of all parts that should be 3D-printed, as well as the number of parts that should be printed for each one (pick the last active version for each part):
 
-- 1 x **Blower** — Print [all STL parts](./src/mechanics/parts/blower/fdm/stl) using the same printer (SLA or SLS; FDM discouraged; 50 microns minimum);
-- 2 x **Pressure Valve** — Print [all STL parts](./src/mechanics/parts/pressure-valve/fdm/stl) using the same printer (SLA, SLS or FDM; 200 microns minimum);
-- 1 x **Oxygen Mixer** — Print [the STL part](./src/mechanics/parts/oxygen-mixer/fdm/stl) (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Patient Filter Box** — Print [all STL parts](./src/mechanics/parts/patient-filter-box/fdm/stl) using the same printer (SLA, SLS or FDM; 100 microns minimum);
-- 1 x **Machine Filter Box (Intake)** — Print [all STL parts](./src/mechanics/parts/machine-filter-box/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Machine Filter Box (Outtake)** — Print [all STL parts](./src/mechanics/parts/machine-filter-box/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Pneumatic Connectors (Blower)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Pneumatic Connectors (O2)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Pneumatic Connectors (No Pressure)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Pneumatic Connectors (Pressure)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Blower** — Print [all STL parts](./src/mechanics/parts/blower/printing/stl) using the same printer (SLA or SLS; FDM discouraged; 50 microns minimum);
+- 2 x **Pressure Valve** — Print [all STL parts](./src/mechanics/parts/pressure-valve/printing/stl) using the same printer (SLA, SLS or FDM; 200 microns minimum);
+- 1 x **Oxygen Mixer** — Print [the STL part](./src/mechanics/parts/oxygen-mixer/printing/stl) (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Patient Filter Box** — Print [all STL parts](./src/mechanics/parts/patient-filter-box/printing/stl) using the same printer (SLA, SLS or FDM; 100 microns minimum);
+- 1 x **Machine Filter Box (Intake)** — Print [all STL parts](./src/mechanics/parts/machine-filter-box/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Machine Filter Box (Outtake)** — Print [all STL parts](./src/mechanics/parts/machine-filter-box/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (Blower)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (O2)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (No Pressure)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (Pressure)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
 
 If you are using your own proprietary blower — _in addition to the parts above_ — please adjust the [Blower Holder](./src/mechanics/parts/blower-holder) CAD model and print it as well (this one prints well using a FDM printer at worst).
 
@@ -204,59 +204,59 @@ Adding to that, 200+ individual members of the project who contributed to techni
 ### The "Pressure Valve"
 
 <p>
-  <img alt="Pressure Valve Render" src="./src/mechanics/parts/pressure-valve/fdm/schemes/V6/Pressure%20Valve%20(Render%201).png" height="240">
-  <img alt="Pressure Valve Print" src="./src/mechanics/parts/pressure-valve/fdm/schemes/V6/Pressure%20Valve%20(Print%201).jpg" height="240">
+  <img alt="Pressure Valve Render" src="./src/mechanics/parts/pressure-valve/printing/schemes/V6/Pressure%20Valve%20(Render%201).png" height="240">
+  <img alt="Pressure Valve Print" src="./src/mechanics/parts/pressure-valve/printing/schemes/V6/Pressure%20Valve%20(Print%201).jpg" height="240">
 </p>
 
 ### The "Blower"
 
-🎦 View: [Animation of the "Blower"](./src/mechanics/parts/blower/fdm/schemes/V14/Blower%20(Animation%201).mp4)
+🎦 View: [Animation of the "Blower"](./src/mechanics/parts/blower/printing/schemes/V14/Blower%20(Animation%201).mp4)
 
 <p>
-  <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V14/Blower%20(Render%201).png" height="240">
-  <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V14/Blower%20(Render%202).png" height="240">
-  <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V14/Blower%20(Print%201).jpg" height="240">
-  <img alt="Blower Render" src="./src/mechanics/parts/blower/fdm/schemes/V14/Blower%20(Print%202).jpg" height="240">
+  <img alt="Blower Render" src="./src/mechanics/parts/blower/printing/schemes/V14/Blower%20(Render%201).png" height="240">
+  <img alt="Blower Render" src="./src/mechanics/parts/blower/printing/schemes/V14/Blower%20(Render%202).png" height="240">
+  <img alt="Blower Render" src="./src/mechanics/parts/blower/printing/schemes/V14/Blower%20(Print%201).jpg" height="240">
+  <img alt="Blower Render" src="./src/mechanics/parts/blower/printing/schemes/V14/Blower%20(Print%202).jpg" height="240">
 </p>
 
 ### The "Blower Holder"
 
 <p>
-  <img alt="Blower Holder Render" src="./src/mechanics/parts/blower-holder/fdm/schemes/Archives/V1/Blower%20Holder%20(Render%201).png" height="240">
-  <img alt="Blower Holder Print" src="./src/mechanics/parts/blower-holder/fdm/schemes//Archives/V1/Blower%20Holder%20(Print%201).jpg" height="240">
+  <img alt="Blower Holder Render" src="./src/mechanics/parts/blower-holder/printing/schemes/Archives/V1/Blower%20Holder%20(Render%201).png" height="240">
+  <img alt="Blower Holder Print" src="./src/mechanics/parts/blower-holder/printing/schemes//Archives/V1/Blower%20Holder%20(Print%201).jpg" height="240">
 </p>
 
 ### The "Oxygen Mixer"
 
 <p>
-  <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/fdm/schemes/V5/Oxygen%20Mixer%20(Render%201).png" height="240">
-  <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/fdm/schemes/V5/Oxygen%20Mixer%20(Render%202).png" height="240">
+  <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/printing/schemes/V5/Oxygen%20Mixer%20(Render%201).png" height="240">
+  <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/printing/schemes/V5/Oxygen%20Mixer%20(Render%202).png" height="240">
 </p>
 
 ### The "Machine Filter Box" (Both Directions)
 
 <p>
-  <img alt="Machine Filter Box Render" src="./src/mechanics/parts/machine-filter-box/fdm/schemes/Archives/V1/Filter%20Box%20(Render%201).png" height="320">
-  <img alt="Machine Filter Box Print" src="./src/mechanics/parts/machine-filter-box/fdm/schemes/Archives/V1/Filter%20Box%20(Print%201).jpg" height="320">
+  <img alt="Machine Filter Box Render" src="./src/mechanics/parts/machine-filter-box/printing/schemes/Archives/V1/Filter%20Box%20(Render%201).png" height="320">
+  <img alt="Machine Filter Box Print" src="./src/mechanics/parts/machine-filter-box/printing/schemes/Archives/V1/Filter%20Box%20(Print%201).jpg" height="320">
 </p>
 
 ### The "Patient Filter Box"
 
 <p>
-  <img alt="Patient Filter Box Render" src="./src/mechanics/parts/patient-filter-box/fdm/schemes/V6/Filter%20Box%20(Mensurations).JPG" height="320">
-  <img alt="Machine Filter Box Print" src="./src/mechanics/parts/patient-filter-box/fdm/schemes/Archives/V5/Filter%20Box%20(Print%201).jpg" height="320">
+  <img alt="Patient Filter Box Render" src="./src/mechanics/parts/patient-filter-box/printing/schemes/V6/Filter%20Box%20(Mensurations).JPG" height="320">
+  <img alt="Machine Filter Box Print" src="./src/mechanics/parts/patient-filter-box/printing/schemes/Archives/V5/Filter%20Box%20(Print%201).jpg" height="320">
 </p>
 
 ### The "Pneumatic Connectors"
 
 <p>
-  <img alt="Pneumatic Connector Blower Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V3/Blower%20V5/Pneumatic%20Connector%20Blower%20V5.png" height="240">
-  <img alt="Pneumatic Connector O2 Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V3/O2%20V3/Pneumatic%20Connector%20O2%20V3.png" height="240">
-  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V3/Respiratory%20-%20No%20pressure%20V2/Pneumatic%20Connector%20Respiratory%20No%20pressure.png" height="240">
-  <img alt="Pneumatic Connector pressure Render" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V3/Respiratory%20-%20Pressure%20V3/Pneumatic%20Connector%20Respiratory%20Pressure%20V2.png" height="240">
-  <img alt="Pneumatic Connector O2 Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V3/O2%20V3/Pneumatic%20Connector%20O2%20V3%20Print.jpg" height="240">
-  <img alt="Pneumatic Connector Blower Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V3/Blower%20V5/Pneumatic%20Connector%20Blower%20V4%20Print.jpg" height="240">
-  <img alt="Pneumatic Connector No pressure Print" src="./src/mechanics/parts/pneumatic-connectors/fdm/schemes/V3/Respiratory%20-%20No%20pressure%20V2/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector Blower Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/Blower%20V5/Pneumatic%20Connector%20Blower%20V5.png" height="240">
+  <img alt="Pneumatic Connector O2 Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/O2%20V3/Pneumatic%20Connector%20O2%20V3.png" height="240">
+  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/Respiratory%20-%20No%20pressure%20V2/Pneumatic%20Connector%20Respiratory%20No%20pressure.png" height="240">
+  <img alt="Pneumatic Connector pressure Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/Respiratory%20-%20Pressure%20V3/Pneumatic%20Connector%20Respiratory%20Pressure%20V2.png" height="240">
+  <img alt="Pneumatic Connector O2 Print" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/O2%20V3/Pneumatic%20Connector%20O2%20V3%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector Blower Print" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/Blower%20V5/Pneumatic%20Connector%20Blower%20V4%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector No pressure Print" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/Respiratory%20-%20No%20pressure%20V2/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
 </p>
 
 ### The "Container"
