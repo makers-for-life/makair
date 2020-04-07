@@ -70,7 +70,7 @@ _MakAir and Makers For Life should not be held resposible — at any time, for h
 
 This section aims at introducing you on how to manufacture your own MakAir — _the 3D-printed way_. In other words, we will explain there how to build a DIY MakAir using on-the-shelf parts and 3D printers.
 
-## 1️⃣ Print all the parts
+## 1️⃣ — Print all the parts
 
 In order to 3D-print your MakAir, please first ensure you have access to a [SLS](https://en.wikipedia.org/wiki/Selective_laser_sintering) 3D printer at best (eg. [HP Multi Jet Fusion](https://www8.hp.com/us/en/printers/3d-printers/products/multi-jet-technology.html)), or otherwise a [SLA](https://en.wikipedia.org/wiki/Stereolithography) printer (eg. [Formlabs Form 3](https://formlabs.com/3d-printers/form-3/)). If you want to use a [FDM](https://en.wikipedia.org/wiki/Fused_filament_fabrication) printer (eg. [MakerBot Method](https://www.makerbot.com/3d-printers/method/)), please note that some precise parts have been optimized for SLA or SLS printing. Some parts may not print well using FDM printers, even on decent hardware.
 
@@ -82,11 +82,11 @@ You can find a list of all parts that should be 3D-printed, as well as the numbe
 
 If you are using your own proprietary blower — in addition to the parts above — please adjust the [Blower Holder](./src/mechanics/parts/blower-holder) CAD model and print it as well.
 
-## 2️⃣ Setup the electronics
+## 2️⃣ — Setup the electronics
 
 🚧 (work in progress)
 
-## 3️⃣ Flash the firmware
+## 3️⃣ — Flash the firmware
 
 🚧 (work in progress)
 
