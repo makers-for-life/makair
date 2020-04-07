@@ -80,7 +80,7 @@ You can find a list of all parts that should be 3D-printed, as well as the numbe
 
 - 1 x **Blower** — Print [all STL parts](./src/mechanics/parts/blower/fdm/stl) using the same printer (SLA or SLS; FDM discouraged; 50 microns minimum);
 - 2 x **Pressure Valve** — Print [all STL parts](./src/mechanics/parts/pressure-valve/fdm/stl) using the same printer (SLA, SLS or FDM; 200 microns minimum);
-- 1 x **Oxygen Mixer** — Print the [STL part](./src/mechanics/parts/oxygen-mixer/fdm/stl) (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Oxygen Mixer** — Print [the STL part](./src/mechanics/parts/oxygen-mixer/fdm/stl) (SLA or SLS; FDM discouraged; 100 microns minimum);
 - 1 x TODO — air filter patient
 - 1 x TODO — air filter machine intake
 - 1 x TODO — air filter machine outtake
