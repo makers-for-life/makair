@@ -17,6 +17,7 @@
 // External
 #include <Arduino.h>
 #endif
+#include <algorithm>
 
 // Internal
 #include "../includes/parameters.h"
@@ -43,7 +44,7 @@ static const int16_t RAW_PRESSURE_TO_MMH20_CONSTANT = 45;
 static const int32_t RAW_PRESSURE_TO_MMH20_NUM = 8774;
 static const int32_t RAW_PRESSURE_TO_MMH20_DEN = 10000;
 
-int convertSensor2Pressure(uint16_t sensorValue) {
+int16_t convertSensor2Pressure(uint16_t sensorValue) {
     int32_t rawPressure = static_cast<int32_t>(sensorValue);
     int32_t delta = rawPressure - filteredRawPressure;
 
@@ -56,8 +57,10 @@ int convertSensor2Pressure(uint16_t sensorValue) {
 
     int16_t scaledRawPressure = filteredRawPressure * RAW_PRESSURE_TO_MMH20_NUM
             / RAW_PRESSURE_TO_MMH20_DEN;
-    return max(scaledRawPressure - RAW_PRESSURE_TO_MMH20_CONSTANT, 0);
+    return std::max(scaledRawPressure - RAW_PRESSURE_TO_MMH20_CONSTANT, 0);
 }
+
+
 
 // Get the measured or simulated pressure for the feedback control (in mmH2O)
 

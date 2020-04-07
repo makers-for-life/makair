@@ -1,4 +1,4 @@
-name: Arduino CLI CI
+name: Unit Tests
 
 on: [push]
 
