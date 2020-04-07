@@ -4,3 +4,4 @@
 | ------- | -------------- | ------ | --------------- |
 | V1 | Initial version | ✅ | none
 | V2 | Updated version | ✅ | none
+| V3 | Comply to ISO 5356-1 | ✅ | none
