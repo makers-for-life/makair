@@ -107,7 +107,7 @@ Electronics are comprised of two parts: the firmware controller board (typically
 
 The motherboard electronic schematics and wiring diagrams [can be found there](./src/electronics/motherboard/schematics). Please pick the last version available.
 
-If you need help on this part, you may [open an issue](https://github.com/covid-response-projects/covid-respirator/issues/new).
+If you need help on this step, you may [open an issue](https://github.com/covid-response-projects/covid-respirator/issues/new).
 
 🚧 (work in progress)
 
