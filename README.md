@@ -76,17 +76,15 @@ _MakAir and Makers For Life should not be held resposible — at any time, for h
 
 | Part | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | ---- | ------- | -------------- | ------ | --------------- | ------------ |
-| [Blower](./src/mechanics/parts/blower) | V14 | Smaller form factor & more powerful | ✅ | [view model](https://a360.co/39JpHg9) | Gabriel Moneyron + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou)
-| [Blower Holder](./src/mechanics/parts/blower-holder) | V2 | Modeling corrections | ✅ | none | Gabriel Moneyron + [Valerian Saliou](https://github.com/valeriansaliou)
-| [Pressure Valve](./src/mechanics/parts/pressure-valve) | V6 | General improvements | ✅ | [view model](https://a360.co/2xUBD1e) | [Clement Niclot](https://github.com/clementniclot)
-| [Oxygen Mixer](./src/mechanics/parts/oxygen-mixer) | V5 | New compact design with integration plate | ✅ | [view model](https://a360.co/2Rgpefc) | [Yohann Nédélec](https://github.com/Melkaz) + Steven Daix
-| [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2X5VvJq) | Martial Medjber + [Eliott Vincent](https://github.com/eliottvincent)
-| [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | none | [Valerian Saliou](https://github.com/valeriansaliou)
-| [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | none | [Valerian Saliou](https://github.com/valeriansaliou)
-| [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V2 | Updated version | ✅ | none | Gabriel Moneyron
-| [Container](./src/mechanics/container) | V2 | Update mensurations | ✅ | [view model](https://a360.co/3dVmJbR) | Arthur Dagard
+| [Blower](./src/mechanics/parts/blower) | V14 | Smaller form factor & more powerful | ✅ | [view model](https://a360.co/2JIBr8d) | Gabriel Moneyron + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou)
+| [Blower Holder](./src/mechanics/parts/blower-holder) | V2 | Modeling corrections | ✅ | [view body model](https://a360.co/2V96Kyb), [view bottom model](https://a360.co/2VfzKEG), [view top model](https://a360.co/2UQeKoY) | Gabriel Moneyron + [Valerian Saliou](https://github.com/valeriansaliou)
+| [Pressure Valve](./src/mechanics/parts/pressure-valve) | V6 | General improvements | ✅ | [view model](https://a360.co/2RyQLsr) | [Clement Niclot](https://github.com/clementniclot)
+| [Oxygen Mixer](./src/mechanics/parts/oxygen-mixer) | V5 | New compact design with integration plate | ✅ | [view model](https://a360.co/39QDaD5) | [Yohann Nédélec](https://github.com/Melkaz) + Steven Daix
+| [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2UT72dP) | Martial Medjber + [Eliott Vincent](https://github.com/eliottvincent)
+| [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | [view model](https://a360.co/2x1mhIx) | [Valerian Saliou](https://github.com/valeriansaliou)
+| [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | [view model](https://a360.co/2XeSVAP) | [Valerian Saliou](https://github.com/valeriansaliou)
 | [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V3 | Comply to ISO 5356-1 | ✅ | none | Gabriel Moneyron
-| [Container](./src/mechanics/container) | V2 | Update mensurations | ❌ | [view model](https://a360.co/3dVmJbR) | Arthur Dagard
+| [Container](./src/mechanics/container) | V2 | Update mensurations | ✅ | [view model](https://a360.co/2RlnfGp) | Arthur Dagard
 
 ## Electronics
 
