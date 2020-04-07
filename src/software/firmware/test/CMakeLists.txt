@@ -12,7 +12,7 @@ add_definitions(-DUNIT_TEST)
 ## Test for pressure utl functions
 
 set(TEST_PRESSION_SRC test_pression.cpp
-                      ../srcs/pression.cpp                        
+                      ../srcs/pressure_utl.cpp                        
 )
 
 add_executable(test_pression ${TEST_PRESSION_SRC})
