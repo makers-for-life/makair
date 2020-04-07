@@ -76,21 +76,23 @@ _MakAir and Makers For Life should not be held resposible — at any time, for h
 
 | Part | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | ---- | ------- | -------------- | ------ | --------------- | ------------ |
-| [Blower](./src/mechanics/parts/blower) | V14 | Smaller form factor & more powerful | ❌ | [view model](https://a360.co/39JpHg9) | Gabriel Moneyron + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou)
+| [Blower](./src/mechanics/parts/blower) | V14 | Smaller form factor & more powerful | ✅ | [view model](https://a360.co/39JpHg9) | Gabriel Moneyron + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou)
 | [Blower Holder](./src/mechanics/parts/blower-holder) | V1 | Initial version | ✅ | [view core model](https://a360.co/2X7eoLW) + [view casing model](https://a360.co/2X5DwCR) | Gabriel Moneyron + [Valerian Saliou](https://github.com/valeriansaliou)
 | [Pressure Valve](./src/mechanics/parts/pressure-valve) | V6 | General improvements | ✅ | [view model](https://a360.co/2xUBD1e) | [Clement Niclot](https://github.com/clementniclot)
-| [Oxygen Mixer](./src/mechanics/parts/oxygen-mixer) | V4 | Updated with correct O2 ID diameter, reinforced O2 nipple | ✅ | [view model](https://a360.co/345fsS2) | [Yohann Nédélec](https://github.com/Melkaz)
+| [Oxygen Mixer](./src/mechanics/parts/oxygen-mixer) | V5 | New compact design with integration plate | ✅ | [view model](https://a360.co/2Rgpefc) | [Yohann Nédélec](https://github.com/Melkaz) + Steven Daix
 | [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2X5VvJq) | Martial Medjber + [Eliott Vincent](https://github.com/eliottvincent)
 | [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2wZids4) | [Valerian Saliou](https://github.com/valeriansaliou)
 | [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V1 | Wall-mountable, 3D-printability optimizations | ✅ | [view model](https://a360.co/2JyLaxG) | [Valerian Saliou](https://github.com/valeriansaliou)
+| [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V2 | Updated version | ✅ | none | Gabriel Moneyron
+| [Container](./src/mechanics/container) | V2 | Update mensurations | ✅ | [view model](https://a360.co/3dVmJbR) | Arthur Dagard
 | [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V3 | Comply to ISO 5356-1 | ✅ | none | Gabriel Moneyron
 | [Container](./src/mechanics/container) | V2 | Update mensurations | ❌ | [view model](https://a360.co/3dVmJbR) | Arthur Dagard
 
 ## Electronics
 
-| Board | Version | Major Changes | Ready? | Contributors |
-| ----- | ------- | ------------- | ------ | ------------ |
-| [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | [Tronico (company)](https://www.tronico-alcen.com/) + Cherine Kamel + [Pierre Papin](https://github.com/pi-r-p)
+| Board | Version | Major Changes | Ready? | Schematics | Contributors |
+| ----- | ------- | ------------- | ------ | ---------- | ------------ |
+| [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | [view schematic](./src/electronics/motherboard/schematics/V1/Electrical%20Schematics.pdf) | Vincent Le Cunff + Cherine Kamel + [Pierre Papin](https://github.com/pi-r-p)
 
 ## Software
 
@@ -180,8 +182,8 @@ Adding to that, 200+ individual members of the project who contributed to techni
 ### The "Oxygen Mixer"
 
 <p>
-  <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/fdm/schemes/V4/Oxygen%20Mixer%20(Render%201).png" height="240">
-  <img alt="Oxygen Mixer Print" src="./src/mechanics/parts/oxygen-mixer/fdm/schemes/V4/Oxygen%20Mixer%20(Print%201).jpg" height="240">
+  <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/fdm/schemes/V5/Oxygen%20Mixer%20(Render%201).png" height="240">
+  <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/fdm/schemes/V5/Oxygen%20Mixer%20(Render%202).png" height="240">
 </p>
 
 ### The "Machine Filter Box" (Both Directions)

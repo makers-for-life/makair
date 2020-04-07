@@ -22,17 +22,32 @@
 
 // PROGRAM =====================================================================
 
-double filteredVout = 0;
-const double RATIO_VOLTAGE_DIVIDER = 0.8192;
-const double V_SUPPLY = 5.08;
-const double KPA_MMH2O = 101.97162129779;
+static int32_t filteredRawPressure = 0;
+
+static const int32_t RAW_PRESSURE_FILTER_DIVIDER = 5;
+
+// Constants used in original conversion formula:
+//      RATIO_VOLTAGE_DIVIDER = 0.8192
+//      V_SUPPLY = 5.08
+//      KPA_MMH2O = 101.97162129779
+
+// RAW_PRESSURE_TO_MMH20_CONSTANT is computed from original
+// formula as:
+//      0.04 / 0.09 * KPA_MMH2O
+static const int16_t RAW_PRESSURE_TO_MMH20_CONSTANT = 45;
+
+// RAW_PRESSURE_TO_MMH20_NUM / RAW_PRESSURE_TO_MMH20_DEN is computed
+// from original formula as:
+//      3.3 / 1024.0 / RATIO_VOLTAGE_DIVIDER / V_SUPPLY / 0.09 * KPA_MMH2O
+static const int32_t RAW_PRESSURE_TO_MMH20_NUM = 8774;
+static const int32_t RAW_PRESSURE_TO_MMH20_DEN = 10000;
 
 // Get the measured or simulated pressure for the feedback control (in mmH2O)
 
 #if SIMULATION == 1
 
 // Dummy function to read pressure during simulation
-int readPressureSensor(uint16_t centiSec) {
+int16_t readPressureSensor(uint16_t centiSec) {
     if (centiSec < uint16_t(10)) {
         return 350;
     } else if (centiSec < uint16_t(15)) {
@@ -55,21 +70,20 @@ int readPressureSensor(uint16_t centiSec) {
 }
 #else
 
-int readPressureSensor(uint16_t centiSec) {
-    double rawVout = analogRead(PIN_PRESSURE_SENSOR) * 3.3 / 1024.0;
-    filteredVout = filteredVout + (rawVout - filteredVout) * 0.2;
+int16_t readPressureSensor(uint16_t centiSec) {
+    int32_t rawPressure = static_cast<int32_t>(analogRead(PIN_PRESSURE_SENSOR));
+    int32_t delta = rawPressure - filteredRawPressure;
 
-    // Voltage divider ratio
-    double vOut = filteredVout / RATIO_VOLTAGE_DIVIDER;
+    // Adjust delta so that the division result will be rounded away from zero.
+    // This is needed to guaranty that filteredRawPressure will reach
+    // rawPressure when it is constant.
+    delta += (delta > 0) ? (RAW_PRESSURE_FILTER_DIVIDER - 1) :
+                          -(RAW_PRESSURE_FILTER_DIVIDER - 1);
+    filteredRawPressure += delta / RAW_PRESSURE_FILTER_DIVIDER;
 
-    // Pressure converted to kPA
-    double pressure = (vOut / V_SUPPLY - 0.04) / 0.09;
-
-    if (pressure <= 0.0) {
-        return 0;
-    }
-
-    return pressure * KPA_MMH2O;
+    int16_t scaledRawPressure = filteredRawPressure * RAW_PRESSURE_TO_MMH20_NUM
+            / RAW_PRESSURE_TO_MMH20_DEN;
+    return max(scaledRawPressure - RAW_PRESSURE_TO_MMH20_CONSTANT, 0);
 }
 
 #endif

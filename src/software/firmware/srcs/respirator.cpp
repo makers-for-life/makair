@@ -92,7 +92,7 @@ void setup() {
     // Output compare activation on pin PIN_ESC_BLOWER
     hardwareTimer3->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
     // Set PPM width to 1ms
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(0),
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(0),
                                       MICROSEC_COMPARE_FORMAT);
     hardwareTimer3->resume();
 
@@ -126,7 +126,7 @@ void setup() {
     waitForInMs(4000);
 
     // escBlower start
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, Angle2MicroSeconds(170),
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(170),
                                       MICROSEC_COMPARE_FORMAT);
     DBG_DO(Serial.println("Blower is running.");)
 
