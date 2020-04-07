@@ -10,6 +10,15 @@
 
 #pragma once
 
+/// 20 volts
+#define DEFAULT_BATTERY_VOLTAGE 20
+
+// 24 volts;
+#define DEFAULT_POWER_VOLTAGE 24
+
+// 20 samples;
+#define BATTERY_MAX_SAMPLES 20
+
 /**
  * Initialize battery abstraction
  *
