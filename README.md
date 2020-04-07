@@ -72,9 +72,9 @@ This section aims at introducing you on how to manufacture your own MakAir — _
 
 ## 1. Print all the parts
 
-In order to 3D-print your MakAir, please first ensure you have access to a SLS 3D printer at best, or otherwise a SLA printer. If you want to use a FDM printer, please note that some precise parts have been optimized for SLA or SLS printing. Some parts may not print well using FDM printers, even on decent hardware.
+In order to 3D-print your MakAir, please first ensure you have access to a [SLS](https://en.wikipedia.org/wiki/Selective_laser_sintering) 3D printer at best, or otherwise a [SLA](https://en.wikipedia.org/wiki/Stereolithography) printer. If you want to use a [FDM](https://en.wikipedia.org/wiki/Fused_filament_fabrication) printer, please note that some precise parts have been optimized for SLA or SLS printing. Some parts may not print well using FDM printers, even on decent hardware.
 
-To sum up: at best, use a SLS metal printer, else, use a SLA resin printer. If you do not have access to either of these, you may fallback on a FDM filament printer (using PLA or ABS filaments).
+To sum up: at best, use a SLS metal printer, else, use a SLA resin printer. If you do not have access to either of these, you may fallback on a FDM filament printer (using [PLA](https://en.wikipedia.org/wiki/Polylactic_acid) or [ABS](https://en.wikipedia.org/wiki/Acrylonitrile_butadiene_styrene) filaments).
 
 You can find a list of all parts that should be 3D-printed, as well as the number of parts that should be printed for each one (pick the last active version for each part):
 
