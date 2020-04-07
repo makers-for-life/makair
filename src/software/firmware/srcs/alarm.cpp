@@ -92,8 +92,8 @@ void Update_IT_callback(void)
     // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
     // Previous state is finished, switch to next one
     AlarmTim->setMode(AlarmTimerChannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
-    AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1], TICK_FORMAT);
-    Active_Alarm_Index = (Active_Alarm_Index + 2) % Active_Alarm_Size;
+    AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1u], TICK_FORMAT);
+    Active_Alarm_Index = (Active_Alarm_Index + 2u) % Active_Alarm_Size;
     AlarmTim->resume();
 }
 
@@ -128,11 +128,11 @@ void Alarm_Start(const uint32_t* Alarm, uint32_t Size) {
     // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
     // Configuration of first state of pattern
     AlarmTim->setMode(AlarmTimerChannel, (TimerModes_t)Active_Alarm[Active_Alarm_Index], PIN_ALARM);
-    AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1], TICK_FORMAT);
+    AlarmTim->setOverflow(Active_Alarm[Active_Alarm_Index + 1u], TICK_FORMAT);
 
     // Activate interrupt callback to handle further states
     AlarmTim->attachInterrupt(Update_IT_callback);
-    Active_Alarm_Index = (Active_Alarm_Index + 2) % Active_Alarm_Size;
+    Active_Alarm_Index = (Active_Alarm_Index + 2u) % Active_Alarm_Size;
 
     // Timer starts. Required to configure output on GPIO
     AlarmTim->resume();
