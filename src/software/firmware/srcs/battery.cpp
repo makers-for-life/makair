@@ -22,11 +22,11 @@
 
 // PROGRAM =====================================================================
 
-uint16_t batterySample[20];         // Array to store battery voltage samples
-uint16_t batteryCurrentSample = 0;  // Current battery sample index
-uint16_t batteryTotalSamples = 0;   // Battery total samples
+uint32_t batterySample[20];         // Array to store battery voltage samples
+uint32_t batteryCurrentSample = 0;  // Current battery sample index
+uint32_t batteryTotalSamples = 0;   // Battery total samples
 bool isRunningOnBattery = false;    // State to know if we are running on the battery or not
-uint16_t batteryMeanVoltage = DEFAULT_POWER_VOLTAGE;  // Mean battery voltage in volts
+uint32_t batteryMeanVoltage = DEFAULT_POWER_VOLTAGE;  // Mean battery voltage in volts
 
 void initBattery() {
     for (int i = 0; i < BATTERY_MAX_SAMPLES; i++) {
