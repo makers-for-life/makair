@@ -21,7 +21,6 @@
 #include "../includes/parameters.h"
 
 // FUNCTIONS ==================================================================
-PressureValve::PressureValve() {}
 
 PressureValve::PressureValve(HardwareTimer* p_hardwareTimer,
                              uint16_t p_timerChannel,
@@ -48,4 +47,4 @@ void PressureValve::open() { command = openApertureAngle; }
 
 void PressureValve::close() { command = closeApertureAngle; }
 
-void PressureValve::open(int32_t p_command) { command = p_command; }
+void PressureValve::open(uint16_t p_command) { command = p_command; }

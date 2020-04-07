@@ -24,8 +24,6 @@
 /// Controls an Pressure Valve's servomotor
 class PressureValve {
  public:
-    /// Default constructor
-    PressureValve();
 
     /**
      * Parameterized constructor
@@ -56,7 +54,7 @@ class PressureValve {
      *
      * @param p_command The angle in degree
      */
-    void open(int32_t p_command);
+    void open(uint16_t p_command);
 
     /// Request closing of the Pressure Valve
     void close();
@@ -72,6 +70,7 @@ class PressureValve {
             command = minApertureAngle;
         } else if (command > maxApertureAngle) {
             command = maxApertureAngle;
+        } else {
         }
 
         if (command != position) {
@@ -81,9 +80,9 @@ class PressureValve {
         }
     }
 
-    inline int32_t minAperture() const { return minApertureAngle; }
+    inline uint16_t minAperture() const { return minApertureAngle; }
 
-    inline int32_t maxAperture() const { return maxApertureAngle; }
+    inline uint16_t maxAperture() const { return maxApertureAngle; }
 
     /// Value of the requested aperture
     uint16_t command;
@@ -93,10 +92,10 @@ class PressureValve {
 
  private:
     /// Minimum servomotor aperture angle in degrees
-    int32_t minApertureAngle;
+    uint16_t minApertureAngle;
 
     /// Maximum servomotor aperture angle in degrees
-    int32_t maxApertureAngle;
+    uint16_t maxApertureAngle;
 
     uint16_t openApertureAngle;
 
