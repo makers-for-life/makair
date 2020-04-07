@@ -8,4 +8,4 @@
 | V3 | Add a screwing pitch for lock/unlock | ❌ | none
 | V4 | Improved the screwing pitch according to feedback, add markers for easier manipulation | ❌ | none
 | V5 | Update input/output mensurations | ❌ | [view model](https://a360.co/2X5VvJq)
-| V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2X5VvJq)
+| V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2UT72dP)
