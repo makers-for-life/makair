@@ -156,7 +156,7 @@ void PressureController::compute(uint16_t p_centiSec) {
     }
     safeguards(p_centiSec);
 
-    DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 1, m_phase, m_subPhase, m_pressure, m_blower.command,
+    DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 1u, m_phase, m_subPhase, m_pressure, m_blower.command,
                        m_blower.position, m_patient.command, m_patient.position)
 
     executeCommands();
@@ -190,7 +190,7 @@ void PressureController::onCycleIncrease() {
 void PressureController::onPeepPressureDecrease() {
     DBG_DO(Serial.println("Peep Pressure --");)
 
-    m_minPeepCommand = m_minPeepCommand - 10;
+    m_minPeepCommand = m_minPeepCommand - 10u;
 
     if (m_minPeepCommand < CONST_MIN_PEEP_PRESSURE) {
         m_minPeepCommand = CONST_MIN_PEEP_PRESSURE;
@@ -200,7 +200,7 @@ void PressureController::onPeepPressureDecrease() {
 void PressureController::onPeepPressureIncrease() {
     DBG_DO(Serial.println("Peep Pressure ++");)
 
-    m_minPeepCommand = m_minPeepCommand + 10;
+    m_minPeepCommand = m_minPeepCommand + 10u;
 
     if (m_minPeepCommand > CONST_MAX_PEEP_PRESSURE) {
         m_minPeepCommand = CONST_MAX_PEEP_PRESSURE;
@@ -210,7 +210,7 @@ void PressureController::onPeepPressureIncrease() {
 void PressureController::onPlateauPressureDecrease() {
     DBG_DO(Serial.println("Plateau Pressure --");)
 
-    m_maxPlateauPressureCommand = m_maxPlateauPressureCommand - 10;
+    m_maxPlateauPressureCommand = m_maxPlateauPressureCommand - 10u;
 
     if (m_maxPlateauPressureCommand < CONST_MIN_PLATEAU_PRESSURE) {
         m_maxPlateauPressureCommand = CONST_MIN_PLATEAU_PRESSURE;
@@ -220,7 +220,7 @@ void PressureController::onPlateauPressureDecrease() {
 void PressureController::onPlateauPressureIncrease() {
     DBG_DO(Serial.println("Plateau Pressure ++");)
 
-    m_maxPlateauPressureCommand = m_maxPlateauPressureCommand + 10;
+    m_maxPlateauPressureCommand = m_maxPlateauPressureCommand + 10u;
 
     if (m_maxPlateauPressureCommand > CONST_MAX_PLATEAU_PRESSURE) {
         m_maxPlateauPressureCommand = CONST_MAX_PLATEAU_PRESSURE;
@@ -230,7 +230,7 @@ void PressureController::onPlateauPressureIncrease() {
 void PressureController::onPeakPressureDecrease() {
     DBG_DO(Serial.println("Peak Pressure --");)
 
-    m_maxPeakPressureCommand = m_maxPeakPressureCommand - 10;
+    m_maxPeakPressureCommand = m_maxPeakPressureCommand - 10u;
 
     if (m_maxPeakPressureCommand < CONST_MIN_PEAK_PRESSURE) {
         m_maxPeakPressureCommand = CONST_MIN_PEAK_PRESSURE;
@@ -240,7 +240,7 @@ void PressureController::onPeakPressureDecrease() {
 void PressureController::onPeakPressureIncrease() {
     DBG_DO(Serial.println("Peak Pressure ++");)
 
-    m_maxPeakPressureCommand = m_maxPeakPressureCommand + 10;
+    m_maxPeakPressureCommand = m_maxPeakPressureCommand + 10u;
 
     if (m_maxPeakPressureCommand > CONST_MAX_PEAK_PRESSURE) {
         m_maxPeakPressureCommand = CONST_MAX_PEAK_PRESSURE;
@@ -251,8 +251,8 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
     if (p_centiSec < m_centiSecPerInhalation) {
         m_phase = CyclePhases::INHALATION;
 
-        if (p_centiSec < (m_centiSecPerInhalation * 80 / 100)
-            && m_pressure < m_maxPeakPressureCommand) {
+        if ((p_centiSec < ((m_centiSecPerInhalation * 80u) / 100u))
+            && (m_pressure < m_maxPeakPressureCommand)) {
             if (m_subPhase != CycleSubPhases::HOLD_INSPIRATION) {
                 m_consignePression = m_maxPeakPressureCommand;
                 setSubPhase(CycleSubPhases::INSPIRATION);
@@ -326,7 +326,7 @@ void PressureController::safeguards(uint16_t p_centiSec) {
 
 void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
     if (m_subPhase == CycleSubPhases::INSPIRATION) {
-        if (m_pressure >= (m_maxPeakPressureCommand - 30)) {
+        if (m_pressure >= (m_maxPeakPressureCommand - 30u)) {
             // m_blower.ouvrirIntermediaire();
             m_vigilance = true;
         }
@@ -338,7 +338,7 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
         }
     }
 
-    if (m_pressure >= (m_maxPeakPressureCommand + 10)) {
+    if (m_pressure >= (m_maxPeakPressureCommand + 10u)) {
         // m_patient.augmenterOuverture();
         Alarm_Yellow_Start();
     }
@@ -358,7 +358,7 @@ void PressureController::safeguardPressionPlateau(uint16_t p_centiSec) {
 void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
     if (m_phase == CyclePhases::EXHALATION) {
         // TODO asservir m_minPeepCommand + X à la vitesse du volume estimé
-        if (m_pressure <= (m_minPeepCommand + 20)) {
+        if (m_pressure <= (m_minPeepCommand + 20u)) {
             setSubPhase(CycleSubPhases::HOLD_EXHALE);
             holdExhalation();
         }
@@ -373,10 +373,10 @@ void PressureController::safeguardMaintienPeep(uint16_t p_centiSec) {
 }
 
 void PressureController::computeCentiSecParameters() {
-    m_centiSecPerCycle = 60 * 100 / m_cyclesPerMinute;
+    m_centiSecPerCycle = 60u * 100u / m_cyclesPerMinute;
     // Inhalation = 1/3 of the cycle duration,
     // Exhalation = 2/3 of the cycle duration
-    m_centiSecPerInhalation = m_centiSecPerCycle / 3;
+    m_centiSecPerInhalation = m_centiSecPerCycle / 3u;
 }
 
 void PressureController::executeCommands() {
@@ -394,24 +394,25 @@ int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPre
     int32_t error = targetPressure - currentPressure;
 
     // Compute integral
-    blowerIntegral = blowerIntegral + PID_BLOWER_KI * error * dt / 1000000;
+    blowerIntegral = blowerIntegral + ((PID_BLOWER_KI * error * dt) / 1000000);
     blowerIntegral = max(PID_BLOWER_INTEGRAL_MIN, min(PID_BLOWER_INTEGRAL_MAX, blowerIntegral));
 
     // Compute derivative
-    int32_t derivative = (blowerLastError == INVALID_ERROR_MARKER || dt == 0)
+    int32_t derivative = ((blowerLastError == INVALID_ERROR_MARKER) || (dt == 0))
                              ? 0
-                             : derivative = 1000000 * (error - blowerLastError) / dt;
+                             : ((1000000 * (error - blowerLastError)) / dt);
     blowerLastError = error;
 
-    int32_t blowerCommand = PID_BLOWER_KP * error + blowerIntegral
-                            + PID_BLOWER_KD * derivative / 1000;  // calcul de la commande
+    int32_t blowerCommand = (PID_BLOWER_KP * error) + blowerIntegral
+                            + ((PID_BLOWER_KD * derivative) / 1000);  // calcul de la commande
+
+    int32_t minAperture = m_blower.minAperture();
+    int32_t maxAperture = m_blower.maxAperture();
 
     uint32_t blowerAperture =
-        max(m_blower.minAperture(),
-            min(m_blower.maxAperture(),
-                m_blower.maxAperture()
-                    - (blowerCommand + 1000) * (m_blower.maxAperture() - m_blower.minAperture())
-                          / 2000));
+        max(minAperture,
+            min(maxAperture,
+                maxAperture - (blowerCommand + 1000) * (maxAperture - minAperture) / 2000));
 
     return blowerAperture;
 }
@@ -422,24 +423,26 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
     int32_t error = targetPressure - currentPressure;
 
     // Compute integral
-    patientIntegral = patientIntegral + PID_PATIENT_KI * error * dt / 1000000;
+    patientIntegral = patientIntegral + ((PID_PATIENT_KI * error * dt) / 1000000);
     patientIntegral = max(PID_PATIENT_INTEGRAL_MIN, min(PID_PATIENT_INTEGRAL_MAX, patientIntegral));
 
     // Compute derivative
-    int32_t derivative = (patientLastError == INVALID_ERROR_MARKER || dt == 0)
+    int32_t derivative = ((patientLastError == INVALID_ERROR_MARKER) || (dt == 0))
                              ? 0
-                             : derivative = 1000000 * (error - patientLastError) / dt;
+                             : ((1000000 * (error - patientLastError)) / dt);
     patientLastError = error;
 
-    int32_t patientCommand = PID_PATIENT_KP * error + patientIntegral
-                             + PID_PATIENT_KD * derivative / 1000;  // calcul de la commande
+    int32_t patientCommand = (PID_PATIENT_KP * error) + patientIntegral
+                             + ((PID_PATIENT_KD * derivative) / 1000);  // calcul de la commande
 
-    uint32_t patientAperture = max(
-        m_patient.minAperture(),
-        min(m_patient.maxAperture(), m_patient.minAperture()
-                                         + (patientCommand + targetPressure)
-                                               * (m_patient.maxAperture() - m_patient.minAperture())
-                                               / (2 * targetPressure)));
+    int32_t minAperture = m_blower.minAperture();
+    int32_t maxAperture = m_blower.maxAperture();
+
+    uint32_t patientAperture =
+        max(minAperture,
+            min(maxAperture, minAperture
+                                 + (patientCommand + targetPressure) * (maxAperture - minAperture)
+                                       / (2 * targetPressure)));
 
     return patientAperture;
 }
