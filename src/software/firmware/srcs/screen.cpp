@@ -72,8 +72,8 @@ void displayCurrentInformation(uint16_t peakPressure,
     screen.setCursor(0, 1);
     char message[SCREEN_LINE_LENGTH];
 
-    snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressure / 10u,
-             plateauPressure / 10u, peep / 10u, pressure / 10u);
+    (void)snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressure / 10u,
+                   plateauPressure / 10u, peep / 10u, pressure / 10u);
 
     screen.print(message);
 }
@@ -85,8 +85,8 @@ void displaySettings(uint16_t peakPressureMax,
     screen.setCursor(0, 3);
     char message[SCREEN_LINE_LENGTH];
 
-    snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressureMax / 10u,
-             plateauPressureMax / 10u, peepMin / 10u, cyclesPerMinute);
+    (void)snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressureMax / 10u,
+                   plateauPressureMax / 10u, peepMin / 10u, cyclesPerMinute);
 
     screen.print(message);
 }
