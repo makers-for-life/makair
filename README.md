@@ -101,6 +101,14 @@ _Please ensure that you cut your acrylic panels using the same sizes than stated
 
 ## 2️⃣ Setup the electronics
 
+Electronics are comprised of 2 parts: the firmware controller board (typically, an Arduino), and the "raw" PCB electronics (LCD, interface buttons, alarm beeper, etc.).
+
+### 1. Motherboard
+
+The motherboard electronic schematics and wiring diagrams [can be found there](./src/electronics/motherboard/schematics). Please pick the last version available.
+
+If you need help on this part, you may [open an issue](https://github.com/covid-response-projects/covid-respirator/issues/new).
+
 🚧 (work in progress)
 
 ## 3️⃣ Flash the firmware
