@@ -1,0 +1,34 @@
+name: Arduino CLI CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2     
+    - name: Install Google Test
+      run: |
+        export gtest_ver="1.10.0"
+        # build and install Google Test
+        wget https://github.com/google/googletest/archive/release-${gtest_ver}.tar.gz
+        tar xf release-${gtest_ver}.tar.gz
+        cd googletest-release-${gtest_ver}
+        cmake .
+        sudo cmake --build . --target install
+    
+    - name: Unit Test
+      run: |
+        
+        cd $GITHUB_WORKSPACE
+        # build unit test
+        mkdir build_test
+        cd build_test
+        cmake $GITHUB_WORKSPACE/src/software/firmware/test/
+        cmake --build .
+        # Run tests
+        ctest
+    
+    

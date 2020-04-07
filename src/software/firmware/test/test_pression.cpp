@@ -2,8 +2,6 @@
  * @file test_pression.cpp
  * @author Makers For Life
  * @brief Unit tests for pression.cpp
- * @version 0.1
- * @date 2020-04-06
  * 
  * @copyright Copyright (c) 2020
  * 
@@ -23,7 +21,7 @@ class PressionTest : public ::testing::Test {
     PressionTest(){}
 };
 
-TEST_F(PressionTest, testReadPressureSensor) {
+TEST_F(PressionTest, testConvertSensor2Pressure) {
     std::vector<uint16_t> input = {0, 100, 1000, 5000, 8000, 16000, 24000, 65535};
     std::vector<uint16_t> output = {0, 0, 144, 983, 2181, 4543, 7837, 17761};
 

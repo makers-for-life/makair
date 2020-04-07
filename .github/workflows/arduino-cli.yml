@@ -21,24 +21,7 @@ jobs:
         arduino-cli lib install "Analog Buttons"
         arduino-cli lib install OneButton
         sed -i '/recipe.output.tmp_file={build.project_name}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
-        sed -i '/recipe.output.save_file={build.project_name}.{build.variant}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
-    - name: Unit Test
-      run: |
-        # build and install Google Test
-        wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz
-        tar xf release-1.10.0.tar.gz
-        cd googletest-release-1.10.0
-        cmake .
-        sudo cmake --build . --target install
-        cd $GITHUB_WORKSPACE
-        # build unit test
-        mkdir build_test
-        cd build_test
-        cmake $GITHUB_WORKSPACE/src/software/firmware/test/
-        cmake --build .
-        # Run tests
-        ctest
-    
+        sed -i '/recipe.output.save_file={build.project_name}.{build.variant}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"   
     - name: Build production
       run: |
         arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/respirator.cpp --output src/software/firmware/output/respirator-production
