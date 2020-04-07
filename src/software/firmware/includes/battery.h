@@ -5,18 +5,17 @@
  * @author Makers For Life
  * @file battery.h
  * @brief Battery related functions
- *
  *****************************************************************************/
 
 #pragma once
 
-/// 20 volts
+/// Expected voltage in volts when on battery
 #define DEFAULT_BATTERY_VOLTAGE 20
 
-// 24 volts;
+/// Expected voltage in volts when power cord is plugged
 #define DEFAULT_POWER_VOLTAGE 24
 
-// 20 samples;
+/// Number of samples of the moving average
 #define BATTERY_MAX_SAMPLES 20
 
 /**
@@ -42,6 +41,6 @@ void updateBatteryState();
 /**
  * Retrives battery voltage
  *
- *  @return    Current battery voltage
+ *  @return    Current battery voltage in volts
  */
 int getBatteryVoltage();
