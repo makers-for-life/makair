@@ -55,8 +55,7 @@ void updateBatterySample() {
     }
 
     // Updates mean voltage
-    batteryMeanVoltage =
-        (batteryTotalSamples / BATTERY_MAX_SAMPLES) * DEFAULT_POWER_VOLTAGE / 1024.0;
+    batteryMeanVoltage = (batteryTotalSamples / BATTERY_MAX_SAMPLES) * DEFAULT_POWER_VOLTAGE / 1024;
 }
 
 void updateBatteryState() {
