@@ -9,10 +9,6 @@
 
 #pragma once
 
-#ifndef UNIT_TEST
-#include <Arduino.h>
-#endif
-
 #include <stdint.h>
 
 /**
