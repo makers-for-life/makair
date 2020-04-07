@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "Arduino.h"
+
 /// Expected voltage in volts when on battery
 #define DEFAULT_BATTERY_VOLTAGE 20
 
@@ -43,4 +45,4 @@ void updateBatteryState();
  *
  *  @return    Current battery voltage in volts
  */
-int getBatteryVoltage();
+uint32_t getBatteryVoltage();

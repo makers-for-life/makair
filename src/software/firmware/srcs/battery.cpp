@@ -75,7 +75,7 @@ void updateBatteryState() {
     }
 }
 
-int getBatteryVoltage() { return batteryMeanVoltage; }
+uint32_t getBatteryVoltage() { return batteryMeanVoltage; }
 
 void batteryLoop() {
     updateBatterySample();
