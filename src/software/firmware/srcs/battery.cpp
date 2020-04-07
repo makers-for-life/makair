@@ -18,6 +18,7 @@
 #include "Arduino.h"
 
 // Internal
+#include "../includes/debug.h"
 #include "../includes/parameters.h"
 
 // PROGRAM =====================================================================

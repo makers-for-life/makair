@@ -33,16 +33,10 @@ void initBattery();
  */
 void batteryLoop();
 
-/**
- * Handle battery voltage calculation
- *
- */
+/// Handle battery voltage calculation
 void updateBatterySample();
 
-/**
- * Updates battery states
- *
- */
+/// Updates battery states
 void updateBatteryState();
 
 /**
