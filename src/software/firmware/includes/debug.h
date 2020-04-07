@@ -109,26 +109,26 @@
 #if DEBUG == 1
 #define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
                            positionBlower, consignePatient, positionPatient)                       \
-    if (centieme % periode == 0) {                                                                 \
-        Serial.print(cycle * 300 + centieme);                                                      \
+    if ((centieme % periode) == 0u) {                                                                 \
+        Serial.print((cycle * 300u) + centieme);                                                      \
         Serial.print(";");                                                                         \
         Serial.print(cycle);                                                                       \
         Serial.print(";");                                                                         \
         Serial.print(centieme);                                                                    \
         Serial.print(";");                                                                         \
-        Serial.print(300 - phase * 100);                                                           \
+        Serial.print(300u - (phase * 100u));                                                           \
         Serial.print(";");                                                                         \
-        Serial.print(300 - subPhase * 50);                                                         \
+        Serial.print(300u - (subPhase * 50u));                                                         \
         Serial.print(";");                                                                         \
         Serial.print(pression);                                                                    \
         Serial.print(";");                                                                         \
-        Serial.print(150 - consigneBlower);                                                        \
+        Serial.print(150u - consigneBlower);                                                        \
         Serial.print(";");                                                                         \
-        Serial.print(150 - positionBlower);                                                        \
+        Serial.print(150u - positionBlower);                                                        \
         Serial.print(";");                                                                         \
-        Serial.print(150 - consignePatient);                                                       \
+        Serial.print(150u - consignePatient);                                                       \
         Serial.print(";");                                                                         \
-        Serial.println(150 - positionPatient);                                                     \
+        Serial.println(150u - positionPatient);                                                     \
     }
 #else
 #define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
