@@ -23,3 +23,22 @@ void initBattery();
  * @warning It must be called in the program loop
  */
 void batteryLoop();
+
+/**
+ * Handle battery voltage calculation
+ *
+ */
+void updateBatterySample();
+
+/**
+ * Updates battery states
+ *
+ */
+void updateBatteryState();
+
+/**
+ * Retrives battery voltage
+ *
+ *  @return    Current battery voltage
+ */
+int getBatteryVoltage();
