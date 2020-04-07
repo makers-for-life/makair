@@ -10,7 +10,7 @@ find_package(GTest REQUIRED)
 add_definitions(-DUNIT_TEST)
 
 set(TEST_PRESSION_SRC test_pression.cpp
-                      ../srcs/pression.cpp                        
+                      ../srcs/pressure_utl.cpp                        
 )
 
 add_executable(test_pression ${TEST_PRESSION_SRC})

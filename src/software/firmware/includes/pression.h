@@ -11,13 +11,6 @@
 
 #include <stdint.h>
 
-/**
- * @brief Convert the analog value from sensor to a pressure value
- * 
- * @param sensorValue 
- * @return the pressure in mmH2O 
- */
-int16_t convertSensor2Pressure(uint16_t sensorValue);
 
 /**
  * Get the measured or simulated pressure for the feedback control (in mmH2O)
@@ -28,8 +21,4 @@ int16_t convertSensor2Pressure(uint16_t sensorValue);
  */
 int16_t readPressureSensor(uint16_t centiSec);
 
-/**
- * @brief Reset the value of void filteredRawPressure to 0
- * 
- */
-void resetFilteredRawPressure();
+
