@@ -104,6 +104,7 @@ void setup() {
     pController.setup();
 
     initKeyboard();
+    initBattery();
 
     Alarm_Init();
 
