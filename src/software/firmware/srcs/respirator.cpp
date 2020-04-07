@@ -21,7 +21,7 @@
 #include <LiquidCrystal.h>
 
 // Internal
-#include "../includes/alarm.h"
+#include "../includes/buzzer.h"
 #include "../includes/common.h"
 #include "../includes/debug.h"
 #include "../includes/keyboard.h"
@@ -55,8 +55,8 @@ void setup() {
     if (IWatchdog.isReset(true)) {
         /* Code in case of Watchdog detected */
         /* TODO */
-        Alarm_Init();
-        Alarm_Red_Start();
+        Buzzer_Init();
+        Buzzer_Long_Start();
         while (1) {
         }
     }
@@ -67,7 +67,7 @@ void setup() {
     startScreen();
 
     pinMode(PIN_PRESSURE_SENSOR, INPUT);
-    pinMode(PIN_ALARM, OUTPUT);
+    pinMode(PIN_BUZZER, OUTPUT);
 
     // Timer for servoBlower
     hardwareTimer1 = new HardwareTimer(TIM1);
@@ -109,17 +109,17 @@ void setup() {
 
     initKeyboard();
 
-    Alarm_Init();
+    Buzzer_Init();
 
     // escBlower needs 5s at speed 0 to be properly initalized
 
     // RCM-SW-17 (Christmas tree at startup)
-    Alarm_Boot_Start();
+    Buzzer_Boot_Start();
     digitalWrite(PIN_LED_GREEN, HIGH);
     digitalWrite(PIN_LED_RED, HIGH);
     digitalWrite(PIN_LED_YELLOW, HIGH);
     waitForInMs(1000);
-    Alarm_Stop();
+    Buzzer_Stop();
     digitalWrite(PIN_LED_GREEN, LOW);
     digitalWrite(PIN_LED_RED, LOW);
     digitalWrite(PIN_LED_YELLOW, LOW);

@@ -136,7 +136,7 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 ///@{
 
 #define PIN_PRESSURE_SENSOR A1
-#define PIN_ALARM D13
+#define PIN_BUZZER D13
 #define PIN_LED_RED PC4
 #define PIN_LED_GREEN PB13
 #define PIN_LED_YELLOW PB14
