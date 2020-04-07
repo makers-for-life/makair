@@ -81,13 +81,13 @@ You can find a list of all parts that should be 3D-printed, as well as the numbe
 - 1 x **Blower** — Print [all STL parts](./src/mechanics/parts/blower/fdm/stl) using the same printer (SLA or SLS; FDM discouraged; 50 microns minimum);
 - 2 x **Pressure Valve** — Print [all STL parts](./src/mechanics/parts/pressure-valve/fdm/stl) using the same printer (SLA, SLS or FDM; 200 microns minimum);
 - 1 x **Oxygen Mixer** — Print [the STL part](./src/mechanics/parts/oxygen-mixer/fdm/stl) (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x TODO — air filter patient
-- 1 x TODO — air filter machine intake
-- 1 x TODO — air filter machine outtake
-- 1 x TODO — pneumatic connectors 1
-- 1 x TODO — pneumatic connectors 2
-- 1 x TODO — pneumatic connectors 3
-- 1 x TODO — pneumatic connectors 4
+- 1 x **Patient Filter Box** — Print [all STL parts](./src/mechanics/parts/patient-filter-box/fdm/stl) using the same printer (SLA, SLS or FDM; 100 microns minimum);
+- 1 x **Machine Filter Box (Intake)** — Print [all STL parts](./src/mechanics/parts/machine-filter-box/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Machine Filter Box (Outtake)** — Print [all STL parts](./src/mechanics/parts/machine-filter-box/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (Blower)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (O2)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (No Pressure)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (Pressure)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/fdm/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
 
 If you are using your own proprietary blower — in addition to the parts above — please adjust the [Blower Holder](./src/mechanics/parts/blower-holder) CAD model and print it as well (this one prints well using a FDM printer at worst).
 
