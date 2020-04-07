@@ -148,4 +148,7 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -500;
 #define TIM_CHANNEL_ESC_BLOWER 1
 #define PIN_BATTERY A2
 
+/// Convert a speed to a value in microseconds for the blower controller
+#define BlowerSpeed2MicroSeconds(value) map(value, 0, 180, 1000, 2000)
+
 ///@}

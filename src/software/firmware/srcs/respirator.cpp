@@ -23,7 +23,6 @@
 // Internal
 #include "../includes/battery.h"
 #include "../includes/buzzer.h"
-#include "../includes/common.h"
 #include "../includes/debug.h"
 #include "../includes/keyboard.h"
 #include "../includes/parameters.h"

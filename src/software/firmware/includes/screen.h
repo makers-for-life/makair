@@ -18,8 +18,8 @@
 #include <LiquidCrystal.h>
 
 // Internal
-#include "common.h"
 #include "parameters.h"
+#include "pressure_controller.h"
 
 // INITIALISATION =============================================================
 
