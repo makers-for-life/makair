@@ -45,8 +45,9 @@ HardwareTimer* hardwareTimer3;
  */
 void waitForInMs(uint16_t ms) {
     uint16_t start = millis();
-    while ((millis() - start) < ms)
+    while ((millis() - start) < ms) {
         continue;
+    }
 }
 
 void setup() {
@@ -156,7 +157,7 @@ void loop() {
 
         uint32_t currentDate = millis();
 
-        if (currentDate - lastpControllerComputeDate >= PCONTROLLER_COMPUTE_PERIOD) {
+        if ((currentDate - lastpControllerComputeDate) >= PCONTROLLER_COMPUTE_PERIOD) {
             lastpControllerComputeDate = currentDate;
 
             int32_t currentMicro = micros();
@@ -171,7 +172,7 @@ void loop() {
             keyboardLoop();
 
             // Display relevant information during the cycle
-            if (centiSec % LCD_UPDATE_PERIOD == 0) {
+            if ((centiSec % LCD_UPDATE_PERIOD) == 0u) {
                 displaySubPhase(pController.subPhase());
 
                 displayCurrentInformation(pController.peakPressure(), pController.plateauPressure(),

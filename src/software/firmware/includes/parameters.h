@@ -27,7 +27,7 @@
 ///@{
 
 // Période de traitement en millisecondes
-#define PCONTROLLER_COMPUTE_PERIOD 10
+#define PCONTROLLER_COMPUTE_PERIOD 10u
 
 // Minimum & maximum execution parameters
 #define CONST_MAX_PEAK_PRESSURE 700     // arbitrary [mmH2O]
@@ -106,7 +106,7 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 #define SCREEN_LINE_LENGTH 20
 
 /// Period between screen updates in hundredth of second
-#define LCD_UPDATE_PERIOD 20
+#define LCD_UPDATE_PERIOD 20u
 
 ///@}
 
