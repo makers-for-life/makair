@@ -139,6 +139,10 @@ void setup() {
 // Time of the previous loop iteration
 int32_t lastMicro = 0;
 
+// Number of cycles before LCD screen reset
+// (because this kind of screen is not reliable, we need to reset it every 5 min or so)
+int8_t cyclesBeforeScreenReset = LCD_RESET_PERIOD * CONST_MIN_CYCLE;
+
 void loop() {
     /********************************************/
     // INITIALIZE THE RESPIRATORY CYCLE
@@ -192,6 +196,14 @@ void loop() {
     /********************************************/
     // END OF THE RESPIRATORY CYCLE
     /********************************************/
+
+    // Because this kind of LCD screen is not reliable, we need to reset it every 5 min or so
+    cyclesBeforeScreenReset--;
+    if (cyclesBeforeScreenReset <= 0) {
+        DBG_DO(Serial.println("resetting LCD screen");)
+        resetScreen();
+        cyclesBeforeScreenReset = LCD_RESET_PERIOD * CONST_MIN_CYCLE;
+    }
 }
 
 #endif

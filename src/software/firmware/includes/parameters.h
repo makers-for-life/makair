@@ -108,6 +108,9 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 /// Period between screen updates in hundredth of second
 #define LCD_UPDATE_PERIOD 20u
 
+/// Period between screen resets in minutes
+#define LCD_RESET_PERIOD 5
+
 ///@}
 
 /**
