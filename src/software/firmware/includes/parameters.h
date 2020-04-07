@@ -29,24 +29,24 @@
 ///@{
 
 // Période de traitement en millisecondes
-#define PCONTROLLER_COMPUTE_PERIOD 10
+#define PCONTROLLER_COMPUTE_PERIOD 10u
 
 // Minimum & maximum execution parameters
-#define CONST_MAX_PEAK_PRESSURE 700     // arbitrary [mmH2O]
-#define CONST_MIN_PEAK_PRESSURE 100     // arbitrary [mmH2O]
-#define CONST_MAX_PLATEAU_PRESSURE 400  // PP MAX ARDS = 300 [mmH2O]
-#define CONST_MIN_PLATEAU_PRESSURE 100  // arbitrary [mmH2O]
-#define CONST_MAX_PEEP_PRESSURE 300     // PP MAX = 300, or PEEP < PP [mmH2O]
-#define CONST_MIN_PEEP_PRESSURE 50      // arbitrary but > 0 [mmH2O]
-#define CONST_INITIAL_ZERO_PRESSURE 0   // [mmH2O]
+#define CONST_MAX_PEAK_PRESSURE 700u     // arbitrary [mmH2O]
+#define CONST_MIN_PEAK_PRESSURE 100u     // arbitrary [mmH2O]
+#define CONST_MAX_PLATEAU_PRESSURE 400u  // PP MAX ARDS = 300 [mmH2O]
+#define CONST_MIN_PLATEAU_PRESSURE 100u  // arbitrary [mmH2O]
+#define CONST_MAX_PEEP_PRESSURE 300u     // PP MAX = 300, or PEEP < PP [mmH2O]
+#define CONST_MIN_PEEP_PRESSURE 50u      // arbitrary but > 0 [mmH2O]
+#define CONST_INITIAL_ZERO_PRESSURE 0    // [mmH2O]
 
 #define DEFAULT_MIN_PEEP_COMMAND 80
 #define DEFAULT_MAX_PLATEAU_COMMAND 300
 #define DEFAULT_MAX_PEAK_PRESSURE_COMMAND 320
 
 #define INITIAL_CYCLE_NUMBER 20
-#define CONST_MAX_CYCLE 35
-#define CONST_MIN_CYCLE 5
+#define CONST_MAX_CYCLE 35u
+#define CONST_MIN_CYCLE 5u
 
 ///@}
 
@@ -78,7 +78,7 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 #define VALVE_OPEN_STATE 10
 
 /// Angle when closed
-#define VALVE_CLOSED_STATE 120
+#define VALVE_CLOSED_STATE 105
 
 #define SERVO_VALVE_PERIOD 20000
 #define PIN_SERVO_BLOWER D2  // PA10 / TIM1_CH3
@@ -108,7 +108,10 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 #define SCREEN_LINE_LENGTH 20
 
 /// Period between screen updates in hundredth of second
-#define LCD_UPDATE_PERIOD 20
+#define LCD_UPDATE_PERIOD 20u
+
+/// Period between screen resets in minutes
+#define LCD_RESET_PERIOD 5
 
 ///@}
 
@@ -138,7 +141,7 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 ///@{
 
 #define PIN_PRESSURE_SENSOR A1
-#define PIN_ALARM D13
+#define PIN_BUZZER D13
 #define PIN_LED_RED PC4
 #define PIN_LED_GREEN PB13
 #define PIN_LED_YELLOW PB14
