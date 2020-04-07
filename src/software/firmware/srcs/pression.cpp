@@ -92,11 +92,16 @@ int16_t readPressureSensor(uint16_t centiSec) {
 
 int16_t readPressureSensor(uint16_t centiSec) {
     (void) centiSec;
+    // todo In order to be able to compile this file in the test framework, we need to avoid calls to Arduino functions
 #ifndef UNIT_TEST
     return convertSensor2Pressure(analogRead(PIN_PRESSURE_SENSOR));
 #else
     return 0;
 #endif
+}
+
+void resetFilteredRawPressure() {
+    filteredRawPressure = 0;
 }
 
 #endif

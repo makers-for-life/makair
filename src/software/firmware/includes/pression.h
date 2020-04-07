@@ -27,3 +27,9 @@ int16_t convertSensor2Pressure(uint16_t sensorValue);
  * @return         The current pressure in mmH20
  */
 int16_t readPressureSensor(uint16_t centiSec);
+
+/**
+ * @brief Reset the value of void filteredRawPressure to 0
+ * 
+ */
+void resetFilteredRawPressure();
