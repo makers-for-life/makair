@@ -25,9 +25,9 @@ Alarm::Alarm(AlarmPriority p_priority, uint8_t p_code, uint8_t p_detectionThresh
     m_detectionNumber = 0u;
 }
 
-AlarmPriority Alarm::priotity() { return m_priority; }
+AlarmPriority Alarm::getPriority() { return m_priority; }
 
-uint8_t Alarm::code() { return m_code; }
+uint8_t Alarm::getCode() { return m_code; }
 
 bool Alarm::isTriggered() { return m_detectionNumber >= m_detectionThreshold; }
 

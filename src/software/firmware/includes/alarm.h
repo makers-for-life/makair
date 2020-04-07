@@ -37,12 +37,12 @@ class Alarm {
     /**
      * Get the alarm priority
      */
-    AlarmPriority priotity();
+    AlarmPriority getPriority();
 
     /**
      * Get the alarm code
      */
-    uint8_t code();
+    uint8_t getCode();
 
     /**
      * True if the number of detection is equals or above the detection threshold, false otherwise

@@ -112,8 +112,8 @@ void AlarmController::snooze() {
 
 void AlarmController::detectedAlarm(uint8_t p_alarmCode) {
     for (int i = 0; i < ALARMS_SIZE; i++) {
-        Alarm current = m_alarms[0];
-        if (current.code() == p_alarmCode) {
+        Alarm current = m_alarms[i];
+        if (current.getCode() == p_alarmCode) {
             current.detected();
         }
     }
@@ -121,8 +121,8 @@ void AlarmController::detectedAlarm(uint8_t p_alarmCode) {
 
 void AlarmController::notDetectedAlarm(uint8_t p_alarmCode) {
     for (int i = 0; i < ALARMS_SIZE; i++) {
-        Alarm current = m_alarms[0];
-        if (current.code() == p_alarmCode) {
+        Alarm current = m_alarms[i];
+        if (current.getCode() == p_alarmCode) {
             current.notDetected();
         }
     }
