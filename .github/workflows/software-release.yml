@@ -59,6 +59,6 @@ jobs:
         with:
           files: tmp/respirator-production.bin.gz
           body: Auto-release from GitHub Actions (${{ github.sha }})
-          tag_name: auto-${{ github.sha }}
+          tag_name: auto-${{ github.sha:8 }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
