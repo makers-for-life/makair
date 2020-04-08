@@ -97,9 +97,11 @@ void setup() {
                                       MICROSEC_COMPARE_FORMAT);
     hardwareTimer3->resume();
 
+    AlarmController alarmController = AlarmController();
+
     pController = PressureController(INITIAL_CYCLE_NUMBER, DEFAULT_MIN_PEEP_COMMAND,
                                      DEFAULT_MAX_PLATEAU_COMMAND, DEFAULT_MAX_PEAK_PRESSURE_COMMAND,
-                                     servoBlower, servoPatient);
+                                     servoBlower, servoPatient, alarmController);
     pController.setup();
 
     // Prepare LEDs

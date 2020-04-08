@@ -45,10 +45,10 @@ class AlarmController {
     void manageAlarm();
 
  private:
+    /// Collections of all available alarms
     Alarm m_alarms[ALARMS_SIZE];
+
+    AlarmPriority m_highestPriority;
+
+    AlarmPriority* m_snoozed;
 };
-
-// INITIALISATION =============================================================
-
-/// Instance of the alarm controller
-extern AlarmController alarmController;

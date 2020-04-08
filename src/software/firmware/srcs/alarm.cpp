@@ -13,6 +13,8 @@
 
 // Externals
 
+#include <Arduino.h>
+
 // Internals
 #include "../includes/alarm.h"
 

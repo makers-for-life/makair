@@ -90,3 +90,19 @@ void displaySettings(uint16_t peakPressureMax,
 
     screen.print(message);
 }
+
+void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms) {
+    screen.setCursor(0, 2);
+    screen.print("                    ");
+    screen.setCursor(0, 2);
+    if (p_nbTriggeredAlarms == 0) {
+        screen.print("PEAK  PLAT  PEEP    ");
+    } else {
+        screen.print("Alarm:");
+        uint8_t maxAlarmToPrint = min(static_cast<uint8_t>(4), p_nbTriggeredAlarms);
+        for (int i = 0; i < maxAlarmToPrint; i++) {
+            screen.print(" ");
+            screen.print(p_alarmCodes[i]);
+        }
+    }
+}

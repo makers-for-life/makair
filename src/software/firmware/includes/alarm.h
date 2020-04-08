@@ -19,7 +19,7 @@
 
 // ENUMS =====================================================================
 
-enum AlarmPriority { LOW, MEDIUM, HIGH };
+enum AlarmPriority { ALARM_LOW, ALARM_MEDIUM, ALARM_HIGH };
 
 // CLASS =====================================================================
 

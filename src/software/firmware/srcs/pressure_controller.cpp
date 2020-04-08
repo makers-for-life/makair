@@ -18,6 +18,7 @@
 #include <algorithm>
 
 // Internal libraries
+#include "../includes/alarm_controller.h"
 #include "../includes/buzzer.h"
 #include "../includes/config.h"
 #include "../includes/debug.h"
@@ -56,7 +57,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        int16_t p_maxPlateauPressure,
                                        int16_t p_maxPeakPressure,
                                        PressureValve p_blower,
-                                       PressureValve p_patient)
+                                       PressureValve p_patient,
+                                       AlarmController p_alarmController)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
 
       m_vigilance(false),
@@ -75,7 +77,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_blower(p_blower),
       m_patient(p_patient),
       m_triggerHoldExpiDetectionTick(0),
-      m_triggerHoldExpiDetectionTickDeletion(0) {
+      m_triggerHoldExpiDetectionTickDeletion(0),
+      m_alarmController(p_alarmController) {
     computeCentiSecParameters();
 }
 
@@ -160,6 +163,8 @@ void PressureController::compute(uint16_t p_centiSec) {
                        m_blower.position, m_patient.command, m_patient.position)
 
     executeCommands();
+
+    m_alarmController.manageAlarm();
 }
 
 void PressureController::onCycleDecrease() {
