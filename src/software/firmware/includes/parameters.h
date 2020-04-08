@@ -102,10 +102,16 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #define VALVE_CLOSED_STATE 125
 
 #define SERVO_VALVE_PERIOD 20000
-#define PIN_SERVO_BLOWER D2  // PA10 / TIM1_CH3
 #define TIM_CHANNEL_SERVO_VALVE_BLOWER 3
-#define PIN_SERVO_PATIENT D4  // PB5 / TIM3_CH2
 #define TIM_CHANNEL_SERVO_VALVE_PATIENT 2
+
+#if HARDWARE_VERSION == 1
+#define PIN_SERVO_BLOWER D2   // PA10 / TIM1_CH3
+#define PIN_SERVO_PATIENT D4  // PB5 / TIM3_CH2
+#elif HARDWARE_VERSION == 2
+#define PIN_SERVO_BLOWER D5   // PB4 / TIM1_CH3
+#define PIN_SERVO_PATIENT D4  // PB5 / TIM3_CH2
+#endif
 
 ///@}
 
@@ -122,6 +128,7 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
  */
 ///@{
 
+#if HARDWARE_VERSION == 1
 #define PIN_LCD_RS D7
 #define PIN_LCD_RW PA13
 #define PIN_LCD_EN D8
@@ -129,6 +136,15 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #define PIN_LCD_D5 D10
 #define PIN_LCD_D6 D11
 #define PIN_LCD_D7 D12
+#elif HARDWARE_VERSION == 2
+#define PIN_LCD_RS D7  // PA8
+#define PIN_LCD_RW PA14
+#define PIN_LCD_EN D8   // PA9
+#define PIN_LCD_D4 D9   // PC7
+#define PIN_LCD_D5 D10  // PB6
+#define PIN_LCD_D6 D11  // PA7
+#define PIN_LCD_D7 D12  // PA6
+#endif
 
 /// Number of lines
 #define SCREEN_LINE_NUMBER 4
@@ -169,14 +185,27 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
  */
 ///@{
 
+#define TIM_CHANNEL_ESC_BLOWER 1
+
+#if HARDWARE_VERSION == 1
 #define PIN_PRESSURE_SENSOR A1
 #define PIN_BUZZER D13
 #define PIN_LED_RED PC4
 #define PIN_LED_GREEN PB13
 #define PIN_LED_YELLOW PB14
 #define PIN_ESC_BLOWER D5  // PB4 / TIM3_CH1
-#define TIM_CHANNEL_ESC_BLOWER 1
 #define PIN_BATTERY A2
+#elif HARDWARE_VERSION == 2
+#define PIN_PRESSURE_SENSOR A3
+#define PIN_BUZZER D13  // PA5
+#define PIN_LED_STARTSTOP PC8
+#define PIN_LED_GREEN PB13
+#define PIN_LED_YELLOW PB14
+#define PIN_LED_RED PC4
+#define PIN_ESC_BLOWER D2   // PA10 / TIM3_CH1
+#define PIN_TEMP_BLOWER A4  // PC1
+#define PIN_BATTERY A2
+#endif
 
 ///@}
 

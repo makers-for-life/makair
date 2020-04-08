@@ -35,3 +35,10 @@
 
 /// Defines which preset to use for controlling pressure
 #define PNEUMATIC_HARDWARE_VERSION PHW_CHU
+
+/**
+ * Defines which hardware preset to use
+ *
+ * This changes which hardware is used, to which pins it is connected, as well as various parameters
+ */
+#define HARDWARE_VERSION 1
