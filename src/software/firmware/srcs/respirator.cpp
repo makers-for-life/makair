@@ -101,26 +101,27 @@ void setup() {
     blower_pointer = &blower;
 #elif HARDWARE_VERSION == 2
     // Timer for servos
-    hardwareTimer1 = new HardwareTimer(TIM1);
-    hardwareTimer1->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+    hardwareTimer3 = new HardwareTimer(TIM3);
+    hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
 
     // Servo blower setup
-    servoBlower = PressureValve(hardwareTimer1, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
+    servoBlower = PressureValve(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
                                 VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
     servoBlower.setup();
-    hardwareTimer1->resume();
+    hardwareTimer3->resume();
 
     // Servo patient setup
     servoPatient = PressureValve(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT,
                                  VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
     servoPatient.setup();
-    hardwareTimer1->resume();
+    hardwareTimer3->resume();
 
-    hardwareTimer3 = new HardwareTimer(TIM3);
-    blower = Blower(hardwareTimer3, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
+    hardwareTimer1 = new HardwareTimer(TIM1);
+    blower = Blower(hardwareTimer1, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
     blower.setup();
     blower_pointer = &blower;
 #endif
+
     alarmController = AlarmController();
 
     pController = PressureController(INITIAL_CYCLE_NUMBER, DEFAULT_MIN_PEEP_COMMAND,
