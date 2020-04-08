@@ -1,9 +1,6 @@
 name: Software Release
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
 
 jobs:
   build:
@@ -67,6 +64,7 @@ jobs:
 
       - name: Release binaries
         uses: softprops/action-gh-release@v1
+        if: github.ref == 'refs/heads/master'
         with:
           files: |
             tmp/respirator-production-${{ steps.vars.outputs.sha_short }}.bin.gz
