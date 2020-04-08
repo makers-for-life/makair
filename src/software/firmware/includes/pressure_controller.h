@@ -11,12 +11,10 @@
 
 // INCLUDES ===================================================================
 
-// External libraries
-
-// Internal libraries
-#include "alarm_controller.h"
-#include "common.h"
-#include "pressure_valve.h"
+// Internal
+#include "../includes/alarm_controller.h"
+#include "../includes/common.h"
+#include "../includes/pressure_valve.h"
 
 // CLASS ======================================================================
 
@@ -353,9 +351,7 @@ class PressureController {
      */
     int32_t patientLastError;
 
-    /**
-     * Alarm controller
-     */
+    /// Alarm controller
     AlarmController m_alarmController;
 };
 

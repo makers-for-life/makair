@@ -4,7 +4,7 @@
 /******************************************************************************
  * @author Makers For Life
  * @file alarm.cpp
- * @brief Alarm structure
+ * @brief Describes an alarm and handle its dynamic state
  *****************************************************************************/
 
 #pragma once
@@ -12,7 +12,6 @@
 // INCLUDES ===================================================================
 
 // Externals
-
 #include <Arduino.h>
 
 // Internals
@@ -37,7 +36,7 @@ bool Alarm::isTriggered() { return m_detectionNumber >= m_detectionThreshold; }
 void Alarm::detected(uint32_t p_cycleNumber) {
     if (m_cycleNumber != p_cycleNumber) {
         m_cycleNumber = p_cycleNumber;
-        m_detectionNumber = m_detectionNumber + 1;
+        m_detectionNumber++;
         if (m_detectionNumber > m_detectionThreshold) {
             m_detectionNumber = m_detectionThreshold;
         }

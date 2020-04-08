@@ -4,18 +4,17 @@
 /******************************************************************************
  * @author Makers For Life
  * @file alarm_controller.h
- * @brief Alarm  controller related functions
+ * @brief Core logic to manage alarm features
  *****************************************************************************/
 
 #pragma once
 
 // INCLUDES ===================================================================
 
-// Externals
-
 // Internals
+#include "../includes/alarm.h"
 
-#include "alarm.h"
+// CONSTANTS ==================================================================
 
 #define ALARMS_SIZE 12
 
@@ -32,38 +31,48 @@
 #define RCM_SW_18 17u
 #define RCM_SW_19 24u
 
+// CLASS =====================================================================
+
 class AlarmController {
  public:
     /// Default constructor
     AlarmController();
 
-    /// Snooze alarm for 2 minutes. There is no more buzzer during the alarm
+    /**
+     * Snooze alarm for 2 minutes
+     *
+     * There is no more buzzer during the alarm
+     */
     void snooze();
 
     /**
-     * Detect a specific alarm.
-     * @param p_alarmCode The alarm code of the alarm
+     * Mark a specific alarm as detected
+     *
+     * @param p_alarmCode The code of the alarm
      * @param p_cycleNumber The cycle number since the device startup
      */
     void detectedAlarm(uint8_t p_alarmCode, uint32_t p_cycleNumber);
 
     /**
-     * Undetect a specific alarm.
-     * @param p_alarmCode The alarm code of the alarm
+     * Reset detection of a specific alarm
+     * @param p_alarmCode The code of the alarm
      */
     void notDetectedAlarm(uint8_t p_alarmCode);
 
     /**
-     * Manage alarms and do whatever is needed as buzzer / lcd / led
+     * Run effects (buzzer, LCD message, LED) according to the currently triggered alarms
+     *
      * @param p_centiSec Centile in the respiratory cycle
      */
-    void manageAlarm(uint16_t p_centiSec);
+    void runAlarmEffects(uint16_t p_centiSec);
 
  private:
-    /// Collections of all available alarms
+    /// Collections of available alarms
     Alarm m_alarms[ALARMS_SIZE];
 
+    /// Highest priority of the currently triggered alarms
     AlarmPriority m_highestPriority;
 
+    /// Snoozed priority
     AlarmPriority* m_snoozed;
 };

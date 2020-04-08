@@ -20,10 +20,9 @@ void Buzzer_Init();
  *
  * @param Buzzer Buzzer pattern array
  * @param Size Size of the buzzer pattern array
- * @param BuzzerRepeatMode Is pattern repeating after its end
+ * @param RepeatBuzzer Is pattern repeating after its end
  */
-void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool BuzzerRepeatMode);
-
+void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool RepeatBuzzer);
 
 /// Activate the buzzer pattern for low priority alarms
 void Buzzer_Low_Prio_Start(void);

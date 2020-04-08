@@ -169,7 +169,6 @@ void loop() {
 
         if (diff >= PCONTROLLER_COMPUTE_PERIOD) {
             lastpControllerComputeDate = currentDate;
-            Serial.println(diff);
             int32_t currentMicro = micros();
 
             pController.updateDt(currentMicro - lastMicro);

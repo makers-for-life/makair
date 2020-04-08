@@ -153,8 +153,9 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
  * @name Alarm thresholds
  */
 ///@{
-#define ALARM_2_CMH2O 20
-#define ALARM_35_CMH2O 350
+
+#define ALARM_2_CMH2O 20                                           // RCM-SW-2
+#define ALARM_35_CMH2O 350                                         // RCM-SW-1
 #define ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O ALARM_2_CMH2O  // RCM-SW-3 / RCM-SW-15
 #define ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O ALARM_2_CMH2O        // RCM-SW-19
 #define ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O 800                 // RCM-SW-18

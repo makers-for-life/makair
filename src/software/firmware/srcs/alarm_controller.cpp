@@ -4,7 +4,7 @@
 /******************************************************************************
  * @author Makers For Life
  * @file alarm_controller.cpp
- * @brief Core logic to control alarms
+ * @brief Core logic to manage alarm features
  *****************************************************************************/
 
 #pragma once
@@ -131,7 +131,7 @@ void AlarmController::notDetectedAlarm(uint8_t p_alarmCode) {
     }
 }
 
-void AlarmController::manageAlarm(uint16_t p_centiSec) {
+void AlarmController::runAlarmEffects(uint16_t p_centiSec) {
     AlarmPriority highestPriority = AlarmPriority::ALARM_NONE;
     uint8_t triggeredAlarmCodes[ALARMS_SIZE];
     uint8_t numberOfTriggeredAlarms = 0;
@@ -169,9 +169,9 @@ void AlarmController::manageAlarm(uint16_t p_centiSec) {
             Buzzer_Medium_Prio_Start();
         }
         digitalWrite(PIN_LED_RED, LOW);
-        if (p_centiSec % 100 == 50) {
+        if ((p_centiSec % 100) == 50) {
             digitalWrite(PIN_LED_YELLOW, HIGH);
-        } else if (p_centiSec % 100 == 0) {
+        } else if ((p_centiSec % 100) == 0) {
             digitalWrite(PIN_LED_YELLOW, LOW);
         }
     } else if (highestPriority == AlarmPriority::ALARM_LOW) {
@@ -184,8 +184,4 @@ void AlarmController::manageAlarm(uint16_t p_centiSec) {
     }
 
     m_highestPriority = highestPriority;
-
-    // TODO launch corresponding buzzer
-    // Display alarm code on LCD screen
-    // Blink the corresponding LED
 }

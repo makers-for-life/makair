@@ -23,9 +23,17 @@
 
 // INITIALISATION =============================================================
 
+/// Number of alarm codes to display on screen at most
 static const uint8_t MAX_ALARMS_DISPLAYED = 4;
+
+/// Text to display at the third line of the screen when no alarm is triggered
 static const char* NO_ALARM_LINE = "PEAK  PLAT  PEEP    ";
+
+/// Static label to display at the begining of the third line of the screen when at least one alarm
+/// is triggered
 static const char* ALARM_LINE = "Alarm:              ";
+
+/// Position of the first alarm code in the third line of the screen
 static const int ALARMS_CODE_POS = 6;
 
 /// Instance of the screen controller
@@ -99,6 +107,7 @@ void displaySettings(uint16_t peakPressureMax,
 static uint8_t prevNbAlarmToPrint = 255;
 static uint8_t prevAlarmCodes[MAX_ALARMS_DISPLAYED] = {0};
 
+/// Check whether triggered alarms are already displayed on screen or not
 static bool hasAlarmInformationChanged(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms) {
     uint8_t nbAlarmToPrint = min(static_cast<uint8_t>(MAX_ALARMS_DISPLAYED), p_nbTriggeredAlarms);
 

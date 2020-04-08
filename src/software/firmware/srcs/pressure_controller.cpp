@@ -14,12 +14,11 @@
 // Associated header
 #include "../includes/pressure_controller.h"
 
-// External libraries
+// External
 #include <algorithm>
 
-// Internal libraries
+// Internal
 #include "../includes/alarm_controller.h"
-#include "../includes/buzzer.h"
 #include "../includes/config.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
@@ -164,7 +163,7 @@ void PressureController::compute(uint16_t p_centiSec) {
 
     executeCommands();
 
-    m_alarmController.manageAlarm(p_centiSec);
+    m_alarmController.runAlarmEffects(p_centiSec);
 }
 
 void PressureController::onCycleDecrease() {
@@ -350,14 +349,12 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
 
         if (m_pressure >= m_maxPeakPressureCommand) {
             setSubPhase(CycleSubPhases::HOLD_INSPIRATION);
-            Buzzer_Medium_Prio_Start();
             plateau();
         }
     }
 
     if (m_pressure >= (m_maxPeakPressureCommand + 10u)) {
         // m_patient.augmenterOuverture();
-        Buzzer_Medium_Prio_Start();
     }
 }
 
@@ -404,7 +401,6 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
 void PressureController::safeguardMaintienPeep(uint16_t p_centiSec) {
     if (m_pressure <= m_minPeepCommand) {
         // m_blower.augmenterOuverture();
-        Buzzer_High_Prio_Start();
     }
 }
 

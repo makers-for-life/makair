@@ -68,7 +68,7 @@ void displaySettings(uint16_t peakPressureMax,
                      uint16_t cyclesPerMinute);
 
 /**
- * Display triggered alarm codes.
+ * Display triggered alarm codes
  *
  * @param p_alarmCodes          List of alarm codes to display
  * @param p_nbTriggeredAlarms   Number of triggered alarms
