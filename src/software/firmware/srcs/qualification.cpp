@@ -13,7 +13,9 @@
 // INCLUDES ===================================================================
 
 // External
+#if HARDWARE_VERSION == 1
 #include <AnalogButtons.h>
+#endif
 #include <Arduino.h>
 #include <IWatchdog.h>
 #include <OneButton.h>
@@ -316,6 +318,7 @@ void onStopClick() {
     }
 }
 
+#if HARDWARE_VERSION == 1
 static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
 
 Button btn_pression_crete_plus =
@@ -330,6 +333,16 @@ Button btn_pep_plus = Button(VOLTAGE_BUTTON_PEEP_PRESSURE_INCREASE, &onPepPlusCl
 Button btn_pep_minus = Button(VOLTAGE_BUTTON_PEEP_PRESSURE_DECREASE, &onPepMinusClick);
 Button btn_cycle_plus = Button(VOLTAGE_BUTTON_CYCLE_INCREASE, &onCyclePlusClick);
 Button btn_cycle_minus = Button(VOLTAGE_BUTTON_CYCLE_DECREASE, &onCycleMinusClick);
+#elif HARDWARE_VERSION == 2
+OneButton buttonPeakPressureIncrease(PIN_BTN_PEAK_PRESSURE_INCREASE, false, false);
+OneButton buttonPeakPressureDecrease(PIN_BTN_PEAK_PRESSURE_DECREASE, false, false);
+OneButton buttonPlateauPressureIncrease(PIN_BTN_PLATEAU_PRESSURE_INCREASE, false, false);
+OneButton buttonPlateauPressureDecrease(PIN_BTN_PLATEAU_PRESSURE_DECREASE, false, false);
+OneButton buttonPeepPressureIncrease(PIN_BTN_PEEP_PRESSURE_INCREASE, false, false);
+OneButton buttonPeepPressureDecrease(PIN_BTN_PEEP_PRESSURE_DECREASE, false, false);
+OneButton buttonCycleIncrease(PIN_BTN_CYCLE_INCREASE, false, false);
+OneButton buttonCycleDecrease(PIN_BTN_CYCLE_DECREASE, false, false);
+#endif
 
 OneButton btn_alarm_off(PIN_BTN_ALARM_OFF, false, false);
 OneButton btn_start(PIN_BTN_START, false, false);
@@ -339,6 +352,7 @@ void setup() {
     DBG_DO(Serial.begin(115200));
     DBG_DO(Serial.println("demarrage"));
 
+    #if HARDWARE_VERSION == 1
     analogButtons.add(btn_pression_crete_plus);
     analogButtons.add(btn_pression_crete_minus);
     analogButtons.add(btn_pression_plateau_plus);
@@ -347,6 +361,16 @@ void setup() {
     analogButtons.add(btn_pep_minus);
     analogButtons.add(btn_cycle_plus);
     analogButtons.add(btn_cycle_minus);
+    #elif HARDWARE_VERSION == 2
+    buttonPeakPressureIncrease.attachClick(onPressionCretePlusClick);
+    buttonPeakPressureDecrease.attachClick(onPressionCreteMinusClick);
+    buttonPlateauPressureIncrease.attachClick(onPressionPlateauPlusClick);
+    buttonPlateauPressureDecrease.attachClick(onPressionPlateauMinusClick);
+    buttonPeepPressureIncrease.attachClick(onPepPlusClick);
+    buttonPeepPressureDecrease.attachClick(onPepMinusClick);
+    buttonCycleIncrease.attachClick(onCyclePlusClick);
+    buttonCycleDecrease.attachClick(onCycleMinusClick);
+    #endif
 
     btn_alarm_off.attachClick(onAlarmOffClick);
     btn_start.attachClick(onStartClick);
@@ -409,7 +433,18 @@ void loop() {
         remainingTicks = CYCLE_TICKS;
     }
 
+    #if HARDWARE_VERSION == 1
     analogButtons.check();
+    #elif HARDWARE_VERSION == 2
+    buttonPeakPressureIncrease.tick();
+    buttonPeakPressureDecrease.tick();
+    buttonPlateauPressureIncrease.tick();
+    buttonPlateauPressureDecrease.tick();
+    buttonPeepPressureIncrease.tick();
+    buttonPeepPressureDecrease.tick();
+    buttonCycleIncrease.tick();
+    buttonCycleDecrease.tick();
+    #endif
     btn_alarm_off.tick();
     btn_start.tick();
     btn_stop.tick();
