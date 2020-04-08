@@ -103,7 +103,7 @@ Button buttonCycleDecrease(VOLTAGE_BUTTON_CYCLE_DECREASE, &onCycleDecrease);
 ///@}
 
 void initKeyboard() {
-    #if HARDWARE_VERSION == 1
+#if HARDWARE_VERSION == 1
     analogButtons.add(buttonPeakPressureIncrease);
     analogButtons.add(buttonPeakPressureDecrease);
     analogButtons.add(buttonPlateauPressureIncrease);
@@ -112,7 +112,7 @@ void initKeyboard() {
     analogButtons.add(buttonPeepPressureDecrease);
     analogButtons.add(buttonCycleIncrease);
     analogButtons.add(buttonCycleDecrease);
-    #elif HARDWARE_VERSION == 2
+#elif HARDWARE_VERSION == 2
     buttonPeakPressureIncrease.attachClick(onPeakPressureIncrease);
     buttonPeakPressureDecrease.attachClick(onPeakPressureDecrease);
     buttonPlateauPressureIncrease.attachClick(onPlateauPressureIncrease);
@@ -121,7 +121,7 @@ void initKeyboard() {
     buttonPeepPressureDecrease.attachClick(onPeepPressureDecrease);
     buttonCycleIncrease.attachClick(onCycleIncrease);
     buttonCycleDecrease.attachClick(onCycleDecrease);
-    #endif
+#endif
 
     buttonAlarmOff.attachClick(onAlarmOff);
     buttonStart.attachClick(onStart);
@@ -129,9 +129,9 @@ void initKeyboard() {
 }
 
 void keyboardLoop() {
-    #if HARDWARE_VERSION == 1
+#if HARDWARE_VERSION == 1
     analogButtons.check();
-    #elif HARDWARE_VERSION == 2
+#elif HARDWARE_VERSION == 2
     buttonPeakPressureIncrease.tick();
     buttonPeakPressureDecrease.tick();
     buttonPlateauPressureIncrease.tick();
@@ -140,16 +140,16 @@ void keyboardLoop() {
     buttonPeepPressureDecrease.tick();
     buttonCycleIncrease.tick();
     buttonCycleDecrease.tick();
-    #endif
+#endif
     buttonAlarmOff.tick();
     buttonStart.tick();
     buttonStop.tick();
 }
 
 void calibrateButtons() {
-    #if HARDWARE_VERSION == 1
+#if HARDWARE_VERSION == 1
     uint16_t value = analogRead(PIN_CONTROL_BUTTONS);
     Serial.println(value);
     delay(250);
-    #endif
+#endif
 }
