@@ -21,6 +21,7 @@
 #include <LiquidCrystal.h>
 
 // Internal
+#include "../includes/battery.h"
 #include "../includes/buzzer.h"
 #include "../includes/common.h"
 #include "../includes/debug.h"
@@ -67,6 +68,7 @@ void setup() {
     startScreen();
 
     pinMode(PIN_PRESSURE_SENSOR, INPUT);
+    pinMode(PIN_BATTERY, INPUT);
     pinMode(PIN_BUZZER, OUTPUT);
 
     // Timer for servoBlower
@@ -108,6 +110,7 @@ void setup() {
     pinMode(PIN_LED_GREEN, OUTPUT);
 
     initKeyboard();
+    initBattery();
 
     Buzzer_Init();
 
@@ -174,6 +177,9 @@ void loop() {
 
             // Check if some buttons have been pushed
             keyboardLoop();
+
+            // Check if battery state has changed
+            batteryLoop();
 
             // Display relevant information during the cycle
             if ((centiSec % LCD_UPDATE_PERIOD) == 0u) {
