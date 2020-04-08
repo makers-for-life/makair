@@ -37,5 +37,11 @@ void Buzzer_High_Prio_Start(void);
 /// Activate boot bip
 void Buzzer_Boot_Start(void);
 
+/// Mute the buzzer for 120s
+void Buzzer_Mute(void);
+
+/// Resume the muted alarm
+void Buzzer_Resume(void);
+
 /// Stop Buzzer
 void Buzzer_Stop(void);
