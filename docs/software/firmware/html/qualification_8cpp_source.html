@@ -337,8 +337,8 @@ $(document).ready(function(){initNavTree('qualification_8cpp_source.html',''); i
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <span class="keywordflow">if</span> (pressure &lt;= PRESSURE_EMPTY_MARGIN) {</div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            changeStep(step + 1);</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <span class="keywordtype">char</span> error_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>];</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            snprintf(error_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <span class="stringliteral">&quot;BAD PRESSURE: %d&quot;</span>, pressure);</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <span class="keywordtype">char</span> error_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            snprintf(error_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;BAD PRESSURE: %d&quot;</span>, pressure);</div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            displayStatus(error_msg);</div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        }</div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (step == STEP_PRESSURE_VAL2) {</div>
@@ -346,8 +346,8 @@ $(document).ready(function(){initNavTree('qualification_8cpp_source.html',''); i
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        <span class="keywordflow">if</span> (isPressureValueGoodEnough(PRESSURE_VAL2, pressure)) {</div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            changeStep(step + 1);</div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;            <span class="keywordtype">char</span> error_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>];</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;            snprintf(error_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <span class="stringliteral">&quot;BAD PRESSURE: %d&quot;</span>, pressure);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;            <span class="keywordtype">char</span> error_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;            snprintf(error_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;BAD PRESSURE: %d&quot;</span>, pressure);</div>
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            displayStatus(error_msg);</div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        }</div>
 <div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (step != STEP_DONE) {</div>
@@ -367,8 +367,8 @@ $(document).ready(function(){initNavTree('qualification_8cpp_source.html',''); i
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        <span class="keywordflow">if</span> (isPressureValueGoodEnough(PRESSURE_VAL1, pressure)) {</div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            changeStep(step + 1);</div>
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            <span class="keywordtype">char</span> error_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>];</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;            snprintf(error_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <span class="stringliteral">&quot;BAD PRESSURE: %d&quot;</span>, pressure);</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            <span class="keywordtype">char</span> error_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;            snprintf(error_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;BAD PRESSURE: %d&quot;</span>, pressure);</div>
 <div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            displayStatus(error_msg);</div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        }</div>
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (step == STEP_PRESSURE_VAL3) {</div>
@@ -376,8 +376,8 @@ $(document).ready(function(){initNavTree('qualification_8cpp_source.html',''); i
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="keywordflow">if</span> (isPressureValueGoodEnough(PRESSURE_VAL3, pressure)) {</div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            changeStep(step + 1);</div>
 <div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            <span class="keywordtype">char</span> error_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>];</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            snprintf(error_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <span class="stringliteral">&quot;BAD PRESSURE: %d&quot;</span>, pressure);</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            <span class="keywordtype">char</span> error_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            snprintf(error_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;BAD PRESSURE: %d&quot;</span>, pressure);</div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            displayStatus(error_msg);</div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        }</div>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (step != STEP_DONE) {</div>
@@ -628,24 +628,24 @@ $(document).ready(function(){initNavTree('qualification_8cpp_source.html',''); i
 <div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;    }</div>
 <div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;    <span class="keywordflow">case</span> STEP_PRESSURE_VAL1: {</div>
 <div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;        UNGREEDY(is_drawn, {</div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>];</div>
-<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;            snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <span class="stringliteral">&quot;Put pressure of %d&quot;</span>, PRESSURE_VAL1);</div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;            snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Put pressure of %d&quot;</span>, PRESSURE_VAL1);</div>
 <div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;            display(msg, <span class="stringliteral">&quot;mmH2O, press stop&quot;</span>);</div>
 <div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;        });</div>
 <div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;        <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;    }</div>
 <div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;    <span class="keywordflow">case</span> STEP_PRESSURE_VAL2: {</div>
 <div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;        UNGREEDY(is_drawn, {</div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>];</div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;            snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <span class="stringliteral">&quot;Put pressure of %d&quot;</span>, PRESSURE_VAL2);</div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;            snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Put pressure of %d&quot;</span>, PRESSURE_VAL2);</div>
 <div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;            display(msg, <span class="stringliteral">&quot;mmH2O, press start&quot;</span>);</div>
 <div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;        });</div>
 <div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;        <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;    }</div>
 <div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;    <span class="keywordflow">case</span> STEP_PRESSURE_VAL3: {</div>
 <div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;        UNGREEDY(is_drawn, {</div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>];</div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;            snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <span class="stringliteral">&quot;Put pressure of %d&quot;</span>, PRESSURE_VAL3);</div>
+<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;            snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Put pressure of %d&quot;</span>, PRESSURE_VAL3);</div>
 <div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;            display(msg, <span class="stringliteral">&quot;mmH2O, press stop&quot;</span>);</div>
 <div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;        });</div>
 <div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;        <span class="keywordflow">break</span>;</div>
@@ -654,8 +654,8 @@ $(document).ready(function(){initNavTree('qualification_8cpp_source.html',''); i
 <div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;        UNGREEDY(is_drawn, {</div>
 <div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;            display(<span class="stringliteral">&quot;End of testing&quot;</span>, <span class="stringliteral">&quot;Success&quot;</span>);</div>
 <div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;            <span class="keywordflow">if</span> (errors &gt; 0) {</div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                <span class="keywordtype">char</span> error_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>];</div>
-<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;                snprintf(error_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <span class="stringliteral">&quot;Errors: %d&quot;</span>, errors);</div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                <span class="keywordtype">char</span> error_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;                snprintf(error_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Errors: %d&quot;</span>, errors);</div>
 <div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                displayStatus(error_msg);</div>
 <div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;            }</div>
 <div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;        });</div>
@@ -665,8 +665,8 @@ $(document).ready(function(){initNavTree('qualification_8cpp_source.html',''); i
 <div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160; </div>
 <div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;    <span class="keywordflow">if</span> (step == STEP_PRESSURE_EMPTY || step == STEP_PRESSURE_VAL1 || step == STEP_PRESSURE_VAL2</div>
 <div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;        || step == STEP_PRESSURE_VAL3) {</div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;        <span class="keywordtype">char</span> status_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>];</div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;        snprintf(status_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <span class="stringliteral">&quot;Pressure: %d&quot;</span>, <a class="code" href="pression_8cpp.html#ad37a3df7fc89764460a0f18b8430704c">readPressureSensor</a>(0));</div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;        <span class="keywordtype">char</span> status_msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;        snprintf(status_msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Pressure: %d&quot;</span>, <a class="code" href="pression_8cpp.html#ad37a3df7fc89764460a0f18b8430704c">readPressureSensor</a>(0));</div>
 <div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;        displayStatus(status_msg, 2);</div>
 <div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;    }</div>
 <div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160; </div>
