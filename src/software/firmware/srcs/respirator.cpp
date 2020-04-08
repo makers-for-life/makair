@@ -183,14 +183,15 @@ void loop() {
 
             // Display relevant information during the cycle
             if ((centiSec % LCD_UPDATE_PERIOD) == 0u) {
-                displaySubPhase(pController.subPhase());
+                displayCurrentPressure(pController.pressure(),
+                                       pController.cyclesPerMinuteCommand());
+
+                displayCurrentSettings(pController.maxPeakPressureCommand(),
+                                       pController.maxPlateauPressureCommand(),
+                                       pController.minPeepCommand());
 
                 displayCurrentInformation(pController.peakPressure(), pController.plateauPressure(),
-                                          pController.peep(), pController.pressure());
-
-                displaySettings(pController.maxPeakPressureCommand(),
-                                pController.maxPlateauPressureCommand(),
-                                pController.minPeepCommand(), pController.cyclesPerMinuteCommand());
+                                          pController.peep());
             }
 
             // next tick

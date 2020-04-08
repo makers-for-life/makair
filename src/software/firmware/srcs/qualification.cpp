@@ -269,8 +269,8 @@ void onStartClick() {
         if (pressure <= PRESSURE_EMPTY_MARGIN) {
             changeStep(step + 1);
         } else {
-            char error_msg[SCREEN_LINE_LENGTH];
-            snprintf(error_msg, SCREEN_LINE_LENGTH, "BAD PRESSURE: %d", pressure);
+            char error_msg[SCREEN_LINE_LENGTH + 1];
+            snprintf(error_msg, SCREEN_LINE_LENGTH + 1, "BAD PRESSURE: %d", pressure);
             displayStatus(error_msg);
         }
     } else if (step == STEP_PRESSURE_VAL2) {
@@ -278,8 +278,8 @@ void onStartClick() {
         if (isPressureValueGoodEnough(PRESSURE_VAL2, pressure)) {
             changeStep(step + 1);
         } else {
-            char error_msg[SCREEN_LINE_LENGTH];
-            snprintf(error_msg, SCREEN_LINE_LENGTH, "BAD PRESSURE: %d", pressure);
+            char error_msg[SCREEN_LINE_LENGTH + 1];
+            snprintf(error_msg, SCREEN_LINE_LENGTH + 1, "BAD PRESSURE: %d", pressure);
             displayStatus(error_msg);
         }
     } else if (step != STEP_DONE) {
@@ -299,8 +299,8 @@ void onStopClick() {
         if (isPressureValueGoodEnough(PRESSURE_VAL1, pressure)) {
             changeStep(step + 1);
         } else {
-            char error_msg[SCREEN_LINE_LENGTH];
-            snprintf(error_msg, SCREEN_LINE_LENGTH, "BAD PRESSURE: %d", pressure);
+            char error_msg[SCREEN_LINE_LENGTH + 1];
+            snprintf(error_msg, SCREEN_LINE_LENGTH + 1, "BAD PRESSURE: %d", pressure);
             displayStatus(error_msg);
         }
     } else if (step == STEP_PRESSURE_VAL3) {
@@ -308,8 +308,8 @@ void onStopClick() {
         if (isPressureValueGoodEnough(PRESSURE_VAL3, pressure)) {
             changeStep(step + 1);
         } else {
-            char error_msg[SCREEN_LINE_LENGTH];
-            snprintf(error_msg, SCREEN_LINE_LENGTH, "BAD PRESSURE: %d", pressure);
+            char error_msg[SCREEN_LINE_LENGTH + 1];
+            snprintf(error_msg, SCREEN_LINE_LENGTH + 1, "BAD PRESSURE: %d", pressure);
             displayStatus(error_msg);
         }
     } else if (step != STEP_DONE) {
@@ -560,24 +560,24 @@ void loop() {
     }
     case STEP_PRESSURE_VAL1: {
         UNGREEDY(is_drawn, {
-            char msg[SCREEN_LINE_LENGTH];
-            snprintf(msg, SCREEN_LINE_LENGTH, "Put pressure of %d", PRESSURE_VAL1);
+            char msg[SCREEN_LINE_LENGTH + 1];
+            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Put pressure of %d", PRESSURE_VAL1);
             display(msg, "mmH2O, press stop");
         });
         break;
     }
     case STEP_PRESSURE_VAL2: {
         UNGREEDY(is_drawn, {
-            char msg[SCREEN_LINE_LENGTH];
-            snprintf(msg, SCREEN_LINE_LENGTH, "Put pressure of %d", PRESSURE_VAL2);
+            char msg[SCREEN_LINE_LENGTH + 1];
+            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Put pressure of %d", PRESSURE_VAL2);
             display(msg, "mmH2O, press start");
         });
         break;
     }
     case STEP_PRESSURE_VAL3: {
         UNGREEDY(is_drawn, {
-            char msg[SCREEN_LINE_LENGTH];
-            snprintf(msg, SCREEN_LINE_LENGTH, "Put pressure of %d", PRESSURE_VAL3);
+            char msg[SCREEN_LINE_LENGTH + 1];
+            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Put pressure of %d", PRESSURE_VAL3);
             display(msg, "mmH2O, press stop");
         });
         break;
@@ -586,8 +586,8 @@ void loop() {
         UNGREEDY(is_drawn, {
             display("End of testing", "Success");
             if (errors > 0) {
-                char error_msg[SCREEN_LINE_LENGTH];
-                snprintf(error_msg, SCREEN_LINE_LENGTH, "Errors: %d", errors);
+                char error_msg[SCREEN_LINE_LENGTH + 1];
+                snprintf(error_msg, SCREEN_LINE_LENGTH + 1, "Errors: %d", errors);
                 displayStatus(error_msg);
             }
         });
@@ -597,8 +597,8 @@ void loop() {
 
     if (step == STEP_PRESSURE_EMPTY || step == STEP_PRESSURE_VAL1 || step == STEP_PRESSURE_VAL2
         || step == STEP_PRESSURE_VAL3) {
-        char status_msg[SCREEN_LINE_LENGTH];
-        snprintf(status_msg, SCREEN_LINE_LENGTH, "Pressure: %d", readPressureSensor(0));
+        char status_msg[SCREEN_LINE_LENGTH + 1];
+        snprintf(status_msg, SCREEN_LINE_LENGTH + 1, "Pressure: %d", readPressureSensor(0));
         displayStatus(status_msg, 2);
     }
 
