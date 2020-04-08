@@ -99,7 +99,7 @@ AlarmController::AlarmController()
            * The device shall embed a low priority alarm 24 when the Plateau pressure < 2cm H2O at
            * the second cycle (Patient disconnection).
            */
-          Alarm(AlarmPriority::ALARM_LOW, 24u, 2u),
+          Alarm(AlarmPriority::ALARM_MEDIUM, 24u, 2u),
 
           /**
            * RCM-SW-16
@@ -132,8 +132,8 @@ void AlarmController::notDetectedAlarm(uint8_t p_alarmCode) {
     }
 }
 
-void AlarmController::manageAlarm() {
-    AlarmPriority highestPriority;
+void AlarmController::manageAlarm(uint16_t p_centiSec) {
+    AlarmPriority highestPriority = AlarmPriority::ALARM_NONE;
     uint8_t triggeredAlarmCodes[ALARMS_SIZE];
     uint8_t numberOfTriggeredAlarms = 0;
 
@@ -151,17 +151,34 @@ void AlarmController::manageAlarm() {
     displayAlarmInformation(triggeredAlarmCodes, numberOfTriggeredAlarms);
 
     if (!highestPriority) {
-        Serial.println("buzzer off");
         Buzzer_Stop();
-    } else if (highestPriority == AlarmPriority::ALARM_HIGH
-               && m_highestPriority != highestPriority) {
-        Buzzer_Long_Start();
-    } else if (highestPriority == AlarmPriority::ALARM_MEDIUM
-               && m_highestPriority != highestPriority) {
-        Buzzer_Medium_Start();
-    } else if (highestPriority == AlarmPriority::ALARM_LOW
-               && m_highestPriority != highestPriority) {
-        Buzzer_Boot_Start();
+
+        digitalWrite(PIN_LED_RED, LOW);
+        digitalWrite(PIN_LED_YELLOW, LOW);
+    } else if (highestPriority == AlarmPriority::ALARM_HIGH) {
+        if (m_highestPriority != highestPriority) {
+            Buzzer_Long_Start();
+        }
+
+        digitalWrite(PIN_LED_RED, HIGH);
+        digitalWrite(PIN_LED_YELLOW, LOW);
+    } else if (highestPriority == AlarmPriority::ALARM_MEDIUM) {
+        if (m_highestPriority != highestPriority) {
+            Buzzer_Medium_Start();
+        }
+        digitalWrite(PIN_LED_RED, LOW);
+        if (p_centiSec % 100 == 50) {
+            digitalWrite(PIN_LED_YELLOW, HIGH);
+        } else if (p_centiSec % 100 == 0) {
+            digitalWrite(PIN_LED_YELLOW, LOW);
+        }
+    } else if (highestPriority == AlarmPriority::ALARM_LOW) {
+        if (m_highestPriority != highestPriority) {
+            Buzzer_Short_Start();
+        }
+
+        digitalWrite(PIN_LED_RED, LOW);
+        digitalWrite(PIN_LED_YELLOW, HIGH);
     }
 
     m_highestPriority = highestPriority;

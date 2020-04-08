@@ -38,6 +38,15 @@
 #define PAUSE_1S (1 * 1000 * TIMER_TICK_PER_MS)
 ///@}
 
+/// Short buzzer pattern size
+#define BUZZER_SHORT_SIZE 8
+
+/// Short buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
+/// duration (miliseconds)
+const uint32_t Buzzer_Short[BUZZER_SHORT_SIZE] = {
+    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
+    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PAUSE_20S};
+
 /// Medium buzzer pattern size
 #define BUZZER_MEDIUM_SIZE 8
 
@@ -138,6 +147,14 @@ void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size) {
 
     // Timer starts. Required to configure output on GPIO
     BuzzerTim->resume();
+}
+
+void Buzzer_Short_Start(void) {
+    // TODO The Low level alarms shall be:
+    // Sound : short - short
+    // ABOSTM : how to automatically stop buzzer after 2 bips ?
+
+    Buzzer_Start(Buzzer_Short, BUZZER_SHORT_SIZE);
 }
 
 void Buzzer_Medium_Start(void) { Buzzer_Start(Buzzer_Medium, BUZZER_MEDIUM_SIZE); }

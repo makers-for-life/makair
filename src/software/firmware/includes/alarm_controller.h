@@ -42,8 +42,9 @@ class AlarmController {
 
     /**
      * Manage alarms and do whatever is needed as buzzer / lcd / led
+     * @param p_centiSec Centile in the respiratory cycle
      */
-    void manageAlarm();
+    void manageAlarm(uint16_t p_centiSec);
 
  private:
     /// Collections of all available alarms

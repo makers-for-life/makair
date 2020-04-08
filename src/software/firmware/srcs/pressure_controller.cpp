@@ -164,7 +164,7 @@ void PressureController::compute(uint16_t p_centiSec) {
 
     executeCommands();
 
-    m_alarmController.manageAlarm();
+    m_alarmController.manageAlarm(p_centiSec);
 }
 
 void PressureController::onCycleDecrease() {
@@ -322,7 +322,6 @@ void PressureController::holdExhalation() {
 void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
 
 void PressureController::safeguards(uint16_t p_centiSec) {
-
     // TODO rework safeguards
     // safeguardPressionCrete(p_centiSec);
     safeguardPressionPlateau(p_centiSec);

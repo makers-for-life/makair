@@ -26,6 +26,9 @@ void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size);
 /// Activate a medium buzzer pattern
 void Buzzer_Medium_Start(void);
 
+/// Activate a very short buzzer pattern
+void Buzzer_Short_Start(void);
+
 /// Activate a long buzzer pattern
 void Buzzer_Long_Start(void);
 
