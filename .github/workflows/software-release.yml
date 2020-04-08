@@ -44,3 +44,10 @@ jobs:
         with:
           name: bin
           path: dist/
+
+      - name: Release binaries
+        uses: softprops/action-gh-release@v1
+        run: |
+          VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
+        with:
+          files: dist/respirator-qualification-$VERSION-$GITHUB_SHA.bin
