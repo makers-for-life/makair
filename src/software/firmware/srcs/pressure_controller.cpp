@@ -440,7 +440,7 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
     int32_t minAperture = m_blower.minAperture();
     int32_t maxAperture = m_blower.maxAperture();
 
-    int32_t patientAperture =
+    uint32_t patientAperture =
         max(minAperture,
             min(maxAperture, maxAperture + (maxAperture - minAperture) * patientCommand / 1000));
 
