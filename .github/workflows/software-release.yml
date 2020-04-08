@@ -39,6 +39,11 @@ jobs:
           VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
           cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-qualification-$VERSION-$GITHUB_SHA.bin"
 
+      - name: Process production
+        run: |
+          cp src/software/firmware/output/respirator-production.bin tmp/respirator-production.bin
+          gzip tmp/respirator-production.bin
+
       - name: Archive binaries
         uses: actions/upload-artifact@v1
         with:
@@ -47,7 +52,5 @@ jobs:
 
       - name: Release binaries
         uses: softprops/action-gh-release@v1
-        run: |
-          VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
         with:
-          files: dist/respirator-qualification-$VERSION-$GITHUB_SHA.bin
+          files: tmp/respirator-production.bin.gz
