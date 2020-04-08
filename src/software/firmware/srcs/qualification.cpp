@@ -56,11 +56,12 @@
 #define STEP_BLOWER 23
 #define STEP_WATCHDOG 24
 #define STEP_WATCHDOG_SUCCESS 25
-#define STEP_PRESSURE_EMPTY 26
-#define STEP_PRESSURE_VAL1 27
-#define STEP_PRESSURE_VAL2 28
-#define STEP_PRESSURE_VAL3 29
-#define STEP_DONE 30
+#define STEP_SERIAL 26
+#define STEP_PRESSURE_EMPTY 27
+#define STEP_PRESSURE_VAL1 28
+#define STEP_PRESSURE_VAL2 29
+#define STEP_PRESSURE_VAL3 30
+#define STEP_DONE 31
 
 static uint8_t step = STEP_LCD;
 
@@ -294,6 +295,8 @@ void onStopClick() {
         changeStep(step + 1);
     } else if (step == STEP_BTN_STOP) {
         changeStep(step + 1);
+    } else if (step == STEP_SERIAL) {
+        changeStep(step + 1);
     } else if (step == STEP_PRESSURE_VAL1) {
         int pressure = readPressureSensor(0);
         if (isPressureValueGoodEnough(PRESSURE_VAL1, pressure)) {
@@ -351,6 +354,10 @@ OneButton btn_stop(PIN_BTN_STOP, false, false);
 void setup() {
     DBG_DO(Serial.begin(115200));
     DBG_DO(Serial.println("demarrage"));
+
+#if HARDWARE_VERSION == 2
+    Serial6.begin(115200);
+#endif
 
 #if HARDWARE_VERSION == 1
     analogButtons.add(btn_pression_crete_plus);
@@ -585,6 +592,17 @@ void loop() {
     }
     case STEP_WATCHDOG_SUCCESS: {
         UNGREEDY(is_drawn, display("MC was restarted", "Press alarm OFF"));
+        break;
+    }
+    case STEP_SERIAL: {
+        UNGREEDY(is_drawn, display("Sending to serial", "Press stop"));
+#if HARDWARE_VERSION == 1
+        step++;
+#elif HARDWARE_VERSION == 2
+        if (remainingTicks == 0) {
+            Serial6.println("[Qualification mode] Testing serial output");
+        }
+#endif
         break;
     }
     case STEP_PRESSURE_EMPTY: {
