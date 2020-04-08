@@ -395,6 +395,7 @@ void setup() {
 
     pinMode(PIN_BUZZER, OUTPUT);
 
+#if HARDWARE_VERSION == 1
     // Timer for servoBlower
     hardwareTimer1 = new HardwareTimer(TIM1);
     hardwareTimer1->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
@@ -422,6 +423,35 @@ void setup() {
     hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(0),
                                       MICROSEC_COMPARE_FORMAT);
     hardwareTimer3->resume();
+#elif HARDWARE_VERSION == 2
+    // Timer for servos
+    hardwareTimer1 = new HardwareTimer(TIM1);
+    hardwareTimer1->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+
+    // Servo blower setup
+    servoBlower = PressureValve(hardwareTimer1, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
+                                VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
+    servoBlower.setup();
+    hardwareTimer1->resume();
+
+    // Servo patient setup
+    servoPatient = PressureValve(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT,
+                                 VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
+    servoPatient.setup();
+    hardwareTimer1->resume();
+
+    // Timer for escBlower
+    hardwareTimer3 = new HardwareTimer(TIM3);
+    hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+
+    // Manual escBlower setup
+    // Output compare activation on pin PIN_ESC_BLOWER
+    hardwareTimer3->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
+    // Set PPM width to 1ms
+    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(0),
+                                      MICROSEC_COMPARE_FORMAT);
+    hardwareTimer3->resume();
+#endif
 
     // Activate watchdog
     IWatchdog.begin(2000000);  // in microseconds
