@@ -1,9 +1,6 @@
 name: Software Documentation
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
 
 jobs:
   build-and-deploy:
@@ -29,6 +26,7 @@ jobs:
 
       - name: Deploy all documentation
         uses: JamesIves/github-pages-deploy-action@releases/v3
+        if: github.ref == 'refs/heads/master'
         with:
           BRANCH: gh-pages
           FOLDER: local/docs/
