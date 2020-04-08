@@ -102,7 +102,7 @@ void Update_IT_callback(void)
     // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
 
     // If we are at start of pattern, check for repeating mode
-    if(Active_Buzzer_Index == 0u && Active_Buzzer_Repeat == false){
+    if (Active_Buzzer_Index == 0u && Active_Buzzer_Repeat == false) {
         BuzzerTim->pause();
     } else {
         // Previous state is finished, switch to next one
@@ -161,7 +161,8 @@ void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool BuzzerRepeatMode) 
 
 void Buzzer_High_Prio_Start(void) { Buzzer_Start(Buzzer_High_Prio, BUZZER_HIGH_PRIO_SIZE, true); }
 
-void Buzzer_Medium_Prio_Start(void) { Buzzer_Start(Buzzer_Medium_Prio, BUZZER_MEDIUM_PRIO_SIZE, true); }
+void Buzzer_Medium_Prio_Start(void) { Buzzer_Start(Buzzer_Medium_Prio, BUZZER_MEDIUM_PRIO_SIZE,
+        true); }
 
 void Buzzer_Low_Prio_Start(void) { Buzzer_Start(Buzzer_Low_Prio, BUZZER_LOW_PRIO_SIZE, false); }
 
