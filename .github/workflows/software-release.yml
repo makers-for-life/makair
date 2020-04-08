@@ -29,20 +29,37 @@ jobs:
           sed -i '/recipe.output.tmp_file={build.project_name}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
           sed -i '/recipe.output.save_file={build.project_name}.{build.variant}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
 
-      - name: Build production
+      - name: Build production HW2
         run: |
           arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/respirator.cpp --output src/software/firmware/output/respirator-production
           mkdir -p dist/
           VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
-          cp src/software/firmware/output/respirator-production.bin "dist/respirator-production-$VERSION-$GITHUB_SHA.bin"
+          cp src/software/firmware/output/respirator-production.bin "dist/respirator-production-HW2-$VERSION-$GITHUB_SHA.bin"
 
-      - name: Build qualification
+      - name: Build qualification HW2
         run: |
           sed -i 's/#define MODE MODE_PROD/#define MODE MODE_QUALIFICATION/' src/software/firmware/includes/config.h
           arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/qualification.cpp --output src/software/firmware/output/respirator-qualification
           mkdir -p dist/
           VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
-          cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-qualification-$VERSION-$GITHUB_SHA.bin"
+          cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-qualification-HW2-$VERSION-$GITHUB_SHA.bin"
+
+      - name: Build production HW1
+        run: |
+          sed -i 's/#define HARDWARE_VERSION 2/#define HARDWARE_VERSION 1/' src/software/firmware/includes/config.h
+          arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/respirator.cpp --output src/software/firmware/output/respirator-production
+          mkdir -p dist/
+          VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
+          cp src/software/firmware/output/respirator-production.bin "dist/respirator-production-HW1-$VERSION-$GITHUB_SHA.bin"
+
+      - name: Build qualification HW1
+        run: |
+          sed -i 's/#define HARDWARE_VERSION 2/#define HARDWARE_VERSION 1/' src/software/firmware/includes/config.h
+          sed -i 's/#define MODE MODE_PROD/#define MODE MODE_QUALIFICATION/' src/software/firmware/includes/config.h
+          arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/qualification.cpp --output src/software/firmware/output/respirator-qualification
+          mkdir -p dist/
+          VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
+          cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-qualification-HW1-$VERSION-$GITHUB_SHA.bin"
 
       - name: Compress production
         run: |
