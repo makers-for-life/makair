@@ -1,5 +1,6 @@
 var dir_66cf927bd4b6fb98a9a1a9ef2bce2464 =
 [
+    [ "battery.h", "battery_8h.html", "battery_8h" ],
     [ "buzzer.h", "buzzer_8h.html", "buzzer_8h" ],
     [ "common.h", "common_8h.html", "common_8h" ],
     [ "config.h", "config_8h.html", "config_8h" ],

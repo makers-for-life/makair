@@ -1,5 +1,6 @@
 var dir_26bf53e35bd105bf828c059afabd26d7 =
 [
+    [ "battery.cpp", "battery_8cpp.html", "battery_8cpp" ],
     [ "buzzer.cpp", "buzzer_8cpp.html", "buzzer_8cpp" ],
     [ "keyboard.cpp", "keyboard_8cpp.html", "keyboard_8cpp" ],
     [ "pression.cpp", "pression_8cpp.html", "pression_8cpp" ],
