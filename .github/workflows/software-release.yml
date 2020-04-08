@@ -71,5 +71,6 @@ jobs:
             tmp/respirator-qualification-${{ steps.vars.outputs.sha_short }}.bin.gz
           body: Auto-release from GitHub Actions (${{ github.sha }})
           tag_name: auto-${{ steps.vars.outputs.sha_short }}
+          prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
