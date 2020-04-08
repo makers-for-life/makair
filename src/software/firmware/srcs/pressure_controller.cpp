@@ -404,7 +404,7 @@ int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPre
     blowerLastError = error;
 
     int32_t blowerCommand = (PID_BLOWER_KP * error) + blowerIntegral
-                            + ((PID_BLOWER_KD * derivative) / 1000);  // calcul de la commande
+                            + ((PID_BLOWER_KD * derivative) / 1000);  // Command computation
 
     int32_t minAperture = m_blower.minAperture();
     int32_t maxAperture = m_blower.maxAperture();
@@ -420,7 +420,9 @@ int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPre
 int32_t
 PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, int32_t dt) {
     // Compute error
-    int32_t error = targetPressure - currentPressure;
+    // Increase target pressure by 20mm H2O for safety, to ensure from going below the target
+    // pressure
+    int32_t error = targetPressure + 20 - currentPressure;
 
     // Compute integral
     patientIntegral = patientIntegral + ((PID_PATIENT_KI * error * dt) / 1000000);
@@ -433,16 +435,14 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
     patientLastError = error;
 
     int32_t patientCommand = (PID_PATIENT_KP * error) + patientIntegral
-                             + ((PID_PATIENT_KD * derivative) / 1000);  // calcul de la commande
+                             + ((PID_PATIENT_KD * derivative) / 1000);  // Command computation
 
     int32_t minAperture = m_blower.minAperture();
     int32_t maxAperture = m_blower.maxAperture();
 
-    uint32_t patientAperture =
+    int32_t patientAperture =
         max(minAperture,
-            min(maxAperture, minAperture
-                                 + (patientCommand + targetPressure) * (maxAperture - minAperture)
-                                       / (2 * targetPressure)));
+            min(maxAperture, maxAperture + (maxAperture - minAperture) * patientCommand / 1000));
 
     return patientAperture;
 }
