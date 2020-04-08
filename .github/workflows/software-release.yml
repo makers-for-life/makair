@@ -39,8 +39,9 @@ jobs:
           VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
           cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-qualification-$VERSION-$GITHUB_SHA.bin"
 
-      - name: Process production
+      - name: Compress production
         run: |
+          mkdir -p tmp
           cp src/software/firmware/output/respirator-production.bin tmp/respirator-production.bin
           gzip tmp/respirator-production.bin
 
