@@ -50,6 +50,8 @@ All those components are fitted in box (ie. a container) that we designed:
 
 - **Housing container** (called "Container");
 
+![Container Frame](./res/assets/container-frame.jpg)
+
 # Warning Notices
 
 **⚠️ A few important words before you start:**
