@@ -219,6 +219,8 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #define PIN_ESC_BLOWER D2   // PA10 / TIM3_CH1
 #define PIN_TEMP_BLOWER A4  // PC1
 #define PIN_BATTERY A2
+#define PIN_SERIAL_RX PA12
+#define PIN_SERIAL_TX PA11
 #endif
 
 ///@}

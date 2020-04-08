@@ -15,6 +15,8 @@
 // External
 #if HARDWARE_VERSION == 1
 #include <AnalogButtons.h>
+#elif HARDWARE_VERSION == 2
+#include <HardwareSerial.h>
 #endif
 #include <Arduino.h>
 #include <IWatchdog.h>
@@ -350,6 +352,10 @@ OneButton buttonCycleDecrease(PIN_BTN_CYCLE_DECREASE, false, false);
 OneButton btn_alarm_off(PIN_BTN_ALARM_OFF, false, false);
 OneButton btn_start(PIN_BTN_START, false, false);
 OneButton btn_stop(PIN_BTN_STOP, false, false);
+
+#if HARDWARE_VERSION == 2
+    HardwareSerial Serial6(PIN_SERIAL_RX, PIN_SERIAL_TX);
+#endif
 
 void setup() {
     DBG_DO(Serial.begin(115200));
