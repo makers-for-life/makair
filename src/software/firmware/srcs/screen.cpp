@@ -18,7 +18,6 @@
 #include "../includes/screen.h"
 
 // Internal
-#include "../includes/common.h"
 #include "../includes/parameters.h"
 
 // INITIALISATION =============================================================
