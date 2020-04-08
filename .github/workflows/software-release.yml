@@ -61,17 +61,29 @@ jobs:
           VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
           cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-qualification-HW1-$VERSION-$GITHUB_SHA.bin"
 
-      - name: Compress production
+      - name: Compress production HW2
         run: |
           mkdir -p tmp
-          cp src/software/firmware/output/respirator-production.bin tmp/respirator-production-${{ steps.vars.outputs.sha_short }}.bin
-          gzip tmp/respirator-production-${{ steps.vars.outputs.sha_short }}.bin
+          cp dist/respirator-production-HW2-*.bin tmp/respirator-production-HW2-${{ steps.vars.outputs.sha_short }}.bin
+          gzip tmp/respirator-production-HW2-${{ steps.vars.outputs.sha_short }}.bin
 
-      - name: Compress qualification
+      - name: Compress qualification HW2
         run: |
           mkdir -p tmp
-          cp src/software/firmware/output/respirator-qualification.bin tmp/respirator-qualification-${{ steps.vars.outputs.sha_short }}.bin
-          gzip tmp/respirator-qualification-${{ steps.vars.outputs.sha_short }}.bin
+          cp dist/respirator-qualification-HW2-*.bin tmp/respirator-qualification-HW2-${{ steps.vars.outputs.sha_short }}.bin
+          gzip tmp/respirator-qualification-HW2-${{ steps.vars.outputs.sha_short }}.bin
+
+      - name: Compress production HW1
+        run: |
+          mkdir -p tmp
+          cp dist/respirator-production-HW1-*.bin tmp/respirator-production-HW1-${{ steps.vars.outputs.sha_short }}.bin
+          gzip tmp/respirator-production-HW1-${{ steps.vars.outputs.sha_short }}.bin
+
+      - name: Compress qualification HW1
+        run: |
+          mkdir -p tmp
+          cp dist/respirator-qualification-HW1-*.bin tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin
+          gzip tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin
 
       - name: Archive binaries
         uses: actions/upload-artifact@v1
@@ -84,8 +96,10 @@ jobs:
         if: github.ref == 'refs/heads/master'
         with:
           files: |
-            tmp/respirator-production-${{ steps.vars.outputs.sha_short }}.bin.gz
-            tmp/respirator-qualification-${{ steps.vars.outputs.sha_short }}.bin.gz
+            tmp/respirator-production-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
+            tmp/respirator-qualification-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
+            tmp/respirator-production-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
+            tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
           body: Auto-release from GitHub Actions (${{ github.sha }})
           tag_name: auto-${{ steps.vars.outputs.sha_short }}
           prerelease: true
