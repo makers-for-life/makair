@@ -9,6 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      SHA8: ${GITHUB_SHA::8}
+
     steps:
       - uses: actions/checkout@v2
 
@@ -58,7 +61,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: tmp/respirator-production.bin.gz
-          body: Auto-release from GitHub Actions (SHA ${{ github.sha }})
-          tag_name: ${{ github.sha }}
+          body: Auto-release from GitHub Actions (SHA $GITHUB_SHA)
+          tag_name: $SHA8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
