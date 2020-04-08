@@ -19,19 +19,19 @@ void Buzzer_Init();
  * Generic function to activate a buzzer
  *
  * @param Buzzer Buzzer pattern array
- * @param Size of the buzzer pattern array
- * @param Is pattern repeating after its end
+ * @param Size Size of the buzzer pattern array
+ * @param BuzzerRepeatMode Is pattern repeating after its end
  */
 void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool BuzzerRepeatMode);
 
 
-/// Activate the buzzer pattern for low prio alarm
+/// Activate the buzzer pattern for low priority alarms
 void Buzzer_Low_Prio_Start(void);
 
-/// Activate the buzzer pattern for medium prio alarm
+/// Activate the buzzer pattern for medium priority alarms
 void Buzzer_Medium_Prio_Start(void);
 
-/// Activate the buzzer pattern for high prio alarm
+/// Activate the buzzer pattern for high priority alarms
 void Buzzer_High_Prio_Start(void);
 
 /// Activate boot bip
