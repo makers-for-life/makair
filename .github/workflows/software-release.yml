@@ -50,8 +50,8 @@ jobs:
       - name: Compress production
         run: |
           mkdir -p tmp
-          cp src/software/firmware/output/respirator-production.bin tmp/respirator-production.bin
-          gzip tmp/respirator-production.bin
+          cp src/software/firmware/output/respirator-production.bin tmp/respirator-production-${{ steps.vars.outputs.sha_short }}.bin
+          gzip tmp/respirator-production-${{ steps.vars.outputs.sha_short }}.bin
 
       - name: Archive binaries
         uses: actions/upload-artifact@v1
@@ -62,7 +62,7 @@ jobs:
       - name: Release binaries
         uses: softprops/action-gh-release@v1
         with:
-          files: tmp/respirator-production.bin.gz
+          files: tmp/respirator-production-${{ steps.vars.outputs.sha_short }}.bin.gz
           body: Auto-release from GitHub Actions (${{ github.sha }})
           tag_name: auto-${{ steps.vars.outputs.sha_short }}
         env:
