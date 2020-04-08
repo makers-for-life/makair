@@ -161,6 +161,9 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
     // Fill the end of the line with spaces
     strncpy(dst, &ALARM_LINE[SCREEN_LINE_LENGTH - spaceLeft], spaceLeft);
 
+    // Make sure string is NULL terminated
+    buf[SCREEN_LINE_LENGTH] = '\0';
+
     screen.setCursor(0, 2);
     screen.print(buf);
 }
