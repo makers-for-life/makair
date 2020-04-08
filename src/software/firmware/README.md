@@ -12,4 +12,4 @@ Code documentation can be [found there](https://covid-response-projects.github.i
 
 ## How To Build?
 
-In order to setup your environment and build the code, please follow the commands contained in [the "software-release" GitHub Actions file](./.github/workflows/software-release.yml).
+In order to setup your environment and build the code, please follow the commands contained in the "[software-release](/.github/workflows/software-release.yml)" GitHub Actions file.
