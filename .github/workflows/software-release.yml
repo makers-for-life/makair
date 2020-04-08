@@ -12,6 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Get short SHA
+        id: vars
+        run: |
+         echo ::set-output name=sha_short::$(git rev-parse --short=4 ${{ github.sha }})
+
       - name: Install Arduino CLI
         uses: arduino/setup-arduino-cli@v1.0.0
 
@@ -59,6 +64,6 @@ jobs:
         with:
           files: tmp/respirator-production.bin.gz
           body: Auto-release from GitHub Actions (${{ github.sha }})
-          tag_name: auto-${{ github.sha }}
+          tag_name: auto-${{ steps.vars.outputs.sha_short }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
