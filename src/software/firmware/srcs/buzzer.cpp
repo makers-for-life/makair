@@ -102,7 +102,7 @@ void Update_IT_callback(void)
     // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
 
     // If we are at start of pattern, check for repeating mode
-    if (Active_Buzzer_Index == 0u && Active_Buzzer_Repeat == false) {
+    if ((Active_Buzzer_Index == 0u) && (Active_Buzzer_Repeat == false)) {
         BuzzerTim->pause();
     } else {
         // Previous state is finished, switch to next one
