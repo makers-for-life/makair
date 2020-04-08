@@ -15,22 +15,22 @@ jobs:
 
       - name: Create documentation directory
         run: |
-          mkdir -p docs/Software/respi-firmware
+          mkdir -p ._tmp/docs/software/firmware
 
-      - name: Generate documentation for respi-firmware
+      - name: Generate documentation for firmware
         uses: mattnotmitt/doxygen-action@v1
         with:
           doxyfile-path: 'src/software/firmware/Doxyfile'
 
-      - name: Archive documentation
+      - name: Archive all documentation
         uses: actions/upload-artifact@v1
         with:
           name: docs
-          path: docs/Software/
+          path: ._tmp/docs/software/
 
-      - name: Deploy documentation
+      - name: Deploy all documentation
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           BRANCH: gh-pages
-          FOLDER: docs
-          TARGET_FOLDER: ./software/firmware/
+          FOLDER: ._tmp/docs/
+          TARGET_FOLDER: ./docs/
