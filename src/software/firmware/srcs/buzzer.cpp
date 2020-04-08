@@ -38,30 +38,12 @@
 #define PAUSE_1S (1 * 1000 * TIMER_TICK_PER_MS)
 ///@}
 
-/// Short buzzer pattern size
-#define BUZZER_SHORT_SIZE 8
+/// High priority alarm buzzer pattern size
+#define BUZZER_HIGH_PRIO_SIZE 32
 
-/// Short buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
-/// duration (miliseconds)
-const uint32_t Buzzer_Short[BUZZER_SHORT_SIZE] = {
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PAUSE_20S};
-
-/// Medium buzzer pattern size
-#define BUZZER_MEDIUM_SIZE 8
-
-/// Medium buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
-/// duration (miliseconds)
-const uint32_t Buzzer_Medium[BUZZER_MEDIUM_SIZE] = {
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BEEEEP_PAUSE,
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PAUSE_20S};
-
-/// Long buzzer pattern size
-#define BUZZER_LONG_SIZE 32
-
-/// Long buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
-/// duration (miliseconds)
-const uint32_t Buzzer_Long[BUZZER_LONG_SIZE] = {
+/// High Priority alarm buzzer pattern definition, composed of
+/// multiple couple of states (Actif/Inactif) and duration (miliseconds)
+const uint32_t Buzzer_High_Prio[BUZZER_HIGH_PRIO_SIZE] = {
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
@@ -71,10 +53,28 @@ const uint32_t Buzzer_Long[BUZZER_LONG_SIZE] = {
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
     TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PAUSE_10S};
 
+/// Medium Priority alarm buzzer pattern size
+#define BUZZER_MEDIUM_PRIO_SIZE 8
+
+/// Medium Priority alarm buzzer pattern definition, composed of
+/// multiple couple of states (Actif/Inactif) and duration (miliseconds)
+const uint32_t Buzzer_Medium_Prio[BUZZER_MEDIUM_PRIO_SIZE] = {
+    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BEEEEP_PAUSE,
+    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PAUSE_20S};
+
+/// Low Priority alarm buzzer pattern size
+#define BUZZER_LOW_PRIO_SIZE 8
+
+/// Low Priority alarm buzzer pattern definition, composed of
+/// multiple couple of states (Actif/Inactif) and duration (miliseconds)
+const uint32_t Buzzer_Low_Prio[BUZZER_LOW_PRIO_SIZE] = {
+    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
+    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE};
+
 /// Boot buzzer pattern size
 #define BUZZER_BOOT_SIZE 4
 
-/// Medium buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
+/// Boot buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
 /// duration (miliseconds)
 const uint32_t Buzzer_Boot[BUZZER_BOOT_SIZE] = {TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP,
                                                 TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BEEEEP_PAUSE};
@@ -84,6 +84,7 @@ const uint32_t Buzzer_Boot[BUZZER_BOOT_SIZE] = {TIMER_OUTPUT_COMPARE_FORCED_ACTI
 const uint32_t* Active_Buzzer = nullptr;
 uint32_t Active_Buzzer_Index = 0;
 uint32_t Active_Buzzer_Size = 2;
+bool Active_Buzzer_Repeat = false;
 
 HardwareTimer* BuzzerTim;
 uint32_t BuzzerTimerChannel;
@@ -99,12 +100,19 @@ void Update_IT_callback(void)
 #endif
 {
     // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
-    // Previous state is finished, switch to next one
-    BuzzerTim->setMode(BuzzerTimerChannel, (TimerModes_t)Active_Buzzer[Active_Buzzer_Index],
-                       PIN_BUZZER);
-    BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
-    Active_Buzzer_Index = (Active_Buzzer_Index + 2u) % Active_Buzzer_Size;
-    BuzzerTim->resume();
+
+    // If we are at start of pattern, check for repeating mode
+    if(Active_Buzzer_Index == 0u && Active_Buzzer_Repeat == false){
+        BuzzerTim->pause();
+    } else {
+        // Previous state is finished, switch to next one
+        BuzzerTim->setMode(BuzzerTimerChannel, (TimerModes_t)Active_Buzzer[Active_Buzzer_Index],
+                PIN_BUZZER);
+        BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
+        Active_Buzzer_Index = (Active_Buzzer_Index + 2u) % Active_Buzzer_Size;
+
+        BuzzerTim->resume();
+    }
 }
 
 void Buzzer_Init() {
@@ -129,11 +137,12 @@ void Buzzer_Init() {
     BuzzerTim->resume();
 }
 
-void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size) {
+void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool BuzzerRepeatMode) {
     BuzzerTim->setCount(0);
     Active_Buzzer = Buzzer;
     Active_Buzzer_Index = 0;
     Active_Buzzer_Size = Size;
+    Active_Buzzer_Repeat = BuzzerRepeatMode;
 
     // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
     // Configuration of first state of pattern
@@ -149,18 +158,13 @@ void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size) {
     BuzzerTim->resume();
 }
 
-void Buzzer_Short_Start(void) {
-    // TODO The Low level alarms shall be:
-    // Sound : short - short
-    // ABOSTM : how to automatically stop buzzer after 2 bips ?
 
-    Buzzer_Start(Buzzer_Short, BUZZER_SHORT_SIZE);
-}
+void Buzzer_High_Prio_Start(void) { Buzzer_Start(Buzzer_High_Prio, BUZZER_HIGH_PRIO_SIZE, true); }
 
-void Buzzer_Medium_Start(void) { Buzzer_Start(Buzzer_Medium, BUZZER_MEDIUM_SIZE); }
+void Buzzer_Medium_Prio_Start(void) { Buzzer_Start(Buzzer_Medium_Prio, BUZZER_MEDIUM_PRIO_SIZE, true); }
 
-void Buzzer_Long_Start(void) { Buzzer_Start(Buzzer_Long, BUZZER_LONG_SIZE); }
+void Buzzer_Low_Prio_Start(void) { Buzzer_Start(Buzzer_Low_Prio, BUZZER_LOW_PRIO_SIZE, false); }
 
-void Buzzer_Boot_Start(void) { Buzzer_Start(Buzzer_Boot, BUZZER_BOOT_SIZE); }
+void Buzzer_Boot_Start(void) { Buzzer_Start(Buzzer_Boot, BUZZER_BOOT_SIZE, false); }
 
 void Buzzer_Stop(void) { BuzzerTim->pause(); }

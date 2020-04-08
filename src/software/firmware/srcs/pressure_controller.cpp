@@ -338,14 +338,14 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
 
         if (m_pressure >= m_maxPeakPressureCommand) {
             setSubPhase(CycleSubPhases::HOLD_INSPIRATION);
-            Buzzer_Medium_Start();
+            Buzzer_Medium_Prio_Start();
             plateau();
         }
     }
 
     if (m_pressure >= (m_maxPeakPressureCommand + 10u)) {
         // m_patient.augmenterOuverture();
-        Buzzer_Medium_Start();
+        Buzzer_Medium_Prio_Start();
     }
 }
 
@@ -378,7 +378,7 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
 void PressureController::safeguardMaintienPeep(uint16_t p_centiSec) {
     if (m_pressure <= m_minPeepCommand) {
         // m_blower.augmenterOuverture();
-        Buzzer_Long_Start();
+        Buzzer_High_Prio_Start();
     }
 }
 

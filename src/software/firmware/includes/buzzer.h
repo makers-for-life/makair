@@ -20,17 +20,19 @@ void Buzzer_Init();
  *
  * @param Buzzer Buzzer pattern array
  * @param Size of the buzzer pattern array
+ * @param Is pattern repeating after its end
  */
-void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size);
+void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool BuzzerRepeatMode);
 
-/// Activate a medium buzzer pattern
-void Buzzer_Medium_Start(void);
 
-/// Activate a very short buzzer pattern
-void Buzzer_Short_Start(void);
+/// Activate the buzzer pattern for low prio alarm
+void Buzzer_Low_Prio_Start(void);
 
-/// Activate a long buzzer pattern
-void Buzzer_Long_Start(void);
+/// Activate the buzzer pattern for medium prio alarm
+void Buzzer_Medium_Prio_Start(void);
+
+/// Activate the buzzer pattern for high prio alarm
+void Buzzer_High_Prio_Start(void);
 
 /// Activate boot bip
 void Buzzer_Boot_Start(void);
