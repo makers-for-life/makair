@@ -1,4 +1,4 @@
-name: Software documentation
+name: Software Documentation
 
 on:
   push:
@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout software
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Create documentation directory
         run: |
