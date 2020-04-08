@@ -157,14 +157,14 @@ void AlarmController::manageAlarm(uint16_t p_centiSec) {
         digitalWrite(PIN_LED_YELLOW, LOW);
     } else if (highestPriority == AlarmPriority::ALARM_HIGH) {
         if (m_highestPriority != highestPriority) {
-            Buzzer_Long_Start();
+            Buzzer_High_Prio_Start();
         }
 
         digitalWrite(PIN_LED_RED, HIGH);
         digitalWrite(PIN_LED_YELLOW, LOW);
     } else if (highestPriority == AlarmPriority::ALARM_MEDIUM) {
         if (m_highestPriority != highestPriority) {
-            Buzzer_Medium_Start();
+            Buzzer_Medium_Prio_Start();
         }
         digitalWrite(PIN_LED_RED, LOW);
         if (p_centiSec % 100 == 50) {
@@ -174,7 +174,7 @@ void AlarmController::manageAlarm(uint16_t p_centiSec) {
         }
     } else if (highestPriority == AlarmPriority::ALARM_LOW) {
         if (m_highestPriority != highestPriority) {
-            Buzzer_Short_Start();
+            Buzzer_Low_Prio_Start();
         }
 
         digitalWrite(PIN_LED_RED, LOW);

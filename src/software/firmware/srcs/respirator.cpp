@@ -56,7 +56,7 @@ void setup() {
         /* Code in case of Watchdog detected */
         /* TODO */
         Buzzer_Init();
-        Buzzer_Long_Start();
+        Buzzer_High_Prio_Start();
         while (1) {
         }
     }
@@ -121,7 +121,6 @@ void setup() {
     digitalWrite(PIN_LED_RED, HIGH);
     digitalWrite(PIN_LED_YELLOW, HIGH);
     waitForInMs(1000);
-    Buzzer_Stop();
     digitalWrite(PIN_LED_GREEN, LOW);
     digitalWrite(PIN_LED_RED, LOW);
     digitalWrite(PIN_LED_YELLOW, LOW);
