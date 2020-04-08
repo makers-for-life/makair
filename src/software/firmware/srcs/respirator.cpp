@@ -13,7 +13,9 @@
 // INCLUDES ==================================================================
 
 // External
+#if HARDWARE_VERSION == 1
 #include <AnalogButtons.h>
+#endif
 #include <Arduino.h>
 #include <IWatchdog.h>
 #include <LiquidCrystal.h>

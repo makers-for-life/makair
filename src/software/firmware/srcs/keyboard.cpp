@@ -15,6 +15,7 @@
 #include "../includes/keyboard.h"
 
 // External
+#include "../includes/config.h"
 #if HARDWARE_VERSION == 1
 #include <AnalogButtons.h>
 #endif
