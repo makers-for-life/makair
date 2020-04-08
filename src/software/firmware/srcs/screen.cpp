@@ -23,6 +23,10 @@
 
 // INITIALISATION =============================================================
 
+static const char* NO_ALARM_LINE = "PEAK  PLAT  PEEP    ";
+static const char* ALARM_LINE = "Alarm:              ";
+static const int ALARMS_CODE_POS = 6;
+
 /// Instance of the screen controller
 LiquidCrystal
     screen(PIN_LCD_RS, PIN_LCD_RW, PIN_LCD_EN, PIN_LCD_D4, PIN_LCD_D5, PIN_LCD_D6, PIN_LCD_D7);
@@ -92,17 +96,36 @@ void displaySettings(uint16_t peakPressureMax,
 }
 
 void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms) {
-    screen.setCursor(0, 2);
-    screen.print("                    ");
-    screen.setCursor(0, 2);
     if (p_nbTriggeredAlarms == 0) {
-        screen.print("PEAK  PLAT  PEEP    ");
-    } else {
-        screen.print("Alarm:");
-        uint8_t maxAlarmToPrint = min(static_cast<uint8_t>(4), p_nbTriggeredAlarms);
-        for (int i = 0; i < maxAlarmToPrint; i++) {
-            screen.print(" ");
-            screen.print(p_alarmCodes[i]);
-        }
+        screen.setCursor(0, 2);
+        screen.print(NO_ALARM_LINE);
+        return;
     }
+
+    uint8_t maxAlarmToPrint = min(static_cast<uint8_t>(4), p_nbTriggeredAlarms);
+
+    // +1 for trailing NULL char
+    char buf[SCREEN_LINE_LENGTH + 1];
+
+    // Write beginning of line
+    strncpy(buf, ALARM_LINE, ALARMS_CODE_POS);
+
+    // Write alarm codes
+    char* dst = buf + ALARMS_CODE_POS;
+    int spaceLeft = SCREEN_LINE_LENGTH - ALARMS_CODE_POS;
+    for (uint8_t i = 0; i < maxAlarmToPrint; i++) {
+        // + 1 for the trailing NULL char
+        int n = snprintf(dst, spaceLeft + 1, " %u", p_alarmCodes[i]);
+        if (n < 0 || n > spaceLeft) {
+            break;  // Error or no space left in buffer
+        }
+        spaceLeft -= n;
+        dst += n;
+    }
+
+    // Fill the end of the line with spaces
+    strncpy(dst, &ALARM_LINE[SCREEN_LINE_LENGTH - spaceLeft], spaceLeft);
+
+    screen.setCursor(0, 2);
+    screen.print(buf);
 }
