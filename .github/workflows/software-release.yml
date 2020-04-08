@@ -55,3 +55,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: tmp/respirator-production.bin.gz
+          body: Auto-release from GitHub Actions
+          tag_name: github.sha
