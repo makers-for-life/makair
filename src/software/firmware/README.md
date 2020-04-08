@@ -8,4 +8,4 @@
 
 ## Documentation
 
-Code documentation can be [found there](https://covid-response-projects.github.io/covid-respirator/docs/software/firmware/html/classes.html).
+Code documentation can be [found there](https://covid-response-projects.github.io/covid-respirator/docs/software/firmware/html/files.html).
