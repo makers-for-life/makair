@@ -61,7 +61,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: tmp/respirator-production.bin.gz
-          body: Auto-release from GitHub Actions (SHA ${{ GITHUB_SHA }})
-          tag_name: auto-${{ SHA8 }}
+          body: Auto-release from GitHub Actions (${{ env.GITHUB_SHA }})
+          tag_name: auto-${{ env.SHA8 }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
