@@ -1,6 +1,9 @@
 name: Software Release
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -55,7 +58,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: tmp/respirator-production.bin.gz
-          body: Auto-release from GitHub Actions
-          tag_name: github.sha
+          body: Auto-release from GitHub Actions (SHA ${{ github.sha }})
+          tag_name: ${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
