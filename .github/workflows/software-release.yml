@@ -15,7 +15,7 @@ jobs:
       - name: Get short SHA
         id: vars
         run: |
-         echo ::set-output name=sha_short::$(git rev-parse --short=4 ${{ github.sha }})
+         echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
 
       - name: Install Arduino CLI
         uses: arduino/setup-arduino-cli@v1.0.0
