@@ -354,7 +354,7 @@ OneButton btn_start(PIN_BTN_START, false, false);
 OneButton btn_stop(PIN_BTN_STOP, false, false);
 
 #if HARDWARE_VERSION == 2
-    HardwareSerial Serial6(PIN_SERIAL_RX, PIN_SERIAL_TX);
+HardwareSerial Serial6(PIN_SERIAL_RX, PIN_SERIAL_TX);
 #endif
 
 void setup() {
