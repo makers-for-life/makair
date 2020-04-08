@@ -327,6 +327,16 @@ void PressureController::safeguards(uint16_t p_centiSec) {
     safeguardPressionPlateau(p_centiSec);
     // safeguardHoldExpiration(p_centiSec);
     // safeguardMaintienPeep(p_centiSec);
+
+    uint16_t minPeepBeforeAlarm = m_minPeepCommand - ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_20_CMH2O;
+    uint16_t maxPeepBeforeAlarm = m_minPeepCommand + ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_20_CMH2O;
+    if (m_pressure < minPeepBeforeAlarm || m_pressure > maxPeepBeforeAlarm) {
+        m_alarmController.detectedAlarm(14u, m_cycleNb);
+        m_alarmController.detectedAlarm(23u, m_cycleNb);
+    } else {
+        m_alarmController.notDetectedAlarm(14u);
+        m_alarmController.notDetectedAlarm(23u);
+    }
 }
 
 void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
