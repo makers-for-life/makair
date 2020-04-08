@@ -42,9 +42,9 @@ void resetScreen() { screen.clear(); }
 void displayCurrentPressure(uint16_t pressure, uint16_t cyclesPerMinute) {
     screen.setCursor(0, 0);
 
-    char message[SCREEN_LINE_LENGTH];
+    char message[SCREEN_LINE_LENGTH + 1];
 
-    (void)snprintf(message, SCREEN_LINE_LENGTH, "Pressure: %-4u   %-4u", pressure / 10u,
+    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "Pressure:%2u    %2ucpm", pressure / 10u,
                    cyclesPerMinute);
 
     screen.print(message);
@@ -55,19 +55,19 @@ void displayCurrentSettings(uint16_t peakPressureMax,
                             uint16_t peepMin) {
     screen.setCursor(0, 1);
 
-    char message[SCREEN_LINE_LENGTH];
+    char message[SCREEN_LINE_LENGTH + 1];
 
-    (void)snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u set", peakPressureMax / 10u,
-                   plateauPressureMax / 10u, peepMin / 10u);
+    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "%2u    %2u    %2u  set ",
+                   peakPressureMax / 10u, plateauPressureMax / 10u, peepMin / 10u);
 
     screen.print(message);
 }
 
 void displayCurrentInformation(uint16_t peakPressure, uint16_t plateauPressure, uint16_t peep) {
     screen.setCursor(0, 3);
-    char message[SCREEN_LINE_LENGTH];
+    char message[SCREEN_LINE_LENGTH + 1];
 
-    (void)snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u mean", peakPressure / 10u,
+    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "%2u    %2u    %2u  meas", peakPressure / 10u,
                    plateauPressure / 10u, peep / 10u);
 
     screen.print(message);
