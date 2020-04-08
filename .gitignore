@@ -1,7 +1,7 @@
 /.pio/
 /.vscode/
+/._tmp/
 .DS_Store
-docs/Software/
 src/software/firmware/output/*
 !src/software/firmware/output/.gitkeep
 src/software/firmware/*.csv
