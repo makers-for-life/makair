@@ -93,7 +93,6 @@ $(document).ready(function(){initNavTree('screen_8h.html',''); initResizable(); 
 <p>Display and LCD screen related functions.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;LiquidCrystal.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="parameters_8h_source.html">parameters.h</a>&quot;</code><br />
 </div>
 <p><a href="screen_8h_source.html">Go to the source code of this file.</a></p>
@@ -171,16 +170,16 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00066">66</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                                                                                               {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 3);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;%2u    %2u    %2u  meas&quot;</span>, peakPressure / 10u,</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                   plateauPressure / 10u, peep / 10u);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00065">65</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                                                                                               {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 3);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;%2u    %2u    %2u  meas&quot;</span>, peakPressure / 10u,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                   plateauPressure / 10u, peep / 10u);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -219,17 +218,17 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00042">42</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                                                                         {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 0);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Pressure:%2u    %2ucpm&quot;</span>, pressure / 10u,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                   cyclesPerMinute);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00041">41</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                                                         {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 0);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Pressure:%2u    %2ucpm&quot;</span>, pressure / 10u,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                   cyclesPerMinute);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -275,17 +274,17 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00053">53</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                              {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 1);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;%2u    %2u    %2u  set &quot;</span>,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                   peakPressureMax / 10u, plateauPressureMax / 10u, peepMin / 10u);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00052">52</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                                              {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 1);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;%2u    %2u    %2u  set &quot;</span>,</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                   peakPressureMax / 10u, plateauPressureMax / 10u, peepMin / 10u);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -306,8 +305,8 @@ Variables</h2></td></tr>
 
 <p>Erase everything that is on the screen. </p>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00040">40</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{ <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.clear(); }</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00039">39</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{ <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.clear(); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -329,14 +328,14 @@ Variables</h2></td></tr>
 <p>Start the screen. </p>
 <dl class="section warning"><dt>Warning</dt><dd>It must be called once to be able to use the screen </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00032">32</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                   {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.begin(<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <a class="code" href="parameters_8h.html#a6b3caa1717db9c927845ec22a737c1bb">SCREEN_LINE_NUMBER</a>);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 0);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(<span class="stringliteral">&quot;Initialization      &quot;</span>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 1);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(<a class="code" href="parameters_8h.html#a1c6d5de492ac61ad29aec7aa9a436bbf">VERSION</a>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00031">31</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                   {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.begin(<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <a class="code" href="parameters_8h.html#a6b3caa1717db9c927845ec22a737c1bb">SCREEN_LINE_NUMBER</a>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 0);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(<span class="stringliteral">&quot;Initialization      &quot;</span>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 1);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(<a class="code" href="parameters_8h.html#a1c6d5de492ac61ad29aec7aa9a436bbf">VERSION</a>);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
