@@ -1,6 +1,6 @@
 /.pio/
 /.vscode/
-/._tmp/
+/local/
 .DS_Store
 src/software/firmware/output/*
 !src/software/firmware/output/.gitkeep

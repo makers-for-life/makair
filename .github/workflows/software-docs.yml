@@ -15,7 +15,7 @@ jobs:
 
       - name: Create documentation directory
         run: |
-          mkdir -p ._tmp/docs/software/firmware
+          mkdir -p local/docs/software/firmware
 
       - name: Generate documentation for firmware
         uses: mattnotmitt/doxygen-action@v1
@@ -26,11 +26,11 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: docs
-          path: ._tmp/docs/software/
+          path: local/docs/software/
 
       - name: Deploy all documentation
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           BRANCH: gh-pages
-          FOLDER: ._tmp/docs/
+          FOLDER: local/docs/
           TARGET_FOLDER: ./docs/
