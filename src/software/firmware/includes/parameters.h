@@ -148,3 +148,13 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 #define PIN_BATTERY A2
 
 ///@}
+
+/**
+ * @name Alarm thresholds
+ */
+///@{
+
+#define ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O 20    // RCM-SW-19
+#define ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O 800  // RCM-SW-18
+
+///@}

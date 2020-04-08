@@ -30,8 +30,9 @@ class AlarmController {
     /**
      * Detect a specific alarm.
      * @param p_alarmCode The alarm code of the alarm
+     * @param p_cycleNumber The cycle number since the device startup
      */
-    void detectedAlarm(uint8_t p_alarmCode);
+    void detectedAlarm(uint8_t p_alarmCode, uint32_t p_cycleNumber);
 
     /**
      * Undetect a specific alarm.

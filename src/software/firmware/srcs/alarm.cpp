@@ -24,6 +24,7 @@ Alarm::Alarm(AlarmPriority p_priority, uint8_t p_code, uint8_t p_detectionThresh
     m_priority = p_priority;
     m_code = p_code;
     m_detectionThreshold = p_detectionThreshold;
+    m_cycleNumber = 0u;
     m_detectionNumber = 0u;
 }
 
@@ -33,11 +34,17 @@ uint8_t Alarm::getCode() { return m_code; }
 
 bool Alarm::isTriggered() { return m_detectionNumber >= m_detectionThreshold; }
 
-void Alarm::detected() {
-    m_detectionNumber = m_detectionNumber + 1;
-    if (m_detectionNumber > m_detectionThreshold) {
-        m_detectionNumber = m_detectionThreshold;
+void Alarm::detected(uint32_t p_cycleNumber) {
+    if (m_cycleNumber != p_cycleNumber) {
+        m_cycleNumber = p_cycleNumber;
+        m_detectionNumber = m_detectionNumber + 1;
+        if (m_detectionNumber > m_detectionThreshold) {
+            m_detectionNumber = m_detectionThreshold;
+        }
     }
 }
 
-void Alarm::notDetected() { m_detectionNumber = 0; }
+void Alarm::notDetected() {
+    m_cycleNumber = 0;
+    m_detectionNumber = 0;
+}

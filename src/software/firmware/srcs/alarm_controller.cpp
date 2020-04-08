@@ -112,11 +112,11 @@ void AlarmController::snooze() {
     // TODO disable buzzer sound for 120s
 }
 
-void AlarmController::detectedAlarm(uint8_t p_alarmCode) {
+void AlarmController::detectedAlarm(uint8_t p_alarmCode, uint32_t p_cycleNumber) {
     for (int i = 0; i < ALARMS_SIZE; i++) {
         Alarm* current = &m_alarms[i];
         if (current->getCode() == p_alarmCode) {
-            current->detected();
+            current->detected(p_cycleNumber);
             break;
         }
     }

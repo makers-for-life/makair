@@ -52,8 +52,10 @@ class Alarm {
     /**
      * If the alarm is detected, it increments the number of detection until the detection
      * threshold.
+     *
+     * @param p_cycleNumber The cycle where the detection is done
      */
-    void detected();
+    void detected(uint32_t p_cycleNumber);
 
     /**
      * Reset alarm.
@@ -73,6 +75,9 @@ class Alarm {
 
     /// Number of detection
     uint8_t m_detectionNumber;
+
+    /// Cycle number
+    uint32_t m_cycleNumber;
 };
 
 // INITIALISATION =============================================================

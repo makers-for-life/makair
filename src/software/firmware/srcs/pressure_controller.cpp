@@ -322,9 +322,10 @@ void PressureController::holdExhalation() {
 void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
 
 void PressureController::safeguards(uint16_t p_centiSec) {
+
     // TODO rework safeguards
     // safeguardPressionCrete(p_centiSec);
-    // safeguardPressionPlateau(p_centiSec);
+    safeguardPressionPlateau(p_centiSec);
     // safeguardHoldExpiration(p_centiSec);
     // safeguardMaintienPeep(p_centiSec);
 }
@@ -351,11 +352,16 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
 
 void PressureController::safeguardPressionPlateau(uint16_t p_centiSec) {
     if (m_subPhase == CycleSubPhases::HOLD_INSPIRATION) {
-        if (m_pressure >= m_maxPlateauPressureCommand) {
-            // TODO vérifier avec médical si on doit délester la pression
-            // TODO alarme franchissement plateau haut
+        if (m_pressure < ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O) {
+            m_alarmController.detectedAlarm(24u, m_cycleNb);
         } else {
-            plateau();
+            m_alarmController.notDetectedAlarm(24u);
+        }
+
+        if (m_pressure > ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O) {
+            m_alarmController.detectedAlarm(17u, m_cycleNb);
+        } else {
+            m_alarmController.notDetectedAlarm(17u);
         }
     }
 }
