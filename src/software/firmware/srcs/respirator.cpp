@@ -50,6 +50,8 @@ void waitForInMs(uint16_t ms) {
     }
 }
 
+uint32_t lastpControllerComputeDate;
+
 void setup() {
     /* Catch potential Watchdog reset */
     if (IWatchdog.isReset(true)) {
@@ -135,6 +137,8 @@ void setup() {
     // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
     IWatchdog.begin(WATCHDOG_TIMEOUT);
     IWatchdog.reload();
+
+    lastpControllerComputeDate = millis();
 }
 
 // Time of the previous loop iteration
@@ -155,16 +159,17 @@ void loop() {
     // START THE RESPIRATORY CYCLE
     /********************************************/
     uint16_t centiSec = 0;
-    uint32_t lastpControllerComputeDate = 0uL;
 
     while (centiSec < pController.centiSecPerCycle()) {
         pController.updatePressure(readPressureSensor(centiSec));
 
         uint32_t currentDate = millis();
 
-        if ((currentDate - lastpControllerComputeDate) >= PCONTROLLER_COMPUTE_PERIOD) {
-            lastpControllerComputeDate = currentDate;
+        uint32_t diff = (currentDate - lastpControllerComputeDate);
 
+        if (diff >= PCONTROLLER_COMPUTE_PERIOD) {
+            lastpControllerComputeDate = currentDate;
+            Serial.println(diff);
             int32_t currentMicro = micros();
 
             pController.updateDt(currentMicro - lastMicro);

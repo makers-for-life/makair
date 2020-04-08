@@ -29,40 +29,40 @@ AlarmController::AlarmController()
            * The device shall embed a high priority alarm 11 when the pressure is too low < 2cmH2O
            * from the 4th cycle.
            */
-          Alarm(AlarmPriority::ALARM_HIGH, 11u, 4u),
+          Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_2, 4u),
 
           /* RCM-SW-1
            * The device shall embed a high priority Alarm 12 when the pressure is > 35cmH20 from the
            * 4th respiratory cycle.
            */
-          Alarm(AlarmPriority::ALARM_HIGH, 12u, 4u),
+          Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_1, 4u),
 
           /**
            * RCM-SW-12
            * The device shall monitor the battery voltage and trig a High priority alarm 13 when
            * voltage is at 12.0V.
            */
-          Alarm(AlarmPriority::ALARM_HIGH, 13u, 1u),
+          Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_12, 1u),
 
           /**
            * RCM-SW-3
            * The device shall embed a high priority alarm 14 when the PEEP target is not reached
            * (absolute difference > 2cmH2O) from the 4th respiratory cycle.
            */
-          Alarm(AlarmPriority::ALARM_HIGH, 14u, 4u),
+          Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_3, 4u),
 
           /**
            * RCM-SW-6 - NOT in #107
            * The software shall monitor the motor temperature, and raise a high priority alarm 15 if
-           * temperature is over 80C.
+           * temperature is over 80°C.
            */
-          Alarm(AlarmPriority::ALARM_HIGH, 15u, 1u),
+          Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_6, 1u),
 
           /**
            * RCM-SW-18
            * The device shall embed a high priority alarm 17 when the Plateau pressure is > 80cmH2O.
            */
-          Alarm(AlarmPriority::ALARM_HIGH, 17u, 1u),
+          Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_18, 1u),
 
           /**
            * RCM-SW-8
@@ -70,43 +70,42 @@ AlarmController::AlarmController()
            * disconnection or shortcut ( <0.250v & >3.1V) and a High Priority Alarm 18 shall be
            * triggered.
            */
-          Alarm(AlarmPriority::ALARM_HIGH, 18u, 1u),
+          Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_8, 1u),
 
           /**
            * RCM-SW-11
            * The device shall monitor the battery voltage and trig a medium priority alarm 21 when
            * voltage is at 12.3V.
            */
-
-          Alarm(AlarmPriority::ALARM_MEDIUM, 21u, 1u),
+          Alarm(AlarmPriority::ALARM_MEDIUM, RCM_SW_11, 1u),
 
           /**
            * RCM-SW-14
            * The device shall embed a medium priority alarm 22 when the Plateau pressure is not
-           * reached (absolute différence > 20% in absolute value) until the 2nd respiratory cycle.
+           * reached (absolute difference > 20% in absolute value) until the 2nd respiratory cycle.
            */
-          Alarm(AlarmPriority::ALARM_MEDIUM, 22u, 2u),
+          Alarm(AlarmPriority::ALARM_MEDIUM, RCM_SW_14, 2u),
 
           /**
            * RCM-SW-15
            * The device shall embed a medium priority alarm 23 when the PEEP target is not reached
            * (absolute difference > 2cmH2O) until the 3th respiratory cycle.
            */
-          Alarm(AlarmPriority::ALARM_MEDIUM, 23u, 3u),
+          Alarm(AlarmPriority::ALARM_MEDIUM, RCM_SW_15, 3u),
 
           /**
            * RCM-SW-19
            * The device shall embed a low priority alarm 24 when the Plateau pressure < 2cm H2O at
            * the second cycle (Patient disconnection).
            */
-          Alarm(AlarmPriority::ALARM_MEDIUM, 24u, 2u),
+          Alarm(AlarmPriority::ALARM_MEDIUM, RCM_SW_19, 2u),
 
           /**
            * RCM-SW-16
            * The device shall embed an information (audible) signal 31 when the mains are
            * disconnected to alert the user.
            */
-          Alarm(AlarmPriority::ALARM_LOW, 31u, 1u)}) {}
+          Alarm(AlarmPriority::ALARM_LOW, RCM_SW_16, 1u)}) {}
 
 void AlarmController::snooze() {
     // TODO disable buzzer sound for 120s
@@ -148,7 +147,10 @@ void AlarmController::manageAlarm(uint16_t p_centiSec) {
             numberOfTriggeredAlarms++;
         }
     }
-    displayAlarmInformation(triggeredAlarmCodes, numberOfTriggeredAlarms);
+
+    if ((p_centiSec % LCD_UPDATE_PERIOD) == 0u) {
+        displayAlarmInformation(triggeredAlarmCodes, numberOfTriggeredAlarms);
+    }
 
     if (!highestPriority) {
         Buzzer_Stop();

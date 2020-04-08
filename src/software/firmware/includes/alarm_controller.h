@@ -19,6 +19,19 @@
 
 #define ALARMS_SIZE 12
 
+#define RCM_SW_1 12u
+#define RCM_SW_2 11u
+#define RCM_SW_3 14u
+#define RCM_SW_6 15u
+#define RCM_SW_8 18u
+#define RCM_SW_11 21u
+#define RCM_SW_12 13u
+#define RCM_SW_14 22u
+#define RCM_SW_15 23u
+#define RCM_SW_16 31u
+#define RCM_SW_18 17u
+#define RCM_SW_19 24u
+
 class AlarmController {
  public:
     /// Default constructor

@@ -324,18 +324,20 @@ void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
 void PressureController::safeguards(uint16_t p_centiSec) {
     // TODO rework safeguards
     // safeguardPressionCrete(p_centiSec);
-    safeguardPressionPlateau(p_centiSec);
-    // safeguardHoldExpiration(p_centiSec);
+    safeguardPlateau(p_centiSec);
+    safeguardHoldExpiration(p_centiSec);
     // safeguardMaintienPeep(p_centiSec);
 
-    uint16_t minPeepBeforeAlarm = m_minPeepCommand - ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_20_CMH2O;
-    uint16_t maxPeepBeforeAlarm = m_minPeepCommand + ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_20_CMH2O;
-    if (m_pressure < minPeepBeforeAlarm || m_pressure > maxPeepBeforeAlarm) {
-        m_alarmController.detectedAlarm(14u, m_cycleNb);
-        m_alarmController.detectedAlarm(23u, m_cycleNb);
+    if (m_pressure < ALARM_2_CMH2O) {
+        m_alarmController.detectedAlarm(RCM_SW_2, m_cycleNb);
     } else {
-        m_alarmController.notDetectedAlarm(14u);
-        m_alarmController.notDetectedAlarm(23u);
+        m_alarmController.notDetectedAlarm(RCM_SW_2);
+    }
+
+    if (m_pressure > ALARM_35_CMH2O) {
+        m_alarmController.detectedAlarm(RCM_SW_1, m_cycleNb);
+    } else {
+        m_alarmController.notDetectedAlarm(RCM_SW_1);
     }
 }
 
@@ -359,28 +361,42 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
     }
 }
 
-void PressureController::safeguardPressionPlateau(uint16_t p_centiSec) {
+void PressureController::safeguardPlateau(uint16_t p_centiSec) {
     if (m_subPhase == CycleSubPhases::HOLD_INSPIRATION) {
         if (m_pressure < ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O) {
-            m_alarmController.detectedAlarm(24u, m_cycleNb);
+            m_alarmController.detectedAlarm(RCM_SW_19, m_cycleNb);
         } else {
-            m_alarmController.notDetectedAlarm(24u);
+            m_alarmController.notDetectedAlarm(RCM_SW_19);
         }
 
         if (m_pressure > ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O) {
-            m_alarmController.detectedAlarm(17u, m_cycleNb);
+            m_alarmController.detectedAlarm(RCM_SW_18, m_cycleNb);
         } else {
-            m_alarmController.notDetectedAlarm(17u);
+            m_alarmController.notDetectedAlarm(RCM_SW_18);
+        }
+
+        uint16_t minPlateauBeforeAlarm = 80u * m_maxPlateauPressureCommand / 100u;
+        uint16_t maxPlateauBeforeAlarm = 120u * m_maxPlateauPressureCommand / 100u;
+        if (m_pressure < minPlateauBeforeAlarm || m_pressure > maxPlateauBeforeAlarm) {
+            m_alarmController.detectedAlarm(RCM_SW_14, m_cycleNb);
+        } else {
+            m_alarmController.notDetectedAlarm(RCM_SW_14);
         }
     }
 }
 
 void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
     if (m_phase == CyclePhases::EXHALATION) {
-        // TODO asservir m_minPeepCommand + X à la vitesse du volume estimé
-        if (m_pressure <= (m_minPeepCommand + 20u)) {
-            setSubPhase(CycleSubPhases::HOLD_EXHALE);
-            holdExhalation();
+        uint16_t minPeepBeforeAlarm =
+            m_minPeepCommand - ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O;
+        uint16_t maxPeepBeforeAlarm =
+            m_minPeepCommand + ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O;
+        if (m_pressure < minPeepBeforeAlarm || m_pressure > maxPeepBeforeAlarm) {
+            m_alarmController.detectedAlarm(RCM_SW_3, m_cycleNb);
+            m_alarmController.detectedAlarm(RCM_SW_15, m_cycleNb);
+        } else {
+            m_alarmController.notDetectedAlarm(RCM_SW_3);
+            m_alarmController.notDetectedAlarm(RCM_SW_15);
         }
     }
 }

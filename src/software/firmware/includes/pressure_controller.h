@@ -182,7 +182,7 @@ class PressureController {
      *
      * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
-    void safeguardPressionPlateau(uint16_t p_centiSec);
+    void safeguardPlateau(uint16_t p_centiSec);
 
     /**
      * Implement a first safeguard for peep pressure
