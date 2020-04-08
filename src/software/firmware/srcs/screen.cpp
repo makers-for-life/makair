@@ -39,54 +39,36 @@ void startScreen() {
 
 void resetScreen() { screen.clear(); }
 
-void displaySubPhase(CycleSubPhases subPhase) {
+void displayCurrentPressure(uint16_t pressure, uint16_t cyclesPerMinute) {
     screen.setCursor(0, 0);
 
-    switch (subPhase) {
-    case CycleSubPhases::INSPIRATION: {
-        screen.print("Inhalation          ");
-        break;
-    }
-    case CycleSubPhases::HOLD_INSPIRATION: {
-        screen.print("Plateau             ");
-        break;
-    }
-    case CycleSubPhases::EXHALE: {
-        screen.print("Exhalation          ");
-        break;
-    }
-    case CycleSubPhases::HOLD_EXHALE: {
-        screen.print("Hold exhalation     ");
-        break;
-    }
-    default: {
-        break;
-    }
-    }
-}
-
-void displayCurrentInformation(uint16_t peakPressure,
-                               uint16_t plateauPressure,
-                               uint16_t peep,
-                               uint16_t pressure) {
-    screen.setCursor(0, 1);
     char message[SCREEN_LINE_LENGTH];
 
-    (void)snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressure / 10u,
-                   plateauPressure / 10u, peep / 10u, pressure / 10u);
+    (void)snprintf(message, SCREEN_LINE_LENGTH, "Pressure: %-4u   %-4u", pressure / 10u,
+                   cyclesPerMinute);
 
     screen.print(message);
 }
 
-void displaySettings(uint16_t peakPressureMax,
-                     uint16_t plateauPressureMax,
-                     uint16_t peepMin,
-                     uint16_t cyclesPerMinute) {
+void displayCurrentSettings(uint16_t peakPressureMax,
+                            uint16_t plateauPressureMax,
+                            uint16_t peepMin) {
+    screen.setCursor(0, 1);
+
+    char message[SCREEN_LINE_LENGTH];
+
+    (void)snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u set", peakPressureMax / 10u,
+                   plateauPressureMax / 10u, peepMin / 10u);
+
+    screen.print(message);
+}
+
+void displayCurrentInformation(uint16_t peakPressure, uint16_t plateauPressure, uint16_t peep) {
     screen.setCursor(0, 3);
     char message[SCREEN_LINE_LENGTH];
 
-    (void)snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u %-4u", peakPressureMax / 10u,
-                   plateauPressureMax / 10u, peepMin / 10u, cyclesPerMinute);
+    (void)snprintf(message, SCREEN_LINE_LENGTH, "%-4u %-4u %-4u mean", peakPressure / 10u,
+                   plateauPressure / 10u, peep / 10u);
 
     screen.print(message);
 }

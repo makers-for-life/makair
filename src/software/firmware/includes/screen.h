@@ -38,21 +38,13 @@ void startScreen();
 /// Erase everything that is on the screen
 void resetScreen();
 
-/// Display the current step of the breathing
-void displaySubPhase(CycleSubPhases subPhase);
-
 /**
- * Display relevant values from the ongoing cycle
+ * Display the current step of the breathing
  *
- * @param peakPressure     The peak pressure [mmH2O]
- * @param plateauPressure  The plateau pressure [mmH2O]
- * @param peep             The Positive End Expiratory Pressure (PEEP) [mmH2O]
- * @param pressure         The current pressure [mmH2O]
+ * @param pressure            The current pressure [mmH2O]
+ * @param cyclesPerMinute     Next desired number of cycles per minute
  */
-void displayCurrentInformation(uint16_t peakPressure,
-                               uint16_t plateauPressure,
-                               uint16_t peep,
-                               uint16_t pressure);
+void displayCurrentPressure(uint16_t pressure, uint16_t cyclesPerMinute);
 
 /**
  * Display the current settings
@@ -60,9 +52,16 @@ void displayCurrentInformation(uint16_t peakPressure,
  * @param peakPressureMax      PeakPressureMax [mmH2O]
  * @param plateauPressureMax   Next maximal plateau pressure [mmH2O]
  * @param peepMin              Next desired Positive End Expiratory Pressure (PEEP) [mmH2O]
- * @param cyclesPerMinute      Next desired number of cycles per minute
  */
-void displaySettings(uint16_t peakPressureMax,
-                     uint16_t plateauPressureMax,
-                     uint16_t peepMin,
-                     uint16_t cyclesPerMinute);
+void displayCurrentSettings(uint16_t peakPressureMax,
+                            uint16_t plateauPressureMax,
+                            uint16_t peepMin);
+
+/**
+ * Display relevant values from the ongoing cycle
+ *
+ * @param peakPressure     The peak pressure [mmH2O]
+ * @param plateauPressure  The plateau pressure [mmH2O]
+ * @param peep             The Positive End Expiratory Pressure (PEEP) [mmH2O]
+ */
+void displayCurrentInformation(uint16_t peakPressure, uint16_t plateauPressure, uint16_t peep);
