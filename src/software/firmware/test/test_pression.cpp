@@ -74,7 +74,7 @@ TEST_F(PressionTest, testConvertSensor2PressureCompWithFloat) {
 }
 
 /**
- * Test convertSensor2Pressure with comparison against hard coded values
+ * Test convertSensor2Pressure with arbitrary values
  * 
  */
 TEST_F(PressionTest, testConvertSensor2Pressure) {

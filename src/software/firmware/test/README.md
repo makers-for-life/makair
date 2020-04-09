@@ -1,19 +1,20 @@
-# How to build and run the test
+# How to build and run the tests
 
 ## Install Google Test
+
 1. Install cmake
 2. Get the last version of google test from https://github.com/google/googletest/releases and unzip it
-3. go to the google test folder
-4. 
+3. Go to the google test folder
+4. Run:
    ```
    cmake .
    sudo cmake --build . --target install
    ```
 
-## Build the test
+## Build the tests
 
-1. create a build folder and navigate to it
-2. run 
+1. Create a build folder and navigate to it
+2. Run:
     ```
     cmake PATH/TO/src/software/firmware/test
     cmake --build .
@@ -21,12 +22,12 @@
 In the build folder, the test executable will be created.
 
 ## Run the tests
-The test executable can be run individualy or calling `ctest`
+The test executable can be run individualy or by calling `ctest`
 
 # How to add Tests
 
 ## Create test source code
-In a Cpp file, create a test fixture class. For example, following code taken from https://www.linuxembedded.fr/2014/09/introduction-a-google-c-testing-framework/
+In a Cpp file, create a test fixture class. For example, see the following code (taken from https://www.linuxembedded.fr/2014/09/introduction-a-google-c-testing-framework/)
 
 ```cpp
 // The fixture for testing class Foo.
@@ -87,5 +88,4 @@ target_link_libraries(test_foo GTest::GTest GTest::Main)
 
 add_test(TestFoo test_foo) # add the test to the registry to be run with ctest
 ```
-
 

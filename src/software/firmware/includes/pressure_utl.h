@@ -14,7 +14,7 @@
 /**
  * @brief Convert the analog value from sensor to a pressure value
  * 
- * @param sensorValue 
+ * @param Value read from the analog input connected to the sensor
  * @return the pressure in mmH2O 
  */
 int16_t convertSensor2Pressure(uint16_t sensorValue);
