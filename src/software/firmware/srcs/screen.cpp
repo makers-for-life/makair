@@ -87,9 +87,15 @@ void displayCurrentInformation(uint16_t peakPressure, uint16_t plateauPressure, 
 
 static uint8_t prevNbAlarmToPrint = 255;
 static uint8_t prevAlarmCodes[MAX_ALARMS_DISPLAYED] = {0};
+static bool clearCache = false;
 
 /// Check whether triggered alarms are already displayed on screen or not
 static bool hasAlarmInformationChanged(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms) {
+    if (clearCache == true) {
+        clearCache = false;
+        return true;
+    }
+
     uint8_t nbAlarmToPrint = min(static_cast<uint8_t>(MAX_ALARMS_DISPLAYED), p_nbTriggeredAlarms);
 
     bool hasChanged = false;
@@ -115,8 +121,7 @@ static bool hasAlarmInformationChanged(uint8_t p_alarmCodes[], uint8_t p_nbTrigg
 }
 
 void clearAlarmDisplayCache() {
-    prevNbAlarmToPrint = 255;
-    prevAlarmCodes[MAX_ALARMS_DISPLAYED] = {0};
+    clearCache = true;
 }
 
 void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms) {
