@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['lcd_5freset_5fperiod_486',['LCD_RESET_PERIOD',['../parameters_8h.html#a1772dd523a6b213758a8ed5e97df4f81',1,'parameters.h']]],
-  ['lcd_5fupdate_5fperiod_487',['LCD_UPDATE_PERIOD',['../parameters_8h.html#a1134fddd49fb89132c3d084f770e17ed',1,'parameters.h']]]
+  ['initial_5fcycle_5fnumber_600',['INITIAL_CYCLE_NUMBER',['../parameters_8h.html#a3323cc40b9955ffd3073a97f7eb62edc',1,'parameters.h']]]
 ];

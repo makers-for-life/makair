@@ -1,7 +1,7 @@
 var class_pressure_controller =
 [
     [ "PressureController", "class_pressure_controller.html#afda41b9a5a4f14ef31df017722b2d1ca", null ],
-    [ "PressureController", "class_pressure_controller.html#a4b9e7f30c51544ca4069b1fcb2ae0943", null ],
+    [ "PressureController", "class_pressure_controller.html#ad70932f9309e0d6a78d9f1d2328ff998", null ],
     [ "blower", "class_pressure_controller.html#a54a51b6669667ce38721cd4524291bf3", null ],
     [ "centiSecPerCycle", "class_pressure_controller.html#ae17cfa861327ef8c7e73430b59354e2e", null ],
     [ "centiSecPerInhalation", "class_pressure_controller.html#a2051259df1697094331722c54ac0a995", null ],
@@ -36,8 +36,8 @@ var class_pressure_controller =
     [ "pressure", "class_pressure_controller.html#a61ee4afea7c585f5582ad85a0b47da7a", null ],
     [ "safeguardHoldExpiration", "class_pressure_controller.html#a518c55c620fa6bb202c4018b0bf92a35", null ],
     [ "safeguardMaintienPeep", "class_pressure_controller.html#ae9054f8da4aadffa7c5de732fe7f2d93", null ],
+    [ "safeguardPlateau", "class_pressure_controller.html#a1d15642773c59ee72700cd4aaf07e65e", null ],
     [ "safeguardPressionCrete", "class_pressure_controller.html#a153167b98faf8c91c0d374b8a5f248fd", null ],
-    [ "safeguardPressionPlateau", "class_pressure_controller.html#a3df4221c4f03f93e78c1a3e3545411fd", null ],
     [ "safeguards", "class_pressure_controller.html#a135ffaee9e9a87bb8380bc0bd443d6e6", null ],
     [ "setSubPhase", "class_pressure_controller.html#ab40a97f377a68843d0ac5ccc78c097b7", null ],
     [ "setup", "class_pressure_controller.html#ae30a9ffc7ddd71bf17d0e6bccced181a", null ],
@@ -47,6 +47,7 @@ var class_pressure_controller =
     [ "updatePressure", "class_pressure_controller.html#a50a1318f5caee5603941dfcfed9d8cf2", null ],
     [ "blowerIntegral", "class_pressure_controller.html#a617df9619eb39d020b6a672ab5707d23", null ],
     [ "blowerLastError", "class_pressure_controller.html#acb09661a1ee1e4c1284621b4efd3d316", null ],
+    [ "m_alarmController", "class_pressure_controller.html#a0d8eb6a0018cb31faeb40fc3d39d44b5", null ],
     [ "m_blower", "class_pressure_controller.html#a90a9a1c2accf2ac0e2dedd5cb3a7eed2", null ],
     [ "m_centiSecPerCycle", "class_pressure_controller.html#abcf621d3cfa7921d7cd9ff7909384d22", null ],
     [ "m_centiSecPerInhalation", "class_pressure_controller.html#ac8c10e19dbb61309f12495052467b9d3", null ],

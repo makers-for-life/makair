@@ -88,6 +88,12 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 <li>actuator
 : <a class="el" href="class_pressure_valve.html#aa0814e5315cd9b56d748c67e7f46d97b">PressureValve</a>
 </li>
+<li>Alarm()
+: <a class="el" href="class_alarm.html#aa76c93f486884972152ec8c1b6d1a015">Alarm</a>
+</li>
+<li>AlarmController()
+: <a class="el" href="class_alarm_controller.html#a383b9a34c7d707477bca2256fdd558e4">AlarmController</a>
+</li>
 </ul>
 
 
@@ -135,6 +141,16 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 </ul>
 
 
+<h3><a id="index_d"></a>- d -</h3><ul>
+<li>detected()
+: <a class="el" href="class_alarm.html#a97e24ee15df11319f25ed4fd2f420d2b">Alarm</a>
+</li>
+<li>detectedAlarm()
+: <a class="el" href="class_alarm_controller.html#a7ba71cb258893f8e9e3ef73fe677354a">AlarmController</a>
+</li>
+</ul>
+
+
 <h3><a id="index_e"></a>- e -</h3><ul>
 <li>execute()
 : <a class="el" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">PressureValve</a>
@@ -144,6 +160,16 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 </li>
 <li>exhale()
 : <a class="el" href="class_pressure_controller.html#aea084adbc5a1f3075dffcd45ddf4b7e8">PressureController</a>
+</li>
+</ul>
+
+
+<h3><a id="index_g"></a>- g -</h3><ul>
+<li>getCode()
+: <a class="el" href="class_alarm.html#a000f602d1a0113b9a86fa3eaff64d4e6">Alarm</a>
+</li>
+<li>getPriority()
+: <a class="el" href="class_alarm.html#a642165bd3d40effe30ae49dbc2099081">Alarm</a>
 </li>
 </ul>
 
@@ -162,10 +188,19 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 <li>initRespiratoryCycle()
 : <a class="el" href="class_pressure_controller.html#a19bba75b8bed523c0ec51f95a1e590fe">PressureController</a>
 </li>
+<li>isTriggered()
+: <a class="el" href="class_alarm.html#ad6c2b5a79f34d488974fc693f491fbde">Alarm</a>
+</li>
 </ul>
 
 
 <h3><a id="index_m"></a>- m -</h3><ul>
+<li>m_alarmController
+: <a class="el" href="class_pressure_controller.html#a0d8eb6a0018cb31faeb40fc3d39d44b5">PressureController</a>
+</li>
+<li>m_alarms
+: <a class="el" href="class_alarm_controller.html#a9ac7c221ac460e79fe5bd361a29ddb8c">AlarmController</a>
+</li>
 <li>m_blower
 : <a class="el" href="class_pressure_controller.html#a90a9a1c2accf2ac0e2dedd5cb3a7eed2">PressureController</a>
 </li>
@@ -175,11 +210,17 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 <li>m_centiSecPerInhalation
 : <a class="el" href="class_pressure_controller.html#ac8c10e19dbb61309f12495052467b9d3">PressureController</a>
 </li>
+<li>m_code
+: <a class="el" href="class_alarm.html#ad1504957b19f97406bcbc6041c94061e">Alarm</a>
+</li>
 <li>m_consignePression
 : <a class="el" href="class_pressure_controller.html#a75f1990e2edb6a04ac329607cab549f5">PressureController</a>
 </li>
 <li>m_cycleNb
 : <a class="el" href="class_pressure_controller.html#a5511232cae942df7d5e0ee48638f5f5f">PressureController</a>
+</li>
+<li>m_cycleNumber
+: <a class="el" href="class_alarm.html#affdd37d0ed7ac7873c418771ec7388ce">Alarm</a>
 </li>
 <li>m_cyclesPerMinute
 : <a class="el" href="class_pressure_controller.html#a9ceead2a4f2920c12e8c3ed8abfdfc80">PressureController</a>
@@ -187,8 +228,17 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 <li>m_cyclesPerMinuteCommand
 : <a class="el" href="class_pressure_controller.html#aca634a5e636d19fbca68e5d5ccd2e25b">PressureController</a>
 </li>
+<li>m_detectionNumber
+: <a class="el" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">Alarm</a>
+</li>
+<li>m_detectionThreshold
+: <a class="el" href="class_alarm.html#a3c14ee454c273b15d91d1a02e39fb893">Alarm</a>
+</li>
 <li>m_dt
 : <a class="el" href="class_pressure_controller.html#aaf2e35d9af679e316db93dfd29dfa561">PressureController</a>
+</li>
+<li>m_highestPriority
+: <a class="el" href="class_alarm_controller.html#ae11063ec546cd92759a8cf91c5a1964d">AlarmController</a>
 </li>
 <li>m_maxPeakPressure
 : <a class="el" href="class_pressure_controller.html#a3c0ec874441a145632e0f32dee3d20dc">PressureController</a>
@@ -225,6 +275,12 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 </li>
 <li>m_pressure
 : <a class="el" href="class_pressure_controller.html#acf658e8e5439b852da326f2ed5ddaf7d">PressureController</a>
+</li>
+<li>m_priority
+: <a class="el" href="class_alarm.html#a73b9d3cf040ac3776435372ad72fc182">Alarm</a>
+</li>
+<li>m_snoozed
+: <a class="el" href="class_alarm_controller.html#a58e52a680b0a26258c18f04d83e70b79">AlarmController</a>
 </li>
 <li>m_subPhase
 : <a class="el" href="class_pressure_controller.html#a62f0f325c66f2654182f8afd4c188a6c">PressureController</a>
@@ -270,6 +326,16 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 </li>
 <li>minPeepCommand()
 : <a class="el" href="class_pressure_controller.html#ad98ed00f1c58b864578a8399794f0834">PressureController</a>
+</li>
+</ul>
+
+
+<h3><a id="index_n"></a>- n -</h3><ul>
+<li>notDetected()
+: <a class="el" href="class_alarm.html#aa77f76515da0c9a236c0de6e17a18e1b">Alarm</a>
+</li>
+<li>notDetectedAlarm()
+: <a class="el" href="class_alarm_controller.html#af1ed8c1cbf5e3c8fe36f534295865849">AlarmController</a>
 </li>
 </ul>
 
@@ -354,6 +420,13 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 </ul>
 
 
+<h3><a id="index_r"></a>- r -</h3><ul>
+<li>runAlarmEffects()
+: <a class="el" href="class_alarm_controller.html#ab1af9930acd275c0af766a6e4258027a">AlarmController</a>
+</li>
+</ul>
+
+
 <h3><a id="index_s"></a>- s -</h3><ul>
 <li>safeguardHoldExpiration()
 : <a class="el" href="class_pressure_controller.html#a518c55c620fa6bb202c4018b0bf92a35">PressureController</a>
@@ -361,11 +434,11 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 <li>safeguardMaintienPeep()
 : <a class="el" href="class_pressure_controller.html#ae9054f8da4aadffa7c5de732fe7f2d93">PressureController</a>
 </li>
+<li>safeguardPlateau()
+: <a class="el" href="class_pressure_controller.html#a1d15642773c59ee72700cd4aaf07e65e">PressureController</a>
+</li>
 <li>safeguardPressionCrete()
 : <a class="el" href="class_pressure_controller.html#a153167b98faf8c91c0d374b8a5f248fd">PressureController</a>
-</li>
-<li>safeguardPressionPlateau()
-: <a class="el" href="class_pressure_controller.html#a3df4221c4f03f93e78c1a3e3545411fd">PressureController</a>
 </li>
 <li>safeguards()
 : <a class="el" href="class_pressure_controller.html#a135ffaee9e9a87bb8380bc0bd443d6e6">PressureController</a>
@@ -379,6 +452,9 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 <li>setup()
 : <a class="el" href="class_pressure_controller.html#ae30a9ffc7ddd71bf17d0e6bccced181a">PressureController</a>
 , <a class="el" href="class_pressure_valve.html#a4554c626fa35ad603fa1aea47b064b07">PressureValve</a>
+</li>
+<li>snooze()
+: <a class="el" href="class_alarm_controller.html#a8a0f2489deb09fe5070d8f2cec07e581">AlarmController</a>
 </li>
 <li>subPhase()
 : <a class="el" href="class_pressure_controller.html#ae3bdcb8cfea8a4e896e2503e59333a38">PressureController</a>

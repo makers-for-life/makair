@@ -1,12 +1,9 @@
 var searchData=
 [
-  ['battery_5fmax_5fsamples_454',['BATTERY_MAX_SAMPLES',['../battery_8h.html#a216384132a8739114132f6254995eda6',1,'battery.h']]],
-  ['beeeep_455',['BEEEEP',['../buzzer_8cpp.html#adfdb0b22f5d989a19e235773640752c9',1,'buzzer.cpp']]],
-  ['beeeep_5fpause_456',['BEEEEP_PAUSE',['../buzzer_8cpp.html#a7ad9a5324ca6d65096e8f291903ec5d4',1,'buzzer.cpp']]],
-  ['bip_457',['BIP',['../buzzer_8cpp.html#a75b7c02c1f64a7f19358c909b427e173',1,'buzzer.cpp']]],
-  ['bip_5fpause_458',['BIP_PAUSE',['../buzzer_8cpp.html#a35770c599297b1b493db345b71311fa6',1,'buzzer.cpp']]],
-  ['blowerspeed2microseconds_459',['BlowerSpeed2MicroSeconds',['../parameters_8h.html#a68bd79c1576a038b2004077c7e027cca',1,'parameters.h']]],
-  ['buzzer_5fboot_5fsize_460',['BUZZER_BOOT_SIZE',['../buzzer_8cpp.html#a6d80bcfd98d01a9d35b5c958116b06f3',1,'buzzer.cpp']]],
-  ['buzzer_5flong_5fsize_461',['BUZZER_LONG_SIZE',['../buzzer_8cpp.html#af756af76fe327fa2f593fe295ebcd1cc',1,'buzzer.cpp']]],
-  ['buzzer_5fmedium_5fsize_462',['BUZZER_MEDIUM_SIZE',['../buzzer_8cpp.html#aa097329131cfa79ae90cf8137a3d4f7d',1,'buzzer.cpp']]]
+  ['alarm_5f2_5fcmh2o_562',['ALARM_2_CMH2O',['../parameters_8h.html#acbf1e1db25856ba03be7809cdcb4d1ae',1,'parameters.h']]],
+  ['alarm_5f35_5fcmh2o_563',['ALARM_35_CMH2O',['../parameters_8h.html#a563c99c902dad4067e3ef15a3a52bb22',1,'parameters.h']]],
+  ['alarm_5fthreshold_5fpeep_5fabove_5for_5funder_5f2_5fcmh2o_564',['ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O',['../parameters_8h.html#ad7eb4d353aaf308bc7c505e7d99dcb00',1,'parameters.h']]],
+  ['alarm_5fthreshold_5fplateau_5fabove_5f80_5fcmh2o_565',['ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O',['../parameters_8h.html#a161ed810a41645eb944854c2d1cd2fa0',1,'parameters.h']]],
+  ['alarm_5fthreshold_5fplateau_5funder_5f2_5fcmh2o_566',['ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O',['../parameters_8h.html#a06af8da8e49d46fe85daf57de9236184',1,'parameters.h']]],
+  ['alarms_5fsize_567',['ALARMS_SIZE',['../alarm__controller_8h.html#ac4707f9e5fae63a64a4fe478080ee79a',1,'alarm_controller.h']]]
 ];

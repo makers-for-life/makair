@@ -168,7 +168,7 @@ Macros</h2></td></tr>
 <tr class="memitem:a5a5ed10b5050dd70fd32ca7cbae79441"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>&#160;&#160;&#160;20</td></tr>
 <tr class="memdesc:a5a5ed10b5050dd70fd32ca7cbae79441"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of characters per line.  <a href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">More...</a><br /></td></tr>
 <tr class="separator:a5a5ed10b5050dd70fd32ca7cbae79441"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1134fddd49fb89132c3d084f770e17ed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parameters_8h.html#a1134fddd49fb89132c3d084f770e17ed">LCD_UPDATE_PERIOD</a>&#160;&#160;&#160;20u</td></tr>
+<tr class="memitem:a1134fddd49fb89132c3d084f770e17ed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parameters_8h.html#a1134fddd49fb89132c3d084f770e17ed">LCD_UPDATE_PERIOD</a>&#160;&#160;&#160;30u</td></tr>
 <tr class="memdesc:a1134fddd49fb89132c3d084f770e17ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Period between screen updates in hundredth of second.  <a href="parameters_8h.html#a1134fddd49fb89132c3d084f770e17ed">More...</a><br /></td></tr>
 <tr class="separator:a1134fddd49fb89132c3d084f770e17ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1772dd523a6b213758a8ed5e97df4f81"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parameters_8h.html#a1772dd523a6b213758a8ed5e97df4f81">LCD_RESET_PERIOD</a>&#160;&#160;&#160;5</td></tr>
@@ -219,6 +219,17 @@ Macros</h2></td></tr>
 <tr class="memitem:a68bd79c1576a038b2004077c7e027cca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parameters_8h.html#a68bd79c1576a038b2004077c7e027cca">BlowerSpeed2MicroSeconds</a>(value)&#160;&#160;&#160;map(value, 0, 180, 1000, 2000)</td></tr>
 <tr class="memdesc:a68bd79c1576a038b2004077c7e027cca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a speed to a value in microseconds for the blower controller.  <a href="parameters_8h.html#a68bd79c1576a038b2004077c7e027cca">More...</a><br /></td></tr>
 <tr class="separator:a68bd79c1576a038b2004077c7e027cca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Alarm thresholds</div></td></tr>
+<tr class="memitem:acbf1e1db25856ba03be7809cdcb4d1ae"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parameters_8h.html#acbf1e1db25856ba03be7809cdcb4d1ae">ALARM_2_CMH2O</a>&#160;&#160;&#160;20</td></tr>
+<tr class="separator:acbf1e1db25856ba03be7809cdcb4d1ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a563c99c902dad4067e3ef15a3a52bb22"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parameters_8h.html#a563c99c902dad4067e3ef15a3a52bb22">ALARM_35_CMH2O</a>&#160;&#160;&#160;350</td></tr>
+<tr class="separator:a563c99c902dad4067e3ef15a3a52bb22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7eb4d353aaf308bc7c505e7d99dcb00"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parameters_8h.html#ad7eb4d353aaf308bc7c505e7d99dcb00">ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O</a>&#160;&#160;&#160;<a class="el" href="parameters_8h.html#acbf1e1db25856ba03be7809cdcb4d1ae">ALARM_2_CMH2O</a></td></tr>
+<tr class="separator:ad7eb4d353aaf308bc7c505e7d99dcb00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06af8da8e49d46fe85daf57de9236184"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parameters_8h.html#a06af8da8e49d46fe85daf57de9236184">ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O</a>&#160;&#160;&#160;<a class="el" href="parameters_8h.html#acbf1e1db25856ba03be7809cdcb4d1ae">ALARM_2_CMH2O</a></td></tr>
+<tr class="separator:a06af8da8e49d46fe85daf57de9236184"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a161ed810a41645eb944854c2d1cd2fa0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parameters_8h.html#a161ed810a41645eb944854c2d1cd2fa0">ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O</a>&#160;&#160;&#160;800</td></tr>
+<tr class="separator:a161ed810a41645eb944854c2d1cd2fa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -250,6 +261,86 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="parameters_8h_source.html">parameters.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="acbf1e1db25856ba03be7809cdcb4d1ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbf1e1db25856ba03be7809cdcb4d1ae">&#9670;&nbsp;</a></span>ALARM_2_CMH2O</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ALARM_2_CMH2O&#160;&#160;&#160;20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="parameters_8h_source.html#l00161">161</a> of file <a class="el" href="parameters_8h_source.html">parameters.h</a>.</p>
+
+</div>
+</div>
+<a id="a563c99c902dad4067e3ef15a3a52bb22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a563c99c902dad4067e3ef15a3a52bb22">&#9670;&nbsp;</a></span>ALARM_35_CMH2O</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ALARM_35_CMH2O&#160;&#160;&#160;350</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="parameters_8h_source.html#l00162">162</a> of file <a class="el" href="parameters_8h_source.html">parameters.h</a>.</p>
+
+</div>
+</div>
+<a id="ad7eb4d353aaf308bc7c505e7d99dcb00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7eb4d353aaf308bc7c505e7d99dcb00">&#9670;&nbsp;</a></span>ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O&#160;&#160;&#160;<a class="el" href="parameters_8h.html#acbf1e1db25856ba03be7809cdcb4d1ae">ALARM_2_CMH2O</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="parameters_8h_source.html#l00163">163</a> of file <a class="el" href="parameters_8h_source.html">parameters.h</a>.</p>
+
+</div>
+</div>
+<a id="a161ed810a41645eb944854c2d1cd2fa0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a161ed810a41645eb944854c2d1cd2fa0">&#9670;&nbsp;</a></span>ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O&#160;&#160;&#160;800</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="parameters_8h_source.html#l00165">165</a> of file <a class="el" href="parameters_8h_source.html">parameters.h</a>.</p>
+
+</div>
+</div>
+<a id="a06af8da8e49d46fe85daf57de9236184"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06af8da8e49d46fe85daf57de9236184">&#9670;&nbsp;</a></span>ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O&#160;&#160;&#160;<a class="el" href="parameters_8h.html#acbf1e1db25856ba03be7809cdcb4d1ae">ALARM_2_CMH2O</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="parameters_8h_source.html#l00164">164</a> of file <a class="el" href="parameters_8h_source.html">parameters.h</a>.</p>
+
+</div>
+</div>
 <a id="a68bd79c1576a038b2004077c7e027cca"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a68bd79c1576a038b2004077c7e027cca">&#9670;&nbsp;</a></span>BlowerSpeed2MicroSeconds</h2>
 
@@ -505,7 +596,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LCD_UPDATE_PERIOD&#160;&#160;&#160;20u</td>
+          <td class="memname">#define LCD_UPDATE_PERIOD&#160;&#160;&#160;30u</td>
         </tr>
       </table>
 </div><div class="memdoc">

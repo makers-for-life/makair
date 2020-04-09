@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['timerchannel_445',['timerChannel',['../class_pressure_valve.html#ab1d1aa2a11730e204d04cf9f15262a81',1,'PressureValve']]]
+  ['screen_546',['screen',['../screen_8h.html#ae2ee4908ee32a266ef7908828279d9a1',1,'screen.h']]],
+  ['servopin_547',['servoPin',['../class_pressure_valve.html#a93348c1903be3d0f836fc2f08b2b0341',1,'PressureValve']]]
 ];

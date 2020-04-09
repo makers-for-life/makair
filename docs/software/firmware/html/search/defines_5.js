@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['mode_488',['MODE',['../config_8h.html#ab8c52c1b4c021ed3e6b6b677bd2ac019',1,'config.h']]],
-  ['mode_5fprod_489',['MODE_PROD',['../config_8h.html#a0411b2098b68e25eee2e6e12e260ca98',1,'config.h']]],
-  ['mode_5fqualification_490',['MODE_QUALIFICATION',['../config_8h.html#af3c748d47bde01edbd190cebc5033ad6',1,'config.h']]]
+  ['lcd_5freset_5fperiod_601',['LCD_RESET_PERIOD',['../parameters_8h.html#a1772dd523a6b213758a8ed5e97df4f81',1,'parameters.h']]],
+  ['lcd_5fupdate_5fperiod_602',['LCD_UPDATE_PERIOD',['../parameters_8h.html#a1134fddd49fb89132c3d084f770e17ed',1,'parameters.h']]]
 ];

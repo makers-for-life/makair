@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['hold_5fexhale_450',['HOLD_EXHALE',['../pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ae0a29121453b6882703ac23018282a80',1,'pressure_controller.h']]],
-  ['hold_5finspiration_451',['HOLD_INSPIRATION',['../pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088',1,'pressure_controller.h']]]
+  ['exhalation_556',['EXHALATION',['../pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29',1,'pressure_controller.h']]],
+  ['exhale_557',['EXHALE',['../pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4',1,'pressure_controller.h']]]
 ];
