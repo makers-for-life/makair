@@ -348,11 +348,9 @@ void PressureController::holdExhalation() {
 void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
 
 void PressureController::safeguards(uint16_t p_centiSec) {
-    // TODO rework safeguards
-    // safeguardPressionCrete(p_centiSec);
+
     safeguardPlateau(p_centiSec);
     safeguardHoldExpiration(p_centiSec);
-    // safeguardMaintienPeep(p_centiSec);
 
     if (m_pressure < ALARM_2_CMH2O) {
         m_alarmController.detectedAlarm(RCM_SW_2, m_cycleNb);
