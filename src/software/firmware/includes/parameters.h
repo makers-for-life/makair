@@ -107,7 +107,7 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -500;
 #define SCREEN_LINE_LENGTH 20
 
 /// Period between screen updates in hundredth of second
-#define LCD_UPDATE_PERIOD 20u
+#define LCD_UPDATE_PERIOD 30u
 
 /// Period between screen resets in minutes
 #define LCD_RESET_PERIOD 5
@@ -150,5 +150,18 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -500;
 
 /// Convert a speed to a value in microseconds for the blower controller
 #define BlowerSpeed2MicroSeconds(value) map(value, 0, 180, 1000, 2000)
+
+///@}
+
+/**
+ * @name Alarm thresholds
+ */
+///@{
+
+#define ALARM_2_CMH2O 20                                           // RCM-SW-2
+#define ALARM_35_CMH2O 350                                         // RCM-SW-1
+#define ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O ALARM_2_CMH2O  // RCM-SW-3 / RCM-SW-15
+#define ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O ALARM_2_CMH2O        // RCM-SW-19
+#define ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O 800                 // RCM-SW-18
 
 ///@}

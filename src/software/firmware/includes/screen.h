@@ -64,3 +64,11 @@ void displayCurrentSettings(uint16_t peakPressureMax,
  * @param peep             The Positive End Expiratory Pressure (PEEP) [mmH2O]
  */
 void displayCurrentInformation(uint16_t peakPressure, uint16_t plateauPressure, uint16_t peep);
+
+/**
+ * Display triggered alarm codes
+ *
+ * @param p_alarmCodes          List of alarm codes to display
+ * @param p_nbTriggeredAlarms   Number of triggered alarms
+ */
+void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms);

@@ -14,11 +14,11 @@
 // Associated header
 #include "../includes/pressure_controller.h"
 
-// External libraries
+// External
 #include <algorithm>
 
-// Internal libraries
-#include "../includes/buzzer.h"
+// Internal
+#include "../includes/alarm_controller.h"
 #include "../includes/config.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
@@ -56,7 +56,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        int16_t p_maxPlateauPressure,
                                        int16_t p_maxPeakPressure,
                                        PressureValve p_blower,
-                                       PressureValve p_patient)
+                                       PressureValve p_patient,
+                                       AlarmController p_alarmController)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
 
       m_vigilance(false),
@@ -75,7 +76,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_blower(p_blower),
       m_patient(p_patient),
       m_triggerHoldExpiDetectionTick(0),
-      m_triggerHoldExpiDetectionTickDeletion(0) {
+      m_triggerHoldExpiDetectionTickDeletion(0),
+      m_alarmController(p_alarmController) {
     computeCentiSecParameters();
 }
 
@@ -160,6 +162,8 @@ void PressureController::compute(uint16_t p_centiSec) {
                        m_blower.position, m_patient.command, m_patient.position)
 
     executeCommands();
+
+    m_alarmController.runAlarmEffects(p_centiSec);
 }
 
 void PressureController::onCycleDecrease() {
@@ -319,9 +323,21 @@ void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
 void PressureController::safeguards(uint16_t p_centiSec) {
     // TODO rework safeguards
     // safeguardPressionCrete(p_centiSec);
-    // safeguardPressionPlateau(p_centiSec);
-    // safeguardHoldExpiration(p_centiSec);
+    safeguardPlateau(p_centiSec);
+    safeguardHoldExpiration(p_centiSec);
     // safeguardMaintienPeep(p_centiSec);
+
+    if (m_pressure < ALARM_2_CMH2O) {
+        m_alarmController.detectedAlarm(RCM_SW_2, m_cycleNb);
+    } else {
+        m_alarmController.notDetectedAlarm(RCM_SW_2);
+    }
+
+    if (m_pressure > ALARM_35_CMH2O) {
+        m_alarmController.detectedAlarm(RCM_SW_1, m_cycleNb);
+    } else {
+        m_alarmController.notDetectedAlarm(RCM_SW_1);
+    }
 }
 
 void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
@@ -333,34 +349,51 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
 
         if (m_pressure >= m_maxPeakPressureCommand) {
             setSubPhase(CycleSubPhases::HOLD_INSPIRATION);
-            Buzzer_Medium_Start();
             plateau();
         }
     }
 
     if (m_pressure >= (m_maxPeakPressureCommand + 10u)) {
         // m_patient.augmenterOuverture();
-        Buzzer_Medium_Start();
     }
 }
 
-void PressureController::safeguardPressionPlateau(uint16_t p_centiSec) {
+void PressureController::safeguardPlateau(uint16_t p_centiSec) {
     if (m_subPhase == CycleSubPhases::HOLD_INSPIRATION) {
-        if (m_pressure >= m_maxPlateauPressureCommand) {
-            // TODO vérifier avec médical si on doit délester la pression
-            // TODO alarme franchissement plateau haut
+        if (m_pressure < ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O) {
+            m_alarmController.detectedAlarm(RCM_SW_19, m_cycleNb);
         } else {
-            plateau();
+            m_alarmController.notDetectedAlarm(RCM_SW_19);
+        }
+
+        if (m_pressure > ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O) {
+            m_alarmController.detectedAlarm(RCM_SW_18, m_cycleNb);
+        } else {
+            m_alarmController.notDetectedAlarm(RCM_SW_18);
+        }
+
+        uint16_t minPlateauBeforeAlarm = 80u * m_maxPlateauPressureCommand / 100u;
+        uint16_t maxPlateauBeforeAlarm = 120u * m_maxPlateauPressureCommand / 100u;
+        if (m_pressure < minPlateauBeforeAlarm || m_pressure > maxPlateauBeforeAlarm) {
+            m_alarmController.detectedAlarm(RCM_SW_14, m_cycleNb);
+        } else {
+            m_alarmController.notDetectedAlarm(RCM_SW_14);
         }
     }
 }
 
 void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
     if (m_phase == CyclePhases::EXHALATION) {
-        // TODO asservir m_minPeepCommand + X à la vitesse du volume estimé
-        if (m_pressure <= (m_minPeepCommand + 20u)) {
-            setSubPhase(CycleSubPhases::HOLD_EXHALE);
-            holdExhalation();
+        uint16_t minPeepBeforeAlarm =
+            m_minPeepCommand - ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O;
+        uint16_t maxPeepBeforeAlarm =
+            m_minPeepCommand + ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O;
+        if (m_pressure < minPeepBeforeAlarm || m_pressure > maxPeepBeforeAlarm) {
+            m_alarmController.detectedAlarm(RCM_SW_3, m_cycleNb);
+            m_alarmController.detectedAlarm(RCM_SW_15, m_cycleNb);
+        } else {
+            m_alarmController.notDetectedAlarm(RCM_SW_3);
+            m_alarmController.notDetectedAlarm(RCM_SW_15);
         }
     }
 }
@@ -368,7 +401,6 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
 void PressureController::safeguardMaintienPeep(uint16_t p_centiSec) {
     if (m_pressure <= m_minPeepCommand) {
         // m_blower.augmenterOuverture();
-        Buzzer_Long_Start();
     }
 }
 

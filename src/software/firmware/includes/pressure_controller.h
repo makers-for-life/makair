@@ -11,10 +11,9 @@
 
 // INCLUDES ===================================================================
 
-// External libraries
-
-// Internal libraries
-#include "pressure_valve.h"
+// Internal
+#include "../includes/alarm_controller.h"
+#include "../includes/pressure_valve.h"
 
 // ENUMS =================================================================
 
@@ -70,13 +69,15 @@ class PressureController {
      * @param p_maxPeakPressure     Initial maximum peak pressure (in mmH2O)
      * @param p_blower              Pressure Valve between blower and patient
      * @param p_patient             Pressure Valve between patient and atmosphere
+     * @param p_alarmController     Alarm controller
      */
     PressureController(int16_t p_cyclesPerMinute,
                        int16_t p_minPeepCommand,
                        int16_t p_maxPlateauPressure,
                        int16_t p_maxPeakPressure,
                        PressureValve p_blower,
-                       PressureValve p_patient);
+                       PressureValve p_patient,
+                       AlarmController p_alarmController);
 
     /// Initialize actuators
     void setup();
@@ -215,7 +216,7 @@ class PressureController {
      *
      * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
-    void safeguardPressionPlateau(uint16_t p_centiSec);
+    void safeguardPlateau(uint16_t p_centiSec);
 
     /**
      * Implement a first safeguard for peep pressure
@@ -385,6 +386,9 @@ class PressureController {
      * @note This must be persisted between computation in order to compute derivative gain
      */
     int32_t patientLastError;
+
+    /// Alarm controller
+    AlarmController m_alarmController;
 };
 
 // INITIALISATION =============================================================

@@ -50,13 +50,15 @@ void waitForInMs(uint16_t ms) {
     }
 }
 
+uint32_t lastpControllerComputeDate;
+
 void setup() {
     /* Catch potential Watchdog reset */
     if (IWatchdog.isReset(true)) {
         /* Code in case of Watchdog detected */
         /* TODO */
         Buzzer_Init();
-        Buzzer_Long_Start();
+        Buzzer_High_Prio_Start();
         while (1) {
         }
     }
@@ -98,9 +100,11 @@ void setup() {
                                       MICROSEC_COMPARE_FORMAT);
     hardwareTimer3->resume();
 
+    AlarmController alarmController = AlarmController();
+
     pController = PressureController(INITIAL_CYCLE_NUMBER, DEFAULT_MIN_PEEP_COMMAND,
                                      DEFAULT_MAX_PLATEAU_COMMAND, DEFAULT_MAX_PEAK_PRESSURE_COMMAND,
-                                     servoBlower, servoPatient);
+                                     servoBlower, servoPatient, alarmController);
     pController.setup();
 
     // Prepare LEDs
@@ -121,7 +125,6 @@ void setup() {
     digitalWrite(PIN_LED_RED, HIGH);
     digitalWrite(PIN_LED_YELLOW, HIGH);
     waitForInMs(1000);
-    Buzzer_Stop();
     digitalWrite(PIN_LED_GREEN, LOW);
     digitalWrite(PIN_LED_RED, LOW);
     digitalWrite(PIN_LED_YELLOW, LOW);
@@ -136,6 +139,8 @@ void setup() {
     // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
     IWatchdog.begin(WATCHDOG_TIMEOUT);
     IWatchdog.reload();
+
+    lastpControllerComputeDate = millis();
 }
 
 // Time of the previous loop iteration
@@ -156,16 +161,16 @@ void loop() {
     // START THE RESPIRATORY CYCLE
     /********************************************/
     uint16_t centiSec = 0;
-    uint32_t lastpControllerComputeDate = 0uL;
 
     while (centiSec < pController.centiSecPerCycle()) {
         pController.updatePressure(readPressureSensor(centiSec));
 
         uint32_t currentDate = millis();
 
-        if ((currentDate - lastpControllerComputeDate) >= PCONTROLLER_COMPUTE_PERIOD) {
-            lastpControllerComputeDate = currentDate;
+        uint32_t diff = (currentDate - lastpControllerComputeDate);
 
+        if (diff >= PCONTROLLER_COMPUTE_PERIOD) {
+            lastpControllerComputeDate = currentDate;
             int32_t currentMicro = micros();
 
             pController.updateDt(currentMicro - lastMicro);
