@@ -213,6 +213,7 @@ void loop() {
     if (cyclesBeforeScreenReset <= 0) {
         DBG_DO(Serial.println("resetting LCD screen");)
         resetScreen();
+        clearAlarmDisplayCache();
         cyclesBeforeScreenReset = LCD_RESET_PERIOD * CONST_MIN_CYCLE;
     }
 }
