@@ -477,7 +477,7 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
     // Compute error
     // Increase target pressure by 20mm H2O for safety, to ensure from going below the target
     // pressure
-    int32_t error = targetPressure + 20 - currentPressure;
+    int32_t error = targetPressure + 0 - currentPressure;
 
     // Compute integral
     patientIntegral = patientIntegral + ((PID_PATIENT_KI * error * dt) / 1000000);
