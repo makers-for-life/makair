@@ -21,6 +21,7 @@
 #include <OneButton.h>
 
 // Internal
+#include "../includes/blower.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
 #include "../includes/pression.h"
