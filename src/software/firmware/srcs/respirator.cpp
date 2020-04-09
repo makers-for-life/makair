@@ -40,7 +40,6 @@ HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
 Blower* blower_pointer;
 Blower blower;
-PressureController pController;
 
 /**
  * Block execution for a given duration

@@ -26,6 +26,10 @@
 
 static const int32_t INVALID_ERROR_MARKER = INT32_MIN;
 
+// INITIALISATION =============================================================
+
+PressureController pController;
+
 // FUNCTIONS ==================================================================
 
 PressureController::PressureController()
@@ -125,7 +129,6 @@ void PressureController::initRespiratoryCycle() {
     m_triggerHoldExpiDetectionTickDeletion = 0;
 
     // Apply blower ramp-up
-    Serial.println(m_blower->getSpeed() + m_blower_increment);
     m_blower->runSpeed(m_blower->getSpeed() + m_blower_increment);
     m_blower_increment = 0;
 }
@@ -135,6 +138,8 @@ void PressureController::updatePressure(int16_t p_currentPressure) {
 }
 
 void PressureController::compute(uint16_t p_centiSec) {
+    updateBlower(p_centiSec);
+
     // Update the cycle phase
     updatePhase(p_centiSec);
 
@@ -257,9 +262,7 @@ void PressureController::onPeakPressureIncrease() {
         m_maxPeakPressureCommand = CONST_MAX_PEAK_PRESSURE;
     }
 }
-
-void PressureController::updatePhase(uint16_t p_centiSec) {
-
+void PressureController::updateBlower(uint16_t p_centiSec) {
     m_max_pressure = max(m_max_pressure, m_pressure);
 
     // Case blower is too low
@@ -268,12 +271,14 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
         m_blower_increment = 5;
     }
 
-    // Case Blower is too high
+    // Case blower is too high
     if (m_phase == CyclePhases::INHALATION && (p_centiSec < (m_centiSecPerInhalation * 20u) / 100u)
         && m_max_pressure > m_maxPeakPressureCommand) {
         m_blower_increment = -5;
     }
+}
 
+void PressureController::updatePhase(uint16_t p_centiSec) {
     if (p_centiSec < m_centiSecPerInhalation) {
         m_phase = CyclePhases::INHALATION;
 
@@ -465,8 +470,7 @@ int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPre
 
     uint32_t blowerAperture =
         max(minAperture,
-            min(maxAperture, maxAperture + (minAperture - maxAperture) * blowerCommand
-             / 1000));
+            min(maxAperture, maxAperture + (minAperture - maxAperture) * blowerCommand / 1000));
 
     return blowerAperture;
 }

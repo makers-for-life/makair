@@ -88,6 +88,14 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -500;
 ///@}
 
 /**
+ * @name Blower
+ */
+///@{
+#define MIN_BLOWER_SPEED 95
+#define MAX_BLOWER_SPEED 180
+///@}
+
+/**
  * @name LCD screen
  */
 ///@{
@@ -147,8 +155,6 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -500;
 #define PIN_ESC_BLOWER D5  // PB4 / TIM3_CH1
 #define TIM_CHANNEL_ESC_BLOWER 1
 #define PIN_BATTERY A2
-
-
 
 ///@}
 
