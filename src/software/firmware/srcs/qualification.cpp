@@ -65,7 +65,7 @@
 #define STEP_PRESSURE_VAL3 30
 #define STEP_DONE 31
 
-static uint8_t step = STEP_LCD;
+static uint8_t step = STEP_LED_RED;
 
 static uint8_t is_drawn = false;
 #define UNGREEDY(is_drawn, statement)                                                              \
@@ -492,9 +492,9 @@ void loop() {
     btn_start.tick();
     btn_stop.tick();
 
-    digitalWrite(PIN_LED_RED, LOW);
-    digitalWrite(PIN_LED_YELLOW, LOW);
-    digitalWrite(PIN_LED_GREEN, LOW);
+    digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
+    digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
+    digitalWrite(PIN_LED_GREEN, LED_GREEN_INACTIVE);
     digitalWrite(PIN_BUZZER, LOW);
 
     switch (step) {
@@ -555,17 +555,17 @@ void loop() {
     }
     case STEP_LED_RED: {
         UNGREEDY(is_drawn, display("Red LED is ON", "Press start"));
-        digitalWrite(PIN_LED_RED, HIGH);
+        digitalWrite(PIN_LED_RED, LED_RED_ACTIVE);
         break;
     }
     case STEP_LED_YELLOW: {
         UNGREEDY(is_drawn, display("Yellow LED is ON", "Press stop"));
-        digitalWrite(PIN_LED_YELLOW, HIGH);
+        digitalWrite(PIN_LED_YELLOW, LED_YELLOW_ACTIVE);
         break;
     }
     case STEP_LED_GREEN: {
         UNGREEDY(is_drawn, display("Green LED is ON", "Press start"));
-        digitalWrite(PIN_LED_GREEN, HIGH);
+        digitalWrite(PIN_LED_GREEN, LED_GREEN_ACTIVE);
         break;
     }
     case STEP_BUZZER: {
@@ -617,6 +617,7 @@ void loop() {
             display("Blower is ON", "Press PPeP -");
             hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(120),
                                               MICROSEC_COMPARE_FORMAT);
+            hardwareTimer3->resume();
         });
         break;
     }

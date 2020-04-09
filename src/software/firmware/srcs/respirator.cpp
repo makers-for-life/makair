@@ -143,13 +143,14 @@ void setup() {
 
     // RCM-SW-17 (Christmas tree at startup)
     Buzzer_Boot_Start();
-    digitalWrite(PIN_LED_GREEN, HIGH);
-    digitalWrite(PIN_LED_RED, HIGH);
-    digitalWrite(PIN_LED_YELLOW, HIGH);
+    digitalWrite(PIN_LED_GREEN, LED_GREEN_ACTIVE);
+    digitalWrite(PIN_LED_RED, LED_RED_ACTIVE);
+    digitalWrite(PIN_LED_YELLOW, LED_YELLOW_ACTIVE);
     waitForInMs(1000);
-    digitalWrite(PIN_LED_GREEN, LOW);
-    digitalWrite(PIN_LED_RED, LOW);
-    digitalWrite(PIN_LED_YELLOW, LOW);
+    Buzzer_Stop();
+    digitalWrite(PIN_LED_GREEN, LED_GREEN_INACTIVE);
+    digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
+    digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
 
     waitForInMs(4000);
 
