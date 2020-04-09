@@ -11,11 +11,33 @@
 
 #include "Arduino.h"
 
-/// Expected voltage in volts when on battery
-#define DEFAULT_BATTERY_VOLTAGE 20
+/**
+ * RCM_SW_16
+ * Expected voltage in volts when power cord is plugged.
+ * Calculated by analogRead(PIN) * 0,0296484375 = 27,6 => 27,6 / 0,0296484375 = 930,9
+ */
+#define RAW_VOLTAGE_MAINS 931
 
-/// Expected voltage in volts when power cord is plugged
-#define DEFAULT_POWER_VOLTAGE 24
+/**
+ * RCM_SW_16
+ * Expected voltage in volts when power cord is plugged.
+ * Calculated by analogRead(PIN) * 0,0296484375 = 26,5 => 26,5 / 0,0296484375 = 893,8
+ */
+#define RAW_VOLTAGE_MAINS_MIN 894
+
+/**
+ * RCM_SW_11
+ * Expected voltage in volts when power cord is plugged.
+ * Calculated by analogRead(PIN) * 0,0296484375 = 24,6 => 24,6 / 0,0296484375 = 829,7
+ */
+#define RAW_VOLTAGE_ON_BATTERY 830
+
+/**
+ * RCM_SW_12
+ * Expected voltage in volts when power cord is plugged.
+ * Calculated by analogRead(PIN) * 0,0296484375 = 24 => 24 / 0,0296484375 = 809,4
+ */
+#define RAW_VOLTAGE_ON_BATTERY_LOW 809
 
 /// Number of samples of the moving average
 #define BATTERY_MAX_SAMPLES 20
@@ -30,19 +52,17 @@ void initBattery();
 /**
  * Handle battery events
  *
+ * @param p_cycleNumber Number of cycle since start
  * @warning It must be called in the program loop
  */
-void batteryLoop();
+void batteryLoop(uint32_t p_cycleNumber);
 
 /// Handle battery voltage calculation
 void updateBatterySample();
 
-/// Updates battery states
-void updateBatteryState();
-
 /**
- * Retrives battery voltage
+ * Updates battery states
  *
- *  @return    Current battery voltage in volts
+ * @param p_cycleNumber Number of cycle since start
  */
-uint32_t getBatteryVoltage();
+void updateBatteryState(uint32_t p_cycleNumber);

@@ -180,7 +180,7 @@ void loop() {
             keyboardLoop();
 
             // Check if battery state has changed
-            batteryLoop();
+            batteryLoop(pController.cycleNumber());
 
             // Display relevant information during the cycle
             if ((centiSec % LCD_UPDATE_PERIOD) == 0u) {
