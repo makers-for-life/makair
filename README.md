@@ -267,6 +267,7 @@ Adding to that, 200+ individual members of the project who contributed to techni
 
 <p>
   <img alt="Fan Holder Render" src="./src/mechanics/parts/fan-holder/printing/schemes/V1/Fan%20Holder%20(Render%201).png" height="240">
+  <img alt="Fan Holder Render" src="./src/mechanics/parts/fan-holder/printing/schemes/V1/Fan%20Holder%20(Print%201).jpg" height="240">
 </p>
 
 ### The "Container"
