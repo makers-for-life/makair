@@ -129,7 +129,7 @@ Firmware release binaries are available for download on our [releases page](http
 | Part | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
 | ---- | ------- | -------------- | ------ | --------------- | ------------ |
 | [Blower](./src/mechanics/parts/blower) | V14 | Smaller form factor & more powerful | ✅ | [view model](https://a360.co/2JIBr8d) | Gabriel Moneyron + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou)
-| [Blower Holder](./src/mechanics/parts/blower-holder) | V2 | Modeling corrections | ✅ | [view body model](https://a360.co/2V96Kyb), [view bottom model](https://a360.co/2VfzKEG), [view top model](https://a360.co/2UQeKoY) | Gabriel Moneyron + [Valerian Saliou](https://github.com/valeriansaliou)
+| [Blower Holder](./src/mechanics/parts/blower-holder) | V3 | Differentiate Model A and Model B | ✅ | none | Gabriel Moneyron + [Valerian Saliou](https://github.com/valeriansaliou)
 | [Pressure Valve](./src/mechanics/parts/pressure-valve) | V6 | General improvements | ✅ | [view model](https://a360.co/2RyQLsr) | [Clement Niclot](https://github.com/clementniclot)
 | [Oxygen Mixer](./src/mechanics/parts/oxygen-mixer) | V5 | New compact design with integration plate | ✅ | [view model](https://a360.co/39QDaD5) | [Yohann Nédélec](https://github.com/Melkaz) + Steven Daix
 | [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2UT72dP) | Martial Medjber + [Eliott Vincent](https://github.com/eliottvincent)
@@ -226,8 +226,9 @@ Adding to that, 200+ individual members of the project who contributed to techni
 ### The "Blower Holder"
 
 <p>
-  <img alt="Blower Holder Render" src="./src/mechanics/parts/blower-holder/printing/schemes/Archives/V1/Blower%20Holder%20(Render%201).png" height="240">
-  <img alt="Blower Holder Print" src="./src/mechanics/parts/blower-holder/printing/schemes//Archives/V1/Blower%20Holder%20(Print%201).jpg" height="240">
+  <img alt="Blower Holder Model A Render" src="./src/mechanics/parts/blower-holder/printing/schemes/V3/Blower%20Holder%20V3%20(Model%20A)/Blower%20Holder%20Model%20A%20(Render%201).png" height="240">
+  <img alt="Blower Holder Model B Render" src="./src/mechanics/parts/blower-holder/printing/schemes/V3/Blower%20Holder%20V3%20(Model%20B)/Blower%20Holder%20Model%20B%20(Render%201).png" height="240">
+  <img alt="Blower Holder Print" src="./src/mechanics/parts/blower-holder/printing/schemes/Archives/V1/Blower%20Holder%20(Print%201).jpg" height="240">
 </p>
 
 ### The "Oxygen Mixer"
