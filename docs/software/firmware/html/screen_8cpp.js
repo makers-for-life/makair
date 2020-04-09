@@ -11,6 +11,7 @@ var screen_8cpp =
     [ "startScreen", "screen_8cpp.html#aea9312c2a12fc8e9fef16a9bdfd9b581", null ],
     [ "ALARM_LINE", "screen_8cpp.html#a7e299519d5dfdcdc8464baec94bfbee6", null ],
     [ "ALARMS_CODE_POS", "screen_8cpp.html#a3778fafff6b03a84285651cf2928cafe", null ],
+    [ "clearCache", "screen_8cpp.html#a9b244e461258c4bbcaf6dd950a8a420c", null ],
     [ "MAX_ALARMS_DISPLAYED", "screen_8cpp.html#ad06e0a4b7b533520e3e28b244a9908b7", null ],
     [ "NO_ALARM_LINE", "screen_8cpp.html#aca92ede21b351cb7630aa91abc7600c5", null ],
     [ "prevAlarmCodes", "screen_8cpp.html#a75c5b33168b139b0498cc92e21bfd13d", null ],

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['getbatteryvoltage_400',['getBatteryVoltage',['../battery_8cpp.html#ab1b79e52e39f2ea621ab7f4a9a4563e6',1,'getBatteryVoltage():&#160;battery.cpp'],['../battery_8h.html#ab1b79e52e39f2ea621ab7f4a9a4563e6',1,'getBatteryVoltage():&#160;battery.cpp']]],
-  ['getcode_401',['getCode',['../class_alarm.html#a000f602d1a0113b9a86fa3eaff64d4e6',1,'Alarm']]],
-  ['getpriority_402',['getPriority',['../class_alarm.html#a642165bd3d40effe30ae49dbc2099081',1,'Alarm']]]
+  ['getbatteryvoltage_401',['getBatteryVoltage',['../battery_8cpp.html#ab1b79e52e39f2ea621ab7f4a9a4563e6',1,'getBatteryVoltage():&#160;battery.cpp'],['../battery_8h.html#ab1b79e52e39f2ea621ab7f4a9a4563e6',1,'getBatteryVoltage():&#160;battery.cpp']]],
+  ['getcode_402',['getCode',['../class_alarm.html#a000f602d1a0113b9a86fa3eaff64d4e6',1,'Alarm']]],
+  ['getpriority_403',['getPriority',['../class_alarm.html#a642165bd3d40effe30ae49dbc2099081',1,'Alarm']]]
 ];
