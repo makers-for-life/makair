@@ -29,6 +29,7 @@
 #include "../includes/pression.h"
 #include "../includes/pressure_valve.h"
 #include "../includes/screen.h"
+#include "../includes/buzzer_control.h"
 
 /**
  * Liste de toutes les étapes de test du montage.
@@ -246,6 +247,7 @@ void onCycleMinusClick() {
 
 void onAlarmOffClick() {
     DBG_DO(Serial.println("alarm off"));
+    Buzzer_Off();
     if (step == STEP_LCD || step == STEP_WELCOME) {
         changeStep(step + 1);
     } else if (step == STEP_BTN_ALARM_OFF) {
@@ -460,9 +462,9 @@ void setup() {
     if (IWatchdog.isReset(true)) {
         Serial.println("watchdog reset");
         step = STEP_WATCHDOG_SUCCESS;
-        digitalWrite(PIN_BUZZER, HIGH);
+        Buzzer_On();
         delay(100);
-        digitalWrite(PIN_BUZZER, LOW);
+        Buzzer_Off();
     }
 
     startScreen();
@@ -495,7 +497,7 @@ void loop() {
     digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
     digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
     digitalWrite(PIN_LED_GREEN, LED_GREEN_INACTIVE);
-    digitalWrite(PIN_BUZZER, LOW);
+    Buzzer_Off();
 
     switch (step) {
     case STEP_LCD: {
@@ -570,7 +572,7 @@ void loop() {
     }
     case STEP_BUZZER: {
         UNGREEDY(is_drawn, display("Buzzer is ON", "Press Buzzer OFF"));
-        digitalWrite(PIN_BUZZER, HIGH);
+        Buzzer_On();
         break;
     }
     case STEP_SERVO_BLOWER_OPEN: {
