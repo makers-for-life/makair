@@ -21,6 +21,7 @@
 #include <LiquidCrystal.h>
 
 // Internal
+#include "../includes/activation.h"
 #include "../includes/battery.h"
 #include "../includes/blower.h"
 #include "../includes/buzzer.h"
@@ -171,7 +172,7 @@ int32_t lastMicro = 0;
 // (because this kind of screen is not reliable, we need to reset it every 5 min or so)
 int8_t cyclesBeforeScreenReset = LCD_RESET_PERIOD * CONST_MIN_CYCLE;
 
-void loop() {
+void runRespiratoryCycle() {
     /********************************************/
     // INITIALIZE THE RESPIRATORY CYCLE
     /********************************************/
@@ -236,6 +237,52 @@ void loop() {
         resetScreen();
         clearAlarmDisplayCache();
         cyclesBeforeScreenReset = LCD_RESET_PERIOD * CONST_MIN_CYCLE;
+    }
+}
+
+uint32_t stoppedCentiSec = 0;
+
+void runStoppedCycle() {
+    if (activationController.centiSecWhileStopped() == 0) {
+        // TODO perform all the necessary reset tasks
+        // Reset display
+        // Reset alarms
+        // Reset valves?
+    }
+
+    // Just wait one compute period.
+    uint32_t lastpControllerComputeDate = 0uL;
+    while (true) {
+        uint32_t currentDate = millis();
+        if ((currentDate - lastpControllerComputeDate) >= PCONTROLLER_COMPUTE_PERIOD) {
+            break;
+        }
+        lastpControllerComputeDate = currentDate;
+        IWatchdog.reload();
+    }
+
+    // Check if some buttons have been pushed
+    keyboardLoop();
+
+    // Check if battery state has changed
+    batteryLoop();
+
+    // Display relevant information during the cycle
+    if ((activationController.centiSecWhileStopped() % LCD_UPDATE_PERIOD) == 0u) {
+        displayCurrentSettings(pController.maxPeakPressureCommand(),
+                               pController.maxPlateauPressureCommand(),
+                               pController.minPeepCommand());
+    }
+
+    // next tick
+    activationController.tickWhileStopped();
+}
+
+void loop() {
+    if (activationController.isRunning()) {
+        runRespiratoryCycle();
+    } else {
+        runStoppedCycle();
     }
 }
 
