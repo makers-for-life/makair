@@ -465,8 +465,8 @@ int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPre
 
     uint32_t blowerAperture =
         max(minAperture,
-            min(maxAperture,
-                maxAperture - (blowerCommand + 1000) * (maxAperture - minAperture) / 2000));
+            min(maxAperture, maxAperture + (minAperture - maxAperture) * blowerCommand
+             / 1000));
 
     return blowerAperture;
 }

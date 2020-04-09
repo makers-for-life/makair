@@ -74,10 +74,10 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -500;
 ///@{
 
 /// Angle when opened
-#define VALVE_OPEN_STATE 10
+#define VALVE_OPEN_STATE 0
 
 /// Angle when closed
-#define VALVE_CLOSED_STATE 105
+#define VALVE_CLOSED_STATE 125
 
 #define SERVO_VALVE_PERIOD 20000
 #define PIN_SERVO_BLOWER D2  // PA10 / TIM1_CH3
