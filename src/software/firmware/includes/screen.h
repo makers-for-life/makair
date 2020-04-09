@@ -72,3 +72,6 @@ void displayCurrentInformation(uint16_t peakPressure, uint16_t plateauPressure, 
  * @param p_nbTriggeredAlarms   Number of triggered alarms
  */
 void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms);
+
+/// Force clear the alarm display cache
+void clearAlarmDisplayCache();

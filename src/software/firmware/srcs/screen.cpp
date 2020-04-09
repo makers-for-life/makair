@@ -114,6 +114,11 @@ static bool hasAlarmInformationChanged(uint8_t p_alarmCodes[], uint8_t p_nbTrigg
     return hasChanged;
 }
 
+void clearAlarmDisplayCache() {
+    prevNbAlarmToPrint = 255;
+    prevAlarmCodes[MAX_ALARMS_DISPLAYED] = {0};
+}
+
 void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms) {
     // WARNING There is a risk of data not being displayed as expected
     // if the line is overwritten somewhere else in the code.
