@@ -88,7 +88,7 @@ AlarmController::AlarmController()
           /**
            * RCM-SW-14
            * The device shall embed a medium priority alarm 22 when the Plateau pressure is not
-           * reached  (absolute  différence > 20% in absolute value)  until the 2nd respiratory
+           * reached (absolute difference > 20% in absolute value) until the 2nd respiratory
            * cycle
            */
           Alarm(AlarmPriority::ALARM_MEDIUM, RCM_SW_14, 2u),
