@@ -560,7 +560,7 @@ $(document).ready(function(){initNavTree('pressure__controller_8cpp_source.html'
 <div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;    <span class="comment">// Compute error</span></div>
 <div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;    <span class="comment">// Increase target pressure by 20mm H2O for safety, to ensure from going below the target</span></div>
 <div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;    <span class="comment">// pressure</span></div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;    int32_t error = targetPressure + 20 - currentPressure;</div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;    int32_t error = targetPressure + 0 - currentPressure;</div>
 <div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160; </div>
 <div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;    <span class="comment">// Compute integral</span></div>
 <div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;    <a class="code" href="class_pressure_controller.html#a1c4cd3d6c3b9c30b98b2863b613f844e">patientIntegral</a> = <a class="code" href="class_pressure_controller.html#a1c4cd3d6c3b9c30b98b2863b613f844e">patientIntegral</a> + ((<a class="code" href="parameters_8h.html#ae35f29798d1bcc1c7b6e23c6333244ec">PID_PATIENT_KI</a> * error * dt) / 1000000);</div>
