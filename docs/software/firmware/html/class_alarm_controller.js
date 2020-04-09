@@ -7,5 +7,5 @@ var class_alarm_controller =
     [ "snooze", "class_alarm_controller.html#a8a0f2489deb09fe5070d8f2cec07e581", null ],
     [ "m_alarms", "class_alarm_controller.html#a9ac7c221ac460e79fe5bd361a29ddb8c", null ],
     [ "m_highestPriority", "class_alarm_controller.html#ae11063ec546cd92759a8cf91c5a1964d", null ],
-    [ "m_snoozed", "class_alarm_controller.html#a58e52a680b0a26258c18f04d83e70b79", null ]
+    [ "m_snoozed", "class_alarm_controller.html#ac071905bdbe99caeccb28f4e778df05a", null ]
 ];

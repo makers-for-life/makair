@@ -14,11 +14,9 @@ var searchData=
   ['rcm_5fsw_5f19_291',['RCM_SW_19',['../alarm__controller_8h.html#a51f1a16f7aa1fbef996f317abdd5ccc5',1,'alarm_controller.h']]],
   ['rcm_5fsw_5f2_292',['RCM_SW_2',['../alarm__controller_8h.html#ac5bb0104101d427d99efad978abce54d',1,'alarm_controller.h']]],
   ['rcm_5fsw_5f3_293',['RCM_SW_3',['../alarm__controller_8h.html#a31da61aeec4d3cdcb2707710d7131d5e',1,'alarm_controller.h']]],
-  ['rcm_5fsw_5f6_294',['RCM_SW_6',['../alarm__controller_8h.html#a5b324762db12455b9f85f3e2cd139240',1,'alarm_controller.h']]],
-  ['rcm_5fsw_5f8_295',['RCM_SW_8',['../alarm__controller_8h.html#a926d8d316410f985e6f6507bf1581de8',1,'alarm_controller.h']]],
-  ['readpressuresensor_296',['readPressureSensor',['../pression_8cpp.html#ad37a3df7fc89764460a0f18b8430704c',1,'readPressureSensor(uint16_t centiSec):&#160;pression.cpp'],['../pression_8h.html#ad37a3df7fc89764460a0f18b8430704c',1,'readPressureSensor(uint16_t centiSec):&#160;pression.cpp']]],
-  ['resetscreen_297',['resetScreen',['../screen_8cpp.html#ae56ad795427d7a17af1755baeca56ca8',1,'resetScreen():&#160;screen.cpp'],['../screen_8h.html#ae56ad795427d7a17af1755baeca56ca8',1,'resetScreen():&#160;screen.cpp']]],
-  ['respirator_2ecpp_298',['respirator.cpp',['../respirator_8cpp.html',1,'']]],
-  ['runalarmeffects_299',['runAlarmEffects',['../class_alarm_controller.html#ab1af9930acd275c0af766a6e4258027a',1,'AlarmController']]],
-  ['runspeed_300',['runSpeed',['../class_blower.html#a50960a607e3c8cb321c195e35815ceb2',1,'Blower']]]
+  ['readpressuresensor_294',['readPressureSensor',['../pression_8cpp.html#ad37a3df7fc89764460a0f18b8430704c',1,'readPressureSensor(uint16_t centiSec):&#160;pression.cpp'],['../pression_8h.html#ad37a3df7fc89764460a0f18b8430704c',1,'readPressureSensor(uint16_t centiSec):&#160;pression.cpp']]],
+  ['resetscreen_295',['resetScreen',['../screen_8cpp.html#ae56ad795427d7a17af1755baeca56ca8',1,'resetScreen():&#160;screen.cpp'],['../screen_8h.html#ae56ad795427d7a17af1755baeca56ca8',1,'resetScreen():&#160;screen.cpp']]],
+  ['respirator_2ecpp_296',['respirator.cpp',['../respirator_8cpp.html',1,'']]],
+  ['runalarmeffects_297',['runAlarmEffects',['../class_alarm_controller.html#ab1af9930acd275c0af766a6e4258027a',1,'AlarmController']]],
+  ['runspeed_298',['runSpeed',['../class_blower.html#a50960a607e3c8cb321c195e35815ceb2',1,'Blower']]]
 ];

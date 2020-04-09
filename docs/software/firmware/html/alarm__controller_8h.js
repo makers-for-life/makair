@@ -12,6 +12,5 @@ var alarm__controller_8h =
     [ "RCM_SW_19", "alarm__controller_8h.html#a51f1a16f7aa1fbef996f317abdd5ccc5", null ],
     [ "RCM_SW_2", "alarm__controller_8h.html#ac5bb0104101d427d99efad978abce54d", null ],
     [ "RCM_SW_3", "alarm__controller_8h.html#a31da61aeec4d3cdcb2707710d7131d5e", null ],
-    [ "RCM_SW_6", "alarm__controller_8h.html#a5b324762db12455b9f85f3e2cd139240", null ],
-    [ "RCM_SW_8", "alarm__controller_8h.html#a926d8d316410f985e6f6507bf1581de8", null ]
+    [ "alarmController", "alarm__controller_8h.html#a3da8ff857dba84bdd627e51a2544604b", null ]
 ];
