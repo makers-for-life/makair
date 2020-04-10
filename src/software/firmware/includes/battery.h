@@ -64,5 +64,8 @@ void updateBatterySample();
  */
 void updateBatteryState(uint32_t p_cycleNumber);
 
-/// Returns battery level
+/**
+ * Returns battery level
+ *
+ */
 uint32_t getBatteryLevel();
