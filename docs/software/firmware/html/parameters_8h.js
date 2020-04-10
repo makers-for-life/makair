@@ -59,15 +59,5 @@ var parameters_8h =
     [ "VOLTAGE_BUTTON_PEEP_PRESSURE_DECREASE", "parameters_8h.html#aa233874ba94509ae90cd56b84b9e32bc", null ],
     [ "VOLTAGE_BUTTON_PEEP_PRESSURE_INCREASE", "parameters_8h.html#aa0530e0fe41bdde9f82071ea36419bef", null ],
     [ "VOLTAGE_BUTTON_PLATEAU_PRESSURE_DECREASE", "parameters_8h.html#aa80ad6b4d4aded0f144d944f59f036d5", null ],
-    [ "VOLTAGE_BUTTON_PLATEAU_PRESSURE_INCREASE", "parameters_8h.html#a351a50f861a7c6efbf52b38b15c18f9d", null ],
-    [ "PID_BLOWER_INTEGRAL_MAX", "parameters_8h.html#a413a67558efe63a60a56b36b90aa6019", null ],
-    [ "PID_BLOWER_INTEGRAL_MIN", "parameters_8h.html#a7bd65824a6ee66aac9741fd815bf301f", null ],
-    [ "PID_BLOWER_KD", "parameters_8h.html#aead82b228645b76d7156430bbfa1a0c9", null ],
-    [ "PID_BLOWER_KI", "parameters_8h.html#a53da71fbb21a37354cf1207292c51315", null ],
-    [ "PID_BLOWER_KP", "parameters_8h.html#ad17bb2369daacb571e0cd64c9769c2a3", null ],
-    [ "PID_PATIENT_INTEGRAL_MAX", "parameters_8h.html#a757067a1350f37315d7136ad0ef86acb", null ],
-    [ "PID_PATIENT_INTEGRAL_MIN", "parameters_8h.html#a1dc52ff1bdc9bf4f6275789058d5f5cb", null ],
-    [ "PID_PATIENT_KD", "parameters_8h.html#ad08aea28cd34e73f975c734a43b20bdc", null ],
-    [ "PID_PATIENT_KI", "parameters_8h.html#ae35f29798d1bcc1c7b6e23c6333244ec", null ],
-    [ "PID_PATIENT_KP", "parameters_8h.html#a086fbe2d82a6e99661cafa051b00cfec", null ]
+    [ "VOLTAGE_BUTTON_PLATEAU_PRESSURE_INCREASE", "parameters_8h.html#a351a50f861a7c6efbf52b38b15c18f9d", null ]
 ];
