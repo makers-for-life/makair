@@ -24,6 +24,7 @@
 #include "../includes/battery.h"
 #include "../includes/blower.h"
 #include "../includes/buzzer.h"
+#include "../includes/buzzer_control.h"
 #include "../includes/debug.h"
 #include "../includes/keyboard.h"
 #include "../includes/parameters.h"
@@ -73,7 +74,6 @@ void setup() {
 
     pinMode(PIN_PRESSURE_SENSOR, INPUT);
     pinMode(PIN_BATTERY, INPUT);
-    pinMode(PIN_BUZZER, OUTPUT);
 
 #if HARDWARE_VERSION == 1
     // Timer for servoBlower
@@ -137,6 +137,7 @@ void setup() {
     initKeyboard();
     initBattery();
 
+    BuzzerControl_Init();
     Buzzer_Init();
 
     // escBlower needs 5s at speed 0 to be properly initalized

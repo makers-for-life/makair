@@ -1,12 +1,16 @@
-/**
- * Include this header file to access buzzer functions for Hardware 2
- */
-
-#ifndef BUZZERCONTROL
-#define BUZZERCONTROL
+/******************************************************************************
+ * @author Makers For Life
+ * @copyright Copyright (c) 2020 Makers For Life
+ * @file buzzer_control.h
+ * @brief Abstraction to switch buzzer ON or OFF
+ *****************************************************************************/
+#pragma once
 
 /// Initialization of HardwareTimer for buzzer
-void Buzzer_On(void);
-void Buzzer_Off(void);
+void BuzzerControl_Init(void);
 
-#endif
+/// Switch buzzer ON
+void BuzzerControl_On(void);
+
+/// Switch buzzer OFF
+void BuzzerControl_Off(void);
