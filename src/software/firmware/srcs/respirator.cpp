@@ -101,7 +101,7 @@ void setup() {
 
     pController = PressureController(INITIAL_CYCLE_NUMBER, DEFAULT_MIN_PEEP_COMMAND,
                                      DEFAULT_MAX_PLATEAU_COMMAND, DEFAULT_MAX_PEAK_PRESSURE_COMMAND,
-                                     servoBlower, servoPatient, alarmController, blower_pointer);
+                                     servoBlower, servoPatient, &alarmController, blower_pointer);
     pController.setup();
 
     // Prepare LEDs
@@ -178,7 +178,7 @@ void loop() {
             keyboardLoop();
 
             // Check if battery state has changed
-            batteryLoop();
+            batteryLoop(pController.cycleNumber());
 
             // Display relevant information during the cycle
             if ((centiSec % LCD_UPDATE_PERIOD) == 0u) {

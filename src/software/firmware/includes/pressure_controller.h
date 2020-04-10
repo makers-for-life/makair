@@ -77,7 +77,7 @@ class PressureController {
                        int16_t p_maxPeakPressure,
                        PressureValve p_blower_valve,
                        PressureValve p_patient_valve,
-                       AlarmController p_alarmController,
+                       AlarmController* p_alarmController,
                        Blower* p_blower);
 
     /// Initialize actuators
@@ -137,6 +137,9 @@ class PressureController {
 
     /// Get the number of cycles per minute
     inline uint16_t cyclesPerMinute() const { return m_cyclesPerMinute; }
+
+    /// Get the number of past cycles since the beginning
+    inline uint32_t cycleNumber() const { return m_cycleNb; }
 
     /// Get the duration of a cycle in hundredth of second
     inline uint16_t centiSecPerCycle() const { return m_centiSecPerCycle; }
@@ -405,7 +408,7 @@ class PressureController {
     int32_t patientLastError;
 
     /// Alarm controller
-    AlarmController m_alarmController;
+    AlarmController* m_alarmController;
 };
 
 // INITIALISATION =============================================================

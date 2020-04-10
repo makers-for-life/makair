@@ -43,7 +43,7 @@ AlarmController::AlarmController()
           /**
            * RCM-SW-12
            * The device shall monitor the battery voltage and trig a High priority alarm 13 when
-           * voltage is at 12.0V.
+           * voltage is < 24V.
            */
           Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_12, 1u),
 
@@ -79,7 +79,7 @@ AlarmController::AlarmController()
           /**
            * RCM-SW-11
            * The device shall monitor the battery voltage and trig a medium priority alarm 21 when
-           * voltage is at 12.3V.
+           * voltage is < 24,6V .
            */
           Alarm(AlarmPriority::ALARM_MEDIUM, RCM_SW_11, 1u),
 
@@ -108,7 +108,7 @@ AlarmController::AlarmController()
           /**
            * RCM-SW-16
            * The device shall embed an information (audible) signal 31 when the mains are
-           * disconnected to alert the user.
+           * disconnected to alert the user (vOut < 26,5V).
            */
           Alarm(AlarmPriority::ALARM_LOW, RCM_SW_16, 1u)}) {}
 

@@ -16,20 +16,20 @@
 #include "Arduino.h"
 
 // Internal
+#include "../includes/alarm_controller.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
 
 // PROGRAM =====================================================================
 
-uint32_t batterySample[20];         // Array to store battery voltage samples
-uint32_t batteryCurrentSample = 0;  // Current battery sample index
-uint32_t batteryTotalSamples = 0;   // Battery total samples
-bool isRunningOnBattery = false;    // State to know if we are running on the battery or not
-uint32_t batteryMeanVoltage = DEFAULT_POWER_VOLTAGE;  // Mean battery voltage in volts
+uint32_t rawBatterySample[20];                       // Array to store battery voltage samples
+uint32_t batteryCurrentSample = 0;                   // Current battery sample index
+uint32_t batteryTotalSamples = 0;                    // Battery total samples
+uint32_t rawBatteryMeanVoltage = RAW_VOLTAGE_MAINS;  // Mean battery voltage in volts
 
 void initBattery() {
     for (int i = 0; i < BATTERY_MAX_SAMPLES; i++) {
-        batterySample[i] = 0;
+        rawBatterySample[i] = 0;
     }
 }
 
@@ -37,13 +37,13 @@ void updateBatterySample() {
     uint16_t rawVout = analogRead(PIN_BATTERY);
 
     // Substract previous sample
-    batteryTotalSamples = batteryTotalSamples - batterySample[batteryCurrentSample];
+    batteryTotalSamples = batteryTotalSamples - rawBatterySample[batteryCurrentSample];
 
     // Assign sample from Vout
-    batterySample[batteryCurrentSample] = rawVout;
+    rawBatterySample[batteryCurrentSample] = rawVout;
 
     // Add sample
-    batteryTotalSamples = batteryTotalSamples + batterySample[batteryCurrentSample];
+    batteryTotalSamples = batteryTotalSamples + rawBatterySample[batteryCurrentSample];
 
     // Increment sample
     batteryCurrentSample++;
@@ -54,28 +54,35 @@ void updateBatterySample() {
     }
 
     // Updates mean voltage
-    batteryMeanVoltage = (batteryTotalSamples / BATTERY_MAX_SAMPLES) * DEFAULT_POWER_VOLTAGE / 1024;
+    rawBatteryMeanVoltage = (batteryTotalSamples / BATTERY_MAX_SAMPLES);
 }
 
-void updateBatteryState() {
-    // If mean voltage is running below 20V it means we are running on the battery
-    if (batteryMeanVoltage <= DEFAULT_BATTERY_VOLTAGE && isRunningOnBattery == false) {
-        // We are not running on the battery
-        // TODO: Run an alarm?
+void updateBatteryState(uint32_t p_cycleNumber) {
+    bool isRunningOnBattery = false;
+
+    if (rawBatteryMeanVoltage < RAW_VOLTAGE_ON_BATTERY_LOW) {
+        alarmController.detectedAlarm(RCM_SW_12, p_cycleNumber);
         isRunningOnBattery = true;
+    } else {
+        alarmController.notDetectedAlarm(RCM_SW_12);
+    }
 
-        DBG_DO(Serial.println("Running on the battery");)
-    } else if (batteryMeanVoltage > DEFAULT_BATTERY_VOLTAGE && isRunningOnBattery == true) {
-        // We are not running on the AC
-        isRunningOnBattery = false;
+    if (!isRunningOnBattery && rawBatteryMeanVoltage < RAW_VOLTAGE_ON_BATTERY) {
+        alarmController.detectedAlarm(RCM_SW_11, p_cycleNumber);
+        isRunningOnBattery = true;
+    } else {
+        alarmController.notDetectedAlarm(RCM_SW_11);
+    }
 
-        DBG_DO(Serial.println("Running on the AC");)
+    if (!isRunningOnBattery && rawBatteryMeanVoltage < RAW_VOLTAGE_MAINS_MIN) {
+        alarmController.detectedAlarm(RCM_SW_16, p_cycleNumber);
+        isRunningOnBattery = true;
+    } else {
+        alarmController.notDetectedAlarm(RCM_SW_16);
     }
 }
 
-uint32_t getBatteryVoltage() { return batteryMeanVoltage; }
-
-void batteryLoop() {
+void batteryLoop(uint32_t p_cycleNumber) {
     updateBatterySample();
-    updateBatteryState();
+    updateBatteryState(p_cycleNumber);
 }
