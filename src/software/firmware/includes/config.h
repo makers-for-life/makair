@@ -8,9 +8,9 @@
 #pragma once
 
 // Available modes
-#define MODE_PROD 1           ///< Ventilator mode
-#define MODE_QUALIFICATION 2  ///< Test electrical wiring mode
-#define MODE_INTEGRATION_TEST 3  ///< Test electrical wiring mode
+#define MODE_PROD 1              ///< Ventilator mode
+#define MODE_QUALIFICATION 2     ///< Test electrical wiring mode
+#define MODE_INTEGRATION_TEST 3  ///< Test integration mode
 
 /// Defines the current mode
 #define MODE MODE_PROD

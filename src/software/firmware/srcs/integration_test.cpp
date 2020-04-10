@@ -6,7 +6,7 @@
  *****************************************************************************/
 
 #pragma once
- 
+
 #include "../includes/config.h"
 #if MODE == MODE_INTEGRATION_TEST
 
@@ -19,14 +19,14 @@
 #include <OneButton.h>
 
 // Internal
+#include "../includes/battery.h"
 #include "../includes/blower.h"
+#include "../includes/buzzer.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
 #include "../includes/pression.h"
 #include "../includes/pressure_valve.h"
 #include "../includes/screen.h"
-#include "../includes/battery.h"
-#include "../includes/buzzer.h"
 
 /**
  * Liste de toutes les étapes de test du montage.
@@ -64,7 +64,6 @@ void changeStep(uint8_t new_step) {
     is_drawn = 0;
 }
 
-
 //! This function displays 2 lines of 20 characters (or less)
 void display(char line1[], char line2[]) {
     resetScreen();
@@ -82,26 +81,17 @@ void displayLine(char msg[], uint8_t line) {
     screen.print(msg);
 }
 
-void onPressionCretePlusClick() {
-    DBG_DO(Serial.println("pression crete ++"));
-   
-}
+void onPressionCretePlusClick() { DBG_DO(Serial.println("pression crete ++")); }
 
-void onPressionCreteMinusClick() {
-    DBG_DO(Serial.println("pression crete --"));
-    
-}
+void onPressionCreteMinusClick() { DBG_DO(Serial.println("pression crete --")); }
 
 void onStartClick() {
     DBG_DO(Serial.print("Go to step: "));
-    DBG_DO(Serial.println((step+1)%NUMBER_OF_STATES));
-    changeStep((step+1)%NUMBER_OF_STATES);
+    DBG_DO(Serial.println((step + 1) % NUMBER_OF_STATES));
+    changeStep((step + 1) % NUMBER_OF_STATES);
     last_time = millis();
     blower.stop();
-
 }
-
-
 
 static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
 
@@ -110,7 +100,6 @@ Button btn_pression_crete_plus =
 Button btn_pression_crete_minus =
     Button(VOLTAGE_BUTTON_PEAK_PRESSURE_DECREASE, &onPressionCreteMinusClick);
 OneButton btn_start(PIN_BTN_START, false, false);
-
 
 void setup() {
     DBG_DO(Serial.begin(115200);)
@@ -158,10 +147,7 @@ void setup() {
     initBattery();
 
     Buzzer_Init();
-
 }
-
-
 
 void loop() {
 
@@ -170,100 +156,95 @@ void loop() {
 
     switch (step) {
 
-        case STEP_WELCOME: {
-            UNGREEDY(is_drawn, {
-                display("MakAir test", "Press start button");
-                displayLine(VERSION, 3);
-            });
-            break;
+    case STEP_WELCOME: {
+        UNGREEDY(is_drawn, {
+            display("MakAir test", "Press start button");
+            displayLine(VERSION, 3);
+        });
+        break;
+    }
+    case STEP_BLOWER_TEST: {
+        UNGREEDY(is_drawn, display("Test blower", "Continuer : Start"));
+        blower.runSpeed(150);
+        break;
+    }
+    case STEP_VALVE_BLOWER_TEST: {
+        UNGREEDY(is_drawn, display("Test Valve expi", "Continuer : Start"));
+        blower.stop();
 
-        }
-        case STEP_BLOWER_TEST: {
-            UNGREEDY(is_drawn, display("Test blower", "Continuer : Start"));
-            blower.runSpeed(150);
-            break;
-        }
-        case STEP_VALVE_BLOWER_TEST: {
-            UNGREEDY(is_drawn, display("Test Valve expi", "Continuer : Start"));
-            blower.stop();
+        if (millis() - last_time < 5000) {
+            servoBlower.open(0);
+            servoBlower.execute();
+            displayLine("Etat : Ouvert", 3);
 
-            if (millis()-last_time<5000){
-                servoBlower.open(0);
-                servoBlower.execute();
-                displayLine("Etat : Ouvert", 3);
-                
-            }else if (millis()-last_time<10000){
-                servoBlower.open(125);
-                servoBlower.execute();
-                displayLine("Etat : Ferme", 3);  
-                
-            }else{
-                last_time = millis();
-            }
-            break;
-        }
-        case STEP_VALVE_PATIENT_TEST: {
-            UNGREEDY(is_drawn, display("Test Valve inspi", "Continuer : Start"));
-            if (millis()-last_time<5000){
-                servoPatient.open(0);
-                servoPatient.execute();
-                displayLine("Etat : Ouvert", 3);
-                
-            }else if (millis()-last_time<10000){
-                servoPatient.open(125);
-                servoPatient.execute();
-                displayLine("Etat : Ferme", 3);  
-            }else{
-                last_time = millis();
-            }
-            break;
-        }
-        case STEP_VALVE_BLOWER_LEAK_TEST: {
-            UNGREEDY(is_drawn, display("Test fuite expi", "Continuer : Start"));
-            servoPatient.open(0);
-            servoPatient.execute();
+        } else if (millis() - last_time < 10000) {
             servoBlower.open(125);
             servoBlower.execute();
-            blower.runSpeed(150);
-            break;
+            displayLine("Etat : Ferme", 3);
+
+        } else {
+            last_time = millis();
         }
-        case STEP_VALVE_PATIENT_LEAK_TEST: {
-            UNGREEDY(is_drawn, display("Test fuite inspi", "Continuer : Start"));
+        break;
+    }
+    case STEP_VALVE_PATIENT_TEST: {
+        UNGREEDY(is_drawn, display("Test Valve inspi", "Continuer : Start"));
+        if (millis() - last_time < 5000) {
+            servoPatient.open(0);
+            servoPatient.execute();
+            displayLine("Etat : Ouvert", 3);
+
+        } else if (millis() - last_time < 10000) {
             servoPatient.open(125);
             servoPatient.execute();
-            servoBlower.open(0);
-            servoBlower.execute();
-            blower.runSpeed(150);
-            break;
+            displayLine("Etat : Ferme", 3);
+        } else {
+            last_time = millis();
         }
-        case STEP_PRESSURE_TEST: {
-            servoPatient.open(125);
-            servoPatient.execute();
-            servoBlower.open(0);
-            servoBlower.execute();
-            blower.runSpeed(179);
-            int pressure = readPressureSensor(0);
-            UNGREEDY(is_drawn, display("Test pression", "Continuer : Start"));
-            char msg[SCREEN_LINE_LENGTH + 1];
-            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %d", pressure);
-            displayLine(msg, 3);  
-            
-            break;
-        }
+        break;
+    }
+    case STEP_VALVE_BLOWER_LEAK_TEST: {
+        UNGREEDY(is_drawn, display("Test fuite expi", "Continuer : Start"));
+        servoPatient.open(0);
+        servoPatient.execute();
+        servoBlower.open(125);
+        servoBlower.execute();
+        blower.runSpeed(150);
+        break;
+    }
+    case STEP_VALVE_PATIENT_LEAK_TEST: {
+        UNGREEDY(is_drawn, display("Test fuite inspi", "Continuer : Start"));
+        servoPatient.open(125);
+        servoPatient.execute();
+        servoBlower.open(0);
+        servoBlower.execute();
+        blower.runSpeed(150);
+        break;
+    }
+    case STEP_PRESSURE_TEST: {
+        servoPatient.open(125);
+        servoPatient.execute();
+        servoBlower.open(0);
+        servoBlower.execute();
+        blower.runSpeed(179);
+        int pressure = readPressureSensor(0);
+        UNGREEDY(is_drawn, display("Test pression", "Continuer : Start"));
+        char msg[SCREEN_LINE_LENGTH + 1];
+        snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %d", pressure);
+        displayLine(msg, 3);
 
-        case STEP_BATTERY_TEST: {
-            UNGREEDY(is_drawn, display("Test batterie", "Continuer : Start"));
-            char msg[SCREEN_LINE_LENGTH + 1];
-            updateBatterySample();
-            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie (V) : %d", getBatteryLevel());
-            displayLine(msg, 3);  
-            
-            break;
-        }
+        break;
+    }
 
-        
-    
+    case STEP_BATTERY_TEST: {
+        UNGREEDY(is_drawn, display("Test batterie", "Continuer : Start"));
+        char msg[SCREEN_LINE_LENGTH + 1];
+        updateBatterySample();
+        snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie (V) : %d", getBatteryLevel());
+        displayLine(msg, 3);
 
+        break;
+    }
     }
 
     IWatchdog.reload();
