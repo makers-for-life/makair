@@ -23,9 +23,19 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "software:firmware", "index.html", [
+    [ "How to build and run the tests", "md_src_software_firmware_test__r_e_a_d_m_e.html", [
+      [ "Install Google Test", "md_src_software_firmware_test__r_e_a_d_m_e.html#autotoc_md1", null ],
+      [ "Build the tests", "md_src_software_firmware_test__r_e_a_d_m_e.html#autotoc_md2", null ],
+      [ "Run the tests", "md_src_software_firmware_test__r_e_a_d_m_e.html#autotoc_md3", null ],
+      [ "How to add Tests", "md_src_software_firmware_test__r_e_a_d_m_e.html#autotoc_md4", [
+        [ "Create test source code", "md_src_software_firmware_test__r_e_a_d_m_e.html#autotoc_md5", null ],
+        [ "Add the test source file to CMakeLists.txt", "md_src_software_firmware_test__r_e_a_d_m_e.html#autotoc_md6", null ]
+      ] ]
+    ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
+      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", null ],
         [ "Functions", "functions_func.html", null ],
@@ -49,7 +59,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "alarm_8cpp.html",
-"debug_8h.html#a1fce5db04dcbdc8fccc7a9608a885aa7"
+"config_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -150,7 +150,8 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Display and LCD screen related functions. </p>
-<dl class="section author"><dt>Author</dt><dd>Makers For Life</dd></dl>
+<dl class="section author"><dt>Author</dt><dd>Makers For Life </dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2020 Makers For Life</dd></dl>
 <p>This relies on the LiquidCrystal library (<a href="https://github.com/arduino-libraries/LiquidCrystal">https://github.com/arduino-libraries/LiquidCrystal</a>). LCD screen must have 4 lines of 20 characters. </p>
 
 <p class="definition">Definition in file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
@@ -172,10 +173,10 @@ Variables</h2></td></tr>
 
 <p>Force clear the alarm display cache. </p>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00123">123</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                              {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <a class="code" href="screen_8cpp.html#a9b244e461258c4bbcaf6dd950a8a420c">clearCache</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00121">121</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                              {</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <a class="code" href="screen_8cpp.html#a9b244e461258c4bbcaf6dd950a8a420c">clearCache</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -214,50 +215,50 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00127">127</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                                                                                  {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="comment">// WARNING There is a risk of data not being displayed as expected</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="comment">// if the line is overwritten somewhere else in the code.</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="screen_8cpp.html#adf22a80f867502ad42cf276b7f7c42e6">hasAlarmInformationChanged</a>(p_alarmCodes, p_nbTriggeredAlarms)) {</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    }</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordflow">if</span> (p_nbTriggeredAlarms == 0) {</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 2);</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(<a class="code" href="screen_8cpp.html#aca92ede21b351cb7630aa91abc7600c5">NO_ALARM_LINE</a>);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    }</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00125">125</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                                                                                  {</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="comment">// WARNING There is a risk of data not being displayed as expected</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="comment">// if the line is overwritten somewhere else in the code.</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="screen_8cpp.html#adf22a80f867502ad42cf276b7f7c42e6">hasAlarmInformationChanged</a>(p_alarmCodes, p_nbTriggeredAlarms)) {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">if</span> (p_nbTriggeredAlarms == 0) {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 2);</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(<a class="code" href="screen_8cpp.html#aca92ede21b351cb7630aa91abc7600c5">NO_ALARM_LINE</a>);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    }</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    uint8_t nbAlarmToPrint = min(<span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="screen_8cpp.html#ad06e0a4b7b533520e3e28b244a9908b7">MAX_ALARMS_DISPLAYED</a>), p_nbTriggeredAlarms);</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    uint8_t nbAlarmToPrint = min(<span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="screen_8cpp.html#ad06e0a4b7b533520e3e28b244a9908b7">MAX_ALARMS_DISPLAYED</a>), p_nbTriggeredAlarms);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="comment">// +1 for trailing NULL char</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">char</span> buf[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="comment">// Write beginning of line</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    strncpy(buf, <a class="code" href="screen_8cpp.html#a7e299519d5dfdcdc8464baec94bfbee6">ALARM_LINE</a>, <a class="code" href="screen_8cpp.html#a3778fafff6b03a84285651cf2928cafe">ALARMS_CODE_POS</a>);</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="comment">// Write alarm codes</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">char</span>* dst = buf + <a class="code" href="screen_8cpp.html#a3778fafff6b03a84285651cf2928cafe">ALARMS_CODE_POS</a>;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">int</span> spaceLeft = <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> - <a class="code" href="screen_8cpp.html#a3778fafff6b03a84285651cf2928cafe">ALARMS_CODE_POS</a>;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; nbAlarmToPrint; i++) {</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="comment">// + 1 for the trailing NULL char</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keywordtype">int</span> n = snprintf(dst, spaceLeft + 1, <span class="stringliteral">&quot; %u&quot;</span>, p_alarmCodes[i]);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordflow">if</span> (n &lt; 0 || n &gt; spaceLeft) {</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            <span class="keywordflow">break</span>;  <span class="comment">// Error or no space left in buffer</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        }</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        spaceLeft -= n;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        dst += n;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    }</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="comment">// Fill the end of the line with spaces</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    strncpy(dst, &amp;<a class="code" href="screen_8cpp.html#a7e299519d5dfdcdc8464baec94bfbee6">ALARM_LINE</a>[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> - spaceLeft], spaceLeft);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="comment">// Make sure string is NULL terminated</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    buf[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 2);</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(buf);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;}</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="comment">// +1 for trailing NULL char</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordtype">char</span> buf[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="comment">// Write beginning of line</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    strncpy(buf, <a class="code" href="screen_8cpp.html#a7e299519d5dfdcdc8464baec94bfbee6">ALARM_LINE</a>, <a class="code" href="screen_8cpp.html#a3778fafff6b03a84285651cf2928cafe">ALARMS_CODE_POS</a>);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="comment">// Write alarm codes</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">char</span>* dst = buf + <a class="code" href="screen_8cpp.html#a3778fafff6b03a84285651cf2928cafe">ALARMS_CODE_POS</a>;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">int</span> spaceLeft = <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> - <a class="code" href="screen_8cpp.html#a3778fafff6b03a84285651cf2928cafe">ALARMS_CODE_POS</a>;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; nbAlarmToPrint; i++) {</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="comment">// + 1 for the trailing NULL char</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keywordtype">int</span> n = snprintf(dst, spaceLeft + 1, <span class="stringliteral">&quot; %u&quot;</span>, p_alarmCodes[i]);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keywordflow">if</span> (n &lt; 0 || n &gt; spaceLeft) {</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="keywordflow">break</span>;  <span class="comment">// Error or no space left in buffer</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        }</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        spaceLeft -= n;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        dst += n;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    }</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="comment">// Fill the end of the line with spaces</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    strncpy(dst, &amp;<a class="code" href="screen_8cpp.html#a7e299519d5dfdcdc8464baec94bfbee6">ALARM_LINE</a>[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> - spaceLeft], spaceLeft);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="comment">// Make sure string is NULL terminated</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    buf[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 2);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(buf);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -303,16 +304,16 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00078">78</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                                                                               {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 3);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;%2u    %2u    %2u  meas&quot;</span>, peakPressure / 10u,</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                   plateauPressure / 10u, peep / 10u);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00076">76</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                                                                               {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 3);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;%2u    %2u    %2u  meas&quot;</span>, peakPressure / 10u,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                   plateauPressure / 10u, peep / 10u);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -351,17 +352,17 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00054">54</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                                                                         {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 0);</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00052">52</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                                                         {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 0);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Pressure:%2u    %2ucpm&quot;</span>, pressure / 10u,</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                   cyclesPerMinute);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Pressure:%2u    %2ucpm&quot;</span>, pressure / 10u,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                   cyclesPerMinute);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -407,17 +408,17 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00065">65</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                              {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 1);</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00063">63</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                                              {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 1);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">char</span> message[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;%2u    %2u    %2u  set &quot;</span>,</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                   peakPressureMax / 10u, plateauPressureMax / 10u, peepMin / 10u);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    (void)snprintf(message, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;%2u    %2u    %2u  set &quot;</span>,</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                   peakPressureMax / 10u, plateauPressureMax / 10u, peepMin / 10u);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(message);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -457,36 +458,36 @@ Variables</h2></td></tr>
 
 <p>Check whether triggered alarms are already displayed on screen or not. </p>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00093">93</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                                                                                            {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="screen_8cpp.html#a9b244e461258c4bbcaf6dd950a8a420c">clearCache</a> == <span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <a class="code" href="screen_8cpp.html#a9b244e461258c4bbcaf6dd950a8a420c">clearCache</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    }</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00091">91</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                                                                                            {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="screen_8cpp.html#a9b244e461258c4bbcaf6dd950a8a420c">clearCache</a> == <span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <a class="code" href="screen_8cpp.html#a9b244e461258c4bbcaf6dd950a8a420c">clearCache</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    uint8_t nbAlarmToPrint = min(<span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="screen_8cpp.html#ad06e0a4b7b533520e3e28b244a9908b7">MAX_ALARMS_DISPLAYED</a>), p_nbTriggeredAlarms);</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    uint8_t nbAlarmToPrint = min(<span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="screen_8cpp.html#ad06e0a4b7b533520e3e28b244a9908b7">MAX_ALARMS_DISPLAYED</a>), p_nbTriggeredAlarms);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">bool</span> hasChanged = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span> (nbAlarmToPrint != <a class="code" href="screen_8cpp.html#ad7ecc9f5d45daad7965a3df00e7dc988">prevNbAlarmToPrint</a>) {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        hasChanged = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; nbAlarmToPrint; ++i) {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">if</span> (p_alarmCodes[i] != <a class="code" href="screen_8cpp.html#a75c5b33168b139b0498cc92e21bfd13d">prevAlarmCodes</a>[i]) {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                hasChanged = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">if</span> (hasChanged) {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <a class="code" href="screen_8cpp.html#ad7ecc9f5d45daad7965a3df00e7dc988">prevNbAlarmToPrint</a> = nbAlarmToPrint;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; nbAlarmToPrint; ++i) {</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <a class="code" href="screen_8cpp.html#a75c5b33168b139b0498cc92e21bfd13d">prevAlarmCodes</a>[i] = p_alarmCodes[i];</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">return</span> hasChanged;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">bool</span> hasChanged = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">if</span> (nbAlarmToPrint != <a class="code" href="screen_8cpp.html#ad7ecc9f5d45daad7965a3df00e7dc988">prevNbAlarmToPrint</a>) {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        hasChanged = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; nbAlarmToPrint; ++i) {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordflow">if</span> (p_alarmCodes[i] != <a class="code" href="screen_8cpp.html#a75c5b33168b139b0498cc92e21bfd13d">prevAlarmCodes</a>[i]) {</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                hasChanged = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span> (hasChanged) {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <a class="code" href="screen_8cpp.html#ad7ecc9f5d45daad7965a3df00e7dc988">prevNbAlarmToPrint</a> = nbAlarmToPrint;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; nbAlarmToPrint; ++i) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <a class="code" href="screen_8cpp.html#a75c5b33168b139b0498cc92e21bfd13d">prevAlarmCodes</a>[i] = p_alarmCodes[i];</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        }</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">return</span> hasChanged;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -507,8 +508,8 @@ Variables</h2></td></tr>
 
 <p>Erase everything that is on the screen. </p>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00052">52</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;{ <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.clear(); }</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00050">50</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{ <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.clear(); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -590,14 +591,14 @@ Variables</h2></td></tr>
 <p>Start the screen. </p>
 <dl class="section warning"><dt>Warning</dt><dd>It must be called once to be able to use the screen </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00044">44</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                   {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.begin(<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <a class="code" href="parameters_8h.html#a6b3caa1717db9c927845ec22a737c1bb">SCREEN_LINE_NUMBER</a>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 0);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(<span class="stringliteral">&quot;Initialization      &quot;</span>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 1);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(<a class="code" href="parameters_8h.html#a1c6d5de492ac61ad29aec7aa9a436bbf">VERSION</a>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00042">42</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                   {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.begin(<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a>, <a class="code" href="parameters_8h.html#a6b3caa1717db9c927845ec22a737c1bb">SCREEN_LINE_NUMBER</a>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 0);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(<span class="stringliteral">&quot;Initialization      &quot;</span>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.setCursor(0, 1);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a>.print(<a class="code" href="parameters_8h.html#a1c6d5de492ac61ad29aec7aa9a436bbf">VERSION</a>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -624,7 +625,7 @@ Variables</h2></td></tr>
 
 <p>Static label to display at the begining of the third line of the screen when at least one alarm is triggered. </p>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00033">33</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00031">31</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
 
 </div>
 </div>
@@ -650,7 +651,7 @@ Variables</h2></td></tr>
 
 <p>Position of the first alarm code in the third line of the screen. </p>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00036">36</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00034">34</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
 
 </div>
 </div>
@@ -674,7 +675,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00090">90</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00088">88</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
 
 </div>
 </div>
@@ -700,7 +701,7 @@ Variables</h2></td></tr>
 
 <p>Number of alarm codes to display on screen at most. </p>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00026">26</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00024">24</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
 
 </div>
 </div>
@@ -726,7 +727,7 @@ Variables</h2></td></tr>
 
 <p>Text to display at the third line of the screen when no alarm is triggered. </p>
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00029">29</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00027">27</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
 
 </div>
 </div>
@@ -750,7 +751,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00089">89</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00087">87</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
 
 </div>
 </div>
@@ -774,24 +775,24 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00088">88</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="screen_8cpp_source.html#l00086">86</a> of file <a class="el" href="screen_8cpp_source.html">screen.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="ascreen_8cpp_html_adf22a80f867502ad42cf276b7f7c42e6"><div class="ttname"><a href="screen_8cpp.html#adf22a80f867502ad42cf276b7f7c42e6">hasAlarmInformationChanged</a></div><div class="ttdeci">static bool hasAlarmInformationChanged(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms)</div><div class="ttdoc">Check whether triggered alarms are already displayed on screen or not.</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00093">screen.cpp:93</a></div></div>
-<div class="ttc" id="ascreen_8cpp_html_a3778fafff6b03a84285651cf2928cafe"><div class="ttname"><a href="screen_8cpp.html#a3778fafff6b03a84285651cf2928cafe">ALARMS_CODE_POS</a></div><div class="ttdeci">static const int ALARMS_CODE_POS</div><div class="ttdoc">Position of the first alarm code in the third line of the screen.</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00036">screen.cpp:36</a></div></div>
-<div class="ttc" id="ascreen_8cpp_html_aca92ede21b351cb7630aa91abc7600c5"><div class="ttname"><a href="screen_8cpp.html#aca92ede21b351cb7630aa91abc7600c5">NO_ALARM_LINE</a></div><div class="ttdeci">static const char * NO_ALARM_LINE</div><div class="ttdoc">Text to display at the third line of the screen when no alarm is triggered.</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00029">screen.cpp:29</a></div></div>
-<div class="ttc" id="ascreen_8cpp_html_a75c5b33168b139b0498cc92e21bfd13d"><div class="ttname"><a href="screen_8cpp.html#a75c5b33168b139b0498cc92e21bfd13d">prevAlarmCodes</a></div><div class="ttdeci">static uint8_t prevAlarmCodes[MAX_ALARMS_DISPLAYED]</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00089">screen.cpp:89</a></div></div>
-<div class="ttc" id="ascreen_8cpp_html_a7e299519d5dfdcdc8464baec94bfbee6"><div class="ttname"><a href="screen_8cpp.html#a7e299519d5dfdcdc8464baec94bfbee6">ALARM_LINE</a></div><div class="ttdeci">static const char * ALARM_LINE</div><div class="ttdoc">Static label to display at the begining of the third line of the screen when at least one alarm is tr...</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00033">screen.cpp:33</a></div></div>
-<div class="ttc" id="aparameters_8h_html_a1c6d5de492ac61ad29aec7aa9a436bbf"><div class="ttname"><a href="parameters_8h.html#a1c6d5de492ac61ad29aec7aa9a436bbf">VERSION</a></div><div class="ttdeci">#define VERSION</div><div class="ttdoc">Current version of the software.</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00022">parameters.h:22</a></div></div>
+<div class="ttc" id="ascreen_8cpp_html_adf22a80f867502ad42cf276b7f7c42e6"><div class="ttname"><a href="screen_8cpp.html#adf22a80f867502ad42cf276b7f7c42e6">hasAlarmInformationChanged</a></div><div class="ttdeci">static bool hasAlarmInformationChanged(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms)</div><div class="ttdoc">Check whether triggered alarms are already displayed on screen or not.</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00091">screen.cpp:91</a></div></div>
+<div class="ttc" id="ascreen_8cpp_html_a3778fafff6b03a84285651cf2928cafe"><div class="ttname"><a href="screen_8cpp.html#a3778fafff6b03a84285651cf2928cafe">ALARMS_CODE_POS</a></div><div class="ttdeci">static const int ALARMS_CODE_POS</div><div class="ttdoc">Position of the first alarm code in the third line of the screen.</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00034">screen.cpp:34</a></div></div>
+<div class="ttc" id="ascreen_8cpp_html_aca92ede21b351cb7630aa91abc7600c5"><div class="ttname"><a href="screen_8cpp.html#aca92ede21b351cb7630aa91abc7600c5">NO_ALARM_LINE</a></div><div class="ttdeci">static const char * NO_ALARM_LINE</div><div class="ttdoc">Text to display at the third line of the screen when no alarm is triggered.</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00027">screen.cpp:27</a></div></div>
+<div class="ttc" id="ascreen_8cpp_html_a75c5b33168b139b0498cc92e21bfd13d"><div class="ttname"><a href="screen_8cpp.html#a75c5b33168b139b0498cc92e21bfd13d">prevAlarmCodes</a></div><div class="ttdeci">static uint8_t prevAlarmCodes[MAX_ALARMS_DISPLAYED]</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00087">screen.cpp:87</a></div></div>
+<div class="ttc" id="ascreen_8cpp_html_a7e299519d5dfdcdc8464baec94bfbee6"><div class="ttname"><a href="screen_8cpp.html#a7e299519d5dfdcdc8464baec94bfbee6">ALARM_LINE</a></div><div class="ttdeci">static const char * ALARM_LINE</div><div class="ttdoc">Static label to display at the begining of the third line of the screen when at least one alarm is tr...</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00031">screen.cpp:31</a></div></div>
+<div class="ttc" id="aparameters_8h_html_a1c6d5de492ac61ad29aec7aa9a436bbf"><div class="ttname"><a href="parameters_8h.html#a1c6d5de492ac61ad29aec7aa9a436bbf">VERSION</a></div><div class="ttdeci">#define VERSION</div><div class="ttdoc">Current version of the software.</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00020">parameters.h:20</a></div></div>
 <div class="ttc" id="ascreen_8cpp_html_aca2247df76366bf2c68ad849a8a49795"><div class="ttname"><a href="screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795">screen</a></div><div class="ttdeci">LiquidCrystal screen(PIN_LCD_RS, PIN_LCD_RW, PIN_LCD_EN, PIN_LCD_D4, PIN_LCD_D5, PIN_LCD_D6, PIN_LCD_D7)</div><div class="ttdoc">Instance of the screen controller.</div></div>
-<div class="ttc" id="ascreen_8cpp_html_ad06e0a4b7b533520e3e28b244a9908b7"><div class="ttname"><a href="screen_8cpp.html#ad06e0a4b7b533520e3e28b244a9908b7">MAX_ALARMS_DISPLAYED</a></div><div class="ttdeci">static const uint8_t MAX_ALARMS_DISPLAYED</div><div class="ttdoc">Number of alarm codes to display on screen at most.</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00026">screen.cpp:26</a></div></div>
-<div class="ttc" id="aparameters_8h_html_a6b3caa1717db9c927845ec22a737c1bb"><div class="ttname"><a href="parameters_8h.html#a6b3caa1717db9c927845ec22a737c1bb">SCREEN_LINE_NUMBER</a></div><div class="ttdeci">#define SCREEN_LINE_NUMBER</div><div class="ttdoc">Number of lines.</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00136">parameters.h:136</a></div></div>
-<div class="ttc" id="ascreen_8cpp_html_a9b244e461258c4bbcaf6dd950a8a420c"><div class="ttname"><a href="screen_8cpp.html#a9b244e461258c4bbcaf6dd950a8a420c">clearCache</a></div><div class="ttdeci">static bool clearCache</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00090">screen.cpp:90</a></div></div>
-<div class="ttc" id="aparameters_8h_html_a5a5ed10b5050dd70fd32ca7cbae79441"><div class="ttname"><a href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a></div><div class="ttdeci">#define SCREEN_LINE_LENGTH</div><div class="ttdoc">Number of characters per line.</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00139">parameters.h:139</a></div></div>
-<div class="ttc" id="ascreen_8cpp_html_ad7ecc9f5d45daad7965a3df00e7dc988"><div class="ttname"><a href="screen_8cpp.html#ad7ecc9f5d45daad7965a3df00e7dc988">prevNbAlarmToPrint</a></div><div class="ttdeci">static uint8_t prevNbAlarmToPrint</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00088">screen.cpp:88</a></div></div>
+<div class="ttc" id="ascreen_8cpp_html_ad06e0a4b7b533520e3e28b244a9908b7"><div class="ttname"><a href="screen_8cpp.html#ad06e0a4b7b533520e3e28b244a9908b7">MAX_ALARMS_DISPLAYED</a></div><div class="ttdeci">static const uint8_t MAX_ALARMS_DISPLAYED</div><div class="ttdoc">Number of alarm codes to display on screen at most.</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00024">screen.cpp:24</a></div></div>
+<div class="ttc" id="aparameters_8h_html_a6b3caa1717db9c927845ec22a737c1bb"><div class="ttname"><a href="parameters_8h.html#a6b3caa1717db9c927845ec22a737c1bb">SCREEN_LINE_NUMBER</a></div><div class="ttdeci">#define SCREEN_LINE_NUMBER</div><div class="ttdoc">Number of lines.</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00134">parameters.h:134</a></div></div>
+<div class="ttc" id="ascreen_8cpp_html_a9b244e461258c4bbcaf6dd950a8a420c"><div class="ttname"><a href="screen_8cpp.html#a9b244e461258c4bbcaf6dd950a8a420c">clearCache</a></div><div class="ttdeci">static bool clearCache</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00088">screen.cpp:88</a></div></div>
+<div class="ttc" id="aparameters_8h_html_a5a5ed10b5050dd70fd32ca7cbae79441"><div class="ttname"><a href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a></div><div class="ttdeci">#define SCREEN_LINE_LENGTH</div><div class="ttdoc">Number of characters per line.</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00137">parameters.h:137</a></div></div>
+<div class="ttc" id="ascreen_8cpp_html_ad7ecc9f5d45daad7965a3df00e7dc988"><div class="ttname"><a href="screen_8cpp.html#ad7ecc9f5d45daad7965a3df00e7dc988">prevNbAlarmToPrint</a></div><div class="ttdeci">static uint8_t prevNbAlarmToPrint</div><div class="ttdef"><b>Definition:</b> <a href="screen_8cpp_source.html#l00086">screen.cpp:86</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

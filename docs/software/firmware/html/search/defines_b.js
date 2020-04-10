@@ -1,15 +1,7 @@
 var searchData=
 [
-  ['valve_5fclosed_5fstate_667',['VALVE_CLOSED_STATE',['../parameters_8h.html#a9c638cefa9f29db2a20baf563fde2692',1,'parameters.h']]],
-  ['valve_5fopen_5fstate_668',['VALVE_OPEN_STATE',['../parameters_8h.html#a9e02d15f3a04d23fd31b7e3cd304d032',1,'parameters.h']]],
-  ['valveangle2microseconds_669',['ValveAngle2MicroSeconds',['../pressure__valve_8h.html#a8d1168462e9bda1cda91dc6bc86554bf',1,'pressure_valve.h']]],
-  ['version_670',['VERSION',['../parameters_8h.html#a1c6d5de492ac61ad29aec7aa9a436bbf',1,'parameters.h']]],
-  ['voltage_5fbutton_5fcycle_5fdecrease_671',['VOLTAGE_BUTTON_CYCLE_DECREASE',['../parameters_8h.html#a33f86d9855cae9fc56138960386b626e',1,'parameters.h']]],
-  ['voltage_5fbutton_5fcycle_5fincrease_672',['VOLTAGE_BUTTON_CYCLE_INCREASE',['../parameters_8h.html#af48e6338385c2064a4aeb350eab1151a',1,'parameters.h']]],
-  ['voltage_5fbutton_5fpeak_5fpressure_5fdecrease_673',['VOLTAGE_BUTTON_PEAK_PRESSURE_DECREASE',['../parameters_8h.html#a79a49f95163ccce9d54a349292aa3894',1,'parameters.h']]],
-  ['voltage_5fbutton_5fpeak_5fpressure_5fincrease_674',['VOLTAGE_BUTTON_PEAK_PRESSURE_INCREASE',['../parameters_8h.html#a2743c87cfd1ed2f7435c2213dc6f89b2',1,'parameters.h']]],
-  ['voltage_5fbutton_5fpeep_5fpressure_5fdecrease_675',['VOLTAGE_BUTTON_PEEP_PRESSURE_DECREASE',['../parameters_8h.html#aa233874ba94509ae90cd56b84b9e32bc',1,'parameters.h']]],
-  ['voltage_5fbutton_5fpeep_5fpressure_5fincrease_676',['VOLTAGE_BUTTON_PEEP_PRESSURE_INCREASE',['../parameters_8h.html#aa0530e0fe41bdde9f82071ea36419bef',1,'parameters.h']]],
-  ['voltage_5fbutton_5fplateau_5fpressure_5fdecrease_677',['VOLTAGE_BUTTON_PLATEAU_PRESSURE_DECREASE',['../parameters_8h.html#aa80ad6b4d4aded0f144d944f59f036d5',1,'parameters.h']]],
-  ['voltage_5fbutton_5fplateau_5fpressure_5fincrease_678',['VOLTAGE_BUTTON_PLATEAU_PRESSURE_INCREASE',['../parameters_8h.html#a351a50f861a7c6efbf52b38b15c18f9d',1,'parameters.h']]]
+  ['screen_5fline_5flength_692',['SCREEN_LINE_LENGTH',['../parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441',1,'parameters.h']]],
+  ['screen_5fline_5fnumber_693',['SCREEN_LINE_NUMBER',['../parameters_8h.html#a6b3caa1717db9c927845ec22a737c1bb',1,'parameters.h']]],
+  ['servo_5fvalve_5fperiod_694',['SERVO_VALVE_PERIOD',['../parameters_8h.html#a8be02f382c2460e178684735aebc008f',1,'parameters.h']]],
+  ['simulation_695',['SIMULATION',['../config_8h.html#afd29c78cd36d8946cf1202e8e684f7a5',1,'config.h']]]
 ];

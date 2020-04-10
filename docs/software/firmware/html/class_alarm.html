@@ -134,7 +134,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00023">23</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00021">21</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa76c93f486884972152ec8c1b6d1a015"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa76c93f486884972152ec8c1b6d1a015">&#9670;&nbsp;</a></span>Alarm()</h2>
@@ -178,14 +178,14 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00022">22</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                                                                                   {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="class_alarm.html#a73b9d3cf040ac3776435372ad72fc182">m_priority</a> = p_priority;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="class_alarm.html#ad1504957b19f97406bcbc6041c94061e">m_code</a> = p_code;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <a class="code" href="class_alarm.html#a3c14ee454c273b15d91d1a02e39fb893">m_detectionThreshold</a> = p_detectionThreshold;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="class_alarm.html#affdd37d0ed7ac7873c418771ec7388ce">m_cycleNumber</a> = 0u;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a> = 0u;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00020">20</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                                                                   {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="class_alarm.html#a73b9d3cf040ac3776435372ad72fc182">m_priority</a> = p_priority;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="class_alarm.html#ad1504957b19f97406bcbc6041c94061e">m_code</a> = p_code;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="class_alarm.html#a3c14ee454c273b15d91d1a02e39fb893">m_detectionThreshold</a> = p_detectionThreshold;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="class_alarm.html#affdd37d0ed7ac7873c418771ec7388ce">m_cycleNumber</a> = 0u;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a> = 0u;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -214,16 +214,16 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00036">36</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                                           {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_alarm.html#affdd37d0ed7ac7873c418771ec7388ce">m_cycleNumber</a> != p_cycleNumber) {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="class_alarm.html#affdd37d0ed7ac7873c418771ec7388ce">m_cycleNumber</a> = p_cycleNumber;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a>++;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a> &gt; <a class="code" href="class_alarm.html#a3c14ee454c273b15d91d1a02e39fb893">m_detectionThreshold</a>) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a> = <a class="code" href="class_alarm.html#a3c14ee454c273b15d91d1a02e39fb893">m_detectionThreshold</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00034">34</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                                           {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_alarm.html#affdd37d0ed7ac7873c418771ec7388ce">m_cycleNumber</a> != p_cycleNumber) {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <a class="code" href="class_alarm.html#affdd37d0ed7ac7873c418771ec7388ce">m_cycleNumber</a> = p_cycleNumber;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a>++;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a> &gt; <a class="code" href="class_alarm.html#a3c14ee454c273b15d91d1a02e39fb893">m_detectionThreshold</a>) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a> = <a class="code" href="class_alarm.html#a3c14ee454c273b15d91d1a02e39fb893">m_detectionThreshold</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -244,8 +244,8 @@ Private Attributes</h2></td></tr>
 
 <p>Get the alarm code. </p>
 
-<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00032">32</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_alarm.html#ad1504957b19f97406bcbc6041c94061e">m_code</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00030">30</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_alarm.html#ad1504957b19f97406bcbc6041c94061e">m_code</a>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -266,8 +266,8 @@ Private Attributes</h2></td></tr>
 
 <p>Get the alarm priority. </p>
 
-<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00030">30</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_alarm.html#a73b9d3cf040ac3776435372ad72fc182">m_priority</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00028">28</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_alarm.html#a73b9d3cf040ac3776435372ad72fc182">m_priority</a>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -288,8 +288,8 @@ Private Attributes</h2></td></tr>
 
 <p>True if the number of detections is equal or above the detection threshold, false otherwise. </p>
 
-<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00034">34</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a> &gt;= <a class="code" href="class_alarm.html#a3c14ee454c273b15d91d1a02e39fb893">m_detectionThreshold</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00032">32</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a> &gt;= <a class="code" href="class_alarm.html#a3c14ee454c273b15d91d1a02e39fb893">m_detectionThreshold</a>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -310,11 +310,11 @@ Private Attributes</h2></td></tr>
 
 <p>Reset to zero the number of detection. </p>
 
-<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00046">46</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                        {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="class_alarm.html#affdd37d0ed7ac7873c418771ec7388ce">m_cycleNumber</a> = 0;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a> = 0;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="alarm_8cpp_source.html#l00044">44</a> of file <a class="el" href="alarm_8cpp_source.html">alarm.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="class_alarm.html#affdd37d0ed7ac7873c418771ec7388ce">m_cycleNumber</a> = 0;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">m_detectionNumber</a> = 0;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -341,7 +341,7 @@ Private Attributes</h2></td></tr>
 
 <p><a class="el" href="class_alarm.html">Alarm</a> code. </p>
 
-<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00060">60</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00058">58</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
 
 </div>
 </div>
@@ -367,7 +367,7 @@ Private Attributes</h2></td></tr>
 
 <p>Cycle number. </p>
 
-<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00069">69</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00067">67</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
 
 </div>
 </div>
@@ -393,7 +393,7 @@ Private Attributes</h2></td></tr>
 
 <p>Number of detections. </p>
 
-<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00066">66</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00064">64</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
 
 </div>
 </div>
@@ -419,7 +419,7 @@ Private Attributes</h2></td></tr>
 
 <p><a class="el" href="class_alarm.html">Alarm</a> detection threshold. </p>
 
-<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00063">63</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00061">61</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
 
 </div>
 </div>
@@ -445,7 +445,7 @@ Private Attributes</h2></td></tr>
 
 <p><a class="el" href="class_alarm.html">Alarm</a> priority. </p>
 
-<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00057">57</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="alarm_8h_source.html#l00055">55</a> of file <a class="el" href="alarm_8h_source.html">alarm.h</a>.</p>
 
 </div>
 </div>
@@ -455,11 +455,11 @@ Private Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_alarm_html_aa0b720c89f524d03fa220885f2066526"><div class="ttname"><a href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">Alarm::m_detectionNumber</a></div><div class="ttdeci">uint8_t m_detectionNumber</div><div class="ttdoc">Number of detections.</div><div class="ttdef"><b>Definition:</b> <a href="alarm_8h_source.html#l00066">alarm.h:66</a></div></div>
-<div class="ttc" id="aclass_alarm_html_a73b9d3cf040ac3776435372ad72fc182"><div class="ttname"><a href="class_alarm.html#a73b9d3cf040ac3776435372ad72fc182">Alarm::m_priority</a></div><div class="ttdeci">AlarmPriority m_priority</div><div class="ttdoc">Alarm priority.</div><div class="ttdef"><b>Definition:</b> <a href="alarm_8h_source.html#l00057">alarm.h:57</a></div></div>
-<div class="ttc" id="aclass_alarm_html_ad1504957b19f97406bcbc6041c94061e"><div class="ttname"><a href="class_alarm.html#ad1504957b19f97406bcbc6041c94061e">Alarm::m_code</a></div><div class="ttdeci">uint8_t m_code</div><div class="ttdoc">Alarm code.</div><div class="ttdef"><b>Definition:</b> <a href="alarm_8h_source.html#l00060">alarm.h:60</a></div></div>
-<div class="ttc" id="aclass_alarm_html_a3c14ee454c273b15d91d1a02e39fb893"><div class="ttname"><a href="class_alarm.html#a3c14ee454c273b15d91d1a02e39fb893">Alarm::m_detectionThreshold</a></div><div class="ttdeci">uint8_t m_detectionThreshold</div><div class="ttdoc">Alarm detection threshold.</div><div class="ttdef"><b>Definition:</b> <a href="alarm_8h_source.html#l00063">alarm.h:63</a></div></div>
-<div class="ttc" id="aclass_alarm_html_affdd37d0ed7ac7873c418771ec7388ce"><div class="ttname"><a href="class_alarm.html#affdd37d0ed7ac7873c418771ec7388ce">Alarm::m_cycleNumber</a></div><div class="ttdeci">uint32_t m_cycleNumber</div><div class="ttdoc">Cycle number.</div><div class="ttdef"><b>Definition:</b> <a href="alarm_8h_source.html#l00069">alarm.h:69</a></div></div>
+<div class="ttc" id="aclass_alarm_html_aa0b720c89f524d03fa220885f2066526"><div class="ttname"><a href="class_alarm.html#aa0b720c89f524d03fa220885f2066526">Alarm::m_detectionNumber</a></div><div class="ttdeci">uint8_t m_detectionNumber</div><div class="ttdoc">Number of detections.</div><div class="ttdef"><b>Definition:</b> <a href="alarm_8h_source.html#l00064">alarm.h:64</a></div></div>
+<div class="ttc" id="aclass_alarm_html_a73b9d3cf040ac3776435372ad72fc182"><div class="ttname"><a href="class_alarm.html#a73b9d3cf040ac3776435372ad72fc182">Alarm::m_priority</a></div><div class="ttdeci">AlarmPriority m_priority</div><div class="ttdoc">Alarm priority.</div><div class="ttdef"><b>Definition:</b> <a href="alarm_8h_source.html#l00055">alarm.h:55</a></div></div>
+<div class="ttc" id="aclass_alarm_html_ad1504957b19f97406bcbc6041c94061e"><div class="ttname"><a href="class_alarm.html#ad1504957b19f97406bcbc6041c94061e">Alarm::m_code</a></div><div class="ttdeci">uint8_t m_code</div><div class="ttdoc">Alarm code.</div><div class="ttdef"><b>Definition:</b> <a href="alarm_8h_source.html#l00058">alarm.h:58</a></div></div>
+<div class="ttc" id="aclass_alarm_html_a3c14ee454c273b15d91d1a02e39fb893"><div class="ttname"><a href="class_alarm.html#a3c14ee454c273b15d91d1a02e39fb893">Alarm::m_detectionThreshold</a></div><div class="ttdeci">uint8_t m_detectionThreshold</div><div class="ttdoc">Alarm detection threshold.</div><div class="ttdef"><b>Definition:</b> <a href="alarm_8h_source.html#l00061">alarm.h:61</a></div></div>
+<div class="ttc" id="aclass_alarm_html_affdd37d0ed7ac7873c418771ec7388ce"><div class="ttname"><a href="class_alarm.html#affdd37d0ed7ac7873c418771ec7388ce">Alarm::m_cycleNumber</a></div><div class="ttdeci">uint32_t m_cycleNumber</div><div class="ttdoc">Cycle number.</div><div class="ttdef"><b>Definition:</b> <a href="alarm_8h_source.html#l00067">alarm.h:67</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

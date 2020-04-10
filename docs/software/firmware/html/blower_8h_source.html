@@ -86,57 +86,52 @@ $(document).ready(function(){initNavTree('blower_8h_source.html',''); initResiza
 <div class="title">blower.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="blower_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">    Copyright (C) 2020 Makers For Life</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<a href="blower_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">// INCLUDES ===================================================================</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// INCLUDES ===================================================================</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">// Internal libraries</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="debug_8h.html">debug.h</a>&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="parameters_8h.html">parameters.h</a>&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// Convert a speed to a value in microseconds for the blower controller</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="blower_8h.html#a68bd79c1576a038b2004077c7e027cca">   19</a></span>&#160;<span class="preprocessor">#define BlowerSpeed2MicroSeconds(value) map(value, 0, 180, 1000, 2000)</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// Internal libraries</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;../includes/debug.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;../includes/parameters.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// Convert a speed to a value in microseconds for the blower controller</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="blower_8h.html#a68bd79c1576a038b2004077c7e027cca">   17</a></span>&#160;<span class="preprocessor">#define BlowerSpeed2MicroSeconds(value) map(value, 0, 180, 1000, 2000)</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// CLASS =================================================================</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// CLASS =================================================================</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_blower.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_blower.html">Blower</a> {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="class_blower.html#af94bdfcc26cc33e19e36cca6b20a4cec">Blower</a>();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="class_blower.html#af94bdfcc26cc33e19e36cca6b20a4cec">Blower</a>(HardwareTimer* p_hardwareTimer, uint16_t p_timerChannel, uint16_t p_blowerPin);</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="class_blower.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_blower.html">Blower</a> {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="class_blower.html#af94bdfcc26cc33e19e36cca6b20a4cec">Blower</a>();</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="class_blower.html#af94bdfcc26cc33e19e36cca6b20a4cec">Blower</a>(HardwareTimer* p_hardwareTimer, uint16_t p_timerChannel, uint16_t p_blowerPin);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_blower.html#a3e124c8a70abb893efea331c80fceb57">setup</a>();</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_blower.html#a3e124c8a70abb893efea331c80fceb57">setup</a>();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_blower.html#a50960a607e3c8cb321c195e35815ceb2">runSpeed</a>(int16_t p_speed);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8">stop</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_blower.html#a3284f45d9862a7f35b8a64cd1e41b2c8">getSpeed</a>();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="class_blower.html#a04eae5c4a39977bc54219514b99c7503">   52</a></span>&#160;    HardwareTimer* <a class="code" href="class_blower.html#a04eae5c4a39977bc54219514b99c7503">actuator</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="class_blower.html#a7507a753f7558ae33cc93cdce684b15f">   53</a></span>&#160;    uint16_t <a class="code" href="class_blower.html#a7507a753f7558ae33cc93cdce684b15f">timerChannel</a>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="class_blower.html#ab38f44d6dfb478cad1a2965ecbd23266">   54</a></span>&#160;    uint16_t <a class="code" href="class_blower.html#ab38f44d6dfb478cad1a2965ecbd23266">blowerPin</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="class_blower.html#ab050eb21ddc45f35d00650f4eb8f154f">   55</a></span>&#160;    int16_t <a class="code" href="class_blower.html#ab050eb21ddc45f35d00650f4eb8f154f">m_speed</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_blower.html#a50960a607e3c8cb321c195e35815ceb2">runSpeed</a>(int16_t p_speed);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8">stop</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_blower.html#a3284f45d9862a7f35b8a64cd1e41b2c8">getSpeed</a>();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="class_blower.html#a04eae5c4a39977bc54219514b99c7503">   50</a></span>&#160;    HardwareTimer* <a class="code" href="class_blower.html#a04eae5c4a39977bc54219514b99c7503">actuator</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="class_blower.html#a7507a753f7558ae33cc93cdce684b15f">   51</a></span>&#160;    uint16_t <a class="code" href="class_blower.html#a7507a753f7558ae33cc93cdce684b15f">timerChannel</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="class_blower.html#ab38f44d6dfb478cad1a2965ecbd23266">   52</a></span>&#160;    uint16_t <a class="code" href="class_blower.html#ab38f44d6dfb478cad1a2965ecbd23266">blowerPin</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="class_blower.html#ab050eb21ddc45f35d00650f4eb8f154f">   53</a></span>&#160;    int16_t <a class="code" href="class_blower.html#ab050eb21ddc45f35d00650f4eb8f154f">m_speed</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_blower_html_a3e124c8a70abb893efea331c80fceb57"><div class="ttname"><a href="class_blower.html#a3e124c8a70abb893efea331c80fceb57">Blower::setup</a></div><div class="ttdeci">void setup()</div><div class="ttdef"><b>Definition:</b> <a href="blower_8cpp_source.html#l00032">blower.cpp:32</a></div></div>
-<div class="ttc" id="aclass_blower_html_ab050eb21ddc45f35d00650f4eb8f154f"><div class="ttname"><a href="class_blower.html#ab050eb21ddc45f35d00650f4eb8f154f">Blower::m_speed</a></div><div class="ttdeci">int16_t m_speed</div><div class="ttdef"><b>Definition:</b> <a href="blower_8h_source.html#l00055">blower.h:55</a></div></div>
-<div class="ttc" id="aclass_blower_html_a50960a607e3c8cb321c195e35815ceb2"><div class="ttname"><a href="class_blower.html#a50960a607e3c8cb321c195e35815ceb2">Blower::runSpeed</a></div><div class="ttdeci">void runSpeed(int16_t p_speed)</div><div class="ttdoc">Run the Blower to a speed.</div><div class="ttdef"><b>Definition:</b> <a href="blower_8cpp_source.html#l00040">blower.cpp:40</a></div></div>
-<div class="ttc" id="aclass_blower_html"><div class="ttname"><a href="class_blower.html">Blower</a></div><div class="ttdoc">Controls a blower.</div><div class="ttdef"><b>Definition:</b> <a href="blower_8h_source.html#l00024">blower.h:24</a></div></div>
-<div class="ttc" id="aclass_blower_html_a7507a753f7558ae33cc93cdce684b15f"><div class="ttname"><a href="class_blower.html#a7507a753f7558ae33cc93cdce684b15f">Blower::timerChannel</a></div><div class="ttdeci">uint16_t timerChannel</div><div class="ttdef"><b>Definition:</b> <a href="blower_8h_source.html#l00053">blower.h:53</a></div></div>
-<div class="ttc" id="aparameters_8h_html"><div class="ttname"><a href="parameters_8h.html">parameters.h</a></div><div class="ttdoc">Various settings.</div></div>
-<div class="ttc" id="aclass_blower_html_af94bdfcc26cc33e19e36cca6b20a4cec"><div class="ttname"><a href="class_blower.html#af94bdfcc26cc33e19e36cca6b20a4cec">Blower::Blower</a></div><div class="ttdeci">Blower()</div><div class="ttdef"><b>Definition:</b> <a href="blower_8cpp_source.html#l00022">blower.cpp:22</a></div></div>
-<div class="ttc" id="aclass_blower_html_a04eae5c4a39977bc54219514b99c7503"><div class="ttname"><a href="class_blower.html#a04eae5c4a39977bc54219514b99c7503">Blower::actuator</a></div><div class="ttdeci">HardwareTimer * actuator</div><div class="ttdef"><b>Definition:</b> <a href="blower_8h_source.html#l00052">blower.h:52</a></div></div>
-<div class="ttc" id="aclass_blower_html_ab38f44d6dfb478cad1a2965ecbd23266"><div class="ttname"><a href="class_blower.html#ab38f44d6dfb478cad1a2965ecbd23266">Blower::blowerPin</a></div><div class="ttdeci">uint16_t blowerPin</div><div class="ttdef"><b>Definition:</b> <a href="blower_8h_source.html#l00054">blower.h:54</a></div></div>
-<div class="ttc" id="aclass_blower_html_aa8d7ed93ae09574c4a402e79f75eabc8"><div class="ttname"><a href="class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8">Blower::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">Stops the blower.</div><div class="ttdef"><b>Definition:</b> <a href="blower_8cpp_source.html#l00053">blower.cpp:53</a></div></div>
-<div class="ttc" id="adebug_8h_html"><div class="ttname"><a href="debug_8h.html">debug.h</a></div><div class="ttdoc">Debug helpers.</div></div>
-<div class="ttc" id="aclass_blower_html_a3284f45d9862a7f35b8a64cd1e41b2c8"><div class="ttname"><a href="class_blower.html#a3284f45d9862a7f35b8a64cd1e41b2c8">Blower::getSpeed</a></div><div class="ttdeci">int getSpeed()</div><div class="ttdoc">Get speed value.</div><div class="ttdef"><b>Definition:</b> <a href="blower_8cpp_source.html#l00051">blower.cpp:51</a></div></div>
+<div class="ttc" id="aclass_blower_html_a3e124c8a70abb893efea331c80fceb57"><div class="ttname"><a href="class_blower.html#a3e124c8a70abb893efea331c80fceb57">Blower::setup</a></div><div class="ttdeci">void setup()</div><div class="ttdef"><b>Definition:</b> <a href="blower_8cpp_source.html#l00030">blower.cpp:30</a></div></div>
+<div class="ttc" id="aclass_blower_html_ab050eb21ddc45f35d00650f4eb8f154f"><div class="ttname"><a href="class_blower.html#ab050eb21ddc45f35d00650f4eb8f154f">Blower::m_speed</a></div><div class="ttdeci">int16_t m_speed</div><div class="ttdef"><b>Definition:</b> <a href="blower_8h_source.html#l00053">blower.h:53</a></div></div>
+<div class="ttc" id="aclass_blower_html_a50960a607e3c8cb321c195e35815ceb2"><div class="ttname"><a href="class_blower.html#a50960a607e3c8cb321c195e35815ceb2">Blower::runSpeed</a></div><div class="ttdeci">void runSpeed(int16_t p_speed)</div><div class="ttdoc">Run the Blower to a speed.</div><div class="ttdef"><b>Definition:</b> <a href="blower_8cpp_source.html#l00038">blower.cpp:38</a></div></div>
+<div class="ttc" id="aclass_blower_html"><div class="ttname"><a href="class_blower.html">Blower</a></div><div class="ttdoc">Controls a blower.</div><div class="ttdef"><b>Definition:</b> <a href="blower_8h_source.html#l00022">blower.h:22</a></div></div>
+<div class="ttc" id="aclass_blower_html_a7507a753f7558ae33cc93cdce684b15f"><div class="ttname"><a href="class_blower.html#a7507a753f7558ae33cc93cdce684b15f">Blower::timerChannel</a></div><div class="ttdeci">uint16_t timerChannel</div><div class="ttdef"><b>Definition:</b> <a href="blower_8h_source.html#l00051">blower.h:51</a></div></div>
+<div class="ttc" id="aclass_blower_html_af94bdfcc26cc33e19e36cca6b20a4cec"><div class="ttname"><a href="class_blower.html#af94bdfcc26cc33e19e36cca6b20a4cec">Blower::Blower</a></div><div class="ttdeci">Blower()</div><div class="ttdef"><b>Definition:</b> <a href="blower_8cpp_source.html#l00020">blower.cpp:20</a></div></div>
+<div class="ttc" id="aclass_blower_html_a04eae5c4a39977bc54219514b99c7503"><div class="ttname"><a href="class_blower.html#a04eae5c4a39977bc54219514b99c7503">Blower::actuator</a></div><div class="ttdeci">HardwareTimer * actuator</div><div class="ttdef"><b>Definition:</b> <a href="blower_8h_source.html#l00050">blower.h:50</a></div></div>
+<div class="ttc" id="aclass_blower_html_ab38f44d6dfb478cad1a2965ecbd23266"><div class="ttname"><a href="class_blower.html#ab38f44d6dfb478cad1a2965ecbd23266">Blower::blowerPin</a></div><div class="ttdeci">uint16_t blowerPin</div><div class="ttdef"><b>Definition:</b> <a href="blower_8h_source.html#l00052">blower.h:52</a></div></div>
+<div class="ttc" id="aclass_blower_html_aa8d7ed93ae09574c4a402e79f75eabc8"><div class="ttname"><a href="class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8">Blower::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">Stops the blower.</div><div class="ttdef"><b>Definition:</b> <a href="blower_8cpp_source.html#l00051">blower.cpp:51</a></div></div>
+<div class="ttc" id="aclass_blower_html_a3284f45d9862a7f35b8a64cd1e41b2c8"><div class="ttname"><a href="class_blower.html#a3284f45d9862a7f35b8a64cd1e41b2c8">Blower::getSpeed</a></div><div class="ttdeci">int getSpeed()</div><div class="ttdoc">Get speed value.</div><div class="ttdef"><b>Definition:</b> <a href="blower_8cpp_source.html#l00049">blower.cpp:49</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

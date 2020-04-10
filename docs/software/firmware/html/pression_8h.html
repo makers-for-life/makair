@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('pression_8h.html',''); initResizable()
 
 <p>Pressure sensor related functions.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;Arduino.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 </div>
 <p><a href="pression_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -104,6 +104,7 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Pressure sensor related functions. </p>
 <dl class="section author"><dt>Author</dt><dd>Makers For Life </dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2020 Makers For Life </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="pression_8h_source.html">pression.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -132,33 +133,18 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The current pressure in mmH20 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="pression_8cpp_source.html#l00073">73</a> of file <a class="el" href="pression_8cpp_source.html">pression.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                                              {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    int32_t rawPressure = <span class="keyword">static_cast&lt;</span>int32_t<span class="keyword">&gt;</span>(analogRead(<a class="code" href="parameters_8h.html#a499c5087d06d6128d28540802fc59872">PIN_PRESSURE_SENSOR</a>));</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    int32_t delta = rawPressure - <a class="code" href="pression_8cpp.html#a1e6291c8d4c8db1915cbbed9ed686527">filteredRawPressure</a>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">// Adjust delta so that the division result will be rounded away from zero.</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="comment">// This is needed to guaranty that filteredRawPressure will reach</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="comment">// rawPressure when it is constant.</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    delta += (delta &gt; 0) ? (<a class="code" href="pression_8cpp.html#a465063298e1b0547c221cae3dfd1d2d3">RAW_PRESSURE_FILTER_DIVIDER</a> - 1) :</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                          -(<a class="code" href="pression_8cpp.html#a465063298e1b0547c221cae3dfd1d2d3">RAW_PRESSURE_FILTER_DIVIDER</a> - 1);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="pression_8cpp.html#a1e6291c8d4c8db1915cbbed9ed686527">filteredRawPressure</a> += delta / <a class="code" href="pression_8cpp.html#a465063298e1b0547c221cae3dfd1d2d3">RAW_PRESSURE_FILTER_DIVIDER</a>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    int16_t scaledRawPressure = <a class="code" href="pression_8cpp.html#a1e6291c8d4c8db1915cbbed9ed686527">filteredRawPressure</a> * <a class="code" href="pression_8cpp.html#a960b598fd4aa3ac1ff20706e105d3d0f">RAW_PRESSURE_TO_MMH20_NUM</a></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            / <a class="code" href="pression_8cpp.html#a7b032144ceb9da652f14b83db51c30de">RAW_PRESSURE_TO_MMH20_DEN</a>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">return</span> max(scaledRawPressure - <a class="code" href="pression_8cpp.html#afc337fe4452f7c18d77d4bc830871010">RAW_PRESSURE_TO_MMH20_CONSTANT</a>, 0);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="pression_8cpp_source.html#l00050">50</a> of file <a class="el" href="pression_8cpp_source.html">pression.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                                              {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    (void)centiSec;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953">convertSensor2Pressure</a>(analogRead(<a class="code" href="parameters_8h.html#a499c5087d06d6128d28540802fc59872">PIN_PRESSURE_SENSOR</a>));</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="apression_8cpp_html_afc337fe4452f7c18d77d4bc830871010"><div class="ttname"><a href="pression_8cpp.html#afc337fe4452f7c18d77d4bc830871010">RAW_PRESSURE_TO_MMH20_CONSTANT</a></div><div class="ttdeci">static const int16_t RAW_PRESSURE_TO_MMH20_CONSTANT</div><div class="ttdef"><b>Definition:</b> <a href="pression_8cpp_source.html#l00037">pression.cpp:37</a></div></div>
-<div class="ttc" id="apression_8cpp_html_a960b598fd4aa3ac1ff20706e105d3d0f"><div class="ttname"><a href="pression_8cpp.html#a960b598fd4aa3ac1ff20706e105d3d0f">RAW_PRESSURE_TO_MMH20_NUM</a></div><div class="ttdeci">static const int32_t RAW_PRESSURE_TO_MMH20_NUM</div><div class="ttdef"><b>Definition:</b> <a href="pression_8cpp_source.html#l00042">pression.cpp:42</a></div></div>
-<div class="ttc" id="aparameters_8h_html_a499c5087d06d6128d28540802fc59872"><div class="ttname"><a href="parameters_8h.html#a499c5087d06d6128d28540802fc59872">PIN_PRESSURE_SENSOR</a></div><div class="ttdeci">#define PIN_PRESSURE_SENSOR</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00174">parameters.h:174</a></div></div>
-<div class="ttc" id="apression_8cpp_html_a465063298e1b0547c221cae3dfd1d2d3"><div class="ttname"><a href="pression_8cpp.html#a465063298e1b0547c221cae3dfd1d2d3">RAW_PRESSURE_FILTER_DIVIDER</a></div><div class="ttdeci">static const int32_t RAW_PRESSURE_FILTER_DIVIDER</div><div class="ttdef"><b>Definition:</b> <a href="pression_8cpp_source.html#l00027">pression.cpp:27</a></div></div>
-<div class="ttc" id="apression_8cpp_html_a1e6291c8d4c8db1915cbbed9ed686527"><div class="ttname"><a href="pression_8cpp.html#a1e6291c8d4c8db1915cbbed9ed686527">filteredRawPressure</a></div><div class="ttdeci">static int32_t filteredRawPressure</div><div class="ttdef"><b>Definition:</b> <a href="pression_8cpp_source.html#l00025">pression.cpp:25</a></div></div>
-<div class="ttc" id="apression_8cpp_html_a7b032144ceb9da652f14b83db51c30de"><div class="ttname"><a href="pression_8cpp.html#a7b032144ceb9da652f14b83db51c30de">RAW_PRESSURE_TO_MMH20_DEN</a></div><div class="ttdeci">static const int32_t RAW_PRESSURE_TO_MMH20_DEN</div><div class="ttdef"><b>Definition:</b> <a href="pression_8cpp_source.html#l00043">pression.cpp:43</a></div></div>
+<div class="ttc" id="apressure__utl_8cpp_html_a2abb82c34f3841e689d1ac60cc998953"><div class="ttname"><a href="pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953">convertSensor2Pressure</a></div><div class="ttdeci">int16_t convertSensor2Pressure(uint16_t sensorValue)</div><div class="ttdoc">Convert the analog value from sensor to a pressure value.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__utl_8cpp_source.html#l00032">pressure_utl.cpp:32</a></div></div>
+<div class="ttc" id="aparameters_8h_html_a499c5087d06d6128d28540802fc59872"><div class="ttname"><a href="parameters_8h.html#a499c5087d06d6128d28540802fc59872">PIN_PRESSURE_SENSOR</a></div><div class="ttdeci">#define PIN_PRESSURE_SENSOR</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00172">parameters.h:172</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
