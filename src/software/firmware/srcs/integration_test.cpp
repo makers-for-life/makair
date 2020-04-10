@@ -37,7 +37,10 @@
 #define STEP_VALVE_PATIENT_TEST 3
 #define STEP_VALVE_BLOWER_LEAK_TEST 4
 #define STEP_VALVE_PATIENT_LEAK_TEST 5
+#define STEP_PRESSURE_TEST 6
+#define STEP_BATTERY_TEST 7
 
+#define NUMBER_OF_STATES 8
 
 #define UNGREEDY(is_drawn, statement)                                                              \
     if (is_drawn == 0) {                                                                           \
@@ -91,8 +94,8 @@ void onPressionCreteMinusClick() {
 
 void onStartClick() {
     DBG_DO(Serial.print("Go to step: "));
-    DBG_DO(Serial.println((step+1)%6));
-    changeStep((step+1)%6);
+    DBG_DO(Serial.println((step+1)%NUMBER_OF_STATES));
+    changeStep((step+1)%NUMBER_OF_STATES);
     last_time = millis();
     blower.stop();
 
@@ -233,6 +236,32 @@ void loop() {
             blower.runSpeed(150);
             break;
         }
+        case STEP_PRESSURE_TEST: {
+            servoPatient.open(125);
+            servoPatient.execute();
+            servoBlower.open(0);
+            servoBlower.execute();
+            blower.runSpeed(179);
+            int pressure = readPressureSensor(0);
+            UNGREEDY(is_drawn, display("Test pression", "Continuer : Start"));
+            char msg[SCREEN_LINE_LENGTH + 1];
+            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %d", pressure);
+            displayLine(msg, 3);  
+            
+            break;
+        }
+
+        case STEP_BATTERY_TEST: {
+            UNGREEDY(is_drawn, display("Test batterie", "Continuer : Start"));
+            char msg[SCREEN_LINE_LENGTH + 1];
+            updateBatterySample();
+            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie (V) : %d", getBatteryLevel());
+            displayLine(msg, 3);  
+            
+            break;
+        }
+
+        
     
 
     }
