@@ -106,9 +106,7 @@ var NAVTREEINDEX0 =
 "buzzer__control_8cpp.html#a7716f1e5adbede7b9d31ed73790c42d7":[2,0,0,0,0,1,5,2],
 "buzzer__control_8cpp.html#a94700ae2369cfd1bea1b654d9cb6f71f":[2,0,0,0,0,1,5,1],
 "buzzer__control_8cpp.html#ac6b7b84ceff11a91b8ad2a92514e3f26":[2,0,0,0,0,1,5,4],
-"buzzer__control_8cpp.html#aceaa582c607037ba5e75f9ae5c173a40":[2,0,0,0,0,1,5,5],
 "buzzer__control_8cpp.html#ad31018cfff55bdf33738d67d052d375e":[2,0,0,0,0,1,5,3],
-"buzzer__control_8cpp.html#aef5cb7a5e40de8a868da86a94ddea0bd":[2,0,0,0,0,1,5,6],
 "buzzer__control_8cpp_source.html":[2,0,0,0,0,1,5],
 "buzzer__control_8h.html":[2,0,0,0,0,0,5],
 "buzzer__control_8h.html#a7716f1e5adbede7b9d31ed73790c42d7":[2,0,0,0,0,0,5,0],
@@ -249,5 +247,7 @@ var NAVTREEINDEX0 =
 "class_pressure_valve.html#a9a411fb7dda2f8df75b9d5396aa58c55":[1,0,5,6],
 "class_pressure_valve.html#aa0814e5315cd9b56d748c67e7f46d97b":[1,0,5,9],
 "class_pressure_valve.html#aaf6e881fe589d8c04a284f69eea0ea1d":[1,0,5,1],
-"class_pressure_valve.html#ab1d1aa2a11730e204d04cf9f15262a81":[1,0,5,17]
+"class_pressure_valve.html#ab1d1aa2a11730e204d04cf9f15262a81":[1,0,5,17],
+"class_pressure_valve.html#abce6dd9d0c01d24f0b65a7057e1997ca":[1,0,5,4],
+"class_pressure_valve.html#ad69a9c9ea1c573351e62df5625b3883d":[1,0,5,7]
 };
