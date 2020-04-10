@@ -26,7 +26,7 @@ void BuzzerControl_Init(void) {
 #elif HARDWARE_VERSION == 2
     TIM_TypeDef* Buzzer_Timer_Number = reinterpret_cast<TIM_TypeDef*>(
         pinmap_peripheral(digitalPinToPinName(PIN_BUZZER), PinMap_PWM));
-    uint32_t Buzzer_Timer_Channel =
+    Buzzer_Timer_Channel =
         STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(PIN_BUZZER), PinMap_PWM));
 
     Buzzer_Hw_Timer = new HardwareTimer(Buzzer_Timer_Number);
