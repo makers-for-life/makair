@@ -272,8 +272,12 @@ $(document).ready(function(){initNavTree('buzzer_8cpp_source.html',''); initResi
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
 <div class="line"><a name="l00216"></a><span class="lineno"><a class="line" href="buzzer_8h.html#ae0a42d2c5743f382cd6eccde15b86fc2">  216</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="buzzer_8cpp.html#ae0a42d2c5743f382cd6eccde15b86fc2">Buzzer_Stop</a>(<span class="keywordtype">void</span>) {</div>
 <div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <a class="code" href="buzzer_8cpp.html#a06d1be2548afa8ffc5de673d907cae95">Active_Buzzer_Repeat</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <a class="code" href="buzzer_8cpp.html#aca144d22c2cefdba192d174d018cc9ea">BuzzerTim</a>-&gt;pause();</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;}</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="comment">// Avoid unexpected infinite buzzing when this function is called when mode is</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="comment">// TIMER_OUTPUT_COMPARE_FORCED_ACTIVE</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <a class="code" href="buzzer_8cpp.html#aca144d22c2cefdba192d174d018cc9ea">BuzzerTim</a>-&gt;setMode(<a class="code" href="buzzer_8cpp.html#af7f65f5ddee0bcbc3a8ee9bcb380a4f2">BuzzerTimerChannel</a>, (TimerModes_t)TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                       <a class="code" href="parameters_8h.html#a192ea8eaba652d29bfc08675edebb6a2">PIN_BUZZER</a>);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <a class="code" href="buzzer_8cpp.html#aca144d22c2cefdba192d174d018cc9ea">BuzzerTim</a>-&gt;pause();</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="abuzzer_8cpp_html_adfdb0b22f5d989a19e235773640752c9"><div class="ttname"><a href="buzzer_8cpp.html#adfdb0b22f5d989a19e235773640752c9">BEEEEP</a></div><div class="ttdeci">#define BEEEEP</div><div class="ttdef"><b>Definition:</b> <a href="buzzer_8cpp_source.html#l00032">buzzer.cpp:32</a></div></div>
