@@ -1,8 +1,6 @@
-/*
-    Copyright (C) 2020 Makers For Life
-*/
 /******************************************************************************
  * @author Makers For Life
+ * @copyright Copyright (c) 2020 Makers For Life
  * @file pressure_controller.cpp
  * @brief Core logic to control the breathing cycle
  *****************************************************************************/

@@ -1,11 +1,9 @@
-/**
+/******************************************************************************
  * @file test_pression.cpp
+ * @copyright Copyright (c) 2020 Makers For Life
  * @author Makers For Life
  * @brief Unit tests for pression.cpp
- *
- * @copyright Copyright (c) 2020
- *
- */
+ *****************************************************************************/
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

@@ -1,11 +1,9 @@
-/**
+/******************************************************************************
  * @file pressure_utl.cpp
+ * @copyright Copyright (c) 2020 Makers For Life
  * @author Makers For Life
  * @brief Pressure computing utility function
- *
- * @copyright Copyright (c) 2020
- *
- */
+ *****************************************************************************/
 
 #include <algorithm>
 
