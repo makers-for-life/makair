@@ -166,7 +166,5 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
 
 void displayMachineStopped(void) {
     screen.setCursor(0, 3);
-    char message[SCREEN_LINE_LENGTH + 1];
-    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "%-20s", "MakAir stopped.");
-    screen.print(message);
+    screen.print("Press start to begin");
 }

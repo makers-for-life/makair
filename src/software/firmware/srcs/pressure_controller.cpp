@@ -172,8 +172,6 @@ void PressureController::compute(uint16_t p_centiSec) {
                        m_patient_valve.position)
 
     executeCommands();
-
-    m_alarmController->runAlarmEffects(p_centiSec);
 }
 
 void PressureController::onCycleDecrease() {

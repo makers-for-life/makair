@@ -14,7 +14,7 @@
 
 // CLASS ======================================================================
 
-/// Controls breathing activation on/off state
+/// Controls breathing activation ON/OFF state
 class ActivationController {
  public:
     ActivationController();
@@ -36,9 +36,9 @@ class ActivationController {
 
  private:
     enum State {
-        STOPPED = 0,            // Breathing is off
-        RUNNING,                // Breathing is on
-        RUNNING_READY_TO_STOP,  // Breathing is on, waiting for a second push
+        STOPPED = 0,            // Breathing is OFF
+        RUNNING,                // Breathing is ON
+        RUNNING_READY_TO_STOP,  // Breathing is ON, waiting for a second push
     };
 
  private:

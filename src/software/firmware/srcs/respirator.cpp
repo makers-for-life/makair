@@ -146,7 +146,7 @@ void setup(void) {
 
     lastpControllerComputeDate = millis();
 
-    /* Catch potential Watchdog reset */
+    // Catch potential Watchdog reset
     if (IWatchdog.isReset(true)) {
         // TODO holdExhale
         // Display something ?
@@ -225,6 +225,8 @@ void loop(void) {
                     displayMachineStopped();
                 }
             }
+
+            alarmController.runAlarmEffects(centiSec);
 
             // next tick
             centiSec++;

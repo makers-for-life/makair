@@ -1,7 +1,7 @@
 /******************************************************************************
  * @author Makers For Life
  * @copyright Copyright (c) 2020 Makers For Life
- * @file activation.h
+ * @file activation.cpp
  * @brief Breathing activation related functions
  *****************************************************************************/
 
@@ -10,11 +10,10 @@
 // Associated header
 #include "../includes/activation.h"
 
-// External libraries
-
-// Internal
+// Internal libraries
 #include "../includes/buzzer.h"
 
+/// Maximum delay in seconds between two pushes on the stop button to actually stop the machine
 const uint32_t SECOND_STOP_MAX_DELAY_MS = 5000;
 
 // INITIALISATION =============================================================
@@ -37,13 +36,12 @@ void ActivationController::onStopButton() {
             m_state = STOPPED;
             break;
         }
-        // else fallback to default ON state handling
+        // No break here. Fallback to default ON state handling
 
     case RUNNING:
         m_timeOfLastStopPushed = millis();
         m_state = RUNNING_READY_TO_STOP;
 
-        // TODO check what to do in case of running alarm
         Buzzer_Boot_Start();
         break;
     }
