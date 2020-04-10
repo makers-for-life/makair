@@ -31,9 +31,7 @@
 #include "../includes/pressure_valve.h"
 #include "../includes/screen.h"
 
-/**
- * Liste de toutes les étapes de test du montage.
- */
+// State machine states
 #define STEP_LCD 1
 #define STEP_WELCOME 2
 #define STEP_BTN_PRESSION_CRETE_PLUS 3
