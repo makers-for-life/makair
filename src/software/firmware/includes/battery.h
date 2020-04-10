@@ -63,3 +63,10 @@ void updateBatterySample();
  * @param p_cycleNumber Number of cycle since start
  */
 void updateBatteryState(uint32_t p_cycleNumber);
+
+/**
+ * Returns battery level
+ *
+ * @return Battery level in volts
+ */
+uint32_t getBatteryLevel();
