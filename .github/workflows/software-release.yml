@@ -50,10 +50,10 @@ jobs:
         run: |
           sed -Ei 's/#define HARDWARE_VERSION [0-9]+/#define HARDWARE_VERSION 2/' src/software/firmware/includes/config.h
           sed -i 's/#define MODE MODE_PROD/#define MODE MODE_INTEGRATION_TEST/' src/software/firmware/includes/config.h
-          arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/qualification.cpp --output src/software/firmware/output/respirator-qualification
+          arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/qualification.cpp --output src/software/firmware/output/respirator-integration-test
           mkdir -p dist/
           VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
-          cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-integration-test-HW2-$VERSION-$GITHUB_SHA.bin"
+          cp src/software/firmware/output/respirator-integration-test.bin "dist/respirator-integration-test-HW2-$VERSION-$GITHUB_SHA.bin"
 
       - name: Build production HW1
         run: |
@@ -76,10 +76,10 @@ jobs:
         run: |
           sed -Ei 's/#define HARDWARE_VERSION [0-9]+/#define HARDWARE_VERSION 1/' src/software/firmware/includes/config.h
           sed -i 's/#define MODE MODE_PROD/#define MODE MODE_INTEGRATION_TEST/' src/software/firmware/includes/config.h
-          arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/qualification.cpp --output src/software/firmware/output/respirator-qualification
+          arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/qualification.cpp --output src/software/firmware/output/respirator-integration-test
           mkdir -p dist/
           VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
-          cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-integration-test-HW1-$VERSION-$GITHUB_SHA.bin"
+          cp src/software/firmware/output/respirator-integration-test.bin "dist/respirator-integration-test-HW1-$VERSION-$GITHUB_SHA.bin"
 
       - name: Compress production HW2
         run: |
@@ -93,6 +93,12 @@ jobs:
           cp dist/respirator-qualification-HW2-*.bin tmp/respirator-qualification-HW2-${{ steps.vars.outputs.sha_short }}.bin
           gzip tmp/respirator-qualification-HW2-${{ steps.vars.outputs.sha_short }}.bin
 
+      - name: Compress integration test HW2
+        run: |
+          mkdir -p tmp
+          cp dist/respirator-integration-test-HW2-*.bin tmp/respirator-integration-test-HW2-${{ steps.vars.outputs.sha_short }}.bin
+          gzip tmp/respirator-integration-test-HW2-${{ steps.vars.outputs.sha_short }}.bin
+
       - name: Compress production HW1
         run: |
           mkdir -p tmp
@@ -104,6 +110,12 @@ jobs:
           mkdir -p tmp
           cp dist/respirator-qualification-HW1-*.bin tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin
           gzip tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin
+
+      - name: Compress integration-test HW1
+        run: |
+          mkdir -p tmp
+          cp dist/respirator-integration-test-HW1-*.bin tmp/respirator-integration-test-HW1-${{ steps.vars.outputs.sha_short }}.bin
+          gzip tmp/respirator-integration-test-HW1-${{ steps.vars.outputs.sha_short }}.bin
 
       - name: Archive binaries
         uses: actions/upload-artifact@v1
