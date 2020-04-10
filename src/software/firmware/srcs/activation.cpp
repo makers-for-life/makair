@@ -1,9 +1,7 @@
-/*
-    Copyright (C) 2020 Makers For Life
-*/
 /******************************************************************************
  * @author Makers For Life
- * @file activation.cpp
+ * @copyright Copyright (c) 2020 Makers For Life
+ * @file activation.h
  * @brief Breathing activation related functions
  *****************************************************************************/
 
