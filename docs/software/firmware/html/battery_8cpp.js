@@ -1,7 +1,6 @@
 var battery_8cpp =
 [
     [ "batteryLoop", "battery_8cpp.html#afd4a9e033e9ae6ed54a354650969f914", null ],
-    [ "getBatteryLevel", "battery_8cpp.html#a6bcb1af204a68c17e23c0c0262cb1fab", null ],
     [ "initBattery", "battery_8cpp.html#af1cb6090825d3e387191264c221e898a", null ],
     [ "updateBatterySample", "battery_8cpp.html#a9ffac32955710f7a3aefe1fb7120b263", null ],
     [ "updateBatteryState", "battery_8cpp.html#a55106fffceca7b7e552f55c0a1efb471", null ],
