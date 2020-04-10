@@ -13,13 +13,18 @@
 // INCLUDES ===================================================================
 
 // External
+#if HARDWARE_VERSION == 1
 #include <AnalogButtons.h>
+#elif HARDWARE_VERSION == 2
+#include <HardwareSerial.h>
+#endif
 #include <Arduino.h>
 #include <IWatchdog.h>
 #include <OneButton.h>
 
 // Internal
 #include "../includes/blower.h"
+#include "../includes/buzzer_control.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
 #include "../includes/pression.h"
@@ -54,11 +59,12 @@
 #define STEP_BLOWER 23
 #define STEP_WATCHDOG 24
 #define STEP_WATCHDOG_SUCCESS 25
-#define STEP_PRESSURE_EMPTY 26
-#define STEP_PRESSURE_VAL1 27
-#define STEP_PRESSURE_VAL2 28
-#define STEP_PRESSURE_VAL3 29
-#define STEP_DONE 30
+#define STEP_SERIAL 26
+#define STEP_PRESSURE_EMPTY 27
+#define STEP_PRESSURE_VAL1 28
+#define STEP_PRESSURE_VAL2 29
+#define STEP_PRESSURE_VAL3 30
+#define STEP_DONE 31
 
 static uint8_t step = STEP_LCD;
 
@@ -128,6 +134,8 @@ PressureValve servoBlower;
 PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
+Blower* blower_pointer;
+Blower blower;
 
 void onPressionCretePlusClick() {
     DBG_DO(Serial.println("pression crete ++"));
@@ -241,6 +249,7 @@ void onCycleMinusClick() {
 
 void onAlarmOffClick() {
     DBG_DO(Serial.println("alarm off"));
+    BuzzerControl_Off();
     if (step == STEP_LCD || step == STEP_WELCOME) {
         changeStep(step + 1);
     } else if (step == STEP_BTN_ALARM_OFF) {
@@ -292,6 +301,8 @@ void onStopClick() {
         changeStep(step + 1);
     } else if (step == STEP_BTN_STOP) {
         changeStep(step + 1);
+    } else if (step == STEP_SERIAL) {
+        changeStep(step + 1);
     } else if (step == STEP_PRESSURE_VAL1) {
         int pressure = readPressureSensor(0);
         if (isPressureValueGoodEnough(PRESSURE_VAL1, pressure)) {
@@ -316,6 +327,7 @@ void onStopClick() {
     }
 }
 
+#if HARDWARE_VERSION == 1
 static AnalogButtons analogButtons(PIN_CONTROL_BUTTONS, INPUT);
 
 Button btn_pression_crete_plus =
@@ -330,15 +342,34 @@ Button btn_pep_plus = Button(VOLTAGE_BUTTON_PEEP_PRESSURE_INCREASE, &onPepPlusCl
 Button btn_pep_minus = Button(VOLTAGE_BUTTON_PEEP_PRESSURE_DECREASE, &onPepMinusClick);
 Button btn_cycle_plus = Button(VOLTAGE_BUTTON_CYCLE_INCREASE, &onCyclePlusClick);
 Button btn_cycle_minus = Button(VOLTAGE_BUTTON_CYCLE_DECREASE, &onCycleMinusClick);
+#elif HARDWARE_VERSION == 2
+OneButton buttonPeakPressureIncrease(PIN_BTN_PEAK_PRESSURE_INCREASE, false, false);
+OneButton buttonPeakPressureDecrease(PIN_BTN_PEAK_PRESSURE_DECREASE, false, false);
+OneButton buttonPlateauPressureIncrease(PIN_BTN_PLATEAU_PRESSURE_INCREASE, false, false);
+OneButton buttonPlateauPressureDecrease(PIN_BTN_PLATEAU_PRESSURE_DECREASE, false, false);
+OneButton buttonPeepPressureIncrease(PIN_BTN_PEEP_PRESSURE_INCREASE, false, false);
+OneButton buttonPeepPressureDecrease(PIN_BTN_PEEP_PRESSURE_DECREASE, false, false);
+OneButton buttonCycleIncrease(PIN_BTN_CYCLE_INCREASE, false, false);
+OneButton buttonCycleDecrease(PIN_BTN_CYCLE_DECREASE, false, false);
+#endif
 
 OneButton btn_alarm_off(PIN_BTN_ALARM_OFF, false, false);
 OneButton btn_start(PIN_BTN_START, false, false);
 OneButton btn_stop(PIN_BTN_STOP, false, false);
 
+#if HARDWARE_VERSION == 2
+HardwareSerial Serial6(PIN_SERIAL_RX, PIN_SERIAL_TX);
+#endif
+
 void setup() {
     DBG_DO(Serial.begin(115200));
     DBG_DO(Serial.println("demarrage"));
 
+#if HARDWARE_VERSION == 2
+    Serial6.begin(115200);
+#endif
+
+#if HARDWARE_VERSION == 1
     analogButtons.add(btn_pression_crete_plus);
     analogButtons.add(btn_pression_crete_minus);
     analogButtons.add(btn_pression_plateau_plus);
@@ -347,6 +378,16 @@ void setup() {
     analogButtons.add(btn_pep_minus);
     analogButtons.add(btn_cycle_plus);
     analogButtons.add(btn_cycle_minus);
+#elif HARDWARE_VERSION == 2
+    buttonPeakPressureIncrease.attachClick(onPressionCretePlusClick);
+    buttonPeakPressureDecrease.attachClick(onPressionCreteMinusClick);
+    buttonPlateauPressureIncrease.attachClick(onPressionPlateauPlusClick);
+    buttonPlateauPressureDecrease.attachClick(onPressionPlateauMinusClick);
+    buttonPeepPressureIncrease.attachClick(onPepPlusClick);
+    buttonPeepPressureDecrease.attachClick(onPepMinusClick);
+    buttonCycleIncrease.attachClick(onCyclePlusClick);
+    buttonCycleDecrease.attachClick(onCycleMinusClick);
+#endif
 
     btn_alarm_off.attachClick(onAlarmOffClick);
     btn_start.attachClick(onStartClick);
@@ -356,8 +397,9 @@ void setup() {
     pinMode(PIN_LED_YELLOW, OUTPUT);
     pinMode(PIN_LED_GREEN, OUTPUT);
 
-    pinMode(PIN_BUZZER, OUTPUT);
+    BuzzerControl_Init();
 
+#if HARDWARE_VERSION == 1
     // Timer for servoBlower
     hardwareTimer1 = new HardwareTimer(TIM1);
     hardwareTimer1->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
@@ -375,16 +417,33 @@ void setup() {
     // Servo patient setup
     servoPatient = PressureValve(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT,
                                  VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
-
     servoPatient.setup();
 
-    // Manual escBlower setup
-    // Output compare activation on pin PIN_ESC_BLOWER
-    hardwareTimer3->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
-    // Set PPM width to 1ms
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(0),
-                                      MICROSEC_COMPARE_FORMAT);
+    blower = Blower(hardwareTimer3, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
+    blower.setup();
+    blower_pointer = &blower;
+#elif HARDWARE_VERSION == 2
+    // Timer for servos
+    hardwareTimer3 = new HardwareTimer(TIM3);
+    hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+
+    // Servo blower setup
+    servoBlower = PressureValve(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
+                                VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
+    servoBlower.setup();
     hardwareTimer3->resume();
+
+    // Servo patient setup
+    servoPatient = PressureValve(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT,
+                                 VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
+    servoPatient.setup();
+    hardwareTimer3->resume();
+
+    hardwareTimer1 = new HardwareTimer(TIM1);
+    blower = Blower(hardwareTimer1, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
+    blower.setup();
+    blower_pointer = &blower;
+#endif
 
     // Activate watchdog
     IWatchdog.begin(2000000);  // in microseconds
@@ -393,9 +452,9 @@ void setup() {
     if (IWatchdog.isReset(true)) {
         Serial.println("watchdog reset");
         step = STEP_WATCHDOG_SUCCESS;
-        digitalWrite(PIN_BUZZER, HIGH);
+        BuzzerControl_On();
         delay(100);
-        digitalWrite(PIN_BUZZER, LOW);
+        BuzzerControl_Off();
     }
 
     startScreen();
@@ -409,15 +468,27 @@ void loop() {
         remainingTicks = CYCLE_TICKS;
     }
 
+#if HARDWARE_VERSION == 1
     analogButtons.check();
+#elif HARDWARE_VERSION == 2
+    buttonPeakPressureIncrease.tick();
+    buttonPeakPressureDecrease.tick();
+    buttonPlateauPressureIncrease.tick();
+    buttonPlateauPressureDecrease.tick();
+    buttonPeepPressureIncrease.tick();
+    buttonPeepPressureDecrease.tick();
+    buttonCycleIncrease.tick();
+    buttonCycleDecrease.tick();
+#endif
     btn_alarm_off.tick();
     btn_start.tick();
     btn_stop.tick();
 
-    digitalWrite(PIN_LED_RED, LOW);
-    digitalWrite(PIN_LED_YELLOW, LOW);
-    digitalWrite(PIN_LED_GREEN, LOW);
-    digitalWrite(PIN_BUZZER, LOW);
+    digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
+    digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
+    digitalWrite(PIN_LED_GREEN, LED_GREEN_INACTIVE);
+    BuzzerControl_Off();
+    blower.stop();
 
     switch (step) {
     case STEP_LCD: {
@@ -477,22 +548,22 @@ void loop() {
     }
     case STEP_LED_RED: {
         UNGREEDY(is_drawn, display("Red LED is ON", "Press start"));
-        digitalWrite(PIN_LED_RED, HIGH);
+        digitalWrite(PIN_LED_RED, LED_RED_ACTIVE);
         break;
     }
     case STEP_LED_YELLOW: {
         UNGREEDY(is_drawn, display("Yellow LED is ON", "Press stop"));
-        digitalWrite(PIN_LED_YELLOW, HIGH);
+        digitalWrite(PIN_LED_YELLOW, LED_YELLOW_ACTIVE);
         break;
     }
     case STEP_LED_GREEN: {
         UNGREEDY(is_drawn, display("Green LED is ON", "Press start"));
-        digitalWrite(PIN_LED_GREEN, HIGH);
+        digitalWrite(PIN_LED_GREEN, LED_GREEN_ACTIVE);
         break;
     }
     case STEP_BUZZER: {
         UNGREEDY(is_drawn, display("Buzzer is ON", "Press Buzzer OFF"));
-        digitalWrite(PIN_BUZZER, HIGH);
+        BuzzerControl_On();
         break;
     }
     case STEP_SERVO_BLOWER_OPEN: {
@@ -537,8 +608,7 @@ void loop() {
     case STEP_BLOWER: {
         UNGREEDY(is_drawn, {
             display("Blower is ON", "Press PPeP -");
-            hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(120),
-                                              MICROSEC_COMPARE_FORMAT);
+            blower.runSpeed(150);
         });
         break;
     }
@@ -550,6 +620,17 @@ void loop() {
     }
     case STEP_WATCHDOG_SUCCESS: {
         UNGREEDY(is_drawn, display("MC was restarted", "Press alarm OFF"));
+        break;
+    }
+    case STEP_SERIAL: {
+        UNGREEDY(is_drawn, display("Sending to serial", "Press stop"));
+#if HARDWARE_VERSION == 1
+        step++;
+#elif HARDWARE_VERSION == 2
+        if (remainingTicks == 0) {
+            Serial6.println("[Qualification mode] Testing serial output");
+        }
+#endif
         break;
     }
     case STEP_PRESSURE_EMPTY: {

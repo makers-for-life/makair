@@ -13,7 +13,9 @@
 // INCLUDES ==================================================================
 
 // External
+#if HARDWARE_VERSION == 1
 #include <AnalogButtons.h>
+#endif
 #include <Arduino.h>
 #include <IWatchdog.h>
 #include <LiquidCrystal.h>
@@ -22,6 +24,7 @@
 #include "../includes/battery.h"
 #include "../includes/blower.h"
 #include "../includes/buzzer.h"
+#include "../includes/buzzer_control.h"
 #include "../includes/debug.h"
 #include "../includes/keyboard.h"
 #include "../includes/parameters.h"
@@ -71,8 +74,8 @@ void setup() {
 
     pinMode(PIN_PRESSURE_SENSOR, INPUT);
     pinMode(PIN_BATTERY, INPUT);
-    pinMode(PIN_BUZZER, OUTPUT);
 
+#if HARDWARE_VERSION == 1
     // Timer for servoBlower
     hardwareTimer1 = new HardwareTimer(TIM1);
     hardwareTimer1->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
@@ -84,7 +87,6 @@ void setup() {
     // Servo blower setup
     servoBlower = PressureValve(hardwareTimer1, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
                                 VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
-
     servoBlower.setup();
     hardwareTimer1->resume();
 
@@ -96,6 +98,28 @@ void setup() {
     blower = Blower(hardwareTimer3, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
     blower.setup();
     blower_pointer = &blower;
+#elif HARDWARE_VERSION == 2
+    // Timer for servos
+    hardwareTimer3 = new HardwareTimer(TIM3);
+    hardwareTimer3->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
+
+    // Servo blower setup
+    servoBlower = PressureValve(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
+                                VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
+    servoBlower.setup();
+    hardwareTimer3->resume();
+
+    // Servo patient setup
+    servoPatient = PressureValve(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT,
+                                 VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
+    servoPatient.setup();
+    hardwareTimer3->resume();
+
+    hardwareTimer1 = new HardwareTimer(TIM1);
+    blower = Blower(hardwareTimer1, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
+    blower.setup();
+    blower_pointer = &blower;
+#endif
 
     alarmController = AlarmController();
 
@@ -112,19 +136,21 @@ void setup() {
     initKeyboard();
     initBattery();
 
+    BuzzerControl_Init();
     Buzzer_Init();
 
     // escBlower needs 5s at speed 0 to be properly initalized
 
     // RCM-SW-17 (Christmas tree at startup)
     Buzzer_Boot_Start();
-    digitalWrite(PIN_LED_GREEN, HIGH);
-    digitalWrite(PIN_LED_RED, HIGH);
-    digitalWrite(PIN_LED_YELLOW, HIGH);
+    digitalWrite(PIN_LED_GREEN, LED_GREEN_ACTIVE);
+    digitalWrite(PIN_LED_RED, LED_RED_ACTIVE);
+    digitalWrite(PIN_LED_YELLOW, LED_YELLOW_ACTIVE);
     waitForInMs(1000);
-    digitalWrite(PIN_LED_GREEN, LOW);
-    digitalWrite(PIN_LED_RED, LOW);
-    digitalWrite(PIN_LED_YELLOW, LOW);
+    Buzzer_Stop();
+    digitalWrite(PIN_LED_GREEN, LED_GREEN_INACTIVE);
+    digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
+    digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
 
     waitForInMs(4000);
 
