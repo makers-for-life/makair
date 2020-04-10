@@ -1,13 +1,15 @@
+/*
+    Copyright (C) 2020 Makers For Life
+*/
 /******************************************************************************
  * @author Makers For Life
- * @copyright Copyright (c) 2020 Makers For Life
  * @file debug.h
  * @brief Debug helpers
  *****************************************************************************/
 
 #pragma once
 
-#include "../includes/config.h"
+#include "config.h"
 
 /**
  * Expand arbitrary code only when in debug mode
@@ -91,7 +93,9 @@
 #endif
 
 /**
- * Send metrics to serial
+ * Send data metrics to serial ( almost evrey 1/100s) 
+ * Take notice that sending 30 bytes of data can take up to 3ms (1/3 of the 10ms loop) at a 115200 baudrate.
+ * Please consider reducing CPU charge using a DMA on the UART TX.
  *
  * @param cycle            Number of passed cycles
  * @param centieme         Duration from the begining of the cycle in hundredth of second
@@ -99,36 +103,89 @@
  * @param phase            Current phase
  * @param subPhase         Current subphase
  * @param pression         Current pressure
- * @param consigneBlower   Requested aperture for the blower Pressure Valve
  * @param positionBlower   Current aperture of the blower Pressure Valve
- * @param consignePatient  Requested aperture for the patient Pressure Valve
  * @param positionPatient  Current aperture of the patient Pressure Valve
+ * @param blowerSpeed      Current speed of the blower
+ * @param baterryLevel     Current battery level if any
  */
 #if DEBUG == 1
-#define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
-                           positionBlower, consignePatient, positionPatient)                       \
+#define DBG_TELEMERTY_DATA(cycle, centieme, periode, phase, subPhase, pression,    \
+                           positionBlower, positionPatient, blowerSpeed, batteryLevel)                       \
     if ((centieme % periode) == 0u) {                                                              \
-        Serial.print((cycle * 300u) + centieme);                                                   \
-        Serial.print(";");                                                                         \
+        Serial.print("D"); \
+		Serial.print("\t"); \
+		Serial.println("UID [HEX] : " + String(*(uint32_t*)(UID_BASE), HEX) + " " + String(*(uint32_t*)(UID_BASE + 0x04), HEX) + " " + String(*(uint32_t*)(UID_BASE + 0x08), HEX)); \
+        Serial.print("\t"); \
+		Serial.print((cycle * 300u) + centieme); \
+        Serial.print("\t"); \
         Serial.print(cycle);                                                                       \
-        Serial.print(";");                                                                         \
+        Serial.print("\t"); \
         Serial.print(centieme);                                                                    \
-        Serial.print(";");                                                                         \
-        Serial.print(300u - (phase * 100u));                                                       \
-        Serial.print(";");                                                                         \
-        Serial.print(300u - (subPhase * 50u));                                                     \
-        Serial.print(";");                                                                         \
+        Serial.print("\t"); \
+        Serial.print(subPhase + phase);                                                            \
+        Serial.print("\t"); \
         Serial.print(pression);                                                                    \
-        Serial.print(";");                                                                         \
-        Serial.print(150u - consigneBlower);                                                       \
-        Serial.print(";");                                                                         \
+        Serial.print("\t"); \
         Serial.print(150u - positionBlower);                                                       \
-        Serial.print(";");                                                                         \
-        Serial.print(150u - consignePatient);                                                      \
-        Serial.print(";");                                                                         \
-        Serial.println(150u - positionPatient);                                                    \
+        Serial.print("\t"); \
+        Serial.println(150u - positionPatient); \
+		Serial.print("\t"); \
+		Serial.print(blowerSpeed); \
+		Serial.print("\t"); \
+		Serial.print(batteryLevel); \
+		Serial.print(";"); \
     }
 #else
-#define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
+#define DBG_TELEMERTY_DATA(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
+                           positionBlower, consignePatient, positionPatient)
+#endif
+
+
+/**
+ * The machine state snapshot, sent at the beginning of a cycle.
+ * This message summarize the machine state and the respiration metric of the last cycle (called previous cycle)
+ *
+ * @param cycleNb       Number of passed cycles
+ * @param csgPP         Consigne Maximal plateau pressure
+ * @param csgPPEP       Consigne Minimal PEEP
+ * @param csgBR         Consigne Breath Rate per minute
+ * @param csgPW         Consigne Patient weight (or volume)
+ * @param prevPeakP     Previous peak pressure
+ * @param prevPP        Previous plateau pressure
+ * @param prevPPEP      Previous peep pressure
+ * @param currAlams     Current alarms (the list of the alarms triggered during the previous cycle)
+ * @param prevAlarms    Current alarms (the list of the alarms triggered during the previous cycle)
+ */
+#if DEBUG == 1
+#define DBG_TELEMERTY_STATE(cycleNb, csgPP, csgPPEP, csgBR, csgPW, prevPeakP, prevPP, prevPPEP,   \
+                           currAlams, prevAlarms)                                                \
+    if ((centieme % periode) == 0u) {                                                              \
+        Serial.print("D"); \
+		Serial.print("\t"); \
+		Serial.println("UID [HEX] : " + String(*(uint32_t*)(UID_BASE), HEX) + " " + String(*(uint32_t*)(UID_BASE + 0x04), HEX) + " " + String(*(uint32_t*)(UID_BASE + 0x08), HEX)); \
+        Serial.print("\t"); \
+        Serial.print(cycleNb); \
+        Serial.print("\t"); \
+        Serial.print(csgPP); \
+        Serial.print("\t"); \
+        Serial.print(csgPPEP); \
+        Serial.print("\t"); \
+        Serial.print(csgBR); \
+        Serial.print("\t"); \
+        Serial.print(csgPW); \
+        Serial.print("\t"); \
+        Serial.println(prevPeakP); \
+		Serial.print("\t"); \
+		Serial.print(prevPP); \
+		Serial.print("\t"); \
+		Serial.print(prevPPEP); \
+		Serial.print(";"); \
+		Serial.print(currAlams); \
+		Serial.print(";"); \
+		Serial.print(prevAlarms); \
+		Serial.print(";"); \
+    }
+#else
+#define DBG_TELEMERTY_STATE(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
                            positionBlower, consignePatient, positionPatient)
 #endif

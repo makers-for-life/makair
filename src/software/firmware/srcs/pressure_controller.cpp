@@ -167,9 +167,8 @@ void PressureController::compute(uint16_t p_centiSec) {
     }
     safeguards(p_centiSec);
 
-    DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 1u, m_phase, m_subPhase, m_pressure,
-                       m_blower_valve.command, m_blower_valve.position, m_patient_valve.command,
-                       m_patient_valve.position)
+	DBG_TELEMERTY_DATA(m_cycleNb, p_centiSec, 1u, m_phase, m_subPhase, m_pressure,
+	m_blower_valve.position, m_patient_valve.position, m_blower->getSpeed(), getBatteryVoltage())
 
     executeCommands();
 
