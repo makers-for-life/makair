@@ -51,7 +51,7 @@ void initBattery();
 /**
  * Handle battery events
  *
- * @param p_cycleNumber Number of cycle since start
+ * @param p_cycleNumber Number of cycles since boot
  * @warning It must be called in the program loop
  */
 void batteryLoop(uint32_t p_cycleNumber);
