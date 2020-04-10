@@ -1,12 +1,13 @@
 var class_pressure_controller =
 [
     [ "PressureController", "class_pressure_controller.html#afda41b9a5a4f14ef31df017722b2d1ca", null ],
-    [ "PressureController", "class_pressure_controller.html#ae9f1e02509056fc304708e7ab6fb1ece", null ],
+    [ "PressureController", "class_pressure_controller.html#aa2ad2c0cf198f73855cd4a2b87ef2f9a", null ],
     [ "blower_valve", "class_pressure_controller.html#a5782c3b6c4663f3ac5f694659cab435e", null ],
     [ "centiSecPerCycle", "class_pressure_controller.html#ae17cfa861327ef8c7e73430b59354e2e", null ],
     [ "centiSecPerInhalation", "class_pressure_controller.html#a2051259df1697094331722c54ac0a995", null ],
     [ "compute", "class_pressure_controller.html#a6c50448681aee5058ab8315dcfaed032", null ],
     [ "computeCentiSecParameters", "class_pressure_controller.html#a741378998e79fc0becd814da1ea3db50", null ],
+    [ "cycleNumber", "class_pressure_controller.html#afe70f5073fe91a4ae906d0b0f1c74d2b", null ],
     [ "cyclesPerMinute", "class_pressure_controller.html#aed5cf0642c29aee13a76f798fcc65de8", null ],
     [ "cyclesPerMinuteCommand", "class_pressure_controller.html#a99d6c920553304b6c28d159c30ca3bba", null ],
     [ "executeCommands", "class_pressure_controller.html#a37111dcc07226fd1bb988d739553836e", null ],
@@ -48,7 +49,7 @@ var class_pressure_controller =
     [ "updatePressure", "class_pressure_controller.html#a50a1318f5caee5603941dfcfed9d8cf2", null ],
     [ "blowerIntegral", "class_pressure_controller.html#a617df9619eb39d020b6a672ab5707d23", null ],
     [ "blowerLastError", "class_pressure_controller.html#acb09661a1ee1e4c1284621b4efd3d316", null ],
-    [ "m_alarmController", "class_pressure_controller.html#a0d8eb6a0018cb31faeb40fc3d39d44b5", null ],
+    [ "m_alarmController", "class_pressure_controller.html#a70012f7acb89a187f91bfbba72176669", null ],
     [ "m_blower", "class_pressure_controller.html#a2d8d619c54814ce288608d9ae600c65e", null ],
     [ "m_blower_increment", "class_pressure_controller.html#ada9f59ebd95beeee0884e5c10e6dd33e", null ],
     [ "m_blower_valve", "class_pressure_controller.html#a337781582e5173501d01063f7e30edf2", null ],

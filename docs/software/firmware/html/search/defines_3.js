@@ -8,9 +8,7 @@ var searchData=
   ['dbg_5fpression_5fpep_635',['DBG_PRESSION_PEP',['../debug_8h.html#acae36aa3b2ce5d7a4a461b60ae110855',1,'debug.h']]],
   ['dbg_5fpression_5fplateau_636',['DBG_PRESSION_PLATEAU',['../debug_8h.html#a58794ec155cc8a9be08633eab1f129dd',1,'debug.h']]],
   ['debug_637',['DEBUG',['../config_8h.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'config.h']]],
-  ['default_5fbattery_5fvoltage_638',['DEFAULT_BATTERY_VOLTAGE',['../battery_8h.html#aae756921e48e6b11fd9f32dd00ddfc08',1,'battery.h']]],
-  ['default_5fmax_5fpeak_5fpressure_5fcommand_639',['DEFAULT_MAX_PEAK_PRESSURE_COMMAND',['../parameters_8h.html#acd21b850c31e8e644d02462a46389c1e',1,'parameters.h']]],
-  ['default_5fmax_5fplateau_5fcommand_640',['DEFAULT_MAX_PLATEAU_COMMAND',['../parameters_8h.html#a548cb9b058d3c6b735c4b19a879fba36',1,'parameters.h']]],
-  ['default_5fmin_5fpeep_5fcommand_641',['DEFAULT_MIN_PEEP_COMMAND',['../parameters_8h.html#a341d8dc42507e5f8b9a262b70be47b7b',1,'parameters.h']]],
-  ['default_5fpower_5fvoltage_642',['DEFAULT_POWER_VOLTAGE',['../battery_8h.html#a47548bdbfc6692e9e2e382d69309f3e6',1,'battery.h']]]
+  ['default_5fmax_5fpeak_5fpressure_5fcommand_638',['DEFAULT_MAX_PEAK_PRESSURE_COMMAND',['../parameters_8h.html#acd21b850c31e8e644d02462a46389c1e',1,'parameters.h']]],
+  ['default_5fmax_5fplateau_5fcommand_639',['DEFAULT_MAX_PLATEAU_COMMAND',['../parameters_8h.html#a548cb9b058d3c6b735c4b19a879fba36',1,'parameters.h']]],
+  ['default_5fmin_5fpeep_5fcommand_640',['DEFAULT_MIN_PEEP_COMMAND',['../parameters_8h.html#a341d8dc42507e5f8b9a262b70be47b7b',1,'parameters.h']]]
 ];
