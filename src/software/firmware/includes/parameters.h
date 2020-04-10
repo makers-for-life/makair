@@ -12,7 +12,7 @@
 #include <Arduino.h>
 
 // Internal
-#include "config.h"
+#include "../includes/config.h"
 
 // PARAMETERS =================================================================
 

@@ -16,7 +16,7 @@
 #include <LiquidCrystal.h>
 
 // Internal
-#include "parameters.h"
+#include "../includes/parameters.h"
 
 // INITIALISATION =============================================================
 

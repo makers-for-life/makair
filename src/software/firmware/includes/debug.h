@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "config.h"
+#include "../includes/config.h"
 
 /**
  * Expand arbitrary code only when in debug mode
