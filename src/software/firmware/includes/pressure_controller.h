@@ -140,7 +140,7 @@ class PressureController {
     /// Get the number of cycles per minute
     inline uint16_t cyclesPerMinute() const { return m_cyclesPerMinute; }
 
-    /// Get the number of past cycle since the beginning
+    /// Get the number of past cycles since the beginning
     inline uint32_t cycleNumber() const { return m_cycleNb; }
 
     /// Get the duration of a cycle in hundredth of second
