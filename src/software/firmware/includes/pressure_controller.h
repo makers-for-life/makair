@@ -11,11 +11,47 @@
 
 // INCLUDES ===================================================================
 
-// External libraries
+// Internal
+#include "../includes/alarm_controller.h"
+#include "../includes/blower.h"
+#include "../includes/pressure_valve.h"
 
-// Internal libraries
-#include "common.h"
-#include "pressure_valve.h"
+// ENUMS =================================================================
+
+/// Defines the 4 phases of the respiratory cycle
+enum CycleSubPhases {
+    /**
+     * Push inhalation:
+     * - Send air until the peak pressure is reached
+     * - The blower valve is open so the air stream goes to the patient's lungs
+     */
+    INSPIRATION,
+    /**
+     * Hold inhalation:
+     * - Once the peak pressure is reached, the pressure is hold to the plateau pressure
+     *   The pressure has been decreasing for more than 0.1 s.
+     * - The 2 valves are hold closed
+     */
+    HOLD_INSPIRATION,
+    /**
+     * Exhalation:
+     * - The patient exhales
+     */
+    EXHALE,
+    /**
+     * Hold exhalation:
+     * - Valves stay closed as the pressure is below the PEEP
+     */
+    HOLD_EXHALE
+};
+
+/// Defines the 2 main phases of the respiratory cycle
+enum CyclePhases {
+    /// Inspiration and inspiration holding
+    INHALATION,
+    /// Exhalation and pause
+    EXHALATION
+};
 
 // CLASS ======================================================================
 
@@ -32,15 +68,19 @@ class PressureController {
      * @param p_minPeepCommand      Initial minimum PEEP pressure (in mmH2O)
      * @param p_maxPlateauPressure  Initial maximum plateau pressure (in mmH2O)
      * @param p_maxPeakPressure     Initial maximum peak pressure (in mmH2O)
-     * @param p_blower              Pressure Valve between blower and patient
-     * @param p_patient             Pressure Valve between patient and atmosphere
+     * @param p_blower_valve        Pressure Valve between blower and patient
+     * @param p_patient_valve       Pressure Valve between patient and atmosphere
+     * @param p_alarmController     Alarm controller
+     * @param p_blower              Blower
      */
     PressureController(int16_t p_cyclesPerMinute,
                        int16_t p_minPeepCommand,
                        int16_t p_maxPlateauPressure,
                        int16_t p_maxPeakPressure,
-                       PressureValve p_blower,
-                       PressureValve p_patient);
+                       PressureValve p_blower_valve,
+                       PressureValve p_patient_valve,
+                       AlarmController p_alarmController,
+                       Blower* p_blower);
 
     /// Initialize actuators
     void setup();
@@ -125,10 +165,10 @@ class PressureController {
     inline CycleSubPhases subPhase() const { return m_subPhase; }
 
     /// Get the blower's Pressure Valve instance
-    inline const PressureValve& blower() const { return m_blower; }
+    inline const PressureValve& blower_valve() const { return m_blower_valve; }
 
     /// Get the patient's Pressure Valve instance
-    inline const PressureValve& patient() const { return m_patient; }
+    inline const PressureValve& patient_valve() const { return m_patient_valve; }
 
     /**
      * Input the real duration since the last pressure controller computation
@@ -144,6 +184,13 @@ class PressureController {
      * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
     void updatePhase(uint16_t p_centiSec);
+
+    /**
+     * Update blower speed
+     *
+     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
+     */
+    void updateBlower(uint16_t p_centiSec);
 
     /// Perform the pressure control and compute the transistors commands during the inhalation
     /// phase
@@ -179,7 +226,7 @@ class PressureController {
      *
      * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
-    void safeguardPressionPlateau(uint16_t p_centiSec);
+    void safeguardPlateau(uint16_t p_centiSec);
 
     /**
      * Implement a first safeguard for peep pressure
@@ -292,6 +339,9 @@ class PressureController {
     /// Measured pressure
     uint16_t m_pressure;
 
+    /// Max pressure during a cycle
+    uint16_t m_max_pressure;
+
     /// Peak pressure
     uint16_t m_peakPressure;
 
@@ -308,10 +358,16 @@ class PressureController {
     CycleSubPhases m_subPhase;
 
     /// Blower's transistor
-    PressureValve m_blower;
+    PressureValve m_blower_valve;
 
     /// Patient's transistor
-    PressureValve m_patient;
+    PressureValve m_patient_valve;
+
+    /// Blower
+    Blower* m_blower;
+
+    /// Blower increment
+    int32_t m_blower_increment;
 
     /// Number of passed cycles
     uint32_t m_cycleNb;
@@ -349,6 +405,9 @@ class PressureController {
      * @note This must be persisted between computation in order to compute derivative gain
      */
     int32_t patientLastError;
+
+    /// Alarm controller
+    AlarmController m_alarmController;
 };
 
 // INITIALISATION =============================================================

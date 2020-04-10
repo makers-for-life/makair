@@ -1,4 +1,4 @@
-name: "C++ Lint"
+name: Software Lint
 
 # TODO:
 # - fix linter violations
@@ -10,12 +10,14 @@ on: [push]
 jobs:
   cpp-lint:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - name: action-cpp-lint
-      uses: CyberZHG/github-action-cpp-lint@0.0.2
-      with:
-        args: "--recursive ./src/software/firmware/"
+      - uses: actions/checkout@v2
+
+      - name: action-cpp-lint
+        uses: CyberZHG/github-action-cpp-lint@0.0.2
+        with:
+          args: "--recursive ./src/software/firmware/"
 
 #   cppcheck:
 #     runs-on: ubuntu-18.04

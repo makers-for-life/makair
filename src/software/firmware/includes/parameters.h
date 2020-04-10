@@ -10,7 +10,6 @@
 
 // INCLUDES ===================================================================
 
-#ifndef UNIT_TEST
 // External
 #include <Arduino.h>
 
@@ -21,7 +20,7 @@
 // PARAMETERS =================================================================
 
 /// Current version of the software
-#define VERSION "v1.1.45"
+#define VERSION "v1.2.1"
 
 /**
  * @name Core parameters
@@ -61,12 +60,13 @@ static const int32_t PID_BLOWER_KD = 4;
 static const int32_t PID_BLOWER_INTEGRAL_MAX = 1000;
 static const int32_t PID_BLOWER_INTEGRAL_MIN = -1000;
 
-static const int32_t PID_PATIENT_KP = 1;
-static const int32_t PID_PATIENT_KI = 2;
-static const int32_t PID_PATIENT_KD = 4;
+static const int32_t PID_PATIENT_KP = 4;
+static const int32_t PID_PATIENT_KI = 32;
+static const int32_t PID_PATIENT_KD = 8;
 
-static const int32_t PID_PATIENT_INTEGRAL_MAX = 1000;
-static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
+static const int32_t PID_PATIENT_INTEGRAL_MAX = 500;
+static const int32_t PID_PATIENT_INTEGRAL_MIN = -500;
+
 ///@}
 
 /**
@@ -75,10 +75,10 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 ///@{
 
 /// Angle when opened
-#define VALVE_OPEN_STATE 10
+#define VALVE_OPEN_STATE 0
 
 /// Angle when closed
-#define VALVE_CLOSED_STATE 105
+#define VALVE_CLOSED_STATE 125
 
 #define SERVO_VALVE_PERIOD 20000
 #define PIN_SERVO_BLOWER D2  // PA10 / TIM1_CH3
@@ -86,6 +86,14 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 #define PIN_SERVO_PATIENT D4  // PB5 / TIM3_CH2
 #define TIM_CHANNEL_SERVO_VALVE_PATIENT 2
 
+///@}
+
+/**
+ * @name Blower
+ */
+///@{
+#define MIN_BLOWER_SPEED 95
+#define MAX_BLOWER_SPEED 180
 ///@}
 
 /**
@@ -108,7 +116,7 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 #define SCREEN_LINE_LENGTH 20
 
 /// Period between screen updates in hundredth of second
-#define LCD_UPDATE_PERIOD 20u
+#define LCD_UPDATE_PERIOD 30u
 
 /// Period between screen resets in minutes
 #define LCD_RESET_PERIOD 5
@@ -150,4 +158,16 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 #define PIN_BATTERY A2
 
 ///@}
-#endif
+
+/**
+ * @name Alarm thresholds
+ */
+///@{
+
+#define ALARM_2_CMH2O 20                                           // RCM-SW-2
+#define ALARM_35_CMH2O 350                                         // RCM-SW-1
+#define ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O ALARM_2_CMH2O  // RCM-SW-3 / RCM-SW-15
+#define ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O ALARM_2_CMH2O        // RCM-SW-19
+#define ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O 800                 // RCM-SW-18
+
+///@}

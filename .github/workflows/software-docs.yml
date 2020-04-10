@@ -1,23 +1,33 @@
-name: Software documentation
+name: Software Documentation
 
 on: [push]
 
 jobs:
-  build:
-
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Create documentation directory
-      run: |
-        mkdir -p docs/Software/respi-firmware
-    - name: Generate documentation for respi-firmware
-      uses: mattnotmitt/doxygen-action@v1
-      with:
-        doxyfile-path: 'src/software/firmware/Doxyfile'
-    - name: Archive documentation
-      uses: actions/upload-artifact@v1
-      with:
-        name: docs
-        path: docs/Software/
+      - uses: actions/checkout@v2
+
+      - name: Create documentation directory
+        run: |
+          mkdir -p local/docs/software/firmware
+
+      - name: Generate documentation for firmware
+        uses: mattnotmitt/doxygen-action@v1
+        with:
+          doxyfile-path: 'src/software/firmware/Doxyfile'
+
+      - name: Archive all documentation
+        uses: actions/upload-artifact@v1
+        with:
+          name: docs
+          path: local/docs/software/
+
+      - name: Deploy all documentation
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        if: github.ref == 'refs/heads/master'
+        with:
+          BRANCH: gh-pages
+          FOLDER: local/docs/
+          TARGET_FOLDER: ./docs/

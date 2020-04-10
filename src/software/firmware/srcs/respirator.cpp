@@ -21,8 +21,9 @@
 #include <LiquidCrystal.h>
 
 // Internal
+#include "../includes/battery.h"
+#include "../includes/blower.h"
 #include "../includes/buzzer.h"
-#include "../includes/common.h"
 #include "../includes/debug.h"
 #include "../includes/keyboard.h"
 #include "../includes/parameters.h"
@@ -37,6 +38,8 @@ PressureValve servoBlower;
 PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
+Blower* blower_pointer;
+Blower blower;
 
 /**
  * Block execution for a given duration
@@ -50,13 +53,15 @@ void waitForInMs(uint16_t ms) {
     }
 }
 
+uint32_t lastpControllerComputeDate;
+
 void setup() {
     /* Catch potential Watchdog reset */
     if (IWatchdog.isReset(true)) {
         /* Code in case of Watchdog detected */
         /* TODO */
         Buzzer_Init();
-        Buzzer_Long_Start();
+        Buzzer_High_Prio_Start();
         while (1) {
         }
     }
@@ -67,6 +72,7 @@ void setup() {
     startScreen();
 
     pinMode(PIN_PRESSURE_SENSOR, INPUT);
+    pinMode(PIN_BATTERY, INPUT);
     pinMode(PIN_BUZZER, OUTPUT);
 
     // Timer for servoBlower
@@ -89,17 +95,15 @@ void setup() {
                                  VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
     servoPatient.setup();
 
-    // Manual escBlower setup
-    // Output compare activation on pin PIN_ESC_BLOWER
-    hardwareTimer3->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
-    // Set PPM width to 1ms
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(0),
-                                      MICROSEC_COMPARE_FORMAT);
-    hardwareTimer3->resume();
+    blower = Blower(hardwareTimer3, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
+    blower.setup();
+    blower_pointer = &blower;
+
+    alarmController = AlarmController();
 
     pController = PressureController(INITIAL_CYCLE_NUMBER, DEFAULT_MIN_PEEP_COMMAND,
                                      DEFAULT_MAX_PLATEAU_COMMAND, DEFAULT_MAX_PEAK_PRESSURE_COMMAND,
-                                     servoBlower, servoPatient);
+                                     servoBlower, servoPatient, alarmController, blower_pointer);
     pController.setup();
 
     // Prepare LEDs
@@ -108,6 +112,7 @@ void setup() {
     pinMode(PIN_LED_GREEN, OUTPUT);
 
     initKeyboard();
+    initBattery();
 
     Buzzer_Init();
 
@@ -119,7 +124,6 @@ void setup() {
     digitalWrite(PIN_LED_RED, HIGH);
     digitalWrite(PIN_LED_YELLOW, HIGH);
     waitForInMs(1000);
-    Buzzer_Stop();
     digitalWrite(PIN_LED_GREEN, LOW);
     digitalWrite(PIN_LED_RED, LOW);
     digitalWrite(PIN_LED_YELLOW, LOW);
@@ -127,13 +131,13 @@ void setup() {
     waitForInMs(4000);
 
     // escBlower start
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(170),
-                                      MICROSEC_COMPARE_FORMAT);
-    DBG_DO(Serial.println("Blower is running.");)
+    blower.runSpeed(150);
 
     // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
     IWatchdog.begin(WATCHDOG_TIMEOUT);
     IWatchdog.reload();
+
+    lastpControllerComputeDate = millis();
 }
 
 // Time of the previous loop iteration
@@ -154,16 +158,16 @@ void loop() {
     // START THE RESPIRATORY CYCLE
     /********************************************/
     uint16_t centiSec = 0;
-    uint32_t lastpControllerComputeDate = 0uL;
 
     while (centiSec < pController.centiSecPerCycle()) {
         pController.updatePressure(readPressureSensor(centiSec));
 
         uint32_t currentDate = millis();
 
-        if ((currentDate - lastpControllerComputeDate) >= PCONTROLLER_COMPUTE_PERIOD) {
-            lastpControllerComputeDate = currentDate;
+        uint32_t diff = (currentDate - lastpControllerComputeDate);
 
+        if (diff >= PCONTROLLER_COMPUTE_PERIOD) {
+            lastpControllerComputeDate = currentDate;
             int32_t currentMicro = micros();
 
             pController.updateDt(currentMicro - lastMicro);
@@ -175,16 +179,20 @@ void loop() {
             // Check if some buttons have been pushed
             keyboardLoop();
 
+            // Check if battery state has changed
+            batteryLoop();
+
             // Display relevant information during the cycle
             if ((centiSec % LCD_UPDATE_PERIOD) == 0u) {
-                displaySubPhase(pController.subPhase());
+                displayCurrentPressure(pController.pressure(),
+                                       pController.cyclesPerMinuteCommand());
+
+                displayCurrentSettings(pController.maxPeakPressureCommand(),
+                                       pController.maxPlateauPressureCommand(),
+                                       pController.minPeepCommand());
 
                 displayCurrentInformation(pController.peakPressure(), pController.plateauPressure(),
-                                          pController.peep(), pController.pressure());
-
-                displaySettings(pController.maxPeakPressureCommand(),
-                                pController.maxPlateauPressureCommand(),
-                                pController.minPeepCommand(), pController.cyclesPerMinuteCommand());
+                                          pController.peep());
             }
 
             // next tick
@@ -202,6 +210,7 @@ void loop() {
     if (cyclesBeforeScreenReset <= 0) {
         DBG_DO(Serial.println("resetting LCD screen");)
         resetScreen();
+        clearAlarmDisplayCache();
         cyclesBeforeScreenReset = LCD_RESET_PERIOD * CONST_MIN_CYCLE;
     }
 }
