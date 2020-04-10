@@ -2,15 +2,14 @@
  * @file pressure_utl.cpp
  * @author Makers For Life
  * @brief Pressure computing utility function
- * 
+ *
  * @copyright Copyright (c) 2020
- * 
+ *
  */
 
 #include <algorithm>
 
 #include "../includes/pressure_utl.h"
-
 
 static int32_t filteredRawPressure = 0;
 
@@ -39,15 +38,12 @@ int16_t convertSensor2Pressure(uint16_t sensorValue) {
     // Adjust delta so that the division result will be rounded away from zero.
     // This is needed to guaranty that filteredRawPressure will reach
     // rawPressure when it is constant.
-    delta += (delta > 0) ? (RAW_PRESSURE_FILTER_DIVIDER - 1) :
-                          -(RAW_PRESSURE_FILTER_DIVIDER - 1);
+    delta += (delta > 0) ? (RAW_PRESSURE_FILTER_DIVIDER - 1) : -(RAW_PRESSURE_FILTER_DIVIDER - 1);
     filteredRawPressure += delta / RAW_PRESSURE_FILTER_DIVIDER;
 
-    int16_t scaledRawPressure = filteredRawPressure * RAW_PRESSURE_TO_MMH20_NUM
-            / RAW_PRESSURE_TO_MMH20_DEN;
+    int16_t scaledRawPressure =
+        filteredRawPressure * RAW_PRESSURE_TO_MMH20_NUM / RAW_PRESSURE_TO_MMH20_DEN;
     return std::max(scaledRawPressure - RAW_PRESSURE_TO_MMH20_CONSTANT, 0);
 }
 
-void resetFilteredRawPressure() {
-    filteredRawPressure = 0;
-}
+void resetFilteredRawPressure() { filteredRawPressure = 0; }

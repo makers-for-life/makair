@@ -13,7 +13,6 @@
 // External
 #include <Arduino.h>
 
-
 // Internal
 #include "config.h"
 

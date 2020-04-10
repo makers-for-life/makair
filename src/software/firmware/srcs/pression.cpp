@@ -7,7 +7,6 @@
  * @brief Pressure sensor related functions
  *****************************************************************************/
 
-
 // INCLUDES ==================================================================
 
 // Associated header
@@ -17,12 +16,10 @@
 // External
 #include <Arduino.h>
 
-
 // Internal
 #include "../includes/parameters.h"
 
 // PROGRAM =====================================================================
-
 
 // Get the measured or simulated pressure for the feedback control (in mmH2O)
 
@@ -53,7 +50,7 @@ int16_t readPressureSensor(uint16_t centiSec) {
 #else
 
 int16_t readPressureSensor(uint16_t centiSec) {
-    (void) centiSec;
+    (void)centiSec;
     return convertSensor2Pressure(analogRead(PIN_PRESSURE_SENSOR));
 }
 

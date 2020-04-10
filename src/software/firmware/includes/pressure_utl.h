@@ -22,6 +22,6 @@ int16_t convertSensor2Pressure(uint16_t sensorValue);
 /**
  * @brief Reset the value of void filteredRawPressure to 0.
  * Mainly for testing purpose
- * 
+ *
  */
 void resetFilteredRawPressure();

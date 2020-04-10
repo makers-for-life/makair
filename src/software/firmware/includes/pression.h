@@ -11,7 +11,6 @@
 
 #include <stdint.h>
 
-
 /**
  * Get the measured or simulated pressure for the feedback control (in mmH2O)
  *
@@ -20,5 +19,3 @@
  * @return         The current pressure in mmH20
  */
 int16_t readPressureSensor(uint16_t centiSec);
-
-
