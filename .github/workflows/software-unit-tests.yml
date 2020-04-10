@@ -3,12 +3,12 @@ name: Unit Tests
 on: [push]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2     
+    - uses: actions/checkout@v2
     - name: Install Google Test
       run: |
         export gtest_ver="1.10.0"
@@ -18,10 +18,10 @@ jobs:
         cd googletest-release-${gtest_ver}
         cmake .
         sudo cmake --build . --target install
-    
+
     - name: Unit Test
       run: |
-        
+
         cd $GITHUB_WORKSPACE
         # build unit test
         mkdir build_test
@@ -30,5 +30,3 @@ jobs:
         cmake --build .
         # Run tests
         ctest
-    
-    

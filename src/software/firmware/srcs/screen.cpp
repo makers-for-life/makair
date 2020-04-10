@@ -1,8 +1,6 @@
-/*
-    Copyright (C) 2020 Makers For Life
-*/
 /******************************************************************************
  * @author Makers For Life
+ * @copyright Copyright (c) 2020 Makers For Life
  * @file screen.cpp
  * @brief Display and LCD screen related functions
  *

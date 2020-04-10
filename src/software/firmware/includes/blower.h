@@ -1,8 +1,6 @@
-/*
-    Copyright (C) 2020 Makers For Life
-*/
 /******************************************************************************
  * @author Makers For Life
+ * @copyright Copyright (c) 2020 Makers For Life
  * @file blower.h
  * @brief Tools to control the blower
  *****************************************************************************/
@@ -12,8 +10,8 @@
 // INCLUDES ===================================================================
 
 // Internal libraries
-#include "debug.h"
-#include "parameters.h"
+#include "../includes/debug.h"
+#include "../includes/parameters.h"
 
 // Convert a speed to a value in microseconds for the blower controller
 #define BlowerSpeed2MicroSeconds(value) map(value, 0, 180, 1000, 2000)

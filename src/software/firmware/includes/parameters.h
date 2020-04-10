@@ -1,8 +1,6 @@
-/*
-    Copyright (C) 2020 Makers For Life
-*/
 /******************************************************************************
  * @author Makers For Life
+ * @copyright Copyright (c) 2020 Makers For Life
  * @file parameters.h
  * @brief Various settings
  *****************************************************************************/
@@ -13,9 +11,8 @@
 // External
 #include <Arduino.h>
 
-
 // Internal
-#include "config.h"
+#include "../includes/config.h"
 
 // PARAMETERS =================================================================
 

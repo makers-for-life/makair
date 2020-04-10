@@ -1,15 +1,13 @@
-/*
-    Copyright (C) 2020 Makers For Life
-*/
 /******************************************************************************
  * @author Makers For Life
+ * @copyright Copyright (c) 2020 Makers For Life
  * @file debug.h
  * @brief Debug helpers
  *****************************************************************************/
 
 #pragma once
 
-#include "config.h"
+#include "../includes/config.h"
 
 /**
  * Expand arbitrary code only when in debug mode
