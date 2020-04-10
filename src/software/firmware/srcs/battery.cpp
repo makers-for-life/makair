@@ -86,7 +86,3 @@ void batteryLoop(uint32_t p_cycleNumber) {
     updateBatterySample();
     updateBatteryState(p_cycleNumber);
 }
-
-uint32_t getBatteryLevel(){
-    return rawBatteryMeanVoltage*0.0296484375;
-}
