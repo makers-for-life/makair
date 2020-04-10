@@ -46,6 +46,15 @@ jobs:
           VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
           cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-qualification-HW2-$VERSION-$GITHUB_SHA.bin"
 
+      - name: Build integration test HW2
+        run: |
+          sed -Ei 's/#define HARDWARE_VERSION [0-9]+/#define HARDWARE_VERSION 2/' src/software/firmware/includes/config.h
+          sed -i 's/#define MODE MODE_PROD/#define MODE MODE_INTEGRATION_TEST/' src/software/firmware/includes/config.h
+          arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/qualification.cpp --output src/software/firmware/output/respirator-qualification
+          mkdir -p dist/
+          VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
+          cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-integration-test-HW2-$VERSION-$GITHUB_SHA.bin"
+
       - name: Build production HW1
         run: |
           sed -Ei 's/#define HARDWARE_VERSION [0-9]+/#define HARDWARE_VERSION 1/' src/software/firmware/includes/config.h
@@ -62,6 +71,15 @@ jobs:
           mkdir -p dist/
           VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
           cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-qualification-HW1-$VERSION-$GITHUB_SHA.bin"
+
+      - name: Build integration test HW1
+        run: |
+          sed -Ei 's/#define HARDWARE_VERSION [0-9]+/#define HARDWARE_VERSION 1/' src/software/firmware/includes/config.h
+          sed -i 's/#define MODE MODE_PROD/#define MODE MODE_INTEGRATION_TEST/' src/software/firmware/includes/config.h
+          arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/qualification.cpp --output src/software/firmware/output/respirator-qualification
+          mkdir -p dist/
+          VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
+          cp src/software/firmware/output/respirator-qualification.bin "dist/respirator-integration-test-HW1-$VERSION-$GITHUB_SHA.bin"
 
       - name: Compress production HW2
         run: |
@@ -100,8 +118,10 @@ jobs:
           files: |
             tmp/respirator-production-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
             tmp/respirator-qualification-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
+            tmp/respirator-integration-test-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
             tmp/respirator-production-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
             tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
+            tmp/respirator-integration-test-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
           body: Auto-release from GitHub Actions (${{ github.sha }})
           tag_name: auto-${{ steps.vars.outputs.sha_short }}
           prerelease: true
