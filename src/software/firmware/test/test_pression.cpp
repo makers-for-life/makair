@@ -10,9 +10,10 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "../includes/pressure_utl.h"
 #include <iostream>
 #include <vector>
+
+#include "../includes/pressure_utl.h"
 
 #define KPA_MMH2O 101.97162129779
 #define RATIO_VOLTAGE_DIVIDER 0.8192
