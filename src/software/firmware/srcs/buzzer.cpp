@@ -217,7 +217,8 @@ void Buzzer_Boot_Start(void) { Buzzer_Start(Buzzer_Boot, BUZZER_BOOT_SIZE, false
 
 void Buzzer_Stop(void) {
     Active_Buzzer_Repeat = false;
-    // Avoid unexpected infinite buzzing when this function is called when mode is TIMER_OUTPUT_COMPARE_FORCED_ACTIVE
+    // Avoid unexpected infinite buzzing when this function is called when mode is
+    // TIMER_OUTPUT_COMPARE_FORCED_ACTIVE
     BuzzerTim->setMode(BuzzerTimerChannel, (TimerModes_t)TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,
                        PIN_BUZZER);
     BuzzerTim->pause();
