@@ -12,7 +12,7 @@
 // INCLUDES ===================================================================
 
 // External libraries
-#include <cstdint>
+#include <Arduino.h>
 
 // CLASS ======================================================================
 
@@ -36,16 +36,6 @@ class ActivationController {
      */
     void onStopButton();
 
-    /**
-     * Callback to call on each internal loop tick
-     */
-    void tickWhileStopped();
-
-    /**
-     * Number of ticks spent in stopped state
-     */
-    uint32_t centiSecWhileStopped() const { return m_centiSecWhileStopped; }
-
  private:
     enum State {
         STOPPED = 0,            // Breathing is off
@@ -59,9 +49,6 @@ class ActivationController {
 
     /// Last time stop button was pushed
     uint32_t m_timeOfLastStopPushed;
-
-    /// Number of ticks spent in stopped state
-    uint32_t m_centiSecWhileStopped;
 };
 
 // INITIALISATION =============================================================

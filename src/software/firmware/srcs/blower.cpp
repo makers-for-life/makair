@@ -24,7 +24,7 @@ Blower::Blower(HardwareTimer* p_hardwareTimer, uint16_t p_timerChannel, uint16_t
     timerChannel = p_timerChannel;
     blowerPin = p_blowerPin;
 
-    m_speed = 0;
+    m_speed = DEFAULT_BLOWER_SPEED;
 }
 
 void Blower::setup() {
@@ -50,5 +50,4 @@ int Blower::getSpeed() { return m_speed; }
 
 void Blower::stop() {
     actuator->setCaptureCompare(timerChannel, BlowerSpeed2MicroSeconds(0), MICROSEC_COMPARE_FORMAT);
-    m_speed = 0;
 }

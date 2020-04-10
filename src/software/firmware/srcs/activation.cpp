@@ -13,7 +13,6 @@
 #include "../includes/activation.h"
 
 // External libraries
-#include <Arduino.h>
 
 // Internal
 #include "../includes/buzzer.h"
@@ -26,40 +25,28 @@ ActivationController activationController;
 
 // FUNCTIONS ==================================================================
 
-ActivationController::ActivationController()
-  : m_state(RUNNING),
-    m_timeOfLastStopPushed(0),
-    m_centiSecWhileStopped(0) {
-}
+ActivationController::ActivationController() : m_state(STOPPED), m_timeOfLastStopPushed(0) {}
 
-void ActivationController::onStartButton() {
-    m_state = RUNNING;
-}
+void ActivationController::onStartButton() { m_state = RUNNING; }
 
 void ActivationController::onStopButton() {
     switch (m_state) {
-        case STOPPED:
+    case STOPPED:
+        break;
+
+    case RUNNING_READY_TO_STOP:
+        if (millis() - m_timeOfLastStopPushed < SECOND_STOP_MAX_DELAY_MS) {
+            m_state = STOPPED;
             break;
+        }
+        // else fallback to default ON state handling
 
-        case RUNNING_READY_TO_STOP:
-            if (millis() - m_timeOfLastStopPushed < SECOND_STOP_MAX_DELAY_MS) {
-                m_state = STOPPED;
-                m_centiSecWhileStopped = 0;
-                break;
-            }
-            // else fallback to default ON state handling
+    case RUNNING:
+        m_timeOfLastStopPushed = millis();
+        m_state = RUNNING_READY_TO_STOP;
 
-        case RUNNING:
-            m_timeOfLastStopPushed = millis();
-            m_state = RUNNING_READY_TO_STOP;
-
-            // TODO check what to do in case of running alarm
-            Buzzer_Boot_Start();
-            break;
+        // TODO check what to do in case of running alarm
+        Buzzer_Boot_Start();
+        break;
     }
 }
-
-void ActivationController::tickWhileStopped() {
-    m_centiSecWhileStopped += 1;
-}
-

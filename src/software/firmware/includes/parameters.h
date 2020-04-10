@@ -123,6 +123,7 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 ///@{
 #define MIN_BLOWER_SPEED 95
 #define MAX_BLOWER_SPEED 180
+#define DEFAULT_BLOWER_SPEED 150
 ///@}
 
 /**
