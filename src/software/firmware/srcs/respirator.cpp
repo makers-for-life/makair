@@ -87,7 +87,6 @@ void setup() {
     // Servo blower setup
     servoBlower = PressureValve(hardwareTimer1, TIM_CHANNEL_SERVO_VALVE_BLOWER, PIN_SERVO_BLOWER,
                                 VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
-
     servoBlower.setup();
     hardwareTimer1->resume();
 
