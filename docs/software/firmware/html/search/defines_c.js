@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['tim_5fchannel_5fesc_5fblower_698',['TIM_CHANNEL_ESC_BLOWER',['../parameters_8h.html#a57aecd78099a5a92e57cf20db38002d4',1,'parameters.h']]],
-  ['tim_5fchannel_5fservo_5fvalve_5fblower_699',['TIM_CHANNEL_SERVO_VALVE_BLOWER',['../parameters_8h.html#a254afde0780098451e96d7ff49ea4346',1,'parameters.h']]],
-  ['tim_5fchannel_5fservo_5fvalve_5fpatient_700',['TIM_CHANNEL_SERVO_VALVE_PATIENT',['../parameters_8h.html#a7eabcbe3320c09d9e402bb7e5d11d37e',1,'parameters.h']]],
-  ['timer_5ftick_5fper_5fms_701',['TIMER_TICK_PER_MS',['../buzzer_8cpp.html#ac9cf4ce69bec86b52f8a4485de22dbb2',1,'buzzer.cpp']]]
+  ['screen_5fline_5flength_738',['SCREEN_LINE_LENGTH',['../parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441',1,'parameters.h']]],
+  ['screen_5fline_5fnumber_739',['SCREEN_LINE_NUMBER',['../parameters_8h.html#a6b3caa1717db9c927845ec22a737c1bb',1,'parameters.h']]],
+  ['servo_5fvalve_5fperiod_740',['SERVO_VALVE_PERIOD',['../parameters_8h.html#a8be02f382c2460e178684735aebc008f',1,'parameters.h']]],
+  ['simulation_741',['SIMULATION',['../config_8h.html#afd29c78cd36d8946cf1202e8e684f7a5',1,'config.h']]]
 ];
