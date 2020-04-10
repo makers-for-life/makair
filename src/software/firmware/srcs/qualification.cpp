@@ -66,7 +66,7 @@
 #define STEP_PRESSURE_VAL3 30
 #define STEP_DONE 31
 
-static uint8_t step = STEP_LED_RED;
+static uint8_t step = STEP_LCD;
 
 static uint8_t is_drawn = false;
 #define UNGREEDY(is_drawn, statement)                                                              \
@@ -134,6 +134,8 @@ PressureValve servoBlower;
 PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
+Blower* blower_pointer;
+Blower blower;
 
 void onPressionCretePlusClick() {
     DBG_DO(Serial.println("pression crete ++"));
@@ -415,16 +417,11 @@ void setup() {
     // Servo patient setup
     servoPatient = PressureValve(hardwareTimer3, TIM_CHANNEL_SERVO_VALVE_PATIENT, PIN_SERVO_PATIENT,
                                  VALVE_OPEN_STATE, VALVE_CLOSED_STATE);
-
     servoPatient.setup();
 
-    // Manual escBlower setup
-    // Output compare activation on pin PIN_ESC_BLOWER
-    hardwareTimer3->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
-    // Set PPM width to 1ms
-    hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(0),
-                                      MICROSEC_COMPARE_FORMAT);
-    hardwareTimer3->resume();
+    blower = Blower(hardwareTimer3, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
+    blower.setup();
+    blower_pointer = &blower;
 #elif HARDWARE_VERSION == 2
     // Timer for servos
     hardwareTimer3 = new HardwareTimer(TIM3);
@@ -442,17 +439,10 @@ void setup() {
     servoPatient.setup();
     hardwareTimer3->resume();
 
-    // Timer for escBlower
     hardwareTimer1 = new HardwareTimer(TIM1);
-    hardwareTimer1->setOverflow(SERVO_VALVE_PERIOD, MICROSEC_FORMAT);
-
-    // Manual escBlower setup
-    // Output compare activation on pin PIN_ESC_BLOWER
-    hardwareTimer1->setMode(TIM_CHANNEL_ESC_BLOWER, TIMER_OUTPUT_COMPARE_PWM1, PIN_ESC_BLOWER);
-    // Set PPM width to 1ms
-    hardwareTimer1->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(0),
-                                      MICROSEC_COMPARE_FORMAT);
-    hardwareTimer1->resume();
+    blower = Blower(hardwareTimer1, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
+    blower.setup();
+    blower_pointer = &blower;
 #endif
 
     // Activate watchdog
@@ -498,6 +488,7 @@ void loop() {
     digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
     digitalWrite(PIN_LED_GREEN, LED_GREEN_INACTIVE);
     BuzzerControl_Off();
+    blower.stop();
 
     switch (step) {
     case STEP_LCD: {
@@ -617,9 +608,7 @@ void loop() {
     case STEP_BLOWER: {
         UNGREEDY(is_drawn, {
             display("Blower is ON", "Press PPeP -");
-            hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, BlowerSpeed2MicroSeconds(120),
-                                              MICROSEC_COMPARE_FORMAT);
-            hardwareTimer3->resume();
+            blower.runSpeed(150);
         });
         break;
     }
