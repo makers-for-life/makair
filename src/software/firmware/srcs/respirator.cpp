@@ -174,7 +174,7 @@ void loop(void) {
     /********************************************/
     // INITIALIZE THE RESPIRATORY CYCLE
     /********************************************/
-
+    bool shouldRun = activationController.isRunning();
     pController.initRespiratoryCycle();
 
     /********************************************/
@@ -192,7 +192,7 @@ void loop(void) {
         if (diff >= PCONTROLLER_COMPUTE_PERIOD) {
             lastpControllerComputeDate = currentDate;
 
-            if (activationController.isRunning()) {
+            if (shouldRun) {
                 int32_t currentMicro = micros();
 
                 pController.updateDt(currentMicro - lastMicro);
