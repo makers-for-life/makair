@@ -103,7 +103,7 @@ void setup() {
 
     pController = PressureController(INITIAL_CYCLE_NUMBER, DEFAULT_MIN_PEEP_COMMAND,
                                      DEFAULT_MAX_PLATEAU_COMMAND, DEFAULT_MAX_PEAK_PRESSURE_COMMAND,
-                                     servoBlower, servoPatient, alarmController, blower_pointer);
+                                     servoBlower, servoPatient, &alarmController, blower_pointer);
     pController.setup();
 
     // Prepare LEDs

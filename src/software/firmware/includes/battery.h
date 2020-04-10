@@ -12,7 +12,6 @@
 #include "Arduino.h"
 
 /**
- * RCM_SW_16
  * Expected voltage in volts when power cord is plugged.
  * Calculated by analogRead(PIN) * 0,0296484375 = 27,6 => 27,6 / 0,0296484375 = 930,9
  */

@@ -79,7 +79,7 @@ class PressureController {
                        int16_t p_maxPeakPressure,
                        PressureValve p_blower_valve,
                        PressureValve p_patient_valve,
-                       AlarmController p_alarmController,
+                       AlarmController* p_alarmController,
                        Blower* p_blower);
 
     /// Initialize actuators
@@ -410,7 +410,7 @@ class PressureController {
     int32_t patientLastError;
 
     /// Alarm controller
-    AlarmController m_alarmController;
+    AlarmController* m_alarmController;
 };
 
 // INITIALISATION =============================================================
