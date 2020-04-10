@@ -475,9 +475,7 @@ int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPre
 int32_t
 PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, int32_t dt) {
     // Compute error
-    // Increase target pressure by 20mm H2O for safety, to ensure from going below the target
-    // pressure
-    int32_t error = targetPressure + 0 - currentPressure;
+    int32_t error = targetPressure + PID_PATIENT_SAFETY_PEEP_OFFSET - currentPressure;
 
     // Compute integral
     patientIntegral = patientIntegral + ((PID_PATIENT_KI * error * dt) / 1000000);

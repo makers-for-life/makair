@@ -30,3 +30,10 @@
  * a basic and deterministic model
  */
 #define SIMULATION 0
+
+// Available pneumatic versions
+#define PHW_PIGGY 0
+#define PHW_CHU 1
+
+/// Defines which preset to use for controlling pressure
+#define PNEUMATIC_HARDWARE_VERSION PHW_CHU
