@@ -42,6 +42,17 @@ jobs:
           VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
           cp src/software/firmware/output/respirator-production.bin "dist/respirator-production-HW2-$VERSION-$GITHUB_SHA.bin"
 
+      - name: Get the version
+        id: version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          echo ::set-output name=version::${GITHUB_REF/refs\/tags\//}
+
+      - name: Set VERSION variable
+        if: startsWith(github.ref, 'refs/tags/') && steps.version.outputs.version != ""
+        run: |
+          sed -Ei "s/#define VERSION \".+\"/#define VERSION \"${{ steps.version.outputs.version }}\"/" src/software/firmware/includes/parameters.h
+
       - name: Build qualification HW2
         run: |
           sed -Ei 's/#define HARDWARE_VERSION [0-9]+/#define HARDWARE_VERSION 2/' src/software/firmware/includes/config.h
@@ -129,7 +140,7 @@ jobs:
           name: bin
           path: dist/
 
-      - name: Release binaries
+      - name: Release dev binaries
         uses: softprops/action-gh-release@v1
         if: github.ref == 'refs/heads/master'
         with:
@@ -145,5 +156,19 @@ jobs:
             ⚠️ FOR TEST PURPOSE ONLY - DO NOT USE IN PRODUCTION
           tag_name: auto-${{ github.run_id }}
           prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release stable binaries
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/') && steps.version.outputs.version != ""
+        with:
+          files: |
+            tmp/respirator-production-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
+            tmp/respirator-qualification-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
+            tmp/respirator-integration-test-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
+            tmp/respirator-production-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
+            tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
+            tmp/respirator-integration-test-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

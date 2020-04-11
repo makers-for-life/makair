@@ -17,7 +17,7 @@
 // PARAMETERS =================================================================
 
 /// Current version of the software
-#define VERSION "v1.2.3"
+#define VERSION "dev"
 
 /**
  * @name Core parameters
