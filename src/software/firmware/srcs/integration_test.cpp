@@ -141,6 +141,7 @@ void setup() {
     hardwareTimer3->resume();
 
     hardwareTimer1 = new HardwareTimer(TIM1);
+    hardwareTimer1->setOverflow(ESC_PPM_PERIOD, MICROSEC_FORMAT);
     blower = Blower(hardwareTimer1, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
     blower.setup();
 #endif
@@ -249,8 +250,10 @@ void loop() {
     }
 
     case STEP_BUZZER_TEST: {
-        UNGREEDY(is_drawn, display("Test Buzzer", "Continuer : Start"));
-        Buzzer_High_Prio_Start();
+        UNGREEDY(is_drawn, {
+            display("Test alarme", "Continuer : Start");
+            Buzzer_High_Prio_Start();
+        });
         break;
     }
     }
