@@ -28,15 +28,6 @@ jobs:
           sed -i '/recipe.output.tmp_file={build.project_name}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
           sed -i '/recipe.output.save_file={build.project_name}.{build.variant}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
 
-      - name: Build production HW2
-        run: |
-          sed -Ei 's/#define HARDWARE_VERSION [0-9]+/#define HARDWARE_VERSION 2/' src/software/firmware/includes/config.h
-          sed -Ei 's/#define MODE .+/#define MODE MODE_PROD/' src/software/firmware/includes/config.h
-          arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/respirator.cpp --output src/software/firmware/output/respirator-production
-          mkdir -p dist/
-          VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
-          cp src/software/firmware/output/respirator-production.bin "dist/respirator-production-HW2-$VERSION-$GITHUB_SHA.bin"
-
       - name: Get the version
         id: version
         if: startsWith(github.ref, 'refs/tags/')
@@ -47,6 +38,15 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/') && steps.version.outputs.version != ''
         run: |
           sed -Ei "s/#define VERSION \".+\"/#define VERSION \"${{ steps.version.outputs.version }}\"/" src/software/firmware/includes/parameters.h
+
+      - name: Build production HW2
+        run: |
+          sed -Ei 's/#define HARDWARE_VERSION [0-9]+/#define HARDWARE_VERSION 2/' src/software/firmware/includes/config.h
+          sed -Ei 's/#define MODE .+/#define MODE MODE_PROD/' src/software/firmware/includes/config.h
+          arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/respirator.cpp --output src/software/firmware/output/respirator-production
+          mkdir -p dist/
+          VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
+          cp src/software/firmware/output/respirator-production.bin "dist/respirator-production-HW2-$VERSION-$GITHUB_SHA.bin"
 
       - name: Build qualification HW2
         run: |
