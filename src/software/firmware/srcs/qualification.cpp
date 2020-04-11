@@ -132,6 +132,7 @@ PressureValve servoBlower;
 PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
+Blower* blower_pointer;
 Blower blower;
 
 void onPressionCretePlusClick() {
@@ -211,7 +212,7 @@ void onPepMinusClick() {
     } else if (step == STEP_BTN_PEP_MINUS) {
         changeStep(step + 1);
     } else if (step == STEP_BLOWER) {
-        blower.runSpeed(0);
+        blower.stop();
         changeStep(step + 1);
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
