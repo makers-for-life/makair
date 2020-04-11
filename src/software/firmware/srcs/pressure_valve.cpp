@@ -48,19 +48,17 @@ void PressureValve::close() { command = closeApertureAngle; }
 
 void PressureValve::open(uint16_t p_command) { command = p_command; }
 
-// return a compare value up to angle.
-uint16_t ValveAngle2MicroSeconds(uint16_t value) {
+uint16_t valveAngle2MicroSeconds(uint16_t value) {
 #if VALVE_TYPE == VT_SERVO_V1
     // map 0 - 125 ° to 0.8 - 1.2 ms (standard PPM command is 1ms - 2ms, these servomotors handle a
     // greater range)
     return map(value, 0, 125, 800, 2200);
-#endif
-
-#if VALVE_TYPE == VT_EMERSON_ASCO
+#elif VALVE_TYPE == VT_EMERSON_ASCO
     // map 0 - 125 ° to 100% pwm - EMERSON_MIN_PWM (0% when fully closed)
     if (VALVE_CLOSED_STATE == value) {
-        return 1;  // compare units are a bit weird in this micro controller. TODO: avoid 500ns
-                   // spikes.
+        // compare units are a bit weird in this micro controller
+        // TODO: avoid 500ns spikes
+        return 1;
     } else {
         return map(value, 0, 125, SERVO_VALVE_PERIOD, EMERSON_MIN_PWM);
     }

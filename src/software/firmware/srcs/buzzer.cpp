@@ -38,11 +38,11 @@
 #define PAUSE_1S (1 * 1000 * TIMER_TICK_PER_MS)
 ///@}
 
+#define BZ_OFF 0
+#define BZ_ON 1
+
 /// High priority alarm buzzer pattern size
 #define BUZZER_HIGH_PRIO_SIZE 32
-
-#define BZ_ON 1
-#define BZ_OFF 0
 
 /// High priority alarm buzzer pattern definition, composed of
 /// multiple couple of states (Actif/Inactif) and duration (miliseconds)
@@ -188,8 +188,6 @@ void Buzzer_Resume() {
     BuzzerTim->setCount(0);
     Buzzer_Muted = false;
 
-    // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
-    // Configuration of first state of pattern
     BuzzerControl_Off();
     BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
 
@@ -213,7 +211,8 @@ void Buzzer_Boot_Start(void) { Buzzer_Start(Buzzer_Boot, BUZZER_BOOT_SIZE, false
 
 void Buzzer_Stop(void) {
     Active_Buzzer_Repeat = false;
-    // Avoid unexpected infinite buzzing when this function is called when mode is
+
+    // Avoid unexpected infinite buzzing
     BuzzerControl_Off();
     BuzzerTim->pause();
 }

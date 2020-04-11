@@ -10,11 +10,11 @@
 /// Watchdog timeout in microseconds
 #define WATCHDOG_TIMEOUT 1000000
 
-// TIM5 is a 32 bits timer
-#define BUZZER_TIMER TIM5
+/// Hardware Timer to use for the buzzer
+#define BUZZER_TIMER TIM5  // TIM5 is a 32 bits timer
 
-// Use channel 1 of TIM5
-#define BUZZER_TIM_CHANNEL 1
+/// Hardware Timer channel to use for the buzzer
+#define BUZZER_TIM_CHANNEL 1  // Use channel 1 of TIM5
 
 /// Initialization of HardwareTimer for buzzer
 void Buzzer_Init();

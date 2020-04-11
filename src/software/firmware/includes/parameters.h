@@ -101,15 +101,10 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 /// Angle when closed
 #define VALVE_CLOSED_STATE 125
 #if VALVE_TYPE == VT_SERVO_V1
-// 50 Hz
-#define SERVO_VALVE_PERIOD 20000
-#endif
-
-#if VALVE_TYPE == VT_EMERSON_ASCO
-// 305 Hz
-#define SERVO_VALVE_PERIOD 3278
-// 18 % PWM is the minimum to start opening (3278 * 0.18)
-#define EMERSON_MIN_PWM 600
+#define SERVO_VALVE_PERIOD 20000  // 50 Hz
+#elif VALVE_TYPE == VT_EMERSON_ASCO
+#define SERVO_VALVE_PERIOD 3278  // 305 Hz
+#define EMERSON_MIN_PWM 600      // 18 % PWM is the minimum to start opening (3278 * 0.18)
 #endif
 
 #if HARDWARE_VERSION == 1
