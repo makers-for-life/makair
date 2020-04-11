@@ -10,8 +10,8 @@
 // INCLUDES ===================================================================
 
 // Internal libraries
-#include "../includes/parameters.h"
 #include "../includes/config.h"
+#include "../includes/parameters.h"
 
 // MACROS =================================================================
 

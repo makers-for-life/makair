@@ -15,8 +15,8 @@
 /// Internals
 
 #include "../includes/buzzer.h"
-#include "../includes/parameters.h"
 #include "../includes/buzzer_control.h"
+#include "../includes/parameters.h"
 
 // PROGRAM =====================================================================
 
@@ -47,40 +47,33 @@
 /// High priority alarm buzzer pattern definition, composed of
 /// multiple couple of states (Actif/Inactif) and duration (miliseconds)
 const uint32_t Buzzer_High_Prio[BUZZER_HIGH_PRIO_SIZE] = {
-    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
-    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
-    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
-    BZ_ON, BEEEEP, BZ_OFF, PAUSE_1S,
-    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
-    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
-    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
-    BZ_ON, BEEEEP, BZ_OFF, PAUSE_10S};
+    BZ_ON, BIP, BZ_OFF, BIP_PAUSE, BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
+    BZ_ON, BIP, BZ_OFF, BIP_PAUSE, BZ_ON, BEEEEP, BZ_OFF, PAUSE_1S,
+    BZ_ON, BIP, BZ_OFF, BIP_PAUSE, BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
+    BZ_ON, BIP, BZ_OFF, BIP_PAUSE, BZ_ON, BEEEEP, BZ_OFF, PAUSE_10S};
 
 /// Medium priority alarm buzzer pattern size
 #define BUZZER_MEDIUM_PRIO_SIZE 8
 
 /// Medium priority alarm buzzer pattern definition, composed of
 /// multiple couple of states (Actif/Inactif) and duration (miliseconds)
-const uint32_t Buzzer_Medium_Prio[BUZZER_MEDIUM_PRIO_SIZE] = {
-    BZ_ON, BEEEEP, BZ_OFF, BEEEEP_PAUSE,
-    BZ_ON, BEEEEP, BZ_OFF, PAUSE_20S};
+const uint32_t Buzzer_Medium_Prio[BUZZER_MEDIUM_PRIO_SIZE] = {BZ_ON, BEEEEP, BZ_OFF, BEEEEP_PAUSE,
+                                                              BZ_ON, BEEEEP, BZ_OFF, PAUSE_20S};
 
 /// Low priority alarm buzzer pattern size
 #define BUZZER_LOW_PRIO_SIZE 8
 
 /// Low priority alarm buzzer pattern definition, composed of
 /// multiple couple of states (Actif/Inactif) and duration (miliseconds)
-const uint32_t Buzzer_Low_Prio[BUZZER_LOW_PRIO_SIZE] = {
-    BZ_ON, BIP, BZ_OFF, BIP_PAUSE,
-    BZ_ON, BIP, BZ_OFF, BIP_PAUSE};
+const uint32_t Buzzer_Low_Prio[BUZZER_LOW_PRIO_SIZE] = {BZ_ON, BIP, BZ_OFF, BIP_PAUSE,
+                                                        BZ_ON, BIP, BZ_OFF, BIP_PAUSE};
 
 /// Boot buzzer pattern size
 #define BUZZER_BOOT_SIZE 4
 
 /// Boot buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
 /// duration (miliseconds)
-const uint32_t Buzzer_Boot[BUZZER_BOOT_SIZE] = {BZ_ON, BEEEEP,
-                                                BZ_OFF, BEEEEP_PAUSE};
+const uint32_t Buzzer_Boot[BUZZER_BOOT_SIZE] = {BZ_ON, BEEEEP, BZ_OFF, BEEEEP_PAUSE};
 
 // INITIALISATION =============================================================
 
@@ -113,10 +106,10 @@ void Update_IT_callback(void)
         BuzzerTim->pause();
     } else {
         // Previous state is finished, switch to next one
-        if(BZ_ON == Active_Buzzer[Active_Buzzer_Index]) {
-          BuzzerControl_On();
+        if (BZ_ON == Active_Buzzer[Active_Buzzer_Index]) {
+            BuzzerControl_On();
         } else {
-          BuzzerControl_Off();
+            BuzzerControl_Off();
         }
         BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
         Active_Buzzer_Index = (Active_Buzzer_Index + 2u) % Active_Buzzer_Size;
@@ -136,12 +129,12 @@ void Buzzer_Init() {
     // 4 ticks = 1 ms  (it is not possible to have 1 tick = 1 ms because prescaler is 16 bit and
     // input frequency either 84 or 100 MHz Use of tick format to avoid computation within interrupt
     // handler
-    BuzzerTim->setPrescaleFactor(10000); // 100Mhz down to 10khz
-    BuzzerTim->setOverflow(1);  //khz down to 10Hz
-    BuzzerTim->setMode(BUZZER_TIM_CHANNEL, TIMER_OUTPUT_COMPARE , NC); //channel 1
+    BuzzerTim->setPrescaleFactor(10000);                               // 100Mhz down to 10khz
+    BuzzerTim->setOverflow(1);                                         // khz down to 10Hz
+    BuzzerTim->setMode(BUZZER_TIM_CHANNEL, TIMER_OUTPUT_COMPARE, NC);  // channel 1
 
     // Start with inactive state without interruptions
-    //BuzzerTim->resume();
+    // BuzzerTim->resume();
 }
 
 void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool RepeatBuzzer) {
@@ -154,10 +147,10 @@ void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool RepeatBuzzer) {
 
     // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
     // Configuration of first state of pattern
-    if(BZ_ON == Active_Buzzer[Active_Buzzer_Index]) {
-      BuzzerControl_On();
+    if (BZ_ON == Active_Buzzer[Active_Buzzer_Index]) {
+        BuzzerControl_On();
     } else {
-      BuzzerControl_Off();
+        BuzzerControl_Off();
     }
     BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
 

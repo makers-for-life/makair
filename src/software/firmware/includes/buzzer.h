@@ -10,7 +10,7 @@
 /// Watchdog timeout in microseconds
 #define WATCHDOG_TIMEOUT 1000000
 
-// TIM5 is a 32 bits timer. 
+// TIM5 is a 32 bits timer
 #define BUZZER_TIMER TIM5
 
 // Use channel 1 of TIM5

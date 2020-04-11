@@ -211,7 +211,7 @@ void onPepMinusClick() {
     } else if (step == STEP_BTN_PEP_MINUS) {
         changeStep(step + 1);
     } else if (step == STEP_BLOWER) {
-      blower.runSpeed(0);
+        blower.runSpeed(0);
         changeStep(step + 1);
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
