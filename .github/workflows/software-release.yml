@@ -1,8 +1,8 @@
 name: Software Release
 
 on:
-    push:
-      paths:
+  push:
+    paths:
       - .github/workflows/**
       - src/software/firmware/**
 
@@ -141,7 +141,7 @@ jobs:
             tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
             tmp/respirator-integration-test-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
           body: |
-            Auto-release (${{ github.sha }}) \r\n
+            Auto-release (${{ github.sha }})
             ⚠️ FOR TEST PURPOSE ONLY - DO NOT USE IN PRODUCTION
           tag_name: auto-${{ github.run_id }}
           prerelease: true

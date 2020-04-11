@@ -5,7 +5,11 @@ name: Software Lint
 # - determine which files should be checked (at the moment: any file in src/arduino/)
 # - find a way to display MISRA errors (see https://github.com/danmar/cppcheck/blob/master/addons/misra.py#L9) ; this feels like middle-age ¯\(ツ)/¯
 
-on: [push]
+on:
+  push:
+    paths:
+      - .github/workflows/**
+      - src/software/firmware/**
 
 jobs:
   cpp-lint:

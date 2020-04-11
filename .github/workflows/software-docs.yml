@@ -1,6 +1,10 @@
 name: Software Documentation
 
-on: [push]
+on:
+  push:
+    paths:
+      - .github/workflows/**
+      - src/software/firmware/**
 
 jobs:
   build-and-deploy:
