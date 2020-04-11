@@ -44,7 +44,7 @@ jobs:
           echo ::set-output name=version::${GITHUB_REF/refs\/tags\//}
 
       - name: Set VERSION variable
-        if: startsWith(github.ref, 'refs/tags/') && steps.version.outputs.version != ""
+        if: startsWith(github.ref, 'refs/tags/') && steps.version.outputs.version != ''
         run: |
           sed -Ei "s/#define VERSION \".+\"/#define VERSION \"${{ steps.version.outputs.version }}\"/" src/software/firmware/includes/parameters.h
 
@@ -120,7 +120,7 @@ jobs:
 
       - name: Release stable binaries
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && steps.version.outputs.version != ""
+        if: startsWith(github.ref, 'refs/tags/') && steps.version.outputs.version != ''
         with:
           files: |
             dist/respirator-production-HW2-$VERSION-$GITHUB_SHA.bin
