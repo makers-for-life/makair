@@ -122,6 +122,7 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #define PIN_SERVO_PATIENT D4  // PB5 / TIM3_CH2
 #define TIM_CHANNEL_SERVO_VALVE_BLOWER 1
 #define TIM_CHANNEL_SERVO_VALVE_PATIENT 2
+#define ESC_PPM_PERIOD 20000 // ESC is driven in 50 Hz 
 #endif
 
 ///@}

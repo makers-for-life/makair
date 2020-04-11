@@ -132,7 +132,6 @@ PressureValve servoBlower;
 PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
-Blower* blower_pointer;
 Blower blower;
 
 void onPressionCretePlusClick() {
@@ -212,8 +211,7 @@ void onPepMinusClick() {
     } else if (step == STEP_BTN_PEP_MINUS) {
         changeStep(step + 1);
     } else if (step == STEP_BLOWER) {
-        hardwareTimer3->setCaptureCompare(TIM_CHANNEL_ESC_BLOWER, ValveAngle2MicroSeconds(0),
-                                          MICROSEC_COMPARE_FORMAT);
+      blower.runSpeed(0);
         changeStep(step + 1);
     } else if (step != STEP_DONE) {
         displayStatus("WRONG BUTTON PUSHED");
@@ -438,9 +436,9 @@ void setup() {
     hardwareTimer3->resume();
 
     hardwareTimer1 = new HardwareTimer(TIM1);
+    hardwareTimer1->setOverflow(ESC_PPM_PERIOD, MICROSEC_FORMAT);
     blower = Blower(hardwareTimer1, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
     blower.setup();
-    blower_pointer = &blower;
 #endif
 
     // Activate watchdog
@@ -485,8 +483,6 @@ void loop() {
     digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
     digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
     digitalWrite(PIN_LED_GREEN, LED_GREEN_INACTIVE);
-    BuzzerControl_Off();
-    blower.stop();
 
     switch (step) {
     case STEP_LCD: {
