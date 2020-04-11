@@ -19,6 +19,8 @@
 // Internal
 #include "../includes/battery.h"
 #include "../includes/blower.h"
+#include "../includes/buzzer.h"
+#include "../includes/buzzer_control.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
 #include "../includes/pression.h"
@@ -34,8 +36,9 @@
 #define STEP_VALVE_PATIENT_LEAK_TEST 5
 #define STEP_PRESSURE_TEST 6
 #define STEP_BATTERY_TEST 7
+#define STEP_BUZZER_TEST 8
 
-#define NUMBER_OF_STATES 8
+#define NUMBER_OF_STATES 9
 
 #define UNGREEDY(is_drawn, statement)                                                              \
     if (is_drawn == 0) {                                                                           \
@@ -50,7 +53,6 @@ PressureValve servoBlower;
 PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
-Blower* blower_pointer;
 Blower blower;
 
 int32_t last_time = millis();
@@ -82,6 +84,7 @@ void onStartClick() {
     DBG_DO(Serial.println((step + 1) % NUMBER_OF_STATES));
     changeStep((step + 1) % NUMBER_OF_STATES);
     last_time = millis();
+    Buzzer_Stop();
 }
 
 OneButton btn_start(PIN_BTN_START, false, false);
@@ -120,7 +123,6 @@ void setup() {
 
     blower = Blower(hardwareTimer3, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
     blower.setup();
-    blower_pointer = &blower;
 #elif HARDWARE_VERSION == 2
     // Timer for servos
     hardwareTimer3 = new HardwareTimer(TIM3);
@@ -139,12 +141,13 @@ void setup() {
     hardwareTimer3->resume();
 
     hardwareTimer1 = new HardwareTimer(TIM1);
+    hardwareTimer1->setOverflow(ESC_PPM_PERIOD, MICROSEC_FORMAT);
     blower = Blower(hardwareTimer1, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
     blower.setup();
-    blower_pointer = &blower;
 #endif
-    blower.stop();
 
+    BuzzerControl_Init();
+    Buzzer_Init();
     initBattery();
 }
 
@@ -243,6 +246,14 @@ void loop() {
             displayLine(msg, 3);
             last_time = millis();
         }
+        break;
+    }
+
+    case STEP_BUZZER_TEST: {
+        UNGREEDY(is_drawn, {
+            display("Test alarme", "Continuer : Start");
+            Buzzer_High_Prio_Start();
+        });
         break;
     }
     }
