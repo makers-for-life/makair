@@ -22,6 +22,7 @@
 #include <OneButton.h>
 
 // Internal
+#include "../includes/activation.h"
 #include "../includes/buzzer.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
@@ -79,10 +80,10 @@ void onCycleDecrease() { pController.onCycleDecrease(); }
 void onAlarmOff() { alarmController.snooze(); }
 
 /// Handler of the button to start
-void onStart() {}
+void onStart() { activationController.onStartButton(); }
 
 /// Handler of the button to stop
-void onStop() {}
+void onStop() { activationController.onStopButton(); }
 
 /**
  * @name Bindings between analog levels and handlers

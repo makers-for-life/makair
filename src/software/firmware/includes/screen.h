@@ -71,5 +71,10 @@ void displayCurrentInformation(uint16_t peakPressure, uint16_t plateauPressure, 
  */
 void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms);
 
+/**
+ * Display a message when the machine is stopped
+ */
+void displayMachineStopped(void);
+
 /// Force clear the alarm display cache
 void clearAlarmDisplayCache();

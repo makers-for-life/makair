@@ -21,6 +21,7 @@
 #include <LiquidCrystal.h>
 
 // Internal
+#include "../includes/activation.h"
 #include "../includes/battery.h"
 #include "../includes/blower.h"
 #include "../includes/buzzer.h"
@@ -56,17 +57,7 @@ void waitForInMs(uint16_t ms) {
 
 uint32_t lastpControllerComputeDate;
 
-void setup() {
-    /* Catch potential Watchdog reset */
-    if (IWatchdog.isReset(true)) {
-        /* Code in case of Watchdog detected */
-        /* TODO */
-        Buzzer_Init();
-        Buzzer_High_Prio_Start();
-        while (1) {
-        }
-    }
-
+void setup(void) {
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("Booting the system...");)
 
@@ -147,21 +138,29 @@ void setup() {
     digitalWrite(PIN_LED_RED, LED_RED_ACTIVE);
     digitalWrite(PIN_LED_YELLOW, LED_YELLOW_ACTIVE);
     waitForInMs(1000);
-    Buzzer_Stop();
     digitalWrite(PIN_LED_GREEN, LED_GREEN_INACTIVE);
     digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
     digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
 
     waitForInMs(4000);
 
-    // escBlower start
-    blower.runSpeed(150);
+    lastpControllerComputeDate = millis();
+
+    // Catch potential Watchdog reset
+    if (IWatchdog.isReset(true)) {
+        // TODO holdExhale
+        // Display something ?
+        // Alarm code ?
+
+        Buzzer_Init();
+        Buzzer_High_Prio_Start();
+        while (1) {
+        }
+    }
 
     // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
     IWatchdog.begin(WATCHDOG_TIMEOUT);
     IWatchdog.reload();
-
-    lastpControllerComputeDate = millis();
 }
 
 // Time of the previous loop iteration
@@ -171,11 +170,11 @@ int32_t lastMicro = 0;
 // (because this kind of screen is not reliable, we need to reset it every 5 min or so)
 int8_t cyclesBeforeScreenReset = LCD_RESET_PERIOD * CONST_MIN_CYCLE;
 
-void loop() {
+void loop(void) {
     /********************************************/
     // INITIALIZE THE RESPIRATORY CYCLE
     /********************************************/
-
+    bool shouldRun = activationController.isRunning();
     pController.initRespiratoryCycle();
 
     /********************************************/
@@ -192,13 +191,18 @@ void loop() {
 
         if (diff >= PCONTROLLER_COMPUTE_PERIOD) {
             lastpControllerComputeDate = currentDate;
-            int32_t currentMicro = micros();
 
-            pController.updateDt(currentMicro - lastMicro);
-            lastMicro = currentMicro;
+            if (shouldRun) {
+                int32_t currentMicro = micros();
 
-            // Perform the pressure control
-            pController.compute(centiSec);
+                pController.updateDt(currentMicro - lastMicro);
+                lastMicro = currentMicro;
+
+                // Perform the pressure control
+                pController.compute(centiSec);
+            } else {
+                blower.stop();
+            }
 
             // Check if some buttons have been pushed
             keyboardLoop();
@@ -214,15 +218,20 @@ void loop() {
                 displayCurrentSettings(pController.maxPeakPressureCommand(),
                                        pController.maxPlateauPressureCommand(),
                                        pController.minPeepCommand());
-
-                displayCurrentInformation(pController.peakPressure(), pController.plateauPressure(),
-                                          pController.peep());
+                if (activationController.isRunning()) {
+                    displayCurrentInformation(pController.peakPressure(),
+                                              pController.plateauPressure(), pController.peep());
+                } else {
+                    displayMachineStopped();
+                }
             }
+
+            alarmController.runAlarmEffects(centiSec);
 
             // next tick
             centiSec++;
+            IWatchdog.reload();
         }
-        IWatchdog.reload();
     }
 
     /********************************************/

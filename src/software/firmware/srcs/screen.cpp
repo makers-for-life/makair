@@ -118,9 +118,7 @@ static bool hasAlarmInformationChanged(uint8_t p_alarmCodes[], uint8_t p_nbTrigg
     return hasChanged;
 }
 
-void clearAlarmDisplayCache() {
-    clearCache = true;
-}
+void clearAlarmDisplayCache() { clearCache = true; }
 
 void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms) {
     // WARNING There is a risk of data not being displayed as expected
@@ -164,4 +162,9 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
 
     screen.setCursor(0, 2);
     screen.print(buf);
+}
+
+void displayMachineStopped(void) {
+    screen.setCursor(0, 3);
+    screen.print("Press start to begin");
 }
