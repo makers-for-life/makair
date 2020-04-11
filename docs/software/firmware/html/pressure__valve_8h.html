@@ -84,7 +84,7 @@ $(document).ready(function(){initNavTree('pressure__valve_8h.html',''); initResi
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#define-members">Macros</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">pressure_valve.h File Reference</div>  </div>
 </div><!--header-->
@@ -92,7 +92,8 @@ $(document).ready(function(){initNavTree('pressure__valve_8h.html',''); initResi
 
 <p>Tools to control an Pressure Valve's servomotor.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="parameters_8h_source.html">../includes/parameters.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="config_8h_source.html">../includes/config.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="parameters_8h_source.html">../includes/parameters.h</a>&quot;</code><br />
 </div>
 <p><a href="pressure__valve_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -102,11 +103,11 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controls an Pressure Valve's servomotor.  <a href="class_pressure_valve.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a8d1168462e9bda1cda91dc6bc86554bf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pressure__valve_8h.html#a8d1168462e9bda1cda91dc6bc86554bf">ValveAngle2MicroSeconds</a>(value)&#160;&#160;&#160;map(value, 0, 125, 800, 2200)</td></tr>
-<tr class="memdesc:a8d1168462e9bda1cda91dc6bc86554bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an angle in degrees to a value in microseconds for the servomotor controller.  <a href="pressure__valve_8h.html#a8d1168462e9bda1cda91dc6bc86554bf">More...</a><br /></td></tr>
-<tr class="separator:a8d1168462e9bda1cda91dc6bc86554bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aa25e3d188208f616e4666651210a2ff6"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pressure__valve_8h.html#aa25e3d188208f616e4666651210a2ff6">valveAngle2MicroSeconds</a> (uint16_t value)</td></tr>
+<tr class="memdesc:aa25e3d188208f616e4666651210a2ff6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an angle in degrees to a value in microseconds for the servomotor controller.  <a href="pressure__valve_8h.html#aa25e3d188208f616e4666651210a2ff6">More...</a><br /></td></tr>
+<tr class="separator:aa25e3d188208f616e4666651210a2ff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tools to control an Pressure Valve's servomotor. </p>
@@ -114,31 +115,56 @@ Macros</h2></td></tr>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2020 Makers For Life </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a8d1168462e9bda1cda91dc6bc86554bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d1168462e9bda1cda91dc6bc86554bf">&#9670;&nbsp;</a></span>ValveAngle2MicroSeconds</h2>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="aa25e3d188208f616e4666651210a2ff6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa25e3d188208f616e4666651210a2ff6">&#9670;&nbsp;</a></span>valveAngle2MicroSeconds()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ValveAngle2MicroSeconds</td>
+          <td class="memname">uint16_t valveAngle2MicroSeconds </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">value</td><td>)</td>
-          <td>&#160;&#160;&#160;map(value, 0, 125, 800, 2200)</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Convert an angle in degrees to a value in microseconds for the servomotor controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>Angle in degrees </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Value in microsends for the servomotor controller </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00018">18</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
-
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8cpp_source.html#l00051">51</a> of file <a class="el" href="pressure__valve_8cpp_source.html">pressure_valve.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                                                 {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#if VALVE_TYPE == VT_SERVO_V1</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">// map 0 - 125 ° to 0.8 - 1.2 ms (standard PPM command is 1ms - 2ms, these servomotors handle a</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// greater range)</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> map(value, 0, 125, 800, 2200);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#elif VALVE_TYPE == VT_EMERSON_ASCO</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// map 0 - 125 ° to 100% pwm - EMERSON_MIN_PWM (0% when fully closed)</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="parameters_8h.html#a9c638cefa9f29db2a20baf563fde2692">VALVE_CLOSED_STATE</a> == value) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">// compare units are a bit weird in this micro controller</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment">// TODO: avoid 500ns spikes</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">return</span> map(value, 0, 125, <a class="code" href="parameters_8h.html#a8be02f382c2460e178684735aebc008f">SERVO_VALVE_PERIOD</a>, EMERSON_MIN_PWM);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aparameters_8h_html_a8be02f382c2460e178684735aebc008f"><div class="ttname"><a href="parameters_8h.html#a8be02f382c2460e178684735aebc008f">SERVO_VALVE_PERIOD</a></div><div class="ttdeci">#define SERVO_VALVE_PERIOD</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00104">parameters.h:104</a></div></div>
+<div class="ttc" id="aparameters_8h_html_a9c638cefa9f29db2a20baf563fde2692"><div class="ttname"><a href="parameters_8h.html#a9c638cefa9f29db2a20baf563fde2692">VALVE_CLOSED_STATE</a></div><div class="ttdeci">#define VALVE_CLOSED_STATE</div><div class="ttdoc">Angle when closed.</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00102">parameters.h:102</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

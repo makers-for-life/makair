@@ -1,5 +1,7 @@
 var buzzer_8h =
 [
+    [ "BUZZER_TIM_CHANNEL", "buzzer_8h.html#af8819c3608af89a33e8a83ae6bc5871a", null ],
+    [ "BUZZER_TIMER", "buzzer_8h.html#a8b0691475ca6fbafe2dfd290025eccb1", null ],
     [ "WATCHDOG_TIMEOUT", "buzzer_8h.html#abf89628d486477bd0db5a5890cd38a05", null ],
     [ "Buzzer_Boot_Start", "buzzer_8h.html#ab8c61c922cd2bebc7af66d5c77f4a75c", null ],
     [ "Buzzer_High_Prio_Start", "buzzer_8h.html#a4931ca20aaed197c5417e1eef0b59dd0", null ],

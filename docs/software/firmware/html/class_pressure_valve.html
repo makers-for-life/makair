@@ -159,7 +159,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Controls an Pressure Valve's servomotor. </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00023">23</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00029">29</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a667695bd7835780c9a54db4970579f6e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a667695bd7835780c9a54db4970579f6e">&#9670;&nbsp;</a></span>PressureValve() <span class="overload">[1/2]</span></h2>
@@ -303,22 +303,22 @@ Private Attributes</h2></td></tr>
 <p>Command the servomotor to go to the requested aperture. </p>
 <dl class="section note"><dt>Note</dt><dd>Nothing will happen if this function is not called after requesting a new aperture </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00067">67</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                          {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="comment">// On évite d&#39;aller plus loin que les limites de la valve</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a> &lt; <a class="code" href="class_pressure_valve.html#a7fffaa3bc82c6c71b839ed57c5ac0e38">minApertureAngle</a>) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a> = <a class="code" href="class_pressure_valve.html#a7fffaa3bc82c6c71b839ed57c5ac0e38">minApertureAngle</a>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a> &gt; <a class="code" href="class_pressure_valve.html#a2814c4fe05bfcc5fe8a45a7f20a7ceda">maxApertureAngle</a>) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a> = <a class="code" href="class_pressure_valve.html#a2814c4fe05bfcc5fe8a45a7f20a7ceda">maxApertureAngle</a>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a> != <a class="code" href="class_pressure_valve.html#aef7011478d50cbe501f6bb4e876c8b75">position</a>) {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <a class="code" href="class_pressure_valve.html#aa0814e5315cd9b56d748c67e7f46d97b">actuator</a>-&gt;setCaptureCompare(<a class="code" href="class_pressure_valve.html#ab1d1aa2a11730e204d04cf9f15262a81">timerChannel</a>, <a class="code" href="pressure__valve_8h.html#a8d1168462e9bda1cda91dc6bc86554bf">ValveAngle2MicroSeconds</a>(<a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a>),</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                        MICROSEC_COMPARE_FORMAT);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <a class="code" href="class_pressure_valve.html#aef7011478d50cbe501f6bb4e876c8b75">position</a> = <a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a>;</div>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00073">73</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                          {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment">// On évite d&#39;aller plus loin que les limites de la valve</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a> &lt; <a class="code" href="class_pressure_valve.html#a7fffaa3bc82c6c71b839ed57c5ac0e38">minApertureAngle</a>) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a> = <a class="code" href="class_pressure_valve.html#a7fffaa3bc82c6c71b839ed57c5ac0e38">minApertureAngle</a>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a> &gt; <a class="code" href="class_pressure_valve.html#a2814c4fe05bfcc5fe8a45a7f20a7ceda">maxApertureAngle</a>) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a> = <a class="code" href="class_pressure_valve.html#a2814c4fe05bfcc5fe8a45a7f20a7ceda">maxApertureAngle</a>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a> != <a class="code" href="class_pressure_valve.html#aef7011478d50cbe501f6bb4e876c8b75">position</a>) {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <a class="code" href="class_pressure_valve.html#aa0814e5315cd9b56d748c67e7f46d97b">actuator</a>-&gt;setCaptureCompare(<a class="code" href="class_pressure_valve.html#ab1d1aa2a11730e204d04cf9f15262a81">timerChannel</a>, <a class="code" href="pressure__valve_8h.html#aa25e3d188208f616e4666651210a2ff6">valveAngle2MicroSeconds</a>(<a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a>),</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                        MICROSEC_COMPARE_FORMAT);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <a class="code" href="class_pressure_valve.html#aef7011478d50cbe501f6bb4e876c8b75">position</a> = <a class="code" href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">command</a>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -345,8 +345,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00085">85</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_pressure_valve.html#a2814c4fe05bfcc5fe8a45a7f20a7ceda">maxApertureAngle</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00091">91</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_pressure_valve.html#a2814c4fe05bfcc5fe8a45a7f20a7ceda">maxApertureAngle</a>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -373,8 +373,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00083">83</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_pressure_valve.html#a7fffaa3bc82c6c71b839ed57c5ac0e38">minApertureAngle</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00089">89</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_pressure_valve.html#a7fffaa3bc82c6c71b839ed57c5ac0e38">minApertureAngle</a>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -478,7 +478,7 @@ Private Attributes</h2></td></tr>
 
 <p>Hardware time for this servomotor. </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00105">105</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00111">111</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
 
 </div>
 </div>
@@ -502,7 +502,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00102">102</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00108">108</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
 
 </div>
 </div>
@@ -520,7 +520,7 @@ Private Attributes</h2></td></tr>
 
 <p>Value of the requested aperture. </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00088">88</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00094">94</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
 
 </div>
 </div>
@@ -546,7 +546,7 @@ Private Attributes</h2></td></tr>
 
 <p>Maximum servomotor aperture angle in degrees. </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00098">98</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00104">104</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
 
 </div>
 </div>
@@ -572,7 +572,7 @@ Private Attributes</h2></td></tr>
 
 <p>Minimum servomotor aperture angle in degrees. </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00095">95</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00101">101</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
 
 </div>
 </div>
@@ -596,7 +596,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00100">100</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00106">106</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
 
 </div>
 </div>
@@ -614,7 +614,7 @@ Private Attributes</h2></td></tr>
 
 <p>Current aperture. </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00091">91</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00097">97</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
 
 </div>
 </div>
@@ -640,7 +640,7 @@ Private Attributes</h2></td></tr>
 
 <p>Data pin for this servomotor. </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00111">111</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00117">117</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
 
 </div>
 </div>
@@ -666,7 +666,7 @@ Private Attributes</h2></td></tr>
 
 <p>TIM channel for this servomotor. </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00108">108</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__valve_8h_source.html#l00114">114</a> of file <a class="el" href="pressure__valve_8h_source.html">pressure_valve.h</a>.</p>
 
 </div>
 </div>
@@ -676,16 +676,16 @@ Private Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_pressure_valve_html_a7fffaa3bc82c6c71b839ed57c5ac0e38"><div class="ttname"><a href="class_pressure_valve.html#a7fffaa3bc82c6c71b839ed57c5ac0e38">PressureValve::minApertureAngle</a></div><div class="ttdeci">uint16_t minApertureAngle</div><div class="ttdoc">Minimum servomotor aperture angle in degrees.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00095">pressure_valve.h:95</a></div></div>
-<div class="ttc" id="aclass_pressure_valve_html_a38072a7e9bb610637cf7ff18c90c8979"><div class="ttname"><a href="class_pressure_valve.html#a38072a7e9bb610637cf7ff18c90c8979">PressureValve::closeApertureAngle</a></div><div class="ttdeci">uint16_t closeApertureAngle</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00102">pressure_valve.h:102</a></div></div>
-<div class="ttc" id="aclass_pressure_valve_html_a7770351c50ff4daf7f0692973d3355e1"><div class="ttname"><a href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">PressureValve::command</a></div><div class="ttdeci">uint16_t command</div><div class="ttdoc">Value of the requested aperture.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00088">pressure_valve.h:88</a></div></div>
-<div class="ttc" id="apressure__valve_8h_html_a8d1168462e9bda1cda91dc6bc86554bf"><div class="ttname"><a href="pressure__valve_8h.html#a8d1168462e9bda1cda91dc6bc86554bf">ValveAngle2MicroSeconds</a></div><div class="ttdeci">#define ValveAngle2MicroSeconds(value)</div><div class="ttdoc">Convert an angle in degrees to a value in microseconds for the servomotor controller.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00018">pressure_valve.h:18</a></div></div>
-<div class="ttc" id="aclass_pressure_valve_html_aa0814e5315cd9b56d748c67e7f46d97b"><div class="ttname"><a href="class_pressure_valve.html#aa0814e5315cd9b56d748c67e7f46d97b">PressureValve::actuator</a></div><div class="ttdeci">HardwareTimer * actuator</div><div class="ttdoc">Hardware time for this servomotor.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00105">pressure_valve.h:105</a></div></div>
-<div class="ttc" id="aclass_pressure_valve_html_a6c56a9e6dd7f717646a5141cdc82c8e7"><div class="ttname"><a href="class_pressure_valve.html#a6c56a9e6dd7f717646a5141cdc82c8e7">PressureValve::openApertureAngle</a></div><div class="ttdeci">uint16_t openApertureAngle</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00100">pressure_valve.h:100</a></div></div>
-<div class="ttc" id="aclass_pressure_valve_html_ab1d1aa2a11730e204d04cf9f15262a81"><div class="ttname"><a href="class_pressure_valve.html#ab1d1aa2a11730e204d04cf9f15262a81">PressureValve::timerChannel</a></div><div class="ttdeci">uint16_t timerChannel</div><div class="ttdoc">TIM channel for this servomotor.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00108">pressure_valve.h:108</a></div></div>
-<div class="ttc" id="aclass_pressure_valve_html_a2814c4fe05bfcc5fe8a45a7f20a7ceda"><div class="ttname"><a href="class_pressure_valve.html#a2814c4fe05bfcc5fe8a45a7f20a7ceda">PressureValve::maxApertureAngle</a></div><div class="ttdeci">uint16_t maxApertureAngle</div><div class="ttdoc">Maximum servomotor aperture angle in degrees.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00098">pressure_valve.h:98</a></div></div>
-<div class="ttc" id="aclass_pressure_valve_html_a93348c1903be3d0f836fc2f08b2b0341"><div class="ttname"><a href="class_pressure_valve.html#a93348c1903be3d0f836fc2f08b2b0341">PressureValve::servoPin</a></div><div class="ttdeci">uint16_t servoPin</div><div class="ttdoc">Data pin for this servomotor.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00111">pressure_valve.h:111</a></div></div>
-<div class="ttc" id="aclass_pressure_valve_html_aef7011478d50cbe501f6bb4e876c8b75"><div class="ttname"><a href="class_pressure_valve.html#aef7011478d50cbe501f6bb4e876c8b75">PressureValve::position</a></div><div class="ttdeci">uint16_t position</div><div class="ttdoc">Current aperture.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00091">pressure_valve.h:91</a></div></div>
+<div class="ttc" id="apressure__valve_8h_html_aa25e3d188208f616e4666651210a2ff6"><div class="ttname"><a href="pressure__valve_8h.html#aa25e3d188208f616e4666651210a2ff6">valveAngle2MicroSeconds</a></div><div class="ttdeci">uint16_t valveAngle2MicroSeconds(uint16_t value)</div><div class="ttdoc">Convert an angle in degrees to a value in microseconds for the servomotor controller.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8cpp_source.html#l00051">pressure_valve.cpp:51</a></div></div>
+<div class="ttc" id="aclass_pressure_valve_html_a7fffaa3bc82c6c71b839ed57c5ac0e38"><div class="ttname"><a href="class_pressure_valve.html#a7fffaa3bc82c6c71b839ed57c5ac0e38">PressureValve::minApertureAngle</a></div><div class="ttdeci">uint16_t minApertureAngle</div><div class="ttdoc">Minimum servomotor aperture angle in degrees.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00101">pressure_valve.h:101</a></div></div>
+<div class="ttc" id="aclass_pressure_valve_html_a38072a7e9bb610637cf7ff18c90c8979"><div class="ttname"><a href="class_pressure_valve.html#a38072a7e9bb610637cf7ff18c90c8979">PressureValve::closeApertureAngle</a></div><div class="ttdeci">uint16_t closeApertureAngle</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00108">pressure_valve.h:108</a></div></div>
+<div class="ttc" id="aclass_pressure_valve_html_a7770351c50ff4daf7f0692973d3355e1"><div class="ttname"><a href="class_pressure_valve.html#a7770351c50ff4daf7f0692973d3355e1">PressureValve::command</a></div><div class="ttdeci">uint16_t command</div><div class="ttdoc">Value of the requested aperture.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00094">pressure_valve.h:94</a></div></div>
+<div class="ttc" id="aclass_pressure_valve_html_aa0814e5315cd9b56d748c67e7f46d97b"><div class="ttname"><a href="class_pressure_valve.html#aa0814e5315cd9b56d748c67e7f46d97b">PressureValve::actuator</a></div><div class="ttdeci">HardwareTimer * actuator</div><div class="ttdoc">Hardware time for this servomotor.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00111">pressure_valve.h:111</a></div></div>
+<div class="ttc" id="aclass_pressure_valve_html_a6c56a9e6dd7f717646a5141cdc82c8e7"><div class="ttname"><a href="class_pressure_valve.html#a6c56a9e6dd7f717646a5141cdc82c8e7">PressureValve::openApertureAngle</a></div><div class="ttdeci">uint16_t openApertureAngle</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00106">pressure_valve.h:106</a></div></div>
+<div class="ttc" id="aclass_pressure_valve_html_ab1d1aa2a11730e204d04cf9f15262a81"><div class="ttname"><a href="class_pressure_valve.html#ab1d1aa2a11730e204d04cf9f15262a81">PressureValve::timerChannel</a></div><div class="ttdeci">uint16_t timerChannel</div><div class="ttdoc">TIM channel for this servomotor.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00114">pressure_valve.h:114</a></div></div>
+<div class="ttc" id="aclass_pressure_valve_html_a2814c4fe05bfcc5fe8a45a7f20a7ceda"><div class="ttname"><a href="class_pressure_valve.html#a2814c4fe05bfcc5fe8a45a7f20a7ceda">PressureValve::maxApertureAngle</a></div><div class="ttdeci">uint16_t maxApertureAngle</div><div class="ttdoc">Maximum servomotor aperture angle in degrees.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00104">pressure_valve.h:104</a></div></div>
+<div class="ttc" id="aclass_pressure_valve_html_a93348c1903be3d0f836fc2f08b2b0341"><div class="ttname"><a href="class_pressure_valve.html#a93348c1903be3d0f836fc2f08b2b0341">PressureValve::servoPin</a></div><div class="ttdeci">uint16_t servoPin</div><div class="ttdoc">Data pin for this servomotor.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00117">pressure_valve.h:117</a></div></div>
+<div class="ttc" id="aclass_pressure_valve_html_aef7011478d50cbe501f6bb4e876c8b75"><div class="ttname"><a href="class_pressure_valve.html#aef7011478d50cbe501f6bb4e876c8b75">PressureValve::position</a></div><div class="ttdeci">uint16_t position</div><div class="ttdoc">Current aperture.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__valve_8h_source.html#l00097">pressure_valve.h:97</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
