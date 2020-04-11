@@ -16,6 +16,7 @@
 
 #include "../includes/buzzer.h"
 #include "../includes/parameters.h"
+#include "../includes/buzzer_control.h"
 
 // PROGRAM =====================================================================
 
@@ -26,7 +27,7 @@
  * frequency either 84 or 100 MHz
  */
 ///@{
-#define TIMER_TICK_PER_MS 4
+#define TIMER_TICK_PER_MS 10
 #define BIP (100 * TIMER_TICK_PER_MS)
 #define BIP_PAUSE BIP
 #define BEEEEP (250 * TIMER_TICK_PER_MS)
@@ -40,17 +41,20 @@
 /// High priority alarm buzzer pattern size
 #define BUZZER_HIGH_PRIO_SIZE 32
 
+#define BZ_ON 1
+#define BZ_OFF 0
+
 /// High priority alarm buzzer pattern definition, composed of
 /// multiple couple of states (Actif/Inactif) and duration (miliseconds)
 const uint32_t Buzzer_High_Prio[BUZZER_HIGH_PRIO_SIZE] = {
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PAUSE_1S,
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP,    TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PAUSE_10S};
+    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
+    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
+    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
+    BZ_ON, BEEEEP, BZ_OFF, PAUSE_1S,
+    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
+    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
+    BZ_ON, BIP,    BZ_OFF, BIP_PAUSE,
+    BZ_ON, BEEEEP, BZ_OFF, PAUSE_10S};
 
 /// Medium priority alarm buzzer pattern size
 #define BUZZER_MEDIUM_PRIO_SIZE 8
@@ -58,8 +62,8 @@ const uint32_t Buzzer_High_Prio[BUZZER_HIGH_PRIO_SIZE] = {
 /// Medium priority alarm buzzer pattern definition, composed of
 /// multiple couple of states (Actif/Inactif) and duration (miliseconds)
 const uint32_t Buzzer_Medium_Prio[BUZZER_MEDIUM_PRIO_SIZE] = {
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BEEEEP_PAUSE,
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PAUSE_20S};
+    BZ_ON, BEEEEP, BZ_OFF, BEEEEP_PAUSE,
+    BZ_ON, BEEEEP, BZ_OFF, PAUSE_20S};
 
 /// Low priority alarm buzzer pattern size
 #define BUZZER_LOW_PRIO_SIZE 8
@@ -67,16 +71,16 @@ const uint32_t Buzzer_Medium_Prio[BUZZER_MEDIUM_PRIO_SIZE] = {
 /// Low priority alarm buzzer pattern definition, composed of
 /// multiple couple of states (Actif/Inactif) and duration (miliseconds)
 const uint32_t Buzzer_Low_Prio[BUZZER_LOW_PRIO_SIZE] = {
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE,
-    TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BIP, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BIP_PAUSE};
+    BZ_ON, BIP, BZ_OFF, BIP_PAUSE,
+    BZ_ON, BIP, BZ_OFF, BIP_PAUSE};
 
 /// Boot buzzer pattern size
 #define BUZZER_BOOT_SIZE 4
 
 /// Boot buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
 /// duration (miliseconds)
-const uint32_t Buzzer_Boot[BUZZER_BOOT_SIZE] = {TIMER_OUTPUT_COMPARE_FORCED_ACTIVE, BEEEEP,
-                                                TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, BEEEEP_PAUSE};
+const uint32_t Buzzer_Boot[BUZZER_BOOT_SIZE] = {BZ_ON, BEEEEP,
+                                                BZ_OFF, BEEEEP_PAUSE};
 
 // INITIALISATION =============================================================
 
@@ -109,8 +113,11 @@ void Update_IT_callback(void)
         BuzzerTim->pause();
     } else {
         // Previous state is finished, switch to next one
-        BuzzerTim->setMode(BuzzerTimerChannel, (TimerModes_t)Active_Buzzer[Active_Buzzer_Index],
-                           PIN_BUZZER);
+        if(BZ_ON == Active_Buzzer[Active_Buzzer_Index]) {
+          BuzzerControl_On();
+        } else {
+          BuzzerControl_Off();
+        }
         BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
         Active_Buzzer_Index = (Active_Buzzer_Index + 2u) % Active_Buzzer_Size;
 
@@ -121,23 +128,20 @@ void Update_IT_callback(void)
 void Buzzer_Init() {
     // Automatically retrieve timer instance and channel associated with the pin
     // Useful in case of board change
-    TIM_TypeDef* Instance = reinterpret_cast<TIM_TypeDef*>(
-        pinmap_peripheral(digitalPinToPinName(PIN_BUZZER), PinMap_PWM));
-    BuzzerTimerChannel =
-        STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(PIN_BUZZER), PinMap_PWM));
 
     // Buzzer HardwareTimer object creation
-    BuzzerTim = new HardwareTimer(Instance);
+    BuzzerTim = new HardwareTimer(BUZZER_TIMER);
 
-    BuzzerTim->setMode(BuzzerTimerChannel, TIMER_OUTPUT_COMPARE_FORCED_INACTIVE, PIN_BUZZER);
+    BuzzerControl_Off();
     // 4 ticks = 1 ms  (it is not possible to have 1 tick = 1 ms because prescaler is 16 bit and
     // input frequency either 84 or 100 MHz Use of tick format to avoid computation within interrupt
     // handler
-    BuzzerTim->setPrescaleFactor(BuzzerTim->getTimerClkFreq() / (TIMER_TICK_PER_MS * 1000));
-    BuzzerTim->setOverflow(100 * TIMER_TICK_PER_MS, TICK_FORMAT);  // Default 100milisecondes
+    BuzzerTim->setPrescaleFactor(10000); // 100Mhz down to 10khz
+    BuzzerTim->setOverflow(1);  //khz down to 10Hz
+    BuzzerTim->setMode(BUZZER_TIM_CHANNEL, TIMER_OUTPUT_COMPARE , NC); //channel 1
 
     // Start with inactive state without interruptions
-    BuzzerTim->resume();
+    //BuzzerTim->resume();
 }
 
 void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool RepeatBuzzer) {
@@ -150,8 +154,11 @@ void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool RepeatBuzzer) {
 
     // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
     // Configuration of first state of pattern
-    BuzzerTim->setMode(BuzzerTimerChannel, (TimerModes_t)Active_Buzzer[Active_Buzzer_Index],
-                       PIN_BUZZER);
+    if(BZ_ON == Active_Buzzer[Active_Buzzer_Index]) {
+      BuzzerControl_On();
+    } else {
+      BuzzerControl_Off();
+    }
     BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
 
     // Activate interrupt callback to handle further states
@@ -173,8 +180,7 @@ void Buzzer_Mute() {
         Active_Buzzer_Index = 0;
 
         // Configuration of mute pattern
-        BuzzerTim->setMode(BuzzerTimerChannel, (TimerModes_t)TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,
-                           PIN_BUZZER);
+        BuzzerControl_Off();
         BuzzerTim->setOverflow(PAUSE_120S, TICK_FORMAT);
 
         // Activate interrupt callback to handle further states
@@ -191,8 +197,7 @@ void Buzzer_Resume() {
 
     // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
     // Configuration of first state of pattern
-    BuzzerTim->setMode(BuzzerTimerChannel, (TimerModes_t)Active_Buzzer[Active_Buzzer_Index],
-                       PIN_BUZZER);
+    BuzzerControl_Off();
     BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
 
     // Activate interrupt callback to handle further states
@@ -216,8 +221,6 @@ void Buzzer_Boot_Start(void) { Buzzer_Start(Buzzer_Boot, BUZZER_BOOT_SIZE, false
 void Buzzer_Stop(void) {
     Active_Buzzer_Repeat = false;
     // Avoid unexpected infinite buzzing when this function is called when mode is
-    // TIMER_OUTPUT_COMPARE_FORCED_ACTIVE
-    BuzzerTim->setMode(BuzzerTimerChannel, (TimerModes_t)TIMER_OUTPUT_COMPARE_FORCED_INACTIVE,
-                       PIN_BUZZER);
+    BuzzerControl_Off();
     BuzzerTim->pause();
 }
