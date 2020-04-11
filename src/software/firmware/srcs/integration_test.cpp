@@ -53,7 +53,6 @@ PressureValve servoBlower;
 PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
-Blower* blower_pointer;
 Blower blower;
 
 int32_t last_time = millis();
@@ -86,7 +85,6 @@ void onStartClick() {
     changeStep((step + 1) % NUMBER_OF_STATES);
     last_time = millis();
     Buzzer_Stop();
-    blower.stop();
 }
 
 OneButton btn_start(PIN_BTN_START, false, false);
@@ -102,7 +100,6 @@ void setup() {
     pinMode(PIN_PRESSURE_SENSOR, INPUT);
     pinMode(PIN_BATTERY, INPUT);
     pinMode(PIN_BUZZER, OUTPUT);
-
 
 #if HARDWARE_VERSION == 1
     // Timer for servoBlower
@@ -126,7 +123,6 @@ void setup() {
 
     blower = Blower(hardwareTimer3, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
     blower.setup();
-    blower_pointer = &blower;
 #elif HARDWARE_VERSION == 2
     // Timer for servos
     hardwareTimer3 = new HardwareTimer(TIM3);
@@ -147,14 +143,11 @@ void setup() {
     hardwareTimer1 = new HardwareTimer(TIM1);
     blower = Blower(hardwareTimer1, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
     blower.setup();
-    blower_pointer = &blower;
 #endif
 
     BuzzerControl_Init();
     Buzzer_Init();
     initBattery();
-
-    blower.stop();
 }
 
 void loop() {
