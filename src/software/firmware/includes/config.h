@@ -39,7 +39,6 @@
 
 // Available valves
 #define VT_SERVO_V1 0
-
 #define VT_EMERSON_ASCO 1
 
 // Defines which valves are fitted

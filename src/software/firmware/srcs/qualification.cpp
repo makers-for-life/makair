@@ -132,7 +132,6 @@ PressureValve servoBlower;
 PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
-Blower* blower_pointer;
 Blower blower;
 
 void onPressionCretePlusClick() {
@@ -418,7 +417,6 @@ void setup() {
 
     blower = Blower(hardwareTimer3, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
     blower.setup();
-    blower_pointer = &blower;
 #elif HARDWARE_VERSION == 2
     // Timer for servos
     hardwareTimer3 = new HardwareTimer(TIM3);
@@ -620,6 +618,7 @@ void loop() {
     case STEP_SERIAL: {
         UNGREEDY(is_drawn, display("Sending to serial", "Press stop"));
 #if HARDWARE_VERSION == 1
+        is_drawn = false;
         step++;
 #elif HARDWARE_VERSION == 2
         if (remainingTicks == 0) {
