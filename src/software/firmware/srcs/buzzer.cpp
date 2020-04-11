@@ -69,11 +69,12 @@ const uint32_t Buzzer_Low_Prio[BUZZER_LOW_PRIO_SIZE] = {BZ_ON, BIP, BZ_OFF, BIP_
                                                         BZ_ON, BIP, BZ_OFF, BIP_PAUSE};
 
 /// Boot buzzer pattern size
-#define BUZZER_BOOT_SIZE 4
+#define BUZZER_BOOT_SIZE 8
 
 /// Boot buzzer pattern definition, composed of multiple couple of states (Actif/Inactif) and
 /// duration (miliseconds)
-const uint32_t Buzzer_Boot[BUZZER_BOOT_SIZE] = {BZ_ON, BEEEEP, BZ_OFF, BEEEEP_PAUSE};
+const uint32_t Buzzer_Boot[BUZZER_BOOT_SIZE] = {BZ_ON, BEEEEP, BZ_OFF, BEEEEP_PAUSE,
+                                                BZ_ON, BEEEEP, BZ_OFF, BEEEEP_PAUSE};
 
 // INITIALISATION =============================================================
 
@@ -81,6 +82,7 @@ const uint32_t* Active_Buzzer = nullptr;
 uint32_t Active_Buzzer_Index = 0;
 uint32_t Active_Buzzer_Size = 2;
 bool Active_Buzzer_Repeat = false;
+bool Active_Buzzer_Has_Begun = false;
 bool Buzzer_Muted = false;
 
 HardwareTimer* BuzzerTim;
@@ -96,45 +98,36 @@ void Update_IT_callback(HardwareTimer*)  // NOLINT(readability/casting)
 void Update_IT_callback(void)
 #endif
 {
-    // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
-
     if (Buzzer_Muted == true) {
         // If the buzzer was muted, then we must resume the previous alarm
         Buzzer_Resume();
-    } else if ((Active_Buzzer_Index == 0u) && (Active_Buzzer_Repeat == false)) {
+    } else if ((Active_Buzzer_Index == 0u) && (Active_Buzzer_Repeat == false)
+               && (Active_Buzzer_Has_Begun == true)) {
         // If we are at start of pattern, check for repeating mode
         BuzzerTim->pause();
     } else {
         // Previous state is finished, switch to next one
-        if (BZ_ON == Active_Buzzer[Active_Buzzer_Index]) {
+        if (Active_Buzzer[Active_Buzzer_Index] == BZ_ON) {
             BuzzerControl_On();
         } else {
             BuzzerControl_Off();
         }
         BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
         Active_Buzzer_Index = (Active_Buzzer_Index + 2u) % Active_Buzzer_Size;
+        Active_Buzzer_Has_Begun = true;
 
         BuzzerTim->resume();
     }
 }
 
 void Buzzer_Init() {
-    // Automatically retrieve timer instance and channel associated with the pin
-    // Useful in case of board change
-
     // Buzzer HardwareTimer object creation
     BuzzerTim = new HardwareTimer(BUZZER_TIMER);
 
     BuzzerControl_Off();
-    // 4 ticks = 1 ms  (it is not possible to have 1 tick = 1 ms because prescaler is 16 bit and
-    // input frequency either 84 or 100 MHz Use of tick format to avoid computation within interrupt
-    // handler
-    BuzzerTim->setPrescaleFactor(10000);                               // 100Mhz down to 10khz
-    BuzzerTim->setOverflow(1);                                         // khz down to 10Hz
-    BuzzerTim->setMode(BUZZER_TIM_CHANNEL, TIMER_OUTPUT_COMPARE, NC);  // channel 1
-
-    // Start with inactive state without interruptions
-    // BuzzerTim->resume();
+    BuzzerTim->setPrescaleFactor(10000);  // 100 MHz down to 10 kHz
+    BuzzerTim->setOverflow(1);            // 10 khz down to 10 Hz
+    BuzzerTim->setMode(BUZZER_TIM_CHANNEL, TIMER_OUTPUT_COMPARE, NC);
 }
 
 void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool RepeatBuzzer) {
@@ -143,22 +136,14 @@ void Buzzer_Start(const uint32_t* Buzzer, uint32_t Size, bool RepeatBuzzer) {
     Active_Buzzer_Index = 0;
     Active_Buzzer_Size = Size;
     Active_Buzzer_Repeat = RepeatBuzzer;
+    Active_Buzzer_Has_Begun = false;
     Buzzer_Muted = false;
 
-    // Patterns are composed of multiple couple of states (Actif/Inactif) and duration (miliseconds)
-    // Configuration of first state of pattern
-    if (BZ_ON == Active_Buzzer[Active_Buzzer_Index]) {
-        BuzzerControl_On();
-    } else {
-        BuzzerControl_Off();
-    }
-    BuzzerTim->setOverflow(Active_Buzzer[Active_Buzzer_Index + 1u], TICK_FORMAT);
-
-    // Activate interrupt callback to handle further states
+    // Run interrupt callback soon to start playing pattern
     BuzzerTim->attachInterrupt(Update_IT_callback);
-    Active_Buzzer_Index = (Active_Buzzer_Index + 2u) % Active_Buzzer_Size;
+    BuzzerTim->setOverflow(100, TICK_FORMAT);
 
-    // Timer starts. Required to configure output on GPIO
+    // Timer starts
     BuzzerTim->resume();
 }
 
