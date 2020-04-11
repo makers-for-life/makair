@@ -130,7 +130,7 @@ void Buzzer_Init() {
     BuzzerControl_Off();
     // CPU Clock down to 10 kHz
     BuzzerTim->setPrescaleFactor((BuzzerTim->getTimerClkFreq() / (TIMER_TICK_PER_MS * 1000)) - 1);
-    BuzzerTim->setOverflow(1);  // don't care right now, timer is not started in init.
+    BuzzerTim->setOverflow(1);  // don't care right now, timer is not started in init
     BuzzerTim->setMode(BUZZER_TIM_CHANNEL, TIMER_OUTPUT_COMPARE, NC);
 }
 
