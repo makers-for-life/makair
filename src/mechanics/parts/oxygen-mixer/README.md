@@ -6,7 +6,7 @@
 | V3 | Designed from scratched. Test print on (28/03/20) | ❌ | [view model](https://a360.co/2vV5s18) |
 | V4 | Updated with correct O2 ID diameter, reinforced O2 nipple. | ✅ | [view model](https://a360.co/345fsS2) |
 | V5 | New compact design with integration plate | ✅ | [view model](https://a360.co/39QDaD5) |
-| V6 | Adjusted design from V5, with anti-reflux system | ✅ | none |
+| V6 | Adjusted design from V5, with anti-reflux system | ✅ | [view model](https://a360.co/2VhZnEE) |
 
 ## Assumptions
 
