@@ -13,11 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Get short SHA
-        id: vars
-        run: |
-          echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
-
       - name: Install Arduino CLI
         uses: arduino/setup-arduino-cli@v1.0.0
 
@@ -98,42 +93,6 @@ jobs:
           VERSION=$(sed -En 's/#define VERSION[ ]+["](.+)["]/\1/p' src/software/firmware/includes/parameters.h)
           cp src/software/firmware/output/respirator-integration-test.bin "dist/respirator-integration-test-HW1-$VERSION-$GITHUB_SHA.bin"
 
-      - name: Compress production HW2
-        run: |
-          mkdir -p tmp
-          cp dist/respirator-production-HW2-*.bin tmp/respirator-production-HW2-${{ steps.vars.outputs.sha_short }}.bin
-          gzip tmp/respirator-production-HW2-${{ steps.vars.outputs.sha_short }}.bin
-
-      - name: Compress qualification HW2
-        run: |
-          mkdir -p tmp
-          cp dist/respirator-qualification-HW2-*.bin tmp/respirator-qualification-HW2-${{ steps.vars.outputs.sha_short }}.bin
-          gzip tmp/respirator-qualification-HW2-${{ steps.vars.outputs.sha_short }}.bin
-
-      - name: Compress integration test HW2
-        run: |
-          mkdir -p tmp
-          cp dist/respirator-integration-test-HW2-*.bin tmp/respirator-integration-test-HW2-${{ steps.vars.outputs.sha_short }}.bin
-          gzip tmp/respirator-integration-test-HW2-${{ steps.vars.outputs.sha_short }}.bin
-
-      - name: Compress production HW1
-        run: |
-          mkdir -p tmp
-          cp dist/respirator-production-HW1-*.bin tmp/respirator-production-HW1-${{ steps.vars.outputs.sha_short }}.bin
-          gzip tmp/respirator-production-HW1-${{ steps.vars.outputs.sha_short }}.bin
-
-      - name: Compress qualification HW1
-        run: |
-          mkdir -p tmp
-          cp dist/respirator-qualification-HW1-*.bin tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin
-          gzip tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin
-
-      - name: Compress integration-test HW1
-        run: |
-          mkdir -p tmp
-          cp dist/respirator-integration-test-HW1-*.bin tmp/respirator-integration-test-HW1-${{ steps.vars.outputs.sha_short }}.bin
-          gzip tmp/respirator-integration-test-HW1-${{ steps.vars.outputs.sha_short }}.bin
-
       - name: Archive binaries
         uses: actions/upload-artifact@v1
         with:
@@ -145,12 +104,12 @@ jobs:
         if: github.ref == 'refs/heads/master'
         with:
           files: |
-            tmp/respirator-production-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
-            tmp/respirator-qualification-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
-            tmp/respirator-integration-test-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
-            tmp/respirator-production-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
-            tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
-            tmp/respirator-integration-test-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
+            dist/respirator-production-HW2-$VERSION-$GITHUB_SHA.bin
+            dist/respirator-qualification-HW2-$VERSION-$GITHUB_SHA.bin
+            dist/respirator-integration-test-HW2-$VERSION-$GITHUB_SHA.bin
+            dist/respirator-production-HW1-$VERSION-$GITHUB_SHA.bin
+            dist/respirator-qualification-HW1-$VERSION-$GITHUB_SHA.bin
+            dist/respirator-integration-test-HW1-$VERSION-$GITHUB_SHA.bin
           body: |
             Auto-release (${{ github.sha }})
             ⚠️ FOR TEST PURPOSE ONLY - DO NOT USE IN PRODUCTION
@@ -164,11 +123,11 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/') && steps.version.outputs.version != ""
         with:
           files: |
-            tmp/respirator-production-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
-            tmp/respirator-qualification-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
-            tmp/respirator-integration-test-HW2-${{ steps.vars.outputs.sha_short }}.bin.gz
-            tmp/respirator-production-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
-            tmp/respirator-qualification-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
-            tmp/respirator-integration-test-HW1-${{ steps.vars.outputs.sha_short }}.bin.gz
+            dist/respirator-production-HW2-$VERSION-$GITHUB_SHA.bin
+            dist/respirator-qualification-HW2-$VERSION-$GITHUB_SHA.bin
+            dist/respirator-integration-test-HW2-$VERSION-$GITHUB_SHA.bin
+            dist/respirator-production-HW1-$VERSION-$GITHUB_SHA.bin
+            dist/respirator-qualification-HW1-$VERSION-$GITHUB_SHA.bin
+            dist/respirator-integration-test-HW1-$VERSION-$GITHUB_SHA.bin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
