@@ -19,6 +19,8 @@
 // Internal
 #include "../includes/battery.h"
 #include "../includes/blower.h"
+#include "../includes/buzzer.h"
+#include "../includes/buzzer_control.h"
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
 #include "../includes/pression.h"
@@ -34,8 +36,9 @@
 #define STEP_VALVE_PATIENT_LEAK_TEST 5
 #define STEP_PRESSURE_TEST 6
 #define STEP_BATTERY_TEST 7
+#define STEP_BUZZER_TEST 8
 
-#define NUMBER_OF_STATES 8
+#define NUMBER_OF_STATES 9
 
 #define UNGREEDY(is_drawn, statement)                                                              \
     if (is_drawn == 0) {                                                                           \
@@ -82,6 +85,8 @@ void onStartClick() {
     DBG_DO(Serial.println((step + 1) % NUMBER_OF_STATES));
     changeStep((step + 1) % NUMBER_OF_STATES);
     last_time = millis();
+    Buzzer_Stop();
+    blower.stop();
 }
 
 OneButton btn_start(PIN_BTN_START, false, false);
@@ -97,6 +102,7 @@ void setup() {
     pinMode(PIN_PRESSURE_SENSOR, INPUT);
     pinMode(PIN_BATTERY, INPUT);
     pinMode(PIN_BUZZER, OUTPUT);
+
 
 #if HARDWARE_VERSION == 1
     // Timer for servoBlower
@@ -143,9 +149,12 @@ void setup() {
     blower.setup();
     blower_pointer = &blower;
 #endif
-    blower.stop();
 
+    BuzzerControl_Init();
+    Buzzer_Init();
     initBattery();
+
+    blower.stop();
 }
 
 void loop() {
@@ -243,6 +252,12 @@ void loop() {
             displayLine(msg, 3);
             last_time = millis();
         }
+        break;
+    }
+
+    case STEP_BUZZER_TEST: {
+        UNGREEDY(is_drawn, display("Test Buzzer", "Continuer : Start"));
+        Buzzer_High_Prio_Start();
         break;
     }
     }
