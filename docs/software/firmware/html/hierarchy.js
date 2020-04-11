@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "ActivationController", "class_activation_controller.html", null ],
     [ "Alarm", "class_alarm.html", null ],
     [ "AlarmController", "class_alarm_controller.html", null ],
     [ "Blower", "class_blower.html", null ],

@@ -5,6 +5,7 @@ var screen_8cpp =
     [ "displayCurrentInformation", "screen_8cpp.html#afbcfd6c7b111b47bfc4324e8f809d10c", null ],
     [ "displayCurrentPressure", "screen_8cpp.html#add30ddd4887b877ea93057322a3d3c33", null ],
     [ "displayCurrentSettings", "screen_8cpp.html#a61be08c2e2ab346aac63942c7624cf7e", null ],
+    [ "displayMachineStopped", "screen_8cpp.html#ac8aac16057e3eeec0501d4939c34e43b", null ],
     [ "hasAlarmInformationChanged", "screen_8cpp.html#adf22a80f867502ad42cf276b7f7c42e6", null ],
     [ "resetScreen", "screen_8cpp.html#ae56ad795427d7a17af1755baeca56ca8", null ],
     [ "screen", "screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795", null ],

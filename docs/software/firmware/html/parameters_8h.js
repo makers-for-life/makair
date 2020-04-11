@@ -14,6 +14,7 @@ var parameters_8h =
     [ "CONST_MIN_PEAK_PRESSURE", "parameters_8h.html#a62210c4e5811263ce8960d52c2631df9", null ],
     [ "CONST_MIN_PEEP_PRESSURE", "parameters_8h.html#a3168705fb44f50a7555981aed2271822", null ],
     [ "CONST_MIN_PLATEAU_PRESSURE", "parameters_8h.html#a83ccc8990de27988b24e94bd648458d3", null ],
+    [ "DEFAULT_BLOWER_SPEED", "parameters_8h.html#a46c6bca2d6cf1361c017137e809e41fc", null ],
     [ "DEFAULT_MAX_PEAK_PRESSURE_COMMAND", "parameters_8h.html#acd21b850c31e8e644d02462a46389c1e", null ],
     [ "DEFAULT_MAX_PLATEAU_COMMAND", "parameters_8h.html#a548cb9b058d3c6b735c4b19a879fba36", null ],
     [ "DEFAULT_MIN_PEEP_COMMAND", "parameters_8h.html#a341d8dc42507e5f8b9a262b70be47b7b", null ],

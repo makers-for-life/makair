@@ -1,5 +1,6 @@
 var annotated_dup =
 [
+    [ "ActivationController", "class_activation_controller.html", "class_activation_controller" ],
     [ "Alarm", "class_alarm.html", "class_alarm" ],
     [ "AlarmController", "class_alarm_controller.html", "class_alarm_controller" ],
     [ "Blower", "class_blower.html", "class_blower" ],
