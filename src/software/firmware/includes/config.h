@@ -37,6 +37,13 @@
 /// Defines which preset to use for controlling pressure
 #define PNEUMATIC_HARDWARE_VERSION PHW_CHU
 
+// Available valves
+#define VT_SERVO_V1 0
+#define VT_EMERSON_ASCO 1
+
+// Defines which valves are fitted
+#define VALVE_TYPE VT_SERVO_V1
+
 /**
  * Defines which hardware preset to use
  *

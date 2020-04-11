@@ -10,12 +10,18 @@
 // INCLUDES ===================================================================
 
 // Internal libraries
+#include "../includes/config.h"
 #include "../includes/parameters.h"
 
 // MACROS =================================================================
 
-/// Convert an angle in degrees to a value in microseconds for the servomotor controller
-#define ValveAngle2MicroSeconds(value) map(value, 0, 125, 800, 2200)
+/**
+ * Convert an angle in degrees to a value in microseconds for the servomotor controller
+ *
+ * @param value Angle in degrees
+ * @return Value in microsends for the servomotor controller
+ */
+uint16_t valveAngle2MicroSeconds(uint16_t value);
 
 // CLASS =================================================================
 
@@ -74,7 +80,7 @@ class PressureValve {
         }
 
         if (command != position) {
-            actuator->setCaptureCompare(timerChannel, ValveAngle2MicroSeconds(command),
+            actuator->setCaptureCompare(timerChannel, valveAngle2MicroSeconds(command),
                                         MICROSEC_COMPARE_FORMAT);
             position = command;
         }

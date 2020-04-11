@@ -100,8 +100,12 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 
 /// Angle when closed
 #define VALVE_CLOSED_STATE 125
-
-#define SERVO_VALVE_PERIOD 20000
+#if VALVE_TYPE == VT_SERVO_V1
+#define SERVO_VALVE_PERIOD 20000  // 50 Hz
+#elif VALVE_TYPE == VT_EMERSON_ASCO
+#define SERVO_VALVE_PERIOD 3278  // 305 Hz
+#define EMERSON_MIN_PWM 600      // 18 % PWM is the minimum to start opening (3278 * 0.18)
+#endif
 
 #if HARDWARE_VERSION == 1
 #define PIN_SERVO_BLOWER D2   // PA10 / TIM1_CH3
@@ -113,6 +117,9 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #define PIN_SERVO_PATIENT D4  // PB5 / TIM3_CH2
 #define TIM_CHANNEL_SERVO_VALVE_BLOWER 1
 #define TIM_CHANNEL_SERVO_VALVE_PATIENT 2
+#define ESC_PPM_PERIOD                                                                             \
+    15000  // ESC is driven in 50 Hz. 66 Hz is a security against ESC or nucleo bugs. Some ESC stops
+           // very quickly.
 #endif
 
 ///@}
@@ -233,7 +240,7 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #define PIN_LED_GREEN PB13
 #define PIN_LED_YELLOW PB14
 #define PIN_LED_RED PC4
-#define PIN_ESC_BLOWER D2   // PA10 / TIM1_CH3
+#define PIN_ESC_BLOWER D2  // PA10 / TIM1_CH3
 #define TIM_CHANNEL_ESC_BLOWER 3
 #define PIN_TEMP_BLOWER A4  // PC1
 #define PIN_BATTERY A2
