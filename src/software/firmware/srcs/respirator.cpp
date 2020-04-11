@@ -107,6 +107,7 @@ void setup(void) {
     hardwareTimer3->resume();
 
     hardwareTimer1 = new HardwareTimer(TIM1);
+    hardwareTimer1->setOverflow(ESC_PPM_PERIOD, MICROSEC_FORMAT);
     blower = Blower(hardwareTimer1, TIM_CHANNEL_ESC_BLOWER, PIN_ESC_BLOWER);
     blower.setup();
     blower_pointer = &blower;
