@@ -50,4 +50,4 @@
  *
  * This changes which hardware is used, to which pins it is connected, as well as various parameters
  */
-#define HARDWARE_VERSION 2
+#define HARDWARE_VERSION 1
