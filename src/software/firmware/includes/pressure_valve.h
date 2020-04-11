@@ -11,11 +11,12 @@
 
 // Internal libraries
 #include "../includes/parameters.h"
+#include "../includes/config.h"
 
 // MACROS =================================================================
 
 /// Convert an angle in degrees to a value in microseconds for the servomotor controller
-#define ValveAngle2MicroSeconds(value) map(value, 0, 125, 800, 2200)
+uint16_t ValveAngle2MicroSeconds(uint16_t value);
 
 // CLASS =================================================================
 
