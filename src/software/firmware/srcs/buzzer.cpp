@@ -22,9 +22,12 @@
 
 /**
  * @name Definition of bips durations
- * 4 ticks = 1 ms
+ * 10 ticks = 1 ms
  * @warning it is not possible to have 1 tick = 1 ms because prescaler is 16 bits and input
- * frequency either 84 or 100 MHz
+ * STM32F411: frequency is 100Mhz
+ * STM32F401: frequency is 84Mhz
+ *
+ * As waiting times defined below are greater than 2^16, the timer must be a 32 bits timer.
  */
 ///@{
 #define TIMER_TICK_PER_MS 10
@@ -125,8 +128,9 @@ void Buzzer_Init() {
     BuzzerTim = new HardwareTimer(BUZZER_TIMER);
 
     BuzzerControl_Off();
-    BuzzerTim->setPrescaleFactor(10000);  // 100 MHz down to 10 kHz
-    BuzzerTim->setOverflow(1);            // 10 khz down to 10 Hz
+    // CPU Clock down to 10 kHz
+    BuzzerTim->setPrescaleFactor(BuzzerTim->getTimerClkFreq() / (TIMER_TICK_PER_MS * 1000));
+    BuzzerTim->setOverflow(1);  // don't care right now, timer is not started in init.
     BuzzerTim->setMode(BUZZER_TIM_CHANNEL, TIMER_OUTPUT_COMPARE, NC);
 }
 
