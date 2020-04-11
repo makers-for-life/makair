@@ -4,7 +4,7 @@
 | ------- | -------------- | ------ | --------------- |
 | V2 | Adapted from existing models. Test print on (27/03/20) | ❌ | [view model](https://a360.co/2UmAecQ) |
 | V3 | Designed from scratched. Test print on (28/03/20) | ❌ | [view model](https://a360.co/2vV5s18) |
-| V4 | Updated with correct O2 ID diameter, reinforced O2 nipple. | ✅ | [view model](https://a360.co/345fsS2) |
+| V4 | Updated with correct O2 ID diameter, reinforced O2 nipple. | ✅ | [view model](https://a360.co/2XrUdIV) |
 | V5 | Experimental: New compact design with integration plate | ❌ | [view model](https://a360.co/39QDaD5) |
 | V6 | Experimental: Adjusted design from V5, with anti-reflux system | ❌ | [view model](https://a360.co/2VhZnEE) |
 
