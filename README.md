@@ -131,7 +131,7 @@ Firmware release binaries are available for download on our [releases page](http
 | [Blower](./src/mechanics/parts/blower) | V14 | Smaller form factor & more powerful | ✅ | [view model](https://a360.co/2JIBr8d) | Gabriel Moneyron + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou)
 | [Blower Holder](./src/mechanics/parts/blower-holder) | V3 | Differentiate Model A and Model B | ✅ | [view a model](https://a360.co/2xiu2tr), [view b model](https://a360.co/2ViA05J) | Gabriel Moneyron + [Valerian Saliou](https://github.com/valeriansaliou)
 | [Pressure Valve](./src/mechanics/parts/pressure-valve) | V6 | General improvements | ✅ | [view model](https://a360.co/2RyQLsr) | [Clement Niclot](https://github.com/clementniclot)
-| [Oxygen Mixer](./src/mechanics/parts/oxygen-mixer) | V6 | Adjusted design from V5, with anti-reflux system | ✅ | [view model](https://a360.co/2VhZnEE) | [Yohann Nédélec](https://github.com/Melkaz) + Steven Daix
+| [Oxygen Mixer](./src/mechanics/parts/oxygen-mixer) | V4 | Updated with correct O2 ID diameter, reinforced O2 nipple. | ✅ | [view model](https://a360.co/345fsS2) | [Yohann Nédélec](https://github.com/Melkaz) + Steven Daix
 | [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2UT72dP) | Martial Medjber + [Eliott Vincent](https://github.com/eliottvincent)
 | [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | [view model](https://a360.co/2x1mhIx) | [Valerian Saliou](https://github.com/valeriansaliou)
 | [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | [view model](https://a360.co/2XeSVAP) | [Valerian Saliou](https://github.com/valeriansaliou)
@@ -234,8 +234,8 @@ Adding to that, 200+ individual members of the project who contributed to techni
 ### The "Oxygen Mixer"
 
 <p>
-  <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/printing/schemes/V6/Oxygen%20Mixer%20(Render%201).png" height="240">
-  <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/printing/schemes/V6/Oxygen%20Mixer%20(Render%202).png" height="240">
+  <img alt="Oxygen Mixer Render" src="./src/mechanics/parts/oxygen-mixer/printing/schemes/V4/Oxygen%20Mixer%20(Render%201).png" height="240">
+  <img alt="Oxygen Mixer Print" src="./src/mechanics/parts/oxygen-mixer/printing/schemes/V4/Oxygen%20Mixer%20(Print%201).png" height="240">
 </p>
 
 ### The "Machine Filter Box" (Both Directions)
