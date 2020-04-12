@@ -28,7 +28,6 @@ void ActivationController::onStartButton() { m_state = RUNNING; }
 
 void ActivationController::onStopButton() {
     switch (m_state) {
-    default:
     case STOPPED:
         break;
 
@@ -40,6 +39,7 @@ void ActivationController::onStopButton() {
         // No break here. Fallback to default ON state handling
 
     case RUNNING:
+    default:
         m_timeOfLastStopPushed = millis();
         m_state = RUNNING_READY_TO_STOP;
 

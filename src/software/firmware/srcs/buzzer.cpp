@@ -96,7 +96,7 @@ uint32_t BuzzerTimerChannel;
  * @note API update since version 1.9.0 of Arduino_Core_STM32
  */
 #if (STM32_CORE_VERSION < 0x01090000)
-void Update_IT_callback(HardwareTimer*)  // NOLINT(readability/casting)
+void Update_IT_callback(HardwareTimer* ht)  // NOLINT(readability/casting)
 #else
 void Update_IT_callback(void)
 #endif

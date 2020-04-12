@@ -89,32 +89,33 @@ static bool clearCache = false;
 
 /// Check whether triggered alarms are already displayed on screen or not
 static bool hasAlarmInformationChanged(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms) {
+    bool hasChanged = false;
+
     if (clearCache == true) {
         clearCache = false;
-        return true;
-    }
-
-    uint8_t nbAlarmToPrint = min(static_cast<uint8_t>(MAX_ALARMS_DISPLAYED), p_nbTriggeredAlarms);
-
-    bool hasChanged = false;
-    if (nbAlarmToPrint != prevNbAlarmToPrint) {
         hasChanged = true;
     } else {
-        for (uint8_t i = 0; i < nbAlarmToPrint; ++i) {
-            if (p_alarmCodes[i] != prevAlarmCodes[i]) {
-                hasChanged = true;
-                break;
+        uint8_t nbAlarmToPrint =
+            min(static_cast<uint8_t>(MAX_ALARMS_DISPLAYED), p_nbTriggeredAlarms);
+
+        if (nbAlarmToPrint != prevNbAlarmToPrint) {
+            hasChanged = true;
+        } else {
+            for (uint8_t i = 0; i < nbAlarmToPrint; ++i) {
+                if (p_alarmCodes[i] != prevAlarmCodes[i]) {
+                    hasChanged = true;
+                    break;
+                }
+            }
+        }
+
+        if (hasChanged) {
+            prevNbAlarmToPrint = nbAlarmToPrint;
+            for (uint8_t i = 0; i < nbAlarmToPrint; ++i) {
+                prevAlarmCodes[i] = p_alarmCodes[i];
             }
         }
     }
-
-    if (hasChanged) {
-        prevNbAlarmToPrint = nbAlarmToPrint;
-        for (uint8_t i = 0; i < nbAlarmToPrint; ++i) {
-            prevAlarmCodes[i] = p_alarmCodes[i];
-        }
-    }
-
     return hasChanged;
 }
 
@@ -123,45 +124,44 @@ void clearAlarmDisplayCache() { clearCache = true; }
 void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms) {
     // WARNING There is a risk of data not being displayed as expected
     // if the line is overwritten somewhere else in the code.
-    if (!hasAlarmInformationChanged(p_alarmCodes, p_nbTriggeredAlarms)) {
-        return;
-    }
+    if (hasAlarmInformationChanged(p_alarmCodes, p_nbTriggeredAlarms)) {
+        if (p_nbTriggeredAlarms == 0u) {
+            screen.setCursor(0, 2);
+            screen.print(NO_ALARM_LINE);
+            return;
+        } else {
+            uint8_t nbAlarmToPrint =
+                min(static_cast<uint8_t>(MAX_ALARMS_DISPLAYED), p_nbTriggeredAlarms);
 
-    if (p_nbTriggeredAlarms == 0u) {
-        screen.setCursor(0, 2);
-        screen.print(NO_ALARM_LINE);
-        return;
-    }
+            // +1 for trailing NULL char
+            char buf[SCREEN_LINE_LENGTH + 1];
 
-    uint8_t nbAlarmToPrint = min(static_cast<uint8_t>(MAX_ALARMS_DISPLAYED), p_nbTriggeredAlarms);
+            // Write beginning of line
+            (void)strncpy(buf, ALARM_LINE, ALARMS_CODE_POS);
 
-    // +1 for trailing NULL char
-    char buf[SCREEN_LINE_LENGTH + 1];
+            // Write alarm codes
+            char* dst = buf + ALARMS_CODE_POS;
+            int spaceLeft = SCREEN_LINE_LENGTH - ALARMS_CODE_POS;
+            for (uint8_t i = 0; i < nbAlarmToPrint; i++) {
+                // + 1 for the trailing NULL char
+                int n = snprintf(dst, spaceLeft + 1, " %u", p_alarmCodes[i]);
+                if ((n < 0) || (n > spaceLeft)) {
+                    break;  // Error or no space left in buffer
+                }
+                spaceLeft -= n;
+                dst += n;
+            }
 
-    // Write beginning of line
-    (void)strncpy(buf, ALARM_LINE, ALARMS_CODE_POS);
+            // Fill the end of the line with spaces
+            (void)strncpy(dst, &ALARM_LINE[SCREEN_LINE_LENGTH - spaceLeft], spaceLeft);
 
-    // Write alarm codes
-    char* dst = buf + ALARMS_CODE_POS;
-    int spaceLeft = SCREEN_LINE_LENGTH - ALARMS_CODE_POS;
-    for (uint8_t i = 0; i < nbAlarmToPrint; i++) {
-        // + 1 for the trailing NULL char
-        int n = snprintf(dst, spaceLeft + 1, " %u", p_alarmCodes[i]);
-        if ((n < 0) || (n > spaceLeft)) {
-            break;  // Error or no space left in buffer
+            // Make sure string is NULL terminated
+            buf[SCREEN_LINE_LENGTH] = '\0';
+
+            screen.setCursor(0, 2);
+            screen.print(buf);
         }
-        spaceLeft -= n;
-        dst += n;
     }
-
-    // Fill the end of the line with spaces
-    (void)strncpy(dst, &ALARM_LINE[SCREEN_LINE_LENGTH - spaceLeft], spaceLeft);
-
-    // Make sure string is NULL terminated
-    buf[SCREEN_LINE_LENGTH] = '\0';
-
-    screen.setCursor(0, 2);
-    screen.print(buf);
 }
 
 void displayMachineStopped(void) {
