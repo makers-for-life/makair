@@ -363,6 +363,8 @@ void PressureController::safeguards(uint16_t p_centiSec) {
 }
 
 void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
+    (void)p_centiSec;  // unused parameter
+
     if (m_subPhase == CycleSubPhases::INSPIRATION) {
         if (m_pressure >= (m_maxPeakPressureCommand - 30u)) {
             // m_blower_valve.ouvrirIntermediaire();
@@ -381,6 +383,8 @@ void PressureController::safeguardPressionCrete(uint16_t p_centiSec) {
 }
 
 void PressureController::safeguardPlateau(uint16_t p_centiSec) {
+    (void)p_centiSec;  // unused parameter
+
     if (m_subPhase == CycleSubPhases::HOLD_INSPIRATION) {
         if (m_pressure < ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O) {
             m_alarmController->detectedAlarm(RCM_SW_19, m_cycleNb);
@@ -405,6 +409,8 @@ void PressureController::safeguardPlateau(uint16_t p_centiSec) {
 }
 
 void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
+    (void)p_centiSec;  // unused parameter
+
     if (m_phase == CyclePhases::EXHALATION) {
         uint16_t minPeepBeforeAlarm =
             m_minPeepCommand - ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O;
@@ -421,6 +427,8 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
 }
 
 void PressureController::safeguardMaintienPeep(uint16_t p_centiSec) {
+    (void)p_centiSec;  // unused parameter
+
     if (m_pressure <= m_minPeepCommand) {
         // m_blower.augmenterOuverture();
     }

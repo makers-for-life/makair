@@ -294,21 +294,8 @@ class PressureController {
     /// Maximal peak pressure desired by the operator
     uint16_t m_maxPeakPressureCommand;
 
-    /// Tick de détection initiale pour le dépassement de la consigne de crête
-    uint16_t m_triggerMaxPeakPressureDetectionTick;
-
-    /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
-    /// crête
-    uint16_t m_triggerMaxPeakPressureDetectionTickDeletion;
-
     /// Maximal plateau pressure desired by the operator
     uint16_t m_maxPlateauPressureCommand;
-
-    /// Tick to detect initial plateau pression overflow
-    uint16_t m_triggerMaxPlateauPressureDetectionTick;
-
-    /// Tick to delete initial plateau overflow
-    uint16_t m_triggerMaxPlateauPressureDetectionTickDeletion;
 
     /// Minimal PEEP desired by the operator
     uint16_t m_minPeepCommand;

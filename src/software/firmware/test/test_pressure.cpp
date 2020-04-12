@@ -8,6 +8,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
 
@@ -27,13 +28,9 @@ int16_t convertSensor2PressureFloat(uint16_t sensorValue) {
     double vOut = filteredVout / RATIO_VOLTAGE_DIVIDER;
 
     // Pressure converted to kPA
-    double pressure = (vOut / V_SUPPLY - 0.04) / 0.09;
+    double pressure = ((vOut / V_SUPPLY) - 0.04) / 0.09;
 
-    if (pressure <= 0.0) {
-        return 0;
-    }
-
-    return pressure * KPA_MMH2O;
+    return std::max(0.0, pressure * KPA_MMH2O);
 }
 
 /**
@@ -58,14 +55,14 @@ TEST_F(PressionTest, testConvertSensor2PressureCompWithFloat) {
     std::vector<uint16_t> outputTruth;
     std::vector<uint16_t> output;
 
-    for (int i = 0; i < input.size(); i++) {
+    for (size_t i = 0; i < input.size(); i++) {
         outputTruth.push_back(convertSensor2PressureFloat(input[i]));
         output.push_back(convertSensor2Pressure(input[i]));
 
         std::cout << outputTruth.back() << " " << output.back() << std::endl;
     }
 
-    for (int i = 0; i < output.size(); i++) {
+    for (size_t i = 0; i < output.size(); i++) {
         ASSERT_LE(std::abs(outputTruth[i] - output[i]), 2);
     }
 }
