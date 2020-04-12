@@ -169,7 +169,7 @@ int32_t lastMicro = 0;
 
 // Number of cycles before LCD screen reset
 // (because this kind of screen is not reliable, we need to reset it every 5 min or so)
-int8_t cyclesBeforeScreenReset = LCD_RESET_PERIOD * CONST_MIN_CYCLE;
+int8_t cyclesBeforeScreenReset = LCD_RESET_PERIOD * (int8_t)CONST_MIN_CYCLE;
 
 void loop(void) {
     /********************************************/
@@ -245,7 +245,7 @@ void loop(void) {
         DBG_DO(Serial.println("resetting LCD screen");)
         resetScreen();
         clearAlarmDisplayCache();
-        cyclesBeforeScreenReset = LCD_RESET_PERIOD * CONST_MIN_CYCLE;
+        cyclesBeforeScreenReset = LCD_RESET_PERIOD * (int8_t)CONST_MIN_CYCLE;
     }
 }
 

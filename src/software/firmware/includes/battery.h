@@ -20,24 +20,24 @@
  * Expected voltage in volts when power cord is plugged.
  * Calculated by analogRead(PIN) * 0,0296484375 = 26,5 => 26,5 / 0,0296484375 = 893,8
  */
-#define RAW_VOLTAGE_MAINS_MIN 894
+#define RAW_VOLTAGE_MAINS_MIN 894u
 
 /**
  * RCM_SW_11
  * Expected voltage in volts when power cord is plugged.
  * Calculated by analogRead(PIN) * 0,0296484375 = 24,6 => 24,6 / 0,0296484375 = 829,7
  */
-#define RAW_VOLTAGE_ON_BATTERY 830
+#define RAW_VOLTAGE_ON_BATTERY 830u
 
 /**
  * RCM_SW_12
  * Expected voltage in volts when power cord is plugged.
  * Calculated by analogRead(PIN) * 0,0296484375 = 24 => 24 / 0,0296484375 = 809,4
  */
-#define RAW_VOLTAGE_ON_BATTERY_LOW 809
+#define RAW_VOLTAGE_ON_BATTERY_LOW 809u
 
 /// Number of samples of the moving average
-#define BATTERY_MAX_SAMPLES 20
+#define BATTERY_MAX_SAMPLES 20u
 
 /**
  * Initialize battery abstraction

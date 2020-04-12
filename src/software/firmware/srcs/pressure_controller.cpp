@@ -262,14 +262,16 @@ void PressureController::updateBlower(uint16_t p_centiSec) {
     m_max_pressure = max(m_max_pressure, m_pressure);
 
     // Case blower is too low
-    if (m_phase == CyclePhases::INHALATION && (p_centiSec > (m_centiSecPerInhalation * 80u) / 100u)
+    if ((m_phase == CyclePhases::INHALATION
+         && (p_centiSec > ((m_centiSecPerInhalation * 80u) / 100u)))
         && (m_max_pressure < m_maxPeakPressureCommand)) {
         m_blower_increment = 5;
     }
 
     // Case blower is too high
-    if (m_phase == CyclePhases::INHALATION && (p_centiSec < (m_centiSecPerInhalation * 20u) / 100u)
-        && m_max_pressure > m_maxPeakPressureCommand) {
+    if ((m_phase == CyclePhases::INHALATION
+         && (p_centiSec < ((m_centiSecPerInhalation * 20u) / 100u)))
+        && (m_max_pressure > m_maxPeakPressureCommand)) {
         m_blower_increment = -5;
     }
 }
@@ -394,7 +396,7 @@ void PressureController::safeguardPlateau(uint16_t p_centiSec) {
 
         uint16_t minPlateauBeforeAlarm = 80u * m_maxPlateauPressureCommand / 100u;
         uint16_t maxPlateauBeforeAlarm = 120u * m_maxPlateauPressureCommand / 100u;
-        if (m_pressure < minPlateauBeforeAlarm || m_pressure > maxPlateauBeforeAlarm) {
+        if ((m_pressure < minPlateauBeforeAlarm) || (m_pressure > maxPlateauBeforeAlarm)) {
             m_alarmController->detectedAlarm(RCM_SW_14, m_cycleNb);
         } else {
             m_alarmController->notDetectedAlarm(RCM_SW_14);
@@ -408,7 +410,7 @@ void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
             m_minPeepCommand - ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O;
         uint16_t maxPeepBeforeAlarm =
             m_minPeepCommand + ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O;
-        if (m_pressure < minPeepBeforeAlarm || m_pressure > maxPeepBeforeAlarm) {
+        if ((m_pressure < minPeepBeforeAlarm) || (m_pressure > maxPeepBeforeAlarm)) {
             m_alarmController->detectedAlarm(RCM_SW_3, m_cycleNb);
             m_alarmController->detectedAlarm(RCM_SW_15, m_cycleNb);
         } else {

@@ -127,7 +127,7 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
         return;
     }
 
-    if (p_nbTriggeredAlarms == 0) {
+    if (p_nbTriggeredAlarms == 0u) {
         screen.setCursor(0, 2);
         screen.print(NO_ALARM_LINE);
         return;
@@ -139,7 +139,7 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
     char buf[SCREEN_LINE_LENGTH + 1];
 
     // Write beginning of line
-    strncpy(buf, ALARM_LINE, ALARMS_CODE_POS);
+    (void)strncpy(buf, ALARM_LINE, ALARMS_CODE_POS);
 
     // Write alarm codes
     char* dst = buf + ALARMS_CODE_POS;
@@ -147,7 +147,7 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
     for (uint8_t i = 0; i < nbAlarmToPrint; i++) {
         // + 1 for the trailing NULL char
         int n = snprintf(dst, spaceLeft + 1, " %u", p_alarmCodes[i]);
-        if (n < 0 || n > spaceLeft) {
+        if ((n < 0) || (n > spaceLeft)) {
             break;  // Error or no space left in buffer
         }
         spaceLeft -= n;
@@ -155,7 +155,7 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
     }
 
     // Fill the end of the line with spaces
-    strncpy(dst, &ALARM_LINE[SCREEN_LINE_LENGTH - spaceLeft], spaceLeft);
+    (void)strncpy(dst, &ALARM_LINE[SCREEN_LINE_LENGTH - spaceLeft], spaceLeft);
 
     // Make sure string is NULL terminated
     buf[SCREEN_LINE_LENGTH] = '\0';

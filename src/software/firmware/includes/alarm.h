@@ -31,13 +31,13 @@ class Alarm {
     Alarm(AlarmPriority p_priority, uint8_t p_code, uint8_t p_detectionThreshold);
 
     /// Get the alarm priority
-    AlarmPriority getPriority();
+    AlarmPriority getPriority() const;
 
     /// Get the alarm code
-    uint8_t getCode();
+    uint8_t getCode() const;
 
     /// True if the number of detections is equal or above the detection threshold, false otherwise
-    bool isTriggered();
+    bool isTriggered() const;
 
     /**
      * If the alarm is detected, it increments the number of detection until the detection
