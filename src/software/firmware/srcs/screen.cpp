@@ -95,8 +95,7 @@ static bool hasAlarmInformationChanged(uint8_t p_alarmCodes[], uint8_t p_nbTrigg
         clearCache = false;
         hasChanged = true;
     } else {
-        uint8_t nbAlarmToPrint =
-            min(static_cast<uint8_t>(MAX_ALARMS_DISPLAYED), p_nbTriggeredAlarms);
+        uint8_t nbAlarmToPrint = min(MAX_ALARMS_DISPLAYED, p_nbTriggeredAlarms);
 
         if (nbAlarmToPrint != prevNbAlarmToPrint) {
             hasChanged = true;
@@ -129,8 +128,7 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
             screen.setCursor(0, 2);
             screen.print(NO_ALARM_LINE);
         } else {
-            uint8_t nbAlarmToPrint =
-                min(static_cast<uint8_t>(MAX_ALARMS_DISPLAYED), p_nbTriggeredAlarms);
+            uint8_t nbAlarmToPrint = min(MAX_ALARMS_DISPLAYED, p_nbTriggeredAlarms);
 
             // +1 for trailing NULL char
             char buf[SCREEN_LINE_LENGTH + 1];
