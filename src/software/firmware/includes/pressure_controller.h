@@ -216,13 +216,6 @@ class PressureController {
     void safeguards(uint16_t p_centiSec);
 
     /**
-     * Implement safeguard for peak pressure
-     *
-     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
-     */
-    void safeguardPressionCrete(uint16_t p_centiSec);
-
-    /**
      * Implement safeguard for max plateau pressure
      *
      * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
@@ -236,15 +229,6 @@ class PressureController {
      * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
      */
     void safeguardHoldExpiration(uint16_t p_centiSec);
-
-    /**
-     * Implement a second safeguard for peep pressure
-     *
-     * If the hold exhalation is not enough, we start to open the blower valve in order to maintain
-     * a pressure
-     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
-     */
-    void safeguardMaintienPeep(uint16_t p_centiSec);
 
     /**
      * Compute various cycle durations given the desired number of cycles per minute
@@ -304,20 +288,8 @@ class PressureController {
     /// Maximal plateau pressure desired by the operator
     uint16_t m_maxPlateauPressureCommand;
 
-    /// Tick to detect initial plateau pression overflow
-    uint16_t m_triggerMaxPlateauPressureDetectionTick;
-
-    /// Tick to delete initial plateau overflow
-    uint16_t m_triggerMaxPlateauPressureDetectionTickDeletion;
-
     /// Minimal PEEP desired by the operator
     uint16_t m_minPeepCommand;
-
-    /// Initial tick detection to maintain Peep
-    uint16_t m_triggerHoldExpiDetectionTick;
-
-    /// Tick de suppression du tick de détection initiale que la PEEP est maintenue
-    uint16_t m_triggerHoldExpiDetectionTickDeletion;
 
     /// Number of cycles per minute
     uint16_t m_cyclesPerMinute;
@@ -377,7 +349,7 @@ class PressureController {
     int32_t m_dt;
 
     /// Requested pressure at a given point in time
-    int32_t m_consignePression;
+    int32_t m_pressureCommand;
 
     /**
      * Integral gain of the blower PID
