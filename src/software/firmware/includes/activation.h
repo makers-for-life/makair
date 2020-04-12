@@ -20,6 +20,13 @@ class ActivationController {
     ActivationController();
 
     /**
+     * Refresh the current state
+     *
+     * @warning It must be called regularly to protect against time counter overflow
+     */
+    void refreshState();
+
+    /**
      * Return if breathing is activated or not
      */
     bool isRunning() const { return m_state != STOPPED; }
