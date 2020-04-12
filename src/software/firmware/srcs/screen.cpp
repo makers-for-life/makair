@@ -74,6 +74,7 @@ void displayCurrentSettings(uint16_t peakPressureMax,
 }
 
 void displayCurrentInformation(uint16_t peakPressure, uint16_t plateauPressure, uint16_t peep) {
+    // cppcheck-suppress misra-c2012-12.3 ; call to unknown external: screen.setCursor
     screen.setCursor(0, 3);
     char message[SCREEN_LINE_LENGTH + 1];
 
@@ -95,8 +96,7 @@ static bool hasAlarmInformationChanged(uint8_t p_alarmCodes[], uint8_t p_nbTrigg
         clearCache = false;
         hasChanged = true;
     } else {
-        uint8_t nbAlarmToPrint =
-            min(static_cast<uint8_t>(MAX_ALARMS_DISPLAYED), p_nbTriggeredAlarms);
+        uint8_t nbAlarmToPrint = min(MAX_ALARMS_DISPLAYED, p_nbTriggeredAlarms);
 
         if (nbAlarmToPrint != prevNbAlarmToPrint) {
             hasChanged = true;
@@ -124,42 +124,40 @@ void clearAlarmDisplayCache() { clearCache = true; }
 void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms) {
     // WARNING There is a risk of data not being displayed as expected
     // if the line is overwritten somewhere else in the code.
-    if (hasAlarmInformationChanged(p_alarmCodes, p_nbTriggeredAlarms)) {
-        if (p_nbTriggeredAlarms == 0u) {
-            screen.setCursor(0, 2);
-            screen.print(NO_ALARM_LINE);
-        } else {
-            uint8_t nbAlarmToPrint =
-                min(static_cast<uint8_t>(MAX_ALARMS_DISPLAYED), p_nbTriggeredAlarms);
+    if (!hasAlarmInformationChanged(p_alarmCodes, p_nbTriggeredAlarms)) {
+        // Do nothing
+    } else if (p_nbTriggeredAlarms == 0u) {
+        screen.setCursor(0, 2);
+        screen.print(NO_ALARM_LINE);
+    } else {
+        uint8_t nbAlarmToPrint = min(MAX_ALARMS_DISPLAYED, p_nbTriggeredAlarms);
 
-            // +1 for trailing NULL char
-            char buf[SCREEN_LINE_LENGTH + 1];
+        // +1 for trailing NULL char
+        char buf[SCREEN_LINE_LENGTH + 1];
 
-            // Write beginning of line
-            (void)strncpy(buf, ALARM_LINE, ALARMS_CODE_POS);
+        // Write beginning of line
+        (void)strncpy(buf, ALARM_LINE, ALARMS_CODE_POS);
 
-            // Write alarm codes
-            char* dst = buf + ALARMS_CODE_POS;
-            int spaceLeft = SCREEN_LINE_LENGTH - ALARMS_CODE_POS;
-            for (uint8_t i = 0; i < nbAlarmToPrint; i++) {
-                // + 1 for the trailing NULL char
-                int n = snprintf(dst, spaceLeft + 1, " %u", p_alarmCodes[i]);
-                if ((n < 0) || (n > spaceLeft)) {
-                    break;  // Error or no space left in buffer
-                }
-                spaceLeft -= n;
-                dst += n;
+        // Write alarm codes
+        int pos = ALARMS_CODE_POS;
+        for (uint8_t i = 0; i < nbAlarmToPrint; i++) {
+            int spaceLeft = SCREEN_LINE_LENGTH - pos;
+            // + 1 for the trailing NULL char
+            int n = snprintf(&buf[pos], spaceLeft + 1, " %u", p_alarmCodes[i]);
+            if ((n < 0) || (n > spaceLeft)) {
+                break;  // Error or no space left in buffer
             }
-
-            // Fill the end of the line with spaces
-            (void)strncpy(dst, &ALARM_LINE[SCREEN_LINE_LENGTH - spaceLeft], spaceLeft);
-
-            // Make sure string is NULL terminated
-            buf[SCREEN_LINE_LENGTH] = '\0';
-
-            screen.setCursor(0, 2);
-            screen.print(buf);
+            pos += n;
         }
+
+        // Fill the end of the line with spaces
+        (void)strncpy(&buf[pos], &ALARM_LINE[pos], SCREEN_LINE_LENGTH - pos);
+
+        // Make sure string is NULL terminated
+        buf[SCREEN_LINE_LENGTH] = '\0';
+
+        screen.setCursor(0, 2);
+        screen.print(buf);
     }
 }
 

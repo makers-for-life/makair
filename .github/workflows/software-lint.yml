@@ -35,4 +35,4 @@ jobs:
         cppcheck --version
         cppcheck --error-exitcode=0 --enable=all -I ./src/software/firmware/includes ./src/software/firmware/srcs
         cppcheck --error-exitcode=0 --addon=cert -I ./src/software/firmware/includes ./src/software/firmware/srcs
-        cppcheck --error-exitcode=0 --addon=misra -I ./src/software/firmware/includes ./src/software/firmware/srcs
+        cppcheck --error-exitcode=0 --addon=misra --inline-suppr --suppressions-list=./src/software/firmware/cppcheck/misra-suppr.txt -I ./src/software/firmware/includes ./src/software/firmware/srcs
