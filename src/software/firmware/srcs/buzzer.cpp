@@ -97,7 +97,7 @@ uint32_t BuzzerTimerChannel;
  */
 #if (STM32_CORE_VERSION < 0x01090000)
 // cppcheck-suppress misra-c2012-2.7 ; valid unused parameter
-void Update_IT_callback(HardwareTimer* ht)  // NOLINT(readability/casting)
+void Update_IT_callback(HardwareTimer*)  // NOLINT(readability/casting)
 #else
 void Update_IT_callback(void)
 #endif
