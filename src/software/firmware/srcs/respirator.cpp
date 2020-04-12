@@ -225,7 +225,7 @@ void loop(void) {
                 displayCurrentSettings(pController.maxPeakPressureCommand(),
                                        pController.maxPlateauPressureCommand(),
                                        pController.minPeepCommand());
-                if (activationController.isRunning()) {
+                if (shouldRun) {
                     displayCurrentInformation(pController.peakPressure(),
                                               pController.plateauPressure(), pController.peep());
                 } else {
