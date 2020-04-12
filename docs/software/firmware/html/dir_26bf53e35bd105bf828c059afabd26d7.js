@@ -9,7 +9,7 @@ var dir_26bf53e35bd105bf828c059afabd26d7 =
     [ "buzzer_control.cpp", "buzzer__control_8cpp.html", "buzzer__control_8cpp" ],
     [ "integration_test.cpp", "integration__test_8cpp.html", null ],
     [ "keyboard.cpp", "keyboard_8cpp.html", "keyboard_8cpp" ],
-    [ "pression.cpp", "pression_8cpp.html", "pression_8cpp" ],
+    [ "pressure.cpp", "pressure_8cpp.html", "pressure_8cpp" ],
     [ "pressure_controller.cpp", "pressure__controller_8cpp.html", "pressure__controller_8cpp" ],
     [ "pressure_utl.cpp", "pressure__utl_8cpp.html", "pressure__utl_8cpp" ],
     [ "pressure_valve.cpp", "pressure__valve_8cpp.html", "pressure__valve_8cpp" ],
