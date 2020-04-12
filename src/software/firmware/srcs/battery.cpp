@@ -29,8 +29,13 @@ static uint32_t rawBatteryMeanVoltage = RAW_VOLTAGE_MAINS;  // Mean battery volt
 static bool isRunningOnBattery = false;
 
 void initBattery() {
-    for (uint16_t i = 0; i < BATTERY_MAX_SAMPLES; i++) {
+    for (uint8_t i = 0; i < BATTERY_MAX_SAMPLES; i++) {
         rawBatterySample[i] = 0;
+    }
+
+    // Running this in setup avoids triggering alarms at startup
+    for (uint8_t i = 0; i < BATTERY_MAX_SAMPLES; i++) {
+        batteryLoop(0);
     }
 }
 

@@ -127,6 +127,8 @@ void setup(void) {
     pinMode(PIN_LED_GREEN, OUTPUT);
 
     initKeyboard();
+
+    // Initialize battery level estimation
     initBattery();
 
     BuzzerControl_Init();
@@ -211,6 +213,15 @@ void loop(void) {
             } else {
                 digitalWrite(PIN_LED_START, LED_START_INACTIVE);
                 blower.stop();
+
+                // Stop alarms related to breathing cycle
+                alarmController.notDetectedAlarm(RCM_SW_2);
+                alarmController.notDetectedAlarm(RCM_SW_1);
+                alarmController.notDetectedAlarm(RCM_SW_3);
+                alarmController.notDetectedAlarm(RCM_SW_18);
+                alarmController.notDetectedAlarm(RCM_SW_14);
+                alarmController.notDetectedAlarm(RCM_SW_15);
+                alarmController.notDetectedAlarm(RCM_SW_19);
             }
 
             // Check if some buttons have been pushed
