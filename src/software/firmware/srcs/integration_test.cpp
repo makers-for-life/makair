@@ -149,6 +149,9 @@ void setup() {
     BuzzerControl_Init();
     Buzzer_Init();
     initBattery();
+
+    pinMode(PIN_LED_START, OUTPUT);
+    digitalWrite(PIN_LED_START, LED_START_ACTIVE);
 }
 
 void loop() {

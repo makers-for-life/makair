@@ -45,24 +45,25 @@
 #define STEP_BTN_ALARM_OFF 11
 #define STEP_BTN_START 12
 #define STEP_BTN_STOP 13
-#define STEP_LED_RED 14
-#define STEP_LED_YELLOW 15
-#define STEP_LED_GREEN 16
-#define STEP_BUZZER 17
-#define STEP_SERVO_BLOWER_OPEN 18
-#define STEP_SERVO_BLOWER_CLOSE 19
-#define STEP_SERVO_PATIENT_OPEN 20
-#define STEP_SERVO_PATIENT_CLOSE 21
-#define STEP_SERVOS 22
-#define STEP_BLOWER 23
-#define STEP_WATCHDOG 24
-#define STEP_WATCHDOG_SUCCESS 25
-#define STEP_SERIAL 26
-#define STEP_PRESSURE_EMPTY 27
-#define STEP_PRESSURE_VAL1 28
-#define STEP_PRESSURE_VAL2 29
-#define STEP_PRESSURE_VAL3 30
-#define STEP_DONE 31
+#define STEP_LED_START 14
+#define STEP_LED_RED 15
+#define STEP_LED_YELLOW 16
+#define STEP_LED_GREEN 17
+#define STEP_BUZZER 18
+#define STEP_SERVO_BLOWER_OPEN 19
+#define STEP_SERVO_BLOWER_CLOSE 20
+#define STEP_SERVO_PATIENT_OPEN 21
+#define STEP_SERVO_PATIENT_CLOSE 22
+#define STEP_SERVOS 23
+#define STEP_BLOWER 24
+#define STEP_WATCHDOG 25
+#define STEP_WATCHDOG_SUCCESS 26
+#define STEP_SERIAL 27
+#define STEP_PRESSURE_EMPTY 28
+#define STEP_PRESSURE_VAL1 29
+#define STEP_PRESSURE_VAL2 30
+#define STEP_PRESSURE_VAL3 31
+#define STEP_DONE 32
 
 static uint8_t step = STEP_LCD;
 
@@ -250,6 +251,8 @@ void onAlarmOffClick() {
         changeStep(step + 1);
     } else if (step == STEP_BTN_ALARM_OFF) {
         changeStep(step + 1);
+    } else if (step == STEP_LED_START) {
+        changeStep(step + 1);
     } else if (step == STEP_BUZZER) {
         changeStep(step + 1);
     } else if (step == STEP_WATCHDOG_SUCCESS) {
@@ -389,6 +392,7 @@ void setup() {
     btn_start.attachClick(onStartClick);
     btn_stop.attachClick(onStopClick);
 
+    pinMode(PIN_LED_START, OUTPUT);
     pinMode(PIN_LED_RED, OUTPUT);
     pinMode(PIN_LED_YELLOW, OUTPUT);
     pinMode(PIN_LED_GREEN, OUTPUT);
@@ -479,6 +483,7 @@ void loop() {
     btn_start.tick();
     btn_stop.tick();
 
+    digitalWrite(PIN_LED_START, LED_RED_INACTIVE);
     digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
     digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
     digitalWrite(PIN_LED_GREEN, LED_GREEN_INACTIVE);
@@ -537,6 +542,11 @@ void loop() {
     }
     case STEP_BTN_STOP: {
         UNGREEDY(is_drawn, display("Press the button", "Stop"));
+        break;
+    }
+    case STEP_LED_START: {
+        UNGREEDY(is_drawn, display("Start LED is ON", "Press alarm OFF"));
+        digitalWrite(PIN_LED_START, LED_START_ACTIVE);
         break;
     }
     case STEP_LED_RED: {
