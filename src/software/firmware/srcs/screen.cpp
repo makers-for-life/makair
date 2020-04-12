@@ -74,6 +74,7 @@ void displayCurrentSettings(uint16_t peakPressureMax,
 }
 
 void displayCurrentInformation(uint16_t peakPressure, uint16_t plateauPressure, uint16_t peep) {
+    // cppcheck-suppress misra-c2012-12.3 ; call to unknown external: screen.setCursor
     screen.setCursor(0, 3);
     char message[SCREEN_LINE_LENGTH + 1];
 
