@@ -151,6 +151,7 @@ void setup(void) {
     lastpControllerComputeDate = millis();
 
     // Catch potential Watchdog reset
+    // cppcheck-suppress misra-c2012-14.4 ; unknown external signature
     if (IWatchdog.isReset(true)) {
         // TODO holdExhale
         // Display something ?

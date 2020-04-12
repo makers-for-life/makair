@@ -1,10 +1,5 @@
 name: Software Lint
 
-# TODO:
-# - fix linter violations
-# - determine which files should be checked (at the moment: any file in src/arduino/)
-# - find a way to display MISRA errors (see https://github.com/danmar/cppcheck/blob/master/addons/misra.py#L9) ; this feels like middle-age ¯\(ツ)/¯
-
 on:
   push:
     paths:
@@ -23,22 +18,21 @@ jobs:
         with:
           args: "--recursive ./src/software/firmware/"
 
-#   cppcheck:
-#     runs-on: ubuntu-18.04
-#     steps:
-#     - name: install cppcheck
-#       run: |
-#         sed 's/bionic/focal/g' /etc/apt/sources.list | sudo tee /etc/apt/sources.list.d/focal.list
-#         sudo apt-get update
-#         echo "Package: cppcheck" | sudo tee /etc/apt/preferences.d/cppcheck
-#         echo "Pin: release n=focal" | sudo tee -a /etc/apt/preferences.d/cppcheck
-#         echo "Pin-Priority: 990" | sudo tee -a /etc/apt/preferences.d/cppcheck
-#         sudo apt-get install -y cppcheck
-#     - uses: actions/checkout@v2
-#     - name: run cppcheck
-#       run: |
-#         cppcheck --version
-#         cppcheck --error-exitcode=1 --enable=all ./src/software/firmware/
-#         echo $?
-#         cppcheck --error-exitcode=1 --addon=cert ./src/software/firmware/
-#         #cppcheck --error-exitcode=1 --addon=misra ./src/software/firmware/
+  cppcheck:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: install cppcheck
+      run: |
+        sed 's/bionic/focal/g' /etc/apt/sources.list | sudo tee /etc/apt/sources.list.d/focal.list
+        sudo apt-get update
+        echo "Package: cppcheck" | sudo tee /etc/apt/preferences.d/cppcheck
+        echo "Pin: release n=focal" | sudo tee -a /etc/apt/preferences.d/cppcheck
+        echo "Pin-Priority: 990" | sudo tee -a /etc/apt/preferences.d/cppcheck
+        sudo apt-get install -y cppcheck
+    - uses: actions/checkout@v2
+    - name: run cppcheck
+      run: |
+        cppcheck --version
+        cppcheck --error-exitcode=0 --enable=all -I ./src/software/firmware/includes ./src/software/firmware/srcs
+        cppcheck --error-exitcode=0 --addon=cert -I ./src/software/firmware/includes ./src/software/firmware/srcs
+        cppcheck --error-exitcode=0 --addon=misra --inline-suppr --suppressions-list=./src/software/firmware/cppcheck/misra-suppr.txt -I ./src/software/firmware/includes ./src/software/firmware/srcs

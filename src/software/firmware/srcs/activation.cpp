@@ -27,24 +27,16 @@ ActivationController::ActivationController() : m_state(STOPPED), m_timeOfLastSto
 void ActivationController::onStartButton() { m_state = RUNNING; }
 
 void ActivationController::onStopButton() {
-    switch (m_state) {
-    default:
-    case STOPPED:
-        break;
-
-    case RUNNING_READY_TO_STOP:
-        if ((millis() - m_timeOfLastStopPushed) < SECOND_STOP_MAX_DELAY_MS) {
-            m_state = STOPPED;
-            break;
-        }
-        // No break here. Fallback to default ON state handling
-
-    case RUNNING:
+    if ((m_state == RUNNING_READY_TO_STOP)
+        && ((millis() - m_timeOfLastStopPushed) < SECOND_STOP_MAX_DELAY_MS)) {
+        m_state = STOPPED;
+    } else if ((m_state == RUNNING_READY_TO_STOP) || (m_state == RUNNING)) {
         m_timeOfLastStopPushed = millis();
         m_state = RUNNING_READY_TO_STOP;
 
         Buzzer_Boot_Start();
-        break;
+    } else {
+        // Stay in STOPPED state
     }
 }
 
