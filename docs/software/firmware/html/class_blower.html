@@ -111,9 +111,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa8d7ed93ae09574c4a402e79f75eabc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8">stop</a> ()</td></tr>
 <tr class="memdesc:aa8d7ed93ae09574c4a402e79f75eabc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the blower.  <a href="class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8">More...</a><br /></td></tr>
 <tr class="separator:aa8d7ed93ae09574c4a402e79f75eabc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3284f45d9862a7f35b8a64cd1e41b2c8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_blower.html#a3284f45d9862a7f35b8a64cd1e41b2c8">getSpeed</a> ()</td></tr>
-<tr class="memdesc:a3284f45d9862a7f35b8a64cd1e41b2c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get speed value.  <a href="class_blower.html#a3284f45d9862a7f35b8a64cd1e41b2c8">More...</a><br /></td></tr>
-<tr class="separator:a3284f45d9862a7f35b8a64cd1e41b2c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5315e0e5eebad72c0363984bcc226257"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_blower.html#a5315e0e5eebad72c0363984bcc226257">getSpeed</a> () const</td></tr>
+<tr class="memdesc:a5315e0e5eebad72c0363984bcc226257"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get speed value.  <a href="class_blower.html#a5315e0e5eebad72c0363984bcc226257">More...</a><br /></td></tr>
+<tr class="separator:a5315e0e5eebad72c0363984bcc226257"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -205,8 +205,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3284f45d9862a7f35b8a64cd1e41b2c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3284f45d9862a7f35b8a64cd1e41b2c8">&#9670;&nbsp;</a></span>getSpeed()</h2>
+<a id="a5315e0e5eebad72c0363984bcc226257"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5315e0e5eebad72c0363984bcc226257">&#9670;&nbsp;</a></span>getSpeed()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -215,7 +215,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">int Blower::getSpeed </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -253,7 +253,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="blower_8cpp_source.html#l00038">38</a> of file <a class="el" href="blower_8cpp_source.html">blower.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                                     {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> (p_speed &gt; <a class="code" href="parameters_8h.html#a9d2b8b8d0ab40857c2d65732708b8782">MIN_BLOWER_SPEED</a> &amp;&amp; p_speed &lt; <a class="code" href="parameters_8h.html#a3ffa4d83d65bee55efc0a43440e9db2e">MAX_BLOWER_SPEED</a>) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> ((p_speed &gt; <a class="code" href="parameters_8h.html#a9d2b8b8d0ab40857c2d65732708b8782">MIN_BLOWER_SPEED</a>) &amp;&amp; (p_speed &lt; <a class="code" href="parameters_8h.html#a3ffa4d83d65bee55efc0a43440e9db2e">MAX_BLOWER_SPEED</a>)) {</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="class_blower.html#a04eae5c4a39977bc54219514b99c7503">actuator</a>-&gt;setCaptureCompare(<a class="code" href="class_blower.html#a7507a753f7558ae33cc93cdce684b15f">timerChannel</a>, <a class="code" href="blower_8h.html#a68bd79c1576a038b2004077c7e027cca">BlowerSpeed2MicroSeconds</a>(p_speed),</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                    MICROSEC_COMPARE_FORMAT);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <a class="code" href="class_blower.html#ab050eb21ddc45f35d00650f4eb8f154f">m_speed</a> = p_speed;</div>

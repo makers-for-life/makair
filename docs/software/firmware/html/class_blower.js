@@ -2,7 +2,7 @@ var class_blower =
 [
     [ "Blower", "class_blower.html#af94bdfcc26cc33e19e36cca6b20a4cec", null ],
     [ "Blower", "class_blower.html#a6e9d2ca169a96aff930287ae7191708e", null ],
-    [ "getSpeed", "class_blower.html#a3284f45d9862a7f35b8a64cd1e41b2c8", null ],
+    [ "getSpeed", "class_blower.html#a5315e0e5eebad72c0363984bcc226257", null ],
     [ "runSpeed", "class_blower.html#a50960a607e3c8cb321c195e35815ceb2", null ],
     [ "setup", "class_blower.html#a3e124c8a70abb893efea331c80fceb57", null ],
     [ "stop", "class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8", null ],

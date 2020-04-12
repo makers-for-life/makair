@@ -120,14 +120,16 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a894b1d58dae4ebdf2cf0564b1808b629"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a> [20]</td></tr>
+<tr class="memitem:a894b1d58dae4ebdf2cf0564b1808b629"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a> [20]</td></tr>
 <tr class="separator:a894b1d58dae4ebdf2cf0564b1808b629"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a668d7b50d9e8ddd49096d3a35f8fdc2d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a> = 0</td></tr>
+<tr class="memitem:a668d7b50d9e8ddd49096d3a35f8fdc2d"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a> = 0</td></tr>
 <tr class="separator:a668d7b50d9e8ddd49096d3a35f8fdc2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89f0774b305112c43fe1fcdc59e8082b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> = 0</td></tr>
+<tr class="memitem:a89f0774b305112c43fe1fcdc59e8082b"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> = 0</td></tr>
 <tr class="separator:a89f0774b305112c43fe1fcdc59e8082b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dfc5b6e6faefb5ec33041075a7e83c0"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> = <a class="el" href="battery_8h.html#aa4d04392add38d8d8427f75967b35683">RAW_VOLTAGE_MAINS</a></td></tr>
+<tr class="memitem:a7dfc5b6e6faefb5ec33041075a7e83c0"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> = <a class="el" href="battery_8h.html#aa4d04392add38d8d8427f75967b35683">RAW_VOLTAGE_MAINS</a></td></tr>
 <tr class="separator:a7dfc5b6e6faefb5ec33041075a7e83c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59059e9ff84265ce4c9c088250fc13fd"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="battery_8cpp.html#a59059e9ff84265ce4c9c088250fc13fd">isRunningOnBattery</a> = false</td></tr>
+<tr class="separator:a59059e9ff84265ce4c9c088250fc13fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Battery related functions. </p>
@@ -161,11 +163,11 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>It must be called in the program loop </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00085">85</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                         {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <a class="code" href="battery_8cpp.html#a9ffac32955710f7a3aefe1fb7120b263">updateBatterySample</a>();</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <a class="code" href="battery_8cpp.html#a55106fffceca7b7e552f55c0a1efb471">updateBatteryState</a>(p_cycleNumber);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00084">84</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                         {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="battery_8cpp.html#a9ffac32955710f7a3aefe1fb7120b263">updateBatterySample</a>();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <a class="code" href="battery_8cpp.html#a55106fffceca7b7e552f55c0a1efb471">updateBatteryState</a>(p_cycleNumber);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -187,8 +189,8 @@ Variables</h2></td></tr>
 <p>Returns battery level. </p>
 <dl class="section return"><dt>Returns</dt><dd>Battery level in volts </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00090">90</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> * 0.0296484375; }</div>
+<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00089">89</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> * 0.0296484375; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -210,12 +212,12 @@ Variables</h2></td></tr>
 <p>Initialize battery abstraction. </p>
 <dl class="section warning"><dt>Warning</dt><dd>It must be called once to be able to check battery level </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00030">30</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                   {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="battery_8h.html#a216384132a8739114132f6254995eda6">BATTERY_MAX_SAMPLES</a>; i++) {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a>[i] = 0;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    }</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00031">31</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                   {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; <a class="code" href="battery_8h.html#a216384132a8739114132f6254995eda6">BATTERY_MAX_SAMPLES</a>; i++) {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a>[i] = 0;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -236,30 +238,30 @@ Variables</h2></td></tr>
 
 <p>Handle battery voltage calculation. </p>
 
-<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00036">36</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                           {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    uint16_t rawVout = analogRead(<a class="code" href="parameters_8h.html#adb925a5f9d18b6b2bc2b80357d94e5a1">PIN_BATTERY</a>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">// Substract previous sample</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> = <a class="code" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> - <a class="code" href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a>[<a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a>];</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">// Assign sample from Vout</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a>[<a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a>] = rawVout;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">// Add sample</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> = <a class="code" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> + <a class="code" href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a>[<a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a>];</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">// Increment sample</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a>++;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// If we reached max samples</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a> &gt;= <a class="code" href="battery_8h.html#a216384132a8739114132f6254995eda6">BATTERY_MAX_SAMPLES</a>) {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a> = 0;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">// Updates mean voltage</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> = (<a class="code" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> / <a class="code" href="battery_8h.html#a216384132a8739114132f6254995eda6">BATTERY_MAX_SAMPLES</a>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00037">37</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                           {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    uint16_t rawVout = analogRead(<a class="code" href="parameters_8h.html#adb925a5f9d18b6b2bc2b80357d94e5a1">PIN_BATTERY</a>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">// Substract previous sample</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> = <a class="code" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> - <a class="code" href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a>[<a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a>];</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">// Assign sample from Vout</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a>[<a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a>] = rawVout;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">// Add sample</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> = <a class="code" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> + <a class="code" href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a>[<a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a>];</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// Increment sample</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a>++;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// If we reached max samples</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a> &gt;= <a class="code" href="battery_8h.html#a216384132a8739114132f6254995eda6">BATTERY_MAX_SAMPLES</a>) {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a> = 0;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// Updates mean voltage</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> = (<a class="code" href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a> / <a class="code" href="battery_8h.html#a216384132a8739114132f6254995eda6">BATTERY_MAX_SAMPLES</a>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -287,31 +289,29 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00060">60</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                                {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> isRunningOnBattery = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> &lt; <a class="code" href="battery_8h.html#a4598de344b220acdf5565841e817c351">RAW_VOLTAGE_ON_BATTERY_LOW</a>) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#a7ba71cb258893f8e9e3ef73fe677354a">detectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a1497e010dd3f29fac815e898967b6d75">RCM_SW_12</a>, p_cycleNumber);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        isRunningOnBattery = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#af1ed8c1cbf5e3c8fe36f534295865849">notDetectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a1497e010dd3f29fac815e898967b6d75">RCM_SW_12</a>);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> (!isRunningOnBattery &amp;&amp; <a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> &lt; <a class="code" href="battery_8h.html#ae0a4069cd5f24621150bf0fdc88bde1f">RAW_VOLTAGE_ON_BATTERY</a>) {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#a7ba71cb258893f8e9e3ef73fe677354a">detectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a03e19e548bcc92ec6001123a11a8a382">RCM_SW_11</a>, p_cycleNumber);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        isRunningOnBattery = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#af1ed8c1cbf5e3c8fe36f534295865849">notDetectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a03e19e548bcc92ec6001123a11a8a382">RCM_SW_11</a>);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">if</span> (!isRunningOnBattery &amp;&amp; <a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> &lt; <a class="code" href="battery_8h.html#aa4836eaa0770e0cd6faae8339e6227bb">RAW_VOLTAGE_MAINS_MIN</a>) {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#a7ba71cb258893f8e9e3ef73fe677354a">detectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a63ebb7c5ef9c7866f2500e753d4d112b">RCM_SW_16</a>, p_cycleNumber);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        isRunningOnBattery = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#af1ed8c1cbf5e3c8fe36f534295865849">notDetectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a63ebb7c5ef9c7866f2500e753d4d112b">RCM_SW_16</a>);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00061">61</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                                                {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> &lt; <a class="code" href="battery_8h.html#a4598de344b220acdf5565841e817c351">RAW_VOLTAGE_ON_BATTERY_LOW</a>) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#a7ba71cb258893f8e9e3ef73fe677354a">detectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a1497e010dd3f29fac815e898967b6d75">RCM_SW_12</a>, p_cycleNumber);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="battery_8cpp.html#a59059e9ff84265ce4c9c088250fc13fd">isRunningOnBattery</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#af1ed8c1cbf5e3c8fe36f534295865849">notDetectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a1497e010dd3f29fac815e898967b6d75">RCM_SW_12</a>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="battery_8cpp.html#a59059e9ff84265ce4c9c088250fc13fd">isRunningOnBattery</a> &amp;&amp; (<a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> &lt; <a class="code" href="battery_8h.html#ae0a4069cd5f24621150bf0fdc88bde1f">RAW_VOLTAGE_ON_BATTERY</a>)) {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#a7ba71cb258893f8e9e3ef73fe677354a">detectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a03e19e548bcc92ec6001123a11a8a382">RCM_SW_11</a>, p_cycleNumber);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <a class="code" href="battery_8cpp.html#a59059e9ff84265ce4c9c088250fc13fd">isRunningOnBattery</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#af1ed8c1cbf5e3c8fe36f534295865849">notDetectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a03e19e548bcc92ec6001123a11a8a382">RCM_SW_11</a>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="battery_8cpp.html#a59059e9ff84265ce4c9c088250fc13fd">isRunningOnBattery</a> &amp;&amp; (<a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> &lt; <a class="code" href="battery_8h.html#aa4836eaa0770e0cd6faae8339e6227bb">RAW_VOLTAGE_MAINS_MIN</a>)) {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#a7ba71cb258893f8e9e3ef73fe677354a">detectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a63ebb7c5ef9c7866f2500e753d4d112b">RCM_SW_16</a>, p_cycleNumber);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <a class="code" href="battery_8cpp.html#a59059e9ff84265ce4c9c088250fc13fd">isRunningOnBattery</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <a class="code" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a>.<a class="code" href="class_alarm_controller.html#af1ed8c1cbf5e3c8fe36f534295865849">notDetectedAlarm</a>(<a class="code" href="alarm__controller_8h.html#a63ebb7c5ef9c7866f2500e753d4d112b">RCM_SW_16</a>);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    }</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -321,11 +321,19 @@ Variables</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">uint32_t batteryCurrentSample = 0</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00026">26</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
@@ -337,14 +345,46 @@ Variables</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">uint32_t batteryTotalSamples = 0</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00027">27</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a59059e9ff84265ce4c9c088250fc13fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59059e9ff84265ce4c9c088250fc13fd">&#9670;&nbsp;</a></span>isRunningOnBattery</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isRunningOnBattery = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00029">29</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
 
 </div>
 </div>
@@ -353,11 +393,19 @@ Variables</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">uint32_t rawBatteryMeanVoltage = <a class="el" href="battery_8h.html#aa4d04392add38d8d8427f75967b35683">RAW_VOLTAGE_MAINS</a></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00028">28</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
@@ -369,11 +417,19 @@ Variables</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">uint32_t rawBatterySample[20]</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00025">25</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
@@ -382,22 +438,23 @@ Variables</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="abattery_8cpp_html_a59059e9ff84265ce4c9c088250fc13fd"><div class="ttname"><a href="battery_8cpp.html#a59059e9ff84265ce4c9c088250fc13fd">isRunningOnBattery</a></div><div class="ttdeci">static bool isRunningOnBattery</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00029">battery.cpp:29</a></div></div>
 <div class="ttc" id="aparameters_8h_html_adb925a5f9d18b6b2bc2b80357d94e5a1"><div class="ttname"><a href="parameters_8h.html#adb925a5f9d18b6b2bc2b80357d94e5a1">PIN_BATTERY</a></div><div class="ttdeci">#define PIN_BATTERY</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00235">parameters.h:235</a></div></div>
 <div class="ttc" id="aclass_alarm_controller_html_a7ba71cb258893f8e9e3ef73fe677354a"><div class="ttname"><a href="class_alarm_controller.html#a7ba71cb258893f8e9e3ef73fe677354a">AlarmController::detectedAlarm</a></div><div class="ttdeci">void detectedAlarm(uint8_t p_alarmCode, uint32_t p_cycleNumber)</div><div class="ttdoc">Mark a specific alarm as detected.</div><div class="ttdef"><b>Definition:</b> <a href="alarm__controller_8cpp_source.html#l00117">alarm_controller.cpp:117</a></div></div>
 <div class="ttc" id="aalarm__controller_8cpp_html_a3da8ff857dba84bdd627e51a2544604b"><div class="ttname"><a href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a></div><div class="ttdeci">AlarmController alarmController</div><div class="ttdoc">Instance of the alarm controller.</div><div class="ttdef"><b>Definition:</b> <a href="alarm__controller_8cpp_source.html#l00021">alarm_controller.cpp:21</a></div></div>
 <div class="ttc" id="aalarm__controller_8h_html_a03e19e548bcc92ec6001123a11a8a382"><div class="ttname"><a href="alarm__controller_8h.html#a03e19e548bcc92ec6001123a11a8a382">RCM_SW_11</a></div><div class="ttdeci">#define RCM_SW_11</div><div class="ttdef"><b>Definition:</b> <a href="alarm__controller_8h_source.html#l00024">alarm_controller.h:24</a></div></div>
 <div class="ttc" id="abattery_8h_html_a216384132a8739114132f6254995eda6"><div class="ttname"><a href="battery_8h.html#a216384132a8739114132f6254995eda6">BATTERY_MAX_SAMPLES</a></div><div class="ttdeci">#define BATTERY_MAX_SAMPLES</div><div class="ttdoc">Number of samples of the moving average.</div><div class="ttdef"><b>Definition:</b> <a href="battery_8h_source.html#l00040">battery.h:40</a></div></div>
 <div class="ttc" id="aclass_alarm_controller_html_af1ed8c1cbf5e3c8fe36f534295865849"><div class="ttname"><a href="class_alarm_controller.html#af1ed8c1cbf5e3c8fe36f534295865849">AlarmController::notDetectedAlarm</a></div><div class="ttdeci">void notDetectedAlarm(uint8_t p_alarmCode)</div><div class="ttdoc">Reset detection of a specific alarm.</div><div class="ttdef"><b>Definition:</b> <a href="alarm__controller_8cpp_source.html#l00127">alarm_controller.cpp:127</a></div></div>
-<div class="ttc" id="abattery_8cpp_html_a55106fffceca7b7e552f55c0a1efb471"><div class="ttname"><a href="battery_8cpp.html#a55106fffceca7b7e552f55c0a1efb471">updateBatteryState</a></div><div class="ttdeci">void updateBatteryState(uint32_t p_cycleNumber)</div><div class="ttdoc">Updates battery states.</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00060">battery.cpp:60</a></div></div>
-<div class="ttc" id="abattery_8cpp_html_a668d7b50d9e8ddd49096d3a35f8fdc2d"><div class="ttname"><a href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a></div><div class="ttdeci">uint32_t batteryCurrentSample</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00026">battery.cpp:26</a></div></div>
+<div class="ttc" id="abattery_8cpp_html_a55106fffceca7b7e552f55c0a1efb471"><div class="ttname"><a href="battery_8cpp.html#a55106fffceca7b7e552f55c0a1efb471">updateBatteryState</a></div><div class="ttdeci">void updateBatteryState(uint32_t p_cycleNumber)</div><div class="ttdoc">Updates battery states.</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00061">battery.cpp:61</a></div></div>
+<div class="ttc" id="abattery_8cpp_html_a668d7b50d9e8ddd49096d3a35f8fdc2d"><div class="ttname"><a href="battery_8cpp.html#a668d7b50d9e8ddd49096d3a35f8fdc2d">batteryCurrentSample</a></div><div class="ttdeci">static uint32_t batteryCurrentSample</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00026">battery.cpp:26</a></div></div>
 <div class="ttc" id="aalarm__controller_8h_html_a1497e010dd3f29fac815e898967b6d75"><div class="ttname"><a href="alarm__controller_8h.html#a1497e010dd3f29fac815e898967b6d75">RCM_SW_12</a></div><div class="ttdeci">#define RCM_SW_12</div><div class="ttdef"><b>Definition:</b> <a href="alarm__controller_8h_source.html#l00025">alarm_controller.h:25</a></div></div>
-<div class="ttc" id="abattery_8cpp_html_a894b1d58dae4ebdf2cf0564b1808b629"><div class="ttname"><a href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a></div><div class="ttdeci">uint32_t rawBatterySample[20]</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00025">battery.cpp:25</a></div></div>
+<div class="ttc" id="abattery_8cpp_html_a894b1d58dae4ebdf2cf0564b1808b629"><div class="ttname"><a href="battery_8cpp.html#a894b1d58dae4ebdf2cf0564b1808b629">rawBatterySample</a></div><div class="ttdeci">static uint32_t rawBatterySample[20]</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00025">battery.cpp:25</a></div></div>
 <div class="ttc" id="aalarm__controller_8h_html_a63ebb7c5ef9c7866f2500e753d4d112b"><div class="ttname"><a href="alarm__controller_8h.html#a63ebb7c5ef9c7866f2500e753d4d112b">RCM_SW_16</a></div><div class="ttdeci">#define RCM_SW_16</div><div class="ttdef"><b>Definition:</b> <a href="alarm__controller_8h_source.html#l00028">alarm_controller.h:28</a></div></div>
-<div class="ttc" id="abattery_8cpp_html_a9ffac32955710f7a3aefe1fb7120b263"><div class="ttname"><a href="battery_8cpp.html#a9ffac32955710f7a3aefe1fb7120b263">updateBatterySample</a></div><div class="ttdeci">void updateBatterySample()</div><div class="ttdoc">Handle battery voltage calculation.</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00036">battery.cpp:36</a></div></div>
-<div class="ttc" id="abattery_8cpp_html_a89f0774b305112c43fe1fcdc59e8082b"><div class="ttname"><a href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a></div><div class="ttdeci">uint32_t batteryTotalSamples</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00027">battery.cpp:27</a></div></div>
+<div class="ttc" id="abattery_8cpp_html_a9ffac32955710f7a3aefe1fb7120b263"><div class="ttname"><a href="battery_8cpp.html#a9ffac32955710f7a3aefe1fb7120b263">updateBatterySample</a></div><div class="ttdeci">void updateBatterySample()</div><div class="ttdoc">Handle battery voltage calculation.</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00037">battery.cpp:37</a></div></div>
+<div class="ttc" id="abattery_8cpp_html_a89f0774b305112c43fe1fcdc59e8082b"><div class="ttname"><a href="battery_8cpp.html#a89f0774b305112c43fe1fcdc59e8082b">batteryTotalSamples</a></div><div class="ttdeci">static uint32_t batteryTotalSamples</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00027">battery.cpp:27</a></div></div>
 <div class="ttc" id="abattery_8h_html_ae0a4069cd5f24621150bf0fdc88bde1f"><div class="ttname"><a href="battery_8h.html#ae0a4069cd5f24621150bf0fdc88bde1f">RAW_VOLTAGE_ON_BATTERY</a></div><div class="ttdeci">#define RAW_VOLTAGE_ON_BATTERY</div><div class="ttdoc">RCM_SW_11 Expected voltage in volts when power cord is plugged.</div><div class="ttdef"><b>Definition:</b> <a href="battery_8h_source.html#l00030">battery.h:30</a></div></div>
 <div class="ttc" id="abattery_8h_html_aa4836eaa0770e0cd6faae8339e6227bb"><div class="ttname"><a href="battery_8h.html#aa4836eaa0770e0cd6faae8339e6227bb">RAW_VOLTAGE_MAINS_MIN</a></div><div class="ttdeci">#define RAW_VOLTAGE_MAINS_MIN</div><div class="ttdoc">RCM_SW_16 Expected voltage in volts when power cord is plugged.</div><div class="ttdef"><b>Definition:</b> <a href="battery_8h_source.html#l00023">battery.h:23</a></div></div>
-<div class="ttc" id="abattery_8cpp_html_a7dfc5b6e6faefb5ec33041075a7e83c0"><div class="ttname"><a href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a></div><div class="ttdeci">uint32_t rawBatteryMeanVoltage</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00028">battery.cpp:28</a></div></div>
+<div class="ttc" id="abattery_8cpp_html_a7dfc5b6e6faefb5ec33041075a7e83c0"><div class="ttname"><a href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a></div><div class="ttdeci">static uint32_t rawBatteryMeanVoltage</div><div class="ttdef"><b>Definition:</b> <a href="battery_8cpp_source.html#l00028">battery.cpp:28</a></div></div>
 <div class="ttc" id="abattery_8h_html_a4598de344b220acdf5565841e817c351"><div class="ttname"><a href="battery_8h.html#a4598de344b220acdf5565841e817c351">RAW_VOLTAGE_ON_BATTERY_LOW</a></div><div class="ttdeci">#define RAW_VOLTAGE_ON_BATTERY_LOW</div><div class="ttdoc">RCM_SW_12 Expected voltage in volts when power cord is plugged.</div><div class="ttdef"><b>Definition:</b> <a href="battery_8h_source.html#l00037">battery.h:37</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

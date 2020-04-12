@@ -11,5 +11,6 @@ var searchData=
   ['integration_5ftest_2ecpp_162',['integration_test.cpp',['../integration__test_8cpp.html',1,'']]],
   ['invalid_5ferror_5fmarker_163',['INVALID_ERROR_MARKER',['../pressure__controller_8cpp.html#a602fa4a2a92de0da954dcab814e946f0',1,'pressure_controller.cpp']]],
   ['isrunning_164',['isRunning',['../class_activation_controller.html#a6150ca0b4b114c9ea416cb9ac7461415',1,'ActivationController']]],
-  ['istriggered_165',['isTriggered',['../class_alarm.html#ad6c2b5a79f34d488974fc693f491fbde',1,'Alarm']]]
+  ['isrunningonbattery_165',['isRunningOnBattery',['../battery_8cpp.html#a59059e9ff84265ce4c9c088250fc13fd',1,'battery.cpp']]],
+  ['istriggered_166',['isTriggered',['../class_alarm.html#a1a1bf095ca11d9fa35b48cb08b72a03d',1,'Alarm']]]
 ];
