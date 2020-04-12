@@ -27,10 +27,10 @@ int16_t convertSensor2PressureFloat(uint16_t sensorValue) {
     double vOut = filteredVout / RATIO_VOLTAGE_DIVIDER;
 
     // Pressure converted to kPA
-    double pressure = (vOut / V_SUPPLY - 0.04) / 0.09;
+    double pressure = ((vOut / V_SUPPLY) - 0.04) / 0.09;
 
     if (pressure <= 0.0) {
-        return 0;
+        pressure = 0;
     }
 
     return pressure * KPA_MMH2O;
@@ -58,7 +58,7 @@ TEST_F(PressionTest, testConvertSensor2PressureCompWithFloat) {
     std::vector<uint16_t> outputTruth;
     std::vector<uint16_t> output;
 
-    for (int i = 0; i < input.size(); i++) {
+    for (size_t i = 0; i < input.size(); i++) {
         outputTruth.push_back(convertSensor2PressureFloat(input[i]));
         output.push_back(convertSensor2Pressure(input[i]));
 
@@ -78,7 +78,7 @@ TEST_F(PressionTest, testConvertSensor2Pressure) {
     std::vector<uint16_t> outputTruth = {0, 0, 144, 984, 2182, 4545, 7839, 17762};
     std::vector<uint16_t> output;
 
-    for (int i = 0; i < input.size(); i++) {
+    for (size_t i = 0; i < input.size(); i++) {
         output.push_back(convertSensor2Pressure(input[i]));
 
         std::cout << output.back() << std::endl;
