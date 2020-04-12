@@ -2,8 +2,6 @@ name: Software Release
 
 on:
   push:
-    tags:
-      - '*'
     paths:
       - .github/workflows/**
       - src/software/firmware/**
