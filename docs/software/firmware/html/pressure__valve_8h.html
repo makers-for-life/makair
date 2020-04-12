@@ -148,16 +148,19 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// greater range)</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> map(value, 0, 125, 800, 2200);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#elif VALVE_TYPE == VT_EMERSON_ASCO</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// map 0 - 125 ° to 100% pwm - EMERSON_MIN_PWM (0% when fully closed)</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="parameters_8h.html#a9c638cefa9f29db2a20baf563fde2692">VALVE_CLOSED_STATE</a> == value) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">// compare units are a bit weird in this micro controller</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment">// TODO: avoid 500ns spikes</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">return</span> map(value, 0, 125, <a class="code" href="parameters_8h.html#a8be02f382c2460e178684735aebc008f">SERVO_VALVE_PERIOD</a>, EMERSON_MIN_PWM);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// default value</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">// compare units are a bit weird in this micro controller</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">// TODO: avoid 500ns spikes</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    uint16_t result = 1;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">// map 0 - 125 ° to 100% pwm - EMERSON_MIN_PWM (0% when fully closed)</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="parameters_8h.html#a9c638cefa9f29db2a20baf563fde2692">VALVE_CLOSED_STATE</a> != value) {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        result = map(value, 0, 125, <a class="code" href="parameters_8h.html#a8be02f382c2460e178684735aebc008f">SERVO_VALVE_PERIOD</a>, EMERSON_MIN_PWM);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>

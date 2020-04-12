@@ -144,13 +144,14 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="comment">// Adjust delta so that the division result will be rounded away from zero.</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment">// This is needed to guaranty that filteredRawPressure will reach</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// rawPressure when it is constant.</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    delta += (delta &gt; 0) ? (<a class="code" href="pressure__utl_8cpp.html#a465063298e1b0547c221cae3dfd1d2d3">RAW_PRESSURE_FILTER_DIVIDER</a> - 1) : -(<a class="code" href="pressure__utl_8cpp.html#a465063298e1b0547c221cae3dfd1d2d3">RAW_PRESSURE_FILTER_DIVIDER</a> - 1);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="pressure__utl_8cpp.html#a1e6291c8d4c8db1915cbbed9ed686527">filteredRawPressure</a> += delta / <a class="code" href="pressure__utl_8cpp.html#a465063298e1b0547c221cae3dfd1d2d3">RAW_PRESSURE_FILTER_DIVIDER</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    int16_t scaledRawPressure =</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="pressure__utl_8cpp.html#a1e6291c8d4c8db1915cbbed9ed686527">filteredRawPressure</a> * <a class="code" href="pressure__utl_8cpp.html#a960b598fd4aa3ac1ff20706e105d3d0f">RAW_PRESSURE_TO_MMH20_NUM</a> / <a class="code" href="pressure__utl_8cpp.html#a7b032144ceb9da652f14b83db51c30de">RAW_PRESSURE_TO_MMH20_DEN</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> std::max(scaledRawPressure - <a class="code" href="pressure__utl_8cpp.html#afc337fe4452f7c18d77d4bc830871010">RAW_PRESSURE_TO_MMH20_CONSTANT</a>, 0);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    int32_t rounding = <a class="code" href="pressure__utl_8cpp.html#a465063298e1b0547c221cae3dfd1d2d3">RAW_PRESSURE_FILTER_DIVIDER</a> - 1;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    delta += (delta &gt; 0) ? rounding : -rounding;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="pressure__utl_8cpp.html#a1e6291c8d4c8db1915cbbed9ed686527">filteredRawPressure</a> += delta / <a class="code" href="pressure__utl_8cpp.html#a465063298e1b0547c221cae3dfd1d2d3">RAW_PRESSURE_FILTER_DIVIDER</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    int16_t scaledRawPressure =</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="pressure__utl_8cpp.html#a1e6291c8d4c8db1915cbbed9ed686527">filteredRawPressure</a> * <a class="code" href="pressure__utl_8cpp.html#a960b598fd4aa3ac1ff20706e105d3d0f">RAW_PRESSURE_TO_MMH20_NUM</a> / <a class="code" href="pressure__utl_8cpp.html#a7b032144ceb9da652f14b83db51c30de">RAW_PRESSURE_TO_MMH20_DEN</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> std::max(scaledRawPressure - <a class="code" href="pressure__utl_8cpp.html#afc337fe4452f7c18d77d4bc830871010">RAW_PRESSURE_TO_MMH20_CONSTANT</a>, 0);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -172,8 +173,8 @@ Functions</h2></td></tr>
 <p>Reset the value of void filteredRawPressure to 0. </p>
 <p>Mainly for testing purpose </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__utl_8cpp_source.html#l00047">47</a> of file <a class="el" href="pressure__utl_8cpp_source.html">pressure_utl.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{ <a class="code" href="pressure__utl_8cpp.html#a1e6291c8d4c8db1915cbbed9ed686527">filteredRawPressure</a> = 0; }</div>
+<p class="definition">Definition at line <a class="el" href="pressure__utl_8cpp_source.html#l00048">48</a> of file <a class="el" href="pressure__utl_8cpp_source.html">pressure_utl.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{ <a class="code" href="pressure__utl_8cpp.html#a1e6291c8d4c8db1915cbbed9ed686527">filteredRawPressure</a> = 0; }</div>
 </div><!-- fragment -->
 </div>
 </div>

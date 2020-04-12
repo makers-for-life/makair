@@ -230,10 +230,10 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">double</span> vOut = filteredVout / <a class="code" href="test__pressure_8cpp.html#aa834b7a0ca82445d8d9b2283c9c22e27">RATIO_VOLTAGE_DIVIDER</a>;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">// Pressure converted to kPA</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">double</span> pressure = (vOut / <a class="code" href="test__pressure_8cpp.html#ac227d1627b40c666f9da297701968211">V_SUPPLY</a> - 0.04) / 0.09;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">double</span> pressure = ((vOut / <a class="code" href="test__pressure_8cpp.html#ac227d1627b40c666f9da297701968211">V_SUPPLY</a>) - 0.04) / 0.09;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">if</span> (pressure &lt;= 0.0) {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        pressure = 0;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">return</span> pressure * <a class="code" href="test__pressure_8cpp.html#a8aa21c51bc346a038374975c9a8241f6">KPA_MMH2O</a>;</div>
@@ -274,7 +274,7 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    std::vector&lt;uint16_t&gt; outputTruth = {0, 0, 144, 984, 2182, 4545, 7839, 17762};</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    std::vector&lt;uint16_t&gt; output;</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; input.size(); i++) {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; input.size(); i++) {</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        output.push_back(<a class="code" href="pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953">convertSensor2Pressure</a>(input[i]));</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        std::cout &lt;&lt; output.back() &lt;&lt; std::endl;</div>
@@ -318,7 +318,7 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    std::vector&lt;uint16_t&gt; outputTruth;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    std::vector&lt;uint16_t&gt; output;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; input.size(); i++) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; input.size(); i++) {</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        outputTruth.push_back(<a class="code" href="test__pressure_8cpp.html#a630e98ef2bac7105f488cc6f7d83ea18">convertSensor2PressureFloat</a>(input[i]));</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        output.push_back(<a class="code" href="pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953">convertSensor2Pressure</a>(input[i]));</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
