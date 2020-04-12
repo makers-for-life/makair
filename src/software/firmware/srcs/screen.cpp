@@ -126,7 +126,7 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
     // if the line is overwritten somewhere else in the code.
     if (!hasAlarmInformationChanged(p_alarmCodes, p_nbTriggeredAlarms)) {
         // Do nothing
-    } else  if (p_nbTriggeredAlarms == 0u) {
+    } else if (p_nbTriggeredAlarms == 0u) {
         screen.setCursor(0, 2);
         screen.print(NO_ALARM_LINE);
     } else {
@@ -136,7 +136,7 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
         char buf[SCREEN_LINE_LENGTH + 1];
 
         // Write beginning of line
-        (void) strncpy(buf, ALARM_LINE, ALARMS_CODE_POS);
+        (void)strncpy(buf, ALARM_LINE, ALARMS_CODE_POS);
 
         // Write alarm codes
         int pos = ALARMS_CODE_POS;
@@ -147,12 +147,11 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
             if ((n < 0) || (n > spaceLeft)) {
                 break;  // Error or no space left in buffer
             }
-            spaceLeft -= n;
             pos += n;
         }
 
         // Fill the end of the line with spaces
-        (void) strncpy(&buf[pos], &ALARM_LINE[pos], SCREEN_LINE_LENGTH - pos);
+        (void)strncpy(&buf[pos], &ALARM_LINE[pos], SCREEN_LINE_LENGTH - pos);
 
         // Make sure string is NULL terminated
         buf[SCREEN_LINE_LENGTH] = '\0';
