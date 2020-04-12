@@ -27,15 +27,15 @@ ActivationController::ActivationController() : m_state(STOPPED), m_timeOfLastSto
 void ActivationController::onStartButton() { m_state = RUNNING; }
 
 void ActivationController::onStopButton() {
-    if ((m_state == RUNNING_READY_TO_STOP) || (m_state == RUNNING)) {
-        if ((m_state == RUNNING_READY_TO_STOP)
-            && ((millis() - m_timeOfLastStopPushed) < SECOND_STOP_MAX_DELAY_MS)) {
-            m_state = STOPPED;
-        } else {
-            m_timeOfLastStopPushed = millis();
-            m_state = RUNNING_READY_TO_STOP;
+    if ((m_state == RUNNING_READY_TO_STOP)
+        && ((millis() - m_timeOfLastStopPushed) < SECOND_STOP_MAX_DELAY_MS)) {
+        m_state = STOPPED;
+    } else if ((m_state == RUNNING_READY_TO_STOP) || (m_state == RUNNING)) {
+        m_timeOfLastStopPushed = millis();
+        m_state = RUNNING_READY_TO_STOP;
 
-            Buzzer_Boot_Start();
-        }
+        Buzzer_Boot_Start();
+    } else {
+        // Stay in STOPPED state
     }
 }
