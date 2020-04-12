@@ -128,11 +128,7 @@ void setup(void) {
     initKeyboard();
 
     // Initialize battery level estimation
-    // Doing this in setup avoids triggering alarms at startup
     initBattery();
-    for (uint8_t i = 0; i < BATTERY_MAX_SAMPLES; i++) {
-        batteryLoop(0);
-    }
 
     BuzzerControl_Init();
     Buzzer_Init();
