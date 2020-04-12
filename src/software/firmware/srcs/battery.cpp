@@ -22,13 +22,14 @@
 
 // PROGRAM =====================================================================
 
-uint32_t rawBatterySample[20];                       // Array to store battery voltage samples
-uint32_t batteryCurrentSample = 0;                   // Current battery sample index
-uint32_t batteryTotalSamples = 0;                    // Battery total samples
-uint32_t rawBatteryMeanVoltage = RAW_VOLTAGE_MAINS;  // Mean battery voltage in volts
+static uint32_t rawBatterySample[20];      // Array to store battery voltage samples
+static uint32_t batteryCurrentSample = 0;  // Current battery sample index
+static uint32_t batteryTotalSamples = 0;   // Battery total samples
+static uint32_t rawBatteryMeanVoltage = RAW_VOLTAGE_MAINS;  // Mean battery voltage in volts
+static bool isRunningOnBattery = false;
 
 void initBattery() {
-    for (int i = 0; i < BATTERY_MAX_SAMPLES; i++) {
+    for (uint16_t i = 0; i < BATTERY_MAX_SAMPLES; i++) {
         rawBatterySample[i] = 0;
     }
 }
@@ -58,8 +59,6 @@ void updateBatterySample() {
 }
 
 void updateBatteryState(uint32_t p_cycleNumber) {
-    bool isRunningOnBattery = false;
-
     if (rawBatteryMeanVoltage < RAW_VOLTAGE_ON_BATTERY_LOW) {
         alarmController.detectedAlarm(RCM_SW_12, p_cycleNumber);
         isRunningOnBattery = true;
@@ -67,14 +66,14 @@ void updateBatteryState(uint32_t p_cycleNumber) {
         alarmController.notDetectedAlarm(RCM_SW_12);
     }
 
-    if (!isRunningOnBattery && rawBatteryMeanVoltage < RAW_VOLTAGE_ON_BATTERY) {
+    if (!isRunningOnBattery && (rawBatteryMeanVoltage < RAW_VOLTAGE_ON_BATTERY)) {
         alarmController.detectedAlarm(RCM_SW_11, p_cycleNumber);
         isRunningOnBattery = true;
     } else {
         alarmController.notDetectedAlarm(RCM_SW_11);
     }
 
-    if (!isRunningOnBattery && rawBatteryMeanVoltage < RAW_VOLTAGE_MAINS_MIN) {
+    if (!isRunningOnBattery && (rawBatteryMeanVoltage < RAW_VOLTAGE_MAINS_MIN)) {
         alarmController.detectedAlarm(RCM_SW_16, p_cycleNumber);
         isRunningOnBattery = true;
     } else {

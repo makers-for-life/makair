@@ -41,8 +41,8 @@
 #define PAUSE_1S (1 * 1000 * TIMER_TICK_PER_MS)
 ///@}
 
-#define BZ_OFF 0
-#define BZ_ON 1
+#define BZ_OFF (0u)
+#define BZ_ON (1u)
 
 /// High priority alarm buzzer pattern size
 #define BUZZER_HIGH_PRIO_SIZE 32

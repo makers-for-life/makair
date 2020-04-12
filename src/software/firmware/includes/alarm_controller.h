@@ -65,14 +65,14 @@ class AlarmController {
     void runAlarmEffects(uint16_t p_centiSec);
 
  private:
-    /// Collections of available alarms
-    Alarm m_alarms[ALARMS_SIZE];
-
     /// Highest priority of the currently triggered alarms
     AlarmPriority m_highestPriority;
 
     /// Snoozed priority
     AlarmPriority m_snoozed;
+
+    /// Collections of available alarms
+    Alarm m_alarms[ALARMS_SIZE];
 };
 
 // INITIALISATION =============================================================

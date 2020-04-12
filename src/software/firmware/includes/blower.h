@@ -44,7 +44,7 @@ class Blower {
     void stop();
 
     /// Get speed value
-    int getSpeed();
+    int getSpeed() const;
 
  private:
     HardwareTimer* actuator;

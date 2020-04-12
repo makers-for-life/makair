@@ -142,7 +142,7 @@ void AlarmController::runAlarmEffects(uint16_t p_centiSec) {
     for (int i = 0; i < ALARMS_SIZE; i++) {
         Alarm* current = &m_alarms[i];
         if (current->isTriggered()) {
-            if (numberOfTriggeredAlarms == 0) {
+            if (numberOfTriggeredAlarms == 0u) {
                 highestPriority = current->getPriority();
             }
 
@@ -155,20 +155,16 @@ void AlarmController::runAlarmEffects(uint16_t p_centiSec) {
         displayAlarmInformation(triggeredAlarmCodes, numberOfTriggeredAlarms);
     }
 
-    if (!highestPriority) {
-        Buzzer_Stop();
-
-        digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
-        digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
-    } else if (highestPriority == AlarmPriority::ALARM_HIGH) {
+    if (highestPriority == AlarmPriority::ALARM_HIGH) {
         if (m_highestPriority != highestPriority) {
             Buzzer_High_Prio_Start();
         }
 
-        if ((p_centiSec % 100) == 50) {
+        if ((p_centiSec % 100u) == 50u) {
             digitalWrite(PIN_LED_RED, LED_RED_ACTIVE);
-        } else if ((p_centiSec % 100) == 0) {
+        } else if ((p_centiSec % 100u) == 0u) {
             digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
+        } else {
         }
         digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
     } else if (highestPriority == AlarmPriority::ALARM_MEDIUM) {
@@ -176,10 +172,11 @@ void AlarmController::runAlarmEffects(uint16_t p_centiSec) {
             Buzzer_Medium_Prio_Start();
         }
         digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
-        if ((p_centiSec % 100) == 50) {
+        if ((p_centiSec % 100u) == 50u) {
             digitalWrite(PIN_LED_YELLOW, LED_YELLOW_ACTIVE);
-        } else if ((p_centiSec % 100) == 0) {
+        } else if ((p_centiSec % 100u) == 0u) {
             digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
+        } else {
         }
     } else if (highestPriority == AlarmPriority::ALARM_LOW) {
         if (m_highestPriority != highestPriority) {
@@ -188,6 +185,11 @@ void AlarmController::runAlarmEffects(uint16_t p_centiSec) {
 
         digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
         digitalWrite(PIN_LED_YELLOW, LED_YELLOW_ACTIVE);
+    } else {
+        Buzzer_Stop();
+
+        digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
+        digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
     }
 
     m_highestPriority = highestPriority;
