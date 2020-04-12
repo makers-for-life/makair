@@ -101,6 +101,9 @@ $(document).ready(function(){initNavTree('class_activation_controller.html','');
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1819c9a2e7dc03f24f58c01c326f21ae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_activation_controller.html#a1819c9a2e7dc03f24f58c01c326f21ae">ActivationController</a> ()</td></tr>
 <tr class="separator:a1819c9a2e7dc03f24f58c01c326f21ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa256dedc1eb1472010208c413db03798"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_activation_controller.html#aa256dedc1eb1472010208c413db03798">refreshState</a> ()</td></tr>
+<tr class="memdesc:aa256dedc1eb1472010208c413db03798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refresh the current state.  <a href="class_activation_controller.html#aa256dedc1eb1472010208c413db03798">More...</a><br /></td></tr>
+<tr class="separator:aa256dedc1eb1472010208c413db03798"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6150ca0b4b114c9ea416cb9ac7461415"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_activation_controller.html#a6150ca0b4b114c9ea416cb9ac7461415">isRunning</a> () const</td></tr>
 <tr class="memdesc:a6150ca0b4b114c9ea416cb9ac7461415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return if breathing is activated or not.  <a href="class_activation_controller.html#a6150ca0b4b114c9ea416cb9ac7461415">More...</a><br /></td></tr>
 <tr class="separator:a6150ca0b4b114c9ea416cb9ac7461415"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,12 +161,12 @@ Private Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="af432ef3c7ddde2aeb68a42b16013d032a25f66c8b48881a48e4fac8d6ed3132c6"></a>RUNNING_READY_TO_STOP&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="activation_8h_source.html#l00038">38</a> of file <a class="el" href="activation_8h_source.html">activation.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;               {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a8faa638abc55fdb7a9e11c396bec28c0">STOPPED</a> = 0,            <span class="comment">// Breathing is OFF</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a5f7fd3cbc5c27a592abd8901fdf5b831">RUNNING</a>,                <span class="comment">// Breathing is ON</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <a class="code" href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a25f66c8b48881a48e4fac8d6ed3132c6">RUNNING_READY_TO_STOP</a>,  <span class="comment">// Breathing is ON, waiting for a second push</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    };</div>
+<p class="definition">Definition at line <a class="el" href="activation_8h_source.html#l00045">45</a> of file <a class="el" href="activation_8h_source.html">activation.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;               {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <a class="code" href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a8faa638abc55fdb7a9e11c396bec28c0">STOPPED</a> = 0,            <span class="comment">// Breathing is OFF</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <a class="code" href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a5f7fd3cbc5c27a592abd8901fdf5b831">RUNNING</a>,                <span class="comment">// Breathing is ON</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a25f66c8b48881a48e4fac8d6ed3132c6">RUNNING_READY_TO_STOP</a>,  <span class="comment">// Breathing is ON, waiting for a second push</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    };</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -214,8 +217,8 @@ Private Attributes</h2></td></tr>
 
 <p>Return if breathing is activated or not. </p>
 
-<p class="definition">Definition at line <a class="el" href="activation_8h_source.html#l00025">25</a> of file <a class="el" href="activation_8h_source.html">activation.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_activation_controller.html#ac6fe70c52b59a2c5af7182a3e09ee3fd">m_state</a> != <a class="code" href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a8faa638abc55fdb7a9e11c396bec28c0">STOPPED</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="activation_8h_source.html#l00032">32</a> of file <a class="el" href="activation_8h_source.html">activation.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="class_activation_controller.html#ac6fe70c52b59a2c5af7182a3e09ee3fd">m_state</a> != <a class="code" href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a8faa638abc55fdb7a9e11c396bec28c0">STOPPED</a>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -283,6 +286,37 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="aa256dedc1eb1472010208c413db03798"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa256dedc1eb1472010208c413db03798">&#9670;&nbsp;</a></span>refreshState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ActivationController::refreshState </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Refresh the current state. </p>
+<dl class="section warning"><dt>Warning</dt><dd>It must be called regularly to protect against time counter overflow </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="activation_8cpp_source.html#l00051">51</a> of file <a class="el" href="activation_8cpp_source.html">activation.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                                        {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// If the 2nd STOP deadline is exceeded, switch back</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">// to running state. This is needed to make sure millis() counter</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// overflow does not make the test invalid</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> ((<a class="code" href="class_activation_controller.html#ac6fe70c52b59a2c5af7182a3e09ee3fd">m_state</a> == <a class="code" href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a25f66c8b48881a48e4fac8d6ed3132c6">RUNNING_READY_TO_STOP</a>)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        &amp;&amp; ((millis() - <a class="code" href="class_activation_controller.html#ae53e826b69a5eb471b198c470e86159d">m_timeOfLastStopPushed</a>) &gt;= <a class="code" href="activation_8cpp.html#ad9e804bcee2dcd59633428ce5313ec2e">SECOND_STOP_MAX_DELAY_MS</a>)) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <a class="code" href="class_activation_controller.html#ac6fe70c52b59a2c5af7182a3e09ee3fd">m_state</a> = <a class="code" href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a5f7fd3cbc5c27a592abd8901fdf5b831">RUNNING</a>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="ac6fe70c52b59a2c5af7182a3e09ee3fd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac6fe70c52b59a2c5af7182a3e09ee3fd">&#9670;&nbsp;</a></span>m_state</h2>
@@ -306,7 +340,7 @@ Private Attributes</h2></td></tr>
 
 <p>Activation status. </p>
 
-<p class="definition">Definition at line <a class="el" href="activation_8h_source.html#l00046">46</a> of file <a class="el" href="activation_8h_source.html">activation.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activation_8h_source.html#l00053">53</a> of file <a class="el" href="activation_8h_source.html">activation.h</a>.</p>
 
 </div>
 </div>
@@ -332,7 +366,7 @@ Private Attributes</h2></td></tr>
 
 <p>Last time stop button was pushed. </p>
 
-<p class="definition">Definition at line <a class="el" href="activation_8h_source.html#l00049">49</a> of file <a class="el" href="activation_8h_source.html">activation.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="activation_8h_source.html#l00056">56</a> of file <a class="el" href="activation_8h_source.html">activation.h</a>.</p>
 
 </div>
 </div>
@@ -342,13 +376,13 @@ Private Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_activation_controller_html_af432ef3c7ddde2aeb68a42b16013d032a8faa638abc55fdb7a9e11c396bec28c0"><div class="ttname"><a href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a8faa638abc55fdb7a9e11c396bec28c0">ActivationController::STOPPED</a></div><div class="ttdeci">@ STOPPED</div><div class="ttdef"><b>Definition:</b> <a href="activation_8h_source.html#l00039">activation.h:39</a></div></div>
+<div class="ttc" id="aclass_activation_controller_html_af432ef3c7ddde2aeb68a42b16013d032a8faa638abc55fdb7a9e11c396bec28c0"><div class="ttname"><a href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a8faa638abc55fdb7a9e11c396bec28c0">ActivationController::STOPPED</a></div><div class="ttdeci">@ STOPPED</div><div class="ttdef"><b>Definition:</b> <a href="activation_8h_source.html#l00046">activation.h:46</a></div></div>
 <div class="ttc" id="abuzzer_8cpp_html_ab8c61c922cd2bebc7af66d5c77f4a75c"><div class="ttname"><a href="buzzer_8cpp.html#ab8c61c922cd2bebc7af66d5c77f4a75c">Buzzer_Boot_Start</a></div><div class="ttdeci">void Buzzer_Boot_Start(void)</div><div class="ttdoc">Activate boot bip.</div><div class="ttdef"><b>Definition:</b> <a href="buzzer_8cpp_source.html#l00199">buzzer.cpp:199</a></div></div>
 <div class="ttc" id="aactivation_8cpp_html_ad9e804bcee2dcd59633428ce5313ec2e"><div class="ttname"><a href="activation_8cpp.html#ad9e804bcee2dcd59633428ce5313ec2e">SECOND_STOP_MAX_DELAY_MS</a></div><div class="ttdeci">const uint32_t SECOND_STOP_MAX_DELAY_MS</div><div class="ttdoc">Maximum delay in seconds between two pushes on the stop button to actually stop the machine.</div><div class="ttdef"><b>Definition:</b> <a href="activation_8cpp_source.html#l00017">activation.cpp:17</a></div></div>
-<div class="ttc" id="aclass_activation_controller_html_ae53e826b69a5eb471b198c470e86159d"><div class="ttname"><a href="class_activation_controller.html#ae53e826b69a5eb471b198c470e86159d">ActivationController::m_timeOfLastStopPushed</a></div><div class="ttdeci">uint32_t m_timeOfLastStopPushed</div><div class="ttdoc">Last time stop button was pushed.</div><div class="ttdef"><b>Definition:</b> <a href="activation_8h_source.html#l00049">activation.h:49</a></div></div>
-<div class="ttc" id="aclass_activation_controller_html_af432ef3c7ddde2aeb68a42b16013d032a25f66c8b48881a48e4fac8d6ed3132c6"><div class="ttname"><a href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a25f66c8b48881a48e4fac8d6ed3132c6">ActivationController::RUNNING_READY_TO_STOP</a></div><div class="ttdeci">@ RUNNING_READY_TO_STOP</div><div class="ttdef"><b>Definition:</b> <a href="activation_8h_source.html#l00041">activation.h:41</a></div></div>
-<div class="ttc" id="aclass_activation_controller_html_ac6fe70c52b59a2c5af7182a3e09ee3fd"><div class="ttname"><a href="class_activation_controller.html#ac6fe70c52b59a2c5af7182a3e09ee3fd">ActivationController::m_state</a></div><div class="ttdeci">State m_state</div><div class="ttdoc">Activation status.</div><div class="ttdef"><b>Definition:</b> <a href="activation_8h_source.html#l00046">activation.h:46</a></div></div>
-<div class="ttc" id="aclass_activation_controller_html_af432ef3c7ddde2aeb68a42b16013d032a5f7fd3cbc5c27a592abd8901fdf5b831"><div class="ttname"><a href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a5f7fd3cbc5c27a592abd8901fdf5b831">ActivationController::RUNNING</a></div><div class="ttdeci">@ RUNNING</div><div class="ttdef"><b>Definition:</b> <a href="activation_8h_source.html#l00040">activation.h:40</a></div></div>
+<div class="ttc" id="aclass_activation_controller_html_ae53e826b69a5eb471b198c470e86159d"><div class="ttname"><a href="class_activation_controller.html#ae53e826b69a5eb471b198c470e86159d">ActivationController::m_timeOfLastStopPushed</a></div><div class="ttdeci">uint32_t m_timeOfLastStopPushed</div><div class="ttdoc">Last time stop button was pushed.</div><div class="ttdef"><b>Definition:</b> <a href="activation_8h_source.html#l00056">activation.h:56</a></div></div>
+<div class="ttc" id="aclass_activation_controller_html_af432ef3c7ddde2aeb68a42b16013d032a25f66c8b48881a48e4fac8d6ed3132c6"><div class="ttname"><a href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a25f66c8b48881a48e4fac8d6ed3132c6">ActivationController::RUNNING_READY_TO_STOP</a></div><div class="ttdeci">@ RUNNING_READY_TO_STOP</div><div class="ttdef"><b>Definition:</b> <a href="activation_8h_source.html#l00048">activation.h:48</a></div></div>
+<div class="ttc" id="aclass_activation_controller_html_ac6fe70c52b59a2c5af7182a3e09ee3fd"><div class="ttname"><a href="class_activation_controller.html#ac6fe70c52b59a2c5af7182a3e09ee3fd">ActivationController::m_state</a></div><div class="ttdeci">State m_state</div><div class="ttdoc">Activation status.</div><div class="ttdef"><b>Definition:</b> <a href="activation_8h_source.html#l00053">activation.h:53</a></div></div>
+<div class="ttc" id="aclass_activation_controller_html_af432ef3c7ddde2aeb68a42b16013d032a5f7fd3cbc5c27a592abd8901fdf5b831"><div class="ttname"><a href="class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a5f7fd3cbc5c27a592abd8901fdf5b831">ActivationController::RUNNING</a></div><div class="ttdeci">@ RUNNING</div><div class="ttdef"><b>Definition:</b> <a href="activation_8h_source.html#l00047">activation.h:47</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

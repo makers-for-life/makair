@@ -23,11 +23,12 @@ var searchData=
   ['rcm_5fsw_5f3_335',['RCM_SW_3',['../alarm__controller_8h.html#a31da61aeec4d3cdcb2707710d7131d5e',1,'alarm_controller.h']]],
   ['readme_2emd_336',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
   ['readpressuresensor_337',['readPressureSensor',['../pressure_8cpp.html#ad37a3df7fc89764460a0f18b8430704c',1,'readPressureSensor(uint16_t centiSec):&#160;pressure.cpp'],['../pressure_8h.html#ad37a3df7fc89764460a0f18b8430704c',1,'readPressureSensor(uint16_t centiSec):&#160;pressure.cpp']]],
-  ['resetfilteredrawpressure_338',['resetFilteredRawPressure',['../pressure__utl_8cpp.html#a0f811d290b007099913bf8c1c46bce10',1,'resetFilteredRawPressure():&#160;pressure_utl.cpp'],['../pressure__utl_8h.html#a0f811d290b007099913bf8c1c46bce10',1,'resetFilteredRawPressure():&#160;pressure_utl.cpp']]],
-  ['resetscreen_339',['resetScreen',['../screen_8cpp.html#ae56ad795427d7a17af1755baeca56ca8',1,'resetScreen():&#160;screen.cpp'],['../screen_8h.html#ae56ad795427d7a17af1755baeca56ca8',1,'resetScreen():&#160;screen.cpp']]],
-  ['respirator_2ecpp_340',['respirator.cpp',['../respirator_8cpp.html',1,'']]],
-  ['runalarmeffects_341',['runAlarmEffects',['../class_alarm_controller.html#ab1af9930acd275c0af766a6e4258027a',1,'AlarmController']]],
-  ['running_342',['RUNNING',['../class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a5f7fd3cbc5c27a592abd8901fdf5b831',1,'ActivationController']]],
-  ['running_5fready_5fto_5fstop_343',['RUNNING_READY_TO_STOP',['../class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a25f66c8b48881a48e4fac8d6ed3132c6',1,'ActivationController']]],
-  ['runspeed_344',['runSpeed',['../class_blower.html#a50960a607e3c8cb321c195e35815ceb2',1,'Blower']]]
+  ['refreshstate_338',['refreshState',['../class_activation_controller.html#aa256dedc1eb1472010208c413db03798',1,'ActivationController']]],
+  ['resetfilteredrawpressure_339',['resetFilteredRawPressure',['../pressure__utl_8cpp.html#a0f811d290b007099913bf8c1c46bce10',1,'resetFilteredRawPressure():&#160;pressure_utl.cpp'],['../pressure__utl_8h.html#a0f811d290b007099913bf8c1c46bce10',1,'resetFilteredRawPressure():&#160;pressure_utl.cpp']]],
+  ['resetscreen_340',['resetScreen',['../screen_8cpp.html#ae56ad795427d7a17af1755baeca56ca8',1,'resetScreen():&#160;screen.cpp'],['../screen_8h.html#ae56ad795427d7a17af1755baeca56ca8',1,'resetScreen():&#160;screen.cpp']]],
+  ['respirator_2ecpp_341',['respirator.cpp',['../respirator_8cpp.html',1,'']]],
+  ['runalarmeffects_342',['runAlarmEffects',['../class_alarm_controller.html#ab1af9930acd275c0af766a6e4258027a',1,'AlarmController']]],
+  ['running_343',['RUNNING',['../class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a5f7fd3cbc5c27a592abd8901fdf5b831',1,'ActivationController']]],
+  ['running_5fready_5fto_5fstop_344',['RUNNING_READY_TO_STOP',['../class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a25f66c8b48881a48e4fac8d6ed3132c6',1,'ActivationController']]],
+  ['runspeed_345',['runSpeed',['../class_blower.html#a50960a607e3c8cb321c195e35815ceb2',1,'Blower']]]
 ];
