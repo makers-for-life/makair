@@ -312,9 +312,6 @@ class PressureController {
     /// Measured pressure
     uint16_t m_pressure;
 
-    /// Max pressure during a cycle
-    uint16_t m_max_pressure;
-
     /// Peak pressure
     uint16_t m_peakPressure;
 

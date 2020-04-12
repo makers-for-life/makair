@@ -107,7 +107,6 @@ void PressureController::initRespiratoryCycle() {
     patientIntegral = 0;
     patientLastError = INVALID_ERROR_MARKER;
 
-    m_max_pressure = 0;
     m_peakPressure = 0;
     computeCentiSecParameters();
 
@@ -254,19 +253,17 @@ void PressureController::onPeakPressureIncrease() {
     }
 }
 void PressureController::updateBlower(uint16_t p_centiSec) {
-    m_max_pressure = max(m_max_pressure, m_pressure);
-
     // Case blower is too low
     if ((m_phase == CyclePhases::INHALATION)
         && (p_centiSec > ((m_centiSecPerInhalation * 80u) / 100u))
-        && (m_max_pressure < m_maxPeakPressureCommand)) {
+        && (m_peakPressure < m_maxPeakPressureCommand)) {
         m_blower_increment = 5;
     }
 
     // Case blower is too high
     if ((m_phase == CyclePhases::INHALATION)
-        && (p_centiSec < ((m_centiSecPerInhalation * 20u) / 100u))
-        && (m_max_pressure > m_maxPeakPressureCommand)) {
+        && (p_centiSec < ((m_centiSecPerInhalation * 30u) / 100u))
+        && (m_peakPressure > m_maxPeakPressureCommand)) {
         m_blower_increment = -5;
     }
 }
