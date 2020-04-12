@@ -47,3 +47,13 @@ void ActivationController::onStopButton() {
         break;
     }
 }
+
+void ActivationController::refreshState() {
+    // If the 2nd STOP deadline is exceeded, switch back
+    // to running state. This is needed to make sure millis() counter
+    // overflow does not make the test invalid
+    if ((m_state == RUNNING_READY_TO_STOP)
+        && ((millis() - m_timeOfLastStopPushed) >= SECOND_STOP_MAX_DELAY_MS)) {
+        m_state = RUNNING;
+    }
+}

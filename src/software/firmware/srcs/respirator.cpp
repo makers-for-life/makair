@@ -178,6 +178,7 @@ void loop(void) {
     /********************************************/
     // INITIALIZE THE RESPIRATORY CYCLE
     /********************************************/
+    activationController.refreshState();
     bool shouldRun = activationController.isRunning();
     pController.initRespiratoryCycle();
 
