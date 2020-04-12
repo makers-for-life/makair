@@ -36,7 +36,8 @@ int16_t convertSensor2Pressure(uint16_t sensorValue) {
     // Adjust delta so that the division result will be rounded away from zero.
     // This is needed to guaranty that filteredRawPressure will reach
     // rawPressure when it is constant.
-    delta += (delta > 0) ? (RAW_PRESSURE_FILTER_DIVIDER - 1) : (-(RAW_PRESSURE_FILTER_DIVIDER - 1));
+    int32_t rounding = RAW_PRESSURE_FILTER_DIVIDER - 1;
+    delta += (delta > 0) ? rounding : -rounding;
     filteredRawPressure += delta / RAW_PRESSURE_FILTER_DIVIDER;
 
     int16_t scaledRawPressure =
