@@ -1,14 +1,14 @@
 /******************************************************************************
  * @author Makers For Life
  * @copyright Copyright (c) 2020 Makers For Life
- * @file pression.cpp
+ * @file pressure.cpp
  * @brief Pressure sensor related functions
  *****************************************************************************/
 
 // INCLUDES ==================================================================
 
 // Associated header
-#include "../includes/pression.h"
+#include "../includes/pressure.h"
 #include "../includes/pressure_utl.h"
 
 // External

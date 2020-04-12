@@ -1,7 +1,7 @@
 /******************************************************************************
  * @author Makers For Life
  * @copyright Copyright (c) 2020 Makers For Life
- * @file pression.h
+ * @file pressure.h
  * @brief Pressure sensor related functions
  *****************************************************************************/
 
