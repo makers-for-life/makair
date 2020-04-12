@@ -128,7 +128,6 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
         if (p_nbTriggeredAlarms == 0u) {
             screen.setCursor(0, 2);
             screen.print(NO_ALARM_LINE);
-            return;
         } else {
             uint8_t nbAlarmToPrint =
                 min(static_cast<uint8_t>(MAX_ALARMS_DISPLAYED), p_nbTriggeredAlarms);

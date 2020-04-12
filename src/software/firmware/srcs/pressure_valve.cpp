@@ -54,13 +54,16 @@ uint16_t valveAngle2MicroSeconds(uint16_t value) {
     // greater range)
     return map(value, 0, 125, 800, 2200);
 #elif VALVE_TYPE == VT_EMERSON_ASCO
+    // default value
+    // compare units are a bit weird in this micro controller
+    // TODO: avoid 500ns spikes
+    uint16_t result = 1;
+
     // map 0 - 125 ° to 100% pwm - EMERSON_MIN_PWM (0% when fully closed)
-    if (VALVE_CLOSED_STATE == value) {
-        // compare units are a bit weird in this micro controller
-        // TODO: avoid 500ns spikes
-        return 1;
-    } else {
-        return map(value, 0, 125, SERVO_VALVE_PERIOD, EMERSON_MIN_PWM);
+    if (VALVE_CLOSED_STATE != value) {
+        result = map(value, 0, 125, SERVO_VALVE_PERIOD, EMERSON_MIN_PWM);
     }
+
+    return result;
 #endif
 }

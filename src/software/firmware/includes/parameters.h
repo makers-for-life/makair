@@ -96,10 +96,10 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 ///@{
 
 /// Angle when opened
-#define VALVE_OPEN_STATE 0
+#define VALVE_OPEN_STATE 0u
 
 /// Angle when closed
-#define VALVE_CLOSED_STATE 125
+#define VALVE_CLOSED_STATE 125u
 #if VALVE_TYPE == VT_SERVO_V1
 #define SERVO_VALVE_PERIOD 20000  // 50 Hz
 #elif VALVE_TYPE == VT_EMERSON_ASCO
