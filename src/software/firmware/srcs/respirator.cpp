@@ -191,7 +191,7 @@ void loop(void) {
     uint16_t centiSec = 0;
 
     while (centiSec < pController.centiSecPerCycle()) {
-        pController.updatePressure(readPressureSensor(centiSec));
+        uint32_t pressure = readPressureSensor(centiSec);
 
         uint32_t currentDate = millis();
 
@@ -202,7 +202,7 @@ void loop(void) {
 
             if (shouldRun) {
                 digitalWrite(PIN_LED_START, LED_START_ACTIVE);
-
+                pController.updatePressure(pressure);
                 int32_t currentMicro = micros();
 
                 pController.updateDt(currentMicro - lastMicro);

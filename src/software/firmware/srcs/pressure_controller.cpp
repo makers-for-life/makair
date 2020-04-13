@@ -100,6 +100,7 @@ void PressureController::initRespiratoryCycle() {
     m_phase = CyclePhases::INHALATION;
     setSubPhase(CycleSubPhases::INSPIRATION);
     m_cycleNb++;
+    m_plateauPressure = 0;
 
     // Reset PID integrals
     blowerIntegral = 0;
@@ -119,10 +120,27 @@ void PressureController::initRespiratoryCycle() {
     // Apply blower ramp-up
     m_blower->runSpeed(m_blower->getSpeed() + m_blower_increment);
     m_blower_increment = 0;
+
+    for (uint16_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
+        m_lastPressureValues[i] = 0;
+    }
+    m_lastPressureValuesIndex = 0;
+    m_startPlateauComputation = false;
+    m_plateauComputed = false;
 }
 
 void PressureController::updatePressure(int16_t p_currentPressure) {
     m_pressure = p_currentPressure;
+
+    m_lastPressureValues[m_lastPressureValuesIndex] = p_currentPressure;
+
+    // Increment sample
+    m_lastPressureValuesIndex++;
+
+    // If we reached max samples
+    if (m_lastPressureValuesIndex >= MAX_PRESSURE_SAMPLES) {
+        m_lastPressureValuesIndex = 0;
+    }
 }
 
 void PressureController::compute(uint16_t p_centiSec) {
@@ -140,10 +158,12 @@ void PressureController::compute(uint16_t p_centiSec) {
         }
         case CycleSubPhases::HOLD_INSPIRATION: {
             plateau();
+            computePlateau(p_centiSec);
             break;
         }
         case CycleSubPhases::EXHALE: {
             exhale();
+            computePlateau(p_centiSec);
             break;
         }
         case CycleSubPhases::HOLD_EXHALE: {
@@ -161,7 +181,47 @@ void PressureController::compute(uint16_t p_centiSec) {
                        m_blower_valve.command, m_blower_valve.position, m_patient_valve.command,
                        m_patient_valve.position)
 
+    Serial.begin(115200);
+    Serial.print(m_pressure);
+    Serial.print("\t");
+    Serial.print(m_pressureCommand);
+    Serial.print("\t");
+    Serial.print(m_plateauPressure);
+    Serial.print("\t");
+    Serial.print(m_blower->getSpeed());
+    Serial.print("\t");
+    Serial.print(m_blower_valve.position);
+    Serial.print("\n");
+
     executeCommands();
+}
+
+void PressureController::computePlateau(uint16_t p_centiSec) {
+    uint16_t minValue = m_lastPressureValues[0u];
+    uint16_t maxValue = m_lastPressureValues[0u];
+    uint16_t totalValues = m_lastPressureValues[0u];
+
+    for (uint8_t index = 1u; index < MAX_PRESSURE_SAMPLES; index++) {
+        minValue = min(minValue, m_lastPressureValues[index]);
+        maxValue = max(maxValue, m_lastPressureValues[index]);
+        totalValues += m_lastPressureValues[index];
+    }
+
+    uint16_t diff = (maxValue - minValue);
+
+    if (!m_plateauComputed && diff < 10u
+        && (p_centiSec >= ((m_centiSecPerInhalation * 95u) / 100u))) {
+        m_startPlateauComputation = true;
+    }
+
+    if (m_startPlateauComputation && diff > 10u) {
+        m_startPlateauComputation = false;
+        m_plateauComputed = true;
+    }
+
+    if (m_startPlateauComputation) {
+        m_plateauPressure = totalValues / MAX_PRESSURE_SAMPLES;
+    }
 }
 
 void PressureController::onCycleDecrease() {
@@ -312,9 +372,6 @@ void PressureController::plateau() {
 
     // Update the peak pressure
     m_peakPressure = max(m_pressure, m_peakPressure);
-
-    // Update the plateau pressure
-    m_plateauPressure = m_pressure;
 }
 
 void PressureController::exhale() {
@@ -369,12 +426,15 @@ void PressureController::safeguardPlateau(uint16_t p_centiSec) {
             m_alarmController->notDetectedAlarm(RCM_SW_18);
         }
 
-        uint16_t minPlateauBeforeAlarm = 80u * m_maxPlateauPressureCommand / 100u;
-        uint16_t maxPlateauBeforeAlarm = 120u * m_maxPlateauPressureCommand / 100u;
-        if ((m_pressure < minPlateauBeforeAlarm) || (m_pressure > maxPlateauBeforeAlarm)) {
-            m_alarmController->detectedAlarm(RCM_SW_14, m_cycleNb);
-        } else {
-            m_alarmController->notDetectedAlarm(RCM_SW_14);
+        // Once plateau is computed, we can check if plateau is reached
+        if (m_plateauComputed) {
+            uint16_t minPlateauBeforeAlarm = 80u * m_maxPlateauPressureCommand / 100u;
+            uint16_t maxPlateauBeforeAlarm = 120u * m_maxPlateauPressureCommand / 100u;
+            if ((m_pressure < minPlateauBeforeAlarm) || (m_pressure > maxPlateauBeforeAlarm)) {
+                m_alarmController->detectedAlarm(RCM_SW_14, m_cycleNb);
+            } else {
+                m_alarmController->notDetectedAlarm(RCM_SW_14);
+            }
         }
     }
 }

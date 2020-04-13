@@ -14,6 +14,8 @@
 #include "../includes/blower.h"
 #include "../includes/pressure_valve.h"
 
+#define MAX_PRESSURE_SAMPLES 10u
+
 // ENUMS =================================================================
 
 /// Defines the 4 phases of the respiratory cycle
@@ -240,6 +242,9 @@ class PressureController {
      */
     void computeCentiSecParameters();
 
+    /// Compute plateau pressure
+    void computePlateau(uint16_t p_centiSec);
+
     /// Give the computed commands to actuators
     void executeCommands();
 
@@ -378,6 +383,17 @@ class PressureController {
 
     /// Alarm controller
     AlarmController* m_alarmController;
+
+    ///
+    bool m_startPlateauComputation;
+
+    bool m_plateauComputed;
+
+    /// Index of array for last pressure storage
+    uint16_t m_lastPressureValuesIndex;
+
+    /// Last pressure values
+    uint16_t m_lastPressureValues[MAX_PRESSURE_SAMPLES];
 };
 
 // INITIALISATION =============================================================
