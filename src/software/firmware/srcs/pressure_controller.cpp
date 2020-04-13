@@ -181,18 +181,6 @@ void PressureController::compute(uint16_t p_centiSec) {
                        m_blower_valve.command, m_blower_valve.position, m_patient_valve.command,
                        m_patient_valve.position)
 
-    Serial.begin(115200);
-    Serial.print(m_pressure);
-    Serial.print("\t");
-    Serial.print(m_pressureCommand);
-    Serial.print("\t");
-    Serial.print(m_plateauPressure);
-    Serial.print("\t");
-    Serial.print(m_blower->getSpeed());
-    Serial.print("\t");
-    Serial.print(m_blower_valve.position);
-    Serial.print("\n");
-
     executeCommands();
 }
 

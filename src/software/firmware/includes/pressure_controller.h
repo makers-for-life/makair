@@ -384,9 +384,10 @@ class PressureController {
     /// Alarm controller
     AlarmController* m_alarmController;
 
-    ///
+    /// True if we start to compute plateau measure, False otherwise
     bool m_startPlateauComputation;
 
+    /// True if plateau is computed, False otherwise
     bool m_plateauComputed;
 
     /// Index of array for last pressure storage
