@@ -129,6 +129,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a21000a7d092d38a084dc12bc65b76b2f"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pressure__controller_8h.html#a21000a7d092d38a084dc12bc65b76b2f">MAX_PEAK_INCREMENT</a> = 30u</td></tr>
+<tr class="memdesc:a21000a7d092d38a084dc12bc65b76b2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Max value for increment / decrement of peak command.  <a href="pressure__controller_8h.html#a21000a7d092d38a084dc12bc65b76b2f">More...</a><br /></td></tr>
+<tr class="separator:a21000a7d092d38a084dc12bc65b76b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5e316caea38d14475d883993308a580"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_pressure_controller.html">PressureController</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pressure__controller_8h.html#ac5e316caea38d14475d883993308a580">pController</a></td></tr>
 <tr class="memdesc:ac5e316caea38d14475d883993308a580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of the pressure controller.  <a href="pressure__controller_8h.html#ac5e316caea38d14475d883993308a580">More...</a><br /></td></tr>
 <tr class="separator:ac5e316caea38d14475d883993308a580"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,11 +182,11 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="pressure__controller_8h_source.html#l00050">50</a> of file <a class="el" href="pressure__controller_8h_source.html">pressure_controller.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                 {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0">INHALATION</a>,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29">EXHALATION</a></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
+<p class="definition">Definition at line <a class="el" href="pressure__controller_8h_source.html#l00053">53</a> of file <a class="el" href="pressure__controller_8h_source.html">pressure_controller.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                 {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0">INHALATION</a>,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29">EXHALATION</a></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -225,17 +228,43 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="pressure__controller_8h_source.html#l00023">23</a> of file <a class="el" href="pressure__controller_8h_source.html">pressure_controller.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                    {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94aec24253de23c0b2d1a08f946f5ca9d31">INSPIRATION</a>,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088">HOLD_INSPIRATION</a>,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4">EXHALE</a>,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ae0a29121453b6882703ac23018282a80">HOLD_EXHALE</a></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;};</div>
+<p class="definition">Definition at line <a class="el" href="pressure__controller_8h_source.html#l00026">26</a> of file <a class="el" href="pressure__controller_8h_source.html">pressure_controller.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                    {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94aec24253de23c0b2d1a08f946f5ca9d31">INSPIRATION</a>,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088">HOLD_INSPIRATION</a>,</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4">EXHALE</a>,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ae0a29121453b6882703ac23018282a80">HOLD_EXHALE</a></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="a21000a7d092d38a084dc12bc65b76b2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21000a7d092d38a084dc12bc65b76b2f">&#9670;&nbsp;</a></span>MAX_PEAK_INCREMENT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t MAX_PEAK_INCREMENT = 30u</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Max value for increment / decrement of peak command. </p>
+
+<p class="definition">Definition at line <a class="el" href="pressure__controller_8h_source.html#l00021">21</a> of file <a class="el" href="pressure__controller_8h_source.html">pressure_controller.h</a>.</p>
+
+</div>
+</div>
 <a id="ac5e316caea38d14475d883993308a580"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac5e316caea38d14475d883993308a580">&#9670;&nbsp;</a></span>pController</h2>
 
@@ -256,12 +285,12 @@ Variables</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="apressure__controller_8h_html_acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4"><div class="ttname"><a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4">EXHALE</a></div><div class="ttdeci">@ EXHALE</div><div class="ttdoc">Exhalation:</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00041">pressure_controller.h:41</a></div></div>
-<div class="ttc" id="apressure__controller_8h_html_acd1b2c60ec414ec28999de4906364b94aec24253de23c0b2d1a08f946f5ca9d31"><div class="ttname"><a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94aec24253de23c0b2d1a08f946f5ca9d31">INSPIRATION</a></div><div class="ttdeci">@ INSPIRATION</div><div class="ttdoc">Push inhalation:</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00029">pressure_controller.h:29</a></div></div>
-<div class="ttc" id="apressure__controller_8h_html_acd1b2c60ec414ec28999de4906364b94ae0a29121453b6882703ac23018282a80"><div class="ttname"><a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ae0a29121453b6882703ac23018282a80">HOLD_EXHALE</a></div><div class="ttdeci">@ HOLD_EXHALE</div><div class="ttdoc">Hold exhalation:</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00047">pressure_controller.h:46</a></div></div>
-<div class="ttc" id="apressure__controller_8h_html_aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0"><div class="ttname"><a href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0">INHALATION</a></div><div class="ttdeci">@ INHALATION</div><div class="ttdoc">Inspiration and inspiration holding.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00052">pressure_controller.h:52</a></div></div>
-<div class="ttc" id="apressure__controller_8h_html_acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088"><div class="ttname"><a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088">HOLD_INSPIRATION</a></div><div class="ttdeci">@ HOLD_INSPIRATION</div><div class="ttdoc">Hold inhalation:</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00036">pressure_controller.h:36</a></div></div>
-<div class="ttc" id="apressure__controller_8h_html_aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29"><div class="ttname"><a href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29">EXHALATION</a></div><div class="ttdeci">@ EXHALATION</div><div class="ttdoc">Exhalation and pause.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00055">pressure_controller.h:54</a></div></div>
+<div class="ttc" id="apressure__controller_8h_html_acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4"><div class="ttname"><a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4">EXHALE</a></div><div class="ttdeci">@ EXHALE</div><div class="ttdoc">Exhalation:</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00044">pressure_controller.h:44</a></div></div>
+<div class="ttc" id="apressure__controller_8h_html_acd1b2c60ec414ec28999de4906364b94aec24253de23c0b2d1a08f946f5ca9d31"><div class="ttname"><a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94aec24253de23c0b2d1a08f946f5ca9d31">INSPIRATION</a></div><div class="ttdeci">@ INSPIRATION</div><div class="ttdoc">Push inhalation:</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00032">pressure_controller.h:32</a></div></div>
+<div class="ttc" id="apressure__controller_8h_html_acd1b2c60ec414ec28999de4906364b94ae0a29121453b6882703ac23018282a80"><div class="ttname"><a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ae0a29121453b6882703ac23018282a80">HOLD_EXHALE</a></div><div class="ttdeci">@ HOLD_EXHALE</div><div class="ttdoc">Hold exhalation:</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00050">pressure_controller.h:49</a></div></div>
+<div class="ttc" id="apressure__controller_8h_html_aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0"><div class="ttname"><a href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0">INHALATION</a></div><div class="ttdeci">@ INHALATION</div><div class="ttdoc">Inspiration and inspiration holding.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00055">pressure_controller.h:55</a></div></div>
+<div class="ttc" id="apressure__controller_8h_html_acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088"><div class="ttname"><a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088">HOLD_INSPIRATION</a></div><div class="ttdeci">@ HOLD_INSPIRATION</div><div class="ttdoc">Hold inhalation:</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00039">pressure_controller.h:39</a></div></div>
+<div class="ttc" id="apressure__controller_8h_html_aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29"><div class="ttname"><a href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29">EXHALATION</a></div><div class="ttdeci">@ EXHALATION</div><div class="ttdoc">Exhalation and pause.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00058">pressure_controller.h:57</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

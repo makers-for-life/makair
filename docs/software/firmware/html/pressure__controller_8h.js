@@ -12,5 +12,6 @@ var pressure__controller_8h =
       [ "EXHALE", "pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4", null ],
       [ "HOLD_EXHALE", "pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ae0a29121453b6882703ac23018282a80", null ]
     ] ],
+    [ "MAX_PEAK_INCREMENT", "pressure__controller_8h.html#a21000a7d092d38a084dc12bc65b76b2f", null ],
     [ "pController", "pressure__controller_8h.html#ac5e316caea38d14475d883993308a580", null ]
 ];
