@@ -20,7 +20,7 @@
  *
  * When DEBUG = 1, additional code is added to send debug traces using serial
  */
-#define DEBUG 0
+#define DEBUG 1
 
 /**
  * Activates pressure sensor simulation
