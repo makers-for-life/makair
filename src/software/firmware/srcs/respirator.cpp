@@ -254,6 +254,9 @@ void loop(void) {
         }
     }
 
+    // Check if some pressure alarms are triggered
+    pController.checkCycleAlarm();
+
     /********************************************/
     // END OF THE RESPIRATORY CYCLE
     /********************************************/

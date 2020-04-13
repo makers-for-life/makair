@@ -181,6 +181,9 @@ class PressureController {
      */
     void updateDt(int32_t p_dt);
 
+    /// At the end of a respiratory cycle, check if some alarms are triggered
+    void checkCycleAlarm();
+
  private:
     /**
      * Update the cycle phase
