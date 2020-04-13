@@ -14,6 +14,7 @@
 #include "../includes/blower.h"
 #include "../includes/pressure_valve.h"
 
+/// Number of values to aggregate when computing plateau pressure
 #define MAX_PRESSURE_SAMPLES 10u
 
 // ENUMS =================================================================
@@ -242,7 +243,11 @@ class PressureController {
      */
     void computeCentiSecParameters();
 
-    /// Compute plateau pressure
+    /**
+     * Compute plateau pressure
+     *
+     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
+     */
     void computePlateau(uint16_t p_centiSec);
 
     /// Give the computed commands to actuators
@@ -384,17 +389,17 @@ class PressureController {
     /// Alarm controller
     AlarmController* m_alarmController;
 
-    /// True if we start to compute plateau measure, False otherwise
+    /// True if we started to compute plateau measure, false otherwise
     bool m_startPlateauComputation;
 
-    /// True if plateau is computed, False otherwise
+    /// True if plateau is computed, false otherwise
     bool m_plateauComputed;
-
-    /// Index of array for last pressure storage
-    uint16_t m_lastPressureValuesIndex;
 
     /// Last pressure values
     uint16_t m_lastPressureValues[MAX_PRESSURE_SAMPLES];
+
+    /// Index of array for last pressure storage
+    uint16_t m_lastPressureValuesIndex;
 };
 
 // INITIALISATION =============================================================

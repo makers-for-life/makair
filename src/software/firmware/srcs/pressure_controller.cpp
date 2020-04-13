@@ -121,7 +121,7 @@ void PressureController::initRespiratoryCycle() {
     m_blower->runSpeed(m_blower->getSpeed() + m_blower_increment);
     m_blower_increment = 0;
 
-    for (uint16_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
+    for (uint8_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
         m_lastPressureValues[i] = 0;
     }
     m_lastPressureValuesIndex = 0;
@@ -132,12 +132,11 @@ void PressureController::initRespiratoryCycle() {
 void PressureController::updatePressure(int16_t p_currentPressure) {
     m_pressure = p_currentPressure;
 
+    // Store the current pressure to compute aggregates
     m_lastPressureValues[m_lastPressureValuesIndex] = p_currentPressure;
-
-    // Increment sample
     m_lastPressureValuesIndex++;
 
-    // If we reached max samples
+    // Start over if we reached the max samples number
     if (m_lastPressureValuesIndex >= MAX_PRESSURE_SAMPLES) {
         m_lastPressureValuesIndex = 0;
     }
@@ -197,12 +196,17 @@ void PressureController::computePlateau(uint16_t p_centiSec) {
 
     uint16_t diff = (maxValue - minValue);
 
-    if (!m_plateauComputed && diff < 10u
+    // Start computing plateau pressure when:
+    // - the last pressure values were close enough
+    // - the hold inspiration phase is about to end
+    // - plateau pressure computation was not already started
+    if (!m_plateauComputed && (diff < 10u)
         && (p_centiSec >= ((m_centiSecPerInhalation * 95u) / 100u))) {
         m_startPlateauComputation = true;
     }
 
-    if (m_startPlateauComputation && diff > 10u) {
+    // Stop computing plateau pressure when pressure drops
+    if (m_startPlateauComputation && (diff > 10u)) {
         m_startPlateauComputation = false;
         m_plateauComputed = true;
     }
@@ -265,8 +269,6 @@ void PressureController::onPlateauPressureDecrease() {
     if (m_maxPlateauPressureCommand < CONST_MIN_PLATEAU_PRESSURE) {
         m_maxPlateauPressureCommand = CONST_MIN_PLATEAU_PRESSURE;
     }
-
-    onPeakPressureDecrease();
 }
 
 void PressureController::onPlateauPressureIncrease() {
@@ -277,8 +279,6 @@ void PressureController::onPlateauPressureIncrease() {
     if (m_maxPlateauPressureCommand > CONST_MAX_PLATEAU_PRESSURE) {
         m_maxPlateauPressureCommand = CONST_MAX_PLATEAU_PRESSURE;
     }
-
-    onPeakPressureIncrease();
 }
 
 void PressureController::onPeakPressureDecrease() {
@@ -300,6 +300,7 @@ void PressureController::onPeakPressureIncrease() {
         m_maxPeakPressureCommand = CONST_MAX_PEAK_PRESSURE;
     }
 }
+
 void PressureController::updateBlower(uint16_t p_centiSec) {
     // Case blower is too low
     if ((m_phase == CyclePhases::INHALATION)
@@ -416,8 +417,8 @@ void PressureController::safeguardPlateau(uint16_t p_centiSec) {
 
         // Once plateau is computed, we can check if plateau is reached
         if (m_plateauComputed) {
-            uint16_t minPlateauBeforeAlarm = 80u * m_maxPlateauPressureCommand / 100u;
-            uint16_t maxPlateauBeforeAlarm = 120u * m_maxPlateauPressureCommand / 100u;
+            uint16_t minPlateauBeforeAlarm = (m_maxPlateauPressureCommand * 80u) / 100u;
+            uint16_t maxPlateauBeforeAlarm = (m_maxPlateauPressureCommand * 120u) / 100u;
             if ((m_pressure < minPlateauBeforeAlarm) || (m_pressure > maxPlateauBeforeAlarm)) {
                 m_alarmController->detectedAlarm(RCM_SW_14, m_cycleNb);
             } else {
