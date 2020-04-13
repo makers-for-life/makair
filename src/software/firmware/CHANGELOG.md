@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.3.1
+
+- use the green LED near the start button to show whether the breathing mode is ON or not
+- disable alarms related to the breathing cycle when program is stopped
+- fix an issue with a battery alarm being briefly triggered at every boot
+- integration test: open both valves at startup
+
 ## v1.3.0
 
 - add a program to test integration
