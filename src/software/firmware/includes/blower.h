@@ -15,7 +15,7 @@
 
 // Convert a speed to a value in microseconds for the blower controller
 // There is an error margin on the max ppm, because the blower do not handle values greater
-// than 2.01 ms, and there is no quartz anywhere.
+// than 2.01 ms, and there is no quartz anywhere
 #define BlowerSpeed2MicroSeconds(value) map(value, 0, 180, 1000, 1950)
 
 // CLASS =================================================================
