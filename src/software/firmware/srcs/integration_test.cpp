@@ -164,7 +164,9 @@ void loop() {
             display("MakAir test", "Press start button");
             displayLine(VERSION, 3);
             servoBlower.open();
+            servoBlower.execute();
             servoPatient.open();
+            servoPatient.execute();
         });
         break;
     }
