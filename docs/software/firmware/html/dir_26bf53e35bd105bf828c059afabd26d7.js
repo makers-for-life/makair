@@ -14,6 +14,6 @@ var dir_26bf53e35bd105bf828c059afabd26d7 =
     [ "pressure_utl.cpp", "pressure__utl_8cpp.html", "pressure__utl_8cpp" ],
     [ "pressure_valve.cpp", "pressure__valve_8cpp.html", "pressure__valve_8cpp" ],
     [ "qualification.cpp", "qualification_8cpp.html", null ],
-    [ "respirator.cpp", "respirator_8cpp.html", null ],
+    [ "respirator.cpp", "respirator_8cpp.html", "respirator_8cpp" ],
     [ "screen.cpp", "screen_8cpp.html", "screen_8cpp" ]
 ];

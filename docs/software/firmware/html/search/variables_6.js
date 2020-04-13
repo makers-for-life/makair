@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['no_5falarm_5fline_641',['NO_ALARM_LINE',['../screen_8cpp.html#aca92ede21b351cb7630aa91abc7600c5',1,'screen.cpp']]]
+  ['lastmicro_627',['lastMicro',['../respirator_8cpp.html#a8d72e25d16d4a0aa23800c424c01dd67',1,'respirator.cpp']]],
+  ['lastpcontrollercomputedate_628',['lastpControllerComputeDate',['../respirator_8cpp.html#a417632f2f831d02bdf1831b81107beb6',1,'respirator.cpp']]]
 ];

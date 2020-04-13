@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['notdetected_514',['notDetected',['../class_alarm.html#aa77f76515da0c9a236c0de6e17a18e1b',1,'Alarm']]],
-  ['notdetectedalarm_515',['notDetectedAlarm',['../class_alarm_controller.html#af1ed8c1cbf5e3c8fe36f534295865849',1,'AlarmController']]]
+  ['maxaperture_534',['maxAperture',['../class_pressure_valve.html#abce6dd9d0c01d24f0b65a7057e1997ca',1,'PressureValve']]],
+  ['maxpeakpressurecommand_535',['maxPeakPressureCommand',['../class_pressure_controller.html#abe955d86205567a8caf915b5770c2419',1,'PressureController']]],
+  ['maxplateaupressurecommand_536',['maxPlateauPressureCommand',['../class_pressure_controller.html#a4a311293f3bfc61f0a636283e2052485',1,'PressureController']]],
+  ['minaperture_537',['minAperture',['../class_pressure_valve.html#a62c53895701feb0fff8e72a105b2fc2a',1,'PressureValve']]],
+  ['minpeepcommand_538',['minPeepCommand',['../class_pressure_controller.html#ad98ed00f1c58b864578a8399794f0834',1,'PressureController']]]
 ];
