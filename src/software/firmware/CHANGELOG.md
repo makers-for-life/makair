@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3.2
+
+- fix blower control
+  (_it used to unexpectedly slow down a bit from times to times_)
+- improve the measured and displayed pressures for peak and plateau
+
 ## v1.3.1
 
 - use the green LED near the start button to show whether the breathing mode is ON or not
