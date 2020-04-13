@@ -103,7 +103,7 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #if VALVE_TYPE == VT_SERVO_V1
 #define SERVO_VALVE_PERIOD                                                                         \
     10000  // 100 Hz : on hardware 1, esc timer is shared between servo and esc. Servo can handle
-           // 100hz too.
+           // 100hz too
 #elif VALVE_TYPE == VT_EMERSON_ASCO
 #define SERVO_VALVE_PERIOD 3278  // 305 Hz
 #define EMERSON_MIN_PWM 600      // 18 % PWM is the minimum to start opening (3278 * 0.18)
