@@ -167,6 +167,7 @@ void loop() {
             servoBlower.execute();
             servoPatient.open();
             servoPatient.execute();
+            blower.stop();
         });
         break;
     }
@@ -176,7 +177,10 @@ void loop() {
         break;
     }
     case STEP_VALVE_BLOWER_TEST: {
-        UNGREEDY(is_drawn, display("Test Valve inspi", "Continuer : Start"));
+        UNGREEDY(is_drawn, {
+            display("Test Valve inspi", "Continuer : Start");
+            blower.stop();
+        });
 
         if (millis() - last_time < 5000) {
             servoBlower.open();
@@ -245,7 +249,10 @@ void loop() {
     }
 
     case STEP_BATTERY_TEST: {
-        UNGREEDY(is_drawn, display("Test batterie", "Continuer : Start"));
+        UNGREEDY(is_drawn, {
+            display("Test batterie", "Continuer : Start");
+            blower.stop();
+        });
         updateBatterySample();
         if (millis() - last_time >= 200) {
             char msg[SCREEN_LINE_LENGTH + 1];

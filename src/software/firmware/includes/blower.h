@@ -53,4 +53,5 @@ class Blower {
     uint16_t timerChannel;
     uint16_t blowerPin;
     int16_t m_speed;
+    bool m_stopped;
 };
