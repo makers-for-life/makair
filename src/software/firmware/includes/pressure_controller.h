@@ -127,7 +127,7 @@ class PressureController {
     void onPlateauPressureIncrease();
 
     /**
-     * Decrease the desired crête pressure
+     * Decrease the desired peak pressure
      *
      * @param p_decrement Positive value of decrement
      */
