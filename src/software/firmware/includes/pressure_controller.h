@@ -14,6 +14,9 @@
 #include "../includes/blower.h"
 #include "../includes/pressure_valve.h"
 
+/// Number of values to aggregate when computing plateau pressure
+#define MAX_PRESSURE_SAMPLES 10u
+
 // ENUMS =================================================================
 
 /// Defines the 4 phases of the respiratory cycle
@@ -178,6 +181,9 @@ class PressureController {
      */
     void updateDt(int32_t p_dt);
 
+    /// At the end of a respiratory cycle, check if some alarms are triggered
+    void checkCycleAlarm();
+
  private:
     /**
      * Update the cycle phase
@@ -216,13 +222,6 @@ class PressureController {
     void safeguards(uint16_t p_centiSec);
 
     /**
-     * Implement safeguard for peak pressure
-     *
-     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
-     */
-    void safeguardPressionCrete(uint16_t p_centiSec);
-
-    /**
      * Implement safeguard for max plateau pressure
      *
      * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
@@ -238,15 +237,6 @@ class PressureController {
     void safeguardHoldExpiration(uint16_t p_centiSec);
 
     /**
-     * Implement a second safeguard for peep pressure
-     *
-     * If the hold exhalation is not enough, we start to open the blower valve in order to maintain
-     * a pressure
-     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
-     */
-    void safeguardMaintienPeep(uint16_t p_centiSec);
-
-    /**
      * Compute various cycle durations given the desired number of cycles per minute
      *
      * - duration of a cycle in hundredth of second
@@ -255,6 +245,13 @@ class PressureController {
      *  N.B.: Inhalation lasts 1/3 of a cycle while exhalation lasts 2/3 of a cycle
      */
     void computeCentiSecParameters();
+
+    /**
+     * Compute plateau pressure
+     *
+     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
+     */
+    void computePlateau(uint16_t p_centiSec);
 
     /// Give the computed commands to actuators
     void executeCommands();
@@ -304,20 +301,8 @@ class PressureController {
     /// Maximal plateau pressure desired by the operator
     uint16_t m_maxPlateauPressureCommand;
 
-    /// Tick to detect initial plateau pression overflow
-    uint16_t m_triggerMaxPlateauPressureDetectionTick;
-
-    /// Tick to delete initial plateau overflow
-    uint16_t m_triggerMaxPlateauPressureDetectionTickDeletion;
-
     /// Minimal PEEP desired by the operator
     uint16_t m_minPeepCommand;
-
-    /// Initial tick detection to maintain Peep
-    uint16_t m_triggerHoldExpiDetectionTick;
-
-    /// Tick de suppression du tick de détection initiale que la PEEP est maintenue
-    uint16_t m_triggerHoldExpiDetectionTickDeletion;
 
     /// Number of cycles per minute
     uint16_t m_cyclesPerMinute;
@@ -339,9 +324,6 @@ class PressureController {
 
     /// Measured pressure
     uint16_t m_pressure;
-
-    /// Max pressure during a cycle
-    uint16_t m_max_pressure;
 
     /// Peak pressure
     uint16_t m_peakPressure;
@@ -377,7 +359,7 @@ class PressureController {
     int32_t m_dt;
 
     /// Requested pressure at a given point in time
-    int32_t m_consignePression;
+    int32_t m_pressureCommand;
 
     /**
      * Integral gain of the blower PID
@@ -409,6 +391,18 @@ class PressureController {
 
     /// Alarm controller
     AlarmController* m_alarmController;
+
+    /// True if we started to compute plateau measure, false otherwise
+    bool m_startPlateauComputation;
+
+    /// True if plateau is computed, false otherwise
+    bool m_plateauComputed;
+
+    /// Last pressure values
+    uint16_t m_lastPressureValues[MAX_PRESSURE_SAMPLES];
+
+    /// Index of array for last pressure storage
+    uint16_t m_lastPressureValuesIndex;
 };
 
 // INITIALISATION =============================================================
