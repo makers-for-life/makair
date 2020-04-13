@@ -11,5 +11,6 @@ conrod_piston = "0.69.0"
 piston_window = "0.105.0"
 plotters = {version = "^0.2.12", default_features = false, features = ["piston", "chrono", "line_series", "candlestick"]}
 chrono = "0.4.11"
-timer = "0.2.0"
 rand = "0.7.3"
+log = "0.4.8"
+simple_logger = "1.6.0"
