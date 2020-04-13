@@ -134,7 +134,7 @@ class PressureController {
     void onPeakPressureDecrease(uint8_t p_decrement = 10u);
 
     /**
-     * Increase the desired crête pressure
+     * Increase the desired peak pressure
      *
      * @param p_increment Positive value of increment
      */
