@@ -149,6 +149,7 @@ void setup() {
     BuzzerControl_Init();
     Buzzer_Init();
     initBattery();
+    blower.stop();
 
     pinMode(PIN_LED_START, OUTPUT);
     digitalWrite(PIN_LED_START, LED_START_ACTIVE);
@@ -156,7 +157,6 @@ void setup() {
 
 void loop() {
     btn_start.tick();
-    blower.stop();
 
     switch (step) {
     case STEP_WELCOME: {
