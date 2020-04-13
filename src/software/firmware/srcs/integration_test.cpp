@@ -163,6 +163,8 @@ void loop() {
         UNGREEDY(is_drawn, {
             display("MakAir test", "Press start button");
             displayLine(VERSION, 3);
+            servoBlower.open();
+            servoPatient.open();
         });
         break;
     }
