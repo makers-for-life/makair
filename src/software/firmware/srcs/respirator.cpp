@@ -19,6 +19,9 @@
 #include "Arduino.h"
 #include <IWatchdog.h>
 #include <LiquidCrystal.h>
+#if HARDWARE_VERSION == 2
+#include <HardwareSerial.h>
+#endif
 
 // Internal
 #include "../includes/activation.h"
@@ -33,6 +36,7 @@
 #include "../includes/pressure_controller.h"
 #include "../includes/pressure_valve.h"
 #include "../includes/screen.h"
+#include "../includes/telemetry.h"
 
 // PROGRAM =====================================================================
 
@@ -46,6 +50,10 @@ Blower blower;
 int16_t pressureOffset;
 int32_t pressureOffsetSum;
 uint32_t pressureOffsetCount;
+
+#if HARDWARE_VERSION == 2
+HardwareSerial Serial6(PIN_SERIAL_RX, PIN_SERIAL_TX);
+#endif
 
 /**
  * Block execution for a given duration
@@ -69,6 +77,11 @@ uint32_t lastpControllerComputeDate;
 void setup(void) {
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("Booting the system...");)
+
+    initTelemetry();
+    sendDataSnapshot();
+    while (true) {
+    }
 
     startScreen();
 
