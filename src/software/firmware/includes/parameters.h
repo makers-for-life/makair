@@ -101,7 +101,9 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 /// Angle when closed
 #define VALVE_CLOSED_STATE 125u
 #if VALVE_TYPE == VT_SERVO_V1
-#define SERVO_VALVE_PERIOD 20000  // 50 Hz
+#define SERVO_VALVE_PERIOD                                                                         \
+    10000  // 100 Hz : on hardware 1, esc timer is shared between servo and esc. Servo can handle
+           // 100hz too.
 #elif VALVE_TYPE == VT_EMERSON_ASCO
 #define SERVO_VALVE_PERIOD 3278  // 305 Hz
 #define EMERSON_MIN_PWM 600      // 18 % PWM is the minimum to start opening (3278 * 0.18)
@@ -118,8 +120,8 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #define TIM_CHANNEL_SERVO_VALVE_BLOWER 1
 #define TIM_CHANNEL_SERVO_VALVE_PATIENT 2
 #define ESC_PPM_PERIOD                                                                             \
-    10000  // ESC is driven in 50 Hz. 100 Hz is a security against ESC or nucleo bugs. Some ESC
-           // stops very quickly.
+    10000  // ESC should be driven in 50 Hz. 100 Hz is a security against ESC or nucleo bugs. Some
+           // ESC stops very quickly.
 #endif
 
 ///@}
