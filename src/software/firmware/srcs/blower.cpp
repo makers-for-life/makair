@@ -37,7 +37,7 @@ void Blower::setup() {
 
 void Blower::runSpeed(int16_t p_speed) {
     if ((p_speed > MIN_BLOWER_SPEED) && (p_speed < MAX_BLOWER_SPEED)) {
-        // do not forcefully set the capture compare again and again if speed do not change.
+        // do not forcefully set the capture compare again and again if speed do not change
         if (m_speed != p_speed) {
             actuator->setCaptureCompare(timerChannel, BlowerSpeed2MicroSeconds(p_speed),
                                         MICROSEC_COMPARE_FORMAT);
