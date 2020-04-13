@@ -121,7 +121,7 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #define TIM_CHANNEL_SERVO_VALVE_PATIENT 2
 #define ESC_PPM_PERIOD                                                                             \
     10000  // ESC should be driven in 50 Hz. 100 Hz is a security against ESC or nucleo bugs. Some
-           // ESC stops very quickly.
+           // ESC stops very quickly
 #endif
 
 ///@}
