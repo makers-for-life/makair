@@ -13,7 +13,7 @@
 #define MODE_INTEGRATION_TEST 3  ///< Test integration mode
 
 /// Defines the current mode
-#define MODE MODE_PROD
+#define MODE 999
 
 /**
  * Activates debug traces
@@ -49,4 +49,4 @@
  *
  * This changes which hardware is used, to which pins it is connected, as well as various parameters
  */
-#define HARDWARE_VERSION 1
+#define HARDWARE_VERSION 2

@@ -266,9 +266,18 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #define PIN_BATTERY A2
 #define PIN_SERIAL_RX PA12
 #define PIN_SERIAL_TX PA11
+#define MASS_FLOW_METER
 #endif
 
 ///@}
+
+/**
+ * Define the flow meter parameters
+ */
+#ifdef MASS_FLOW_METER
+#define MASS_FLOW_TIMER TIM10
+#define MASS_FLOW_CHANNEL 1
+#endif
 
 /**
  * @name Alarm thresholds
