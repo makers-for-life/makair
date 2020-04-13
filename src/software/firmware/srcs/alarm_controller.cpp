@@ -30,19 +30,19 @@ AlarmController::AlarmController()
           /**
            * RCM-SW-2
            * The device shall embed a high priority alarm 11 when the pressure is too low < 2cmH2O
-           * from the 4th cycle.
+           * from the 3th cycle.
            */
           Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_2, 3u),
 
           /* RCM-SW-1
-           * The device shall embed a high priority Alarm 12 when the pressure is > 35cmH20 from the
+           * The device shall embed a high priority alarm 12 when the pressure is > 35cmH20 from the
            * 4th respiratory cycle.
            */
           Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_1, 3u),
 
           /**
            * RCM-SW-12
-           * The device shall monitor the battery voltage and trig a High priority alarm 13 when
+           * The device shall monitor the battery voltage and trig a high priority alarm 13 when
            * voltage is < 24V.
            */
           Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_12, 1u),
@@ -50,58 +50,57 @@ AlarmController::AlarmController()
           /**
            * RCM-SW-3
            * The device shall embed a high priority alarm 14 when the PEEP target is not reached
-           * (absolute difference > 2cmH2O) from the 4th respiratory cycle.
+           * (absolute difference > 2cmH2O) from the 3th respiratory cycle.
            */
           Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_3, 3u),
 
           /**
            * RCM-SW-6 - NOT IN THIS VERSION
-           * The software shall monitor the motor temperature, and raise a high priority alarm
-           15 if
+           * The software shall monitor the motor temperature, and raise a high priority alarm 15 if
            * temperature is over 80°C.
            */
           //   Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_6, 1u),
 
           /**
            * RCM-SW-18
-           * The device shall embed a high priority alarm 17 when the Plateau pressure is > 80cmH2O.
+           * The device shall embed a high priority alarm 17 when the peak pressure is > 80cmH2O.
            */
           Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_18, 1u),
 
           /**
            * RCM-SW-8 - NOT IN THIS VERSION
            * The software shall detect pressure out-of-range value in case of pressure sensor
-           * disconnection or shortcut ( <0.250v & >3.1V) and a High Priority Alarm 18 shall be
+           * disconnection or shortcut (< 0.250V & > 3.1V) and a high Priority Alarm 18 shall be
            * triggered.
            */
           //   Alarm(AlarmPriority::ALARM_HIGH, RCM_SW_8, 1u),
 
           /**
            * RCM-SW-11
-           * The device shall monitor the battery voltage and trig a medium priority alarm 21 when
-           * voltage is < 24,6V .
+           * The device shall monitor the battery voltage and trigger a medium priority alarm 21 when
+           * voltage is < 24,6V.
            */
           Alarm(AlarmPriority::ALARM_MEDIUM, RCM_SW_11, 1u),
 
           /**
            * RCM-SW-14
-           * The device shall embed a medium priority alarm 22 when the Plateau pressure is not
+           * The device shall embed a medium priority alarm 22 when the plateau pressure is not
            * reached (absolute difference > 20% in absolute value) until the 2nd respiratory
-           * cycle
+           * cycle.
            */
           Alarm(AlarmPriority::ALARM_MEDIUM, RCM_SW_14, 2u),
 
           /**
            * RCM-SW-15
            * The device shall embed a medium priority alarm 23 when the PEEP target is not reached
-           * (absolute difference > 2cmH2O) until the 2nd respiratory cycle
+           * (absolute difference > 2cmH2O) until the 2nd respiratory cycle.
            */
           Alarm(AlarmPriority::ALARM_MEDIUM, RCM_SW_15, 2u),
 
           /**
            * RCM-SW-19
-           * The device shall embed a low priority alarm 24 when the Pressure < 2cm H2O at the
-           * second cycle (Patient disconnection)
+           * The device shall embed a medium priority alarm 24 when the pressure is < 2cmH2O at the
+           * second cycle (patient disconnection).
            */
           Alarm(AlarmPriority::ALARM_MEDIUM, RCM_SW_19, 2u),
 
