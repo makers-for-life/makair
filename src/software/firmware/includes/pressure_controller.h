@@ -17,6 +17,9 @@
 /// Number of values to aggregate when computing plateau pressure
 #define MAX_PRESSURE_SAMPLES 10u
 
+/// Max value for increment / decrement of peak command
+static const uint16_t MAX_PEAK_INCREMENT = 30u;
+
 // ENUMS =================================================================
 
 /// Defines the 4 phases of the respiratory cycle
@@ -89,6 +92,9 @@ class PressureController {
     /// Begin a respiratory cycle
     void initRespiratoryCycle();
 
+    /// End a respiratory cycle
+    void endRespiratoryCycle();
+
     /**
      * Input a pressure reading
      * @param p_currentPressure  Measured pressure
@@ -120,11 +126,19 @@ class PressureController {
     /// Increase the desired plateau pressure
     void onPlateauPressureIncrease();
 
-    /// Decrease the desired crête pressure
-    void onPeakPressureDecrease();
+    /**
+     * Decrease the desired crête pressure
+     *
+     * @param p_decrement Positive value of decrement
+     */
+    void onPeakPressureDecrease(uint8_t p_decrement = 10u);
 
-    /// Increase the desired crête pressure
-    void onPeakPressureIncrease();
+    /**
+     * Increase the desired crête pressure
+     *
+     * @param p_increment Positive value of increment
+     */
+    void onPeakPressureIncrease(uint8_t p_increment = 10u);
 
     /// Get the desired number of cycles per minute
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
@@ -180,9 +194,6 @@ class PressureController {
      * @param p_dt Duration in microsecond
      */
     void updateDt(int32_t p_dt);
-
-    /// At the end of a respiratory cycle, check if some alarms are triggered
-    void checkCycleAlarm();
 
  private:
     /**
@@ -276,6 +287,9 @@ class PressureController {
      * @param dt Time since the last computation (in microsecond)
      */
     int32_t pidPatient(int32_t targetPressure, int32_t currentPressure, int32_t dt);
+
+    /// At the end of a respiratory cycle, check if some alarms are triggered
+    void checkCycleAlarm();
 
  private:
     /// Number of cycles per minute desired by the operator
