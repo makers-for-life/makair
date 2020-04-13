@@ -322,7 +322,6 @@ void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
 static const uint16_t MAX_BLOWER_INCREMENT = 3u;
 
 void PressureController::updateBlower(uint16_t p_centiSec) {
-
     // Case blower is too low
     if ((m_phase == CyclePhases::INHALATION)
         && (p_centiSec > ((m_centiSecPerInhalation * 80u) / 100u))
