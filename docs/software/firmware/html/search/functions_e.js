@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['safeguardholdexpiration_546',['safeguardHoldExpiration',['../class_pressure_controller.html#a518c55c620fa6bb202c4018b0bf92a35',1,'PressureController']]],
-  ['safeguardmaintienpeep_547',['safeguardMaintienPeep',['../class_pressure_controller.html#ae9054f8da4aadffa7c5de732fe7f2d93',1,'PressureController']]],
-  ['safeguardplateau_548',['safeguardPlateau',['../class_pressure_controller.html#a1d15642773c59ee72700cd4aaf07e65e',1,'PressureController']]],
-  ['safeguardpressioncrete_549',['safeguardPressionCrete',['../class_pressure_controller.html#a153167b98faf8c91c0d374b8a5f248fd',1,'PressureController']]],
+  ['safeguardholdexpiration_548',['safeguardHoldExpiration',['../class_pressure_controller.html#a518c55c620fa6bb202c4018b0bf92a35',1,'PressureController']]],
+  ['safeguardplateau_549',['safeguardPlateau',['../class_pressure_controller.html#a1d15642773c59ee72700cd4aaf07e65e',1,'PressureController']]],
   ['safeguards_550',['safeguards',['../class_pressure_controller.html#a135ffaee9e9a87bb8380bc0bd443d6e6',1,'PressureController']]],
   ['screen_551',['screen',['../screen_8cpp.html#aca2247df76366bf2c68ad849a8a49795',1,'screen.cpp']]],
   ['setsubphase_552',['setSubPhase',['../class_pressure_controller.html#ab40a97f377a68843d0ac5ccc78c097b7',1,'PressureController']]],
