@@ -200,7 +200,7 @@ void PressureController::computePlateau(uint16_t p_centiSec) {
     // - the last pressure values were close enough
     // - the hold inspiration phase is about to end
     // - plateau pressure computation was not already started
-    if (!m_plateauComputed && diff < 10u
+    if (!m_plateauComputed && (diff < 10u)
         && (p_centiSec >= ((m_centiSecPerInhalation * 95u) / 100u))) {
         m_startPlateauComputation = true;
     }
@@ -409,7 +409,6 @@ void PressureController::safeguardPlateau(uint16_t p_centiSec) {
             m_alarmController->notDetectedAlarm(RCM_SW_19);
         }
 
-        // TODO should be a generic alarm for all phases / subPhases
         if (m_pressure > ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O) {
             m_alarmController->detectedAlarm(RCM_SW_18, m_cycleNb);
         } else {
