@@ -41,12 +41,7 @@ enum CycleSubPhases {
      * Exhalation:
      * - The patient exhales
      */
-    EXHALE,
-    /**
-     * Hold exhalation:
-     * - Valves stay closed as the pressure is below the PEEP
-     */
-    HOLD_EXHALE
+    EXHALE
 };
 
 /// Defines the 2 main phases of the respiratory cycle

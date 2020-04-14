@@ -179,10 +179,6 @@ void PressureController::compute(uint16_t p_centiSec) {
             computePlateau(p_centiSec);
             break;
         }
-        case CycleSubPhases::HOLD_EXHALE: {
-            holdExhalation();
-            break;
-        }
         default: {
             holdExhalation();
         }
@@ -355,9 +351,7 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
         m_phase = CyclePhases::EXHALATION;
         m_pressureCommand = m_minPeepCommand;
 
-        if (m_subPhase != CycleSubPhases::HOLD_EXHALE) {
-            setSubPhase(CycleSubPhases::EXHALE);
-        }
+        setSubPhase(CycleSubPhases::EXHALE);
     }
 }
 
