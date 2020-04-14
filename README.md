@@ -149,7 +149,7 @@ Firmware release binaries are available for download on our [releases page](http
 
 | Runtime | Version | Major Changes | Ready? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
-| [Ventilator Firmware](./src/software/firmware) | v1.3.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + Gabriel Moneyron
+| [Ventilator Firmware](./src/software/firmware) | V1.3.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + Gabriel Moneyron
 | [Control Unit](./src/software/control) | V0.1.x | Project started | ❌ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce)
 
 # Schemes
