@@ -26,8 +26,8 @@ Then, compile the project:
 arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --verbose src/software/firmware/srcs/respirator.cpp --output src/software/firmware/output/respirator-production
 ```
 
-### Configuration
+## Configuration
 
-High level configuration options are available and documented in [includes/config.h](includes/config.h).
+High-level configuration options are available and documented in [includes/config.h](includes/config.h).
 
-Low level configuration options can be found in [includes/parameters.h](includes/parameters.h).
+Low-level configuration options can be found in [includes/parameters.h](includes/parameters.h).
