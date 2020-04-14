@@ -34,8 +34,11 @@
 #define MASS_FLOW_PERIOD_US 1000
 HardwareTimer* massFlowTimer;
 
-int32_t mfmAirVolumeSum = 0;
+volatile int32_t mfmAirVolumeSum = 0;
+volatile int32_t mfmPreviousValue = 0;
+
 bool mfmFaultCondition = false;
+//volatile int32_t mfmTimerCounter = 0;
 
 union
 {
@@ -46,6 +49,7 @@ union
 
 void MFM_Timer_Callback(HardwareTimer*) {
 
+  //int32_t newSum;
 
   if(!mfmFaultCondition)
   {
@@ -56,6 +60,8 @@ void MFM_Timer_Callback(HardwareTimer*) {
     mfmLastData.c[1] = Wire.read();
     mfmLastData.c[0] = Wire.read();
 
+    //mfmTimerCounter++;
+
     if(Wire.endTransmission() != 0) //If transmission failed
     {
       Serial.println ("Prout !!");
@@ -63,7 +69,12 @@ void MFM_Timer_Callback(HardwareTimer*) {
     }
     digitalWrite(PIN_LED_START, false);
 
-    mfmAirVolumeSum += ( (mfmLastData.i - 0x8000) / 7200); //l.min-1
+
+    //newSum = ( (mfmLastData.i - 0x8000) / 120 * 60);
+
+    mfmAirVolumeSum += (( (mfmLastData.i - 0x8000) / 7200) + mfmPreviousValue ) / 2; //l.min-1
+
+    mfmPreviousValue = ( (mfmLastData.i - 0x8000) / 7200);
   //Correction factor is 120. Divide by 60 to convert ml.min-1 to ml.ms-1, hence the 7200 = 120 * 60
   //TODO : Adapt calculation formula based on the timer period
 
@@ -121,6 +132,8 @@ boolean MFM_init(void) {
     Wire.write(0x10);
     Wire.write(0x00);
 
+    //mfmTimerCounter = 0;
+
     if(Wire.endTransmission() == 0)
     {
         return true;
@@ -132,8 +145,11 @@ boolean MFM_init(void) {
 /**
  * Reset the volume counter
  */
-void MFM_reset(void) {
+void MFM_reset(void)
+{
   mfmAirVolumeSum = 0;
+  mfmPreviousValue = 0;
+  //mfmTimerCounter = 0;
 }
 
 /**
@@ -143,16 +159,17 @@ void MFM_reset(void) {
 int32_t MFM_read_liters(boolean reset_after_read) {
 
     int32_t result;
+    //int32_t timerCounter;
 
+    //timerCounter = mfmTimerCounter;
     // this should be an atomic operation (32 bits aligned data)
     result = mfmAirVolumeSum;
 
     if (reset_after_read) {
-        mfmAirVolumeSum = 0;
-    }
+        MFM_reset();
+        }
 
-    // compute the result in ml
-    return mfmAirVolumeSum;
+    return result;
 }
 
 void setup(void) {
