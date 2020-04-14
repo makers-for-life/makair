@@ -64,25 +64,27 @@ void updateBatterySample() {
 }
 
 void updateBatteryState(uint32_t p_cycleNumber) {
-    if (rawBatteryMeanVoltage < RAW_VOLTAGE_ON_BATTERY_LOW) {
-        alarmController.detectedAlarm(RCM_SW_12, p_cycleNumber);
+    if (rawBatteryMeanVoltage
+        < (RAW_VOLTAGE_ON_BATTERY_HIGH - RAW_VOLTAGE_ON_BATTERY_HIGH_HYSTERESIS)) {
+        alarmController.detectedAlarm(RCM_SW_16, p_cycleNumber);
         isRunningOnBattery = true;
+    } else if (rawBatteryMeanVoltage > RAW_VOLTAGE_ON_BATTERY_HIGH) {
+        alarmController.notDetectedAlarm(RCM_SW_16);
+        isRunningOnBattery = false;
     } else {
-        alarmController.notDetectedAlarm(RCM_SW_12);
+        // This is an hysteresis, so do nothing here
     }
 
-    if (!isRunningOnBattery && (rawBatteryMeanVoltage < RAW_VOLTAGE_ON_BATTERY)) {
+    if (rawBatteryMeanVoltage < RAW_VOLTAGE_ON_BATTERY) {
         alarmController.detectedAlarm(RCM_SW_11, p_cycleNumber);
-        isRunningOnBattery = true;
     } else {
         alarmController.notDetectedAlarm(RCM_SW_11);
     }
 
-    if (!isRunningOnBattery && (rawBatteryMeanVoltage < RAW_VOLTAGE_MAINS_MIN)) {
-        alarmController.detectedAlarm(RCM_SW_16, p_cycleNumber);
-        isRunningOnBattery = true;
+    if (rawBatteryMeanVoltage < RAW_VOLTAGE_ON_BATTERY_LOW) {
+        alarmController.detectedAlarm(RCM_SW_12, p_cycleNumber);
     } else {
-        alarmController.notDetectedAlarm(RCM_SW_16);
+        alarmController.notDetectedAlarm(RCM_SW_12);
     }
 }
 

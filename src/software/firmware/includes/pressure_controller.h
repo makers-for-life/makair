@@ -221,28 +221,6 @@ class PressureController {
     void holdExhalation();
 
     /**
-     * Run safeguards
-     *
-     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
-     */
-    void safeguards(uint16_t p_centiSec);
-
-    /**
-     * Implement safeguard for max plateau pressure
-     *
-     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
-     */
-    void safeguardPlateau(uint16_t p_centiSec);
-
-    /**
-     * Implement a first safeguard for peep pressure
-     *
-     * In this case, we hold the exhalation.
-     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
-     */
-    void safeguardHoldExpiration(uint16_t p_centiSec);
-
-    /**
      * Compute various cycle durations given the desired number of cycles per minute
      *
      * - duration of a cycle in hundredth of second
@@ -412,6 +390,12 @@ class PressureController {
 
     /// Index of array for last pressure storage
     uint16_t m_lastPressureValuesIndex;
+
+    /// Sum of the current cycle's pressures
+    uint32_t m_sumOfPressures;
+
+    /// Number of the current cycle's pressures
+    uint16_t m_numberOfPressures;
 };
 
 // INITIALISATION =============================================================

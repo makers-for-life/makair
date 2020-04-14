@@ -277,10 +277,9 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
  */
 ///@{
 
-#define ALARM_2_CMH2O 20u                                          // RCM-SW-2
-#define ALARM_35_CMH2O 350u                                        // RCM-SW-1
-#define ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O ALARM_2_CMH2O  // RCM-SW-3 / RCM-SW-15
-#define ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O ALARM_2_CMH2O        // RCM-SW-19
-#define ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O 800u                // RCM-SW-18
+#define ALARM_THRESHOLD_MIN_PRESSURE 20u         // RCM-SW-2 + RCM-SW-19
+#define ALARM_THRESHOLD_MAX_PRESSURE 800u         // RCM-SW-18
+#define ALARM_THRESHOLD_DIFFERENCE_PERCENT 20u   // RCM-SW-1 + RCM-SW-14
+#define ALARM_THRESHOLD_DIFFERENCE_PRESSURE 20u  // RCM-SW-3 + RCM-SW-15
 
 ///@}

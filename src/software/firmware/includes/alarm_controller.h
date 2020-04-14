@@ -14,7 +14,7 @@
 
 // CONSTANTS ==================================================================
 
-#define ALARMS_SIZE 10
+#define ALARMS_SIZE 10u
 
 #define RCM_SW_1 12u
 #define RCM_SW_2 11u
@@ -68,11 +68,14 @@ class AlarmController {
     /// Highest priority of the currently triggered alarms
     AlarmPriority m_highestPriority;
 
-    /// Snoozed priority
-    AlarmPriority m_snoozed;
+    /// Time when snoozed was triggered
+    uint32_t m_snoozeTime;
 
     /// Collections of available alarms
     Alarm m_alarms[ALARMS_SIZE];
+
+    /// Collections of snoozed alarms
+    bool m_snoozedAlarms[ALARMS_SIZE];
 };
 
 // INITIALISATION =============================================================

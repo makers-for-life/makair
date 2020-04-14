@@ -17,21 +17,22 @@
 
 /**
  * RCM_SW_16
- * Expected voltage in volts when power cord is plugged.
- * Calculated by analogRead(PIN) * 0,0296484375 = 26,5 => 26,5 / 0,0296484375 = 893,8
+ * Expected voltage in volts when power cord is unplugged.
+ * Calculated by analogRead(PIN) * 0,0296484375 = 27 => 27 / 0,0296484375 = 911
  */
-#define RAW_VOLTAGE_MAINS_MIN 894u
+#define RAW_VOLTAGE_ON_BATTERY_HIGH 911u
+
+// analogRead(PIN) * 0,0296484375 = 0,1 => 0,1 / 0,0296484375 = 3
+#define RAW_VOLTAGE_ON_BATTERY_HIGH_HYSTERESIS 3u
 
 /**
  * RCM_SW_11
- * Expected voltage in volts when power cord is plugged.
  * Calculated by analogRead(PIN) * 0,0296484375 = 24,6 => 24,6 / 0,0296484375 = 829,7
  */
 #define RAW_VOLTAGE_ON_BATTERY 830u
 
 /**
  * RCM_SW_12
- * Expected voltage in volts when power cord is plugged.
  * Calculated by analogRead(PIN) * 0,0296484375 = 24 => 24 / 0,0296484375 = 809,4
  */
 #define RAW_VOLTAGE_ON_BATTERY_LOW 809u

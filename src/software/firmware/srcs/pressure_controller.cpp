@@ -127,6 +127,9 @@ void PressureController::initRespiratoryCycle() {
     m_lastPressureValuesIndex = 0;
     m_startPlateauComputation = false;
     m_plateauComputed = false;
+
+    m_sumOfPressures = 0u;
+    m_numberOfPressures = 0u;
 }
 
 void PressureController::endRespiratoryCycle() {
@@ -140,6 +143,11 @@ void PressureController::endRespiratoryCycle() {
             uint16_t plateauDiff = (((m_maxPlateauPressureCommand - m_plateauPressure) * 2u) / 10u);
             onPeakPressureIncrease(min(plateauDiff, MAX_PEAK_INCREMENT));
         }
+    }
+
+    // RCM-SW-18
+    if (m_pressure <= ALARM_THRESHOLD_MAX_PRESSURE) {
+        m_alarmController->notDetectedAlarm(RCM_SW_18);
     }
 }
 
@@ -161,6 +169,10 @@ void PressureController::compute(uint16_t p_centiSec) {
 
     // Update the cycle phase
     updatePhase(p_centiSec);
+
+    // Compute metrics for alarms
+    m_sumOfPressures += m_pressure;
+    m_numberOfPressures++;
 
     if (!m_vigilance) {
         // Act accordingly
@@ -184,7 +196,11 @@ void PressureController::compute(uint16_t p_centiSec) {
         }
         }
     }
-    safeguards(p_centiSec);
+
+    // RCM-SW-18
+    if (m_pressure > ALARM_THRESHOLD_MAX_PRESSURE) {
+        m_alarmController->detectedAlarm(RCM_SW_18, m_cycleNb);
+    }
 
     DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 1u, m_phase, m_subPhase, m_pressure,
                        m_blower_valve.command, m_blower_valve.position, m_patient_valve.command,
@@ -398,55 +414,6 @@ void PressureController::holdExhalation() {
 
 void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
 
-void PressureController::safeguards(uint16_t p_centiSec) {
-    safeguardPlateau(p_centiSec);
-    safeguardHoldExpiration(p_centiSec);
-
-    if (m_pressure < ALARM_2_CMH2O) {
-        m_alarmController->detectedAlarm(RCM_SW_2, m_cycleNb);
-    } else {
-        m_alarmController->notDetectedAlarm(RCM_SW_2);
-    }
-
-    if (m_pressure > ALARM_35_CMH2O) {
-        m_alarmController->detectedAlarm(RCM_SW_1, m_cycleNb);
-    } else {
-        m_alarmController->notDetectedAlarm(RCM_SW_1);
-    }
-}
-
-void PressureController::safeguardPlateau(uint16_t p_centiSec) {
-    if (m_subPhase == CycleSubPhases::HOLD_INSPIRATION) {
-        if (m_pressure < ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O) {
-            m_alarmController->detectedAlarm(RCM_SW_19, m_cycleNb);
-        } else {
-            m_alarmController->notDetectedAlarm(RCM_SW_19);
-        }
-
-        if (m_pressure > ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O) {
-            m_alarmController->detectedAlarm(RCM_SW_18, m_cycleNb);
-        } else {
-            m_alarmController->notDetectedAlarm(RCM_SW_18);
-        }
-    }
-}
-
-void PressureController::safeguardHoldExpiration(uint16_t p_centiSec) {
-    if (m_phase == CyclePhases::EXHALATION) {
-        uint16_t minPeepBeforeAlarm =
-            m_minPeepCommand - ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O;
-        uint16_t maxPeepBeforeAlarm =
-            m_minPeepCommand + ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O;
-        if ((m_pressure < minPeepBeforeAlarm) || (m_pressure > maxPeepBeforeAlarm)) {
-            m_alarmController->detectedAlarm(RCM_SW_3, m_cycleNb);
-            m_alarmController->detectedAlarm(RCM_SW_15, m_cycleNb);
-        } else {
-            m_alarmController->notDetectedAlarm(RCM_SW_3);
-            m_alarmController->notDetectedAlarm(RCM_SW_15);
-        }
-    }
-}
-
 void PressureController::computeCentiSecParameters() {
     m_centiSecPerCycle = 60u * 100u / m_cyclesPerMinute;
     // Inhalation = 1/3 of the cycle duration,
@@ -460,14 +427,39 @@ void PressureController::executeCommands() {
 }
 
 void PressureController::checkCycleAlarm() {
-    // RCM-SW-14 : Check if plateau is reached
-    uint16_t minPlateauBeforeAlarm = (m_maxPlateauPressureCommand * 80u) / 100u;
-    uint16_t maxPlateauBeforeAlarm = (m_maxPlateauPressureCommand * 120u) / 100u;
+    // RCM-SW-1 + RCM-SW-14 : Check if plateau is reached
+    uint16_t minPlateauBeforeAlarm =
+        (m_maxPlateauPressureCommand * (100u - ALARM_THRESHOLD_DIFFERENCE_PERCENT)) / 100u;
+    uint16_t maxPlateauBeforeAlarm =
+        (m_maxPlateauPressureCommand * (100u + ALARM_THRESHOLD_DIFFERENCE_PERCENT)) / 100u;
     if ((m_plateauPressure < minPlateauBeforeAlarm)
         || (m_plateauPressure > maxPlateauBeforeAlarm)) {
+        m_alarmController->detectedAlarm(RCM_SW_1, m_cycleNb);
         m_alarmController->detectedAlarm(RCM_SW_14, m_cycleNb);
     } else {
+        m_alarmController->notDetectedAlarm(RCM_SW_1);
         m_alarmController->notDetectedAlarm(RCM_SW_14);
+    }
+
+    // RCM-SW-2 + RCM-SW-19 : Check is mean pressure was < 2 cmH2O
+    uint16_t meanPressure = m_sumOfPressures / m_numberOfPressures;
+    if (meanPressure <= ALARM_THRESHOLD_MIN_PRESSURE) {
+        m_alarmController->detectedAlarm(RCM_SW_2, m_cycleNb);
+        m_alarmController->detectedAlarm(RCM_SW_19, m_cycleNb);
+    } else {
+        m_alarmController->notDetectedAlarm(RCM_SW_2);
+        m_alarmController->notDetectedAlarm(RCM_SW_19);
+    }
+
+    // RCM-SW-3 + RCM-SW-15
+    uint16_t minPeepBeforeAlarm = m_minPeepCommand - ALARM_THRESHOLD_DIFFERENCE_PRESSURE;
+    uint16_t maxPeepBeforeAlarm = m_minPeepCommand + ALARM_THRESHOLD_DIFFERENCE_PRESSURE;
+    if ((m_peep < minPeepBeforeAlarm) || (m_peep > maxPeepBeforeAlarm)) {
+        m_alarmController->detectedAlarm(RCM_SW_3, m_cycleNb);
+        m_alarmController->detectedAlarm(RCM_SW_15, m_cycleNb);
+    } else {
+        m_alarmController->notDetectedAlarm(RCM_SW_3);
+        m_alarmController->notDetectedAlarm(RCM_SW_15);
     }
 }
 

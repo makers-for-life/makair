@@ -21,7 +21,8 @@ Alarm::Alarm(AlarmPriority p_priority, uint8_t p_code, uint8_t p_detectionThresh
     m_priority = p_priority;
     m_code = p_code;
     m_detectionThreshold = p_detectionThreshold;
-    m_cycleNumber = 0u;
+    m_cycleNumber =
+        UINT32_MAX;  // We need this not to be 0 so that alarms can be triggered just after booting
     m_detectionNumber = 0u;
 }
 
