@@ -1,11 +1,11 @@
-MakAir — Covid-19 Respirator
+MakAir — Covid-19 Ventilator
 =====
 
-**Mass-producible open-source Covid-19 ARDS respirator. Aims at helping hospitals cope with a possible shortage of professional respirators during the outbreak. Worldwide.**
+**Mass-producible open-source Covid-19 ARDS ventilator. Aims at helping hospitals cope with a possible shortage of professional ventilators during the outbreak. Worldwide.**
 
 We are a distributed team of 200+ contributors, mostly spread through France. Makers, developers, university teachers, researchers and medical teams collaborated on this project. Our testing & assembly operations are located in France.
 
-As to ensure international outreach, we made sure that contents required to build your own MakAir respirator are available in English.
+As to ensure international outreach, we made sure that contents required to build your own MakAir ventilator are available in English.
 
 If you're new there, please read the explanations below. _Your contributions are much welcome!_
 
@@ -13,7 +13,7 @@ If you're new there, please read the explanations below. _Your contributions are
 
 ---
 
-➡️ **Update (6th April 2020):** We are ongoing finalization, endurance testing and final industrialization of our V1 MakAir respirator design. In the meantime, clinical trials have been started. We will provide more information (very) soon.
+➡️ **Update (6th April 2020):** We are ongoing finalization, endurance testing and final industrialization of our V1 MakAir ventilator design. In the meantime, clinical trials have been started. We will provide more information (very) soon.
 
 ---
 
@@ -26,15 +26,15 @@ If you're new there, please read the explanations below. _Your contributions are
 
 # Abstract
 
-Roughly, the idea is as follows: as of April 2020 and due to the Covid-19 pandemic, hospitals will soon start lacking mechanical artificial respirators. We built a pump, and a valve system (controlled by electronics). This way, the breathing cycle can be enforced by proper air routing through the valve system.
+Roughly, the idea is as follows: as of April 2020 and due to the Covid-19 pandemic, hospitals will soon start lacking mechanical artificial ventilators. We built a pump, and a valve system (controlled by electronics). This way, the breathing cycle can be enforced by proper air routing through the valve system.
 
-Our respirator is able to handle pressure-controlled breathing, stabilized using a [PID controller](https://en.wikipedia.org/wiki/PID_controller) in the software.
+Our ventilator is able to handle pressure-controlled breathing, stabilized using a [PID controller](https://en.wikipedia.org/wiki/PID_controller) in the software.
 
 In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
 
-This project provides all the parts required to build a good-enough [ARDS](https://en.wikipedia.org/wiki/Acute_respiratory_distress_syndrome) respirator from mass-produced components. We provide all the required mechanical parts, electronics designs & boards, and firmwares. This respirator can be 3D-printed and ran on an Arduino board (the maker way), though we **highly advise** that you work with industrial processes as to mold medical-grade plastic parts and assemble the whole respirator (this would be required for the built respirator to pass all medical certifications).
+This project provides all the parts required to build a good-enough [ARDS](https://en.wikipedia.org/wiki/Acute_respiratory_distress_syndrome) ventilator from mass-produced components. We provide all the required mechanical parts, electronics designs & boards, and firmwares. This ventilator can be 3D-printed and ran on an Arduino board (the maker way), though we **highly advise** that you work with industrial processes as to mold medical-grade plastic parts and assemble the whole ventilator (this would be required for the built ventilator to pass all medical certifications).
 
-We target a per-unit cost well under 500 EUR, which could easily be shrunk down to 200 EUR or even 100 EUR per respirator given proper economies of scale, as well as choices of cheaper on-the-shelf components (eg. servomotors).
+We target a per-unit cost well under 500 EUR, which could easily be shrunk down to 200 EUR or even 100 EUR per ventilator given proper economies of scale, as well as choices of cheaper on-the-shelf components (eg. servomotors).
 
 Mechanically-speaking, the overall system is composed of sub-components that can be plugged together and wired to form an air circuit, namely:
 
@@ -57,15 +57,15 @@ All those components are fitted in box (ie. a container) that we designed:
 
 **A few important words before you start:**
 
-1. Though 3D-printing (FDM and SLA) can be used to build your own respirator — this will definitely not scale well to mass-produce MakAir respirators, and parts might be brittle or leak air. Please work with proper industrial methods and processes if you want to build your own MakAir respirators.
+1. Though 3D-printing (FDM and SLA) can be used to build your own ventilator — this will definitely not scale well to mass-produce MakAir ventilators, and parts might be brittle or leak air. Please work with proper industrial methods and processes if you want to build your own MakAir ventilators.
 
-2. As ARDS patients are sedated, their breathing cycle is forced by mechanical ventilation, while they are intubated. A failing respirator (due to bad mechanics, pneumatics or software) could kill the patient (O2 desaturation), or permanently damage their lung alveoli (overpressure). It is critical that any self-built MakAir respirator is tested against a lung simulator system (eg. [ASL 5000](https://www.ingmarmed.com/product/asl-5000-breathing-simulator/)), and validated by medical experts.
+2. As ARDS patients are sedated, their breathing cycle is forced by mechanical ventilation, while they are intubated. A failing ventilator (due to bad mechanics, pneumatics or software) could kill the patient (O2 desaturation), or permanently damage their lung alveoli (overpressure). It is critical that any self-built MakAir ventilator is tested against a lung simulator system (eg. [ASL 5000](https://www.ingmarmed.com/product/asl-5000-breathing-simulator/)), and validated by medical experts.
 
-3. Medical-grade plastic should be used to produce ventilators, and any kind of grease or adhesive chemicals must be avoided in the respirator. The ventilators should be produced in a [cleanroom](https://en.wikipedia.org/wiki/Cleanroom) as to avoid dust & germ contaminations.
+3. Medical-grade plastic should be used to produce ventilators, and any kind of grease or adhesive chemicals must be avoided in the ventilator. The ventilators should be produced in a [cleanroom](https://en.wikipedia.org/wiki/Cleanroom) as to avoid dust & germ contaminations.
 
 4. The pneumatic circuit should be thoroughly tested for leaks and its ability to withstand elevated positive air pressure. Joints should be used where relevant, and medical-grade flexible pipes should be used between components.
 
-5. While the MakAir respirators produced on-site in France were validated by a medical & engineering board, you should independantly seek validation of the MakAir respirators that you produce; as your assembly methods or parts may vary with ours.
+5. While the MakAir ventilators produced on-site in France were validated by a medical & engineering board, you should independantly seek validation of the MakAir ventilators that you produce; as your assembly methods or parts may vary with ours.
 
 _MakAir and Makers For Life should not be held resposible — at any time, for harm caused to human life (eg. lung damage or loss of life). By building your own MakAir, you are held responsible for its safety validations & use._
 
@@ -178,7 +178,7 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 
 ## Updates
 
-* Live updates on Telegram: [join "Newsroom Covid-19 Respirator"](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ)
+* Live updates on Telegram: [join "Newsroom Covid-19 Ventilator"](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ)
 * Coordination on Slack: [request to join "Makers For Life"](https://github.com/covid-response-projects/covid-respirator/issues/new) (open an issue)
 
 ## Contacts
