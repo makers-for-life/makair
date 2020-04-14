@@ -1,5 +1,14 @@
 # Changelog
 
+## unreleased
+
+- improve even more the measured and displayed plateau pressure
+- tweak the pressure control to make the plateau more accurate
+
+## v1.4.0
+
+_This release was depublished_
+
 ## v1.3.2
 
 - fix blower control
