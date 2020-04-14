@@ -53,9 +53,9 @@ All those components are fitted in box (ie. a container) that we designed:
 
 ![MakAir Container](./res/assets/container-readme.jpg)
 
-# Warning Notices
+# ⚠️ Warning Notices
 
-**⚠️ A few important words before you start:**
+**A few important words before you start:**
 
 1. Though 3D-printing (FDM and SLA) can be used to build your own respirator — this will definitely not scale well to mass-produce MakAir respirators, and parts might be brittle or leak air. Please work with proper industrial methods and processes if you want to build your own MakAir respirators.
 
