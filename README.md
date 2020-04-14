@@ -114,7 +114,7 @@ The motherboard electronic schematics and wiring diagrams [can be found there](.
 
 ## 3️⃣ Flash the firmware
 
-### 1. Respiratory Firmware
+### 1. Ventilator Firmware
 
 Now that both mechanical parts and electronics are ready, you may flash the latest MakAir firmware binary on your firmware controller board (Arduino, ST Nucleo, or other).
 
@@ -149,7 +149,7 @@ Firmware release binaries are available for download on our [releases page](http
 
 | Runtime | Version | Major Changes | Ready? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
-| [Respiratory Firmware](./src/software/firmware) | V1.1.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + Gabriel Moneyron
+| [Ventilator Firmware](./src/software/firmware) | V1.1.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + Gabriel Moneyron
 | [Control Unit](./src/software/control) | V0.1.x | Project started | ❌ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce)
 
 # Schemes

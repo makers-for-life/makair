@@ -1,4 +1,4 @@
-# Respiratory Firmware
+# Ventilator Firmware
 
 ## Versions
 
