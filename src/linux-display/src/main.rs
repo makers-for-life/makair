@@ -11,7 +11,7 @@ use chrono::offset::{Local, TimeZone};
 use chrono::prelude::*;
 use chrono::{Date, Duration};
 use log::{info, warn};
-use std::thread;
+use std::{thread, time};
 
 use std::collections::vec_deque::VecDeque;
 
@@ -23,7 +23,6 @@ const N_DATA_POINTS: usize = (FPS * LENGTH) as usize;
 
 fn main() {
     simple_logger::init().unwrap();
-    info!("plop");
 
     let datas = Arc::new(Mutex::new(vec![(Local::now(), 0)]));
 
@@ -35,6 +34,27 @@ fn main() {
         .unwrap_or_else(|e| panic!("Failed to build PistonWindow: {}", e));
     window.set_max_fps(FPS as u64);
     //window.set_lazy(true);
+
+    thread::spawn(move || {
+        let mut rng = rand::thread_rng();
+
+        while true {
+            let mut data = d.lock().unwrap();
+
+            data.insert(0, (Local::now(), rng.gen_range(0, 10)));
+            let oldest = data.first().unwrap().0 - chrono::Duration::seconds(40);
+            let newest = data.first().unwrap().0;
+            let mut i = 0;
+            while i != data.len() {
+                if oldest > (&mut data[i]).0 || newest < (&mut data[i]).0 {
+                    let val = data.remove(i);
+                } else {
+                    i += 1;
+                }
+            }
+            thread::sleep(time::Duration::from_millis(50));
+        }
+    });
 
     //   while let Some(_) = draw_piston_window(&mut window, |b| {
     while let Some(e) = window.next() {
@@ -49,20 +69,10 @@ fn main() {
         draw_piston_window(&mut window, |b| {
             let root = b.into_drawing_area().shrink((5, 5), (780, 200));
             root.fill(&WHITE);
-            let mut rng = rand::thread_rng();
             let mut data = d.lock().unwrap();
-            data.insert(0, (Local::now(), rng.gen_range(0, 10)));
 
             let oldest = data.first().unwrap().0 - chrono::Duration::seconds(40);
             let newest = data.first().unwrap().0;
-            let mut i = 0;
-            while i != data.len() {
-                if oldest > (&mut data[i]).0 || newest < (&mut data[i]).0 {
-                    let val = data.remove(i);
-                } else {
-                    i += 1;
-                }
-            }
 
             let mut chart = ChartBuilder::on(&root)
                 .x_label_area_size(40)
