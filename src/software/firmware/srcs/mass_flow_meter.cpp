@@ -49,7 +49,7 @@ union
 
 void MFM_Timer_Callback(HardwareTimer*) {
 
-  //int32_t newSum;
+  int32_t newSum;
 
   if(!mfmFaultCondition)
   {
@@ -69,22 +69,13 @@ void MFM_Timer_Callback(HardwareTimer*) {
     }
     digitalWrite(PIN_LED_START, false);
 
-
-    //newSum = ( (mfmLastData.i - 0x8000) / 120 * 60);
-
-    mfmAirVolumeSum += (( (mfmLastData.i - 0x8000) / 7200) + mfmPreviousValue ) / 2; //l.min-1
-
-    mfmPreviousValue = ( (mfmLastData.i - 0x8000) / 7200);
-  //Correction factor is 120. Divide by 60 to convert ml.min-1 to ml.ms-1, hence the 7200 = 120 * 60
-  //TODO : Adapt calculation formula based on the timer period
-
-  //mfmAirVolumeSum += ( (mfmLastData.i - 0x8000) / 120 * 60 * MASS_FLOW_PERIOD_US * 100000);
+    mfmAirVolumeSum += ( (mfmLastData.i - 0x8000) / 120);
 
   }
 
   else
   {
-    Serial.println ("Mégaproutt");
+    //Serial.println ("Mégaproutt");
     Wire.beginTransmission(0x40);
     Wire.write(0x10);
     Wire.write(0x00);
@@ -126,7 +117,7 @@ boolean MFM_init(void) {
     Wire.setSCL(PIN_I2C_SCL);
   
     Wire.begin();        // join i2c bus (address optional for master)
-    //Wire.endTransmission();
+    Wire.endTransmission();
     Wire.beginTransmission(0x40);
 
     Wire.write(0x10);
@@ -142,7 +133,7 @@ boolean MFM_init(void) {
     return false;
 }
 
-/**
+/*
  * Reset the volume counter
  */
 void MFM_reset(void)
@@ -163,7 +154,7 @@ int32_t MFM_read_liters(boolean reset_after_read) {
 
     //timerCounter = mfmTimerCounter;
     // this should be an atomic operation (32 bits aligned data)
-    result = mfmAirVolumeSum;
+    result = mfmAirVolumeSum / 60;
 
     if (reset_after_read) {
         MFM_reset();
