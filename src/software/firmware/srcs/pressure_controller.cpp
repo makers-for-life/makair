@@ -133,10 +133,10 @@ void PressureController::endRespiratoryCycle() {
     checkCycleAlarm();
 
     if (m_blower_increment == 0u) {
-        if (m_plateauPressure > (m_maxPlateauPressureCommand * 105u / 100u)) {
+        if (m_plateauPressure > (m_maxPlateauPressureCommand * 102u / 100u)) {
             uint16_t plateauDiff = (((m_plateauPressure - m_maxPlateauPressureCommand) * 2u) / 10u);
             onPeakPressureDecrease(min(plateauDiff, MAX_PEAK_INCREMENT));
-        } else if (m_plateauPressure < (m_maxPlateauPressureCommand * 95u / 100u)) {
+        } else if (m_plateauPressure < (m_maxPlateauPressureCommand * 98u / 100u)) {
             uint16_t plateauDiff = (((m_maxPlateauPressureCommand - m_plateauPressure) * 2u) / 10u);
             onPeakPressureIncrease(min(plateauDiff, MAX_PEAK_INCREMENT));
         }
