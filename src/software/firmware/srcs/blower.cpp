@@ -47,6 +47,13 @@ void Blower::runSpeed(int16_t p_speed) {
     } else {
         DBG_DO(Serial.print("Blower value is wrong: "));
         DBG_DO(Serial.println(p_speed));
+
+        // If the blower was stopped, the pressure controller might ask it to restart with an
+        // out-of-bound speed, resulting in no start at all; hence we restart it here on its last
+        // value
+        if (m_stopped) {
+            this->runSpeed(m_speed);
+        }
     }
 }
 
