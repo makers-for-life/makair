@@ -199,6 +199,12 @@ This project would not have been possible without the support of those companies
 * [Tronico](https://www.tronico-alcen.com/) (PCB design)
 * [Le Palace Nantes](https://lepalace.work/)
 
+We are supported by public entities as well, namely:
+
+* [Region of Auvergne-Rhône-Alpes](https://www.auvergnerhonealpes.fr/) (France)
+* [City of Nantes](https://metropole.nantes.fr/) (France)
+* [CEA](http://www.cea.fr/) (France)
+
 Adding to that, 200+ individual members of the project who contributed to technical, legal, medical and press subjects (and more).
 
 # Renders
