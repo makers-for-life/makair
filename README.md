@@ -196,6 +196,7 @@ This project would not have been possible without the support of those companies
 * [Clever Cloud](https://www.clever-cloud.com/) (founding team)
 * [Crisp](https://crisp.chat/) (founding team)
 * [Cooprint](https://cooprint.fr/) (CAD)
+* [SenX](https://senx.io/) (electronics)
 * [Tronico](https://www.tronico-alcen.com/) (PCB design)
 * [Renault](https://www.renault.fr/) (manufacturing)
 * [Le Palace Nantes](https://lepalace.work/) (team offices)
