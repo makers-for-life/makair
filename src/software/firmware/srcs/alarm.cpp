@@ -43,6 +43,6 @@ void Alarm::detected(uint32_t p_cycleNumber) {
 }
 
 void Alarm::notDetected() {
-    m_cycleNumber = 0;
+    m_cycleNumber = UINT32_MAX;
     m_detectionNumber = 0;
 }
