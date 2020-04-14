@@ -18,6 +18,7 @@
 #include <Arduino.h>
 #include <IWatchdog.h>
 #include <OneButton.h>
+#include <Wire.h>
 
 // Internal
 #include "../includes/parameters.h"
@@ -31,23 +32,67 @@
 
 // the timer period in microsecond, 100us precision (10 khz)
 #define MASS_FLOW_PERIOD_US 1000
-
 HardwareTimer* massFlowTimer;
 
-// TO REMOVE
-boolean testcon = false;
+volatile int32_t mfmAirVolumeSum = 0;
+volatile int32_t mfmPreviousValue = 0;
 
-int32_t airVolumeSum = 0;
+bool mfmFaultCondition = false;
+//volatile int32_t mfmTimerCounter = 0;
+
+union
+{
+    unsigned short i;
+    unsigned char c[2];
+} mfmLastData;
+
 
 void MFM_Timer_Callback(HardwareTimer*) {
 
-    // TO REMOVE : measure period here.
-    testcon = !testcon;
-    digitalWrite(PIN_SERIAL_TX, testcon);
+  //int32_t newSum;
 
-    int16_t air = 150;
+  if(!mfmFaultCondition)
+  {
+    Wire.beginTransmission(0x40);
+  
+    digitalWrite(PIN_LED_START, true);
+    Wire.requestFrom(0x40, 2);
+    mfmLastData.c[1] = Wire.read();
+    mfmLastData.c[0] = Wire.read();
 
-    airVolumeSum += air;
+    //mfmTimerCounter++;
+
+    if(Wire.endTransmission() != 0) //If transmission failed
+    {
+      Serial.println ("Prout !!");
+      mfmFaultCondition = true;
+    }
+    digitalWrite(PIN_LED_START, false);
+
+
+    //newSum = ( (mfmLastData.i - 0x8000) / 120 * 60);
+
+    mfmAirVolumeSum += (( (mfmLastData.i - 0x8000) / 7200) + mfmPreviousValue ) / 2; //l.min-1
+
+    mfmPreviousValue = ( (mfmLastData.i - 0x8000) / 7200);
+  //Correction factor is 120. Divide by 60 to convert ml.min-1 to ml.ms-1, hence the 7200 = 120 * 60
+  //TODO : Adapt calculation formula based on the timer period
+
+  //mfmAirVolumeSum += ( (mfmLastData.i - 0x8000) / 120 * 60 * MASS_FLOW_PERIOD_US * 100000);
+
+  }
+
+  else
+  {
+    Serial.println ("Mégaproutt");
+    Wire.beginTransmission(0x40);
+    Wire.write(0x10);
+    Wire.write(0x00);
+    if(Wire.endTransmission() == 0)
+    {
+      mfmFaultCondition = false;
+    }
+  }
 }
 
 /**
@@ -55,6 +100,8 @@ void MFM_Timer_Callback(HardwareTimer*) {
  *  If not detected, you will always read volume = 0 mL
  */
 boolean MFM_init(void) {
+
+    mfmAirVolumeSum = 0;
 
     // set the timer
     massFlowTimer = new HardwareTimer(MASS_FLOW_TIMER);
@@ -75,7 +122,34 @@ boolean MFM_init(void) {
     massFlowTimer->resume();
 
     // detect if the sensor is connected
-    return true;
+    Wire.setSDA(PIN_I2C_SDA);
+    Wire.setSCL(PIN_I2C_SCL);
+  
+    Wire.begin();        // join i2c bus (address optional for master)
+    //Wire.endTransmission();
+    Wire.beginTransmission(0x40);
+
+    Wire.write(0x10);
+    Wire.write(0x00);
+
+    //mfmTimerCounter = 0;
+
+    if(Wire.endTransmission() == 0)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Reset the volume counter
+ */
+void MFM_reset(void)
+{
+  mfmAirVolumeSum = 0;
+  mfmPreviousValue = 0;
+  //mfmTimerCounter = 0;
 }
 
 /**
@@ -85,17 +159,17 @@ boolean MFM_init(void) {
 int32_t MFM_read_liters(boolean reset_after_read) {
 
     int32_t result;
+    //int32_t timerCounter;
 
+    //timerCounter = mfmTimerCounter;
     // this should be an atomic operation (32 bits aligned data)
-    result = airVolumeSum;
+    result = mfmAirVolumeSum;
 
     if (reset_after_read) {
-        airVolumeSum = 0;
-    }
+        MFM_reset();
+        }
 
-    // compute the result in ml
-
-    return 0;
+    return result;
 }
 
 void setup(void) {
@@ -105,8 +179,10 @@ void setup(void) {
     MFM_init();
 
     pinMode(PIN_SERIAL_TX, OUTPUT);
+    pinMode(PIN_LED_START, OUTPUT);
 
     Serial.println("init done");
+    Serial.println("A poiiiiiiiiiiiiiiiiiiiiiiiiiiiiiils !");
 }
 
 void loop(void) {
