@@ -110,7 +110,7 @@ Electronics are comprised of two parts: the firmware controller board (typically
 
 The motherboard electronic schematics and wiring diagrams [can be found there](./src/electronics/motherboard/schematics). Please pick the last version available.
 
-👋 _If you need help on this step, you may [open an issue](https://github.com/covid-response-projects/covid-respirator/issues/new)._
+👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
 
 ## 3️⃣ Flash the firmware
 
@@ -118,9 +118,9 @@ The motherboard electronic schematics and wiring diagrams [can be found there](.
 
 Now that both mechanical parts and electronics are ready, you may flash the latest MakAir firmware binary on your firmware controller board (Arduino, ST Nucleo, or other).
 
-Firmware release binaries are available for download on our [releases page](https://github.com/covid-response-projects/covid-respirator/releases).
+Firmware release binaries are available for download on our [releases page](https://github.com/makers-for-life/makair/releases).
 
-👋 _If you need help on this step, you may [open an issue](https://github.com/covid-response-projects/covid-respirator/issues/new)._
+👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
 
 # Components
 
@@ -179,11 +179,11 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 ## Updates
 
 * Live updates on Telegram: [join "Newsroom Covid-19 Ventilator"](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ)
-* Coordination on Slack: [request to join "Makers For Life"](https://github.com/covid-response-projects/covid-respirator/issues/new) (open an issue)
+* Coordination on Slack: [request to join "Makers For Life"](https://github.com/makers-for-life/makair/issues/new) (open an issue)
 
 ## Contacts
 
-* Open-source & questions: [please open an issue on GitHub](https://github.com/covid-response-projects/covid-respirator/issues/new)
+* Open-source & questions: [please open an issue on GitHub](https://github.com/makers-for-life/makair/issues/new)
 * Press contacts: Grégory Thibord
 * Medical contacts: Pierre Antoine Gourraud
 * Industry relations: [Quentin Adam](http://waxzce.org/)
