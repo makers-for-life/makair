@@ -33,7 +33,6 @@
 #include "../includes/pressure_controller.h"
 #include "../includes/pressure_valve.h"
 #include "../includes/screen.h"
-#include "../includes/sysclock.h"
 
 // PROGRAM =====================================================================
 

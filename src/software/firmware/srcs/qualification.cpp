@@ -30,7 +30,6 @@
 #include "../includes/pressure.h"
 #include "../includes/pressure_valve.h"
 #include "../includes/screen.h"
-#include "../includes/sysclock.h"
 
 // State machine states
 #define STEP_LCD 1
