@@ -51,7 +51,7 @@ All those components are fitted in box (ie. a container) that we designed:
 
 - **Housing container** (called "Container");
 
-![MakAir Container](./res/assets/container-readme.jpg)
+![MakAir Container + UI](./res/assets/abstract-readme.jpg)
 
 # ⚠️ Warning Notices
 
