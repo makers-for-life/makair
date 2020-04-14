@@ -197,7 +197,8 @@ This project would not have been possible without the support of those companies
 * [Crisp](https://crisp.chat/) (founding team)
 * [Cooprint](https://cooprint.fr/) (CAD)
 * [Tronico](https://www.tronico-alcen.com/) (PCB design)
-* [Le Palace Nantes](https://lepalace.work/)
+* [Renault](https://www.renault.fr/) (manufacturing)
+* [Le Palace Nantes](https://lepalace.work/) (team offices)
 
 We are supported by public entities as well, namely:
 
