@@ -126,14 +126,14 @@ class PressureController {
      *
      * @param p_decrement Positive value of decrement
      */
-    void onPeakPressureDecrease(uint8_t p_decrement = 10u);
+    void onPeakPressureDecrease(uint8_t p_decrement);
 
     /**
      * Increase the desired peak pressure
      *
      * @param p_increment Positive value of increment
      */
-    void onPeakPressureIncrease(uint8_t p_increment = 10u);
+    void onPeakPressureIncrease(uint8_t p_increment);
 
     /// Get the desired number of cycles per minute
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
@@ -277,13 +277,6 @@ class PressureController {
 
     /// Maximal peak pressure desired by the operator
     uint16_t m_maxPeakPressureCommand;
-
-    /// Tick de détection initiale pour le dépassement de la consigne de crête
-    uint16_t m_triggerMaxPeakPressureDetectionTick;
-
-    /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
-    /// crête
-    uint16_t m_triggerMaxPeakPressureDetectionTickDeletion;
 
     /// Maximal plateau pressure desired by the operator
     uint16_t m_maxPlateauPressureCommand;

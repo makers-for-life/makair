@@ -57,7 +57,6 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        AlarmController* p_alarmController,
                                        Blower* p_blower)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
-
       m_vigilance(false),
       m_minPeepCommand(p_minPeepCommand),
       m_maxPlateauPressureCommand(p_maxPlateauPressure),
@@ -135,13 +134,15 @@ void PressureController::initRespiratoryCycle() {
 void PressureController::endRespiratoryCycle() {
     checkCycleAlarm();
 
-    if (m_blower_increment == 0u) {
+    if (m_blower_increment == 0) {
         if (m_plateauPressure > (m_maxPlateauPressureCommand * 102u / 100u)) {
             uint16_t plateauDiff = (((m_plateauPressure - m_maxPlateauPressureCommand) * 2u) / 10u);
             onPeakPressureDecrease(min(plateauDiff, MAX_PEAK_INCREMENT));
         } else if (m_plateauPressure < (m_maxPlateauPressureCommand * 98u / 100u)) {
             uint16_t plateauDiff = (((m_maxPlateauPressureCommand - m_plateauPressure) * 2u) / 10u);
             onPeakPressureIncrease(min(plateauDiff, MAX_PEAK_INCREMENT));
+        } else {
+            // We are good, do nothing
         }
     }
 
@@ -296,7 +297,7 @@ void PressureController::onPlateauPressureDecrease() {
         m_maxPlateauPressureCommand = CONST_MIN_PLATEAU_PRESSURE;
     }
 
-    onPeakPressureDecrease();
+    onPeakPressureDecrease(DEFAULT_PEAK_PRESSURE_DELTA);
 }
 
 void PressureController::onPlateauPressureIncrease() {
@@ -308,7 +309,7 @@ void PressureController::onPlateauPressureIncrease() {
         m_maxPlateauPressureCommand = CONST_MAX_PLATEAU_PRESSURE;
     }
 
-    onPeakPressureIncrease();
+    onPeakPressureIncrease(DEFAULT_PEAK_PRESSURE_DELTA);
 }
 
 void PressureController::onPeakPressureDecrease(uint8_t p_decrement) {

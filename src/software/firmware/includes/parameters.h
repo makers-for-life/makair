@@ -44,6 +44,8 @@
 #define CONST_MAX_CYCLE 35u
 #define CONST_MIN_CYCLE 5u
 
+#define DEFAULT_PEAK_PRESSURE_DELTA 10u
+
 ///@}
 
 /**
