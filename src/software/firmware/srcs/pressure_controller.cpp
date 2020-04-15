@@ -134,20 +134,10 @@ void PressureController::initRespiratoryCycle() {
 void PressureController::endRespiratoryCycle() {
     checkCycleAlarm();
 
-        // Case plateau is not detected or plateau is too close to Peep pressure
-    if (m_plateauPressure == 0 || abs(m_plateauPressure-m_peep) < 10 ){
+    // If plateau is not detected or is too close to PEEP, mark it as "unknown"
+    if ((m_plateauPressure == 0) || (abs(m_plateauPressure - m_peep) < 10)) {
         m_plateauPressure = UINT16_MAX;
     }
-    // Disable peak pressure control
-    /*else if (m_plateauPressure > (m_maxPlateauPressureCommand * 102u / 100u)) {
-        uint16_t plateauDiff = (((m_plateauPressure - m_maxPlateauPressureCommand) * 2u) / 10u);
-        onPeakPressureDecrease(min(plateauDiff, MAX_PEAK_INCREMENT));
-
-    // Increase peak pressure only if blower is stable.
-    } else if (m_plateauPressure < (m_maxPlateauPressureCommand * 98u / 100u) && m_blower_increment == 0u) {
-        uint16_t plateauDiff = (((m_maxPlateauPressureCommand - m_plateauPressure) * 2u) / 10u);
-        onPeakPressureIncrease(min(plateauDiff, MAX_PEAK_INCREMENT));
-    }*/
 
     // RCM-SW-18
     if (m_pressure <= ALARM_THRESHOLD_MAX_PRESSURE) {
@@ -244,7 +234,6 @@ void PressureController::computePlateau(uint16_t p_centiSec) {
     if (m_startPlateauComputation) {
         m_plateauPressure = totalValues / MAX_PRESSURE_SAMPLES;
     }
-
 }
 
 void PressureController::onCycleDecrease() {
@@ -300,9 +289,6 @@ void PressureController::onPlateauPressureDecrease() {
     if (m_maxPlateauPressureCommand < CONST_MIN_PLATEAU_PRESSURE) {
         m_maxPlateauPressureCommand = CONST_MIN_PLATEAU_PRESSURE;
     }
-
-    // Disable plateau pressure control
-    //onPeakPressureDecrease();
 }
 
 void PressureController::onPlateauPressureIncrease() {
@@ -313,9 +299,6 @@ void PressureController::onPlateauPressureIncrease() {
     if (m_maxPlateauPressureCommand > CONST_MAX_PLATEAU_PRESSURE) {
         m_maxPlateauPressureCommand = CONST_MAX_PLATEAU_PRESSURE;
     }
-
-    // Disable plateau pressure control
-    //onPeakPressureIncrease();
 }
 
 void PressureController::onPeakPressureDecrease(uint8_t p_decrement) {
@@ -341,17 +324,17 @@ void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
 static const uint16_t MAX_BLOWER_INCREMENT = 3u;
 
 void PressureController::updateBlower(uint16_t p_centiSec) {
-    // Case blower is too low
+    // If blower is too low
     if ((m_phase == CyclePhases::INHALATION)
         && (p_centiSec > ((m_centiSecPerInhalation * 80u) / 100u))
-        && (m_peakPressure < m_maxPeakPressureCommand )) {
+        && (m_peakPressure < m_maxPeakPressureCommand)) {
         m_blower_increment = 3;
     }
 
-    // Case blower is too high
+    // If blower is too high
     if ((m_phase == CyclePhases::INHALATION)
         && (p_centiSec < ((m_centiSecPerInhalation * 30u) / 100u))
-        && (m_peakPressure > m_maxPeakPressureCommand )) {
+        && (m_peakPressure > m_maxPeakPressureCommand)) {
         m_blower_increment = -3;
     }
 }
