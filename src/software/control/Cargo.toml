@@ -1,0 +1,36 @@
+[package]
+name = "makair-control"
+version = "0.0.1"
+description = "Control UI for the MakAir SARS respirator."
+readme = "README.md"
+license-file = "LICENSE.txt"
+edition = "2018"
+homepage = "https://github.com/makers-for-life/makair"
+repository = "https://github.com/makers-for-life/makair.git"
+keywords = ["covid-19", "fusion-360", "cad", "covid", "coronavirus", "sars-cov-2", "nucleo-board", "covid-respirator", "makair-respirators", "medical", "ards"]
+categories = ["gui", "hardware-support"]
+authors = ["Valerian Saliou <valerian@valeriansaliou.name>", "Quentin Adam <quentin.adam@clever-cloud.com>"]
+
+[[bin]]
+name = "makair-control"
+path = "src/main.rs"
+doc = false
+
+[dependencies]
+log = "0.4"
+
+[profile.dev]
+opt-level = 0
+debug = true
+debug-assertions = true
+
+[profile.release]
+opt-level = 3
+lto = true
+debug = false
+debug-assertions = false
+
+[profile.bench]
+opt-level = 3
+debug = false
+debug-assertions = false
