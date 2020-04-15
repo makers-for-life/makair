@@ -311,7 +311,7 @@ checksum = "7d7ce0c1f747245342a73453fdb098ea0764c430421fbc4d98cdc8ef8ede4834"
 dependencies = [
  "derivative",
  "draw_state",
- "gfx_core",
+ "gfx_core 0.8.3",
  "log",
 ]
 
@@ -328,12 +328,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "gfx_core"
+version = "0.9.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "75fbddaef2e12b4995900539d7209d947b988a3d87ee8737484d049b526e5441"
+dependencies = [
+ "bitflags",
+ "draw_state",
+ "log",
+]
+
+[[package]]
 name = "gfx_device_gl"
 version = "0.15.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "def9cc76ab9ae3187a1ef5edb16c263fa7d713319ffa1d46e00c9d348081a982"
 dependencies = [
- "gfx_core",
+ "gfx_core 0.8.3",
  "gfx_gl",
  "log",
 ]
@@ -556,6 +567,7 @@ name = "makair-control"
 version = "0.0.1"
 dependencies = [
  "clap",
+ "gfx_core 0.9.2",
  "lazy_static",
  "log",
  "piston_window",
@@ -759,7 +771,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "79063811683aa66bc775138ed09d388b72d9f074cf8574ee343a28e552e7225d"
 dependencies = [
  "gfx",
- "gfx_core",
+ "gfx_core 0.8.3",
  "image",
  "piston-texture",
 ]
