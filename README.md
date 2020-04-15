@@ -13,7 +13,11 @@ If you're new there, please read the explanations below. _Your contributions are
 
 ---
 
-[![Play Introduction Video](http://i3.ytimg.com/vi/6LeZjULZnUc/maxresdefault.jpg)](https://www.youtube.com/watch?v=6LeZjULZnUc)
+**Quick introduction video:**
+
+<a href="https://www.youtube.com/watch?v=6LeZjULZnUc">
+  <img alt="Play Introduction Video" src="http://i3.ytimg.com/vi/6LeZjULZnUc/maxresdefault.jpg" height="320">
+</a>
 
 ---
 
