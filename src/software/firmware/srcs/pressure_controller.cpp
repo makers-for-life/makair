@@ -134,16 +134,9 @@ void PressureController::initRespiratoryCycle() {
 void PressureController::endRespiratoryCycle() {
     checkCycleAlarm();
 
-    if (m_blower_increment == 0) {
-        if (m_plateauPressure > (m_maxPlateauPressureCommand * 102u / 100u)) {
-            uint16_t plateauDiff = (((m_plateauPressure - m_maxPlateauPressureCommand) * 2u) / 10u);
-            onPeakPressureDecrease(min(plateauDiff, MAX_PEAK_INCREMENT));
-        } else if (m_plateauPressure < (m_maxPlateauPressureCommand * 98u / 100u)) {
-            uint16_t plateauDiff = (((m_maxPlateauPressureCommand - m_plateauPressure) * 2u) / 10u);
-            onPeakPressureIncrease(min(plateauDiff, MAX_PEAK_INCREMENT));
-        } else {
-            // We are good, do nothing
-        }
+    // If plateau is not detected or is too close to PEEP, mark it as "unknown"
+    if ((m_plateauPressure == 0u) || (abs(m_plateauPressure - m_peep) < 10)) {
+        m_plateauPressure = UINT16_MAX;
     }
 
     // RCM-SW-18
@@ -296,8 +289,6 @@ void PressureController::onPlateauPressureDecrease() {
     if (m_maxPlateauPressureCommand < CONST_MIN_PLATEAU_PRESSURE) {
         m_maxPlateauPressureCommand = CONST_MIN_PLATEAU_PRESSURE;
     }
-
-    onPeakPressureDecrease(DEFAULT_PEAK_PRESSURE_DELTA);
 }
 
 void PressureController::onPlateauPressureIncrease() {
@@ -308,8 +299,6 @@ void PressureController::onPlateauPressureIncrease() {
     if (m_maxPlateauPressureCommand > CONST_MAX_PLATEAU_PRESSURE) {
         m_maxPlateauPressureCommand = CONST_MAX_PLATEAU_PRESSURE;
     }
-
-    onPeakPressureIncrease(DEFAULT_PEAK_PRESSURE_DELTA);
 }
 
 void PressureController::onPeakPressureDecrease(uint8_t p_decrement) {
@@ -335,18 +324,18 @@ void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
 static const uint16_t MAX_BLOWER_INCREMENT = 3u;
 
 void PressureController::updateBlower(uint16_t p_centiSec) {
-    // Case blower is too low
+    // If blower is too low
     if ((m_phase == CyclePhases::INHALATION)
         && (p_centiSec > ((m_centiSecPerInhalation * 80u) / 100u))
-        && (m_peakPressure < ((m_maxPeakPressureCommand * 95u) / 100u))) {
-        m_blower_increment = 1;
+        && (m_peakPressure < m_maxPeakPressureCommand)) {
+        m_blower_increment = 3;
     }
 
-    // Case blower is too high
+    // If blower is too high
     if ((m_phase == CyclePhases::INHALATION)
         && (p_centiSec < ((m_centiSecPerInhalation * 30u) / 100u))
-        && (m_peakPressure > ((m_maxPeakPressureCommand * 105u) / 100u))) {
-        m_blower_increment = -1;
+        && (m_peakPressure > m_maxPeakPressureCommand)) {
+        m_blower_increment = -3;
     }
 }
 
