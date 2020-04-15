@@ -1,9 +1,17 @@
 # Changelog
 
-## unreleased
+## v1.5.0
 
-- improve even more the measured and displayed plateau pressure
+- rework pressure and blower control
+  (_blower will now take more time to ramp up/down but this will greatly improve the stability of injected air volume in many scenario_)
+- rework alarms
+  (_better pressure alarms, better battery alarms, better snooze behavior_)
+- improve even more the measured and displayed pressures
+  (_if no plateau pressure if found, screen will now display a `?` instead of an uncertain value_)
 - tweak the pressure control to make the plateau more accurate
+- fix an issue with blower not restarting in some cases
+- make sysclock more accurate
+- improve code quality (MISRA)
 
 ## v1.4.0
 
