@@ -12,6 +12,7 @@
 - fix an issue with blower not restarting in some cases
 - make sysclock more accurate
 - improve code quality (MISRA)
+- add a step in integration test to check O2 pipe
 
 ## v1.4.0
 
