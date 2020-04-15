@@ -18,7 +18,7 @@
 #elif HARDWARE_VERSION == 2
 #include <HardwareSerial.h>
 #endif
-#include <Arduino.h>
+#include "Arduino.h"
 #include <IWatchdog.h>
 #include <OneButton.h>
 

@@ -45,4 +45,5 @@ int16_t convertSensor2Pressure(uint16_t sensorValue) {
     return std::max(scaledRawPressure - RAW_PRESSURE_TO_MMH20_CONSTANT, 0);
 }
 
+// cppcheck-suppress unusedFunction
 void resetFilteredRawPressure() { filteredRawPressure = 0; }

@@ -36,24 +36,43 @@ PressureController::PressureController()
       m_minPeepCommand(DEFAULT_MIN_PEEP_COMMAND),                   // [mmH20]
       m_maxPlateauPressureCommand(DEFAULT_MAX_PLATEAU_COMMAND),     // [mmH20]
       m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),  // [mmH20]
-      m_maxPeakPressure(CONST_MAX_PEAK_PRESSURE),                   // [mmH20]
-      m_maxPlateauPressure(CONST_MAX_PLATEAU_PRESSURE),             // [mmH20]
-      m_minPeep(CONST_MIN_PEEP_PRESSURE),                           // TODO revoir la valeur [mmH20]
+      m_cyclesPerMinute(INITIAL_CYCLE_NUMBER),
+      m_maxPeakPressure(CONST_MAX_PEAK_PRESSURE),        // [mmH20]
+      m_maxPlateauPressure(CONST_MAX_PLATEAU_PRESSURE),  // [mmH20]
+      m_minPeep(CONST_MIN_PEEP_PRESSURE),                // TODO revoir la valeur [mmH20]
       m_pressure(CONST_INITIAL_ZERO_PRESSURE),
       m_peakPressure(CONST_INITIAL_ZERO_PRESSURE),
       m_plateauPressure(CONST_INITIAL_ZERO_PRESSURE),
       m_peep(CONST_INITIAL_ZERO_PRESSURE),
       m_phase(CyclePhases::INHALATION),
-      m_blower_increment(0) {
+      m_subPhase(CycleSubPhases::INSPIRATION),
+      m_blower(nullptr),
+      m_alarmController(nullptr),
+      m_blower_increment(0),
+      m_cycleNb(0),
+      m_dt(0),
+      m_pressureCommand(0),
+      blowerIntegral(0),
+      blowerLastError(0),
+      patientIntegral(0),
+      patientLastError(0),
+      m_startPlateauComputation(false),
+      m_plateauComputed(false),
+      m_lastPressureValuesIndex(0),
+      m_sumOfPressures(0),
+      m_numberOfPressures(0) {
     computeCentiSecParameters();
+    for (uint8_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
+        m_lastPressureValues[i] = 0;
+    }
 }
 
 PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        int16_t p_minPeepCommand,
                                        int16_t p_maxPlateauPressure,
                                        int16_t p_maxPeakPressure,
-                                       PressureValve p_blower_valve,
-                                       PressureValve p_patient_valve,
+                                       const PressureValve& p_blower_valve,
+                                       const PressureValve& p_patient_valve,
                                        AlarmController* p_alarmController,
                                        Blower* p_blower)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
@@ -70,12 +89,28 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_plateauPressure(CONST_INITIAL_ZERO_PRESSURE),
       m_peep(CONST_INITIAL_ZERO_PRESSURE),
       m_phase(CyclePhases::INHALATION),
+      m_subPhase(CycleSubPhases::INSPIRATION),
       m_blower_valve(p_blower_valve),
       m_patient_valve(p_patient_valve),
       m_blower(p_blower),
       m_alarmController(p_alarmController),
-      m_blower_increment(0) {
+      m_blower_increment(0),
+      m_cycleNb(0),
+      m_dt(0),
+      m_pressureCommand(0),
+      blowerIntegral(0),
+      blowerLastError(0),
+      patientIntegral(0),
+      patientLastError(0),
+      m_startPlateauComputation(false),
+      m_plateauComputed(false),
+      m_lastPressureValuesIndex(0),
+      m_sumOfPressures(0),
+      m_numberOfPressures(0) {
     computeCentiSecParameters();
+    for (uint8_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
+        m_lastPressureValues[i] = 0;
+    }
 }
 
 void PressureController::setup() {

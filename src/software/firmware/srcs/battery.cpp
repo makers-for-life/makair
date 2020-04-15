@@ -96,4 +96,5 @@ void batteryLoop(uint32_t p_cycleNumber) {
     updateBatteryState(p_cycleNumber);
 }
 
+// cppcheck-suppress unusedFunction
 uint32_t getBatteryLevel() { return rawBatteryMeanVoltage * 0.0296484375; }

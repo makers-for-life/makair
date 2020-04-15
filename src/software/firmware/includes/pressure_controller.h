@@ -72,12 +72,13 @@ class PressureController {
      * @param p_alarmController     Alarm controller
      * @param p_blower              Blower
      */
+    // cppcheck-suppress misra-c2012-2.7
     PressureController(int16_t p_cyclesPerMinute,
                        int16_t p_minPeepCommand,
                        int16_t p_maxPlateauPressure,
                        int16_t p_maxPeakPressure,
-                       PressureValve p_blower_valve,
-                       PressureValve p_patient_valve,
+                       const PressureValve& p_blower_valve,
+                       const PressureValve& p_patient_valve,
                        AlarmController* p_alarmController,
                        Blower* p_blower);
 

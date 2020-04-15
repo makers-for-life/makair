@@ -147,6 +147,7 @@ void keyboardLoop() {
     buttonStop.tick();
 }
 
+// cppcheck-suppress unusedFunction
 void calibrateButtons() {
 #if HARDWARE_VERSION == 1
     uint16_t value = analogRead(PIN_CONTROL_BUTTONS);
