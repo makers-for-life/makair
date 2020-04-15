@@ -129,6 +129,20 @@ void PressureController::initRespiratoryCycle() {
     m_plateauComputed = false;
 }
 
+void PressureController::endRespiratoryCycle() {
+    checkCycleAlarm();
+
+    if (m_blower_increment == 0u) {
+        if (m_plateauPressure > (m_maxPlateauPressureCommand * 102u / 100u)) {
+            uint16_t plateauDiff = (((m_plateauPressure - m_maxPlateauPressureCommand) * 2u) / 10u);
+            onPeakPressureDecrease(min(plateauDiff, MAX_PEAK_INCREMENT));
+        } else if (m_plateauPressure < (m_maxPlateauPressureCommand * 98u / 100u)) {
+            uint16_t plateauDiff = (((m_maxPlateauPressureCommand - m_plateauPressure) * 2u) / 10u);
+            onPeakPressureIncrease(min(plateauDiff, MAX_PEAK_INCREMENT));
+        }
+    }
+}
+
 void PressureController::updatePressure(int16_t p_currentPressure) {
     m_pressure = p_currentPressure;
 
@@ -157,16 +171,12 @@ void PressureController::compute(uint16_t p_centiSec) {
         }
         case CycleSubPhases::HOLD_INSPIRATION: {
             plateau();
-            computePlateau(p_centiSec);
             break;
         }
         case CycleSubPhases::EXHALE: {
             exhale();
+            // Plateau happens with delay related to the pressure command
             computePlateau(p_centiSec);
-            break;
-        }
-        case CycleSubPhases::HOLD_EXHALE: {
-            holdExhalation();
             break;
         }
         default: {
@@ -269,6 +279,8 @@ void PressureController::onPlateauPressureDecrease() {
     if (m_maxPlateauPressureCommand < CONST_MIN_PLATEAU_PRESSURE) {
         m_maxPlateauPressureCommand = CONST_MIN_PLATEAU_PRESSURE;
     }
+
+    onPeakPressureDecrease();
 }
 
 void PressureController::onPlateauPressureIncrease() {
@@ -279,41 +291,45 @@ void PressureController::onPlateauPressureIncrease() {
     if (m_maxPlateauPressureCommand > CONST_MAX_PLATEAU_PRESSURE) {
         m_maxPlateauPressureCommand = CONST_MAX_PLATEAU_PRESSURE;
     }
+
+    onPeakPressureIncrease();
 }
 
-void PressureController::onPeakPressureDecrease() {
+void PressureController::onPeakPressureDecrease(uint8_t p_decrement) {
     DBG_DO(Serial.println("Peak Pressure --");)
 
-    m_maxPeakPressureCommand = m_maxPeakPressureCommand - 10u;
+    m_maxPeakPressureCommand = m_maxPeakPressureCommand - p_decrement;
 
-    if (m_maxPeakPressureCommand < CONST_MIN_PEAK_PRESSURE) {
-        m_maxPeakPressureCommand = CONST_MIN_PEAK_PRESSURE;
+    if (m_maxPeakPressureCommand < m_maxPlateauPressureCommand) {
+        m_maxPeakPressureCommand = m_maxPlateauPressureCommand;
     }
 }
 
-void PressureController::onPeakPressureIncrease() {
+void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
     DBG_DO(Serial.println("Peak Pressure ++");)
 
-    m_maxPeakPressureCommand = m_maxPeakPressureCommand + 10u;
+    m_maxPeakPressureCommand = m_maxPeakPressureCommand + p_increment;
 
     if (m_maxPeakPressureCommand > CONST_MAX_PEAK_PRESSURE) {
         m_maxPeakPressureCommand = CONST_MAX_PEAK_PRESSURE;
     }
 }
 
+static const uint16_t MAX_BLOWER_INCREMENT = 3u;
+
 void PressureController::updateBlower(uint16_t p_centiSec) {
     // Case blower is too low
     if ((m_phase == CyclePhases::INHALATION)
         && (p_centiSec > ((m_centiSecPerInhalation * 80u) / 100u))
-        && (m_peakPressure < m_maxPeakPressureCommand)) {
-        m_blower_increment = 5;
+        && (m_peakPressure < ((m_maxPeakPressureCommand * 95u) / 100u))) {
+        m_blower_increment = 1;
     }
 
     // Case blower is too high
     if ((m_phase == CyclePhases::INHALATION)
         && (p_centiSec < ((m_centiSecPerInhalation * 30u) / 100u))
-        && (m_peakPressure > m_maxPeakPressureCommand)) {
-        m_blower_increment = -5;
+        && (m_peakPressure > ((m_maxPeakPressureCommand * 105u) / 100u))) {
+        m_blower_increment = -1;
     }
 }
 
@@ -335,9 +351,7 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
         m_phase = CyclePhases::EXHALATION;
         m_pressureCommand = m_minPeepCommand;
 
-        if (m_subPhase != CycleSubPhases::HOLD_EXHALE) {
-            setSubPhase(CycleSubPhases::EXHALE);
-        }
+        setSubPhase(CycleSubPhases::EXHALE);
     }
 }
 

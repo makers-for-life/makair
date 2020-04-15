@@ -236,7 +236,10 @@ void loop(void) {
     /********************************************/
     activationController.refreshState();
     bool shouldRun = activationController.isRunning();
-    pController.initRespiratoryCycle();
+
+    if (shouldRun) {
+        pController.initRespiratoryCycle();
+    }
 
     /********************************************/
     // START THE RESPIRATORY CYCLE
@@ -291,12 +294,6 @@ void loop(void) {
                 displayCurrentSettings(pController.maxPeakPressureCommand(),
                                        pController.maxPlateauPressureCommand(),
                                        pController.minPeepCommand());
-                if (shouldRun) {
-                    displayCurrentInformation(pController.peakPressure(),
-                                              pController.plateauPressure(), pController.peep());
-                } else {
-                    displayMachineStopped();
-                }
             }
 
             alarmController.runAlarmEffects(centiSec);
@@ -307,8 +304,7 @@ void loop(void) {
         }
     }
 
-    // Check if some pressure alarms are triggered
-    pController.checkCycleAlarm();
+    pController.endRespiratoryCycle();
 
     /********************************************/
     // END OF THE RESPIRATORY CYCLE
@@ -321,6 +317,13 @@ void loop(void) {
         resetScreen();
         clearAlarmDisplayCache();
         cyclesBeforeScreenReset = LCD_RESET_PERIOD * (int8_t)CONST_MIN_CYCLE;
+    }
+
+    if (shouldRun) {
+        displayCurrentInformation(pController.peakPressure(), pController.plateauPressure(),
+                                  pController.peep());
+    } else {
+        displayMachineStopped();
     }
 }
 
