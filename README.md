@@ -13,7 +13,7 @@ If you're new there, please read the explanations below. _Your contributions are
 
 ---
 
-➡️ **Update (6th April 2020):** We are ongoing finalization, endurance testing and final industrialization of our V1 MakAir ventilator design. In the meantime, clinical trials have been started. We will provide more information (very) soon.
+[![Play Introduction Video](http://i3.ytimg.com/vi/6LeZjULZnUc/maxresdefault.jpg)](https://www.youtube.com/watch?v=6LeZjULZnUc)
 
 ---
 
