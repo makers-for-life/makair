@@ -78,8 +78,14 @@ void displayCurrentInformation(uint16_t peakPressure, uint16_t plateauPressure, 
     screen.setCursor(0, 3);
     char message[SCREEN_LINE_LENGTH + 1];
 
-    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "%2u    %2u    %2u  meas", peakPressure / 10u,
+    // Case plateau is not detected
+    if (plateauPressure == UINT16_MAX){
+        (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "%2u    ?    %2u  meas", peakPressure / 10u,
+                   peep / 10u);
+    }else{
+         (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "%2u    %2u    %2u  meas", peakPressure / 10u,
                    plateauPressure / 10u, peep / 10u);
+    }
 
     screen.print(message);
 }
