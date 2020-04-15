@@ -88,10 +88,15 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_src_software_firmware_CHANGELOG"></a> </p>
 <h1><a class="anchor" id="autotoc_md8"></a>
-unreleased</h1>
+v1.5.0</h1>
 <ul>
-<li>improve even more the measured and displayed plateau pressure</li>
+<li>rework pressure and blower control (<em>blower will now take more time to ramp up/down but this will greatly improve the stability of injected air volume in many scenario</em>)</li>
+<li>rework alarms (<em>better pressure alarms, better battery alarms, better snooze behavior</em>)</li>
+<li>improve even more the measured and displayed pressures (<em>if no plateau pressure if found, screen will now display a <code>?</code> instead of an uncertain value</em>)</li>
 <li>tweak the pressure control to make the plateau more accurate</li>
+<li>fix an issue with blower not restarting in some cases</li>
+<li>make sysclock more accurate</li>
+<li>improve code quality (MISRA)</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md9"></a>
 v1.4.0</h1>

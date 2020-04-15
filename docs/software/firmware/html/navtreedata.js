@@ -26,7 +26,7 @@ var NAVTREE =
 [
   [ "software:firmware", "index.html", [
     [ "Changelog", "index.html", [
-      [ "unreleased", "index.html#autotoc_md8", null ],
+      [ "v1.5.0", "index.html#autotoc_md8", null ],
       [ "v1.4.0", "index.html#autotoc_md9", null ],
       [ "v1.3.2", "index.html#autotoc_md10", null ],
       [ "v1.3.1", "index.html#autotoc_md11", null ],
