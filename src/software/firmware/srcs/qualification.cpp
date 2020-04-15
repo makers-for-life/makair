@@ -611,7 +611,7 @@ void loop() {
     case STEP_BLOWER: {
         UNGREEDY(is_drawn, {
             display("Blower is ON", "Press PPeP -");
-            blower.runSpeed(150);
+            blower.runSpeed(1500);
         });
         break;
     }

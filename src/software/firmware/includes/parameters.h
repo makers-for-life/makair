@@ -73,8 +73,8 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 20;
 
 #elif PNEUMATIC_HARDWARE_VERSION == PHW_CHU
 
-static const int32_t PID_BLOWER_KP = 3;
-static const int32_t PID_BLOWER_KI = 16;
+static const int32_t PID_BLOWER_KP = 1;
+static const int32_t PID_BLOWER_KI = 25;
 static const int32_t PID_BLOWER_KD = 0;
 static const int32_t PID_BLOWER_INTEGRAL_MAX = 1000;
 static const int32_t PID_BLOWER_INTEGRAL_MIN = -1000;
@@ -87,7 +87,7 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -500;
 
 /// Increase target pressure by an offset (in mmH2O) for safety, to avoid going below the target
 /// pressure
-static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
+static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
 #endif
 
 ///@}
@@ -132,9 +132,9 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
  * @name Blower
  */
 ///@{
-#define MIN_BLOWER_SPEED 95
-#define MAX_BLOWER_SPEED 180
-#define DEFAULT_BLOWER_SPEED 130
+#define MIN_BLOWER_SPEED 950
+#define MAX_BLOWER_SPEED 1800
+#define DEFAULT_BLOWER_SPEED 1300
 ///@}
 
 /**

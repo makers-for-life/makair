@@ -33,8 +33,6 @@ void ActivationController::onStopButton() {
     } else if ((m_state == RUNNING_READY_TO_STOP) || (m_state == RUNNING)) {
         m_timeOfLastStopPushed = millis();
         m_state = RUNNING_READY_TO_STOP;
-
-        Buzzer_Boot_Start();
     } else {
         // Stay in STOPPED state
     }
