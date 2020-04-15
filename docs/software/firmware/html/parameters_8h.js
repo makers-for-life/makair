@@ -1,10 +1,9 @@
 var parameters_8h =
 [
-    [ "ALARM_2_CMH2O", "parameters_8h.html#acbf1e1db25856ba03be7809cdcb4d1ae", null ],
-    [ "ALARM_35_CMH2O", "parameters_8h.html#a563c99c902dad4067e3ef15a3a52bb22", null ],
-    [ "ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O", "parameters_8h.html#ad7eb4d353aaf308bc7c505e7d99dcb00", null ],
-    [ "ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O", "parameters_8h.html#a161ed810a41645eb944854c2d1cd2fa0", null ],
-    [ "ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O", "parameters_8h.html#a06af8da8e49d46fe85daf57de9236184", null ],
+    [ "ALARM_THRESHOLD_DIFFERENCE_PERCENT", "parameters_8h.html#a17b278faa2d18f90512d448cb1005a73", null ],
+    [ "ALARM_THRESHOLD_DIFFERENCE_PRESSURE", "parameters_8h.html#a3a48f441e0d36ed09913e312d33b2168", null ],
+    [ "ALARM_THRESHOLD_MAX_PRESSURE", "parameters_8h.html#a896208fffdc13aef1b9fed9e2e769407", null ],
+    [ "ALARM_THRESHOLD_MIN_PRESSURE", "parameters_8h.html#a52ce94bf17c8c2f3595ffe623247d89a", null ],
     [ "CONST_INITIAL_ZERO_PRESSURE", "parameters_8h.html#ae40a069871060b9e0136e1d127e0436e", null ],
     [ "CONST_MAX_CYCLE", "parameters_8h.html#aa24738c128b9fa7c48cab15790e7280b", null ],
     [ "CONST_MAX_PEAK_PRESSURE", "parameters_8h.html#a741c03510de319b35dd8c50b1619be71", null ],
@@ -18,6 +17,7 @@ var parameters_8h =
     [ "DEFAULT_MAX_PEAK_PRESSURE_COMMAND", "parameters_8h.html#acd21b850c31e8e644d02462a46389c1e", null ],
     [ "DEFAULT_MAX_PLATEAU_COMMAND", "parameters_8h.html#a548cb9b058d3c6b735c4b19a879fba36", null ],
     [ "DEFAULT_MIN_PEEP_COMMAND", "parameters_8h.html#a341d8dc42507e5f8b9a262b70be47b7b", null ],
+    [ "DEFAULT_PEAK_PRESSURE_DELTA", "parameters_8h.html#a4728dd3c8f35e7888081467736e75147", null ],
     [ "INITIAL_CYCLE_NUMBER", "parameters_8h.html#a3323cc40b9955ffd3073a97f7eb62edc", null ],
     [ "LCD_RESET_PERIOD", "parameters_8h.html#a1772dd523a6b213758a8ed5e97df4f81", null ],
     [ "LCD_UPDATE_PERIOD", "parameters_8h.html#a1134fddd49fb89132c3d084f770e17ed", null ],

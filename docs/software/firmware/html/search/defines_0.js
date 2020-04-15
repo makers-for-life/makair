@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['alarm_5f2_5fcmh2o_728',['ALARM_2_CMH2O',['../parameters_8h.html#acbf1e1db25856ba03be7809cdcb4d1ae',1,'parameters.h']]],
-  ['alarm_5f35_5fcmh2o_729',['ALARM_35_CMH2O',['../parameters_8h.html#a563c99c902dad4067e3ef15a3a52bb22',1,'parameters.h']]],
-  ['alarm_5fthreshold_5fpeep_5fabove_5for_5funder_5f2_5fcmh2o_730',['ALARM_THRESHOLD_PEEP_ABOVE_OR_UNDER_2_CMH2O',['../parameters_8h.html#ad7eb4d353aaf308bc7c505e7d99dcb00',1,'parameters.h']]],
-  ['alarm_5fthreshold_5fplateau_5fabove_5f80_5fcmh2o_731',['ALARM_THRESHOLD_PLATEAU_ABOVE_80_CMH2O',['../parameters_8h.html#a161ed810a41645eb944854c2d1cd2fa0',1,'parameters.h']]],
-  ['alarm_5fthreshold_5fplateau_5funder_5f2_5fcmh2o_732',['ALARM_THRESHOLD_PLATEAU_UNDER_2_CMH2O',['../parameters_8h.html#a06af8da8e49d46fe85daf57de9236184',1,'parameters.h']]],
-  ['alarms_5fsize_733',['ALARMS_SIZE',['../alarm__controller_8h.html#ac4707f9e5fae63a64a4fe478080ee79a',1,'alarm_controller.h']]]
+  ['alarm_5fthreshold_5fdifference_5fpercent_725',['ALARM_THRESHOLD_DIFFERENCE_PERCENT',['../parameters_8h.html#a17b278faa2d18f90512d448cb1005a73',1,'parameters.h']]],
+  ['alarm_5fthreshold_5fdifference_5fpressure_726',['ALARM_THRESHOLD_DIFFERENCE_PRESSURE',['../parameters_8h.html#a3a48f441e0d36ed09913e312d33b2168',1,'parameters.h']]],
+  ['alarm_5fthreshold_5fmax_5fpressure_727',['ALARM_THRESHOLD_MAX_PRESSURE',['../parameters_8h.html#a896208fffdc13aef1b9fed9e2e769407',1,'parameters.h']]],
+  ['alarm_5fthreshold_5fmin_5fpressure_728',['ALARM_THRESHOLD_MIN_PRESSURE',['../parameters_8h.html#a52ce94bf17c8c2f3595ffe623247d89a',1,'parameters.h']]],
+  ['alarms_5fsize_729',['ALARMS_SIZE',['../alarm__controller_8h.html#ac4707f9e5fae63a64a4fe478080ee79a',1,'alarm_controller.h']]]
 ];

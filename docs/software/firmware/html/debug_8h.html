@@ -340,9 +340,9 @@ Macros</h2></td></tr>
 <div class="line">        Serial.print(<span class="stringliteral">&quot;;&quot;</span>);                                                                         \</div>
 <div class="line">        Serial.print(centieme);                                                                    \</div>
 <div class="line">        Serial.print(<span class="stringliteral">&quot;;&quot;</span>);                                                                         \</div>
-<div class="line">        Serial.print(300u - (phase * 100u));                                                       \</div>
+<div class="line">        Serial.print(300u - (<span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(phase) * 100u));                                 \</div>
 <div class="line">        Serial.print(<span class="stringliteral">&quot;;&quot;</span>);                                                                         \</div>
-<div class="line">        Serial.print(300u - (subPhase * 50u));                                                     \</div>
+<div class="line">        Serial.print(300u - (<span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(subPhase) * 50u));                               \</div>
 <div class="line">        Serial.print(<span class="stringliteral">&quot;;&quot;</span>);                                                                         \</div>
 <div class="line">        Serial.print(pression);                                                                    \</div>
 <div class="line">        Serial.print(<span class="stringliteral">&quot;;&quot;</span>);                                                                         \</div>
