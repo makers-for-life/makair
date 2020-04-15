@@ -135,7 +135,7 @@ void PressureController::endRespiratoryCycle() {
     checkCycleAlarm();
 
     // If plateau is not detected or is too close to PEEP, mark it as "unknown"
-    if ((m_plateauPressure == 0) || (abs(m_plateauPressure - m_peep) < 10)) {
+    if ((m_plateauPressure == 0u) || (abs(m_plateauPressure - m_peep) < 10)) {
         m_plateauPressure = UINT16_MAX;
     }
 
