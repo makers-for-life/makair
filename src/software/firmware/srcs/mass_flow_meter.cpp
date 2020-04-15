@@ -207,7 +207,7 @@ void loop(void) {
 
     char buffer[30];
 
-    int32_t volume = MFM_read_liters(true);
+    int32_t volume = MFM_read_liters(false);
 
     resetScreen();
     screen.setCursor(0, 0);
