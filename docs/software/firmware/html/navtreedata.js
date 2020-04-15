@@ -74,8 +74,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "activation_8cpp.html",
-"class_pressure_controller.html#ae62b71249525765bd3dfafb8f47aa1d3",
-"pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88"
+"class_pressure_controller.html#ae3bdcb8cfea8a4e896e2503e59333a38",
+"pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
