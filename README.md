@@ -23,13 +23,6 @@ If you're new there, please read the explanations below. _Your contributions are
 
 ---
 
-**Shortcut links:**
-
-* [General EN/FR docs on Google Docs](https://docs.google.com/document/d/1l1nt0o93kdfcmPygp1k6NYKrwIb_uN01kcBAfovy2dE/edit)
-* [Regular video updates on YouTube](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg)
-
----
-
 # Abstract
 
 Roughly, the idea is as follows: as of April 2020 and due to the Covid-19 pandemic, hospitals will soon start lacking mechanical artificial ventilators. We built a pump, and a valve system (controlled by electronics). This way, the breathing cycle can be enforced by proper air routing through the valve system.
