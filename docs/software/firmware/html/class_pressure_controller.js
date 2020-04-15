@@ -1,7 +1,7 @@
 var class_pressure_controller =
 [
     [ "PressureController", "class_pressure_controller.html#afda41b9a5a4f14ef31df017722b2d1ca", null ],
-    [ "PressureController", "class_pressure_controller.html#aa2ad2c0cf198f73855cd4a2b87ef2f9a", null ],
+    [ "PressureController", "class_pressure_controller.html#a8726abb785c225d2e95d3a6723935c2f", null ],
     [ "blower_valve", "class_pressure_controller.html#a5782c3b6c4663f3ac5f694659cab435e", null ],
     [ "centiSecPerCycle", "class_pressure_controller.html#ae17cfa861327ef8c7e73430b59354e2e", null ],
     [ "centiSecPerInhalation", "class_pressure_controller.html#a2051259df1697094331722c54ac0a995", null ],
