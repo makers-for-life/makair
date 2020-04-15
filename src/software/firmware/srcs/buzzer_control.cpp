@@ -29,7 +29,13 @@ void BuzzerControl_Init(void) {
     Buzzer_Timer_Channel =
         STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(PIN_BUZZER), PinMap_PWM));
 
+    // Hardware 2: the buzzer has no internal oscillator. uC must generate a 4khz square on
+    // PIN_BUZZER (timer 2, channel 1)
     Buzzer_Hw_Timer = new HardwareTimer(Buzzer_Timer_Number);
+    Buzzer_Hw_Timer->setMode(Buzzer_Timer_Channel, TIMER_OUTPUT_COMPARE_PWM1, PIN_BUZZER);
+    Buzzer_Hw_Timer->setOverflow(PERIOD_BUZZER_US, MICROSEC_FORMAT);
+    Buzzer_Hw_Timer->setCaptureCompare(Buzzer_Timer_Channel, PERIOD_BUZZER_US / 2,
+                                       MICROSEC_COMPARE_FORMAT);
 #endif
 }
 
@@ -38,12 +44,6 @@ void BuzzerControl_On(void) {
     // Hardware 1: the buzzer has an internal oscillator. Just switch on the output.
     digitalWrite(PIN_BUZZER, HIGH);
 #elif HARDWARE_VERSION == 2
-    // Hardware 2: the buzzer has no internal oscillator. uC must generate a 4khz square on
-    // PIN_BUZZER (timer 2, channel 1)
-    Buzzer_Hw_Timer->setMode(Buzzer_Timer_Channel, TIMER_OUTPUT_COMPARE_PWM1, PIN_BUZZER);
-    Buzzer_Hw_Timer->setOverflow(PERIOD_BUZZER_US, MICROSEC_FORMAT);
-    Buzzer_Hw_Timer->setCaptureCompare(Buzzer_Timer_Channel, PERIOD_BUZZER_US / 2,
-                                       MICROSEC_COMPARE_FORMAT);
     Buzzer_Hw_Timer->resume();
 #endif
 }
