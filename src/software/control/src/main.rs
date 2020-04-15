@@ -9,8 +9,8 @@ extern crate log;
 extern crate clap;
 #[macro_use]
 extern crate lazy_static;
-extern crate piston_window;
 extern crate gfx_core;
+extern crate piston_window;
 
 mod config;
 mod display;
