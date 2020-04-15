@@ -34,9 +34,10 @@
 #define STEP_VALVE_PATIENT_TEST 3
 #define STEP_VALVE_BLOWER_LEAK_TEST 4
 #define STEP_VALVE_PATIENT_LEAK_TEST 5
-#define STEP_PRESSURE_TEST 6
-#define STEP_BATTERY_TEST 7
-#define STEP_BUZZER_TEST 8
+#define STEP_O2_TEST 6
+#define STEP_PRESSURE_TEST 7
+#define STEP_BATTERY_TEST 8
+#define STEP_BUZZER_TEST 9
 
 #define NUMBER_OF_STATES 9
 
@@ -231,6 +232,17 @@ void loop() {
         blower.runSpeed(1500);
         break;
     }
+
+    case STEP_O2_TEST: {
+        UNGREEDY(is_drawn, display("Test sortie 02", "Continuer : Start"));
+        servoPatient.open();
+        servoPatient.execute();
+        servoBlower.close();
+        servoBlower.execute();
+        blower.runSpeed(1500);
+        break;
+    }
+
     case STEP_PRESSURE_TEST: {
         servoPatient.close();
         servoPatient.execute();
