@@ -271,12 +271,12 @@ void loop(void) {
                 blower.stop();
 
                 // Stop alarms related to breathing cycle
-                alarmController.notDetectedAlarm(RCM_SW_2);
                 alarmController.notDetectedAlarm(RCM_SW_1);
+                alarmController.notDetectedAlarm(RCM_SW_2);
                 alarmController.notDetectedAlarm(RCM_SW_3);
-                alarmController.notDetectedAlarm(RCM_SW_18);
                 alarmController.notDetectedAlarm(RCM_SW_14);
                 alarmController.notDetectedAlarm(RCM_SW_15);
+                alarmController.notDetectedAlarm(RCM_SW_18);
                 alarmController.notDetectedAlarm(RCM_SW_19);
             }
 
@@ -304,7 +304,9 @@ void loop(void) {
         }
     }
 
-    pController.endRespiratoryCycle();
+    if (shouldRun) {
+        pController.endRespiratoryCycle();
+    }
 
     /********************************************/
     // END OF THE RESPIRATORY CYCLE

@@ -9,7 +9,7 @@ homepage = "https://github.com/makers-for-life/makair"
 repository = "https://github.com/makers-for-life/makair.git"
 keywords = ["covid-19", "fusion-360", "cad", "covid", "coronavirus", "sars-cov-2", "nucleo-board", "covid-respirator", "makair-respirators", "medical", "ards"]
 categories = ["gui", "hardware-support"]
-authors = ["Valerian Saliou <valerian@valeriansaliou.name>", "Quentin Adam <quentin.adam@clever-cloud.com>"]
+authors = ["Valerian Saliou <valerian@valeriansaliou.name>", "Quentin Adam <quentin.adam@waxzce.org>"]
 
 [[bin]]
 name = "makair-control"
@@ -20,6 +20,8 @@ doc = false
 log = "0.4"
 clap = { version = "2.33", default-features = false }
 lazy_static = "1.4"
+piston_window = "0.98"
+gfx_core = "0.9"
 
 [profile.dev]
 opt-level = 0

@@ -126,14 +126,14 @@ class PressureController {
      *
      * @param p_decrement Positive value of decrement
      */
-    void onPeakPressureDecrease(uint8_t p_decrement = 10u);
+    void onPeakPressureDecrease(uint8_t p_decrement);
 
     /**
      * Increase the desired peak pressure
      *
      * @param p_increment Positive value of increment
      */
-    void onPeakPressureIncrease(uint8_t p_increment = 10u);
+    void onPeakPressureIncrease(uint8_t p_increment);
 
     /// Get the desired number of cycles per minute
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
@@ -221,28 +221,6 @@ class PressureController {
     void holdExhalation();
 
     /**
-     * Run safeguards
-     *
-     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
-     */
-    void safeguards(uint16_t p_centiSec);
-
-    /**
-     * Implement safeguard for max plateau pressure
-     *
-     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
-     */
-    void safeguardPlateau(uint16_t p_centiSec);
-
-    /**
-     * Implement a first safeguard for peep pressure
-     *
-     * In this case, we hold the exhalation.
-     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
-     */
-    void safeguardHoldExpiration(uint16_t p_centiSec);
-
-    /**
      * Compute various cycle durations given the desired number of cycles per minute
      *
      * - duration of a cycle in hundredth of second
@@ -299,13 +277,6 @@ class PressureController {
 
     /// Maximal peak pressure desired by the operator
     uint16_t m_maxPeakPressureCommand;
-
-    /// Tick de détection initiale pour le dépassement de la consigne de crête
-    uint16_t m_triggerMaxPeakPressureDetectionTick;
-
-    /// Tick de suppression du tick de détection initiale pour le dépassement de la consigne de
-    /// crête
-    uint16_t m_triggerMaxPeakPressureDetectionTickDeletion;
 
     /// Maximal plateau pressure desired by the operator
     uint16_t m_maxPlateauPressureCommand;
@@ -412,6 +383,12 @@ class PressureController {
 
     /// Index of array for last pressure storage
     uint16_t m_lastPressureValuesIndex;
+
+    /// Sum of the current cycle's pressures
+    uint32_t m_sumOfPressures;
+
+    /// Number of the current cycle's pressures
+    uint16_t m_numberOfPressures;
 };
 
 // INITIALISATION =============================================================

@@ -13,14 +13,13 @@ If you're new there, please read the explanations below. _Your contributions are
 
 ---
 
-➡️ **Update (6th April 2020):** We are ongoing finalization, endurance testing and final industrialization of our V1 MakAir ventilator design. In the meantime, clinical trials have been started. We will provide more information (very) soon.
+**Quick introduction video:**
 
----
-
-**Shortcut links:**
-
-* [General EN/FR docs on Google Docs](https://docs.google.com/document/d/1l1nt0o93kdfcmPygp1k6NYKrwIb_uN01kcBAfovy2dE/edit)
-* [Regular video updates on YouTube](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg)
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=6LeZjULZnUc">
+    <img alt="Play Introduction Video" src="./res/assets/play-introduction.jpg" height="320">
+  </a>
+</p>
 
 ---
 

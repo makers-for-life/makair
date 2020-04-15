@@ -53,10 +53,10 @@ static OneButton buttonStop(PIN_BTN_STOP, false, false);
  */
 
 /// Handler of the button to increase the crete pressure
-void onPeakPressureIncrease() { pController.onPeakPressureIncrease(); }
+void onPeakPressureIncrease() { pController.onPeakPressureIncrease(DEFAULT_PEAK_PRESSURE_DELTA); }
 
 /// Handler of the button to decrease the crete pressure
-void onPeakPressureDecrease() { pController.onPeakPressureDecrease(); }
+void onPeakPressureDecrease() { pController.onPeakPressureDecrease(DEFAULT_PEAK_PRESSURE_DELTA); }
 
 /// Handler of the button to increase the plateau pressure
 void onPlateauPressureIncrease() { pController.onPlateauPressureIncrease(); }
