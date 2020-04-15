@@ -7,3 +7,5 @@
 
 #pragma once
 
+#define MASS_FLOw_ERROR_VALUE 999999
+#define MFM_SENSOR_I2C_ADDRESS 0x40

@@ -26,11 +26,11 @@
 // Linked to Hardware v2
 #ifdef MASS_FLOW_METER
 
-// 2 khz => prescaler = 50000 => OK for a 16 bit timer. it cannnot be slower
+// 2 khz => prescaler = 50000 => still OK for a 16 bit timer. it cannnot be slower
 // 10 khz => nice
 #define MASS_FLOW_TIMER_FREQ 10000
 
-// the timer period in microsecond, 100us precision (10 khz)
+// the timer period in microsecond, 100us precision (because 10 khz prescale)
 #define MASS_FLOW_PERIOD_US 1000
 HardwareTimer* massFlowTimer;
 
@@ -39,8 +39,11 @@ volatile int32_t mfmPreviousValue = 0;
 volatile int32_t mfmSensorDetected = 0;
 
 bool mfmFaultCondition = false;
-int32_t mfmResetStateMachine = 5;
-// volatile int32_t mfmTimerCounter = 0;
+
+// Time to reset the sensor after I2C restart, in periods. => 5ms.
+#define MFM_WAIT_RESET_PERIODS 5
+int32_t mfmResetStateMachine = MFM_WAIT_RESET_PERIODS;
+
 
 union {
     unsigned short i;
@@ -50,66 +53,44 @@ union {
 void MFM_Timer_Callback(HardwareTimer*) {
 
     int32_t rawValue;
+    int32_t newSum;
 
     if (!mfmFaultCondition) {
-        Wire.beginTransmission(0x40);
-
+        #if MODE == MODE_MFM_TESTS
         digitalWrite(PIN_LED_START, true);
-        Wire.requestFrom(0x40, 2);
+        #endif
+
+        Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+        Wire.requestFrom(MFM_SENSOR_I2C_ADDRESS, 2);
         mfmLastData.c[1] = Wire.read();
         mfmLastData.c[0] = Wire.read();
-
-        // mfmTimerCounter++;
-
-        if (Wire.endTransmission() != 0)  // If transmission failed
-        {
+        if (Wire.endTransmission() != 0) {  // If transmission failed
             mfmFaultCondition = true;
             mfmResetStateMachine = 5;
         }
+        mfmAirVolumeSum += (int32_t)mfmLastData.i - 0x8000;
+
+        #if MODE == MODE_MFM_TESTS
         digitalWrite(PIN_LED_START, false);
-
-        // newSum = ( (mfmLastData.i - 0x8000) / 120 * 60);
-
-        // mfmAirVolumeSum += (((mfmLastData.i - 0x8000) / 7200) + mfmPreviousValue) / 2;  //
-        // l.min-1
-
-        // mfmPreviousValue = ((mfmLastData.i - 0x8000) / 7200);
-        rawValue = mfmLastData.i;  //- 0x8000;
-
-        mfmAirVolumeSum += rawValue - 0x8000;
-
-        // Correction factor is 120. Divide by 60 to convert ml.min-1 to ml.ms-1, hence the 7200 =
-        // 120 * 60
-        // TODO : Adapt calculation formula based on the timer period
-
-        // mfmAirVolumeSum += ( (mfmLastData.i - 0x8000) / 120 * 60 * MASS_FLOW_PERIOD_US * 100000);
-
+        #endif
     } else {
 
-        if (mfmResetStateMachine == 5) {
+        if (mfmResetStateMachine == MFM_WAIT_RESET_PERIODS) {
             // reset attempt
             Wire.flush();
             Wire.end();
-            // force reset of pin in a high state.
-            // pinMode(PIN_I2C_SDA, OUTPUT);
-            // pinMode(PIN_I2C_SCL, OUTPUT);
-            // digitalWrite(PIN_I2C_SCL, HIGH);
-            // digitalWrite(PIN_I2C_SDA, LOW);
-            // delayMicroseconds(20);
-            // digitalWrite(PIN_I2C_SDA, HIGH);
-            // Wire.setSDA(PIN_I2C_SDA);
-            // Wire.setSCL(PIN_I2C_SCL);
         }
         mfmResetStateMachine--;
 
         if (mfmResetStateMachine == 0) {
+            // MFM_WAIT_RESET_PERIODS cycles later, try again
             Wire.begin(true);
-            Wire.beginTransmission(0x40);
+            Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
             Wire.write(0x10);
             Wire.write(0x00);
             mfmFaultCondition = (Wire.endTransmission() != 0);
             if (mfmFaultCondition) {
-                mfmResetStateMachine = 5;
+                mfmResetStateMachine = MFM_WAIT_RESET_PERIODS;
             }
         }
     }
@@ -143,8 +124,7 @@ boolean MFM_init(void) {
     Wire.setSCL(PIN_I2C_SCL);
 
     Wire.begin();  // join i2c bus (address optional for master)
-    // Wire.endTransmission();
-    Wire.beginTransmission(0x40);
+    Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
 
     Wire.write(0x10);
     Wire.write(0x00);
@@ -158,13 +138,12 @@ boolean MFM_init(void) {
     return mfmFaultCondition;
 }
 
-/**
+/*
  * Reset the volume counter
  */
 void MFM_reset(void) {
     mfmAirVolumeSum = 0;
     mfmPreviousValue = 0;
-    // mfmTimerCounter = 0;
 }
 
 /**
@@ -174,11 +153,13 @@ void MFM_reset(void) {
 int32_t MFM_read_liters(boolean reset_after_read) {
 
     int32_t result;
-    // int32_t timerCounter;
 
-    // timerCounter = mfmTimerCounter;
     // this should be an atomic operation (32 bits aligned data)
-    result = mfmFaultCondition ? 999999 : mfmAirVolumeSum;
+    result = mfmFaultCondition ? 999999 : mfmAirVolumeSum / (60 * 120);
+
+    // Correction factor is 120. Divide by 60 to convert ml.min-1 to ml.ms-1, hence the 7200 =
+    // 120 * 60
+    // TODO : Adapt calculation formula based on the timer period
 
     if (reset_after_read) {
         MFM_reset();
@@ -187,9 +168,12 @@ int32_t MFM_read_liters(boolean reset_after_read) {
     return result;
 }
 
+
+#if MODE == MODE_MFM_TESTS
+
 void setup(void) {
+    
     Serial.begin(115200);
-    Serial.println("coucou, tu veux voir ma ... ?");
     Serial.println("init mass flow meter");
     MFM_init();
 
@@ -197,14 +181,14 @@ void setup(void) {
     pinMode(PIN_LED_START, OUTPUT);
 
     Serial.println("init done");
-    Serial.println("A poiiiiiiiiiiiiiiiiiiiiiiiiiiiiiils !");
 }
 
 void loop(void) {
 
-    delay(1000);
+    delay(10000);
     Serial.print("volume = ");
     Serial.println(MFM_read_liters(true));
 }
+#endif
 
 #endif
