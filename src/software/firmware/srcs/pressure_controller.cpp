@@ -32,14 +32,13 @@ PressureController pController;
 
 PressureController::PressureController()
     : m_cyclesPerMinuteCommand(INITIAL_CYCLE_NUMBER),
-      m_vigilance(false),
       m_minPeepCommand(DEFAULT_MIN_PEEP_COMMAND),                   // [mmH20]
       m_maxPlateauPressureCommand(DEFAULT_MAX_PLATEAU_COMMAND),     // [mmH20]
       m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),  // [mmH20]
       m_cyclesPerMinute(INITIAL_CYCLE_NUMBER),
       m_maxPeakPressure(CONST_MAX_PEAK_PRESSURE),        // [mmH20]
       m_maxPlateauPressure(CONST_MAX_PLATEAU_PRESSURE),  // [mmH20]
-      m_minPeep(CONST_MIN_PEEP_PRESSURE),                // TODO revoir la valeur [mmH20]
+      m_minPeep(CONST_MIN_PEEP_PRESSURE),
       m_pressure(CONST_INITIAL_ZERO_PRESSURE),
       m_peakPressure(CONST_INITIAL_ZERO_PRESSURE),
       m_plateauPressure(CONST_INITIAL_ZERO_PRESSURE),
@@ -60,7 +59,8 @@ PressureController::PressureController()
       m_plateauComputed(false),
       m_lastPressureValuesIndex(0),
       m_sumOfPressures(0),
-      m_numberOfPressures(0) {
+      m_numberOfPressures(0),
+      m_plateauStartTime(0u) {
     computeCentiSecParameters();
     for (uint8_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
         m_lastPressureValues[i] = 0;
@@ -76,14 +76,13 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        AlarmController* p_alarmController,
                                        Blower* p_blower)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
-      m_vigilance(false),
       m_minPeepCommand(p_minPeepCommand),
       m_maxPlateauPressureCommand(p_maxPlateauPressure),
       m_maxPeakPressureCommand(DEFAULT_MAX_PEAK_PRESSURE_COMMAND),
       m_cyclesPerMinute(p_cyclesPerMinute),
       m_maxPeakPressure(p_maxPeakPressure),
       m_maxPlateauPressure(p_maxPlateauPressure),
-      m_minPeep(p_minPeepCommand),  // TODO revoir la valeur de démarage
+      m_minPeep(p_minPeepCommand),
       m_pressure(CONST_INITIAL_ZERO_PRESSURE),
       m_peakPressure(CONST_INITIAL_ZERO_PRESSURE),
       m_plateauPressure(CONST_INITIAL_ZERO_PRESSURE),
@@ -106,7 +105,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_plateauComputed(false),
       m_lastPressureValuesIndex(0),
       m_sumOfPressures(0),
-      m_numberOfPressures(0) {
+      m_numberOfPressures(0),
+      m_plateauStartTime(0u) {
     computeCentiSecParameters();
     for (uint8_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
         m_lastPressureValues[i] = 0;
@@ -132,7 +132,7 @@ void PressureController::setup() {
 
 void PressureController::initRespiratoryCycle() {
     m_phase = CyclePhases::INHALATION;
-    setSubPhase(CycleSubPhases::INSPIRATION);
+    setSubPhase(CycleSubPhases::INSPIRATION, 0);
     m_cycleNb++;
     m_plateauPressure = 0;
 
@@ -164,9 +164,12 @@ void PressureController::initRespiratoryCycle() {
 
     m_sumOfPressures = 0u;
     m_numberOfPressures = 0u;
+
+    m_plateauStartTime = 0u;
 }
 
 void PressureController::endRespiratoryCycle() {
+    updateBlower();
     checkCycleAlarm();
 
     // If plateau is not detected or is too close to PEEP, mark it as "unknown"
@@ -194,8 +197,6 @@ void PressureController::updatePressure(int16_t p_currentPressure) {
 }
 
 void PressureController::compute(uint16_t p_centiSec) {
-    updateBlower(p_centiSec);
-
     // Update the cycle phase
     updatePhase(p_centiSec);
 
@@ -203,27 +204,23 @@ void PressureController::compute(uint16_t p_centiSec) {
     m_sumOfPressures += m_pressure;
     m_numberOfPressures++;
 
-    if (!m_vigilance) {
-        // Act accordingly
-        switch (m_subPhase) {
-        case CycleSubPhases::INSPIRATION: {
-            inhale();
-            break;
-        }
-        case CycleSubPhases::HOLD_INSPIRATION: {
-            plateau();
-            break;
-        }
-        case CycleSubPhases::EXHALE: {
-            exhale();
-            // Plateau happens with delay related to the pressure command
-            computePlateau(p_centiSec);
-            break;
-        }
-        default: {
-            holdExhalation();
-        }
-        }
+    // Act accordingly
+    switch (m_subPhase) {
+    case CycleSubPhases::INSPIRATION: {
+        inhale();
+        break;
+    }
+    case CycleSubPhases::HOLD_INSPIRATION: {
+        plateau();
+        break;
+    }
+    case CycleSubPhases::EXHALE:
+    default: {
+        exhale();
+        // Plateau happens with delay related to the pressure command
+        computePlateau(p_centiSec);
+        break;
+    }
     }
 
     // RCM-SW-18
@@ -360,21 +357,23 @@ void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
     }
 }
 
-static const uint16_t MAX_BLOWER_INCREMENT = 3u;
-
-void PressureController::updateBlower(uint16_t p_centiSec) {
-    // If blower is too low
-    if ((m_phase == CyclePhases::INHALATION)
-        && (p_centiSec > ((m_centiSecPerInhalation * 80u) / 100u))
-        && (m_peakPressure < m_maxPeakPressureCommand)) {
-        m_blower_increment = 3;
-    }
-
-    // If blower is too high
-    if ((m_phase == CyclePhases::INHALATION)
-        && (p_centiSec < ((m_centiSecPerInhalation * 30u) / 100u))
-        && (m_peakPressure > m_maxPeakPressureCommand)) {
-        m_blower_increment = -3;
+void PressureController::updateBlower() {
+    if (m_plateauStartTime < ((m_centiSecPerInhalation * 30u) / 100u)) {
+        DBG_DO(Serial.println("BLOWER -20");)
+        m_blower_increment = -20;
+    } else if ((m_plateauStartTime >= ((m_centiSecPerInhalation * 30u) / 100u))
+               && (m_plateauStartTime < ((m_centiSecPerInhalation * 40u) / 100u))) {
+        DBG_DO(Serial.println("BLOWER -10");)
+        m_blower_increment = -10;
+    } else if ((m_plateauStartTime > ((m_centiSecPerInhalation * 60u) / 100u))
+               && (m_plateauStartTime <= ((m_centiSecPerInhalation * 70u) / 100u))) {
+        DBG_DO(Serial.println("BLOWER +10");)
+        m_blower_increment = +10;
+    } else if (m_plateauStartTime > ((m_centiSecPerInhalation * 70u) / 100u)) {
+        DBG_DO(Serial.println("BLOWER +20");)
+        m_blower_increment = 20;
+    } else {
+        m_blower_increment = 0;
     }
 }
 
@@ -383,20 +382,20 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
         m_phase = CyclePhases::INHALATION;
 
         if ((p_centiSec < ((m_centiSecPerInhalation * 80u) / 100u))
-            && (m_pressure < m_maxPeakPressureCommand)) {
+            && (m_pressure < (m_maxPeakPressureCommand - 10u))) {
             if (m_subPhase != CycleSubPhases::HOLD_INSPIRATION) {
                 m_pressureCommand = m_maxPeakPressureCommand;
-                setSubPhase(CycleSubPhases::INSPIRATION);
+                setSubPhase(CycleSubPhases::INSPIRATION, p_centiSec);
             }
         } else {
             m_pressureCommand = m_maxPlateauPressureCommand;
-            setSubPhase(CycleSubPhases::HOLD_INSPIRATION);
+            setSubPhase(CycleSubPhases::HOLD_INSPIRATION, p_centiSec);
         }
     } else {
         m_phase = CyclePhases::EXHALATION;
         m_pressureCommand = m_minPeepCommand;
 
-        setSubPhase(CycleSubPhases::EXHALE);
+        setSubPhase(CycleSubPhases::EXHALE, p_centiSec);
     }
 }
 
@@ -431,14 +430,6 @@ void PressureController::exhale() {
 
     // Update the PEEP
     m_peep = m_pressure;
-}
-
-void PressureController::holdExhalation() {
-    // Deviate the air stream outside
-    m_blower_valve.close();
-
-    // Close the valve so the patient can exhale outside
-    m_patient_valve.close();
 }
 
 void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
@@ -492,9 +483,12 @@ void PressureController::checkCycleAlarm() {
     }
 }
 
-void PressureController::setSubPhase(CycleSubPhases p_subPhase) {
+void PressureController::setSubPhase(CycleSubPhases p_subPhase, uint16_t p_centiSec) {
+    if ((m_subPhase == CycleSubPhases::INSPIRATION)
+        && (p_subPhase == CycleSubPhases::HOLD_INSPIRATION)) {
+        m_plateauStartTime = p_centiSec;
+    }
     m_subPhase = p_subPhase;
-    m_vigilance = false;
 }
 
 int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPressure, int32_t dt) {

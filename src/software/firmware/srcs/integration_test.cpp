@@ -173,7 +173,7 @@ void loop() {
     }
     case STEP_BLOWER_TEST: {
         UNGREEDY(is_drawn, display("Test blower", "Continuer : Start"));
-        blower.runSpeed(150);
+        blower.runSpeed(1500);
         break;
     }
     case STEP_VALVE_BLOWER_TEST: {
@@ -219,7 +219,7 @@ void loop() {
         servoPatient.execute();
         servoBlower.close();
         servoBlower.execute();
-        blower.runSpeed(150);
+        blower.runSpeed(1500);
         break;
     }
     case STEP_VALVE_PATIENT_LEAK_TEST: {
@@ -228,7 +228,7 @@ void loop() {
         servoPatient.execute();
         servoBlower.open();
         servoBlower.execute();
-        blower.runSpeed(150);
+        blower.runSpeed(1500);
         break;
     }
     case STEP_PRESSURE_TEST: {
@@ -236,7 +236,7 @@ void loop() {
         servoPatient.execute();
         servoBlower.open();
         servoBlower.execute();
-        blower.runSpeed(179);
+        blower.runSpeed(1790);
         UNGREEDY(is_drawn, display("Test pression", "Continuer : Start"));
         if (millis() - last_time >= 200) {
             int pressure = readPressureSensor(0);

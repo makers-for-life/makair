@@ -199,12 +199,8 @@ class PressureController {
      */
     void updatePhase(uint16_t p_centiSec);
 
-    /**
-     * Update blower speed
-     *
-     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
-     */
-    void updateBlower(uint16_t p_centiSec);
+    /// Update blower speed
+    void updateBlower();
 
     /// Perform the pressure control and compute the transistors commands during the inhalation
     /// phase
@@ -216,10 +212,6 @@ class PressureController {
     /// Perform the pressure control and compute the transistors commands during the exhalation
     /// phase
     void exhale();
-
-    /// Perform the pressure control and compute the transistors commands during the hold exhalation
-    /// phase
-    void holdExhalation();
 
     /**
      * Compute various cycle durations given the desired number of cycles per minute
@@ -241,8 +233,13 @@ class PressureController {
     /// Give the computed commands to actuators
     void executeCommands();
 
-    /// Make a transition toward another subphase
-    void setSubPhase(CycleSubPhases p_subPhase);
+    /**
+     * Make a transition toward another subphase
+     *
+     * @param p_subPhase  Next cycle step
+     * @param p_centiSec  Duration from the begining of the cycle in hundredth of second
+     */
+    void setSubPhase(CycleSubPhases p_subPhase, uint16_t p_centiSec);
 
     /**
      * PID to controller the blower valve during some specific steps of the cycle
@@ -268,13 +265,6 @@ class PressureController {
  private:
     /// Number of cycles per minute desired by the operator
     uint16_t m_cyclesPerMinuteCommand;
-
-    /**
-     * Vigilance mode
-     *
-     * True when safety mode is ON, false in normal mode
-     */
-    bool m_vigilance;
 
     /// Maximal peak pressure desired by the operator
     uint16_t m_maxPeakPressureCommand;
@@ -390,6 +380,9 @@ class PressureController {
 
     /// Number of the current cycle's pressures
     uint16_t m_numberOfPressures;
+
+    /// Number of hundredth of second from the begining of the cycle till the plateau phase
+    uint16_t m_plateauStartTime;
 };
 
 // INITIALISATION =============================================================
