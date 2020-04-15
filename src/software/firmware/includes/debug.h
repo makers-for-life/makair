@@ -114,9 +114,9 @@
         Serial.print(";");                                                                         \
         Serial.print(centieme);                                                                    \
         Serial.print(";");                                                                         \
-        Serial.print(300u - (phase * 100u));                                                       \
+        Serial.print(300u - (static_cast<uint8_t>(phase) * 100u));                                 \
         Serial.print(";");                                                                         \
-        Serial.print(300u - (subPhase * 50u));                                                     \
+        Serial.print(300u - (static_cast<uint8_t>(subPhase) * 50u));                               \
         Serial.print(";");                                                                         \
         Serial.print(pression);                                                                    \
         Serial.print(";");                                                                         \
