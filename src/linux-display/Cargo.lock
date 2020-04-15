@@ -131,6 +131,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "12ae9db68ad7fac5fe51304d20f016c911539251075a214f8e663babefa35187"
 
 [[package]]
+name = "bytemuck"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "37fa13df2292ecb479ec23aa06f4507928bef07839be9ef15281411076629431"
+
+[[package]]
 name = "byteorder"
 version = "1.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -403,6 +409,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "deflate"
+version = "0.8.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e7e5d2a2273fed52a7f947ee55b092c4057025d7a3e04e5ecdbd25d6c3fb1bd7"
+dependencies = [
+ "adler32",
+ "byteorder",
+]
+
+[[package]]
 name = "dirs"
 version = "1.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -619,7 +635,7 @@ version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a0ffaf173cf76c73a73e080366bf556b4776ece104b06961766ff11449f38604"
 dependencies = [
- "khronos_api",
+ "khronos_api 3.1.0",
  "log",
  "xml-rs",
 ]
@@ -630,7 +646,7 @@ version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ca98bbde17256e02d17336a6bdb5a50f7d0ccacee502e191d3e3d0ec2f96f84a"
 dependencies = [
- "khronos_api",
+ "khronos_api 3.1.0",
  "log",
  "xml-rs",
 ]
@@ -641,7 +657,7 @@ version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1a95dfc23a2b4a9a2f5ab41d194f8bfda3cabec42af4e39f08c339eb2a0c124d"
 dependencies = [
- "khronos_api",
+ "khronos_api 3.1.0",
  "log",
  "xml-rs",
 ]
@@ -747,9 +763,27 @@ dependencies = [
  "num-iter",
  "num-rational",
  "num-traits",
- "png",
+ "png 0.15.3",
  "scoped_threadpool",
- "tiff",
+ "tiff 0.3.1",
+]
+
+[[package]]
+name = "image"
+version = "0.23.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bfc5483f8d5afd3653b38a196c52294dcb239c3e1a5bade1990353ea13bcf387"
+dependencies = [
+ "bytemuck",
+ "byteorder",
+ "gif",
+ "jpeg-decoder",
+ "num-iter",
+ "num-rational",
+ "num-traits",
+ "png 0.16.2",
+ "scoped_threadpool",
+ "tiff 0.4.0",
 ]
 
 [[package]]
@@ -791,6 +825,12 @@ checksum = "6a27d435371a2fa5b6d2b028a74bbdb1234f308da363226a2854ca3ff8ba7055"
 dependencies = [
  "wasm-bindgen",
 ]
+
+[[package]]
+name = "khronos_api"
+version = "2.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "037ab472c33f67b5fbd3e9163a2645319e5356fcd355efa6d4eb7fff4bbcb554"
 
 [[package]]
 name = "khronos_api"
@@ -842,7 +882,11 @@ dependencies = [
  "chrono",
  "conrod_piston",
  "log",
+ "piston",
+ "piston2d-graphics 0.36.0",
+ "piston2d-opengl_graphics",
  "piston_window",
+ "pistoncore-glutin_window",
  "plotters",
  "rand",
  "simple_logger",
@@ -924,6 +968,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4fc2c02a7e374099d4ee95a193111f72d2110197fe200272371758f6c3643d8"
 dependencies = [
  "autocfg",
+]
+
+[[package]]
+name = "miniz_oxide"
+version = "0.3.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aa679ff6578b1cddee93d7e82e263b94a575e0bfced07284eb0c037c1d2416a5"
+dependencies = [
+ "adler32",
 ]
 
 [[package]]
@@ -1162,7 +1215,7 @@ checksum = "1f4376637e9e31ae65f4888516a7366ea4df1fd9f96babdc76d28ef91a5725db"
 dependencies = [
  "gfx",
  "gfx_core",
- "image",
+ "image 0.22.5",
  "piston-texture 0.8.0",
 ]
 
@@ -1248,6 +1301,38 @@ dependencies = [
  "read_color",
  "rusttype 0.7.9",
  "vecmath 1.0.0",
+]
+
+[[package]]
+name = "piston2d-graphics"
+version = "0.36.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1b7c7c36f6df5e0473d3ca3dd56a27acd75372903fcad1c647594f8c91ce1ff3"
+dependencies = [
+ "fnv",
+ "interpolation",
+ "piston-texture 0.8.0",
+ "piston-viewport 1.0.0",
+ "read_color",
+ "rusttype 0.8.3",
+ "vecmath 1.0.0",
+]
+
+[[package]]
+name = "piston2d-opengl_graphics"
+version = "0.72.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a4f140a01b3fb2b28216288a52111de6ce46772964d0447463b55ede4da00607"
+dependencies = [
+ "fnv",
+ "gl",
+ "image 0.23.3",
+ "khronos_api 2.2.0",
+ "piston-shaders_graphics2d",
+ "piston-texture 0.8.0",
+ "piston-viewport 1.0.0",
+ "piston2d-graphics 0.36.0",
+ "shader_version",
 ]
 
 [[package]]
@@ -1354,7 +1439,19 @@ checksum = "ef859a23054bbfee7811284275ae522f0434a3c8e7f4b74bd4a35ae7e1c4a283"
 dependencies = [
  "bitflags",
  "crc32fast",
- "deflate",
+ "deflate 0.7.20",
+ "inflate",
+]
+
+[[package]]
+name = "png"
+version = "0.16.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "910f09135b1ed14bb16be445a8c23ddf0777eca485fbfc7cee00d81fecab158a"
+dependencies = [
+ "bitflags",
+ "crc32fast",
+ "deflate 0.8.4",
  "inflate",
 ]
 
@@ -1764,6 +1861,17 @@ dependencies = [
  "lzw",
  "num-derive",
  "num-traits",
+]
+
+[[package]]
+name = "tiff"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "002351e428db1eb1d8656d4ca61947c3519ac3191e1c804d4600cd32093b77ad"
+dependencies = [
+ "byteorder",
+ "lzw",
+ "miniz_oxide",
 ]
 
 [[package]]
