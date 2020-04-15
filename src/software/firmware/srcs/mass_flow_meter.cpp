@@ -21,7 +21,9 @@
 #include <Wire.h>
 
 // Internal
+#include "../includes/buzzer_control.h"
 #include "../includes/parameters.h"
+#include "../includes/screen.h"
 
 // Linked to Hardware v2
 #ifdef MASS_FLOW_METER
@@ -44,7 +46,6 @@ bool mfmFaultCondition = false;
 #define MFM_WAIT_RESET_PERIODS 5
 int32_t mfmResetStateMachine = MFM_WAIT_RESET_PERIODS;
 
-
 union {
     unsigned short i;
     unsigned char c[2];
@@ -56,10 +57,11 @@ void MFM_Timer_Callback(HardwareTimer*) {
     int32_t newSum;
 
     if (!mfmFaultCondition) {
-        #if MODE == MODE_MFM_TESTS
+#if MODE == MODE_MFM_TESTS
         digitalWrite(PIN_LED_START, true);
-        #endif
+#endif
 
+#if MASS_FLOW_METER_SENSOR == MFM_SFM_3300D
         Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
         Wire.requestFrom(MFM_SENSOR_I2C_ADDRESS, 2);
         mfmLastData.c[1] = Wire.read();
@@ -69,10 +71,11 @@ void MFM_Timer_Callback(HardwareTimer*) {
             mfmResetStateMachine = 5;
         }
         mfmAirVolumeSum += (int32_t)mfmLastData.i - 0x8000;
+#endif
 
-        #if MODE == MODE_MFM_TESTS
+#if MODE == MODE_MFM_TESTS
         digitalWrite(PIN_LED_START, false);
-        #endif
+#endif
     } else {
 
         if (mfmResetStateMachine == MFM_WAIT_RESET_PERIODS) {
@@ -83,12 +86,14 @@ void MFM_Timer_Callback(HardwareTimer*) {
         mfmResetStateMachine--;
 
         if (mfmResetStateMachine == 0) {
-            // MFM_WAIT_RESET_PERIODS cycles later, try again
+// MFM_WAIT_RESET_PERIODS cycles later, try again to init the sensor
+#if MASS_FLOW_METER_SENSOR == MFM_SFM_3300D
             Wire.begin(true);
             Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
             Wire.write(0x10);
             Wire.write(0x00);
             mfmFaultCondition = (Wire.endTransmission() != 0);
+#endif
             if (mfmFaultCondition) {
                 mfmResetStateMachine = MFM_WAIT_RESET_PERIODS;
             }
@@ -123,6 +128,8 @@ boolean MFM_init(void) {
     Wire.setSDA(PIN_I2C_SDA);
     Wire.setSCL(PIN_I2C_SCL);
 
+    // init the sensor, test communication
+#if MASS_FLOW_METER_SENSOR == MFM_SFM_3300D
     Wire.begin();  // join i2c bus (address optional for master)
     Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
 
@@ -133,9 +140,11 @@ boolean MFM_init(void) {
 
     mfmFaultCondition = (Wire.endTransmission() != 0);
 
+#endif
+
     massFlowTimer->resume();
 
-    return mfmFaultCondition;
+    return !mfmFaultCondition;
 }
 
 /*
@@ -154,12 +163,13 @@ int32_t MFM_read_liters(boolean reset_after_read) {
 
     int32_t result;
 
+#if MASS_FLOW_METER_SENSOR == MFM_SFM_3300D
     // this should be an atomic operation (32 bits aligned data)
     result = mfmFaultCondition ? 999999 : mfmAirVolumeSum / (60 * 120);
 
     // Correction factor is 120. Divide by 60 to convert ml.min-1 to ml.ms-1, hence the 7200 =
     // 120 * 60
-    // TODO : Adapt calculation formula based on the timer period
+#endif
 
     if (reset_after_read) {
         MFM_reset();
@@ -168,26 +178,56 @@ int32_t MFM_read_liters(boolean reset_after_read) {
     return result;
 }
 
-
 #if MODE == MODE_MFM_TESTS
 
 void setup(void) {
-    
+
     Serial.begin(115200);
     Serial.println("init mass flow meter");
-    MFM_init();
+    boolean ok = MFM_init();
 
     pinMode(PIN_SERIAL_TX, OUTPUT);
     pinMode(PIN_LED_START, OUTPUT);
+
+    startScreen();
+    resetScreen();
+    screen.setCursor(0, 0);
+    screen.print("debug prog");
+    screen.setCursor(0, 1);
+    screen.print("mass flow sensor");
+    screen.setCursor(0, 2);
+    screen.print(ok ? "sensor OK" : "sensor not OK");
 
     Serial.println("init done");
 }
 
 void loop(void) {
 
-    delay(10000);
+    delay(1000);
+
+    char buffer[30];
+
+    int32_t volume = MFM_read_liters(true);
+
+    resetScreen();
+    screen.setCursor(0, 0);
+    screen.print("debug prog");
+    screen.setCursor(0, 1);
+    screen.print("mass flow sensor");
+    screen.setCursor(0, 2);
+
+    if (volume == MASS_FLOw_ERROR_VALUE) {
+        screen.print("sensor not OK");
+    } else {
+        screen.print("sensor OK");
+        screen.setCursor(0, 3);
+        sprintf(buffer, "volume=%dmL", volume);
+        screen.print(buffer);
+    }
+
     Serial.print("volume = ");
-    Serial.println(MFM_read_liters(true));
+    Serial.print(volume);
+    Serial.println("mL");
 }
 #endif
 
