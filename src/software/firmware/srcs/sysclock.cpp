@@ -7,12 +7,13 @@
 
 #pragma once
 
-#include <Arduino.h>
+#include "Arduino.h"
 
 /**
  * @brief  System Clock Configuration
  * @note   SYSCLK = 100000000 Hz for STM32F411xE, SYSCLK = 84000000 Hz for STM32F401xE
  */
+// cppcheck-suppress unusedFunction
 extern "C" void SystemClock_Config(void) {
     RCC_OscInitTypeDef RCC_OscInitStruct = {};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {};

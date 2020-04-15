@@ -12,7 +12,7 @@
 #include "../includes/pressure_utl.h"
 
 // External
-#include <Arduino.h>
+#include "Arduino.h"
 
 // Internal
 #include "../includes/parameters.h"

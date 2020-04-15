@@ -16,7 +16,7 @@
 #if HARDWARE_VERSION == 1
 #include <AnalogButtons.h>
 #endif
-#include <Arduino.h>
+#include "Arduino.h"
 #include <IWatchdog.h>
 #include <LiquidCrystal.h>
 
@@ -177,6 +177,7 @@ int32_t lastMicro = 0;
 // (because this kind of screen is not reliable, we need to reset it every 5 min or so)
 int8_t cyclesBeforeScreenReset = LCD_RESET_PERIOD * (int8_t)CONST_MIN_CYCLE;
 
+// cppcheck-suppress unusedFunction
 void loop(void) {
     /********************************************/
     // INITIALIZE THE RESPIRATORY CYCLE
