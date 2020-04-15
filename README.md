@@ -17,7 +17,7 @@ If you're new there, please read the explanations below. _Your contributions are
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=6LeZjULZnUc">
-    <img alt="Play Introduction Video" src="http://i3.ytimg.com/vi/6LeZjULZnUc/maxresdefault.jpg" height="320">
+    <img alt="Play Introduction Video" src="./res/assets/play-introduction.jpg" height="320">
   </a>
 </p>
 
