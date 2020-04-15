@@ -9,8 +9,11 @@ extern crate log;
 extern crate clap;
 #[macro_use]
 extern crate lazy_static;
+extern crate piston_window;
 
 mod config;
+mod display;
+mod serial;
 
 use std::ops::Deref;
 use std::str::FromStr;
@@ -19,6 +22,7 @@ use clap::{App, Arg};
 use log::LevelFilter;
 
 use config::logger::ConfigLogger;
+use display::window::DisplayWindowBuilder;
 
 struct AppArgs {
     log: String,
@@ -63,7 +67,7 @@ fn main() {
     // Ensure all states are bound
     ensure_states();
 
-    // TODO
+    DisplayWindowBuilder::new().spawn();
 
     info!("started");
 

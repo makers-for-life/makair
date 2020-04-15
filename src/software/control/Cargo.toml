@@ -20,6 +20,7 @@ doc = false
 log = "0.4"
 clap = { version = "2.33", default-features = false }
 lazy_static = "1.4"
+piston_window = "0.98"
 
 [profile.dev]
 opt-level = 0
