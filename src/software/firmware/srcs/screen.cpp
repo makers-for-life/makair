@@ -178,7 +178,7 @@ uint16_t convertAndRound(uint16_t pressure) {
     uint16_t result;
     uint16_t lastDigit = pressure % 10u;
 
-    if (lastDigit <= 5u) {
+    if (lastDigit < 5u) {
         result = (pressure / 10u);
     } else {
         result = (pressure / 10u) + 1u;
