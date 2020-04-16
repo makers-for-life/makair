@@ -36,10 +36,11 @@
 #define STEP_VALVE_PATIENT_LEAK_TEST 5
 #define STEP_O2_TEST 6
 #define STEP_PRESSURE_TEST 7
-#define STEP_BATTERY_TEST 8
-#define STEP_BUZZER_TEST 9
+#define STEP_PRESSURE_OFFSET_TEST 8
+#define STEP_BATTERY_TEST 9
+#define STEP_BUZZER_TEST 10
 
-#define NUMBER_OF_STATES 9
+#define NUMBER_OF_STATES 11
 
 #define UNGREEDY(is_drawn, statement)                                                              \
     if (is_drawn == 0) {                                                                           \
@@ -252,6 +253,23 @@ void loop() {
         UNGREEDY(is_drawn, display("Test pression", "Continuer : Start"));
         if (millis() - last_time >= 200) {
             int pressure = readPressureSensor(0, 0);
+            char msg[SCREEN_LINE_LENGTH + 1];
+            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %3d mmH2O", pressure);
+            displayLine(msg, 3);
+            last_time = millis();
+        }
+        break;
+    }
+
+    case STEP_PRESSURE_OFFSET_TEST: {
+        servoPatient.close();
+        servoPatient.execute();
+        servoBlower.open();
+        servoBlower.execute();
+        blower.stop();
+        UNGREEDY(is_drawn, display("Test offset pression", "Continuer : Start"));
+        if (millis() - last_time >= 200) {
+            int pressure = readPressureSensor(0);
             char msg[SCREEN_LINE_LENGTH + 1];
             snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %3d mmH2O", pressure);
             displayLine(msg, 3);
