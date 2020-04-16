@@ -44,8 +44,6 @@ impl App {
 
         use graphics::*;
 
-        // clear(&BLACK, gl);
-
         const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
 
@@ -85,6 +83,7 @@ impl App {
 
         self.gl.draw(args.viewport(), |c, gl| {
             // Clear the screen.
+            clear([0.0, 0.0, 0.0, 0.0], gl);
 
             let transform = c
                 .transform
