@@ -251,7 +251,7 @@ void loop() {
         blower.runSpeed(1790);
         UNGREEDY(is_drawn, display("Test pression", "Continuer : Start"));
         if (millis() - last_time >= 200) {
-            int pressure = readPressureSensor(0);
+            int pressure = readPressureSensor(0, 0);
             char msg[SCREEN_LINE_LENGTH + 1];
             snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %3d mmH2O", pressure);
             displayLine(msg, 3);

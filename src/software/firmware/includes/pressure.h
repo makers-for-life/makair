@@ -14,6 +14,7 @@
  *
  * @param centiSec Duration in hundredth of second from the beginning of the current cycle (only
  * used when in simulation mode)
+ * @param pressureOffset Pressure offset in mmH2O to apply to the measure
  * @return         The current pressure in mmH20
  */
-int16_t readPressureSensor(uint16_t centiSec);
+int16_t readPressureSensor(uint16_t centiSec, int16_t pressureOffset);
