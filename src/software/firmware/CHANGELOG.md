@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.1
+
+- calibrate pressure sensor's offset on startup
+- better round displayed pressure values (in cmH2O)
+- minor improvement to the pressure control
+
 ## v1.5.0
 
 - rework pressure and blower control
