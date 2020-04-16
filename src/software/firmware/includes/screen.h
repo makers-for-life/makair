@@ -78,3 +78,11 @@ void displayMachineStopped(void);
 
 /// Force clear the alarm display cache
 void clearAlarmDisplayCache();
+
+/**
+ * Convert and round a pressure value
+ *
+ * @param pressure Pressure in mmH2O
+ * @return Rounded pressure in cmH2O
+ */
+uint16_t convertAndRound(uint16_t pressure);

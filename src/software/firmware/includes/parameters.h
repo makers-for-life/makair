@@ -46,6 +46,8 @@
 
 #define DEFAULT_PEAK_PRESSURE_DELTA 10u
 
+#define MAX_PRESSURE_OFFSET 40
+
 ///@}
 
 /**

@@ -43,6 +43,10 @@ HardwareTimer* hardwareTimer3;
 Blower* blower_pointer;
 Blower blower;
 
+int16_t pressureOffset;
+int32_t pressureOffsetSum;
+uint32_t pressureOffsetCount;
+
 /**
  * Block execution for a given duration
  *
@@ -51,6 +55,11 @@ Blower blower;
 void waitForInMs(uint16_t ms) {
     uint16_t start = millis();
     while ((millis() - start) < ms) {
+        // Measure 1 pressure per ms we wait
+        if ((millis() - start) > pressureOffsetCount) {
+            pressureOffsetSum += readPressureSensor(0, 0);
+            pressureOffsetCount++;
+        }
         continue;
     }
 }
@@ -147,8 +156,50 @@ void setup(void) {
     digitalWrite(PIN_LED_GREEN, LED_GREEN_INACTIVE);
     digitalWrite(PIN_LED_RED, LED_RED_INACTIVE);
     digitalWrite(PIN_LED_YELLOW, LED_YELLOW_INACTIVE);
+    waitForInMs(3000);
 
-    waitForInMs(4000);
+    screen.setCursor(0, 0);
+    screen.print("Calibrating P offset");
+    screen.setCursor(0, 2);
+    screen.print("Patient must be");
+    screen.setCursor(0, 3);
+    screen.print("unplugged");
+    waitForInMs(3000);
+    resetScreen();
+    pressureOffset = pressureOffsetSum / static_cast<int32_t>(pressureOffsetCount);
+    DBG_DO({
+        Serial.print("pressure offset = ");
+        Serial.print(pressureOffsetSum);
+        Serial.print(" / ");
+        Serial.print(pressureOffsetCount);
+        Serial.print(" = ");
+        Serial.print(pressureOffset);
+        Serial.println();
+    })
+    if (pressureOffset >= MAX_PRESSURE_OFFSET) {
+        resetScreen();
+        screen.setCursor(0, 0);
+        char line1[SCREEN_LINE_LENGTH + 1];
+        (void)snprintf(line1, SCREEN_LINE_LENGTH + 1, "P offset: %3d mmH2O", pressureOffset);
+        screen.print(line1);
+        screen.setCursor(0, 1);
+        char line2[SCREEN_LINE_LENGTH + 1];
+        (void)snprintf(line2, SCREEN_LINE_LENGTH + 1, "P offset is > %-3d", MAX_PRESSURE_OFFSET);
+        screen.print(line2);
+        screen.setCursor(0, 2);
+        screen.print("Unplug patient and");
+        screen.setCursor(0, 3);
+        screen.print("reboot");
+        Buzzer_High_Prio_Start();
+        while (true) {
+        }
+    }
+
+    screen.setCursor(0, 3);
+    char message[SCREEN_LINE_LENGTH + 1];
+    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "P offset: %3d mmH2O", pressureOffset);
+    screen.print(message);
+    waitForInMs(1000);
 
     lastpControllerComputeDate = millis();
 
@@ -195,7 +246,7 @@ void loop(void) {
     uint16_t centiSec = 0;
 
     while (centiSec < pController.centiSecPerCycle()) {
-        uint32_t pressure = readPressureSensor(centiSec);
+        uint32_t pressure = readPressureSensor(centiSec, pressureOffset);
 
         uint32_t currentDate = millis();
 

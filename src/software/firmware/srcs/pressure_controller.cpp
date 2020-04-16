@@ -84,11 +84,13 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_maxPlateauPressure(p_maxPlateauPressure),
       m_minPeep(p_minPeepCommand),
       m_pressure(CONST_INITIAL_ZERO_PRESSURE),
+      // cppcheck-suppress misra-c2012-12.3
       m_peakPressure(CONST_INITIAL_ZERO_PRESSURE),
       m_plateauPressure(CONST_INITIAL_ZERO_PRESSURE),
       m_peep(CONST_INITIAL_ZERO_PRESSURE),
       m_phase(CyclePhases::INHALATION),
       m_subPhase(CycleSubPhases::INSPIRATION),
+      // cppcheck-suppress misra-c2012-12.3
       m_blower_valve(p_blower_valve),
       m_patient_valve(p_patient_valve),
       m_blower(p_blower),

@@ -13,6 +13,7 @@
 
 // External
 #include "Arduino.h"
+#include <algorithm>
 
 // Internal
 #include "../includes/parameters.h"
@@ -24,7 +25,8 @@
 #if SIMULATION == 1
 
 // Dummy function to read pressure during simulation
-int16_t readPressureSensor(uint16_t centiSec) {
+int16_t readPressureSensor(uint16_t centiSec, int16_t pressureOffset) {
+    (void)pressureOffset;
     if (centiSec < uint16_t(10)) {
         return 350;
     } else if (centiSec < uint16_t(15)) {
@@ -47,9 +49,10 @@ int16_t readPressureSensor(uint16_t centiSec) {
 }
 #else
 
-int16_t readPressureSensor(uint16_t centiSec) {
+int16_t readPressureSensor(uint16_t centiSec, int16_t pressureOffset) {
     (void)centiSec;
-    return convertSensor2Pressure(analogRead(PIN_PRESSURE_SENSOR));
+    int16_t withOffset = convertSensor2Pressure(analogRead(PIN_PRESSURE_SENSOR)) - pressureOffset;
+    return max(int16_t(0), withOffset);
 }
 
 #endif

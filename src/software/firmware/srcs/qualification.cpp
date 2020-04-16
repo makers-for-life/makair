@@ -271,7 +271,7 @@ void onStartClick() {
     } else if (step == STEP_BTN_START) {
         changeStep(step + 1);
     } else if (step == STEP_PRESSURE_EMPTY) {
-        int pressure = readPressureSensor(0);
+        int pressure = readPressureSensor(0, 0);
         if (pressure <= PRESSURE_EMPTY_MARGIN) {
             changeStep(step + 1);
         } else {
@@ -280,7 +280,7 @@ void onStartClick() {
             displayStatus(error_msg);
         }
     } else if (step == STEP_PRESSURE_VAL2) {
-        int pressure = readPressureSensor(0);
+        int pressure = readPressureSensor(0, 0);
         if (isPressureValueGoodEnough(PRESSURE_VAL2, pressure)) {
             changeStep(step + 1);
         } else {
@@ -303,7 +303,7 @@ void onStopClick() {
     } else if (step == STEP_SERIAL) {
         changeStep(step + 1);
     } else if (step == STEP_PRESSURE_VAL1) {
-        int pressure = readPressureSensor(0);
+        int pressure = readPressureSensor(0, 0);
         if (isPressureValueGoodEnough(PRESSURE_VAL1, pressure)) {
             changeStep(step + 1);
         } else {
@@ -312,7 +312,7 @@ void onStopClick() {
             displayStatus(error_msg);
         }
     } else if (step == STEP_PRESSURE_VAL3) {
-        int pressure = readPressureSensor(0);
+        int pressure = readPressureSensor(0, 0);
         if (isPressureValueGoodEnough(PRESSURE_VAL3, pressure)) {
             changeStep(step + 1);
         } else {
@@ -681,7 +681,7 @@ void loop() {
     if (step == STEP_PRESSURE_EMPTY || step == STEP_PRESSURE_VAL1 || step == STEP_PRESSURE_VAL2
         || step == STEP_PRESSURE_VAL3) {
         char status_msg[SCREEN_LINE_LENGTH + 1];
-        snprintf(status_msg, SCREEN_LINE_LENGTH + 1, "Pressure: %d", readPressureSensor(0));
+        snprintf(status_msg, SCREEN_LINE_LENGTH + 1, "Pressure: %d", readPressureSensor(0, 0));
         displayStatus(status_msg, 2);
     }
 
