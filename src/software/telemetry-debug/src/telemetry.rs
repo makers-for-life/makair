@@ -38,3 +38,17 @@ pub struct DataSnapshot {
     pub blower_rpm: u8,
     pub battery_level: u8,
 }
+
+#[derive(Debug, Clone)]
+pub struct MachineStateSnapshot {
+    pub version: String,
+    pub device_id: String,
+    pub cycle: u32,
+    pub peak_command: u8,
+    pub plateau_command: u8,
+    pub peep_command: u8,
+    pub cpm_command: u8,
+    pub previous_peak_pressure: u8,
+    pub previous_plateau_pressure: u8,
+    pub previous_peep_pressure: u8,
+}

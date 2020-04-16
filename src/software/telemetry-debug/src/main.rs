@@ -39,16 +39,8 @@ fn read_telemetry(mut port: impl serial::SerialPort) {
         let mut header_buffer = [0; 3];
         match port.read_exact(&mut header_buffer) {
             Ok(_) => match parse_header(&header_buffer) {
-                Ok((
-                    _,
-                    h
-                    @
-                    Header {
-                        version: 1,
-                        message_type: MessageType::DataSnapshot,
-                    },
-                )) => {
-                    println!("{:?}", h);
+                Ok((header_rest, h)) => {
+                    println!("{:?}", &h);
                     let mut buffer = Vec::new();
                     for byte in port.borrow_mut().bytes() {
                         match byte {
@@ -59,24 +51,47 @@ fn read_telemetry(mut port: impl serial::SerialPort) {
                         }
                     }
                     println!("Buffer: {:?}", &buffer);
-                    match parse_data_snapshot(buffer.as_ref()) {
-                        Ok((_, message)) => {
-                            println!("{:?}", &message);
+                    match h {
+                        Header {
+                            version: 1,
+                            message_type: MessageType::DataSnapshot,
+                        } => {
+                            match parse_data_snapshot(buffer.as_ref()) {
+                                Ok((rest, message)) => {
+                                    println!("{:?}", &message);
+                                    println!("{:?}", &rest);
+                                }
+                                Err(e) => {
+                                    eprintln!("Parsing error: {:?}", &e);
+                                    return;
+                                }
+                            };
                         }
-                        Err(e) => {
-                            eprintln!("Parsing error: {:?}", e);
+                        Header {
+                            version: 1,
+                            message_type: MessageType::MachineStateSnapshot,
+                        } => {
+                            match parse_machine_state_snapshot(buffer.as_ref()) {
+                                Ok((rest, message)) => {
+                                    println!("{:?}", &message);
+                                    println!("{:?}", &rest);
+                                }
+                                Err(e) => {
+                                    eprintln!("Parsing error: {:?}", &e);
+                                    return;
+                                }
+                            };
+                        }
+                        _ => {
+                            eprintln!("Unsupported version or message type");
+                            eprintln!("{:?}", &header_buffer);
+                            eprintln!("{:?}", &header_rest);
                             return;
                         }
                     };
                 }
-                Ok(e) => {
-                    eprintln!("Unsupported version or message type");
-                    eprintln!("{:?}", header_buffer);
-                    eprintln!("{:?}", e);
-                    return;
-                }
                 Err(e) => {
-                    eprintln!("Parsing error: {:?}", e);
+                    eprintln!("Parsing error: {:?}", &e);
                     return;
                 }
             },
@@ -84,7 +99,7 @@ fn read_telemetry(mut port: impl serial::SerialPort) {
                 if e.kind() == std::io::ErrorKind::TimedOut {
                     // Do nothing
                 } else {
-                    eprintln!("{:?}", e);
+                    eprintln!("{:?}", &e);
                     return;
                 }
             }

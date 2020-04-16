@@ -1,4 +1,4 @@
-use nom::number::complete::{be_u16, be_u32, be_u64, be_u8};
+use nom::number::streaming::{be_u16, be_u32, be_u64, be_u8};
 
 use crate::telemetry::*;
 
@@ -71,5 +71,42 @@ named!(pub parse_data_snapshot<DataSnapshot>, do_parse!(
             patient_valve_position,
             blower_rpm,
             battery_level,
+        })
+));
+
+named!(pub parse_machine_state_snapshot<MachineStateSnapshot>, do_parse!(
+    version_len: be_u8
+        >> version: map_res!(take!(version_len), |bytes| std::str::from_utf8(bytes))
+        >> device_id1: be_u32
+        >> device_id2: be_u32
+        >> device_id3: be_u32
+        >> sep
+        >> cycle: be_u32
+        >> sep
+        >> peak_command: be_u8
+        >> sep
+        >> plateau_command: be_u8
+        >> sep
+        >> peep_command: be_u8
+        >> sep
+        >> cpm_command: be_u8
+        >> sep
+        >> previous_peak_pressure: be_u8
+        >> sep
+        >> previous_plateau_pressure: be_u8
+        >> sep
+        >> previous_peep_pressure: be_u8
+        >> end
+        >> (MachineStateSnapshot {
+            version: version.to_string(),
+            device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+            cycle,
+            peak_command,
+            plateau_command,
+            peep_command,
+            cpm_command,
+            previous_peak_pressure,
+            previous_plateau_pressure,
+            previous_peep_pressure,
         })
 ));

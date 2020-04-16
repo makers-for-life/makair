@@ -10,3 +10,4 @@
 void initTelemetry(void);
 
 void sendDataSnapshot();
+void sendMachineStateSnapshot();

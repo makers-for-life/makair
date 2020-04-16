@@ -128,4 +128,71 @@ void sendDataSnapshot() {
 #endif
 }
 
+void sendMachineStateSnapshot() {
+#if HARDWARE_VERSION == 2
+    uint32_t cycleValue = 42;
+    uint8_t peakCommand = 0;
+    uint8_t plateauCommand = 1;
+    uint8_t peepCommand = 2;
+    uint8_t cpmCommand = 3;
+    uint8_t previousPeakPressure = 4;
+    uint8_t previousPlateauPressure = 5;
+    uint8_t previousPeepPressure = 6;
+
+    /////////////////////////////////////////////
+
+    Serial6.write("S:");
+    Serial6.write((uint8_t)1);
+
+    Serial6.write(static_cast<uint8_t>(strlen(VERSION)));
+    Serial6.print(VERSION);
+
+    byte deviceId1[4];  // 32 bits
+    deviceId1[0] = (LL_GetUID_Word0() >> 24) & FIRST_BYTE;
+    deviceId1[1] = (LL_GetUID_Word0() >> 16) & FIRST_BYTE;
+    deviceId1[2] = (LL_GetUID_Word0() >> 8) & FIRST_BYTE;
+    deviceId1[3] = LL_GetUID_Word0() & FIRST_BYTE;
+    Serial6.write(deviceId1, 4);
+
+    byte deviceId2[4];  // 32 bits
+    deviceId2[0] = (LL_GetUID_Word1() >> 24) & FIRST_BYTE;
+    deviceId2[1] = (LL_GetUID_Word1() >> 16) & FIRST_BYTE;
+    deviceId2[2] = (LL_GetUID_Word1() >> 8) & FIRST_BYTE;
+    deviceId2[3] = LL_GetUID_Word1() & FIRST_BYTE;
+    Serial6.write(deviceId2, 4);
+
+    byte deviceId3[4];  // 32 bits
+    deviceId3[0] = (LL_GetUID_Word2() >> 24) & FIRST_BYTE;
+    deviceId3[1] = (LL_GetUID_Word2() >> 16) & FIRST_BYTE;
+    deviceId3[2] = (LL_GetUID_Word2() >> 8) & FIRST_BYTE;
+    deviceId3[3] = LL_GetUID_Word2() & FIRST_BYTE;
+    Serial6.write(deviceId3, 4);
+
+    Serial6.print("\t");
+
+    byte cycle[4];  // 32 bits
+    cycle[0] = (cycleValue >> 24) & FIRST_BYTE;
+    cycle[1] = (cycleValue >> 16) & FIRST_BYTE;
+    cycle[2] = (cycleValue >> 8) & FIRST_BYTE;
+    cycle[3] = cycleValue & FIRST_BYTE;
+    Serial6.write(cycle, 4);
+
+    Serial6.print("\t");
+    Serial6.write(peakCommand);
+    Serial6.print("\t");
+    Serial6.write(plateauCommand);
+    Serial6.print("\t");
+    Serial6.write(peepCommand);
+    Serial6.print("\t");
+    Serial6.write(cpmCommand);
+    Serial6.print("\t");
+    Serial6.write(previousPeakPressure);
+    Serial6.print("\t");
+    Serial6.write(previousPlateauPressure);
+    Serial6.print("\t");
+    Serial6.write(previousPeepPressure);
+    Serial6.print("\n");
+#endif
+}
+
 #endif

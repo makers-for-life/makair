@@ -79,7 +79,8 @@ void setup(void) {
     DBG_DO(Serial.println("Booting the system...");)
 
     initTelemetry();
-    sendDataSnapshot();
+    //sendDataSnapshot();
+    sendMachineStateSnapshot();
     while (true) {
     }
 
