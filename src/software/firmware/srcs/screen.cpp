@@ -54,8 +54,8 @@ void displayCurrentPressure(uint16_t pressure, uint16_t cyclesPerMinute) {
 
     char message[SCREEN_LINE_LENGTH + 1];
 
-    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "Pressure:%2u    %2ucpm", pressure / 10u,
-                   cyclesPerMinute);
+    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "Pressure:%2u    %2ucpm",
+                   convertAndRound(pressure), cyclesPerMinute);
 
     screen.print(message);
 }
@@ -68,7 +68,8 @@ void displayCurrentSettings(uint16_t peakPressureMax,
     char message[SCREEN_LINE_LENGTH + 1];
 
     (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "%2u    %2u    %2u  set ",
-                   peakPressureMax / 10u, plateauPressureMax / 10u, peepMin / 10u);
+                   convertAndRound(peakPressureMax), convertAndRound(plateauPressureMax),
+                   convertAndRound(peepMin));
 
     screen.print(message);
 }
@@ -81,10 +82,11 @@ void displayCurrentInformation(uint16_t peakPressure, uint16_t plateauPressure, 
     // If plateau was not detected
     if (plateauPressure == UINT16_MAX) {
         (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "%2u     ?    %2u  meas",
-                       peakPressure / 10u, peep / 10u);
+                       convertAndRound(peakPressure), convertAndRound(peep));
     } else {
         (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "%2u    %2u    %2u  meas",
-                       peakPressure / 10u, plateauPressure / 10u, peep / 10u);
+                       convertAndRound(peakPressure), convertAndRound(plateauPressure),
+                       convertAndRound(peep));
     }
 
     screen.print(message);
@@ -170,4 +172,17 @@ void displayAlarmInformation(uint8_t p_alarmCodes[], uint8_t p_nbTriggeredAlarms
 void displayMachineStopped(void) {
     screen.setCursor(0, 3);
     screen.print("Press start to begin");
+}
+
+uint16_t convertAndRound(uint16_t pressure) {
+    uint16_t result;
+    uint16_t lastDigit = pressure % 10u;
+
+    if (lastDigit <= 5u) {
+        result = (pressure / 10u);
+    } else {
+        result = (pressure / 10u) + 1u;
+    }
+
+    return result;
 }
