@@ -40,12 +40,12 @@
 #define STEP_BATTERY_TEST 9
 #define STEP_BUZZER_TEST 10
 
-#define NUMBER_OF_STATES 11
+#define NUMBER_OF_STATES 11u
 
 #define UNGREEDY(is_drawn, statement)                                                              \
-    if (is_drawn == 0) {                                                                           \
+    if (is_drawn == 0u) {                                                                          \
         statement;                                                                                 \
-        is_drawn = 1;                                                                              \
+        is_drawn = 1u;                                                                             \
     }
 
 static uint8_t step = STEP_WELCOME;
@@ -104,8 +104,8 @@ void displayLine(char msg[], uint8_t line) {
 
 void onStartClick() {
     DBG_DO(Serial.print("Go to step: "));
-    DBG_DO(Serial.println((step + 1) % NUMBER_OF_STATES));
-    changeStep((step + 1) % NUMBER_OF_STATES);
+    DBG_DO(Serial.println((step + 1u) % NUMBER_OF_STATES));
+    changeStep((step + 1u) % NUMBER_OF_STATES);
     last_time = millis();
     Buzzer_Stop();
 }
@@ -227,7 +227,8 @@ void loop() {
     btn_start.tick();
 
     switch (step) {
-    case STEP_WELCOME: {
+    case STEP_WELCOME:
+    default: {
         UNGREEDY(is_drawn, {
             display("MakAir test", "Press start button");
             displayLine(VERSION, 3);
@@ -250,12 +251,12 @@ void loop() {
             blower.stop();
         });
 
-        if (millis() - last_time < 5000) {
+        if ((millis() - last_time) < 5000) {
             servoBlower.open();
             servoBlower.execute();
             displayLine("Etat : Ouvert", 3);
 
-        } else if (millis() - last_time < 10000) {
+        } else if ((millis() - last_time) < 10000) {
             servoBlower.close();
             servoBlower.execute();
             displayLine("Etat : Ferme", 3);
@@ -267,12 +268,12 @@ void loop() {
     }
     case STEP_VALVE_PATIENT_TEST: {
         UNGREEDY(is_drawn, display("Test Valve expi", "Continuer : Start"));
-        if (millis() - last_time < 5000) {
+        if ((millis() - last_time) < 5000) {
             servoPatient.open();
             servoPatient.execute();
             displayLine("Etat : Ouvert", 3);
 
-        } else if (millis() - last_time < 10000) {
+        } else if ((millis() - last_time) < 10000) {
             servoPatient.close();
             servoPatient.execute();
             displayLine("Etat : Ferme", 3);
@@ -317,10 +318,10 @@ void loop() {
         servoBlower.execute();
         blower.runSpeed(1790);
         UNGREEDY(is_drawn, display("Test pression", "Continuer : Start"));
-        if (millis() - last_time >= 200) {
+        if ((millis() - last_time) >= 200) {
             int pressure = readPressureSensor(0, pressureOffset);
             char msg[SCREEN_LINE_LENGTH + 1];
-            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %3d mmH2O", pressure);
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %3d mmH2O", pressure);
             displayLine(msg, 3);
             last_time = millis();
         }
@@ -334,10 +335,10 @@ void loop() {
         servoBlower.execute();
         blower.stop();
         UNGREEDY(is_drawn, display("Test offset pression", "Continuer : Start"));
-        if (millis() - last_time >= 200) {
+        if ((millis() - last_time) >= 200) {
             int pressure = readPressureSensor(0, pressureOffset);
             char msg[SCREEN_LINE_LENGTH + 1];
-            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %3d mmH2O", pressure);
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %3d mmH2O", pressure);
             displayLine(msg, 3);
             last_time = millis();
         }
@@ -350,9 +351,9 @@ void loop() {
             blower.stop();
         });
         updateBatterySample();
-        if (millis() - last_time >= 200) {
+        if ((millis() - last_time) >= 200) {
             char msg[SCREEN_LINE_LENGTH + 1];
-            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie : %3u V", getBatteryLevel());
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie : %3u V", getBatteryLevel());
             displayLine(msg, 3);
             last_time = millis();
         }
