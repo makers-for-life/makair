@@ -89,7 +89,7 @@ static const int32_t PID_PATIENT_INTEGRAL_MIN = -500;
 
 /// Increase target pressure by an offset (in mmH2O) for safety, to avoid going below the target
 /// pressure
-static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
+static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 8;
 #endif
 
 ///@}
