@@ -11,9 +11,10 @@
 #define MODE_PROD 1              ///< Ventilator mode
 #define MODE_QUALIFICATION 2     ///< Test electrical wiring mode
 #define MODE_INTEGRATION_TEST 3  ///< Test integration mode
+#define MODE_VALVE_TEST 10       ///< Cycle tests for valves
 
 /// Defines the current mode
-#define MODE MODE_PROD
+#define MODE MODE_VALVE_TEST
 
 /**
  * Activates debug traces
@@ -40,9 +41,10 @@
 // Available valves
 #define VT_SERVO_V1 0
 #define VT_EMERSON_ASCO 1
+#define VT_FAULHABER 2
 
 // Defines which valves are fitted
-#define VALVE_TYPE VT_SERVO_V1
+#define VALVE_TYPE VT_FAULHABER
 
 /**
  * Defines which hardware preset to use
