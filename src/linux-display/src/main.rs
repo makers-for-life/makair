@@ -40,7 +40,11 @@ pub struct App {
 
 impl App {
     fn render(&mut self, args: &RenderArgs) {
+        info!("{}", self.data.len());
+
         use graphics::*;
+
+        // clear(&BLACK, gl);
 
         const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
@@ -73,8 +77,11 @@ impl App {
                 ShapeStyle::from(&BLACK).filled(),
             ))
             .unwrap();
+
+        drop(chart);
+        drop(root);
         let texture =
-            Texture::from_memory_alpha(&buffer[..], 780, 200, &TextureSettings::new()).unwrap();
+            Texture::from_memory_alpha(&mut buffer[..], 780, 200, &TextureSettings::new()).unwrap();
 
         self.gl.draw(args.viewport(), |c, gl| {
             // Clear the screen.
