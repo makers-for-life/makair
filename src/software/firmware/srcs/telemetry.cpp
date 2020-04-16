@@ -34,19 +34,15 @@ void initTelemetry(void) {
 #endif
 }
 
-void sendDataSnapshot() {
+void sendDataSnapshot(uint16_t centileValue,
+                      uint16_t pressureValue,
+                      CyclePhases phase,
+                      CycleSubPhases subPhase,
+                      uint8_t blowerValvePosition,
+                      uint8_t patientValvePosition,
+                      uint8_t blowerRpm,
+                      uint8_t batteryLevel) {
 #if HARDWARE_VERSION == 2
-    uint16_t centileValue = 42;
-    uint16_t pressureValue = 80;
-    CyclePhases phase = CyclePhases::INHALATION;
-    CycleSubPhases subPhase = CycleSubPhases::INSPIRATION;
-    uint8_t blowerValvePosition = 10;
-    uint8_t patientValvePosition = 20;
-    uint8_t blowerRpm = 30;
-    uint8_t batteryLevel = 40;
-
-    /////////////////////////////////////////////
-
     uint8_t phaseValue;
     if ((phase == CyclePhases::INHALATION) && (subPhase == CycleSubPhases::INSPIRATION)) {
         phaseValue = 17;  // 00010001
@@ -128,18 +124,34 @@ void sendDataSnapshot() {
 #endif
 }
 
-void sendMachineStateSnapshot() {
+void sendMachineStateSnapshot(uint32_t cycleValue,
+                              uint8_t peakCommand,
+                              uint8_t plateauCommand,
+                              uint8_t peepCommand,
+                              uint8_t cpmCommand,
+                              uint8_t previousPeakPressure,
+                              uint8_t previousPlateauPressure,
+                              uint8_t previousPeepPressure,
+                              uint8_t currentAlarmCodes[ALARMS_SIZE],
+                              uint8_t previousAlarmCodes[ALARMS_SIZE]) {
 #if HARDWARE_VERSION == 2
-    uint32_t cycleValue = 42;
-    uint8_t peakCommand = 0;
-    uint8_t plateauCommand = 1;
-    uint8_t peepCommand = 2;
-    uint8_t cpmCommand = 3;
-    uint8_t previousPeakPressure = 4;
-    uint8_t previousPlateauPressure = 5;
-    uint8_t previousPeepPressure = 6;
+    uint8_t currentAlarmSize = 0;
+    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
+        if (currentAlarmCodes[i] != 0u) {
+            currentAlarmSize++;
+        } else {
+            break;
+        }
+    }
 
-    /////////////////////////////////////////////
+    uint8_t previousAlarmSize = 0;
+    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
+        if (previousAlarmCodes[i] != 0u) {
+            previousAlarmSize++;
+        } else {
+            break;
+        }
+    }
 
     Serial6.write("S:");
     Serial6.write((uint8_t)1);
@@ -191,6 +203,17 @@ void sendMachineStateSnapshot() {
     Serial6.write(previousPlateauPressure);
     Serial6.print("\t");
     Serial6.write(previousPeepPressure);
+
+    Serial6.print("\t");
+
+    Serial6.write(currentAlarmSize);
+    Serial6.write(currentAlarmCodes, currentAlarmSize);
+
+    Serial6.print("\t");
+
+    Serial6.write(previousAlarmSize);
+    Serial6.write(previousAlarmCodes, previousAlarmSize);
+
     Serial6.print("\n");
 #endif
 }

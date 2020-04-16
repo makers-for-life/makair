@@ -1,17 +1,4 @@
 #[derive(Debug, Clone)]
-pub enum MessageType {
-    DataSnapshot,
-    MachineStateSnapshot,
-    AlarmTrap,
-}
-
-#[derive(Debug, Clone)]
-pub struct Header {
-    pub version: u8,
-    pub message_type: MessageType,
-}
-
-#[derive(Debug, Clone)]
 pub enum Phase {
     Inhalation,
     Exhalation,
@@ -25,30 +12,32 @@ pub enum SubPhase {
 }
 
 #[derive(Debug, Clone)]
-pub struct DataSnapshot {
-    pub version: String,
-    pub device_id: String,
-    pub systick: u64,
-    pub centile: u16,
-    pub pressure: u16,
-    pub phase: Phase,
-    pub subphase: SubPhase,
-    pub blower_valve_position: u8,
-    pub patient_valve_position: u8,
-    pub blower_rpm: u8,
-    pub battery_level: u8,
-}
-
-#[derive(Debug, Clone)]
-pub struct MachineStateSnapshot {
-    pub version: String,
-    pub device_id: String,
-    pub cycle: u32,
-    pub peak_command: u8,
-    pub plateau_command: u8,
-    pub peep_command: u8,
-    pub cpm_command: u8,
-    pub previous_peak_pressure: u8,
-    pub previous_plateau_pressure: u8,
-    pub previous_peep_pressure: u8,
+pub enum TelemetryMessage {
+    DataSnapshot {
+        version: String,
+        device_id: String,
+        systick: u64,
+        centile: u16,
+        pressure: u16,
+        phase: Phase,
+        subphase: SubPhase,
+        blower_valve_position: u8,
+        patient_valve_position: u8,
+        blower_rpm: u8,
+        battery_level: u8,
+    },
+    MachineStateSnapshot {
+        version: String,
+        device_id: String,
+        cycle: u32,
+        peak_command: u8,
+        plateau_command: u8,
+        peep_command: u8,
+        cpm_command: u8,
+        previous_peak_pressure: u8,
+        previous_plateau_pressure: u8,
+        previous_peep_pressure: u8,
+        current_alarm_codes: Vec<u8>,
+        previous_alarm_codes: Vec<u8>,
+    },
 }

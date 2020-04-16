@@ -21,6 +21,10 @@
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
 #include "../includes/pressure_valve.h"
+#if HARDWARE_VERSION == 2
+#include "../includes/battery.h"
+#include "../includes/telemetry.h"
+#endif
 
 static const int32_t INVALID_ERROR_MARKER = INT32_MIN;
 
@@ -168,6 +172,8 @@ void PressureController::initRespiratoryCycle() {
     m_numberOfPressures = 0u;
 
     m_plateauStartTime = 0u;
+
+    m_alarmController->changeCycle();
 }
 
 void PressureController::endRespiratoryCycle() {
@@ -183,6 +189,13 @@ void PressureController::endRespiratoryCycle() {
     if (m_pressure <= ALARM_THRESHOLD_MAX_PRESSURE) {
         m_alarmController->notDetectedAlarm(RCM_SW_18);
     }
+
+#if HARDWARE_VERSION == 2
+    sendMachineStateSnapshot(m_cycleNb, m_maxPeakPressureCommand, m_maxPlateauPressureCommand,
+                             m_minPeepCommand, m_cyclesPerMinuteCommand, m_peakPressure,
+                             m_maxPlateauPressure, m_peep, m_alarmController->currentCycleAlarms(),
+                             m_alarmController->previousCycleAlarms());
+#endif
 }
 
 void PressureController::updatePressure(int16_t p_currentPressure) {
@@ -233,6 +246,11 @@ void PressureController::compute(uint16_t p_centiSec) {
     DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 1u, m_phase, m_subPhase, m_pressure,
                        m_blower_valve.command, m_blower_valve.position, m_patient_valve.command,
                        m_patient_valve.position)
+
+#if HARDWARE_VERSION == 2
+    sendDataSnapshot(p_centiSec, m_pressure, m_phase, m_subPhase, m_blower_valve.position,
+                     m_patient_valve.position, m_blower->getSpeed(), getBatteryLevel());
+#endif
 
     executeCommands();
 }

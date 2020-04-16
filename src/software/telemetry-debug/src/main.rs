@@ -5,7 +5,6 @@ mod parsers;
 mod telemetry;
 
 use serial::prelude::*;
-use std::borrow::BorrowMut;
 use std::io::Read;
 
 use parsers::*;
@@ -27,80 +26,60 @@ fn main() {
                         eprintln!("{}", e);
                         std::thread::sleep(std::time::Duration::from_secs(1));
                     }
-                    Ok(_) => read_telemetry(port),
-                }
-            }
-        }
-    }
-}
+                    Ok(_) => {
+                        let mut buffer = Vec::new();
+                        for b in port.bytes() {
+                            match b {
+                                // We got a new byte
+                                Ok(byte) => {
+                                    // We add it to the buffer
+                                    buffer.push(byte);
 
-fn read_telemetry(mut port: impl serial::SerialPort) {
-    loop {
-        let mut header_buffer = [0; 3];
-        match port.read_exact(&mut header_buffer) {
-            Ok(_) => match parse_header(&header_buffer) {
-                Ok((header_rest, h)) => {
-                    println!("{:?}", &h);
-                    let mut buffer = Vec::new();
-                    for byte in port.borrow_mut().bytes() {
-                        match byte {
-                            Ok(b) => {
-                                buffer.push(b);
-                            }
-                            Err(_) => break,
+                                    // Let's try to parse the buffer
+                                    match parse_telemetry_message(&buffer) {
+                                        // It worked! Let's extract the message and replace the buffer with the rest of the bytes
+                                        Ok((rest, message)) => {
+                                            match message {
+                                                TelemetryMessage::DataSnapshot { .. } => {
+                                                    println!("    {:?}", &message)
+                                                }
+                                                TelemetryMessage::MachineStateSnapshot {
+                                                    ..
+                                                } => {
+                                                    println!("------------------------------------------------------------------------------------");
+                                                    println!("{:?}", &message);
+                                                    println!("------------------------------------------------------------------------------------");
+                                                }
+                                            }
+                                            buffer = Vec::from(rest);
+                                        }
+                                        // There are not enough bytes, let's wait until we get more
+                                        Err(nom::Err::Incomplete(_)) => {
+                                            // Do nothing
+                                        }
+                                        // We can't do anything with the begining of the buffer, let's drop its first byte
+                                        Err(e) => {
+                                            eprintln!("{:?}", &e);
+                                            if !buffer.is_empty() {
+                                                buffer.remove(0);
+                                            }
+                                        }
+                                    }
+                                }
+                                // We failed to get a new byte from serial
+                                Err(e) => {
+                                    if e.kind() == std::io::ErrorKind::TimedOut { // It's OK it's just a timeout; let's try again
+                                         // Do nothing
+                                    } else {
+                                        // It's another error, let's print it and wait a bit before retrying the whole process
+                                        eprintln!("{:?}", &e);
+                                        std::thread::sleep(std::time::Duration::from_secs(1));
+                                        break;
+                                    }
+                                }
+                            };
                         }
                     }
-                    println!("Buffer: {:?}", &buffer);
-                    match h {
-                        Header {
-                            version: 1,
-                            message_type: MessageType::DataSnapshot,
-                        } => {
-                            match parse_data_snapshot(buffer.as_ref()) {
-                                Ok((rest, message)) => {
-                                    println!("{:?}", &message);
-                                    println!("{:?}", &rest);
-                                }
-                                Err(e) => {
-                                    eprintln!("Parsing error: {:?}", &e);
-                                    return;
-                                }
-                            };
-                        }
-                        Header {
-                            version: 1,
-                            message_type: MessageType::MachineStateSnapshot,
-                        } => {
-                            match parse_machine_state_snapshot(buffer.as_ref()) {
-                                Ok((rest, message)) => {
-                                    println!("{:?}", &message);
-                                    println!("{:?}", &rest);
-                                }
-                                Err(e) => {
-                                    eprintln!("Parsing error: {:?}", &e);
-                                    return;
-                                }
-                            };
-                        }
-                        _ => {
-                            eprintln!("Unsupported version or message type");
-                            eprintln!("{:?}", &header_buffer);
-                            eprintln!("{:?}", &header_rest);
-                            return;
-                        }
-                    };
-                }
-                Err(e) => {
-                    eprintln!("Parsing error: {:?}", &e);
-                    return;
-                }
-            },
-            Err(e) => {
-                if e.kind() == std::io::ErrorKind::TimedOut {
-                    // Do nothing
-                } else {
-                    eprintln!("{:?}", &e);
-                    return;
                 }
             }
         }

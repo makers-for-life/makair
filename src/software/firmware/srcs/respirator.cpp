@@ -36,7 +36,9 @@
 #include "../includes/pressure_controller.h"
 #include "../includes/pressure_valve.h"
 #include "../includes/screen.h"
+#if HARDWARE_VERSION == 2
 #include "../includes/telemetry.h"
+#endif
 
 // PROGRAM =====================================================================
 
@@ -78,11 +80,9 @@ void setup(void) {
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("Booting the system...");)
 
+#if HARDWARE_VERSION == 2
     initTelemetry();
-    //sendDataSnapshot();
-    sendMachineStateSnapshot();
-    while (true) {
-    }
+#endif
 
     startScreen();
 
@@ -233,6 +233,8 @@ void setup(void) {
     // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
     IWatchdog.begin(WATCHDOG_TIMEOUT);
     IWatchdog.reload();
+
+    alarmController.clearAlarmLogs();
 }
 
 // Time of the previous loop iteration

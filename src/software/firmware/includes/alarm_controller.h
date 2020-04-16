@@ -64,6 +64,18 @@ class AlarmController {
      */
     void runAlarmEffects(uint16_t p_centiSec);
 
+    /// Archive alarms triggered during this cycle
+    void changeCycle(void);
+
+    /// Get the alarms triggered during this cycle
+    uint8_t* currentCycleAlarms() { return m_currentCycleAlarms; }
+
+    /// Get the alarms triggered during the previous cycle
+    uint8_t* previousCycleAlarms() { return m_previousCycleAlarms; }
+
+    /// Clear both alarm logs
+    void clearAlarmLogs();
+
  private:
     /// Highest priority of the currently triggered alarms
     AlarmPriority m_highestPriority;
@@ -76,6 +88,12 @@ class AlarmController {
 
     /// Collections of snoozed alarms
     bool m_snoozedAlarms[ALARMS_SIZE];
+
+    /// Alarms triggered during this cycle
+    uint8_t m_currentCycleAlarms[ALARMS_SIZE];
+
+    /// Alarms triggered during the previous cycle
+    uint8_t m_previousCycleAlarms[ALARMS_SIZE];
 };
 
 // INITIALISATION =============================================================

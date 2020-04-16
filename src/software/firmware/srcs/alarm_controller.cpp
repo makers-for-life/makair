@@ -113,6 +113,7 @@ AlarmController::AlarmController()
     for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
         m_snoozedAlarms[i] = false;
     }
+    this->clearAlarmLogs();
 }
 
 void AlarmController::snooze() {
@@ -136,6 +137,18 @@ void AlarmController::detectedAlarm(uint8_t p_alarmCode, uint32_t p_cycleNumber)
         Alarm* current = &m_alarms[i];
         if (current->getCode() == p_alarmCode) {
             current->detected(p_cycleNumber);
+
+            if (current->isTriggered()) {
+                for (uint8_t j = 0; j < ALARMS_SIZE; j++) {
+                    if (m_currentCycleAlarms[j] == p_alarmCode) {
+                        break;
+                    }
+                    if (m_currentCycleAlarms[j] == 0u) {
+                        m_currentCycleAlarms[j] = p_alarmCode;
+                        break;
+                    }
+                }
+            }
             break;
         }
     }
@@ -227,4 +240,22 @@ void AlarmController::runAlarmEffects(uint16_t p_centiSec) {
     }
 
     m_highestPriority = highestPriority;
+}
+
+void AlarmController::changeCycle() {
+    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
+        m_previousCycleAlarms[i] = m_currentCycleAlarms[i];
+    }
+    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
+        m_currentCycleAlarms[i] = 0;
+    }
+}
+
+void AlarmController::clearAlarmLogs() {
+    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
+        m_currentCycleAlarms[i] = 0;
+    }
+    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
+        m_previousCycleAlarms[i] = 0;
+    }
 }
