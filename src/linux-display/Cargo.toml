@@ -9,7 +9,7 @@ edition = "2018"
 [dependencies]
 conrod_piston = "0.69.0"
 piston_window = "0.105.0"
-plotters = {version = "^0.2.12", default_features = false, features = ["piston", "chrono", "line_series", "candlestick"]}
+plotters = {version = "^0.2.12", default_features = false, features = ["image_encoder", "chrono", "line_series", "palette", "ttf"]}
 chrono = "0.4.11"
 rand = "0.7.3"
 log = "0.4.8"
