@@ -19,6 +19,7 @@
 #include <IWatchdog.h>
 #include <OneButton.h>
 #include <Wire.h>
+#include <math.h>
 
 // Internal
 #include "../includes/buzzer_control.h"
@@ -32,22 +33,33 @@
 // 10 khz => nice
 #define MASS_FLOW_TIMER_FREQ 10000
 
-// the timer period in microsecond, 100us precision (because 10 khz prescale)
-#define MASS_FLOW_PERIOD_US 1000
+// the timer period in 100us multiple (because 10 khz prescale)
+
+#if MASS_FLOW_METER_SENSOR == MFM_SFM_3300D
+#define MASS_FLOW_PERIOD 10
+#endif
+
+#if MASS_FLOW_METER_SENSOR == MFM_SDP703_02
+#define MASS_FLOW_PERIOD 100
+#endif
+
 HardwareTimer* massFlowTimer;
 
 volatile int32_t mfmAirVolumeSum = 0;
-volatile int32_t mfmPreviousValue = 0;
 volatile int32_t mfmSensorDetected = 0;
+
+volatile int32_t mfmSampleCount = 0;
 
 bool mfmFaultCondition = false;
 
+int32_t mfmLastValue = 0;
 // Time to reset the sensor after I2C restart, in periods. => 5ms.
 #define MFM_WAIT_RESET_PERIODS 5
 int32_t mfmResetStateMachine = MFM_WAIT_RESET_PERIODS;
 
 union {
     unsigned short i;
+    signed short si;
     unsigned char c[2];
 } mfmLastData;
 
@@ -70,7 +82,27 @@ void MFM_Timer_Callback(HardwareTimer*) {
             mfmFaultCondition = true;
             mfmResetStateMachine = 5;
         }
-        mfmAirVolumeSum += (int32_t)mfmLastData.i - 0x8000;
+        mfmLastValue = (int32_t)mfmLastData.i - 0x8000;
+        if (mfmLastValue > 28) {
+            mfmAirVolumeSum += mfmLastValue;
+        }
+#endif
+
+#if MASS_FLOW_METER_SENSOR == MFM_SDP703_02
+        Wire.requestFrom(MFM_SENSOR_I2C_ADDRESS, 2);
+        mfmLastData.c[1] = Wire.read();
+        mfmLastData.c[0] = Wire.read();
+
+        if (Wire.endTransmission() != 0) {  // If transmission failed
+            // mfmFaultCondition = true;
+            // mfmResetStateMachine = 5;
+        }
+        mfmLastValue = abs(mfmLastData.si);
+        if (mfmLastValue > 40) {
+            mfmAirVolumeSum += sqrt(mfmLastValue);
+        }
+
+        mfmSampleCount++;
 #endif
 
 #if MODE == MODE_MFM_TESTS
@@ -82,6 +114,13 @@ void MFM_Timer_Callback(HardwareTimer*) {
             // reset attempt
             Wire.flush();
             Wire.end();
+
+#if MASS_FLOW_METER_SENSOR == MFM_SDP703_02
+            Wire.begin();
+            Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+            Wire.write(0xFE);
+            Wire.endTransmission();
+#endif
         }
         mfmResetStateMachine--;
 
@@ -92,6 +131,25 @@ void MFM_Timer_Callback(HardwareTimer*) {
             Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
             Wire.write(0x10);
             Wire.write(0x00);
+            mfmFaultCondition = (Wire.endTransmission() != 0);
+#endif
+
+#if MASS_FLOW_METER_SENSOR == MFM_SDP703_02
+
+            Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+            Wire.write(0xE2);
+            Wire.write(0x02);
+            Wire.write(0x08);
+            Wire.endTransmission();
+
+            Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+            Wire.write(0xE4);
+            Wire.write(0x76);
+            Wire.write(0xA2);
+            Wire.endTransmission();
+
+            Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+            Wire.write(0xF1);
             mfmFaultCondition = (Wire.endTransmission() != 0);
 #endif
             if (mfmFaultCondition) {
@@ -116,7 +174,7 @@ boolean MFM_init(void) {
     massFlowTimer->setPrescaleFactor((massFlowTimer->getTimerClkFreq() / MASS_FLOW_TIMER_FREQ) - 1);
 
     // set the period
-    massFlowTimer->setOverflow(MASS_FLOW_TIMER_FREQ / MASS_FLOW_PERIOD_US);
+    massFlowTimer->setOverflow(MASS_FLOW_PERIOD);
     massFlowTimer->setMode(MASS_FLOW_CHANNEL, TIMER_OUTPUT_COMPARE, NC);
     massFlowTimer->attachInterrupt(MFM_Timer_Callback);
 
@@ -139,7 +197,37 @@ boolean MFM_init(void) {
     // mfmTimerCounter = 0;
 
     mfmFaultCondition = (Wire.endTransmission() != 0);
+    delay(100);
 
+#endif
+
+#if MASS_FLOW_METER_SENSOR == MFM_SDP703_02
+    Wire.endTransmission();
+    Wire.begin();
+
+    delay(10);
+    Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+    Wire.write(0xFE);
+    Wire.endTransmission();
+    delay(1);
+
+    Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+    Wire.write(0xE2);
+    Wire.write(0x02);
+    Wire.write(0x08);
+    Wire.endTransmission();
+
+    Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+    Wire.write(0xE4);
+    Wire.write(0x76);
+    Wire.write(0xA2);
+    Wire.endTransmission();
+
+    Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+    Wire.write(0xF1);
+    mfmFaultCondition = (Wire.endTransmission() != 0);
+
+    delay(10);
 #endif
 
     massFlowTimer->resume();
@@ -152,7 +240,7 @@ boolean MFM_init(void) {
  */
 void MFM_reset(void) {
     mfmAirVolumeSum = 0;
-    mfmPreviousValue = 0;
+    mfmSampleCount = 0;
 }
 
 /**
@@ -171,6 +259,13 @@ int32_t MFM_read_liters(boolean reset_after_read) {
     // 120 * 60
 #endif
 
+#if MASS_FLOW_METER_SENSOR == MFM_SDP703_02
+
+    // this should be an atomic operation (32 bits aligned data)
+    result = mfmFaultCondition ? 999999 : (mfmAirVolumeSum / 6.5);
+
+#endif
+
     if (reset_after_read) {
         MFM_reset();
     }
@@ -179,6 +274,10 @@ int32_t MFM_read_liters(boolean reset_after_read) {
 }
 
 #if MODE == MODE_MFM_TESTS
+
+void onStartClick() { MFM_reset(); Serial.println("dtc"); }
+
+OneButton btn_stop(PIN_BTN_ALARM_OFF, false, false);
 
 void setup(void) {
 
@@ -198,12 +297,15 @@ void setup(void) {
     screen.setCursor(0, 2);
     screen.print(ok ? "sensor OK" : "sensor not OK");
 
+    btn_stop.attachClick(onStartClick);
+    btn_stop.setDebounceTicks(0);
     Serial.println("init done");
 }
 
 void loop(void) {
 
-    delay(1000);
+    delay(500);
+    btn_stop.tick();
 
     char buffer[30];
 
@@ -220,6 +322,7 @@ void loop(void) {
         screen.print("sensor not OK");
     } else {
         screen.print("sensor OK");
+        // screen.print(mfmLastValue);
         screen.setCursor(0, 3);
         sprintf(buffer, "volume=%dmL", volume);
         screen.print(buffer);

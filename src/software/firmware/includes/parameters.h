@@ -284,6 +284,7 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #define PIN_I2C_SDA PB9
 #define PIN_I2C_SCL PB8
 #define MFM_SFM_3300D 1
+#define MFM_SDP703_02 2
 #define MASS_FLOW_METER_SENSOR MFM_SFM_3300D
 #endif
 
