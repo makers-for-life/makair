@@ -94,15 +94,16 @@ $(document).ready(function(){initNavTree('pressure_8cpp.html',''); initResizable
 <div class="textblock"><code>#include &quot;<a class="el" href="pressure_8h_source.html">../includes/pressure.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="pressure__utl_8h_source.html">../includes/pressure_utl.h</a>&quot;</code><br />
 <code>#include &quot;Arduino.h&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
 <code>#include &quot;<a class="el" href="parameters_8h_source.html">../includes/parameters.h</a>&quot;</code><br />
 </div>
 <p><a href="pressure_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad37a3df7fc89764460a0f18b8430704c"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pressure_8cpp.html#ad37a3df7fc89764460a0f18b8430704c">readPressureSensor</a> (uint16_t centiSec)</td></tr>
-<tr class="memdesc:ad37a3df7fc89764460a0f18b8430704c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the measured or simulated pressure for the feedback control (in mmH2O)  <a href="pressure_8cpp.html#ad37a3df7fc89764460a0f18b8430704c">More...</a><br /></td></tr>
-<tr class="separator:ad37a3df7fc89764460a0f18b8430704c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80b718fbea70d8e9df350bbac79d5810"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pressure_8cpp.html#a80b718fbea70d8e9df350bbac79d5810">readPressureSensor</a> (uint16_t centiSec, int16_t <a class="el" href="respirator_8cpp.html#abfbf6dd828afcb2b2e17d7fb86b79173">pressureOffset</a>)</td></tr>
+<tr class="memdesc:a80b718fbea70d8e9df350bbac79d5810"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the measured or simulated pressure for the feedback control (in mmH2O)  <a href="pressure_8cpp.html#a80b718fbea70d8e9df350bbac79d5810">More...</a><br /></td></tr>
+<tr class="separator:a80b718fbea70d8e9df350bbac79d5810"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Pressure sensor related functions. </p>
@@ -111,8 +112,8 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="pressure_8cpp_source.html">pressure.cpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="ad37a3df7fc89764460a0f18b8430704c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad37a3df7fc89764460a0f18b8430704c">&#9670;&nbsp;</a></span>readPressureSensor()</h2>
+<a id="a80b718fbea70d8e9df350bbac79d5810"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80b718fbea70d8e9df350bbac79d5810">&#9670;&nbsp;</a></span>readPressureSensor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -121,8 +122,18 @@ Functions</h2></td></tr>
           <td class="memname">int16_t readPressureSensor </td>
           <td>(</td>
           <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>centiSec</em></td><td>)</td>
+          <td class="paramname"><em>centiSec</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramname"><em>pressureOffset</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -131,23 +142,26 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">centiSec</td><td>Duration in hundredth of second from the beginning of the current cycle (only used when in simulation mode) </td></tr>
+    <tr><td class="paramname">pressureOffset</td><td>Pressure offset in mmH2O to apply to the measure </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The current pressure in mmH20 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="pressure_8cpp_source.html#l00050">50</a> of file <a class="el" href="pressure_8cpp_source.html">pressure.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                                              {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    (void)centiSec;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953">convertSensor2Pressure</a>(analogRead(<a class="code" href="parameters_8h.html#a499c5087d06d6128d28540802fc59872">PIN_PRESSURE_SENSOR</a>));</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="pressure_8cpp_source.html#l00052">52</a> of file <a class="el" href="pressure_8cpp_source.html">pressure.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                                                      {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    (void)centiSec;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    int16_t withOffset = <a class="code" href="pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953">convertSensor2Pressure</a>(analogRead(<a class="code" href="parameters_8h.html#a499c5087d06d6128d28540802fc59872">PIN_PRESSURE_SENSOR</a>)) - <a class="code" href="respirator_8cpp.html#abfbf6dd828afcb2b2e17d7fb86b79173">pressureOffset</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> max(int16_t(0), withOffset);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="apressure__utl_8cpp_html_a2abb82c34f3841e689d1ac60cc998953"><div class="ttname"><a href="pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953">convertSensor2Pressure</a></div><div class="ttdeci">int16_t convertSensor2Pressure(uint16_t sensorValue)</div><div class="ttdoc">Convert the analog value from sensor to a pressure value.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__utl_8cpp_source.html#l00032">pressure_utl.cpp:32</a></div></div>
-<div class="ttc" id="aparameters_8h_html_a499c5087d06d6128d28540802fc59872"><div class="ttname"><a href="parameters_8h.html#a499c5087d06d6128d28540802fc59872">PIN_PRESSURE_SENSOR</a></div><div class="ttdeci">#define PIN_PRESSURE_SENSOR</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00260">parameters.h:259</a></div></div>
+<div class="ttc" id="aparameters_8h_html_a499c5087d06d6128d28540802fc59872"><div class="ttname"><a href="parameters_8h.html#a499c5087d06d6128d28540802fc59872">PIN_PRESSURE_SENSOR</a></div><div class="ttdeci">#define PIN_PRESSURE_SENSOR</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00262">parameters.h:261</a></div></div>
+<div class="ttc" id="arespirator_8cpp_html_abfbf6dd828afcb2b2e17d7fb86b79173"><div class="ttname"><a href="respirator_8cpp.html#abfbf6dd828afcb2b2e17d7fb86b79173">pressureOffset</a></div><div class="ttdeci">int16_t pressureOffset</div><div class="ttdef"><b>Definition:</b> <a href="respirator_8cpp_source.html#l00046">respirator.cpp:46</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

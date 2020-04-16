@@ -30,6 +30,7 @@ var parameters_8h =
     [ "LED_YELLOW_ACTIVE", "parameters_8h.html#ac77b3fee519620d9f3d79f3534518183", null ],
     [ "LED_YELLOW_INACTIVE", "parameters_8h.html#a7ad7e5dad79ee9c7f6fbaa975847362e", null ],
     [ "MAX_BLOWER_SPEED", "parameters_8h.html#a3ffa4d83d65bee55efc0a43440e9db2e", null ],
+    [ "MAX_PRESSURE_OFFSET", "parameters_8h.html#af1c21e6533ef5528bd6aa463be29180d", null ],
     [ "MIN_BLOWER_SPEED", "parameters_8h.html#a9d2b8b8d0ab40857c2d65732708b8782", null ],
     [ "PCONTROLLER_COMPUTE_PERIOD", "parameters_8h.html#a3b4d8868641a66472bfbef6ce635329d", null ],
     [ "PIN_BATTERY", "parameters_8h.html#adb925a5f9d18b6b2bc2b80357d94e5a1", null ],

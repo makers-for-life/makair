@@ -25,13 +25,14 @@ var searchData=
   ['const_5fmin_5fpeak_5fpressure_112',['CONST_MIN_PEAK_PRESSURE',['../parameters_8h.html#a62210c4e5811263ce8960d52c2631df9',1,'parameters.h']]],
   ['const_5fmin_5fpeep_5fpressure_113',['CONST_MIN_PEEP_PRESSURE',['../parameters_8h.html#a3168705fb44f50a7555981aed2271822',1,'parameters.h']]],
   ['const_5fmin_5fplateau_5fpressure_114',['CONST_MIN_PLATEAU_PRESSURE',['../parameters_8h.html#a83ccc8990de27988b24e94bd648458d3',1,'parameters.h']]],
-  ['convertsensor2pressure_115',['convertSensor2Pressure',['../pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953',1,'convertSensor2Pressure(uint16_t sensorValue):&#160;pressure_utl.cpp'],['../pressure__utl_8h.html#a2abb82c34f3841e689d1ac60cc998953',1,'convertSensor2Pressure(uint16_t sensorValue):&#160;pressure_utl.cpp']]],
-  ['convertsensor2pressurefloat_116',['convertSensor2PressureFloat',['../test__pressure_8cpp.html#a630e98ef2bac7105f488cc6f7d83ea18',1,'test_pressure.cpp']]],
-  ['cyclenumber_117',['cycleNumber',['../class_pressure_controller.html#afe70f5073fe91a4ae906d0b0f1c74d2b',1,'PressureController']]],
-  ['cyclephases_118',['CyclePhases',['../pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88',1,'pressure_controller.h']]],
-  ['cyclesbeforescreenreset_119',['cyclesBeforeScreenReset',['../respirator_8cpp.html#a325fe0f65d2e765bab5b862e84e23805',1,'respirator.cpp']]],
-  ['cyclesperminute_120',['cyclesPerMinute',['../class_pressure_controller.html#aed5cf0642c29aee13a76f798fcc65de8',1,'PressureController']]],
-  ['cyclesperminutecommand_121',['cyclesPerMinuteCommand',['../class_pressure_controller.html#a99d6c920553304b6c28d159c30ca3bba',1,'PressureController']]],
-  ['cyclesubphases_122',['CycleSubPhases',['../pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94',1,'pressure_controller.h']]],
-  ['changelog_123',['Changelog',['../index.html',1,'']]]
+  ['convertandround_115',['convertAndRound',['../screen_8cpp.html#a5402e6820eabdb024a802ac7e4a1f313',1,'convertAndRound(uint16_t pressure):&#160;screen.cpp'],['../screen_8h.html#a5402e6820eabdb024a802ac7e4a1f313',1,'convertAndRound(uint16_t pressure):&#160;screen.cpp']]],
+  ['convertsensor2pressure_116',['convertSensor2Pressure',['../pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953',1,'convertSensor2Pressure(uint16_t sensorValue):&#160;pressure_utl.cpp'],['../pressure__utl_8h.html#a2abb82c34f3841e689d1ac60cc998953',1,'convertSensor2Pressure(uint16_t sensorValue):&#160;pressure_utl.cpp']]],
+  ['convertsensor2pressurefloat_117',['convertSensor2PressureFloat',['../test__pressure_8cpp.html#a630e98ef2bac7105f488cc6f7d83ea18',1,'test_pressure.cpp']]],
+  ['cyclenumber_118',['cycleNumber',['../class_pressure_controller.html#afe70f5073fe91a4ae906d0b0f1c74d2b',1,'PressureController']]],
+  ['cyclephases_119',['CyclePhases',['../pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88',1,'pressure_controller.h']]],
+  ['cyclesbeforescreenreset_120',['cyclesBeforeScreenReset',['../respirator_8cpp.html#a325fe0f65d2e765bab5b862e84e23805',1,'respirator.cpp']]],
+  ['cyclesperminute_121',['cyclesPerMinute',['../class_pressure_controller.html#aed5cf0642c29aee13a76f798fcc65de8',1,'PressureController']]],
+  ['cyclesperminutecommand_122',['cyclesPerMinuteCommand',['../class_pressure_controller.html#a99d6c920553304b6c28d159c30ca3bba',1,'PressureController']]],
+  ['cyclesubphases_123',['CycleSubPhases',['../pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94',1,'pressure_controller.h']]],
+  ['changelog_124',['Changelog',['../index.html',1,'']]]
 ];
