@@ -36,15 +36,16 @@
 #define STEP_VALVE_PATIENT_LEAK_TEST 5
 #define STEP_O2_TEST 6
 #define STEP_PRESSURE_TEST 7
-#define STEP_BATTERY_TEST 8
-#define STEP_BUZZER_TEST 9
+#define STEP_PRESSURE_OFFSET_TEST 8
+#define STEP_BATTERY_TEST 9
+#define STEP_BUZZER_TEST 10
 
-#define NUMBER_OF_STATES 9
+#define NUMBER_OF_STATES 11u
 
 #define UNGREEDY(is_drawn, statement)                                                              \
-    if (is_drawn == 0) {                                                                           \
+    if (is_drawn == 0u) {                                                                          \
         statement;                                                                                 \
-        is_drawn = 1;                                                                              \
+        is_drawn = 1u;                                                                             \
     }
 
 static uint8_t step = STEP_WELCOME;
@@ -55,6 +56,27 @@ PressureValve servoPatient;
 HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
 Blower blower;
+
+int16_t pressureOffset;
+int32_t pressureOffsetSum;
+uint32_t pressureOffsetCount;
+
+/**
+ * Block execution for a given duration
+ *
+ * @param ms  Duration of the blocking in millisecond
+ */
+void waitForInMs(uint16_t ms) {
+    uint16_t start = millis();
+    while ((millis() - start) < ms) {
+        // Measure 1 pressure per ms we wait
+        if ((millis() - start) > pressureOffsetCount) {
+            pressureOffsetSum += readPressureSensor(0, 0);
+            pressureOffsetCount++;
+        }
+        continue;
+    }
+}
 
 int32_t last_time = millis();
 
@@ -82,8 +104,8 @@ void displayLine(char msg[], uint8_t line) {
 
 void onStartClick() {
     DBG_DO(Serial.print("Go to step: "));
-    DBG_DO(Serial.println((step + 1) % NUMBER_OF_STATES));
-    changeStep((step + 1) % NUMBER_OF_STATES);
+    DBG_DO(Serial.println((step + 1u) % NUMBER_OF_STATES));
+    changeStep((step + 1u) % NUMBER_OF_STATES);
     last_time = millis();
     Buzzer_Stop();
 }
@@ -154,13 +176,59 @@ void setup() {
 
     pinMode(PIN_LED_START, OUTPUT);
     digitalWrite(PIN_LED_START, LED_START_ACTIVE);
+
+    resetScreen();
+    screen.setCursor(0, 0);
+    screen.print("Calibrating P offset");
+    screen.setCursor(0, 2);
+    screen.print("Patient must be");
+    screen.setCursor(0, 3);
+    screen.print("unplugged");
+    waitForInMs(3000);
+    resetScreen();
+    pressureOffset = pressureOffsetSum / static_cast<int32_t>(pressureOffsetCount);
+    DBG_DO({
+        Serial.print("pressure offset = ");
+        Serial.print(pressureOffsetSum);
+        Serial.print(" / ");
+        Serial.print(pressureOffsetCount);
+        Serial.print(" = ");
+        Serial.print(pressureOffset);
+        Serial.println();
+    })
+    if (pressureOffset >= MAX_PRESSURE_OFFSET) {
+        resetScreen();
+        screen.setCursor(0, 0);
+        char line1[SCREEN_LINE_LENGTH + 1];
+        (void)snprintf(line1, SCREEN_LINE_LENGTH + 1, "P offset: %3d mmH2O", pressureOffset);
+        screen.print(line1);
+        screen.setCursor(0, 1);
+        char line2[SCREEN_LINE_LENGTH + 1];
+        (void)snprintf(line2, SCREEN_LINE_LENGTH + 1, "P offset is > %-3d", MAX_PRESSURE_OFFSET);
+        screen.print(line2);
+        screen.setCursor(0, 2);
+        screen.print("Unplug patient and");
+        screen.setCursor(0, 3);
+        screen.print("reboot");
+        Buzzer_High_Prio_Start();
+        while (true) {
+        }
+    }
+
+    screen.setCursor(0, 3);
+    char message[SCREEN_LINE_LENGTH + 1];
+    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "P offset: %3d mmH2O", pressureOffset);
+    screen.print(message);
+    delay(3000);
+    resetScreen();
 }
 
 void loop() {
     btn_start.tick();
 
     switch (step) {
-    case STEP_WELCOME: {
+    case STEP_WELCOME:
+    default: {
         UNGREEDY(is_drawn, {
             display("MakAir test", "Press start button");
             displayLine(VERSION, 3);
@@ -183,12 +251,12 @@ void loop() {
             blower.stop();
         });
 
-        if (millis() - last_time < 5000) {
+        if ((millis() - last_time) < 5000) {
             servoBlower.open();
             servoBlower.execute();
             displayLine("Etat : Ouvert", 3);
 
-        } else if (millis() - last_time < 10000) {
+        } else if ((millis() - last_time) < 10000) {
             servoBlower.close();
             servoBlower.execute();
             displayLine("Etat : Ferme", 3);
@@ -200,12 +268,12 @@ void loop() {
     }
     case STEP_VALVE_PATIENT_TEST: {
         UNGREEDY(is_drawn, display("Test Valve expi", "Continuer : Start"));
-        if (millis() - last_time < 5000) {
+        if ((millis() - last_time) < 5000) {
             servoPatient.open();
             servoPatient.execute();
             displayLine("Etat : Ouvert", 3);
 
-        } else if (millis() - last_time < 10000) {
+        } else if ((millis() - last_time) < 10000) {
             servoPatient.close();
             servoPatient.execute();
             displayLine("Etat : Ferme", 3);
@@ -250,10 +318,27 @@ void loop() {
         servoBlower.execute();
         blower.runSpeed(1790);
         UNGREEDY(is_drawn, display("Test pression", "Continuer : Start"));
-        if (millis() - last_time >= 200) {
-            int pressure = readPressureSensor(0, 0);
+        if ((millis() - last_time) >= 200) {
+            int pressure = readPressureSensor(0, pressureOffset);
             char msg[SCREEN_LINE_LENGTH + 1];
-            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %3d mmH2O", pressure);
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %3d mmH2O", pressure);
+            displayLine(msg, 3);
+            last_time = millis();
+        }
+        break;
+    }
+
+    case STEP_PRESSURE_OFFSET_TEST: {
+        servoPatient.close();
+        servoPatient.execute();
+        servoBlower.open();
+        servoBlower.execute();
+        blower.stop();
+        UNGREEDY(is_drawn, display("Test offset pression", "Continuer : Start"));
+        if ((millis() - last_time) >= 200) {
+            int pressure = readPressureSensor(0, pressureOffset);
+            char msg[SCREEN_LINE_LENGTH + 1];
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Pression : %3d mmH2O", pressure);
             displayLine(msg, 3);
             last_time = millis();
         }
@@ -266,9 +351,9 @@ void loop() {
             blower.stop();
         });
         updateBatterySample();
-        if (millis() - last_time >= 200) {
+        if ((millis() - last_time) >= 200) {
             char msg[SCREEN_LINE_LENGTH + 1];
-            snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie : %3u V", getBatteryLevel());
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie : %3u V", getBatteryLevel());
             displayLine(msg, 3);
             last_time = millis();
         }
