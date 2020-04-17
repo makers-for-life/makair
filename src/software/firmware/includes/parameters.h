@@ -83,13 +83,13 @@ static const int32_t PID_BLOWER_INTEGRAL_MIN = -1000;
 
 static const int32_t PID_PATIENT_KP = 4;
 static const int32_t PID_PATIENT_KI = 32;
-static const int32_t PID_PATIENT_KD = 8;
+static const int32_t PID_PATIENT_KD = 12;
 static const int32_t PID_PATIENT_INTEGRAL_MAX = 500;
 static const int32_t PID_PATIENT_INTEGRAL_MIN = -500;
 
 /// Increase target pressure by an offset (in mmH2O) for safety, to avoid going below the target
 /// pressure
-static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 8;
+static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
 #endif
 
 ///@}
