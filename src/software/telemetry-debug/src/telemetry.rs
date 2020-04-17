@@ -12,6 +12,13 @@ pub enum SubPhase {
 }
 
 #[derive(Debug, Clone)]
+pub enum AlarmPriority {
+    High,
+    Medium,
+    Low,
+}
+
+#[derive(Debug, Clone)]
 pub enum TelemetryMessage {
     DataSnapshot {
         version: String,
@@ -39,5 +46,21 @@ pub enum TelemetryMessage {
         previous_peep_pressure: u8,
         current_alarm_codes: Vec<u8>,
         previous_alarm_codes: Vec<u8>,
+    },
+    AlarmTrap {
+        version: String,
+        device_id: String,
+        systick: u64,
+        centile: u16,
+        pressure: u16,
+        phase: Phase,
+        subphase: SubPhase,
+        cycle: u32,
+        alarm_code: u8,
+        alarm_priority: AlarmPriority,
+        triggered: bool,
+        expected: u32,
+        measured: u32,
+        cycles_since_trigger: u32,
     },
 }

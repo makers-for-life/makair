@@ -65,4 +65,7 @@ class Alarm {
 
     /// Cycle number
     uint32_t m_cycleNumber;
+
+    /// Number of cycles since the alarm was triggered
+    uint32_t m_cyclesSinceTrigger;
 };

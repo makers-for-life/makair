@@ -82,6 +82,8 @@ void setup(void) {
 
 #if HARDWARE_VERSION == 2
     initTelemetry();
+    sendAlarmTrap(0u, 16u, CyclePhases::EXHALATION, CycleSubPhases::EXHALE, 69u, 12u,
+                  AlarmPriority::ALARM_HIGH, true, 19u, 21u, 0u);
 #endif
 
     startScreen();

@@ -8,6 +8,7 @@
 #pragma once
 
 #include <stdint.h>
+
 #include "../includes/pressure_controller.h"
 
 void initTelemetry(void);
@@ -31,3 +32,15 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
                               uint8_t previousPeepPressure,
                               uint8_t currentAlarmCodes[ALARMS_SIZE],
                               uint8_t previousAlarmCodes[ALARMS_SIZE]);
+
+void sendAlarmTrap(uint16_t centileValue,
+                   uint16_t pressureValue,
+                   CyclePhases phase,
+                   CycleSubPhases subPhase,
+                   uint32_t cycleNumber,
+                   uint8_t alarmCode,
+                   AlarmPriority alarmPriority,
+                   bool triggered,
+                   uint32_t expectedValue,
+                   uint32_t measuredValue,
+                   uint32_t cyclesSinceTriggerValue);
