@@ -44,7 +44,16 @@ void sendDataSnapshot(uint16_t centileValue,
                       uint8_t patientValvePosition,
                       uint8_t blowerRpm,
                       uint8_t batteryLevel) {
-#if HARDWARE_VERSION == 2
+#if HARDWARE_VERSION == 1
+    (void)centileValue;
+    (void)pressureValue;
+    (void)phase;
+    (void)subPhase;
+    (void)blowerValvePosition;
+    (void)patientValvePosition;
+    (void)blowerRpm;
+    (void)batteryLevel;
+#elif HARDWARE_VERSION == 2
     uint8_t phaseValue;
     if ((phase == CyclePhases::INHALATION) && (subPhase == CycleSubPhases::INSPIRATION)) {
         phaseValue = 17;  // 00010001
@@ -137,7 +146,18 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
                               uint8_t previousPeepPressure,
                               uint8_t currentAlarmCodes[ALARMS_SIZE],
                               uint8_t previousAlarmCodes[ALARMS_SIZE]) {
-#if HARDWARE_VERSION == 2
+#if HARDWARE_VERSION == 1
+    (void)cycleValue;
+    (void)peakCommand;
+    (void)plateauCommand;
+    (void)peepCommand;
+    (void)cpmCommand;
+    (void)previousPeakPressure;
+    (void)previousPlateauPressure;
+    (void)previousPeepPressure;
+    (void)currentAlarmCodes;
+    (void)previousAlarmCodes;
+#elif HARDWARE_VERSION == 2
     uint8_t currentAlarmSize = 0;
     for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
         if (currentAlarmCodes[i] != 0u) {
