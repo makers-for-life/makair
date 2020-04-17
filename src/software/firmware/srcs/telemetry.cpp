@@ -28,12 +28,14 @@
 
 #define FIRST_BYTE (uint8_t)0xFF
 
+// cppcheck-suppress unusedFunction
 void initTelemetry(void) {
 #if HARDWARE_VERSION == 2
     Serial6.begin(115200);
 #endif
 }
 
+// cppcheck-suppress unusedFunction
 void sendDataSnapshot(uint16_t centileValue,
                       uint16_t pressureValue,
                       CyclePhases phase,
@@ -124,6 +126,7 @@ void sendDataSnapshot(uint16_t centileValue,
 #endif
 }
 
+// cppcheck-suppress unusedFunction
 void sendMachineStateSnapshot(uint32_t cycleValue,
                               uint8_t peakCommand,
                               uint8_t plateauCommand,
