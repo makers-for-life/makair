@@ -8,6 +8,8 @@ extern crate graphics;
 extern crate opengl_graphics;
 extern crate piston;
 
+extern crate image;
+
 use plotters::drawing::bitmap_pixel::BGRXPixel;
 use plotters::prelude::*;
 use std::sync::{Arc, Mutex};
@@ -21,16 +23,19 @@ use std::{thread, time};
 use std::collections::vec_deque::VecDeque;
 
 use glutin_window::GlutinWindow as Window;
+use graphics::draw_state::DrawState;
 use graphics::rectangle;
-use graphics::rectangle::square;
+use graphics::rectangle::rectangle_by_corners;
 use graphics::{clear, Image};
+use image::ImageBuffer;
+use image::{Rgb, RgbaImage};
 use opengl_graphics::{GlGraphics, OpenGL, Texture, TextureSettings};
 use piston::event_loop::{EventSettings, Events};
 use piston::input::{RenderArgs, RenderEvent, UpdateArgs, UpdateEvent};
 use piston::window::WindowSettings;
 use piston_window::PistonWindow;
-
 use rand::Rng;
+use std::path::Path;
 
 pub struct App {
     gl: GlGraphics, // OpenGL drawing backend.
@@ -40,9 +45,8 @@ pub struct App {
 
 impl App {
     fn render(&mut self, args: &RenderArgs) {
+        use crate::graphics::Transformed;
         info!("{}", self.data.len());
-
-        use graphics::*;
 
         const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
@@ -55,9 +59,8 @@ impl App {
         );
 
         let mut buffer = vec![0; (780 * 200 * 4) as usize];
-        let root = BitMapBackend::<BGRXPixel>::with_buffer_and_format(&mut buffer[..], (780, 200))
-            .unwrap()
-            .into_drawing_area();
+        let root = BitMapBackend::with_buffer(&mut buffer, (780, 200)).into_drawing_area();
+        //let root = BitMapBackend::new(Path::new("/tmp/foo.png"), (780, 200)).into_drawing_area();
         root.fill(&WHITE);
 
         let oldest = self.data.first().unwrap().0 - chrono::Duration::seconds(40);
@@ -78,8 +81,13 @@ impl App {
 
         drop(chart);
         drop(root);
-        let texture =
-            Texture::from_memory_alpha(&mut buffer[..], 780, 200, &TextureSettings::new()).unwrap();
+        let image_graph = Image::new().rect(rectangle_by_corners(0.0, 0.0, 780.0, 200.0));
+        let texture = Texture::from_image(
+            &RgbaImage::from_raw(780, 200, ((&mut buffer).to_vec())).unwrap(),
+            &TextureSettings::new(),
+        ); //(&mut buffer[..], 780, 200, &TextureSettings::new())
+           //.unwrap();
+           //          Texture::from_path(Path::new("/tmp/foo.png"), &TextureSettings::new()).unwrap();
 
         self.gl.draw(args.viewport(), |c, gl| {
             // Clear the screen.
@@ -93,7 +101,8 @@ impl App {
 
             // Draw a box rotating around the middle of the screen.
             rectangle(RED, square, transform, gl);
-            image(&texture, c.transform, gl);
+            //image(&texture, c.transform, gl);
+            image_graph.draw(&texture, &DrawState::default(), c.transform, gl);
         });
     }
 
@@ -146,7 +155,7 @@ fn main() {
 
         while true {
             app1.lock().unwrap().addFakeData();
-            thread::sleep(time::Duration::from_millis(500));
+            thread::sleep(time::Duration::from_millis(200));
         }
     });
 

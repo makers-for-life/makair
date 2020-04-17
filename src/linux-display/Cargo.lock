@@ -881,6 +881,7 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "conrod_piston",
+ "image 0.23.3",
  "log",
  "piston",
  "piston2d-graphics 0.36.0",
