@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.2
+
+- improve pressure control
+
 ## v1.5.1
 
 - calibrate pressure sensor's offset on startup
