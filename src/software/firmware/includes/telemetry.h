@@ -13,6 +13,8 @@
 
 void initTelemetry(void);
 
+void sendBootMessage(void);
+
 void sendDataSnapshot(uint16_t centileValue,
                       uint16_t pressureValue,
                       CyclePhases phase,

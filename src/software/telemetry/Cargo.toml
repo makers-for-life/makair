@@ -1,5 +1,5 @@
 [package]
-name = "telemetry-debug"
+name = "telemetry"
 version = "0.1.0"
 authors = ["David Sferruzza <david.sferruzza@gmail.com>"]
 edition = "2018"
@@ -9,3 +9,12 @@ edition = "2018"
 [dependencies]
 nom = "5.1.1"
 serial = "0.4.0"
+
+
+[lib]
+name = "telemetry"
+path = "src/lib.rs"
+
+[[bin]]
+name = "telemetry_debug"
+path = "src/bin.rs"

@@ -152,7 +152,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f3eb36b47e512f8f1c9e3d10c2c1965bc992bd9cdb024fa581e2194501c83d3"
 
 [[package]]
-name = "telemetry-debug"
+name = "telemetry"
 version = "0.1.0"
 dependencies = [
  "nom",

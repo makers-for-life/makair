@@ -2,17 +2,15 @@
 extern crate nom;
 
 mod parsers;
-mod telemetry;
+mod structures;
 
 use serial::prelude::*;
 use std::io::Read;
 
 use parsers::*;
-use telemetry::*;
+use structures::*;
 
-fn main() {
-    let port_id = "COM30";
-
+pub fn gather_telemetry(port_id: &str) {
     loop {
         println!("Opening {}", &port_id);
         match serial::open(&port_id) {
@@ -21,7 +19,13 @@ fn main() {
                 std::thread::sleep(std::time::Duration::from_secs(1));
             }
             Ok(mut port) => {
-                match port.reconfigure(&|settings| settings.set_baud_rate(serial::Baud115200)) {
+                match port.reconfigure(&|settings| {
+                    settings.set_char_size(serial::Bits8);
+                    settings.set_parity(serial::ParityNone);
+                    settings.set_stop_bits(serial::Stop1);
+                    settings.set_flow_control(serial::FlowNone);
+                    settings.set_baud_rate(serial::Baud115200)
+                }) {
                     Err(e) => {
                         eprintln!("{}", e);
                         std::thread::sleep(std::time::Duration::from_secs(1));
@@ -40,8 +44,38 @@ fn main() {
                                         // It worked! Let's extract the message and replace the buffer with the rest of the bytes
                                         Ok((rest, message)) => {
                                             match message {
+                                                TelemetryMessage::BootMessage {
+                                                    min8,
+                                                    max8,
+                                                    min32,
+                                                    max32,
+                                                    ..
+                                                } => {
+                                                    println!("{:?}", &message);
+                                                    if min8 != 0u8 {
+                                                        eprintln!(
+                                                            "min8 should be equal to 0 (found {})",
+                                                            &min8
+                                                        );
+                                                    }
+                                                    if max8 != 255u8 {
+                                                        eprintln!("max8 should be equal to 255 (found {})", &max8);
+                                                    }
+                                                    if min32 != 0u32 {
+                                                        eprintln!(
+                                                            "min32 should be equal to 0 (found {})",
+                                                            &min32
+                                                        );
+                                                    }
+                                                    if max32 != 4_294_967_295_u32 {
+                                                        eprintln!(
+                                                            "max32 should be equal to 0 (found {})",
+                                                            &max32
+                                                        );
+                                                    }
+                                                }
                                                 TelemetryMessage::DataSnapshot { .. } => {
-                                                    println!("    {:?}", &message)
+                                                    println!("    {:?}", &message);
                                                 }
                                                 TelemetryMessage::MachineStateSnapshot {
                                                     ..

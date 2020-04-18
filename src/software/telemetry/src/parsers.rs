@@ -1,6 +1,6 @@
 use nom::number::streaming::{be_u16, be_u32, be_u64, be_u8};
 
-use crate::telemetry::*;
+use crate::structures::*;
 
 named!(sep, tag!("\t"));
 named!(end, tag!("\n"));
@@ -34,6 +34,44 @@ named!(
 named!(
     triggered<bool>,
     alt!(map!(tag!([240u8]), |_| true) | map!(tag!([15u8]), |_| false))
+);
+
+named!(
+    boot_message<TelemetryMessage>,
+    do_parse!(
+        tag!("B:")
+            >> tag!([1u8])
+            >> software_version_len: be_u8
+            >> software_version:
+                map_res!(take!(software_version_len), |bytes| std::str::from_utf8(
+                    bytes
+                ))
+            >> device_id1: be_u32
+            >> device_id2: be_u32
+            >> device_id3: be_u32
+            >> sep
+            >> systick: be_u64
+            >> sep
+            >> min8: be_u8
+            >> sep
+            >> max8: be_u8
+            >> sep
+            >> min32: be_u32
+            >> sep
+            >> max32: be_u32
+            >> end
+            >> ({
+                TelemetryMessage::BootMessage {
+                    version: software_version.to_string(),
+                    device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                    systick,
+                    min8,
+                    max8,
+                    min32,
+                    max32,
+                }
+            })
+    )
 );
 
 named!(
@@ -135,7 +173,7 @@ named!(
 
 named!(
     alarm_trap<TelemetryMessage>,
-    dbg_dmp!(do_parse!(
+    do_parse!(
         tag!("T:")
             >> tag!([1u8])
             >> software_version_len: be_u8
@@ -159,9 +197,9 @@ named!(
             >> sep
             >> alarm_code: be_u8
             >> sep
-            >> alarm_priority: be_u8
+            >> alarm_priority: alarm_priority
             >> sep
-            >> triggered: dbg_dmp!(triggered)
+            >> triggered: triggered
             >> sep
             >> expected: be_u32
             >> sep
@@ -169,29 +207,48 @@ named!(
             >> sep
             >> cycles_since_trigger: be_u32
             >> end
-            >> ({
-                println!("{:?}", triggered);
-                println!("{:#b}", alarm_priority);
-                TelemetryMessage::AlarmTrap {
-                    version: software_version.to_string(),
-                    device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
-                    systick,
-                    centile,
-                    pressure,
-                    phase: phase_and_subphase.0,
-                    subphase: phase_and_subphase.1,
-                    cycle,
-                    alarm_code,
-                    alarm_priority: AlarmPriority::High,
-                    triggered: true,
-                    expected,
-                    measured,
-                    cycles_since_trigger,
-                }
+            >> (TelemetryMessage::AlarmTrap {
+                version: software_version.to_string(),
+                device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                systick,
+                centile,
+                pressure,
+                phase: phase_and_subphase.0,
+                subphase: phase_and_subphase.1,
+                cycle,
+                alarm_code,
+                alarm_priority: alarm_priority,
+                triggered,
+                expected,
+                measured,
+                cycles_since_trigger,
             })
-    ))
+    )
 );
 
 named!(pub parse_telemetry_message<TelemetryMessage>, alt!(
-    data_snapshot | machine_state_snapshot | alarm_trap
+    boot_message | data_snapshot | machine_state_snapshot | alarm_trap
 ));
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_boot_message_parser() {
+        let input = b"B:\x01\x04test\xaa\xaa\xaa\xaa\xbb\xbb\xbb\xbb\xaa\xaa\xaa\xaa\t\x00\x00\x00\x00\x00\x00\x00\xff\t\x00\t\xff\t\x00\x00\x00\x00\t\xff\xff\xff\xff\n";
+        let expected = TelemetryMessage::BootMessage {
+            version: "test".to_string(),
+            device_id: "2863311530-3149642683-2863311530".to_string(),
+            systick: 255,
+            min8: 0,
+            max8: 255,
+            min32: 0,
+            max32: 4294967295,
+        };
+        assert_eq!(
+            nom::dbg_dmp(boot_message, "boot_message")(input),
+            Ok((&[][..], expected))
+        );
+    }
+}

@@ -1,25 +1,34 @@
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Phase {
     Inhalation,
     Exhalation,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SubPhase {
     Inspiration,
     HoldInspiration,
     Exhale,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum AlarmPriority {
     High,
     Medium,
     Low,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum TelemetryMessage {
+    BootMessage {
+        version: String,
+        device_id: String,
+        systick: u64,
+        min8: u8,
+        max8: u8,
+        min32: u32,
+        max32: u32,
+    },
     DataSnapshot {
         version: String,
         device_id: String,
