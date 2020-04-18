@@ -45,53 +45,7 @@ pub fn gather_telemetry(port_id: &str) {
                                     match parse_telemetry_message(&buffer) {
                                         // It worked! Let's extract the message and replace the buffer with the rest of the bytes
                                         Ok((rest, message)) => {
-                                            match message {
-                                                TelemetryMessage::BootMessage {
-                                                    min8,
-                                                    max8,
-                                                    min32,
-                                                    max32,
-                                                    ..
-                                                } => {
-                                                    info!("{:?}", &message);
-                                                    if min8 != 0u8 {
-                                                        warn!(
-                                                            "min8 should be equal to 0 (found {})",
-                                                            &min8
-                                                        );
-                                                    }
-                                                    if max8 != 255u8 {
-                                                        warn!("max8 should be equal to 255 (found {})", &max8);
-                                                    }
-                                                    if min32 != 0u32 {
-                                                        warn!(
-                                                            "min32 should be equal to 0 (found {})",
-                                                            &min32
-                                                        );
-                                                    }
-                                                    if max32 != 4_294_967_295_u32 {
-                                                        warn!(
-                                                            "max32 should be equal to 0 (found {})",
-                                                            &max32
-                                                        );
-                                                    }
-                                                }
-                                                TelemetryMessage::DataSnapshot { .. } => {
-                                                    info!("    {:?}", &message);
-                                                }
-                                                TelemetryMessage::MachineStateSnapshot {
-                                                    ..
-                                                } => {
-                                                    debug!("------------------------------------------------------------------------------------");
-                                                    info!("{:?}", &message);
-                                                    debug!("------------------------------------------------------------------------------------");
-                                                }
-                                                TelemetryMessage::AlarmTrap { .. } => {
-                                                    debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                                                    info!("{:?}", &message);
-                                                    debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                                                }
-                                            }
+                                            display_message(message);
                                             buffer = Vec::from(rest);
                                         }
                                         // There are not enough bytes, let's wait until we get more
@@ -123,6 +77,45 @@ pub fn gather_telemetry(port_id: &str) {
                     }
                 }
             }
+        }
+    }
+}
+
+fn display_message(message: TelemetryMessage) {
+    match message {
+        TelemetryMessage::BootMessage {
+            min8,
+            max8,
+            min32,
+            max32,
+            ..
+        } => {
+            info!("{:?}", &message);
+            if min8 != 0u8 {
+                warn!("min8 should be equal to 0 (found {})", &min8);
+            }
+            if max8 != 255u8 {
+                warn!("max8 should be equal to 255 (found {})", &max8);
+            }
+            if min32 != 0u32 {
+                warn!("min32 should be equal to 0 (found {})", &min32);
+            }
+            if max32 != 4_294_967_295_u32 {
+                warn!("max32 should be equal to 0 (found {})", &max32);
+            }
+        }
+        TelemetryMessage::DataSnapshot { .. } => {
+            info!("    {:?}", &message);
+        }
+        TelemetryMessage::MachineStateSnapshot { .. } => {
+            debug!("------------------------------------------------------------------------------------");
+            info!("{:?}", &message);
+            debug!("------------------------------------------------------------------------------------");
+        }
+        TelemetryMessage::AlarmTrap { .. } => {
+            debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            info!("{:?}", &message);
+            debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
 }
