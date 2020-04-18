@@ -1,4 +1,6 @@
 #[macro_use]
+extern crate log;
+#[macro_use]
 extern crate nom;
 
 mod parsers;
@@ -12,10 +14,10 @@ use structures::*;
 
 pub fn gather_telemetry(port_id: &str) {
     loop {
-        println!("Opening {}", &port_id);
+        info!("Opening {}", &port_id);
         match serial::open(&port_id) {
             Err(e) => {
-                eprintln!("{}", e);
+                error!("{}", e);
                 std::thread::sleep(std::time::Duration::from_secs(1));
             }
             Ok(mut port) => {
@@ -27,7 +29,7 @@ pub fn gather_telemetry(port_id: &str) {
                     settings.set_baud_rate(serial::Baud115200)
                 }) {
                     Err(e) => {
-                        eprintln!("{}", e);
+                        error!("{}", e);
                         std::thread::sleep(std::time::Duration::from_secs(1));
                     }
                     Ok(_) => {
@@ -51,43 +53,43 @@ pub fn gather_telemetry(port_id: &str) {
                                                     max32,
                                                     ..
                                                 } => {
-                                                    println!("{:?}", &message);
+                                                    info!("{:?}", &message);
                                                     if min8 != 0u8 {
-                                                        eprintln!(
+                                                        warn!(
                                                             "min8 should be equal to 0 (found {})",
                                                             &min8
                                                         );
                                                     }
                                                     if max8 != 255u8 {
-                                                        eprintln!("max8 should be equal to 255 (found {})", &max8);
+                                                        warn!("max8 should be equal to 255 (found {})", &max8);
                                                     }
                                                     if min32 != 0u32 {
-                                                        eprintln!(
+                                                        warn!(
                                                             "min32 should be equal to 0 (found {})",
                                                             &min32
                                                         );
                                                     }
                                                     if max32 != 4_294_967_295_u32 {
-                                                        eprintln!(
+                                                        warn!(
                                                             "max32 should be equal to 0 (found {})",
                                                             &max32
                                                         );
                                                     }
                                                 }
                                                 TelemetryMessage::DataSnapshot { .. } => {
-                                                    println!("    {:?}", &message);
+                                                    info!("    {:?}", &message);
                                                 }
                                                 TelemetryMessage::MachineStateSnapshot {
                                                     ..
                                                 } => {
-                                                    println!("------------------------------------------------------------------------------------");
-                                                    println!("{:?}", &message);
-                                                    println!("------------------------------------------------------------------------------------");
+                                                    debug!("------------------------------------------------------------------------------------");
+                                                    info!("{:?}", &message);
+                                                    debug!("------------------------------------------------------------------------------------");
                                                 }
                                                 TelemetryMessage::AlarmTrap { .. } => {
-                                                    println!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                                                    println!("{:?}", &message);
-                                                    println!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                                    debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                                    info!("{:?}", &message);
+                                                    debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                                                 }
                                             }
                                             buffer = Vec::from(rest);
@@ -98,7 +100,7 @@ pub fn gather_telemetry(port_id: &str) {
                                         }
                                         // We can't do anything with the begining of the buffer, let's drop its first byte
                                         Err(e) => {
-                                            eprintln!("{:?}", &e);
+                                            debug!("{:?}", &e);
                                             if !buffer.is_empty() {
                                                 buffer.remove(0);
                                             }
@@ -111,7 +113,7 @@ pub fn gather_telemetry(port_id: &str) {
                                          // Do nothing
                                     } else {
                                         // It's another error, let's print it and wait a bit before retrying the whole process
-                                        eprintln!("{:?}", &e);
+                                        error!("{:?}", &e);
                                         std::thread::sleep(std::time::Duration::from_secs(1));
                                         break;
                                     }
