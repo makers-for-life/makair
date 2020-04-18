@@ -4,15 +4,16 @@ extern crate log;
 extern crate nom;
 
 mod parsers;
-mod structures;
+pub mod structures;
 
 use serial::prelude::*;
 use std::io::Read;
+use std::sync::mpsc::Sender;
 
 use parsers::*;
 use structures::*;
 
-pub fn gather_telemetry(port_id: &str) {
+pub fn gather_telemetry(port_id: &str, tx: Sender<TelemetryMessage>) {
     loop {
         info!("Opening {}", &port_id);
         match serial::open(&port_id) {
@@ -45,7 +46,7 @@ pub fn gather_telemetry(port_id: &str) {
                                     match parse_telemetry_message(&buffer) {
                                         // It worked! Let's extract the message and replace the buffer with the rest of the bytes
                                         Ok((rest, message)) => {
-                                            display_message(message);
+                                            tx.send(message).unwrap();
                                             buffer = Vec::from(rest);
                                         }
                                         // There are not enough bytes, let's wait until we get more
@@ -81,7 +82,7 @@ pub fn gather_telemetry(port_id: &str) {
     }
 }
 
-fn display_message(message: TelemetryMessage) {
+pub fn display_message(message: TelemetryMessage) {
     match message {
         TelemetryMessage::BootMessage {
             min8,
