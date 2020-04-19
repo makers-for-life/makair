@@ -257,7 +257,7 @@ mod tests {
             min8: 0,
             max8: 255,
             min32: 0,
-            max32: 4294967295,
+            max32: 4_294_967_295,
         };
         assert_eq!(
             nom::dbg_dmp(boot_message, "boot_message")(input),
