@@ -26,6 +26,7 @@
 #include "../includes/pressure.h"
 #include "../includes/pressure_valve.h"
 #include "../includes/screen.h"
+#include "../includes/telemetry.h"
 
 // State machine states
 #define STEP_WELCOME 0

@@ -6,15 +6,18 @@ on:
       - .github/workflows/**
       - src/software/telemetry/**
 
-defaults:
-  run:
-    working-directory: src/software/telemetry
-
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          path: repo
+
+      - name: Prepare telemetry code
+        run: |
+          mv repo/src/software/telemetry/* ./
+          ls -la .
 
       - name: Install latest stable
         uses: actions-rs/toolchain@v1.0.6
