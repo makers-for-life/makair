@@ -16,7 +16,9 @@
 #include "../includes/buzzer.h"
 #include "../includes/cycle.h"
 #include "../includes/screen.h"
+#if HARDWARE_VERSION == 2
 #include "../includes/telemetry.h"
+#endif
 
 // INITIALISATION =============================================================
 
@@ -143,6 +145,11 @@ void AlarmController::detectedAlarm(uint8_t p_alarmCode,
                                     uint32_t p_cycleNumber,
                                     uint32_t p_expected,
                                     uint32_t p_measured) {
+#if HARDWARE_VERSION == 1
+    (void)p_expected;
+    (void)p_measured;
+#endif
+
     for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
         Alarm* current = &m_alarms[i];
         bool wasTriggered = current->isTriggered();
@@ -160,11 +167,13 @@ void AlarmController::detectedAlarm(uint8_t p_alarmCode,
                     }
                 }
 
+#if HARDWARE_VERSION == 2
                 if (!wasTriggered) {
                     sendAlarmTrap(m_centile, m_pressure, m_phase, m_subphase, m_cycle_number,
                                   current->getCode(), current->getPriority(), true, p_expected,
                                   p_measured, current->getCyclesSinceTrigger());
                 }
+#endif
             }
             break;
         }
@@ -178,11 +187,13 @@ void AlarmController::notDetectedAlarm(uint8_t p_alarmCode) {
         if (current->getCode() == p_alarmCode) {
             current->notDetected();
 
+#if HARDWARE_VERSION == 2
             if (wasTriggered && !current->isTriggered()) {
                 sendAlarmTrap(m_centile, m_pressure, m_phase, m_subphase, m_cycle_number,
                               current->getCode(), current->getPriority(), false, 0u, 0u,
                               current->getCyclesSinceTrigger());
             }
+#endif
             break;
         }
     }

@@ -1,7 +1,7 @@
 /******************************************************************************
  * @author Makers For Life
  * @copyright Copyright (c) 2020 Makers For Life
- * @file pressure_controller.h
+ * @file cycle.h
  * @brief Static data linked to the breathing cycle
  *****************************************************************************/
 

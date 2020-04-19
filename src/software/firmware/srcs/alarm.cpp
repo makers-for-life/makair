@@ -31,6 +31,7 @@ AlarmPriority Alarm::getPriority() const { return m_priority; }
 
 uint8_t Alarm::getCode() const { return m_code; }
 
+// cppcheck-suppress unusedFunction
 uint32_t Alarm::getCyclesSinceTrigger() const { return m_cyclesSinceTrigger; }
 
 bool Alarm::isTriggered() const { return m_detectionNumber >= m_detectionThreshold; }
