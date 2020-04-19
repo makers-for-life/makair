@@ -19,6 +19,10 @@ jobs:
             override: true
             components: rustfmt, clippy
 
+      - name: Go to telemetry directory
+        run: |
+          cd src/software/telemetry || exit 1
+
       - name: Lint
         uses: actions-rs/clippy-check@v1.0.5
         with:
@@ -51,4 +55,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: telemetry_debug
-          path: target/release/telemetry_debug
+          path: src/software/telemetry/target/release/telemetry_debug
