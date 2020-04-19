@@ -14,7 +14,9 @@
 // Internals
 #include "../includes/alarm_controller.h"
 #include "../includes/buzzer.h"
+#include "../includes/cycle.h"
 #include "../includes/screen.h"
+#include "../includes/telemetry.h"
 
 // INITIALISATION =============================================================
 
@@ -109,7 +111,12 @@ AlarmController::AlarmController()
            * The device shall embed an information (audible) signal 31 when the mains are
            * disconnected to alert the user (vOut < 26,5V).
            */
-          Alarm(AlarmPriority::ALARM_LOW, RCM_SW_16, 1u)}) {
+          Alarm(AlarmPriority::ALARM_LOW, RCM_SW_16, 1u)}),
+      m_centile(0u),
+      m_pressure(0u),
+      m_phase(CyclePhases::INHALATION),
+      m_subphase(CycleSubPhases::INSPIRATION),
+      m_cycle_number(0u) {
     for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
         m_snoozedAlarms[i] = false;
     }
@@ -132,9 +139,13 @@ void AlarmController::snooze() {
     }
 }
 
-void AlarmController::detectedAlarm(uint8_t p_alarmCode, uint32_t p_cycleNumber) {
+void AlarmController::detectedAlarm(uint8_t p_alarmCode,
+                                    uint32_t p_cycleNumber,
+                                    uint32_t p_expected,
+                                    uint32_t p_measured) {
     for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
         Alarm* current = &m_alarms[i];
+        bool wasTriggered = current->isTriggered();
         if (current->getCode() == p_alarmCode) {
             current->detected(p_cycleNumber);
 
@@ -148,6 +159,12 @@ void AlarmController::detectedAlarm(uint8_t p_alarmCode, uint32_t p_cycleNumber)
                         break;
                     }
                 }
+
+                if (!wasTriggered) {
+                    sendAlarmTrap(m_centile, m_pressure, m_phase, m_subphase, m_cycle_number,
+                                  current->getCode(), current->getPriority(), true, p_expected,
+                                  p_measured, current->getCyclesSinceTrigger());
+                }
             }
             break;
         }
@@ -157,8 +174,15 @@ void AlarmController::detectedAlarm(uint8_t p_alarmCode, uint32_t p_cycleNumber)
 void AlarmController::notDetectedAlarm(uint8_t p_alarmCode) {
     for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
         Alarm* current = &m_alarms[i];
+        bool wasTriggered = current->isTriggered();
         if (current->getCode() == p_alarmCode) {
             current->notDetected();
+
+            if (wasTriggered && !current->isTriggered()) {
+                sendAlarmTrap(m_centile, m_pressure, m_phase, m_subphase, m_cycle_number,
+                              current->getCode(), current->getPriority(), false, 0u, 0u,
+                              current->getCyclesSinceTrigger());
+            }
             break;
         }
     }
@@ -240,6 +264,18 @@ void AlarmController::runAlarmEffects(uint16_t p_centiSec) {
     }
 
     m_highestPriority = highestPriority;
+}
+
+void AlarmController::updateCoreData(uint16_t p_centile,
+                                     uint16_t p_pressure,
+                                     CyclePhases p_phase,
+                                     CycleSubPhases p_subphase,
+                                     uint32_t p_cycle_number) {
+    m_centile = p_centile;
+    m_pressure = p_pressure;
+    m_phase = p_phase;
+    m_subphase = p_subphase;
+    m_cycle_number = p_cycle_number;
 }
 
 void AlarmController::changeCycle() {

@@ -91,7 +91,11 @@ pub fn display_message(message: TelemetryMessage) {
             max32,
             ..
         } => {
+            debug!("####################################################################################");
+            debug!("######### CONTROLLER STARTED #########");
+            debug!("####################################################################################");
             info!("{:?}", &message);
+            debug!("####################################################################################");
             if min8 != 0u8 {
                 warn!("min8 should be equal to 0 (found {})", &min8);
             }
@@ -113,9 +117,10 @@ pub fn display_message(message: TelemetryMessage) {
             info!("{:?}", &message);
             debug!("------------------------------------------------------------------------------------");
         }
-        TelemetryMessage::AlarmTrap { .. } => {
+        TelemetryMessage::AlarmTrap { triggered, .. } => {
+            let prefix = if triggered { "NEW ALARM" } else { "STOPPED" };
             debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            info!("{:?}", &message);
+            info!("{} {:?}", &prefix, &message);
             debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }

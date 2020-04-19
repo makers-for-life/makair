@@ -31,6 +31,8 @@ AlarmPriority Alarm::getPriority() const { return m_priority; }
 
 uint8_t Alarm::getCode() const { return m_code; }
 
+uint32_t Alarm::getCyclesSinceTrigger() const { return m_cyclesSinceTrigger; }
+
 bool Alarm::isTriggered() const { return m_detectionNumber >= m_detectionThreshold; }
 
 void Alarm::detected(uint32_t p_cycleNumber) {
@@ -46,6 +48,6 @@ void Alarm::detected(uint32_t p_cycleNumber) {
 
 void Alarm::notDetected() {
     m_cycleNumber = UINT32_MAX;
-    m_detectionNumber = 0;
+    m_detectionNumber = 0u;
     m_cyclesSinceTrigger = 0u;
 }

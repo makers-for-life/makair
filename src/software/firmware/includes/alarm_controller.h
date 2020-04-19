@@ -11,6 +11,7 @@
 
 // Internals
 #include "../includes/alarm.h"
+#include "../includes/cycle.h"
 
 // CONSTANTS ==================================================================
 
@@ -48,8 +49,14 @@ class AlarmController {
      *
      * @param p_alarmCode The code of the alarm
      * @param p_cycleNumber The cycle number since the device startup
+     * @param p_expected The expected value
+     * @param p_measured The measured value that was different from the expected value thus
+     * triggering the alarm
      */
-    void detectedAlarm(uint8_t p_alarmCode, uint32_t p_cycleNumber);
+    void detectedAlarm(uint8_t p_alarmCode,
+                       uint32_t p_cycleNumber,
+                       uint32_t p_expected,
+                       uint32_t p_measured);
 
     /**
      * Reset detection of a specific alarm
@@ -63,6 +70,13 @@ class AlarmController {
      * @param p_centiSec Centile in the respiratory cycle
      */
     void runAlarmEffects(uint16_t p_centiSec);
+
+    /// Update internal state of alarm controller with data from pressure controller
+    void updateCoreData(uint16_t p_centile,
+                        uint16_t p_pressure,
+                        CyclePhases p_phase,
+                        CycleSubPhases p_subphase,
+                        uint32_t p_cycle_number);
 
     /// Archive alarms triggered during this cycle
     void changeCycle(void);
@@ -94,6 +108,21 @@ class AlarmController {
 
     /// Alarms triggered during the previous cycle
     uint8_t m_previousCycleAlarms[ALARMS_SIZE];
+
+    /// Current pressure
+    uint16_t m_centile;
+
+    /// Current pressure
+    uint16_t m_pressure;
+
+    /// Current phase
+    CyclePhases m_phase;
+
+    /// Current subphase
+    CycleSubPhases m_subphase;
+
+    /// Current cycle number
+    uint32_t m_cycle_number;
 };
 
 // INITIALISATION =============================================================
