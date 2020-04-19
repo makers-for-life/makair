@@ -333,13 +333,13 @@ void sendAlarmTrap(uint16_t centileValue,
     (void)pressureValue;
     (void)phase;
     (void)subPhase;
-    (void)cycleNumber;
+    (void)cycleValue;
     (void)alarmCode;
     (void)alarmPriority;
     (void)triggered;
     (void)expectedValue;
     (void)measuredValue;
-    (void)cyclesSinceTrigger;
+    (void)cyclesSinceTriggerValue;
 #elif HARDWARE_VERSION == 2
     uint8_t phaseValue;
     if ((phase == CyclePhases::INHALATION) && (subPhase == CycleSubPhases::INSPIRATION)) {
