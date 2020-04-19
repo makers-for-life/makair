@@ -8,7 +8,6 @@
 #pragma once
 
 #include "../includes/config.h"
-#if MODE == MODE_PROD
 
 // INCLUDES ===================================================================
 
@@ -478,5 +477,3 @@ void sendAlarmTrap(uint16_t centileValue,
     Serial6.print("\n");
 #endif
 }
-
-#endif

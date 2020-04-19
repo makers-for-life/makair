@@ -365,7 +365,8 @@ void setup() {
     DBG_DO(Serial.println("demarrage"));
 
 #if HARDWARE_VERSION == 2
-    Serial6.begin(115200);
+    initTelemetry();
+    sendBootMessage();
 #endif
 
 #if HARDWARE_VERSION == 1

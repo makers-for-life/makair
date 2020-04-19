@@ -266,6 +266,7 @@ void AlarmController::runAlarmEffects(uint16_t p_centiSec) {
     m_highestPriority = highestPriority;
 }
 
+// cppcheck-suppress unusedFunction
 void AlarmController::updateCoreData(uint16_t p_centile,
                                      uint16_t p_pressure,
                                      CyclePhases p_phase,

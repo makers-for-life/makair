@@ -6,6 +6,10 @@ on:
       - .github/workflows/**
       - src/software/telemetry/**
 
+defaults:
+  run:
+    working-directory: src/software/telemetry
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -18,10 +22,6 @@ jobs:
             toolchain: stable
             override: true
             components: rustfmt, clippy
-
-      - name: Go to telemetry directory
-        run: |
-          cd src/software/telemetry || exit 1
 
       - name: Lint
         uses: actions-rs/clippy-check@v1.0.5
@@ -55,4 +55,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: telemetry_debug
-          path: src/software/telemetry/target/release/telemetry_debug
+          path: target/release/telemetry_debug

@@ -116,6 +116,11 @@ void setup() {
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("Booting the system in integration mode...");)
 
+#if HARDWARE_VERSION == 2
+    initTelemetry();
+    sendBootMessage();
+#endif
+
     btn_start.attachClick(onStartClick);
 
     startScreen();
