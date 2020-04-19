@@ -191,6 +191,9 @@ class PressureController {
      */
     void updateDt(int32_t p_dt);
 
+    /// Updates peak pressure
+    void updatePeakPressure();
+
  private:
     /**
      * Update the cycle phase

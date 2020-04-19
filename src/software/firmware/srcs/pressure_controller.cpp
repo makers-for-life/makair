@@ -171,7 +171,7 @@ void PressureController::initRespiratoryCycle() {
 }
 
 void PressureController::endRespiratoryCycle() {
-    updateBlower();
+    updatePeakPressure();
     checkCycleAlarm();
 
     // If plateau is not detected or is too close to PEEP, mark it as "unknown"
@@ -435,6 +435,47 @@ void PressureController::exhale() {
 }
 
 void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
+
+void PressureController::updatePeakPressure() {
+    int increase = 5u;
+
+    // Only if plateau pressure has been computed
+    if (m_plateauPressure > 0 && m_plateauPressure < UINT16_MAX) {
+
+        // If plateau is not stable yet, then update the blower
+        if (abs(m_plateauPressure - m_maxPlateauPressure) > 15) {
+            updateBlower();
+        }
+
+        int delta = abs(m_maxPlateauPressureCommand - m_plateauPressure);
+
+        // If Peak Pressure is stabilized or plateau pressure has been lowered
+        if (abs(m_maxPeakPressureCommand - m_peakPressure) < 5
+            || abs(m_maxPlateauPressureCommand - m_plateauPressure) > 40) {
+
+            if (delta > 40) {
+                increase = 40u;
+            } else if (delta > 30) {
+                increase = 30u;
+            } else if (delta > 20) {
+                increase = 20u;
+            }
+
+       
+            // Make sure the blower is following up
+            if (abs(m_maxPeakPressureCommand - m_peakPressure) < 50) {
+                if (m_plateauPressure < m_maxPlateauPressureCommand) {
+                    m_maxPeakPressureCommand = m_maxPeakPressureCommand + increase;
+                } else {
+                    m_maxPeakPressureCommand = m_maxPeakPressureCommand - increase;
+                }
+            } else {
+                // Increase Blower
+                updateBlower();
+            }
+        }
+    }
+}
 
 void PressureController::computeCentiSecParameters() {
     m_centiSecPerCycle = 60u * 100u / m_cyclesPerMinute;
