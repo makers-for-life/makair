@@ -1,4 +1,11 @@
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub enum Mode {
+    Production,
+    Qualification,
+    IntegrationTest,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Phase {
     Inhalation,
     Exhalation,
@@ -24,6 +31,7 @@ pub enum TelemetryMessage {
         version: String,
         device_id: String,
         systick: u64,
+        mode: Mode,
         min8: u8,
         max8: u8,
         min32: u32,

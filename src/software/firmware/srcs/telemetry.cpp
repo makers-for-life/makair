@@ -85,6 +85,8 @@ void sendBootMessage() {
     Serial6.write(systick, 8);
 
     Serial6.print("\t");
+    Serial6.write(MODE);
+    Serial6.print("\t");
     Serial6.write(min8);
     Serial6.print("\t");
     Serial6.write(max8);

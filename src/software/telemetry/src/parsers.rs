@@ -6,6 +6,15 @@ named!(sep, tag!("\t"));
 named!(end, tag!("\n"));
 
 named!(
+    mode<Mode>,
+    alt!(
+        map!(tag!(b"\x01"), |_| Mode::Production)
+            | map!(tag!(b"\x02"), |_| Mode::Qualification)
+            | map!(tag!(b"\x03"), |_| Mode::IntegrationTest)
+    )
+);
+
+named!(
     phase_and_subphase<(Phase, SubPhase)>,
     alt!(
         map!(tag!([17u8]), |_| (Phase::Inhalation, SubPhase::Inspiration))
@@ -52,6 +61,8 @@ named!(
             >> sep
             >> systick: be_u64
             >> sep
+            >> mode: mode
+            >> sep
             >> min8: be_u8
             >> sep
             >> max8: be_u8
@@ -65,6 +76,7 @@ named!(
                     version: software_version.to_string(),
                     device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                     systick,
+                    mode,
                     min8,
                     max8,
                     min32,
@@ -236,11 +248,12 @@ mod tests {
 
     #[test]
     fn test_boot_message_parser() {
-        let input = b"B:\x01\x04test\xaa\xaa\xaa\xaa\xbb\xbb\xbb\xbb\xaa\xaa\xaa\xaa\t\x00\x00\x00\x00\x00\x00\x00\xff\t\x00\t\xff\t\x00\x00\x00\x00\t\xff\xff\xff\xff\n";
+        let input = b"B:\x01\x04test\xaa\xaa\xaa\xaa\xbb\xbb\xbb\xbb\xaa\xaa\xaa\xaa\t\x00\x00\x00\x00\x00\x00\x00\xff\t\x02\t\x00\t\xff\t\x00\x00\x00\x00\t\xff\xff\xff\xff\n";
         let expected = TelemetryMessage::BootMessage {
             version: "test".to_string(),
             device_id: "2863311530-3149642683-2863311530".to_string(),
             systick: 255,
+            mode: Mode::Qualification,
             min8: 0,
             max8: 255,
             min32: 0,
