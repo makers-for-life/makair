@@ -14,7 +14,7 @@ jobs:
         with:
           path: repo
 
-      - name: Prepare telemetry code
+      - name: Prepare telemetry codebase
         run: |
           mv repo/src/software/telemetry/* ./
           ls -la .
@@ -52,7 +52,7 @@ jobs:
         uses: actions-rs/cargo@v1.0.1
         with:
           command: build
-          args: --bin telemetry_debug --features="build-binary" --release
+          args: --bin telemetry_debug --features=build-binary --release
 
       - name: Archive binary
         uses: actions/upload-artifact@v1

@@ -62,6 +62,10 @@ int16_t pressureOffset;
 int32_t pressureOffsetSum;
 uint32_t pressureOffsetCount;
 
+#if HARDWARE_VERSION == 2
+HardwareSerial Serial6(PIN_TELEMETRY_SERIAL_RX, PIN_TELEMETRY_SERIAL_TX);
+#endif
+
 /**
  * Block execution for a given duration
  *
