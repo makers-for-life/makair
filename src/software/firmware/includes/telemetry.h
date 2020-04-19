@@ -9,7 +9,8 @@
 
 #include <stdint.h>
 
-#include "../includes/pressure_controller.h"
+#include "../includes/alarm_controller.h"
+#include "../includes/cycle.h"
 
 void initTelemetry(void);
 

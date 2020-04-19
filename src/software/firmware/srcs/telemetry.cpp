@@ -1,7 +1,7 @@
 /******************************************************************************
  * @author Makers For Life
  * @copyright Copyright (c) 2020 Makers For Life
- * @file telemetry.h
+ * @file telemetry.cpp
  * @brief Implementation of the telemetry protocol
  *****************************************************************************/
 
