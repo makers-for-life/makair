@@ -60,6 +60,9 @@ Blower blower;
 int16_t pressureOffset;
 int32_t pressureOffsetSum;
 uint32_t pressureOffsetCount;
+int16_t minOffsetValue = 0;
+int16_t maxOffsetValue = 0;
+
 
 /**
  * Block execution for a given duration
@@ -68,10 +71,19 @@ uint32_t pressureOffsetCount;
  */
 void waitForInMs(uint16_t ms) {
     uint16_t start = millis();
+    minOffsetValue = readPressureSensor(0, 0);
+    maxOffsetValue = readPressureSensor(0, 0);
+    pressureOffsetSum = 0;
+    pressureOffsetCount = 0;
+
+
     while ((millis() - start) < ms) {
         // Measure 1 pressure per ms we wait
         if ((millis() - start) > pressureOffsetCount) {
-            pressureOffsetSum += readPressureSensor(0, 0);
+            int16_t pressureValue = readPressureSensor(0, 0);
+            pressureOffsetSum += pressureValue;
+            minOffsetValue = min(pressureValue, minOffsetValue);
+            maxOffsetValue = max(pressureValue, maxOffsetValue);
             pressureOffsetCount++;
         }
         continue;
@@ -176,7 +188,7 @@ void setup() {
 
     pinMode(PIN_LED_START, OUTPUT);
     digitalWrite(PIN_LED_START, LED_START_ACTIVE);
-
+    waitForInMs(1000);
     resetScreen();
     screen.setCursor(0, 0);
     screen.print("Calibrating P offset");
@@ -196,6 +208,25 @@ void setup() {
         Serial.print(pressureOffset);
         Serial.println();
     })
+    // Happens when patient is plugged at starting
+    if (maxOffsetValue - minOffsetValue >= 10){
+        resetScreen();
+        screen.setCursor(0, 0);
+        char line1[SCREEN_LINE_LENGTH + 1];
+        (void)snprintf(line1, SCREEN_LINE_LENGTH + 1, "P offset is unstable", pressureOffset);
+        screen.print(line1);
+        screen.setCursor(0, 1);
+        char line2[SCREEN_LINE_LENGTH + 1];
+        (void)snprintf(line2, SCREEN_LINE_LENGTH + 1, "Max-Min: %3d mmH2O", maxOffsetValue - minOffsetValue);
+        screen.print(line2);
+        screen.setCursor(0, 2);
+        screen.print("Unplug patient and");
+        screen.setCursor(0, 3);
+        screen.print("reboot");
+        Buzzer_High_Prio_Start();
+        while (true) {
+        }
+    }
     if (pressureOffset >= MAX_PRESSURE_OFFSET) {
         resetScreen();
         screen.setCursor(0, 0);
