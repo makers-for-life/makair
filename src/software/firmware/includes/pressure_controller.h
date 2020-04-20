@@ -205,7 +205,7 @@ class PressureController {
     /**
      * Update blower speed
      *
-     * @param allow to incrase the blower
+     * @param increase to incrase the blower
      */
     void updateBlower(bool increase);
 
