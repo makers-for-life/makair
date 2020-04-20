@@ -360,7 +360,7 @@ void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
 }
 
 void PressureController::updateBlower(bool increase) {
-    if ((m_plateauPressure - m_maxPlateauPressureCommand) > 40) {
+    if ((m_plateauPressure - m_maxPlateauPressureCommand) > 40u) {
         m_blower_increment = -40;
         DBG_DO(Serial.println("BLOWER -40");)
     } else if (m_plateauStartTime < ((m_centiSecPerInhalation * 30u) / 100u)) {
@@ -447,7 +447,7 @@ void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
 
 void PressureController::updatePeakPressure() {
     // Only if plateau pressure has been computed
-    if (m_plateauPressure > 0 && m_plateauPressure < UINT16_MAX) {
+    if (m_plateauPressure > 0u && m_plateauPressure < UINT16_MAX) {
         uint16_t increaseBlower = false;
         uint16_t plateauDelta = abs(m_maxPlateauPressureCommand - m_plateauPressure);
         uint16_t peakDelta = abs(m_maxPeakPressureCommand - m_peakPressure);
