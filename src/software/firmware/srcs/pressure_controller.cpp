@@ -453,8 +453,12 @@ void PressureController::updatePeakPressure() {
         }
 
         // If plateau has been stabilized, then set peak pressure
-        if (plateauDelta < 7) {
-            m_maxPeakPressureCommand = m_peakPressure + 10u;
+        if (plateauDelta < 7u) {
+            if (peakDelta > 15u) {
+                m_maxPeakPressureCommand = m_peakPressure + 10u;
+            } else {
+                m_maxPeakPressureCommand = m_maxPeakPressureCommand;
+            }
         }
 
         // If Peak Pressure is stabilized or plateau pressure has been lowered
@@ -468,7 +472,7 @@ void PressureController::updatePeakPressure() {
             }
 
             // Make sure the blower is following up
-            if (peakDelta < 50u) {
+            if (peakDelta < 30u) {
                 if (m_plateauPressure < m_maxPlateauPressureCommand) {
                     m_maxPeakPressureCommand = m_maxPeakPressureCommand + increase;
                 } else {
