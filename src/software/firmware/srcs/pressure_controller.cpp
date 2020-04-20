@@ -359,7 +359,7 @@ void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
     }
 }
 
-void PressureController::updateBlower() {
+void PressureController::updateBlower(bool increase) {
     if (m_plateauPressure - m_maxPlateauPressureCommand > 40) {
         m_blower_increment = -40;
         DBG_DO(Serial.println("BLOWER -40");)
@@ -373,10 +373,16 @@ void PressureController::updateBlower() {
     } else if ((m_plateauStartTime > ((m_centiSecPerInhalation * 60u) / 100u))
                && (m_plateauStartTime <= ((m_centiSecPerInhalation * 70u) / 100u))) {
         DBG_DO(Serial.println("BLOWER +10");)
-        m_blower_increment = +10;
+
+        if (increase) {
+            m_blower_increment = +10;
+        }
     } else if (m_plateauStartTime > ((m_centiSecPerInhalation * 70u) / 100u)) {
         DBG_DO(Serial.println("BLOWER +40");)
-        m_blower_increment = 40;
+
+        if (increase) {
+            m_blower_increment = +40;
+        }
     } else {
         m_blower_increment = 0;
     }
@@ -441,6 +447,7 @@ void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
 
 void PressureController::updatePeakPressure() {
     int increase = 5u;
+    int increaseBlower = false;
 
     // Only if plateau pressure has been computed
     if (m_plateauPressure > 0 && m_plateauPressure < UINT16_MAX) {
@@ -449,7 +456,7 @@ void PressureController::updatePeakPressure() {
 
         // If plateau is not stable yet, then update the blower
         if (plateauDelta > 15 || m_peakPressure - m_maxPeakPressureCommand > 40u) {
-            updateBlower();
+            increaseBlower = true;
         }
 
         // If plateau has been stabilized, then set peak pressure
@@ -478,11 +485,10 @@ void PressureController::updatePeakPressure() {
                 } else {
                     m_maxPeakPressureCommand = m_maxPeakPressureCommand - increase;
                 }
-            } else {
-                // Increase Blower
-                updateBlower();
             }
         }
+
+        updateBlower(increaseBlower);
     }
 }
 

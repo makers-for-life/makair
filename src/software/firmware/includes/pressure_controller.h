@@ -202,8 +202,12 @@ class PressureController {
      */
     void updatePhase(uint16_t p_centiSec);
 
-    /// Update blower speed
-    void updateBlower();
+    /**
+     * Update blower speed
+     *
+     * @param allow to incrase the blower
+     */
+    void updateBlower(bool increase);
 
     /// Perform the pressure control and compute the transistors commands during the inhalation
     /// phase
