@@ -295,7 +295,9 @@ Adding to that, 200+ individual members of the project who contributed to techni
 ### The "Motherboard"
 
 <p>
-  <img alt="Motherboard Picture" src="./src/electronics/motherboard/schemes/V1/Motherboard%20(Picture%201).jpg" height="240">
-  <img alt="Motherboard Picture" src="./src/electronics/motherboard/schemes/V1/Motherboard%20(Picture%202).jpg" height="240">
-  <img alt="Motherboard Picture" src="./src/electronics/motherboard/schemes/V1/Motherboard%20(Picture%203).jpg" height="240">
+  <img alt="Motherboard Picture" src="./src/electronics/motherboard/schemes/V2/Motherboard%20(Picture%201).jpg" height="240">
+  <img alt="Motherboard Picture" src="./src/electronics/motherboard/schemes/V2/Motherboard%20(Picture%202).jpg" height="240">
+  <img alt="Motherboard Picture" src="./src/electronics/motherboard/schemes/V2/Motherboard%20(Picture%203).jpg" height="240">
+  <img alt="Motherboard Picture" src="./src/electronics/motherboard/schemes/V2/Motherboard%20(Picture%204).jpg" height="240">
+  <img alt="Motherboard Picture" src="./src/electronics/motherboard/schemes/V2/Motherboard%20(Picture%205).jpg" height="240">
 </p>
