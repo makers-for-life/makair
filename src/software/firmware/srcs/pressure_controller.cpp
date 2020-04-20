@@ -455,7 +455,7 @@ void PressureController::updatePeakPressure() {
         uint16_t peakDelta = abs(m_maxPeakPressureCommand - m_peakPressure);
 
         // If plateau is not stable yet, then update the blower
-        if (plateauDelta > 15u || m_peakPressure - m_maxPeakPressureCommand > 40u) {
+        if ((plateauDelta > 15u) || (m_peakPressure - m_maxPeakPressureCommand > 40u)) {
             increaseBlower = true;
         }
 
@@ -469,7 +469,8 @@ void PressureController::updatePeakPressure() {
         }
 
         // If Peak Pressure is stabilized or plateau pressure has been lowered
-        if (peakDelta < 5u || (plateauDelta > 10u) && (m_peakPressure < m_maxPeakPressureCommand)) {
+        if ((peakDelta < 5u)
+            || (plateauDelta > 10u) && (m_peakPressure < m_maxPeakPressureCommand)) {
             if (plateauDelta > 40u) {
                 increase = 40u;
             } else if (plateauDelta > 30u) {
