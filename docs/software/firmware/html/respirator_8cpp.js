@@ -10,6 +10,8 @@ var respirator_8cpp =
     [ "hardwareTimer3", "respirator_8cpp.html#a11346f6ab0d23437f84f43b29388cc7e", null ],
     [ "lastMicro", "respirator_8cpp.html#a8d72e25d16d4a0aa23800c424c01dd67", null ],
     [ "lastpControllerComputeDate", "respirator_8cpp.html#a417632f2f831d02bdf1831b81107beb6", null ],
+    [ "maxOffsetValue", "respirator_8cpp.html#a318dd5a6b5913312455d34f0d2c28110", null ],
+    [ "minOffsetValue", "respirator_8cpp.html#a7c0e4178c5f778c8d5c45ea962eaaadc", null ],
     [ "pressureOffset", "respirator_8cpp.html#abfbf6dd828afcb2b2e17d7fb86b79173", null ],
     [ "pressureOffsetCount", "respirator_8cpp.html#a331963f0e7fbf48312e82c5782b14074", null ],
     [ "pressureOffsetSum", "respirator_8cpp.html#ac7f1a8263663a0f57bcc73ff2fa055b3", null ],
