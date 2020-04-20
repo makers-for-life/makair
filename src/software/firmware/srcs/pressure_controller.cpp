@@ -177,7 +177,7 @@ void PressureController::initRespiratoryCycle() {
 }
 
 void PressureController::endRespiratoryCycle() {
-    updateBlower();
+    updatePeakPressure();
     checkCycleAlarm();
 
     // If plateau is not detected or is too close to PEEP, mark it as "unknown"
@@ -379,26 +379,6 @@ void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
     }
 }
 
-void PressureController::updateBlower() {
-    if (m_plateauStartTime < ((m_centiSecPerInhalation * 30u) / 100u)) {
-        DBG_DO(Serial.println("BLOWER -20");)
-        m_blower_increment = -20;
-    } else if ((m_plateauStartTime >= ((m_centiSecPerInhalation * 30u) / 100u))
-               && (m_plateauStartTime < ((m_centiSecPerInhalation * 40u) / 100u))) {
-        DBG_DO(Serial.println("BLOWER -10");)
-        m_blower_increment = -10;
-    } else if ((m_plateauStartTime > ((m_centiSecPerInhalation * 60u) / 100u))
-               && (m_plateauStartTime <= ((m_centiSecPerInhalation * 70u) / 100u))) {
-        DBG_DO(Serial.println("BLOWER +10");)
-        m_blower_increment = +10;
-    } else if (m_plateauStartTime > ((m_centiSecPerInhalation * 70u) / 100u)) {
-        DBG_DO(Serial.println("BLOWER +20");)
-        m_blower_increment = 20;
-    } else {
-        m_blower_increment = 0;
-    }
-}
-
 void PressureController::updatePhase(uint16_t p_centiSec) {
     if (p_centiSec < m_centiSecPerInhalation) {
         m_phase = CyclePhases::INHALATION;
@@ -455,6 +435,87 @@ void PressureController::exhale() {
 }
 
 void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
+
+void PressureController::updatePeakPressure() {
+
+    int16_t plateauDelta = m_maxPlateauPressureCommand - m_plateauPressure;
+    int16_t peakDelta = m_maxPeakPressureCommand - m_peakPressure;
+
+    DBG_DO(Serial.println("updatePeakPressure");)
+
+    // case plateau is detected
+    if ((m_plateauPressure > 0u) && (m_plateauPressure < UINT16_MAX)) {
+        DBG_DO(Serial.println("Plateau detected");)
+
+        if ( abs(plateauDelta) > 20 ){
+            m_maxPeakPressureCommand = m_peakPressure + plateauDelta;
+        } else if (abs(plateauDelta) < 20 && abs(plateauDelta) > 5  ) {
+             m_maxPeakPressureCommand = m_peakPressure + plateauDelta / 2;
+        }
+
+        DBG_DO(Serial.print("Peak command :");)
+        DBG_DO(Serial.println(m_maxPeakPressureCommand);)
+
+        DBG_DO(Serial.print("m_plateauStartTime :");)
+        DBG_DO(Serial.println(m_plateauStartTime);)
+
+        if (m_plateauStartTime < ((m_centiSecPerInhalation * 30u) / 100u)) {
+        DBG_DO(Serial.println("BLOWER -20");)
+        m_blower_increment = -20;
+        } else if ((m_plateauStartTime >= ((m_centiSecPerInhalation * 30u) / 100u))
+                    && (m_plateauStartTime < ((m_centiSecPerInhalation * 40u) / 100u))) {
+            DBG_DO(Serial.println("BLOWER -10");)
+            m_blower_increment = -10;
+        } else if ((m_plateauStartTime > ((m_centiSecPerInhalation * 60u) / 100u))
+                   && (m_plateauStartTime <= ((m_centiSecPerInhalation * 70u) / 100u)) && abs(plateauDelta)> 10) {
+            DBG_DO(Serial.println("BLOWER +10");)
+            m_blower_increment = +10;
+        } else if (m_plateauStartTime > ((m_centiSecPerInhalation * 70u) / 100u)) {
+                
+                if (peakDelta > 60){
+                    m_blower_increment = +60;
+                    DBG_DO(Serial.print("BLOWER +60, peak: ");)
+                    DBG_DO(Serial.println(peakDelta);)
+                }
+                else if (peakDelta > 40){
+                    m_blower_increment = +40;
+                    DBG_DO(Serial.print("BLOWER +40, peak: ");)
+                    DBG_DO(Serial.println(peakDelta);)
+                }else{
+                    m_blower_increment = +20;
+                    DBG_DO(Serial.println("BLOWER +20");)
+                }
+                
+        } else {
+            m_blower_increment = 0;
+            DBG_DO(Serial.println("BLOWER +0");)
+        }
+    }
+
+    // case plateau is not detected : do only blower ramp-up
+    else{
+        DBG_DO(Serial.println("Plateau not detected");)
+
+        if (m_plateauStartTime < ((m_centiSecPerInhalation * 30u) / 100u)) {
+            DBG_DO(Serial.println("BLOWER -40");)
+            m_blower_increment = -40;
+        } else if ((m_plateauStartTime >= ((m_centiSecPerInhalation * 30u) / 100u))
+                   && (m_plateauStartTime < ((m_centiSecPerInhalation * 40u) / 100u))) {
+            DBG_DO(Serial.println("BLOWER -10");)
+            m_blower_increment = -10;
+        } else if ((m_plateauStartTime > ((m_centiSecPerInhalation * 60u) / 100u))
+                   && (m_plateauStartTime <= ((m_centiSecPerInhalation * 70u) / 100u))) {
+            DBG_DO(Serial.println("BLOWER +10");)
+            m_blower_increment = +10;
+        } else if (m_plateauStartTime > ((m_centiSecPerInhalation * 70u) / 100u)) {
+            DBG_DO(Serial.println("BLOWER +40");)
+            m_blower_increment = +40;
+        } else {
+            m_blower_increment = 0;
+            DBG_DO(Serial.println("BLOWER +0");)
+        }
+    }
+}
 
 void PressureController::computeCentiSecParameters() {
     m_centiSecPerCycle = 60u * 100u / m_cyclesPerMinute;
