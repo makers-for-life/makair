@@ -464,7 +464,7 @@ void PressureController::updatePeakPressure() {
             if (peakDelta > 15u) {
                 m_maxPeakPressureCommand = m_peakPressure + 10u;
             } else {
-                m_maxPeakPressureCommand = m_maxPeakPressureCommand;
+                m_maxPeakPressureCommand = m_peakPressure;
             }
         }
 
