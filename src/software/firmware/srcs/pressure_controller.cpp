@@ -360,7 +360,7 @@ void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
 }
 
 void PressureController::updateBlower(bool increase) {
-    if (m_plateauPressure - m_maxPlateauPressureCommand > 40) {
+    if ((m_plateauPressure - m_maxPlateauPressureCommand) > 40) {
         m_blower_increment = -40;
         DBG_DO(Serial.println("BLOWER -40");)
     } else if (m_plateauStartTime < ((m_centiSecPerInhalation * 30u) / 100u)) {
