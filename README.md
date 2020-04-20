@@ -142,7 +142,7 @@ Firmware release binaries are available for download on our [releases page](http
 
 | Board | Version | Major Changes | Ready? | Schematics | Contributors |
 | ----- | ------- | ------------- | ------ | ---------- | ------------ |
-| [Motherboard](./src/electronics/motherboard) | V1.1 | Working PCB w/ software | ✅ | [view schematic](./src/electronics/motherboard/schematics/V1/Electrical%20Schematics.pdf) | Vincent Le Cunff + Cherine Kamel + [Pierre Papin](https://github.com/pi-r-p)
+| [Motherboard](./src/electronics/motherboard) | V2 | Working PCB w/ software | ✅ | [view schematic](./src/electronics/motherboard/schematics/V2/Electrical%20Schematics.pdf) | Vincent Le Cunff + Cherine Kamel + [Pierre Papin](https://github.com/pi-r-p)
 
 ## Software
 
