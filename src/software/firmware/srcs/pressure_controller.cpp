@@ -448,9 +448,9 @@ void PressureController::updatePeakPressure() {
         DBG_DO(Serial.println("Plateau detected");)
 
         if ( abs(plateauDelta) > 20 ){
-            m_maxPeakPressureCommand = m_peakPressure + plateauDelta;
+            m_maxPeakPressureCommand = min(m_peakPressure, m_maxPeakPressureCommand) + plateauDelta;
         } else if (abs(plateauDelta) < 20 && abs(plateauDelta) > 5  ) {
-             m_maxPeakPressureCommand = m_peakPressure + plateauDelta / 2;
+             m_maxPeakPressureCommand = min(m_peakPressure, m_maxPeakPressureCommand) + plateauDelta / 2;
         }
 
         DBG_DO(Serial.print("Peak command :");)
@@ -461,7 +461,15 @@ void PressureController::updatePeakPressure() {
 
         if (m_plateauStartTime < ((m_centiSecPerInhalation * 30u) / 100u)) {
         DBG_DO(Serial.println("BLOWER -20");)
-        m_blower_increment = -20;
+        
+            if (peakDelta < -20){
+                m_blower_increment = -60;
+                DBG_DO(Serial.print("BLOWER -60, peak: ");)
+                DBG_DO(Serial.println(peakDelta);)
+            }else{
+                m_blower_increment = -20;
+                DBG_DO(Serial.println("BLOWER -20");)
+            }
         } else if ((m_plateauStartTime >= ((m_centiSecPerInhalation * 30u) / 100u))
                     && (m_plateauStartTime < ((m_centiSecPerInhalation * 40u) / 100u))) {
             DBG_DO(Serial.println("BLOWER -10");)
