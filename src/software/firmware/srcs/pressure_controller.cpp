@@ -477,6 +477,8 @@ void PressureController::updatePeakPressure() {
                 increase = 30u;
             } else if (plateauDelta > 20u) {
                 increase = 20u;
+            } else {
+                increase = 5u;
             }
 
             // Make sure the blower is following up
