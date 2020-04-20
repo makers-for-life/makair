@@ -360,9 +360,12 @@ void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
 }
 
 void PressureController::updateBlower() {
-    if (m_plateauStartTime < ((m_centiSecPerInhalation * 30u) / 100u)) {
-        DBG_DO(Serial.println("BLOWER -20");)
-        m_blower_increment = -20;
+    if (m_plateauPressure - m_maxPlateauPressureCommand > 40) {
+        m_blower_increment = -40;
+        DBG_DO(Serial.println("BLOWER -40");)
+    } else if (m_plateauStartTime < ((m_centiSecPerInhalation * 30u) / 100u)) {
+        DBG_DO(Serial.println("BLOWER -40");)
+        m_blower_increment = -40;
     } else if ((m_plateauStartTime >= ((m_centiSecPerInhalation * 30u) / 100u))
                && (m_plateauStartTime < ((m_centiSecPerInhalation * 40u) / 100u))) {
         DBG_DO(Serial.println("BLOWER -10");)
@@ -372,8 +375,8 @@ void PressureController::updateBlower() {
         DBG_DO(Serial.println("BLOWER +10");)
         m_blower_increment = +10;
     } else if (m_plateauStartTime > ((m_centiSecPerInhalation * 70u) / 100u)) {
-        DBG_DO(Serial.println("BLOWER +20");)
-        m_blower_increment = 20;
+        DBG_DO(Serial.println("BLOWER +40");)
+        m_blower_increment = 40;
     } else {
         m_blower_increment = 0;
     }
@@ -441,29 +444,31 @@ void PressureController::updatePeakPressure() {
 
     // Only if plateau pressure has been computed
     if (m_plateauPressure > 0 && m_plateauPressure < UINT16_MAX) {
+        int plateauDelta = abs(m_maxPlateauPressureCommand - m_plateauPressure);
+        int peakDelta = abs(m_maxPeakPressureCommand - m_peakPressure);
 
         // If plateau is not stable yet, then update the blower
-        if (abs(m_plateauPressure - m_maxPlateauPressure) > 15) {
+        if (plateauDelta > 15 || m_peakPressure - m_maxPeakPressureCommand > 40u) {
             updateBlower();
         }
 
-        int delta = abs(m_maxPlateauPressureCommand - m_plateauPressure);
+        // If plateau has been stabilized, then set peak pressure
+        if (plateauDelta < 7) {
+            m_maxPeakPressureCommand = m_peakPressure + 10u;
+        }
 
         // If Peak Pressure is stabilized or plateau pressure has been lowered
-        if (abs(m_maxPeakPressureCommand - m_peakPressure) < 5
-            || abs(m_maxPlateauPressureCommand - m_plateauPressure) > 40) {
-
-            if (delta > 40) {
+        if (peakDelta < 5 || (plateauDelta > 10) && (m_peakPressure < m_maxPeakPressureCommand)) {
+            if (plateauDelta > 40) {
                 increase = 40u;
-            } else if (delta > 30) {
+            } else if (plateauDelta > 30) {
                 increase = 30u;
-            } else if (delta > 20) {
+            } else if (plateauDelta > 20) {
                 increase = 20u;
             }
 
-       
             // Make sure the blower is following up
-            if (abs(m_maxPeakPressureCommand - m_peakPressure) < 50) {
+            if (peakDelta < 50u) {
                 if (m_plateauPressure < m_maxPlateauPressureCommand) {
                     m_maxPeakPressureCommand = m_maxPeakPressureCommand + increase;
                 } else {
