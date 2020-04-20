@@ -446,11 +446,9 @@ void PressureController::exhale() {
 void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
 
 void PressureController::updatePeakPressure() {
-    uint16_t increase = 5u;
-    uint16_t increaseBlower = false;
-
     // Only if plateau pressure has been computed
     if (m_plateauPressure > 0 && m_plateauPressure < UINT16_MAX) {
+        uint16_t increaseBlower = false;
         uint16_t plateauDelta = abs(m_maxPlateauPressureCommand - m_plateauPressure);
         uint16_t peakDelta = abs(m_maxPeakPressureCommand - m_peakPressure);
 
@@ -471,6 +469,8 @@ void PressureController::updatePeakPressure() {
         // If Peak Pressure is stabilized or plateau pressure has been lowered
         if ((peakDelta < 5u)
             || (plateauDelta > 10u) && (m_peakPressure < m_maxPeakPressureCommand)) {
+            uint16_t increase = 5u;
+
             if (plateauDelta > 40u) {
                 increase = 40u;
             } else if (plateauDelta > 30u) {
