@@ -448,7 +448,7 @@ void PressureController::updateDt(int32_t p_dt) { m_dt = p_dt; }
 void PressureController::updatePeakPressure() {
     // Only if plateau pressure has been computed
     if ((m_plateauPressure > 0u) && (m_plateauPressure < UINT16_MAX)) {
-        uint16_t increaseBlower = false;
+        bool increaseBlower = false;
         uint16_t plateauDelta = abs(m_maxPlateauPressureCommand - m_plateauPressure);
         uint16_t peakDelta = abs(m_maxPeakPressureCommand - m_peakPressure);
 
