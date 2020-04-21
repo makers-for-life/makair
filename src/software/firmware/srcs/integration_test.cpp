@@ -63,7 +63,6 @@ uint32_t pressureOffsetCount;
 int16_t minOffsetValue = 0;
 int16_t maxOffsetValue = 0;
 
-
 /**
  * Block execution for a given duration
  *
@@ -75,7 +74,6 @@ void waitForInMs(uint16_t ms) {
     maxOffsetValue = readPressureSensor(0, 0);
     pressureOffsetSum = 0;
     pressureOffsetCount = 0;
-
 
     while ((millis() - start) < ms) {
         // Measure 1 pressure per ms we wait
@@ -209,15 +207,16 @@ void setup() {
         Serial.println();
     })
     // Happens when patient is plugged at starting
-    if (maxOffsetValue - minOffsetValue >= 10){
+    if ((maxOffsetValue - minOffsetValue) >= 10) {
         resetScreen();
         screen.setCursor(0, 0);
         char line1[SCREEN_LINE_LENGTH + 1];
-        (void)snprintf(line1, SCREEN_LINE_LENGTH + 1, "P offset is unstable", pressureOffset);
+        (void)snprintf(line1, SCREEN_LINE_LENGTH + 1, "P offset is unstable");
         screen.print(line1);
         screen.setCursor(0, 1);
         char line2[SCREEN_LINE_LENGTH + 1];
-        (void)snprintf(line2, SCREEN_LINE_LENGTH + 1, "Max-Min: %3d mmH2O", maxOffsetValue - minOffsetValue);
+        (void)snprintf(line2, SCREEN_LINE_LENGTH + 1, "Max-Min: %3d mmH2O",
+                       maxOffsetValue - minOffsetValue);
         screen.print(line2);
         screen.setCursor(0, 2);
         screen.print("Unplug patient and");
@@ -258,8 +257,8 @@ void loop() {
     btn_start.tick();
 
     switch (step) {
-    case STEP_WELCOME:
-    default: {
+    default:
+    case STEP_WELCOME: {
         UNGREEDY(is_drawn, {
             display("MakAir test", "Press start button");
             displayLine(VERSION, 3);
