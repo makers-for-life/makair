@@ -26,6 +26,7 @@
 #include "../includes/pressure.h"
 #include "../includes/pressure_valve.h"
 #include "../includes/screen.h"
+#include "../includes/telemetry.h"
 
 // State machine states
 #define STEP_WELCOME 0
@@ -62,6 +63,10 @@ int32_t pressureOffsetSum;
 uint32_t pressureOffsetCount;
 int16_t minOffsetValue = 0;
 int16_t maxOffsetValue = 0;
+
+#if HARDWARE_VERSION == 2
+HardwareSerial Serial6(PIN_TELEMETRY_SERIAL_RX, PIN_TELEMETRY_SERIAL_TX);
+#endif
 
 /**
  * Block execution for a given duration
@@ -125,6 +130,11 @@ OneButton btn_start(PIN_BTN_START, false, false);
 void setup() {
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("Booting the system in integration mode...");)
+
+#if HARDWARE_VERSION == 2
+    initTelemetry();
+    sendBootMessage();
+#endif
 
     btn_start.attachClick(onStartClick);
 

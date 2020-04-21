@@ -1,4 +1,4 @@
-name: Software Documentation
+name: Firmware Documentation
 
 on:
   push:

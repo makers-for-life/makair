@@ -21,6 +21,10 @@
 #include "../includes/debug.h"
 #include "../includes/parameters.h"
 #include "../includes/pressure_valve.h"
+#if HARDWARE_VERSION == 2
+#include "../includes/battery.h"
+#include "../includes/telemetry.h"
+#endif
 
 static const int32_t INVALID_ERROR_MARKER = INT32_MIN;
 
@@ -168,6 +172,8 @@ void PressureController::initRespiratoryCycle() {
     m_numberOfPressures = 0u;
 
     m_plateauStartTime = 0u;
+
+    m_alarmController->changeCycle();
 }
 
 void PressureController::endRespiratoryCycle() {
@@ -183,6 +189,13 @@ void PressureController::endRespiratoryCycle() {
     if (m_pressure <= ALARM_THRESHOLD_MAX_PRESSURE) {
         m_alarmController->notDetectedAlarm(RCM_SW_18);
     }
+
+#if HARDWARE_VERSION == 2
+    sendMachineStateSnapshot(m_cycleNb, m_maxPeakPressureCommand, m_maxPlateauPressureCommand,
+                             m_minPeepCommand, m_cyclesPerMinuteCommand, m_peakPressure,
+                             m_maxPlateauPressure, m_peep, m_alarmController->currentCycleAlarms(),
+                             m_alarmController->previousCycleAlarms());
+#endif
 }
 
 void PressureController::updatePressure(int16_t p_currentPressure) {
@@ -227,12 +240,19 @@ void PressureController::compute(uint16_t p_centiSec) {
 
     // RCM-SW-18
     if (m_pressure > ALARM_THRESHOLD_MAX_PRESSURE) {
-        m_alarmController->detectedAlarm(RCM_SW_18, m_cycleNb);
+        m_alarmController->detectedAlarm(RCM_SW_18, m_cycleNb, ALARM_THRESHOLD_MAX_PRESSURE,
+                                         m_pressure);
     }
 
     DBG_PHASE_PRESSION(m_cycleNb, p_centiSec, 1u, m_phase, m_subPhase, m_pressure,
                        m_blower_valve.command, m_blower_valve.position, m_patient_valve.command,
                        m_patient_valve.position)
+
+#if HARDWARE_VERSION == 2
+    m_alarmController->updateCoreData(p_centiSec, m_pressure, m_phase, m_subPhase, m_cycleNb);
+    sendDataSnapshot(p_centiSec, m_pressure, m_phase, m_subPhase, m_blower_valve.position,
+                     m_patient_valve.position, m_blower->getSpeed(), getBatteryLevel());
+#endif
 
     executeCommands();
 }
@@ -456,8 +476,10 @@ void PressureController::checkCycleAlarm() {
         (m_maxPlateauPressureCommand * (100u + ALARM_THRESHOLD_DIFFERENCE_PERCENT)) / 100u;
     if ((m_plateauPressure < minPlateauBeforeAlarm)
         || (m_plateauPressure > maxPlateauBeforeAlarm)) {
-        m_alarmController->detectedAlarm(RCM_SW_1, m_cycleNb);
-        m_alarmController->detectedAlarm(RCM_SW_14, m_cycleNb);
+        m_alarmController->detectedAlarm(RCM_SW_1, m_cycleNb, m_maxPlateauPressureCommand,
+                                         m_pressure);
+        m_alarmController->detectedAlarm(RCM_SW_14, m_cycleNb, m_maxPlateauPressureCommand,
+                                         m_pressure);
     } else {
         m_alarmController->notDetectedAlarm(RCM_SW_1);
         m_alarmController->notDetectedAlarm(RCM_SW_14);
@@ -466,8 +488,10 @@ void PressureController::checkCycleAlarm() {
     // RCM-SW-2 + RCM-SW-19 : Check is mean pressure was < 2 cmH2O
     uint16_t meanPressure = m_sumOfPressures / m_numberOfPressures;
     if (meanPressure <= ALARM_THRESHOLD_MIN_PRESSURE) {
-        m_alarmController->detectedAlarm(RCM_SW_2, m_cycleNb);
-        m_alarmController->detectedAlarm(RCM_SW_19, m_cycleNb);
+        m_alarmController->detectedAlarm(RCM_SW_2, m_cycleNb, ALARM_THRESHOLD_MIN_PRESSURE,
+                                         m_pressure);
+        m_alarmController->detectedAlarm(RCM_SW_19, m_cycleNb, ALARM_THRESHOLD_MIN_PRESSURE,
+                                         m_pressure);
     } else {
         m_alarmController->notDetectedAlarm(RCM_SW_2);
         m_alarmController->notDetectedAlarm(RCM_SW_19);
@@ -477,8 +501,8 @@ void PressureController::checkCycleAlarm() {
     uint16_t minPeepBeforeAlarm = m_minPeepCommand - ALARM_THRESHOLD_DIFFERENCE_PRESSURE;
     uint16_t maxPeepBeforeAlarm = m_minPeepCommand + ALARM_THRESHOLD_DIFFERENCE_PRESSURE;
     if ((m_peep < minPeepBeforeAlarm) || (m_peep > maxPeepBeforeAlarm)) {
-        m_alarmController->detectedAlarm(RCM_SW_3, m_cycleNb);
-        m_alarmController->detectedAlarm(RCM_SW_15, m_cycleNb);
+        m_alarmController->detectedAlarm(RCM_SW_3, m_cycleNb, m_minPeepCommand, m_pressure);
+        m_alarmController->detectedAlarm(RCM_SW_15, m_cycleNb, m_minPeepCommand, m_pressure);
     } else {
         m_alarmController->notDetectedAlarm(RCM_SW_3);
         m_alarmController->notDetectedAlarm(RCM_SW_15);

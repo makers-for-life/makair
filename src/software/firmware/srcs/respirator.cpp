@@ -19,6 +19,9 @@
 #include "Arduino.h"
 #include <IWatchdog.h>
 #include <LiquidCrystal.h>
+#if HARDWARE_VERSION == 2
+#include <HardwareSerial.h>
+#endif
 
 // Internal
 #include "../includes/activation.h"
@@ -33,6 +36,9 @@
 #include "../includes/pressure_controller.h"
 #include "../includes/pressure_valve.h"
 #include "../includes/screen.h"
+#if HARDWARE_VERSION == 2
+#include "../includes/telemetry.h"
+#endif
 
 // PROGRAM =====================================================================
 
@@ -48,6 +54,10 @@ int32_t pressureOffsetSum;
 uint32_t pressureOffsetCount;
 int16_t minOffsetValue = 0;
 int16_t maxOffsetValue = 0;
+
+#if HARDWARE_VERSION == 2
+HardwareSerial Serial6(PIN_TELEMETRY_SERIAL_RX, PIN_TELEMETRY_SERIAL_TX);
+#endif
 
 /**
  * Block execution for a given duration
@@ -79,6 +89,11 @@ uint32_t lastpControllerComputeDate;
 void setup(void) {
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("Booting the system...");)
+
+#if HARDWARE_VERSION == 2
+    initTelemetry();
+    sendBootMessage();
+#endif
 
     startScreen();
 
@@ -252,6 +267,8 @@ void setup(void) {
     // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
     IWatchdog.begin(WATCHDOG_TIMEOUT);
     IWatchdog.reload();
+
+    alarmController.clearAlarmLogs();
 }
 
 // Time of the previous loop iteration

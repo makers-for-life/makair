@@ -39,6 +39,9 @@ class Alarm {
     /// True if the number of detections is equal or above the detection threshold, false otherwise
     bool isTriggered() const;
 
+    /// Get the number of cycles since the alarm was triggered
+    uint32_t getCyclesSinceTrigger() const;
+
     /**
      * If the alarm is detected, it increments the number of detection until the detection
      * threshold.
@@ -65,4 +68,7 @@ class Alarm {
 
     /// Cycle number
     uint32_t m_cycleNumber;
+
+    /// Number of cycles since the alarm was triggered
+    uint32_t m_cyclesSinceTrigger;
 };

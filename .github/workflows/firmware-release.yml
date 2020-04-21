@@ -1,4 +1,4 @@
-name: Software Release
+name: Firmware Release
 
 on:
   push:
