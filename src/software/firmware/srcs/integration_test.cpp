@@ -33,8 +33,8 @@
 #define STEP_BLOWER_TEST 1
 #define STEP_VALVE_BLOWER_TEST 2
 #define STEP_VALVE_PATIENT_TEST 3
-#define STEP_VALVE_BLOWER_LEAK_TEST 4
-#define STEP_VALVE_PATIENT_LEAK_TEST 5
+#define STEP_LEAK_TEST_STEP_1 4
+#define STEP_LEAK_TEST_STEP_2 5
 #define STEP_O2_TEST 6
 #define STEP_PRESSURE_TEST 7
 #define STEP_PRESSURE_OFFSET_TEST 8
@@ -58,11 +58,12 @@ HardwareTimer* hardwareTimer1;
 HardwareTimer* hardwareTimer3;
 Blower blower;
 
-int16_t pressureOffset;
-int32_t pressureOffsetSum;
-uint32_t pressureOffsetCount;
+int16_t pressureOffset = 0;
+int32_t pressureOffsetSum = 0;
+uint32_t pressureOffsetCount = 0;
 int16_t minOffsetValue = 0;
 int16_t maxOffsetValue = 0;
+bool firstRun = true;
 
 #if HARDWARE_VERSION == 2
 HardwareSerial Serial6(PIN_TELEMETRY_SERIAL_RX, PIN_TELEMETRY_SERIAL_TX);
@@ -74,16 +75,17 @@ HardwareSerial Serial6(PIN_TELEMETRY_SERIAL_RX, PIN_TELEMETRY_SERIAL_TX);
  * @param ms  Duration of the blocking in millisecond
  */
 void waitForInMs(uint16_t ms) {
-    uint16_t start = millis();
-    minOffsetValue = readPressureSensor(0, 0);
-    maxOffsetValue = readPressureSensor(0, 0);
+    uint32_t start = millis();
+    minOffsetValue = readPressureSensor(0, pressureOffset);
+    maxOffsetValue = readPressureSensor(0, pressureOffset);
     pressureOffsetSum = 0;
     pressureOffsetCount = 0;
 
     while ((millis() - start) < ms) {
         // Measure 1 pressure per ms we wait
         if ((millis() - start) > pressureOffsetCount) {
-            int16_t pressureValue = readPressureSensor(0, 0);
+            int16_t pressureValue = readPressureSensor(0, pressureOffset);
+            Serial.println(pressureValue);
             pressureOffsetSum += pressureValue;
             minOffsetValue = min(pressureValue, minOffsetValue);
             maxOffsetValue = max(pressureValue, maxOffsetValue);
@@ -123,6 +125,7 @@ void onStartClick() {
     changeStep((step + 1u) % NUMBER_OF_STATES);
     last_time = millis();
     Buzzer_Stop();
+    firstRun = true;
 }
 
 OneButton btn_start(PIN_BTN_START, false, false);
@@ -322,25 +325,60 @@ void loop() {
         }
         break;
     }
-    case STEP_VALVE_BLOWER_LEAK_TEST: {
-        UNGREEDY(is_drawn, display("Test fuite inspi", "Continuer : Start"));
+    case STEP_LEAK_TEST_STEP_1: {
+        UNGREEDY(is_drawn, display("Test fuite valves", "Brancher le poumon"));
+        char msg[SCREEN_LINE_LENGTH + 1];
+        (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Continuer : Start");
+        displayLine(msg, 3);
         servoPatient.open();
-        servoPatient.execute();
-        servoBlower.close();
-        servoBlower.execute();
-        blower.runSpeed(1500);
-        break;
-    }
-    case STEP_VALVE_PATIENT_LEAK_TEST: {
-        UNGREEDY(is_drawn, display("Test fuite expi", "Continuer : Start"));
-        servoPatient.close();
         servoPatient.execute();
         servoBlower.open();
         servoBlower.execute();
         blower.runSpeed(1500);
         break;
     }
+    case STEP_LEAK_TEST_STEP_2: {
+        if (firstRun) {
+            UNGREEDY(is_drawn, display("Test fuite valves", "Attendre svp..."));
+            // open the blower valve and Wait 3s for pressure to be stable
+            blower.runSpeed(1790);
+            servoPatient.close();
+            servoPatient.execute();
+            servoBlower.open();
+            servoBlower.execute();
+            waitForInMs(5000);
 
+            // Close the valve and wait for pressure to be stable
+            servoPatient.close();
+            servoPatient.execute();
+            servoBlower.close();
+            servoBlower.execute();
+            waitForInMs(1000);
+            blower.stop();
+            waitForInMs(3000);
+
+            // Measure leak
+            blower.stop();
+            servoPatient.close();
+            servoPatient.execute();
+            servoBlower.close();
+            servoBlower.execute();
+            waitForInMs(10000);
+
+            char msg[SCREEN_LINE_LENGTH + 1];
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Moyenne : %3d mmH2O", pressureOffsetSum/pressureOffsetCount);
+            displayLine(msg, 1);
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Fuite : %3d mmH2O", maxOffsetValue - minOffsetValue);
+            displayLine(msg, 2);
+
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Continuer : Start");
+            displayLine(msg, 3);
+
+            firstRun = false;
+        }
+        break;
+    }
+    
     case STEP_O2_TEST: {
         UNGREEDY(is_drawn, display("Test sortie 02", "Continuer : Start"));
         servoPatient.open();
