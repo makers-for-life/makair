@@ -60,7 +60,7 @@ Blower blower;
 
 int16_t pressureOffset = 0;
 int32_t pressureOffsetSum = 0;
-uint32_t pressureOffsetCount = 0;
+uint32_t pressureOffsetCount = 0u;
 int16_t minOffsetValue = 0;
 int16_t maxOffsetValue = 0;
 bool firstRun = true;
