@@ -340,7 +340,7 @@ void loop() {
     case STEP_LEAK_TEST_STEP_2: {
         if (firstRun) {
             UNGREEDY(is_drawn, display("Test fuite valves", "Attendre svp..."));
-            // open the blower valve and Wait 3s for pressure to be stable
+            // Open the blower valve and wait for pressure to stabilize
             blower.runSpeed(1790);
             servoPatient.close();
             servoPatient.execute();
@@ -348,7 +348,7 @@ void loop() {
             servoBlower.execute();
             waitForInMs(5000);
 
-            // Close the valve and wait for pressure to be stable
+            // Close the valve and wait for pressure to stabilize
             servoPatient.close();
             servoPatient.execute();
             servoBlower.close();
