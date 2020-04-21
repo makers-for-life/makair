@@ -84,7 +84,6 @@ void toBytes64(byte bytes[], uint64_t data) {
  */
 // cppcheck-suppress unusedFunction
 void computeDeviceId(byte deviceId[]) {
-#if HARDWARE_VERSION == 2
     deviceId[0] = (LL_GetUID_Word0() >> 24) & FIRST_BYTE;
     deviceId[1] = (LL_GetUID_Word0() >> 16) & FIRST_BYTE;
     deviceId[2] = (LL_GetUID_Word0() >> 8) & FIRST_BYTE;
@@ -97,7 +96,6 @@ void computeDeviceId(byte deviceId[]) {
     deviceId[9] = (LL_GetUID_Word2() >> 16) & FIRST_BYTE;
     deviceId[10] = (LL_GetUID_Word2() >> 8) & FIRST_BYTE;
     deviceId[11] = LL_GetUID_Word2() & FIRST_BYTE;
-#endif
 }
 
 // cppcheck-suppress unusedFunction
