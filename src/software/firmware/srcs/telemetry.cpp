@@ -41,6 +41,7 @@ void initTelemetry(void) {
  * @param data Input number
  * @return Array of 2 bytes
  */
+// cppcheck-suppress unusedFunction
 void toBytes16(byte bytes[], uint16_t data) {
     bytes[0] = (data >> 8) & FIRST_BYTE;
     bytes[1] = data & FIRST_BYTE;
@@ -52,6 +53,7 @@ void toBytes16(byte bytes[], uint16_t data) {
  * @param bytes Empty array of 4 elements
  * @param data Input number
  */
+// cppcheck-suppress unusedFunction
 void toBytes32(byte bytes[], uint32_t data) {
     bytes[0] = (data >> 24) & FIRST_BYTE;
     bytes[1] = (data >> 16) & FIRST_BYTE;
@@ -65,6 +67,7 @@ void toBytes32(byte bytes[], uint32_t data) {
  * @param bytes Empty array of 8 elements
  * @param data Input number
  */
+// cppcheck-suppress unusedFunction
 void toBytes64(byte bytes[], uint64_t data) {
     bytes[0] = (data >> 56) & FIRST_BYTE;
     bytes[1] = (data >> 48) & FIRST_BYTE;
@@ -74,6 +77,22 @@ void toBytes64(byte bytes[], uint64_t data) {
     bytes[5] = (data >> 16) & FIRST_BYTE;
     bytes[6] = (data >> 8) & FIRST_BYTE;
     bytes[7] = data & FIRST_BYTE;
+}
+
+/// Send device ID through Serial6
+// cppcheck-suppress unusedFunction
+void sendDeviceId(void) {
+    byte deviceId1[4];  // 32 bits
+    toBytes32(deviceId1, LL_GetUID_Word0());
+    Serial6.write(deviceId1, 4);
+
+    byte deviceId2[4];  // 32 bits
+    toBytes32(deviceId2, LL_GetUID_Word1());
+    Serial6.write(deviceId2, 4);
+
+    byte deviceId3[4];  // 32 bits
+    toBytes32(deviceId3, LL_GetUID_Word2());
+    Serial6.write(deviceId3, 4);
 }
 
 // cppcheck-suppress unusedFunction
@@ -90,17 +109,7 @@ void sendBootMessage() {
     Serial6.write(static_cast<uint8_t>(strlen(VERSION)));
     Serial6.print(VERSION);
 
-    byte deviceId1[4];  // 32 bits
-    toBytes32(deviceId1, LL_GetUID_Word0());
-    Serial6.write(deviceId1, 4);
-
-    byte deviceId2[4];  // 32 bits
-    toBytes32(deviceId2, LL_GetUID_Word1());
-    Serial6.write(deviceId2, 4);
-
-    byte deviceId3[4];  // 32 bits
-    toBytes32(deviceId3, LL_GetUID_Word2());
-    Serial6.write(deviceId3, 4);
+    sendDeviceId();
 
     Serial6.print("\t");
 
@@ -118,6 +127,7 @@ void sendBootMessage() {
     Serial6.print("\t");
 
     byte min32[4];  // 32 bits
+    // cppcheck-suppress misra-c2012-12.3
     toBytes32(min32, min32Value);
     Serial6.write(min32, 4);
 
@@ -168,17 +178,7 @@ void sendDataSnapshot(uint16_t centileValue,
     Serial6.write(static_cast<uint8_t>(strlen(VERSION)));
     Serial6.print(VERSION);
 
-    byte deviceId1[4];  // 32 bits
-    toBytes32(deviceId1, LL_GetUID_Word0());
-    Serial6.write(deviceId1, 4);
-
-    byte deviceId2[4];  // 32 bits
-    toBytes32(deviceId2, LL_GetUID_Word1());
-    Serial6.write(deviceId2, 4);
-
-    byte deviceId3[4];  // 32 bits
-    toBytes32(deviceId3, LL_GetUID_Word2());
-    Serial6.write(deviceId3, 4);
+    sendDeviceId();
 
     Serial6.print("\t");
 
@@ -260,17 +260,7 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
     Serial6.write(static_cast<uint8_t>(strlen(VERSION)));
     Serial6.print(VERSION);
 
-    byte deviceId1[4];  // 32 bits
-    toBytes32(deviceId1, LL_GetUID_Word0());
-    Serial6.write(deviceId1, 4);
-
-    byte deviceId2[4];  // 32 bits
-    toBytes32(deviceId2, LL_GetUID_Word1());
-    Serial6.write(deviceId2, 4);
-
-    byte deviceId3[4];  // 32 bits
-    toBytes32(deviceId3, LL_GetUID_Word2());
-    Serial6.write(deviceId3, 4);
+    sendDeviceId();
 
     Serial6.print("\t");
 
@@ -368,17 +358,7 @@ void sendAlarmTrap(uint16_t centileValue,
     Serial6.write(static_cast<uint8_t>(strlen(VERSION)));
     Serial6.print(VERSION);
 
-    byte deviceId1[4];  // 32 bits
-    toBytes32(deviceId1, LL_GetUID_Word0());
-    Serial6.write(deviceId1, 4);
-
-    byte deviceId2[4];  // 32 bits
-    toBytes32(deviceId2, LL_GetUID_Word1());
-    Serial6.write(deviceId2, 4);
-
-    byte deviceId3[4];  // 32 bits
-    toBytes32(deviceId3, LL_GetUID_Word2());
-    Serial6.write(deviceId3, 4);
+    sendDeviceId();
 
     Serial6.print("\t");
 
