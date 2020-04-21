@@ -29,11 +29,11 @@
 
 // Minimum & maximum execution parameters
 #define CONST_MAX_PEAK_PRESSURE 700u     // arbitrary [mmH2O]
-#define CONST_MIN_PEAK_PRESSURE 100u     // arbitrary [mmH2O]
+#define CONST_MIN_PEAK_PRESSURE 50u     // arbitrary [mmH2O]
 #define CONST_MAX_PLATEAU_PRESSURE 400u  // PP MAX ARDS = 300 [mmH2O]
-#define CONST_MIN_PLATEAU_PRESSURE 100u  // arbitrary [mmH2O]
+#define CONST_MIN_PLATEAU_PRESSURE 30u  // arbitrary [mmH2O]
 #define CONST_MAX_PEEP_PRESSURE 300u     // PP MAX = 300, or PEEP < PP [mmH2O]
-#define CONST_MIN_PEEP_PRESSURE 50u      // arbitrary but > 0 [mmH2O]
+#define CONST_MIN_PEEP_PRESSURE 10u      // arbitrary but > 0 [mmH2O]
 #define CONST_INITIAL_ZERO_PRESSURE 0    // [mmH2O]
 
 #define DEFAULT_MIN_PEEP_COMMAND 100
@@ -287,3 +287,4 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
 #define ALARM_THRESHOLD_DIFFERENCE_PRESSURE 20u  // RCM-SW-3 + RCM-SW-15
 
 ///@}
+}
