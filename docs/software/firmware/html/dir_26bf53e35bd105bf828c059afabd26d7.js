@@ -16,5 +16,5 @@ var dir_26bf53e35bd105bf828c059afabd26d7 =
     [ "qualification.cpp", "qualification_8cpp.html", null ],
     [ "respirator.cpp", "respirator_8cpp.html", "respirator_8cpp" ],
     [ "screen.cpp", "screen_8cpp.html", "screen_8cpp" ],
-    [ "sysclock.cpp", "sysclock_8cpp.html", "sysclock_8cpp" ]
+    [ "sysclock.cpp", "sysclock_8cpp.html", null ]
 ];

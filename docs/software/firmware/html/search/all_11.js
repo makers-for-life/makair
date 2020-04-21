@@ -19,6 +19,5 @@ var searchData=
   ['stop_394',['stop',['../class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8',1,'Blower']]],
   ['stopped_395',['STOPPED',['../class_activation_controller.html#af432ef3c7ddde2aeb68a42b16013d032a8faa638abc55fdb7a9e11c396bec28c0',1,'ActivationController']]],
   ['subphase_396',['subPhase',['../class_pressure_controller.html#ae3bdcb8cfea8a4e896e2503e59333a38',1,'PressureController']]],
-  ['sysclock_2ecpp_397',['sysclock.cpp',['../sysclock_8cpp.html',1,'']]],
-  ['systemclock_5fconfig_398',['SystemClock_Config',['../sysclock_8cpp.html#a70af21c671abfcc773614a9a4f63d920',1,'sysclock.cpp']]]
+  ['sysclock_2ecpp_397',['sysclock.cpp',['../sysclock_8cpp.html',1,'']]]
 ];

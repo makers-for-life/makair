@@ -78,7 +78,6 @@ var NAVTREEINDEX2 =
 "screen_8h.html#afbcfd6c7b111b47bfc4324e8f809d10c":[3,0,0,0,0,0,15,3],
 "screen_8h_source.html":[3,0,0,0,0,0,15],
 "sysclock_8cpp.html":[3,0,0,0,0,1,16],
-"sysclock_8cpp.html#a70af21c671abfcc773614a9a4f63d920":[3,0,0,0,0,1,16,0],
 "sysclock_8cpp_source.html":[3,0,0,0,0,1,16],
 "test__pressure_8cpp.html":[3,0,0,0,0,2,0],
 "test__pressure_8cpp.html#a630e98ef2bac7105f488cc6f7d83ea18":[3,0,0,0,0,2,0,5],
