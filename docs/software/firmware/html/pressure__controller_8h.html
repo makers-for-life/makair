@@ -85,7 +85,6 @@ $(document).ready(function(){initNavTree('pressure__controller_8h.html',''); ini
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">pressure_controller.h File Reference</div>  </div>
@@ -96,6 +95,7 @@ $(document).ready(function(){initNavTree('pressure__controller_8h.html',''); ini
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="alarm__controller_8h_source.html">../includes/alarm_controller.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="blower_8h_source.html">../includes/blower.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="cycle_8h_source.html">../includes/cycle.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="pressure__valve_8h_source.html">../includes/pressure_valve.h</a>&quot;</code><br />
 </div>
 <p><a href="pressure__controller_8h_source.html">Go to the source code of this file.</a></p>
@@ -111,20 +111,6 @@ Macros</h2></td></tr>
 <tr class="memitem:a9031fac8a40d276c6ca360fe4b8df8ca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pressure__controller_8h.html#a9031fac8a40d276c6ca360fe4b8df8ca">MAX_PRESSURE_SAMPLES</a>&#160;&#160;&#160;10u</td></tr>
 <tr class="memdesc:a9031fac8a40d276c6ca360fe4b8df8ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of values to aggregate when computing plateau pressure.  <a href="pressure__controller_8h.html#a9031fac8a40d276c6ca360fe4b8df8ca">More...</a><br /></td></tr>
 <tr class="separator:a9031fac8a40d276c6ca360fe4b8df8ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:acd1b2c60ec414ec28999de4906364b94"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94">CycleSubPhases</a> { <a class="el" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94aec24253de23c0b2d1a08f946f5ca9d31">INSPIRATION</a>, 
-<a class="el" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088">HOLD_INSPIRATION</a>, 
-<a class="el" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4">EXHALE</a>
- }</td></tr>
-<tr class="memdesc:acd1b2c60ec414ec28999de4906364b94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the 4 phases of the respiratory cycle.  <a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94">More...</a><br /></td></tr>
-<tr class="separator:acd1b2c60ec414ec28999de4906364b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff4abe7cc03a1c634e5583d338448b88"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88">CyclePhases</a> { <a class="el" href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0">INHALATION</a>, 
-<a class="el" href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29">EXHALATION</a>
- }</td></tr>
-<tr class="memdesc:aff4abe7cc03a1c634e5583d338448b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the 2 main phases of the respiratory cycle.  <a href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88">More...</a><br /></td></tr>
-<tr class="separator:aff4abe7cc03a1c634e5583d338448b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -156,79 +142,8 @@ Variables</h2></td></tr>
 
 <p>Number of values to aggregate when computing plateau pressure. </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__controller_8h_source.html#l00019">19</a> of file <a class="el" href="pressure__controller_8h_source.html">pressure_controller.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__controller_8h_source.html#l00020">20</a> of file <a class="el" href="pressure__controller_8h_source.html">pressure_controller.h</a>.</p>
 
-</div>
-</div>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="aff4abe7cc03a1c634e5583d338448b88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff4abe7cc03a1c634e5583d338448b88">&#9670;&nbsp;</a></span>CyclePhases</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88">CyclePhases</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Defines the 2 main phases of the respiratory cycle. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0"></a>INHALATION&#160;</td><td class="fielddoc"><p>Inspiration and inspiration holding. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29"></a>EXHALATION&#160;</td><td class="fielddoc"><p>Exhalation and pause. </p>
-</td></tr>
-</table>
-
-<p class="definition">Definition at line <a class="el" href="pressure__controller_8h_source.html#l00048">48</a> of file <a class="el" href="pressure__controller_8h_source.html">pressure_controller.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                 {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0">INHALATION</a>,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29">EXHALATION</a></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="acd1b2c60ec414ec28999de4906364b94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd1b2c60ec414ec28999de4906364b94">&#9670;&nbsp;</a></span>CycleSubPhases</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94">CycleSubPhases</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Defines the 4 phases of the respiratory cycle. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acd1b2c60ec414ec28999de4906364b94aec24253de23c0b2d1a08f946f5ca9d31"></a>INSPIRATION&#160;</td><td class="fielddoc"><p>Push inhalation: </p>
-<ul>
-<li>Send air until the peak pressure is reached</li>
-<li>The blower valve is open so the air stream goes to the patient's lungs </li>
-</ul>
-</td></tr>
-<tr><td class="fieldname"><a id="acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088"></a>HOLD_INSPIRATION&#160;</td><td class="fielddoc"><p>Hold inhalation: </p>
-<ul>
-<li>Once the peak pressure is reached, the pressure is hold to the plateau pressure The pressure has been decreasing for more than 0.1 s.</li>
-<li>The 2 valves are hold closed </li>
-</ul>
-</td></tr>
-<tr><td class="fieldname"><a id="acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4"></a>EXHALE&#160;</td><td class="fielddoc"><p>Exhalation: </p>
-<ul>
-<li>The patient exhales </li>
-</ul>
-</td></tr>
-</table>
-
-<p class="definition">Definition at line <a class="el" href="pressure__controller_8h_source.html#l00026">26</a> of file <a class="el" href="pressure__controller_8h_source.html">pressure_controller.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                    {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94aec24253de23c0b2d1a08f946f5ca9d31">INSPIRATION</a>,</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088">HOLD_INSPIRATION</a>,</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4">EXHALE</a></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
-</div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
@@ -254,7 +169,7 @@ Variables</h2></td></tr>
 
 <p>Max value for increment / decrement of peak command. </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__controller_8h_source.html#l00021">21</a> of file <a class="el" href="pressure__controller_8h_source.html">pressure_controller.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__controller_8h_source.html#l00022">22</a> of file <a class="el" href="pressure__controller_8h_source.html">pressure_controller.h</a>.</p>
 
 </div>
 </div>
@@ -272,17 +187,12 @@ Variables</h2></td></tr>
 
 <p>Instance of the pressure controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="pressure__controller_8cpp_source.html#l00029">29</a> of file <a class="el" href="pressure__controller_8cpp_source.html">pressure_controller.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pressure__controller_8cpp_source.html#l00033">33</a> of file <a class="el" href="pressure__controller_8cpp_source.html">pressure_controller.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="apressure__controller_8h_html_acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4"><div class="ttname"><a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94ab109db6438d5529aecb9206f7c375aa4">EXHALE</a></div><div class="ttdeci">@ EXHALE</div><div class="ttdoc">Exhalation:</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00045">pressure_controller.h:44</a></div></div>
-<div class="ttc" id="apressure__controller_8h_html_acd1b2c60ec414ec28999de4906364b94aec24253de23c0b2d1a08f946f5ca9d31"><div class="ttname"><a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94aec24253de23c0b2d1a08f946f5ca9d31">INSPIRATION</a></div><div class="ttdeci">@ INSPIRATION</div><div class="ttdoc">Push inhalation:</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00032">pressure_controller.h:32</a></div></div>
-<div class="ttc" id="apressure__controller_8h_html_aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0"><div class="ttname"><a href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88ab4687c42ca2ec518e856e8516abf02a0">INHALATION</a></div><div class="ttdeci">@ INHALATION</div><div class="ttdoc">Inspiration and inspiration holding.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00050">pressure_controller.h:50</a></div></div>
-<div class="ttc" id="apressure__controller_8h_html_acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088"><div class="ttname"><a href="pressure__controller_8h.html#acd1b2c60ec414ec28999de4906364b94a179bf51a5c69425fa7177eaedb8b1088">HOLD_INSPIRATION</a></div><div class="ttdeci">@ HOLD_INSPIRATION</div><div class="ttdoc">Hold inhalation:</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00039">pressure_controller.h:39</a></div></div>
-<div class="ttc" id="apressure__controller_8h_html_aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29"><div class="ttname"><a href="pressure__controller_8h.html#aff4abe7cc03a1c634e5583d338448b88a63e9f8e263aa7c737c4ceca47bd20f29">EXHALATION</a></div><div class="ttdeci">@ EXHALATION</div><div class="ttdoc">Exhalation and pause.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__controller_8h_source.html#l00053">pressure_controller.h:52</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

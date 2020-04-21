@@ -5,6 +5,7 @@ var dir_26bf53e35bd105bf828c059afabd26d7 =
     [ "alarm_controller.cpp", "alarm__controller_8cpp.html", "alarm__controller_8cpp" ],
     [ "battery.cpp", "battery_8cpp.html", "battery_8cpp" ],
     [ "blower.cpp", "blower_8cpp.html", null ],
+    [ "build_opts.h", "build__opts_8h.html", null ],
     [ "buzzer.cpp", "buzzer_8cpp.html", "buzzer_8cpp" ],
     [ "buzzer_control.cpp", "buzzer__control_8cpp.html", "buzzer__control_8cpp" ],
     [ "integration_test.cpp", "integration__test_8cpp.html", null ],
@@ -16,5 +17,6 @@ var dir_26bf53e35bd105bf828c059afabd26d7 =
     [ "qualification.cpp", "qualification_8cpp.html", null ],
     [ "respirator.cpp", "respirator_8cpp.html", "respirator_8cpp" ],
     [ "screen.cpp", "screen_8cpp.html", "screen_8cpp" ],
-    [ "sysclock.cpp", "sysclock_8cpp.html", null ]
+    [ "sysclock.cpp", "sysclock_8cpp.html", null ],
+    [ "telemetry.cpp", "telemetry_8cpp.html", "telemetry_8cpp" ]
 ];
