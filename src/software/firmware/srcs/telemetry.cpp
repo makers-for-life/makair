@@ -25,8 +25,10 @@
 
 // GLOBAL ITEMS ==============================================================
 
+#if HARDWARE_VERSION == 2
 /// The device ID to be joined with telemetry messages
 static byte deviceId[12];  // 3 * 32 bits = 96 bits
+#endif
 
 // FUNCTIONS ==================================================================
 
@@ -77,16 +79,14 @@ void toBytes64(byte bytes[], uint64_t data) {
     bytes[7] = data & FIRST_BYTE;
 }
 
+#if HARDWARE_VERSION == 2
 /**
  * Compute device ID
  *
  * @param deviceId Empty array of 12 elements
  */
 // cppcheck-suppress unusedFunction
-void computeDeviceId(byte deviceId[]) {
-#if HARDWARE_VERSION == 1
-    (void)deviceId;
-#elif HARDWARE_VERSION == 2
+void computeDeviceId(void) {
     deviceId[0] = (LL_GetUID_Word0() >> 24) & FIRST_BYTE;
     deviceId[1] = (LL_GetUID_Word0() >> 16) & FIRST_BYTE;
     deviceId[2] = (LL_GetUID_Word0() >> 8) & FIRST_BYTE;
@@ -99,14 +99,14 @@ void computeDeviceId(byte deviceId[]) {
     deviceId[9] = (LL_GetUID_Word2() >> 16) & FIRST_BYTE;
     deviceId[10] = (LL_GetUID_Word2() >> 8) & FIRST_BYTE;
     deviceId[11] = LL_GetUID_Word2() & FIRST_BYTE;
-#endif
 }
+#endif
 
 // cppcheck-suppress unusedFunction
 void initTelemetry(void) {
 #if HARDWARE_VERSION == 2
     Serial6.begin(115200);
-    computeDeviceId(deviceId);
+    computeDeviceId();
 #endif
 }
 
