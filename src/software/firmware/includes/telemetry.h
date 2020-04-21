@@ -12,10 +12,13 @@
 #include "../includes/alarm_controller.h"
 #include "../includes/cycle.h"
 
+/// Prepare Serial6 to send telemetry data
 void initTelemetry(void);
 
+/// Send a "boot" message
 void sendBootMessage(void);
 
+/// Send a "data snapshot" message
 void sendDataSnapshot(uint16_t centileValue,
                       uint16_t pressureValue,
                       CyclePhases phase,
@@ -25,6 +28,7 @@ void sendDataSnapshot(uint16_t centileValue,
                       uint8_t blowerRpm,
                       uint8_t batteryLevel);
 
+/// Send a "machine state snapshot" message
 void sendMachineStateSnapshot(uint32_t cycleValue,
                               uint8_t peakCommand,
                               uint8_t plateauCommand,
@@ -36,6 +40,7 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
                               uint8_t currentAlarmCodes[ALARMS_SIZE],
                               uint8_t previousAlarmCodes[ALARMS_SIZE]);
 
+/// Send a "alarm trap" message
 void sendAlarmTrap(uint16_t centileValue,
                    uint16_t pressureValue,
                    CyclePhases phase,
