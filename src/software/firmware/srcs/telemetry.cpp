@@ -34,13 +34,55 @@ void initTelemetry(void) {
 #endif
 }
 
+/**
+ * Convert a u16 so that it can be sent through serial
+ *
+ * @param bytes Empty array of 2 elements
+ * @param data Input number
+ * @return Array of 2 bytes
+ */
+void toBytes16(byte bytes[], uint16_t data) {
+    bytes[0] = (data >> 8) & FIRST_BYTE;
+    bytes[1] = data & FIRST_BYTE;
+}
+
+/**
+ * Convert a u32 so that it can be sent through serial
+ *
+ * @param bytes Empty array of 4 elements
+ * @param data Input number
+ */
+void toBytes32(byte bytes[], uint32_t data) {
+    bytes[0] = (data >> 24) & FIRST_BYTE;
+    bytes[1] = (data >> 16) & FIRST_BYTE;
+    bytes[2] = (data >> 8) & FIRST_BYTE;
+    bytes[3] = data & FIRST_BYTE;
+}
+
+/**
+ * Convert a u64 so that it can be sent through serial
+ *
+ * @param bytes Empty array of 8 elements
+ * @param data Input number
+ */
+void toBytes64(byte bytes[], uint64_t data) {
+    bytes[0] = (data >> 56) & FIRST_BYTE;
+    bytes[1] = (data >> 48) & FIRST_BYTE;
+    bytes[2] = (data >> 40) & FIRST_BYTE;
+    bytes[3] = (data >> 32) & FIRST_BYTE;
+    bytes[4] = (data >> 24) & FIRST_BYTE;
+    bytes[5] = (data >> 16) & FIRST_BYTE;
+    bytes[6] = (data >> 8) & FIRST_BYTE;
+    bytes[7] = data & FIRST_BYTE;
+}
+
 // cppcheck-suppress unusedFunction
 void sendBootMessage() {
 #if HARDWARE_VERSION == 2
-    uint8_t min8 = 0u;
-    uint8_t max8 = UINT8_MAX;
-    uint32_t min32 = 0u;
-    uint32_t max32 = UINT32_MAX;
+    uint8_t min8Value = 0u;
+    uint8_t max8Value = UINT8_MAX;
+    uint32_t min32Value = 0u;
+    uint32_t max32Value = UINT32_MAX;
 
     Serial6.write("B:");
     Serial6.write((uint8_t)1u);
@@ -49,63 +91,41 @@ void sendBootMessage() {
     Serial6.print(VERSION);
 
     byte deviceId1[4];  // 32 bits
-    deviceId1[0] = (LL_GetUID_Word0() >> 24) & FIRST_BYTE;
-    deviceId1[1] = (LL_GetUID_Word0() >> 16) & FIRST_BYTE;
-    deviceId1[2] = (LL_GetUID_Word0() >> 8) & FIRST_BYTE;
-    deviceId1[3] = LL_GetUID_Word0() & FIRST_BYTE;
+    toBytes32(deviceId1, LL_GetUID_Word0());
     Serial6.write(deviceId1, 4);
 
     byte deviceId2[4];  // 32 bits
-    deviceId2[0] = (LL_GetUID_Word1() >> 24) & FIRST_BYTE;
-    deviceId2[1] = (LL_GetUID_Word1() >> 16) & FIRST_BYTE;
-    deviceId2[2] = (LL_GetUID_Word1() >> 8) & FIRST_BYTE;
-    deviceId2[3] = LL_GetUID_Word1() & FIRST_BYTE;
+    toBytes32(deviceId2, LL_GetUID_Word1());
     Serial6.write(deviceId2, 4);
 
     byte deviceId3[4];  // 32 bits
-    deviceId3[0] = (LL_GetUID_Word2() >> 24) & FIRST_BYTE;
-    deviceId3[1] = (LL_GetUID_Word2() >> 16) & FIRST_BYTE;
-    deviceId3[2] = (LL_GetUID_Word2() >> 8) & FIRST_BYTE;
-    deviceId3[3] = LL_GetUID_Word2() & FIRST_BYTE;
+    toBytes32(deviceId3, LL_GetUID_Word2());
     Serial6.write(deviceId3, 4);
 
     Serial6.print("\t");
 
     byte systick[8];  // 64 bits
     uint64_t systickValue = (millis() * 1000) + (micros() % 1000);
-    systick[0] = (systickValue >> 56) & FIRST_BYTE;
-    systick[1] = (systickValue >> 48) & FIRST_BYTE;
-    systick[2] = (systickValue >> 40) & FIRST_BYTE;
-    systick[3] = (systickValue >> 32) & FIRST_BYTE;
-    systick[4] = (systickValue >> 24) & FIRST_BYTE;
-    systick[5] = (systickValue >> 16) & FIRST_BYTE;
-    systick[6] = (systickValue >> 8) & FIRST_BYTE;
-    systick[7] = systickValue & FIRST_BYTE;
+    toBytes64(systick, systickValue);
     Serial6.write(systick, 8);
 
     Serial6.print("\t");
     Serial6.write(MODE);
     Serial6.print("\t");
-    Serial6.write(min8);
+    Serial6.write(min8Value);
     Serial6.print("\t");
-    Serial6.write(max8);
+    Serial6.write(max8Value);
     Serial6.print("\t");
 
-    byte min32Value[4];  // 32 bits
-    min32Value[0] = (min32 >> 24) & FIRST_BYTE;
-    min32Value[1] = (min32 >> 16) & FIRST_BYTE;
-    min32Value[2] = (min32 >> 8) & FIRST_BYTE;
-    min32Value[3] = min32 & FIRST_BYTE;
-    Serial6.write(min32Value, 4);
+    byte min32[4];  // 32 bits
+    toBytes32(min32, min32Value);
+    Serial6.write(min32, 4);
 
     Serial6.print("\t");
 
-    byte max32Value[4];  // 32 bits
-    max32Value[0] = (max32 >> 24) & FIRST_BYTE;
-    max32Value[1] = (max32 >> 16) & FIRST_BYTE;
-    max32Value[2] = (max32 >> 8) & FIRST_BYTE;
-    max32Value[3] = max32 & FIRST_BYTE;
-    Serial6.write(max32Value, 4);
+    byte max32[4];  // 32 bits
+    toBytes32(max32, max32Value);
+    Serial6.write(max32, 4);
 
     Serial6.print("\n");
 #endif
@@ -149,52 +169,34 @@ void sendDataSnapshot(uint16_t centileValue,
     Serial6.print(VERSION);
 
     byte deviceId1[4];  // 32 bits
-    deviceId1[0] = (LL_GetUID_Word0() >> 24) & FIRST_BYTE;
-    deviceId1[1] = (LL_GetUID_Word0() >> 16) & FIRST_BYTE;
-    deviceId1[2] = (LL_GetUID_Word0() >> 8) & FIRST_BYTE;
-    deviceId1[3] = LL_GetUID_Word0() & FIRST_BYTE;
+    toBytes32(deviceId1, LL_GetUID_Word0());
     Serial6.write(deviceId1, 4);
 
     byte deviceId2[4];  // 32 bits
-    deviceId2[0] = (LL_GetUID_Word1() >> 24) & FIRST_BYTE;
-    deviceId2[1] = (LL_GetUID_Word1() >> 16) & FIRST_BYTE;
-    deviceId2[2] = (LL_GetUID_Word1() >> 8) & FIRST_BYTE;
-    deviceId2[3] = LL_GetUID_Word1() & FIRST_BYTE;
+    toBytes32(deviceId2, LL_GetUID_Word1());
     Serial6.write(deviceId2, 4);
 
     byte deviceId3[4];  // 32 bits
-    deviceId3[0] = (LL_GetUID_Word2() >> 24) & FIRST_BYTE;
-    deviceId3[1] = (LL_GetUID_Word2() >> 16) & FIRST_BYTE;
-    deviceId3[2] = (LL_GetUID_Word2() >> 8) & FIRST_BYTE;
-    deviceId3[3] = LL_GetUID_Word2() & FIRST_BYTE;
+    toBytes32(deviceId3, LL_GetUID_Word2());
     Serial6.write(deviceId3, 4);
 
     Serial6.print("\t");
 
     byte systick[8];  // 64 bits
     uint64_t systickValue = (millis() * 1000) + (micros() % 1000);
-    systick[0] = (systickValue >> 56) & FIRST_BYTE;
-    systick[1] = (systickValue >> 48) & FIRST_BYTE;
-    systick[2] = (systickValue >> 40) & FIRST_BYTE;
-    systick[3] = (systickValue >> 32) & FIRST_BYTE;
-    systick[4] = (systickValue >> 24) & FIRST_BYTE;
-    systick[5] = (systickValue >> 16) & FIRST_BYTE;
-    systick[6] = (systickValue >> 8) & FIRST_BYTE;
-    systick[7] = systickValue & FIRST_BYTE;
+    toBytes64(systick, systickValue);
     Serial6.write(systick, 8);
 
     Serial6.print("\t");
 
     byte centile[2];  // 16 bits
-    centile[0] = (centileValue >> 8) & FIRST_BYTE;
-    centile[1] = centileValue & FIRST_BYTE;
+    toBytes16(centile, centileValue);
     Serial6.write(centile, 2);
 
     Serial6.print("\t");
 
     byte pressure[2];  // 16 bits
-    pressure[0] = (pressureValue >> 8) & FIRST_BYTE;
-    pressure[1] = pressureValue & FIRST_BYTE;
+    toBytes16(pressure, pressureValue);
     Serial6.write(pressure, 2);
 
     Serial6.print("\t");
@@ -259,33 +261,21 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
     Serial6.print(VERSION);
 
     byte deviceId1[4];  // 32 bits
-    deviceId1[0] = (LL_GetUID_Word0() >> 24) & FIRST_BYTE;
-    deviceId1[1] = (LL_GetUID_Word0() >> 16) & FIRST_BYTE;
-    deviceId1[2] = (LL_GetUID_Word0() >> 8) & FIRST_BYTE;
-    deviceId1[3] = LL_GetUID_Word0() & FIRST_BYTE;
+    toBytes32(deviceId1, LL_GetUID_Word0());
     Serial6.write(deviceId1, 4);
 
     byte deviceId2[4];  // 32 bits
-    deviceId2[0] = (LL_GetUID_Word1() >> 24) & FIRST_BYTE;
-    deviceId2[1] = (LL_GetUID_Word1() >> 16) & FIRST_BYTE;
-    deviceId2[2] = (LL_GetUID_Word1() >> 8) & FIRST_BYTE;
-    deviceId2[3] = LL_GetUID_Word1() & FIRST_BYTE;
+    toBytes32(deviceId2, LL_GetUID_Word1());
     Serial6.write(deviceId2, 4);
 
     byte deviceId3[4];  // 32 bits
-    deviceId3[0] = (LL_GetUID_Word2() >> 24) & FIRST_BYTE;
-    deviceId3[1] = (LL_GetUID_Word2() >> 16) & FIRST_BYTE;
-    deviceId3[2] = (LL_GetUID_Word2() >> 8) & FIRST_BYTE;
-    deviceId3[3] = LL_GetUID_Word2() & FIRST_BYTE;
+    toBytes32(deviceId3, LL_GetUID_Word2());
     Serial6.write(deviceId3, 4);
 
     Serial6.print("\t");
 
     byte cycle[4];  // 32 bits
-    cycle[0] = (cycleValue >> 24) & FIRST_BYTE;
-    cycle[1] = (cycleValue >> 16) & FIRST_BYTE;
-    cycle[2] = (cycleValue >> 8) & FIRST_BYTE;
-    cycle[3] = cycleValue & FIRST_BYTE;
+    toBytes32(cycle, cycleValue);
     Serial6.write(cycle, 4);
 
     Serial6.print("\t");
@@ -379,52 +369,34 @@ void sendAlarmTrap(uint16_t centileValue,
     Serial6.print(VERSION);
 
     byte deviceId1[4];  // 32 bits
-    deviceId1[0] = (LL_GetUID_Word0() >> 24) & FIRST_BYTE;
-    deviceId1[1] = (LL_GetUID_Word0() >> 16) & FIRST_BYTE;
-    deviceId1[2] = (LL_GetUID_Word0() >> 8) & FIRST_BYTE;
-    deviceId1[3] = LL_GetUID_Word0() & FIRST_BYTE;
+    toBytes32(deviceId1, LL_GetUID_Word0());
     Serial6.write(deviceId1, 4);
 
     byte deviceId2[4];  // 32 bits
-    deviceId2[0] = (LL_GetUID_Word1() >> 24) & FIRST_BYTE;
-    deviceId2[1] = (LL_GetUID_Word1() >> 16) & FIRST_BYTE;
-    deviceId2[2] = (LL_GetUID_Word1() >> 8) & FIRST_BYTE;
-    deviceId2[3] = LL_GetUID_Word1() & FIRST_BYTE;
+    toBytes32(deviceId2, LL_GetUID_Word1());
     Serial6.write(deviceId2, 4);
 
     byte deviceId3[4];  // 32 bits
-    deviceId3[0] = (LL_GetUID_Word2() >> 24) & FIRST_BYTE;
-    deviceId3[1] = (LL_GetUID_Word2() >> 16) & FIRST_BYTE;
-    deviceId3[2] = (LL_GetUID_Word2() >> 8) & FIRST_BYTE;
-    deviceId3[3] = LL_GetUID_Word2() & FIRST_BYTE;
+    toBytes32(deviceId3, LL_GetUID_Word2());
     Serial6.write(deviceId3, 4);
 
     Serial6.print("\t");
 
     byte systick[8];  // 64 bits
     uint64_t systickValue = (millis() * 1000) + (micros() % 1000);
-    systick[0] = (systickValue >> 56) & FIRST_BYTE;
-    systick[1] = (systickValue >> 48) & FIRST_BYTE;
-    systick[2] = (systickValue >> 40) & FIRST_BYTE;
-    systick[3] = (systickValue >> 32) & FIRST_BYTE;
-    systick[4] = (systickValue >> 24) & FIRST_BYTE;
-    systick[5] = (systickValue >> 16) & FIRST_BYTE;
-    systick[6] = (systickValue >> 8) & FIRST_BYTE;
-    systick[7] = systickValue & FIRST_BYTE;
+    toBytes64(systick, systickValue);
     Serial6.write(systick, 8);
 
     Serial6.print("\t");
 
     byte centile[2];  // 16 bits
-    centile[0] = (centileValue >> 8) & FIRST_BYTE;
-    centile[1] = centileValue & FIRST_BYTE;
+    toBytes16(centile, centileValue);
     Serial6.write(centile, 2);
 
     Serial6.print("\t");
 
     byte pressure[2];  // 16 bits
-    pressure[0] = (pressureValue >> 8) & FIRST_BYTE;
-    pressure[1] = pressureValue & FIRST_BYTE;
+    toBytes16(pressure, pressureValue);
     Serial6.write(pressure, 2);
 
     Serial6.print("\t");
@@ -434,10 +406,7 @@ void sendAlarmTrap(uint16_t centileValue,
     Serial6.print("\t");
 
     byte cycle[4];  // 32 bits
-    cycle[0] = (cycleValue >> 24) & FIRST_BYTE;
-    cycle[1] = (cycleValue >> 16) & FIRST_BYTE;
-    cycle[2] = (cycleValue >> 8) & FIRST_BYTE;
-    cycle[3] = cycleValue & FIRST_BYTE;
+    toBytes32(cycle, cycleValue);
     Serial6.write(cycle, 4);
 
     Serial6.print("\t");
@@ -450,28 +419,19 @@ void sendAlarmTrap(uint16_t centileValue,
     Serial6.print("\t");
 
     byte expected[4];  // 32 bits
-    expected[0] = (expectedValue >> 24) & FIRST_BYTE;
-    expected[1] = (expectedValue >> 16) & FIRST_BYTE;
-    expected[2] = (expectedValue >> 8) & FIRST_BYTE;
-    expected[3] = expectedValue & FIRST_BYTE;
+    toBytes32(expected, expectedValue);
     Serial6.write(expected, 4);
 
     Serial6.print("\t");
 
     byte measured[4];  // 32 bits
-    measured[0] = (measuredValue >> 24) & FIRST_BYTE;
-    measured[1] = (measuredValue >> 16) & FIRST_BYTE;
-    measured[2] = (measuredValue >> 8) & FIRST_BYTE;
-    measured[3] = measuredValue & FIRST_BYTE;
+    toBytes32(measured, measuredValue);
     Serial6.write(measured, 4);
 
     Serial6.print("\t");
 
     byte cyclesSinceTrigger[4];  // 32 bits
-    cyclesSinceTrigger[0] = (cyclesSinceTriggerValue >> 24) & FIRST_BYTE;
-    cyclesSinceTrigger[1] = (cyclesSinceTriggerValue >> 16) & FIRST_BYTE;
-    cyclesSinceTrigger[2] = (cyclesSinceTriggerValue >> 8) & FIRST_BYTE;
-    cyclesSinceTrigger[3] = cyclesSinceTriggerValue & FIRST_BYTE;
+    toBytes32(cyclesSinceTrigger, cyclesSinceTriggerValue);
     Serial6.write(cyclesSinceTrigger, 4);
 
     Serial6.print("\n");
