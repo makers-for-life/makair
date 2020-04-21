@@ -28,7 +28,7 @@
 #define PCONTROLLER_COMPUTE_PERIOD 10u
 
 // Minimum & maximum execution parameters
-#define CONST_MAX_PEAK_PRESSURE 700u     // arbitrary [mmH2O]
+#define CONST_MAX_PEAK_PRESSURE 400u     // arbitrary [mmH2O]
 #define CONST_MIN_PEAK_PRESSURE 50u     // arbitrary [mmH2O]
 #define CONST_MAX_PLATEAU_PRESSURE 400u  // PP MAX ARDS = 300 [mmH2O]
 #define CONST_MIN_PLATEAU_PRESSURE 30u  // arbitrary [mmH2O]
