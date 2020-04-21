@@ -85,7 +85,7 @@ void waitForInMs(uint16_t ms) {
         // Measure 1 pressure per ms we wait
         if ((millis() - start) > pressureOffsetCount) {
             int16_t pressureValue = readPressureSensor(0, pressureOffset);
-            Serial.println(pressureValue);
+            DBG_DO(Serial.println(pressureValue);)
             pressureOffsetSum += pressureValue;
             minOffsetValue = min(pressureValue, minOffsetValue);
             maxOffsetValue = max(pressureValue, maxOffsetValue);
