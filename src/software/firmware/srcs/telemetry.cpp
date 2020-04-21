@@ -23,16 +23,14 @@
 /// Internals
 #include "../includes/pressure_controller.h"
 
+// GLOBAL ITEMS ==============================================================
+
+/// The device ID to be joined with telemetry messages
+static byte deviceId[12];  // 3 * 32 bits = 96 bits
+
 // FUNCTIONS ==================================================================
 
 #define FIRST_BYTE (uint8_t)0xFF
-
-// cppcheck-suppress unusedFunction
-void initTelemetry(void) {
-#if HARDWARE_VERSION == 2
-    Serial6.begin(115200);
-#endif
-}
 
 /**
  * Convert a u16 so that it can be sent through serial
@@ -79,21 +77,34 @@ void toBytes64(byte bytes[], uint64_t data) {
     bytes[7] = data & FIRST_BYTE;
 }
 
-/// Send device ID through Serial6
+/**
+ * Compute device ID
+ *
+ * @param deviceId Empty array of 12 elements
+ */
 // cppcheck-suppress unusedFunction
-void sendDeviceId(void) {
+void computeDeviceId(byte deviceId[]) {
 #if HARDWARE_VERSION == 2
-    byte deviceId1[4];  // 32 bits
-    toBytes32(deviceId1, LL_GetUID_Word0());
-    Serial6.write(deviceId1, 4);
+    deviceId[0] = (LL_GetUID_Word0() >> 24) & FIRST_BYTE;
+    deviceId[1] = (LL_GetUID_Word0() >> 16) & FIRST_BYTE;
+    deviceId[2] = (LL_GetUID_Word0() >> 8) & FIRST_BYTE;
+    deviceId[3] = LL_GetUID_Word0() & FIRST_BYTE;
+    deviceId[4] = (LL_GetUID_Word1() >> 24) & FIRST_BYTE;
+    deviceId[5] = (LL_GetUID_Word1() >> 16) & FIRST_BYTE;
+    deviceId[6] = (LL_GetUID_Word1() >> 8) & FIRST_BYTE;
+    deviceId[7] = LL_GetUID_Word1() & FIRST_BYTE;
+    deviceId[8] = (LL_GetUID_Word2() >> 24) & FIRST_BYTE;
+    deviceId[9] = (LL_GetUID_Word2() >> 16) & FIRST_BYTE;
+    deviceId[10] = (LL_GetUID_Word2() >> 8) & FIRST_BYTE;
+    deviceId[11] = LL_GetUID_Word2() & FIRST_BYTE;
+#endif
+}
 
-    byte deviceId2[4];  // 32 bits
-    toBytes32(deviceId2, LL_GetUID_Word1());
-    Serial6.write(deviceId2, 4);
-
-    byte deviceId3[4];  // 32 bits
-    toBytes32(deviceId3, LL_GetUID_Word2());
-    Serial6.write(deviceId3, 4);
+// cppcheck-suppress unusedFunction
+void initTelemetry(void) {
+#if HARDWARE_VERSION == 2
+    Serial6.begin(115200);
+    computeDeviceId(deviceId);
 #endif
 }
 
@@ -110,8 +121,7 @@ void sendBootMessage() {
 
     Serial6.write(static_cast<uint8_t>(strlen(VERSION)));
     Serial6.print(VERSION);
-
-    sendDeviceId();
+    Serial6.write(deviceId, 12);
 
     Serial6.print("\t");
 
@@ -179,8 +189,7 @@ void sendDataSnapshot(uint16_t centileValue,
 
     Serial6.write(static_cast<uint8_t>(strlen(VERSION)));
     Serial6.print(VERSION);
-
-    sendDeviceId();
+    Serial6.write(deviceId, 12);
 
     Serial6.print("\t");
 
@@ -261,8 +270,7 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
 
     Serial6.write(static_cast<uint8_t>(strlen(VERSION)));
     Serial6.print(VERSION);
-
-    sendDeviceId();
+    Serial6.write(deviceId, 12);
 
     Serial6.print("\t");
 
@@ -359,8 +367,7 @@ void sendAlarmTrap(uint16_t centileValue,
 
     Serial6.write(static_cast<uint8_t>(strlen(VERSION)));
     Serial6.print(VERSION);
-
-    sendDeviceId();
+    Serial6.write(deviceId, 12);
 
     Serial6.print("\t");
 
