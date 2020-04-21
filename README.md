@@ -134,7 +134,7 @@ Firmware release binaries are available for download on our [releases page](http
 | [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2UT72dP) | Martial Medjber + [Eliott Vincent](https://github.com/eliottvincent)
 | [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | [view model](https://a360.co/2x1mhIx) | [Valerian Saliou](https://github.com/valeriansaliou)
 | [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | [view model](https://a360.co/2XeSVAP) | [Valerian Saliou](https://github.com/valeriansaliou)
-| [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V3 | Comply to ISO 5356-1 | ✅ | [view o2 model](https://a360.co/3bVsX9N), [view blower model](https://a360.co/2UNMVgY), [view respiratory pressure model](https://a360.co/2xUHOTe), [view respiratory no pressure model](https://a360.co/3bZzWyi) | Gabriel Moneyron
+| [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V4 | Wall-mountable patient connectors | ✅ | [view o2 model](https://a360.co/3bVsX9N), [view blower model](https://a360.co/2UNMVgY) | Gabriel Moneyron
 | [Fan Holder](./src/mechanics/parts/fan-holder) | V1 | Initial version | ✅ | [view model](https://a360.co/2V8enEU) | [Eliott Vincent](https://github.com/eliottvincent)
 | [Container](./src/mechanics/container) | V2 | Update mensurations | ✅ | [view model](https://a360.co/2RlnfGp) | Arthur Dagard
 
@@ -262,13 +262,14 @@ Adding to that, 200+ individual members of the project who contributed to techni
 ### The "Pneumatic Connectors"
 
 <p>
-  <img alt="Pneumatic Connector Blower Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/Blower%20V5/Pneumatic%20Connector%20Blower%20V5.png" height="240">
-  <img alt="Pneumatic Connector O2 Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/O2%20V3/Pneumatic%20Connector%20O2%20V3.png" height="240">
-  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/Respiratory%20-%20No%20pressure%20V2/Pneumatic%20Connector%20Respiratory%20No%20pressure.png" height="240">
-  <img alt="Pneumatic Connector pressure Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/Respiratory%20-%20Pressure%20V3/Pneumatic%20Connector%20Respiratory%20Pressure%20V2.png" height="240">
-  <img alt="Pneumatic Connector O2 Print" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/O2%20V3/Pneumatic%20Connector%20O2%20V3%20Print.jpg" height="240">
-  <img alt="Pneumatic Connector Blower Print" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/Blower%20V5/Pneumatic%20Connector%20Blower%20V4%20Print.jpg" height="240">
-  <img alt="Pneumatic Connector No pressure Print" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V3/Respiratory%20-%20No%20pressure%20V2/Pneumatic%20Connector%20Respiratory%20No%20pressure%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector Blower Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V4/Blower%20V5/Pneumatic%20Connector%20Blower%20V5.png" height="240">
+  <img alt="Pneumatic Connector O2 Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V4/O2%20V3/Pneumatic%20Connector%20O2%20V3.png" height="240">
+  <img alt="Pneumatic Connector No pressure Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V4/Respiratory%20-%20No%20pressure%20V3/Pneumatic%20Connector%20Respiratory%20No%20pressure%20(Render%201).png" height="240">
+  <img alt="Pneumatic Connector pressure Render" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V4/Respiratory%20-%20Pressure%20V4/Pneumatic%20Connector%20Respiratory%20Pressure%20(Render%201).png" height="240">
+  <img alt="Pneumatic Connector O2 Print" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V4/O2%20V3/Pneumatic%20Connector%20O2%20V3%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector Blower Print" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V4/Blower%20V5/Pneumatic%20Connector%20Blower%20V4%20Print.jpg" height="240">
+  <img alt="Pneumatic Connector No pressure Print" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V4/Respiratory%20-%20No%20pressure%20V3/Pneumatic%20Connector%20Respiratory%20No%20pressure%20(Print%201).jpg" height="240">
+  <img alt="Pneumatic Connector No pressure Print" src="./src/mechanics/parts/pneumatic-connectors/printing/schemes/V4/Respiratory%20-%20Pressure%20V4/Pneumatic%20Connector%20Respiratory%20Pressure%20(Print%201).jpg" height="240">
 </p>
 
 ### The "Fan Holder"
