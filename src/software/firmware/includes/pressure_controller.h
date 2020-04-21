@@ -168,7 +168,7 @@ class PressureController {
      */
     void updatePhase(uint16_t p_centiSec);
 
-    /// Update peal pressure and blower ramp up.
+    /// Update peak pressure and blower ramp up
     void updatePeakPressure();
 
     /// Perform the pressure control and compute the transistors commands during the inhalation
