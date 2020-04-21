@@ -431,7 +431,7 @@ void loop() {
         updateBatterySample();
         if ((millis() - last_time) >= 200) {
             char msg[SCREEN_LINE_LENGTH + 1];
-            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie : %3u V", getBatteryLevel());
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie : %2u.%1u V", getBatteryLevel(), (getBatteryLevelX10() - 10*getBatteryLevel()));
             displayLine(msg, 3);
             last_time = millis();
         }
