@@ -60,7 +60,7 @@ Blower blower;
 
 int16_t pressureOffset = 0;
 int32_t pressureOffsetSum = 0;
-uint32_t pressureOffsetCount = 0u;
+int32_t pressureOffsetCount = 0;
 int16_t minOffsetValue = 0;
 int16_t maxOffsetValue = 0;
 bool firstRun = true;
@@ -366,9 +366,11 @@ void loop() {
             waitForInMs(10000);
 
             char msg[SCREEN_LINE_LENGTH + 1];
-            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Moyenne : %3d mmH2O", pressureOffsetSum/pressureOffsetCount);
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Moyenne : %3d mmH2O",
+                           pressureOffsetSum / pressureOffsetCount);
             displayLine(msg, 1);
-            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Fuite : %3d mmH2O", maxOffsetValue - minOffsetValue);
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Fuite : %3d mmH2O",
+                           maxOffsetValue - minOffsetValue);
             displayLine(msg, 2);
 
             (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Continuer : Start");
@@ -378,7 +380,7 @@ void loop() {
         }
         break;
     }
-    
+
     case STEP_O2_TEST: {
         UNGREEDY(is_drawn, display("Test sortie 02", "Continuer : Start"));
         servoPatient.open();
@@ -431,7 +433,8 @@ void loop() {
         updateBatterySample();
         if ((millis() - last_time) >= 200) {
             char msg[SCREEN_LINE_LENGTH + 1];
-            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie : %2u.%1u V", getBatteryLevel(), (getBatteryLevelX10() - 10*getBatteryLevel()));
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie : %2u.%1u V", getBatteryLevel(),
+                           (getBatteryLevelX10() - (10u * getBatteryLevel())));
             displayLine(msg, 3);
             last_time = millis();
         }
