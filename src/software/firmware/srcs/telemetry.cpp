@@ -82,6 +82,7 @@ void toBytes64(byte bytes[], uint64_t data) {
 /// Send device ID through Serial6
 // cppcheck-suppress unusedFunction
 void sendDeviceId(void) {
+#if HARDWARE_VERSION == 2
     byte deviceId1[4];  // 32 bits
     toBytes32(deviceId1, LL_GetUID_Word0());
     Serial6.write(deviceId1, 4);
@@ -93,6 +94,7 @@ void sendDeviceId(void) {
     byte deviceId3[4];  // 32 bits
     toBytes32(deviceId3, LL_GetUID_Word2());
     Serial6.write(deviceId3, 4);
+#endif
 }
 
 // cppcheck-suppress unusedFunction
