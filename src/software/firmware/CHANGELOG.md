@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.5.2-patch.1
+
+- Backport : fix a regression
+  (_the PPeak+ button was not functioning anymore_)
+
 ## v1.5.2
 
 - improve pressure control
