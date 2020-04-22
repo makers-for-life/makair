@@ -138,53 +138,52 @@ impl DisplayDrawer {
 
             {
                 let mut box_x = 0.0;
-                let mut bottom_box =
-                    |x: f64, color: Color, title: &str, center: &str, bottom: &str| {
-                        box_x += BOX_INTER_X;
-                        Rectangle::new_round(color, 5.0).draw(
-                            [box_x, BOX_Y, BOX_W, BOX_H],
-                            &c.draw_state,
-                            c.transform,
-                            g,
-                        );
+                let mut bottom_box = |color: Color, title: &str, center: &str, bottom: &str| {
+                    box_x += BOX_INTER_X;
+                    Rectangle::new_round(color, 5.0).draw(
+                        [box_x, BOX_Y, BOX_W, BOX_H],
+                        &c.draw_state,
+                        c.transform,
+                        g,
+                    );
 
-                        text(
-                            WHITE,
-                            12,
-                            title,
-                            &mut glyphs,
-                            c.transform.trans(box_x + 7.0, BOX_Y + 17.0),
-                            g,
-                        )
-                        .unwrap();
-                        text(
-                            WHITE,
-                            22,
-                            center,
-                            &mut glyphs,
-                            c.transform.trans(box_x + 7.0, BOX_Y + 45.0),
-                            g,
-                        )
-                        .unwrap();
-                        text(
-                            LIGHT_WHITE,
-                            12,
-                            bottom,
-                            &mut glyphs,
-                            c.transform.trans(box_x + 7.0, BOX_Y + BOX_H - 5.0),
-                            g,
-                        )
-                        .unwrap();
+                    text(
+                        WHITE,
+                        12,
+                        title,
+                        &mut glyphs,
+                        c.transform.trans(box_x + 7.0, BOX_Y + 17.0),
+                        g,
+                    )
+                    .unwrap();
+                    text(
+                        WHITE,
+                        22,
+                        center,
+                        &mut glyphs,
+                        c.transform.trans(box_x + 7.0, BOX_Y + 45.0),
+                        g,
+                    )
+                    .unwrap();
+                    text(
+                        LIGHT_WHITE,
+                        12,
+                        bottom,
+                        &mut glyphs,
+                        c.transform.trans(box_x + 7.0, BOX_Y + BOX_H - 5.0),
+                        g,
+                    )
+                    .unwrap();
 
-                        box_x += BOX_W;
-                    };
+                    box_x += BOX_W;
+                };
 
-                bottom_box(10.0, PURPLE, "P(peak)", "32 <- (35)", "cmH2O");
-                bottom_box(110.0, PURPLE, "P(plateau)", "23 <- (35)", "cmH2O");
-                bottom_box(210.0, PURPLE, "P(expiratory)", "7 <- (35)", "cmH2O");
-                bottom_box(310.0, PURPLE, "Cycles/minutes", "12", "/minute");
-                bottom_box(410.0, PURPLE, "Insp-exp ratio", "1:2", "inspir.:expir.");
-                bottom_box(510.0, PURPLE, "Tidal volume", "643", "mL (milliliters)");
+                bottom_box(PURPLE, "P(peak)", "32 <- (35)", "cmH2O");
+                bottom_box(PURPLE, "P(plateau)", "23 <- (35)", "cmH2O");
+                bottom_box(PURPLE, "P(expiratory)", "7 <- (35)", "cmH2O");
+                bottom_box(PURPLE, "Cycles/minutes", "12", "/minute");
+                bottom_box(PURPLE, "Insp-exp ratio", "1:2", "inspir.:expir.");
+                bottom_box(PURPLE, "Tidal volume", "643", "mL (milliliters)");
             }
 
             {
