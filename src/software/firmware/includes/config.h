@@ -12,9 +12,10 @@
 #define MODE_QUALIFICATION 2     ///< Test electrical wiring mode
 #define MODE_INTEGRATION_TEST 3  ///< Test integration mode
 #define MODE_VALVE_TEST 10       ///< Cycle tests for valves
+#define MODE_VALVE_TEST_VOLZ 11       ///< Cycle tests for valves
 
 /// Defines the current mode
-#define MODE MODE_VALVE_TEST
+#define MODE MODE_VALVE_TEST_VOLZ
 
 /**
  * Activates debug traces
