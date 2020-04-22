@@ -43,7 +43,7 @@
 #define VT_FAULHABER 2
 
 // Defines which valves are fitted
-#define VALVE_TYPE VT_FAULHABER
+#define VALVE_TYPE VT_SERVO_V1
 
 /**
  * Defines which hardware preset to use
