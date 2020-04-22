@@ -111,6 +111,8 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
 #elif VALVE_TYPE == VT_EMERSON_ASCO
 #define SERVO_VALVE_PERIOD 3278  // 305 Hz
 #define EMERSON_MIN_PWM 600      // 18 % PWM is the minimum to start opening (3278 * 0.18)
+#elif VALVE_TYPE == VT_FAULHABER
+#define SERVO_VALVE_PERIOD 1000  // 1 khz Faulhaber motors are controlled with a 1khz PWM
 #endif
 
 #if HARDWARE_VERSION == 1
@@ -282,8 +284,15 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
 ///@{
 
 #define ALARM_THRESHOLD_MIN_PRESSURE 20u         // RCM-SW-2 + RCM-SW-19
-#define ALARM_THRESHOLD_MAX_PRESSURE 800u         // RCM-SW-18
+#define ALARM_THRESHOLD_MAX_PRESSURE 800u        // RCM-SW-18
 #define ALARM_THRESHOLD_DIFFERENCE_PERCENT 20u   // RCM-SW-1 + RCM-SW-14
 #define ALARM_THRESHOLD_DIFFERENCE_PRESSURE 20u  // RCM-SW-3 + RCM-SW-15
 
 ///@}
+
+// preprocessor checks
+#if VALVE_TYPE == VT_FAULHABER
+#if HARDWARE_VERSION == 1
+#error "Faulhaber can only be driven with hardware v2"
+#endif
+#endif

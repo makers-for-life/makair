@@ -65,5 +65,10 @@ uint16_t valveAngle2MicroSeconds(uint16_t value) {
     }
 
     return result;
+#elif VALVE_TYPE == VT_FAULHABER
+    // Faulhaber motors, in the first run :
+    // pwm duty cycle 56% -> open
+    // pwm duty cycle 90% -> closed
+    return map(value, 0, 125, 560, 900);
 #endif
 }
