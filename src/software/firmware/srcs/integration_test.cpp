@@ -26,6 +26,7 @@
 #include "../includes/pressure.h"
 #include "../includes/pressure_valve.h"
 #include "../includes/screen.h"
+#include "../includes/telemetry.h"
 
 // State machine states
 #define STEP_WELCOME 0
@@ -60,6 +61,12 @@ Blower blower;
 int16_t pressureOffset;
 int32_t pressureOffsetSum;
 uint32_t pressureOffsetCount;
+int16_t minOffsetValue = 0;
+int16_t maxOffsetValue = 0;
+
+#if HARDWARE_VERSION == 2
+HardwareSerial Serial6(PIN_TELEMETRY_SERIAL_RX, PIN_TELEMETRY_SERIAL_TX);
+#endif
 
 /**
  * Block execution for a given duration
@@ -68,10 +75,18 @@ uint32_t pressureOffsetCount;
  */
 void waitForInMs(uint16_t ms) {
     uint16_t start = millis();
+    minOffsetValue = readPressureSensor(0, 0);
+    maxOffsetValue = readPressureSensor(0, 0);
+    pressureOffsetSum = 0;
+    pressureOffsetCount = 0;
+
     while ((millis() - start) < ms) {
         // Measure 1 pressure per ms we wait
         if ((millis() - start) > pressureOffsetCount) {
-            pressureOffsetSum += readPressureSensor(0, 0);
+            int16_t pressureValue = readPressureSensor(0, 0);
+            pressureOffsetSum += pressureValue;
+            minOffsetValue = min(pressureValue, minOffsetValue);
+            maxOffsetValue = max(pressureValue, maxOffsetValue);
             pressureOffsetCount++;
         }
         continue;
@@ -115,6 +130,11 @@ OneButton btn_start(PIN_BTN_START, false, false);
 void setup() {
     DBG_DO(Serial.begin(115200);)
     DBG_DO(Serial.println("Booting the system in integration mode...");)
+
+#if HARDWARE_VERSION == 2
+    initTelemetry();
+    sendBootMessage();
+#endif
 
     btn_start.attachClick(onStartClick);
 
@@ -176,7 +196,7 @@ void setup() {
 
     pinMode(PIN_LED_START, OUTPUT);
     digitalWrite(PIN_LED_START, LED_START_ACTIVE);
-
+    waitForInMs(1000);
     resetScreen();
     screen.setCursor(0, 0);
     screen.print("Calibrating P offset");
@@ -196,6 +216,26 @@ void setup() {
         Serial.print(pressureOffset);
         Serial.println();
     })
+    // Happens when patient is plugged at starting
+    if ((maxOffsetValue - minOffsetValue) >= 10) {
+        resetScreen();
+        screen.setCursor(0, 0);
+        char line1[SCREEN_LINE_LENGTH + 1];
+        (void)snprintf(line1, SCREEN_LINE_LENGTH + 1, "P offset is unstable");
+        screen.print(line1);
+        screen.setCursor(0, 1);
+        char line2[SCREEN_LINE_LENGTH + 1];
+        (void)snprintf(line2, SCREEN_LINE_LENGTH + 1, "Max-Min: %3d mmH2O",
+                       maxOffsetValue - minOffsetValue);
+        screen.print(line2);
+        screen.setCursor(0, 2);
+        screen.print("Unplug patient and");
+        screen.setCursor(0, 3);
+        screen.print("reboot");
+        Buzzer_High_Prio_Start();
+        while (true) {
+        }
+    }
     if (pressureOffset >= MAX_PRESSURE_OFFSET) {
         resetScreen();
         screen.setCursor(0, 0);
@@ -227,8 +267,8 @@ void loop() {
     btn_start.tick();
 
     switch (step) {
-    case STEP_WELCOME:
-    default: {
+    default:
+    case STEP_WELCOME: {
         UNGREEDY(is_drawn, {
             display("MakAir test", "Press start button");
             displayLine(VERSION, 3);

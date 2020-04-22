@@ -83,13 +83,13 @@ static const int32_t PID_BLOWER_INTEGRAL_MIN = -1000;
 
 static const int32_t PID_PATIENT_KP = 4;
 static const int32_t PID_PATIENT_KI = 32;
-static const int32_t PID_PATIENT_KD = 8;
-static const int32_t PID_PATIENT_INTEGRAL_MAX = 500;
-static const int32_t PID_PATIENT_INTEGRAL_MIN = -500;
+static const int32_t PID_PATIENT_KD = 12;
+static const int32_t PID_PATIENT_INTEGRAL_MAX = 630;
+static const int32_t PID_PATIENT_INTEGRAL_MIN = -630;
 
 /// Increase target pressure by an offset (in mmH2O) for safety, to avoid going below the target
 /// pressure
-static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 8;
+static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
 #endif
 
 ///@}
@@ -270,8 +270,8 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 8;
 #define TIM_CHANNEL_ESC_BLOWER 3
 #define PIN_TEMP_BLOWER A4  // PC1
 #define PIN_BATTERY A2
-#define PIN_SERIAL_RX PA12
-#define PIN_SERIAL_TX PA11
+#define PIN_TELEMETRY_SERIAL_RX PA12
+#define PIN_TELEMETRY_SERIAL_TX PA11
 #endif
 
 ///@}

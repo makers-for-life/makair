@@ -24,11 +24,15 @@ Alarm::Alarm(AlarmPriority p_priority, uint8_t p_code, uint8_t p_detectionThresh
     m_cycleNumber =
         UINT32_MAX;  // We need this not to be 0 so that alarms can be triggered just after booting
     m_detectionNumber = 0u;
+    m_cyclesSinceTrigger = 0u;
 }
 
 AlarmPriority Alarm::getPriority() const { return m_priority; }
 
 uint8_t Alarm::getCode() const { return m_code; }
+
+// cppcheck-suppress unusedFunction
+uint32_t Alarm::getCyclesSinceTrigger() const { return m_cyclesSinceTrigger; }
 
 bool Alarm::isTriggered() const { return m_detectionNumber >= m_detectionThreshold; }
 
@@ -38,11 +42,13 @@ void Alarm::detected(uint32_t p_cycleNumber) {
         m_detectionNumber++;
         if (m_detectionNumber > m_detectionThreshold) {
             m_detectionNumber = m_detectionThreshold;
+            m_cyclesSinceTrigger++;
         }
     }
 }
 
 void Alarm::notDetected() {
     m_cycleNumber = UINT32_MAX;
-    m_detectionNumber = 0;
+    m_detectionNumber = 0u;
+    m_cyclesSinceTrigger = 0u;
 }

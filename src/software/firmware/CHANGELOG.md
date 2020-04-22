@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.5.3
+
+- warn if pressure is not stable enough at startup
+- improve pressure control
+- fix a regression
+  (_the PPeak+ button was not functioning anymore_)
+
+## v1.5.2
+
+- improve pressure control
+
 ## v1.5.1
 
 - calibrate pressure sensor's offset on startup

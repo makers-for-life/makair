@@ -1,0 +1,37 @@
+name: Firmware Documentation
+
+on:
+  push:
+    paths:
+      - .github/workflows/**
+      - src/software/firmware/**
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create documentation directory
+        run: |
+          mkdir -p local/docs/software/firmware
+
+      - name: Generate documentation for firmware
+        uses: mattnotmitt/doxygen-action@v1
+        with:
+          doxyfile-path: 'src/software/firmware/Doxyfile'
+
+      - name: Archive all documentation
+        uses: actions/upload-artifact@v1
+        with:
+          name: docs
+          path: local/docs/software/
+
+      - name: Deploy all documentation
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        if: github.ref == 'refs/heads/master'
+        with:
+          BRANCH: gh-pages
+          FOLDER: local/docs/
+          TARGET_FOLDER: ./docs/
