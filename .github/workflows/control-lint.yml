@@ -17,7 +17,7 @@ jobs:
       - name: Prepare control codebase
         run: |
           mv repo/src/software/control/* ./
-          sed -ie 's/path = "..\\/telemetry"/path = ".\\/repo\\/src\\/software\\/telemetry"/' Cargo.toml
+          sed -i 's/path = "..\/telemetry"/path = ".\/repo\/src\/software\/telemetry"/' Cargo.toml
           ls -la .
 
       - name: Install latest stable
