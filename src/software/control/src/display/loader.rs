@@ -16,6 +16,8 @@ pub struct DisplayLoader {
 impl DisplayLoaderBuilder {
     pub fn new() -> DisplayLoader {
         DisplayLoader {
+            // TODO: improve loader code structure
+
             // TODO
             // top_logo: Self::load_top_logo(),
         }
