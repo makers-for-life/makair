@@ -71,64 +71,29 @@ impl DisplayDrawerBuilder {
 
 impl DisplayDrawer {
     pub fn run(&mut self) {
-        let mut data_pressure = Vec::new();
+        // TODO: move more of this into the "serial" module
 
-        // TODO: move this into the "serial" module
+        let mut data: DataPressure = Vec::new();
 
         // Start gathering telemetry
         let rx = self.start_telemetry();
-
-        // TODO: clean this
-        let (mut last_point, mut last_cycles) = (Local::now(), 0);
 
         'main: loop {
             // TODO: only update when needed
             self.event_loop.needs_update();
 
             // Receive telemetry data (from the input serial from the motherboard)
-            'thread_rcv: loop {
-                match rx.try_recv() {
-                    Ok(message) => match message {
-                        // TODO: add more message types
-                        TelemetryMessage::DataSnapshot { pressure, .. } => {
-                            let now = Local::now();
-                            let last = now - last_point;
-
-                            // Last received chunk is not too recent? Add the pressure measurement \
-                            //   point that was received.
-                            if last > *SERIAL_RECEIVE_CHUNK_TIME {
-                                last_point = now;
-
-                                self.add_pressure(&mut data_pressure, pressure);
-                            }
-                        }
-
-                        TelemetryMessage::MachineStateSnapshot { cpm_command, .. } => {
-                            last_cycles = cpm_command;
-                        }
-
-                        _ => {}
-                    },
-
-                    Err(TryRecvError::Empty) => {
-                        break 'thread_rcv;
-                    }
-
-                    Err(TryRecvError::Disconnected) => {
-                        panic!("channel to serial port thread was closed");
-                    }
-                }
-            }
+            let last_cycles = self.step_loop_telemetry(&rx, &mut data);
 
             // Handle incoming events
-            match self.handle_loop_events() {
+            match self.step_loop_events() {
                 HandleLoopOutcome::Break => break 'main,
                 HandleLoopOutcome::Continue => {}
             }
 
             // Refresh the pressure data interface, if we have any data in the buffer
-            if data_pressure.len() > 0 {
-                self.handle_loop_refresh(&data_pressure, last_cycles);
+            if data.len() > 0 {
+                self.step_loop_refresh(&data, last_cycles);
             }
         }
     }
@@ -227,11 +192,51 @@ impl DisplayDrawer {
         }
     }
 
-    fn handle_loop_telemetry(&mut self) {
-        // TODO
+    fn step_loop_telemetry(
+        &mut self,
+        rx: &Receiver<TelemetryMessage>,
+        data: &mut DataPressure,
+    ) -> u8 {
+        let (mut last_point, mut last_cycles) = (Local::now(), 0);
+
+        loop {
+            match rx.try_recv() {
+                Ok(message) => match message {
+                    // TODO: add more message types
+                    TelemetryMessage::DataSnapshot { pressure, .. } => {
+                        let now = Local::now();
+                        let last = now - last_point;
+
+                        // Last received chunk is not too recent? Add the pressure measurement \
+                        //   point that was received.
+                        if last > *SERIAL_RECEIVE_CHUNK_TIME {
+                            last_point = now;
+
+                            self.add_pressure(data, pressure);
+                        }
+                    }
+
+                    TelemetryMessage::MachineStateSnapshot { cpm_command, .. } => {
+                        last_cycles = cpm_command;
+                    }
+
+                    _ => {}
+                },
+
+                Err(TryRecvError::Empty) => {
+                    break;
+                }
+
+                Err(TryRecvError::Disconnected) => {
+                    panic!("channel to serial port thread was closed");
+                }
+            }
+        }
+
+        last_cycles
     }
 
-    fn handle_loop_events(&mut self) -> HandleLoopOutcome {
+    fn step_loop_events(&mut self) -> HandleLoopOutcome {
         for event in self.event_loop.next(&mut self.events_loop) {
             // Use the `winit` backend feature to convert the winit event to a conrod one.
             if let Some(event) = support::convert_event(event.clone(), &self.display) {
@@ -264,8 +269,8 @@ impl DisplayDrawer {
         return HandleLoopOutcome::Continue;
     }
 
-    fn handle_loop_refresh(&mut self, data_pressure: &DataPressure, last_cycles: u8) {
-        let image_map = self.render(data_pressure, last_cycles);
+    fn step_loop_refresh(&mut self, data: &DataPressure, last_cycles: u8) {
+        let image_map = self.render(data, last_cycles);
 
         if let Some(primitives) = self.interface.draw_if_changed() {
             self.renderer.fill(&self.display.0, primitives, &image_map);
