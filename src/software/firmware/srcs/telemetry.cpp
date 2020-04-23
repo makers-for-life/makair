@@ -247,9 +247,9 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
     (void)plateauCommand;
     (void)peepCommand;
     (void)cpmCommand;
-    (void)previousPeakPressure;
-    (void)previousPlateauPressure;
-    (void)previousPeepPressure;
+    (void)previousPeakPressureValue;
+    (void)previousPlateauPressureValue;
+    (void)previousPeepPressureValue;
     (void)currentAlarmCodes;
     (void)previousAlarmCodes;
 #elif HARDWARE_VERSION == 2
@@ -444,6 +444,7 @@ void sendAlarmTrap(uint16_t centileValue,
 #endif
 }
 
+// cppcheck-suppress unusedFunction
 uint8_t mmH2OtoCmH2O(uint16_t pressure) {
     uint8_t result;
     uint16_t lastDigit = pressure % 10u;
