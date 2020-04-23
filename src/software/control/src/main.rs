@@ -64,8 +64,8 @@ fn make_app_args() -> AppArgs {
         port: matches
             .value_of("port")
             .expect("please provide a serial port value")
-            .parse::<u8>()
-            .expect("serial port should be a number")
+            .parse::<String>()
+            .expect("serial port should be a string")
             .to_string(),
     }
 }

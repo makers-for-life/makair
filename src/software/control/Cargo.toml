@@ -20,12 +20,11 @@ doc = false
 log = "0.4"
 clap = { version = "2.33", default-features = false }
 lazy_static = "1.4"
-chrono = "0.4"
+chrono = "0.4.11"
 winit = "0.19"
-image = "0.23"
+image = "0.23.3"
 glium = "0.24"
-plotters = {version = "0.2", default_features = false, features = ["image_encoder", "chrono", "line_series", "palette", "ttf"]}
-piston_window = "0.105"
+plotters = {version = "^0.2.12", default_features = false, features = ["image_encoder", "chrono", "line_series", "palette", "ttf"]}
 conrod_glium = "0.69"
 conrod_winit = "0.69"
 conrod_core = "0.69"

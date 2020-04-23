@@ -9,6 +9,7 @@ use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 use crate::config::environment::{DISPLAY_WINDOW_SIZE_HEIGHT, DISPLAY_WINDOW_SIZE_WIDTH};
 
 use super::drawer::DisplayDrawerBuilder;
+use super::fonts::Fonts;
 
 pub struct DisplayWindowBuilder;
 pub struct DisplayWindow;
@@ -45,13 +46,21 @@ impl DisplayWindow {
         .build();
 
         // Load all required fonts to interface
-        interface
+        let bold_font = interface
+            .fonts
+            .insert_from_file("./res/fonts/notosans_bold.ttf")
+            .unwrap();
+
+        // last loaded font is the one that will be used by default
+        let regular_font = interface
             .fonts
             .insert_from_file("./res/fonts/notosans_regular.ttf")
             .unwrap();
 
+        let fonts = Fonts::new(regular_font, bold_font);
+
         // Create window contents drawer
-        let mut drawer = DisplayDrawerBuilder::new(window, context, events_loop, interface);
+        let mut drawer = DisplayDrawerBuilder::new(window, context, events_loop, interface, fonts);
 
         drawer.run();
     }
