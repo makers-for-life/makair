@@ -21,3 +21,11 @@ To run the Control UI, please ensure that your device first has an open serial c
 Take note of the serial port used as an input on your Control UI board, and call:
 
 1. `./makair-control --port=0` (where `--port` is your serial port ID)
+
+## How To Build A Release? (Cross-Compile For ARM)
+
+To cross-compile a new release for an ARM target (using MUSL; statically-linked libraries), you can call the `release_binaries.sh` script:
+
+1. `./scripts/release_binaries.sh --version=1.0.0`
+
+_Make sure to replace the `version` script argument with the current release version. This is used for file naming purposes only._
