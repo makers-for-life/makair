@@ -113,10 +113,7 @@ void initTelemetry(void) {
 // cppcheck-suppress unusedFunction
 void sendBootMessage() {
 #if HARDWARE_VERSION == 2
-    uint8_t min8Value = 0u;
-    uint8_t max8Value = UINT8_MAX;
-    uint32_t min32Value = 0u;
-    uint32_t max32Value = UINT32_MAX;
+    uint8_t value128 = 128u;
 
     Serial6.write("B:");
     Serial6.write((uint8_t)1u);
@@ -135,21 +132,7 @@ void sendBootMessage() {
     Serial6.print("\t");
     Serial6.write(MODE);
     Serial6.print("\t");
-    Serial6.write(min8Value);
-    Serial6.print("\t");
-    Serial6.write(max8Value);
-    Serial6.print("\t");
-
-    byte min32[4];  // 32 bits
-    // cppcheck-suppress misra-c2012-12.3
-    toBytes32(min32, min32Value);
-    Serial6.write(min32, 4);
-
-    Serial6.print("\t");
-
-    byte max32[4];  // 32 bits
-    toBytes32(max32, max32Value);
-    Serial6.write(max32, 4);
+    Serial6.write(value128);
 
     Serial6.print("\n");
 #endif

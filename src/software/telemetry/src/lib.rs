@@ -89,29 +89,14 @@ pub fn gather_telemetry(port_id: &str, tx: Sender<TelemetryMessage>) {
 
 pub fn display_message(message: TelemetryMessage) {
     match message {
-        TelemetryMessage::BootMessage {
-            min8,
-            max8,
-            min32,
-            max32,
-            ..
-        } => {
+        TelemetryMessage::BootMessage { value128, .. } => {
             debug!("####################################################################################");
             debug!("######### CONTROLLER STARTED #########");
             debug!("####################################################################################");
             info!("{:?}", &message);
             debug!("####################################################################################");
-            if min8 != 0u8 {
-                warn!("min8 should be equal to 0 (found {})", &min8);
-            }
-            if max8 != 255u8 {
-                warn!("max8 should be equal to 255 (found {})", &max8);
-            }
-            if min32 != 0u32 {
-                warn!("min32 should be equal to 0 (found {})", &min32);
-            }
-            if max32 != 4_294_967_295_u32 {
-                warn!("max32 should be equal to 0 (found {})", &max32);
+            if value128 != 128u8 {
+                error!("value128 should be equal to 128 (found {:b} = {}); check serial port configuration", &value128, &value128);
             }
         }
         TelemetryMessage::DataSnapshot { .. } => {

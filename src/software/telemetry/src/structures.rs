@@ -37,10 +37,7 @@ pub enum TelemetryMessage {
         device_id: String,
         systick: u64,
         mode: Mode,
-        min8: u8,
-        max8: u8,
-        min32: u32,
-        max32: u32,
+        value128: u8,
     },
     DataSnapshot {
         version: String,

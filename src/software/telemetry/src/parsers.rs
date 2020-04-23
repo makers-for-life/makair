@@ -68,13 +68,7 @@ named!(
             >> sep
             >> mode: mode
             >> sep
-            >> min8: be_u8
-            >> sep
-            >> max8: be_u8
-            >> sep
-            >> min32: be_u32
-            >> sep
-            >> max32: be_u32
+            >> value128: be_u8
             >> end
             >> ({
                 TelemetryMessage::BootMessage {
@@ -82,10 +76,7 @@ named!(
                     device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                     systick,
                     mode,
-                    min8,
-                    max8,
-                    min32,
-                    max32,
+                    value128,
                 }
             })
     )
@@ -253,16 +244,13 @@ mod tests {
 
     #[test]
     fn test_boot_message_parser() {
-        let input = b"B:\x01\x04test\xaa\xaa\xaa\xaa\xbb\xbb\xbb\xbb\xaa\xaa\xaa\xaa\t\x00\x00\x00\x00\x00\x00\x00\xff\t\x02\t\x00\t\xff\t\x00\x00\x00\x00\t\xff\xff\xff\xff\n";
+        let input = b"B:\x01\x04test\xaa\xaa\xaa\xaa\xbb\xbb\xbb\xbb\xaa\xaa\xaa\xaa\t\x00\x00\x00\x00\x00\x00\x00\xff\t\x02\t\x80\n";
         let expected = TelemetryMessage::BootMessage {
             version: "test".to_string(),
             device_id: "2863311530-3149642683-2863311530".to_string(),
             systick: 255,
             mode: Mode::Qualification,
-            min8: 0,
-            max8: 255,
-            min32: 0,
-            max32: 4_294_967_295,
+            value128: 128,
         };
         assert_eq!(
             nom::dbg_dmp(boot_message, "boot_message")(input),
