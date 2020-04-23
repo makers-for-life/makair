@@ -17,7 +17,7 @@
 // PARAMETERS =================================================================
 
 /// Current version of the software
-#define VERSION "dev"
+#define VERSION "dev - CEA 1.5.2"
 
 /**
  * @name Core parameters
@@ -109,7 +109,7 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
     10000  // 100 Hz : on hardware 1, esc timer is shared between servo and esc. Servo can handle
            // 100hz too
 #elif VALVE_TYPE == VT_EMERSON_ASCO
-#define SERVO_VALVE_PERIOD 3278  // 305 Hz
+#define SERVO_VALVE_PERIOD 2000-1//3278  // 305 Hz
 #define EMERSON_MIN_PWM 600      // 18 % PWM is the minimum to start opening (3278 * 0.18)
 #endif
 

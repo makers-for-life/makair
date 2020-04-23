@@ -45,6 +45,10 @@ void startScreen() {
     screen.print("Initialization      ");
     screen.setCursor(0, 1);
     screen.print(VERSION);
+	screen.setCursor(0, 2);
+	screen.print("CEA EMERSON");
+	screen.setCursor(0, 3);
+	screen.print("eq. v1.5.2 patch");
 }
 
 void resetScreen() { screen.clear(); }
