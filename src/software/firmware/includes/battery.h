@@ -71,3 +71,10 @@ void updateBatteryState(uint32_t p_cycleNumber);
  * @return Battery level in volts
  */
 uint32_t getBatteryLevel();
+
+/**
+ * Returns battery level x10 for better accuracy
+ *
+ * @return Battery level in volts x10
+ */
+uint32_t getBatteryLevelX10();
