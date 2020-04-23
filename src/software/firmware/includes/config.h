@@ -33,9 +33,10 @@
 // Available pneumatic versions
 #define PHW_PIGGY 0
 #define PHW_CHU 1
+#define PHW_FAULHABER 2
 
 /// Defines which preset to use for controlling pressure
-#define PNEUMATIC_HARDWARE_VERSION PHW_CHU
+#define PNEUMATIC_HARDWARE_VERSION PHW_FAULHABER
 
 // Available valves
 #define VT_SERVO_V1 0
@@ -43,7 +44,7 @@
 #define VT_FAULHABER 2
 
 // Defines which valves are fitted
-#define VALVE_TYPE VT_SERVO_V1
+#define VALVE_TYPE VT_FAULHABER
 
 /**
  * Defines which hardware preset to use
