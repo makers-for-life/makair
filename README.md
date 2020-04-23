@@ -189,7 +189,7 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 * Industry relations: [Quentin Adam](http://waxzce.org/) ([email](mailto:quentin.adam@clever-cloud.com))
 * Engineering contact (mechanics): [Valerian Saliou](https://valeriansaliou.name/) ([email](mailto:valerian@valeriansaliou.name))
 * Engineering contact (software): [David Sferruzza](https://david.sferruzza.fr/) ([email](mailto:david.sferruzza@gmail.com))
-* Engineering contact (electronics): Vincent Le Cunff
+* Engineering contact (electronics): Vincent Le Cunff ([email](mailto:v.lecunf@gmail.com))
 
 # Sponsors & Contributors
 
