@@ -13,4 +13,9 @@ In order to setup your environment and build the code, please follow the followi
 1. Install [Rustup](https://rustup.rs/)
 2. Ènsure you are using the Rust stable toolchain: `rustup default stable`
 3. Build the project: `cargo build`
-4. Run the project: `cargo run`
+
+## How To Run?
+
+To run the Control UI, please ensure your device first has an open serial connection with the motherboard. Take note of the serial port used as an input on your Control UI board, and call:
+
+1. `./makair-control --port=0` (where `--port` is your serial port ID)

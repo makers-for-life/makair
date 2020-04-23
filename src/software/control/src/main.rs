@@ -9,8 +9,12 @@ extern crate log;
 extern crate clap;
 #[macro_use]
 extern crate lazy_static;
-extern crate gfx_core;
-extern crate piston_window;
+extern crate glutin_window;
+extern crate graphics;
+extern crate image;
+extern crate opengl_graphics;
+extern crate piston;
+extern crate rand;
 
 mod config;
 mod display;
@@ -27,6 +31,7 @@ use display::window::DisplayWindowBuilder;
 
 struct AppArgs {
     log: String,
+    port: u8,
 }
 
 lazy_static! {
@@ -46,11 +51,23 @@ fn make_app_args() -> AppArgs {
                 .default_value("debug")
                 .takes_value(true),
         )
+        .arg(
+            Arg::with_name("port")
+                .short("p")
+                .long("port")
+                .help("Serial port ID")
+                .takes_value(true),
+        )
         .get_matches();
 
     // Generate owned app arguments
     AppArgs {
         log: String::from(matches.value_of("log").expect("invalid log value")),
+        port: matches
+            .value_of("port")
+            .expect("please provide a serial port value")
+            .parse::<u8>()
+            .expect("serial port should be a number"),
     }
 }
 
@@ -69,10 +86,6 @@ fn main() {
     ensure_states();
 
     DisplayWindowBuilder::new().spawn();
-
-    info!("started");
-
-    // TODO
 
     info!("stopped");
 }
