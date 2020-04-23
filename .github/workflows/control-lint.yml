@@ -7,3 +7,43 @@ on:
       - src/software/control/**
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: repo
+
+      - name: Prepare control codebase
+        run: |
+          mv repo/src/software/control/* ./
+          ls -la .
+
+      - name: Install latest stable
+        uses: actions-rs/toolchain@v1.0.6
+        with:
+            toolchain: stable
+            override: true
+            components: rustfmt, clippy
+
+      - name: Lint
+        uses: actions-rs/clippy-check@v1.0.5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --all-targets --all-features -- -D warnings
+
+      - name: Check code style
+        uses: actions-rs/cargo@v1.0.1
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - name: Build lib
+        uses: actions-rs/cargo@v1.0.1
+        with:
+          command: build
+
+      - name: Test lib
+        uses: actions-rs/cargo@v1.0.1
+        with:
+          command: test
