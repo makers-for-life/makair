@@ -1,4 +1,4 @@
-name: Telemetry
+name: Telemetry All
 
 on:
   push:
