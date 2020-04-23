@@ -1,0 +1,9 @@
+name: Control Lint
+
+on:
+  push:
+    paths:
+      - .github/workflows/**
+      - src/software/control/**
+
+jobs:
