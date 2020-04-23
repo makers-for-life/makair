@@ -133,6 +133,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a6bcb1af204a68c17e23c0c0262cb1fab"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="battery_8h.html#a6bcb1af204a68c17e23c0c0262cb1fab">getBatteryLevel</a> ()</td></tr>
 <tr class="memdesc:a6bcb1af204a68c17e23c0c0262cb1fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns battery level.  <a href="battery_8h.html#a6bcb1af204a68c17e23c0c0262cb1fab">More...</a><br /></td></tr>
 <tr class="separator:a6bcb1af204a68c17e23c0c0262cb1fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29614bbbfb2b660c087260efed859c00"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="battery_8h.html#a29614bbbfb2b660c087260efed859c00">getBatteryLevelX10</a> ()</td></tr>
+<tr class="memdesc:a29614bbbfb2b660c087260efed859c00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns battery level x10 for better accuracy.  <a href="battery_8h.html#a29614bbbfb2b660c087260efed859c00">More...</a><br /></td></tr>
+<tr class="separator:a29614bbbfb2b660c087260efed859c00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Battery related functions. </p>
@@ -303,6 +306,29 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00106">106</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> * 0.0296484375; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a29614bbbfb2b660c087260efed859c00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29614bbbfb2b660c087260efed859c00">&#9670;&nbsp;</a></span>getBatteryLevelX10()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t getBatteryLevelX10 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns battery level x10 for better accuracy. </p>
+<dl class="section return"><dt>Returns</dt><dd>Battery level in volts x10 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="battery_8cpp_source.html#l00109">109</a> of file <a class="el" href="battery_8cpp_source.html">battery.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="battery_8cpp.html#a7dfc5b6e6faefb5ec33041075a7e83c0">rawBatteryMeanVoltage</a> * (10.0 * 0.0296484375); }</div>
 </div><!-- fragment -->
 </div>
 </div>
