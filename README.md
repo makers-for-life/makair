@@ -178,6 +178,7 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 ## Updates
 
 * Live updates on Telegram: [join "Newsroom MakAir (Covid-19 Ventilator)"](https://t.me/joinchat/AAAAAE_99-k7pKZur-GXCQ)
+* YouTube channel: [view "MakAir" on YouTube](https://www.youtube.com/channel/UCcf_3KXjeJSMz39J6gsyTSg)
 * Coordination on Slack: [request to join "Makers For Life"](https://github.com/makers-for-life/makair/issues/new) (open an issue)
 
 ## Contacts
