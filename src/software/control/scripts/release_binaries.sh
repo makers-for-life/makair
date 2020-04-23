@@ -64,7 +64,7 @@ pushd "$BASE_DIR" > /dev/null
     # Notice: this feels a bit hacky, but for now 'cross' is not capable of passing \
     #   parent directories to its Docker runtime.
     mv ../telemetry ./
-    sed -i '' 's/path = "..\/telemetry"/path = ".\/repo\/src\/software\/telemetry"/' Cargo.toml
+    sed -i '' 's/path = "..\/telemetry"/path = ".\/repo\/src\/software\/telemetry"/' ./Cargo.toml
 
     # Build releases
     release_for_architecture "armv7" "armv7-unknown-linux-musleabihf"
@@ -72,7 +72,7 @@ pushd "$BASE_DIR" > /dev/null
 
     # Move back the telemetry library
     mv ./telemetry ../
-    sed -i '' 's/path = ".\/repo\/src\/software\/telemetry"/path = "..\/telemetry"/' Cargo.toml
+    sed -i '' 's/path = ".\/repo\/src\/software\/telemetry"/path = "..\/telemetry"/' ./Cargo.toml
 
     if [ $rc -eq 0 ]; then
         echo "Success: Done executing release steps for MakAir Control v$MAKAIR_CONTROL_VERSION"
