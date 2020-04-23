@@ -12,11 +12,7 @@ extern crate lazy_static;
 #[macro_use]
 extern crate conrod_core;
 extern crate conrod_winit;
-extern crate glutin_window;
-extern crate graphics;
 extern crate image;
-extern crate opengl_graphics;
-extern crate piston;
 
 mod config;
 mod display;

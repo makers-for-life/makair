@@ -20,20 +20,15 @@ doc = false
 log = "0.4"
 clap = { version = "2.33", default-features = false }
 lazy_static = "1.4"
-conrod_piston = "0.69.0"
-piston_window = "0.105.0"
-plotters = {version = "^0.2.12", default_features = false, features = ["image_encoder", "chrono", "line_series", "palette", "ttf"]}
-chrono = "0.4.11"
-piston = "0.49.0"
-piston2d-graphics = "0.36.0"
-pistoncore-glutin_window = "0.63.0"
-piston2d-opengl_graphics = "0.72.0"
-image = "0.23.3"
-glium = "0.24"
+chrono = "0.4"
 winit = "0.19"
-conrod_glium = "0.69.0"
-conrod_winit = "0.69.0"
-conrod_core = "0.69.0"
+image = "0.23"
+glium = "0.24"
+plotters = {version = "0.2", default_features = false, features = ["image_encoder", "chrono", "line_series", "palette", "ttf"]}
+piston_window = "0.105"
+conrod_glium = "0.69"
+conrod_winit = "0.69"
+conrod_core = "0.69"
 telemetry = { path = "../telemetry", features = ["env_logger"], version = "0.1" }
 
 [profile.dev]

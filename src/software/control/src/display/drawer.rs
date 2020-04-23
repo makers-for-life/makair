@@ -3,40 +3,27 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
-use glium::glutin::WindowBuilder;
-use piston_window::image::Image;
-
-use std::path::{Path, PathBuf};
-
-use plotters::prelude::*;
+use std::sync::mpsc::{Receiver, Sender, TryRecvError};
 
 use chrono::offset::Local;
 use chrono::prelude::*;
-
-use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
-
 use conrod_core::{color, widget, Colorable, Positionable, Sizeable, Ui, Widget};
-use glium::glutin::{ContextBuilder, EventsLoop};
+use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 use glium::Surface;
+use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
+use plotters::prelude::*;
+use telemetry::{gather_telemetry, structures::TelemetryMessage};
 
 use crate::APP_ARGS;
 
+use super::loader::{DisplayLoader, DisplayLoaderBuilder};
 use super::support::{self, EventLoop};
-use std::sync::mpsc::{Receiver, Sender, TryRecvError};
-use telemetry::{gather_telemetry, structures::TelemetryMessage};
-
-struct DisplayDrawerLoaderBuilder;
-
-pub struct DisplayDrawerLoader {
-    // pub top_logo: (Image, Texture<Texture as Resources::Texture>),
-}
 
 pub struct DisplayDrawerBuilder;
 
 pub struct DisplayDrawer {
-    pub loader: DisplayDrawerLoader,
-
-    gl: conrod_glium::Renderer,
+    loader: DisplayLoader,
+    renderer: conrod_glium::Renderer,
     display: support::GliumDisplayWinitWrapper,
     interface: conrod_core::Ui,
     events_loop: EventsLoop,
@@ -44,28 +31,6 @@ pub struct DisplayDrawer {
 }
 
 type DataPressure = Vec<(DateTime<Local>, u16)>;
-
-impl DisplayDrawerLoaderBuilder {
-    fn new() -> DisplayDrawerLoader {
-        DisplayDrawerLoader {
-            // TODO
-            // top_logo: Self::load_top_logo(),
-        }
-    }
-
-    fn acquire_path(name: &str) -> PathBuf {
-        Path::new(&format!("./res/{}.png", name)).to_path_buf()
-    }
-
-    fn load_top_logo() -> Image {
-        // (
-        // TODO: proper size & position
-        Image::new().rect(piston_window::rectangle::square(0.0, 0.0, 200.0))
-        // TODO: acquire path from fn
-        // Texture::from_path(Self::acquire_path("top-logo")).unwrap(),
-        // )
-    }
-}
 
 impl DisplayDrawerBuilder {
     pub fn new(
@@ -83,8 +48,8 @@ impl DisplayDrawerBuilder {
         let renderer = conrod_glium::Renderer::new(&display.0).unwrap();
 
         DisplayDrawer {
-            loader: DisplayDrawerLoaderBuilder::new(),
-            gl: renderer,
+            loader: DisplayLoaderBuilder::new(),
+            renderer: renderer,
             display: display,
             interface: interface,
             events_loop: events_loop,
@@ -104,31 +69,37 @@ impl DisplayDrawer {
             gather_telemetry(&APP_ARGS.port, tx);
         });
 
-        let mut last_point = Local::now();
-        let mut last_cycles = 0;
+        let (mut last_point, mut last_cycles) = (Local::now(), 0);
 
         'main: loop {
             // TODO: only update when needed
             self.event_loop.needs_update();
+
             'thread_rcv: loop {
                 match rx.try_recv() {
                     Ok(msg) => match msg {
                         TelemetryMessage::DataSnapshot { pressure, .. } => {
                             let now = Local::now();
                             let last = now - last_point;
+
                             if last > chrono::Duration::milliseconds(32) {
                                 last_point = now;
+
                                 Self::add_pressure(&mut data_pressure, pressure);
                             }
                         }
+
                         TelemetryMessage::MachineStateSnapshot { cpm_command, .. } => {
                             last_cycles = cpm_command;
                         }
+
                         _ => {}
                     },
+
                     Err(TryRecvError::Empty) => {
                         break 'thread_rcv;
                     }
+
                     Err(TryRecvError::Disconnected) => {
                         panic!("Channel to serial port thread was closed");
                     }
@@ -169,15 +140,16 @@ impl DisplayDrawer {
 
             // Draw the `Ui` if it has changed.
             if let Some(primitives) = self.interface.draw_if_changed() {
-                self
-                    .gl
-                    .fill(&self.display.0, primitives, &image_map);
+                self.renderer.fill(&self.display.0, primitives, &image_map);
+
                 let mut target = self.display.0.draw();
+
                 target.clear_color(0.0, 0.0, 0.0, 1.0);
-                self
-                    .gl
+
+                self.renderer
                     .draw(&self.display.0, &mut target, &image_map)
                     .unwrap();
+
                 target.finish().unwrap();
             }
         }

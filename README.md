@@ -183,10 +183,12 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 ## Contacts
 
 * Open-source & questions: [please open an issue on GitHub](https://github.com/makers-for-life/makair/issues/new)
-* Press contacts: Grégory Thibord
-* Medical contacts: Pierre Antoine Gourraud
-* Industry relations: [Quentin Adam](http://waxzce.org/)
-* Engineering contacts: [Valerian Saliou](https://valeriansaliou.name/), [Eliott Vincent](https://eliottvincent.com/)
+* Press contacts: [Grégory Thibord](https://twitter.com/thibord) ([email](mailto:gregory.thibord@lepalace.work))
+* Medical contacts: [Pierre Antoine Gourraud](http://www.itun.nantes.inserm.fr/Team-5/Pierre-Antoine-Gourraud) ([email](mailto:pierre-antoine.gourraud@univ-nantes.fr))
+* Industry relations: [Quentin Adam](http://waxzce.org/) ([email](mailto:quentin.adam@clever-cloud.com))
+* Engineering contact (mechanics): [Valerian Saliou](https://valeriansaliou.name/) ([email](mailto:valerian@valeriansaliou.name))
+* Engineering contact (software): [David Sferruzza](https://david.sferruzza.fr/) ([email](mailto:david.sferruzza@gmail.com))
+* Engineering contact (electronics): Vincent Le Cunff
 
 # Sponsors & Contributors
 
