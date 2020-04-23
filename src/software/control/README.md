@@ -16,6 +16,8 @@ In order to setup your environment and build the code, please follow the followi
 
 ## How To Run?
 
-To run the Control UI, please ensure your device first has an open serial connection with the motherboard. Take note of the serial port used as an input on your Control UI board, and call:
+To run the Control UI, please ensure that your device first has an open serial connection with the motherboard.
+
+Take note of the serial port used as an input on your Control UI board, and call:
 
 1. `./makair-control --port=0` (where `--port` is your serial port ID)
