@@ -43,7 +43,13 @@
 #define MASS_FLOW_PERIOD 100
 #endif
 
+#if MASS_FLOW_METER_SENSOR == MFM_OMRON_D6F
+#define MASS_FLOW_PERIOD 100
+#endif
+
 HardwareTimer* massFlowTimer;
+
+int32_t mfmCalibrationOffset = 0;
 
 volatile int32_t mfmAirVolumeSum = 0;
 volatile int32_t mfmSensorDetected = 0;
@@ -105,6 +111,14 @@ void MFM_Timer_Callback(HardwareTimer*) {
         mfmSampleCount++;
 #endif
 
+#if MASS_FLOW_METER_SENSOR == MFM_OMRON_D6F
+        mfmLastValue = analogRead(MFM_ANALOG_INPUT);
+        if (mfmLastValue > mfmCalibrationOffset + 10) {
+            mfmAirVolumeSum += analogRead(MFM_ANALOG_INPUT);
+        }
+        Serial.println(mfmLastValue);
+#endif
+
 #if MODE == MODE_MFM_TESTS
         digitalWrite(PIN_LED_START, false);
 #endif
@@ -112,8 +126,11 @@ void MFM_Timer_Callback(HardwareTimer*) {
 
         if (mfmResetStateMachine == MFM_WAIT_RESET_PERIODS) {
             // reset attempt
+// I2C sensors
+#if MASS_FLOW_METER_SENSOR == MFM_SFM_3300D || MASS_FLOW_METER_SENSOR == MFM_SDP703_02
             Wire.flush();
             Wire.end();
+#endif
 
 #if MASS_FLOW_METER_SENSOR == MFM_SDP703_02
             Wire.begin();
@@ -182,6 +199,18 @@ boolean MFM_init(void) {
     // https://stm32f4-discovery.net/2014/05/stm32f4-stm32f429-nvic-or-nested-vector-interrupt-controller/
     massFlowTimer->setInterruptPriority(2, 0);
 
+    /* mass flow needs to be corrected with pressure ?
+     * flow (kg/s) = rho (kg/m3) x section (m²) x speed (m/s)
+     * Rho = (Pressure * M) / (R * Temperature)
+     * sea level pressure : P0 = 101 325 Pa = 1 013,25 mbar = 1 013,25 hPa = 1032 cmH2O
+     * respirator reach 50cmH2O... it means 5% error.
+     */
+#if MASS_FLOW_METER_SENSOR == MFM_OMRON_D6F
+    pinMode(MFM_ANALOG_INPUT, INPUT);
+#endif
+
+// I2C sensors
+#if MASS_FLOW_METER_SENSOR == MFM_SFM_3300D || MASS_FLOW_METER_SENSOR == MFM_SDP703_02
     // detect if the sensor is connected
     Wire.setSDA(PIN_I2C_SDA);
     Wire.setSCL(PIN_I2C_SCL);
@@ -229,6 +258,7 @@ boolean MFM_init(void) {
 
     delay(10);
 #endif
+#endif
 
     massFlowTimer->resume();
 
@@ -241,6 +271,21 @@ boolean MFM_init(void) {
 void MFM_reset(void) {
     mfmAirVolumeSum = 0;
     mfmSampleCount = 0;
+}
+
+/**
+ * Calibrate the zero of the sensor :
+ * mean of 10 samples.
+ */
+void MFM_calibrateZero(void) {
+#if MASS_FLOW_METER_SENSOR == MFM_OMRON_D6F
+    int32_t sum = 0;
+    for (int i = 0; i < 10; i++) {
+        sum += analogRead(MFM_ANALOG_INPUT);
+        delayMicroseconds(5000);
+    }
+    mfmCalibrationOffset = sum / 10;
+#endif
 }
 
 /**
@@ -266,6 +311,10 @@ int32_t MFM_read_liters(boolean reset_after_read) {
 
 #endif
 
+#if MASS_FLOW_METER_SENSOR == MFM_OMRON_D6F
+    result = mfmFaultCondition ? 999999 : (mfmAirVolumeSum / 130);
+#endif
+
     if (reset_after_read) {
         MFM_reset();
     }
@@ -275,7 +324,10 @@ int32_t MFM_read_liters(boolean reset_after_read) {
 
 #if MODE == MODE_MFM_TESTS
 
-void onStartClick() { MFM_reset(); Serial.println("dtc"); }
+void onStartClick() {
+    MFM_reset();
+    Serial.println("dtc");
+}
 
 OneButton btn_stop(PIN_BTN_ALARM_OFF, false, false);
 
@@ -299,38 +351,45 @@ void setup(void) {
 
     btn_stop.attachClick(onStartClick);
     btn_stop.setDebounceTicks(0);
+    MFM_calibrateZero();
     Serial.println("init done");
 }
 
+int loopcounter = 0;
+
 void loop(void) {
 
-    delay(500);
-    btn_stop.tick();
+    delay(10);
+    loopcounter++;
+    if (loopcounter == 50) {
+        loopcounter = 0;
 
-    char buffer[30];
+        char buffer[30];
 
-    int32_t volume = MFM_read_liters(false);
+        int32_t volume = MFM_read_liters(false);
 
-    resetScreen();
-    screen.setCursor(0, 0);
-    screen.print("debug prog");
-    screen.setCursor(0, 1);
-    screen.print("mass flow sensor");
-    screen.setCursor(0, 2);
+        resetScreen();
+        screen.setCursor(0, 0);
+        screen.print("debug prog");
+        screen.setCursor(0, 1);
+        screen.print("mass flow sensor");
+        screen.setCursor(0, 2);
 
-    if (volume == MASS_FLOw_ERROR_VALUE) {
-        screen.print("sensor not OK");
-    } else {
-        screen.print("sensor OK");
-        // screen.print(mfmLastValue);
-        screen.setCursor(0, 3);
-        sprintf(buffer, "volume=%dmL", volume);
-        screen.print(buffer);
+        if (volume == MASS_FLOw_ERROR_VALUE) {
+            screen.print("sensor not OK");
+        } else {
+            screen.print("sensor OK");
+            // screen.print(mfmLastValue);
+            screen.setCursor(0, 3);
+            sprintf(buffer, "volume=%dmL", volume);
+            screen.print(buffer);
+        }
+
+        // Serial.print("volume = ");
+        // Serial.print(volume);
+        // Serial.println("mL");
     }
-
-    Serial.print("volume = ");
-    Serial.print(volume);
-    Serial.println("mL");
+    btn_stop.tick();
 }
 #endif
 
