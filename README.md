@@ -27,7 +27,7 @@ If you're new there, please read the explanations below. _Your contributions are
 
 # Abstract
 
-Roughly, the idea is as follows: as of April 2020 and due to the Covid-19 pandemic, hospitals will soon start lacking mechanical artificial ventilators. We built a pump, and a valve system (controlled by electronics). This way, the breathing cycle can be enforced by proper air routing through the valve system.
+Roughly, the idea is as follows: as of April 2020 and due to the Covid-19 pandemic, hospitals throughout the world may start lacking mechanical artificial ventilators. We built a pump, and a valve system (controlled by electronics). This way, the breathing cycle can be enforced by proper air routing through the valve system.
 
 Our ventilator is able to handle pressure-controlled breathing, stabilized using a [PID controller](https://en.wikipedia.org/wiki/PID_controller) in the software.
 
