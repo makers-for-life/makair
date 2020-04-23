@@ -447,10 +447,13 @@ void PressureController::updatePeakPressure() {
         DBG_DO(Serial.println("Plateau detected");)
 
         if (abs(plateauDelta) > 20) {
-            m_maxPeakPressureCommand = min( min(m_peakPressure, m_maxPeakPressureCommand) + plateauDelta, CONST_MAX_PEAK_PRESSURE);
+            m_maxPeakPressureCommand =
+                min(min(m_peakPressure, m_maxPeakPressureCommand) + plateauDelta,
+                    static_cast<int>(CONST_MAX_PEAK_PRESSURE));
         } else if ((abs(plateauDelta) < 20) && (abs(plateauDelta) > 5)) {
             m_maxPeakPressureCommand =
-                min( min(m_peakPressure, m_maxPeakPressureCommand) + (plateauDelta / 2), CONST_MAX_PEAK_PRESSURE);
+                min(min(m_peakPressure, m_maxPeakPressureCommand) + (plateauDelta / 2),
+                    static_cast<int>(CONST_MAX_PEAK_PRESSURE));
         } else {
             // Do nothing
         }
