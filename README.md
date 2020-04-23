@@ -200,7 +200,8 @@ This project would not have been possible without the support of those companies
 * [Cooprint](https://cooprint.fr/) (CAD)
 * [SenX](https://senx.io/) (electronics)
 * [Tronico](https://www.tronico-alcen.com/) (PCB design)
-* [Renault](https://www.renault.fr/) (manufacturing)
+* [Renault Group](https://www.renault.fr/) (manufacturing)
+* [SEB Group](https://www.groupeseb.com/) (manufacturing)
 * [Le Palace Nantes](https://lepalace.work/) (team offices)
 
 We are supported by public entities as well, namely:
