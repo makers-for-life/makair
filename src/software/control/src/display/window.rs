@@ -3,33 +3,8 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
-use plotters::drawing::bitmap_pixel::BGRXPixel;
-use plotters::prelude::*;
-use std::sync::{Arc, Mutex};
-
-use chrono::offset::{Local, TimeZone};
-use chrono::prelude::*;
-use chrono::{Date, Duration};
-use log::{info, warn};
-use std::{thread, time};
-
-use std::collections::vec_deque::VecDeque;
-
-use conrod_core::{Ui, UiBuilder};
+use conrod_core::UiBuilder;
 use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
-use glutin_window::GlutinWindow as Window;
-use graphics::draw_state::DrawState;
-use graphics::rectangle;
-use graphics::rectangle::rectangle_by_corners;
-use graphics::{clear, Image};
-use image::ImageBuffer;
-use image::{Rgb, RgbaImage};
-use opengl_graphics::{GlGraphics, OpenGL, Texture, TextureSettings};
-use piston::event_loop::{EventSettings, Events};
-use piston::input::{RenderArgs, RenderEvent, UpdateArgs, UpdateEvent};
-use piston::window::WindowSettings;
-use rand::Rng;
-use std::path::Path;
 
 use super::drawer::DisplayDrawerBuilder;
 use crate::config::environment::{DISPLAY_WINDOW_SIZE_HEIGHT, DISPLAY_WINDOW_SIZE_WIDTH};
@@ -48,7 +23,7 @@ impl DisplayWindow {
         debug!("spawning window");
 
         // Create event loop
-        let mut events_loop = EventsLoop::new();
+        let events_loop = EventsLoop::new();
 
         // Create window
         let window = WindowBuilder::new()

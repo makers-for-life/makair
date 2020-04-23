@@ -5,21 +5,15 @@
 
 use glium::glutin::WindowBuilder;
 use piston_window::image::Image;
-use piston_window::{Event, Glyphs, PistonWindow, Text, Texture};
 
 use std::path::{Path, PathBuf};
 
 use plotters::prelude::*;
-use std::sync::{Arc, Mutex};
 
-use chrono::offset::{Local, TimeZone};
+use chrono::offset::Local;
 use chrono::prelude::*;
-use chrono::{Date, Duration};
-use log::{info, warn};
-use std::{thread, time};
 
-use image::{buffer::ConvertBuffer, ImageBuffer, Rgb, RgbImage, RgbaImage};
-use rand::Rng;
+use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
 
 use conrod_core::{color, widget, Colorable, Positionable, Sizeable, Ui, Widget};
 use glium::glutin::{ContextBuilder, EventsLoop};
@@ -43,7 +37,6 @@ pub struct DisplayDrawer {
     pub loader: DisplayDrawerLoader,
 
     gl: conrod_glium::Renderer,
-    rotation: f64,
     display: support::GliumDisplayWinitWrapper,
     interface: conrod_core::Ui,
     events_loop: EventsLoop,
@@ -87,13 +80,12 @@ impl DisplayDrawerBuilder {
         );
 
         // Create renderer
-        let mut renderer = conrod_glium::Renderer::new(&display.0).unwrap();
+        let renderer = conrod_glium::Renderer::new(&display.0).unwrap();
 
         DisplayDrawer {
             loader: DisplayDrawerLoaderBuilder::new(),
             gl: renderer,
             display: display,
-            rotation: 0.0,
             interface: interface,
             events_loop: events_loop,
             event_loop: EventLoop::new(),
@@ -196,19 +188,8 @@ impl DisplayDrawer {
         data_pressure: &DataPressure,
         cycles: u8,
     ) -> conrod_core::image::Map<glium::texture::Texture2d> {
-        const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
-        const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
-
-        //let square = rectangle::square(0.0, 0.0, 50.0);
-        let rotation = self.rotation;
-        //let (x, y) = (
-        //args.window_size[0] / 2.0,
-        //args.window_size[1] / 2.0 + args.window_size[1] / 4.0,
-        //);
-
         let mut buffer = vec![0; (780 * 200 * 4) as usize];
         let root = BitMapBackend::with_buffer(&mut buffer, (780, 200)).into_drawing_area();
-        //let root = BitMapBackend::new(Path::new("/tmp/foo.png"), (780, 200)).into_drawing_area();
         root.fill(&WHITE).unwrap();
 
         let oldest = data_pressure.first().unwrap().0 - chrono::Duration::seconds(40);
@@ -268,11 +249,6 @@ impl DisplayDrawer {
         }
 
         image_map
-    }
-
-    fn update(&mut self) {
-        // Rotate 2 radians per second.
-        //self.rotation += 2.0 * args.dt;
     }
 
     fn add_pressure(data: &mut DataPressure, new_point: u16) {
