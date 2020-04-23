@@ -73,6 +73,9 @@ pub fn gather_telemetry(
                                         // There are not enough bytes, let's wait until we get more
                                         Err(nom::Err::Incomplete(_)) => {
                                             // Do nothing
+                                            if let Some(file_buffer) = file_buf.as_mut() {
+                                                file_buffer.flush().unwrap();
+                                            }
                                         }
                                         // We can't do anything with the begining of the buffer, let's drop its first byte
                                         Err(e) => {
