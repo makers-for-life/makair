@@ -53,6 +53,6 @@ impl DisplayWindow {
         // Create window contents drawer
         let mut drawer = DisplayDrawerBuilder::new(window, context, events_loop, interface);
 
-        drawer.cycle();
+        drawer.run();
     }
 }

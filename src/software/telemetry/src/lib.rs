@@ -1,3 +1,8 @@
+// MakAir
+//
+// Copyright: 2020, Makers For Life
+// License: Public Domain License
+
 #[macro_use]
 extern crate log;
 #[macro_use]

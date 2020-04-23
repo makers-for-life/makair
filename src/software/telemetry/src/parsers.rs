@@ -1,3 +1,8 @@
+// MakAir
+//
+// Copyright: 2020, Makers For Life
+// License: Public Domain License
+
 use nom::number::streaming::{be_u16, be_u32, be_u64, be_u8};
 
 use crate::structures::*;

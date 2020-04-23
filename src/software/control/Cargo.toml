@@ -29,7 +29,7 @@ piston_window = "0.105"
 conrod_glium = "0.69"
 conrod_winit = "0.69"
 conrod_core = "0.69"
-telemetry = { path = "../telemetry", features = ["env_logger"], version = "0.1" }
+telemetry = { path = "../telemetry", features = ["env_logger"], version = "1.0" }
 
 [profile.dev]
 opt-level = 0

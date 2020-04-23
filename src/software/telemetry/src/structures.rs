@@ -1,3 +1,8 @@
+// MakAir
+//
+// Copyright: 2020, Makers For Life
+// License: Public Domain License
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Mode {
     Production,

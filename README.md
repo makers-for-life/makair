@@ -111,6 +111,10 @@ The motherboard electronic schematics and wiring diagrams [can be found there](.
 
 👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
 
+### 2. Control Unit Screen
+
+_🚧 Work In Progress. The Control Unit UI is coming as part of MakAir V2._
+
 ## 3️⃣ Flash the firmware
 
 ### 1. Ventilator Firmware
@@ -120,6 +124,10 @@ Now that both mechanical parts and electronics are ready, you may flash the late
 Firmware release binaries are available for download on our [releases page](https://github.com/makers-for-life/makair/releases).
 
 👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
+
+### 2. Control Unit Runtime
+
+_🚧 Work In Progress. The Control Unit UI is coming as part of MakAir V2._
 
 # Components
 
@@ -150,6 +158,7 @@ Firmware release binaries are available for download on our [releases page](http
 | ------- | ------- | ------------- | ------ | ------------ |
 | [Ventilator Firmware](./src/software/firmware) | V1.5.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + [Gabriel Moneyron](https://github.com/Benhalor)
 | [Control Unit](./src/software/control) | V0.1.x | Project started | ❌ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce)
+| [Telemetry Library](./src/software/telemetry) | V1.0.0 | Working serial parsing from firmware | ✅ | [David Sferruzza](https://github.com/dsferruzza)
 
 # Schemes
 
