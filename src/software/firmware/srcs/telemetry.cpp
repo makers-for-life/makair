@@ -236,9 +236,9 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
                               uint8_t plateauCommand,
                               uint8_t peepCommand,
                               uint8_t cpmCommand,
-                              uint8_t previousPeakPressure,
-                              uint8_t previousPlateauPressure,
-                              uint8_t previousPeepPressure,
+                              uint16_t previousPeakPressureValue,
+                              uint16_t previousPlateauPressureValue,
+                              uint16_t previousPeepPressureValue,
                               uint8_t currentAlarmCodes[ALARMS_SIZE],
                               uint8_t previousAlarmCodes[ALARMS_SIZE]) {
 #if HARDWARE_VERSION == 1
@@ -293,11 +293,22 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
     Serial6.print("\t");
     Serial6.write(cpmCommand);
     Serial6.print("\t");
-    Serial6.write(previousPeakPressure);
+
+    byte previousPeakPressure[2];  // 16 bits
+    toBytes16(previousPeakPressure, previousPeakPressureValue);
+    Serial6.write(previousPeakPressure, 2);
+
     Serial6.print("\t");
-    Serial6.write(previousPlateauPressure);
+
+    byte previousPlateauPressure[2];  // 16 bits
+    toBytes16(previousPlateauPressure, previousPlateauPressureValue);
+    Serial6.write(previousPlateauPressure, 2);
+
     Serial6.print("\t");
-    Serial6.write(previousPeepPressure);
+
+    byte previousPeepPressure[2];  // 16 bits
+    toBytes16(previousPeepPressure, previousPeepPressureValue);
+    Serial6.write(previousPeepPressure, 2);
 
     Serial6.print("\t");
 
@@ -431,4 +442,17 @@ void sendAlarmTrap(uint16_t centileValue,
 
     Serial6.print("\n");
 #endif
+}
+
+uint8_t mmH2OtoCmH2O(uint16_t pressure) {
+    uint8_t result;
+    uint16_t lastDigit = pressure % 10u;
+
+    if (lastDigit < 5u) {
+        result = (pressure / 10u);
+    } else {
+        result = (pressure / 10u) + 1u;
+    }
+
+    return result;
 }

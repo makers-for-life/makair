@@ -191,10 +191,16 @@ void PressureController::endRespiratoryCycle() {
     }
 
 #if HARDWARE_VERSION == 2
-    sendMachineStateSnapshot(m_cycleNb, m_maxPeakPressureCommand, m_maxPlateauPressureCommand,
-                             m_minPeepCommand, m_cyclesPerMinuteCommand, m_peakPressure,
-                             m_maxPlateauPressure, m_peep, m_alarmController->currentCycleAlarms(),
-                             m_alarmController->previousCycleAlarms());
+    uint16_t plateauPressureToDisplay = m_plateauPressure;
+    if (plateauPressureToDisplay == UINT16_MAX) {
+        plateauPressureToDisplay = 0;
+    }
+
+    sendMachineStateSnapshot(
+        m_cycleNb, mmH2OtoCmH2O(m_maxPeakPressureCommand),
+        mmH2OtoCmH2O(m_maxPlateauPressureCommand), mmH2OtoCmH2O(m_minPeepCommand),
+        m_cyclesPerMinuteCommand, m_peakPressure, plateauPressureToDisplay, m_peep,
+        m_alarmController->currentCycleAlarms(), m_alarmController->previousCycleAlarms());
 #endif
 }
 

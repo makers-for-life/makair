@@ -37,9 +37,9 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
                               uint8_t plateauCommand,
                               uint8_t peepCommand,
                               uint8_t cpmCommand,
-                              uint8_t previousPeakPressure,
-                              uint8_t previousPlateauPressure,
-                              uint8_t previousPeepPressure,
+                              uint16_t previousPeakPressureValue,
+                              uint16_t previousPlateauPressureValue,
+                              uint16_t previousPeepPressureValue,
                               uint8_t currentAlarmCodes[ALARMS_SIZE],
                               uint8_t previousAlarmCodes[ALARMS_SIZE]);
 
@@ -55,3 +55,11 @@ void sendAlarmTrap(uint16_t centileValue,
                    uint32_t expectedValue,
                    uint32_t measuredValue,
                    uint32_t cyclesSinceTriggerValue);
+
+/**
+ * Convert and round a pressure in mmH2O to a pressure in cmH2O
+ *
+ * @param pressure A pressure in mmH2O
+ * @return A pressure in cmH2O
+ */
+uint8_t mmH2OtoCmH2O(uint16_t pressure);

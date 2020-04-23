@@ -178,11 +178,11 @@ named!(
             >> sep
             >> cpm_command: be_u8
             >> sep
-            >> previous_peak_pressure: be_u8
+            >> previous_peak_pressure: be_u16
             >> sep
-            >> previous_plateau_pressure: be_u8
+            >> previous_plateau_pressure: be_u16
             >> sep
-            >> previous_peep_pressure: be_u8
+            >> previous_peep_pressure: be_u16
             >> sep
             >> current_alarm_codes: u8_array
             >> sep
