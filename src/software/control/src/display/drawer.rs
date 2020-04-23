@@ -35,6 +35,11 @@ pub struct DisplayDrawer {
     event_loop: EventLoop,
 }
 
+enum HandleLoopOutcome {
+    Break,
+    Continue,
+}
+
 type DataPressure = Vec<(DateTime<Local>, u16)>;
 
 impl DisplayDrawerBuilder {
@@ -85,7 +90,6 @@ impl DisplayDrawer {
                 match rx.try_recv() {
                     Ok(message) => match message {
                         // TODO: add more message types
-
                         TelemetryMessage::DataSnapshot { pressure, .. } => {
                             let now = Local::now();
                             let last = now - last_point;
@@ -117,52 +121,14 @@ impl DisplayDrawer {
             }
 
             // Handle incoming events
-            for event in self.event_loop.next(&mut self.events_loop) {
-                // Use the `winit` backend feature to convert the winit event to a conrod one.
-                if let Some(event) = support::convert_event(event.clone(), &self.display) {
-                    self.interface.handle_event(event);
-                    self.event_loop.needs_update();
-                }
-
-                // Break from the loop upon `Escape` or closed window.
-                match event.clone() {
-                    glium::glutin::Event::WindowEvent { event, .. } => match event {
-                        glium::glutin::WindowEvent::CloseRequested
-                        | glium::glutin::WindowEvent::KeyboardInput {
-                            input:
-                                glium::glutin::KeyboardInput {
-                                    virtual_keycode: Some(glium::glutin::VirtualKeyCode::Escape),
-                                    ..
-                                },
-                            ..
-                        } => break 'main,
-
-                        _ => (),
-                    },
-
-                    _ => (),
-                }
+            match self.handle_loop_events() {
+                HandleLoopOutcome::Break => break 'main,
+                HandleLoopOutcome::Continue => {}
             }
 
-            if data_pressure.len() == 0 {
-                continue;
-            }
-
-            let image_map = self.render(&data_pressure, last_cycles);
-
-            // Draw the `Ui` if it has changed.
-            if let Some(primitives) = self.interface.draw_if_changed() {
-                self.renderer.fill(&self.display.0, primitives, &image_map);
-
-                let mut target = self.display.0.draw();
-
-                target.clear_color(0.0, 0.0, 0.0, 1.0);
-
-                self.renderer
-                    .draw(&self.display.0, &mut target, &image_map)
-                    .unwrap();
-
-                target.finish().unwrap();
+            // Refresh the pressure data interface, if we have any data in the buffer
+            if data_pressure.len() > 0 {
+                self.handle_loop_refresh(&data_pressure, last_cycles);
             }
         }
     }
@@ -258,6 +224,61 @@ impl DisplayDrawer {
             } else {
                 i += 1;
             }
+        }
+    }
+
+    fn handle_loop_telemetry(&mut self) {
+        // TODO
+    }
+
+    fn handle_loop_events(&mut self) -> HandleLoopOutcome {
+        for event in self.event_loop.next(&mut self.events_loop) {
+            // Use the `winit` backend feature to convert the winit event to a conrod one.
+            if let Some(event) = support::convert_event(event.clone(), &self.display) {
+                self.interface.handle_event(event);
+                self.event_loop.needs_update();
+            }
+
+            // Break from the loop upon `Escape` or closed window.
+            match event.clone() {
+                glium::glutin::Event::WindowEvent { event, .. } => match event {
+                    glium::glutin::WindowEvent::CloseRequested
+                    | glium::glutin::WindowEvent::KeyboardInput {
+                        input:
+                            glium::glutin::KeyboardInput {
+                                virtual_keycode: Some(glium::glutin::VirtualKeyCode::Escape),
+                                ..
+                            },
+                        ..
+                    } => {
+                        return HandleLoopOutcome::Break;
+                    }
+
+                    _ => (),
+                },
+
+                _ => (),
+            }
+        }
+
+        return HandleLoopOutcome::Continue;
+    }
+
+    fn handle_loop_refresh(&mut self, data_pressure: &DataPressure, last_cycles: u8) {
+        let image_map = self.render(data_pressure, last_cycles);
+
+        if let Some(primitives) = self.interface.draw_if_changed() {
+            self.renderer.fill(&self.display.0, primitives, &image_map);
+
+            let mut target = self.display.0.draw();
+
+            target.clear_color(0.0, 0.0, 0.0, 1.0);
+
+            self.renderer
+                .draw(&self.display.0, &mut target, &image_map)
+                .unwrap();
+
+            target.finish().unwrap();
         }
     }
 }
