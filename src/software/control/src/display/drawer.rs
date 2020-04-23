@@ -78,6 +78,9 @@ impl DisplayDrawer {
         // Start gathering telemetry
         let rx = self.start_telemetry();
 
+        // Start drawer loop
+        // Flow: cycles through telemetry events, and refreshes the view every time there is an \
+        //   update on the machines state.
         'main: loop {
             // TODO: only update when needed
             self.event_loop.needs_update();
@@ -98,6 +101,7 @@ impl DisplayDrawer {
         }
     }
 
+    // TODO: refactor this
     fn render(
         &mut self,
         data_pressure: &DataPressure,
@@ -178,6 +182,7 @@ impl DisplayDrawer {
         rx
     }
 
+    // TODO: refactor, rename and relocate this
     fn add_pressure(&self, data: &mut DataPressure, new_point: u16) {
         data.insert(0, (Local::now(), new_point / 10));
         let oldest = data.first().unwrap().0 - Duration::seconds(40);
@@ -192,6 +197,7 @@ impl DisplayDrawer {
         }
     }
 
+    // TODO: relocate this
     fn step_loop_telemetry(
         &mut self,
         rx: &Receiver<TelemetryMessage>,
@@ -236,6 +242,7 @@ impl DisplayDrawer {
         last_cycles
     }
 
+    // TODO: relocate this
     fn step_loop_events(&mut self) -> HandleLoopOutcome {
         for event in self.event_loop.next(&mut self.events_loop) {
             // Use the `winit` backend feature to convert the winit event to a conrod one.
