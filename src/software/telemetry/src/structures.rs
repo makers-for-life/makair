@@ -39,6 +39,11 @@ pub enum TelemetryMessage {
         mode: Mode,
         value128: u8,
     },
+    StoppedMessage {
+        version: String,
+        device_id: String,
+        systick: u64,
+    },
     DataSnapshot {
         version: String,
         device_id: String,

@@ -327,6 +327,12 @@ void loop(void) {
                 alarmController.notDetectedAlarm(RCM_SW_15);
                 alarmController.notDetectedAlarm(RCM_SW_18);
                 alarmController.notDetectedAlarm(RCM_SW_19);
+
+#if HARDWARE_VERSION == 2
+                if ((centiSec % 10u) == 0u) {
+                    sendStoppedMessage();
+                }
+#endif
             }
 
             // Check if some buttons have been pushed

@@ -51,7 +51,7 @@ named!(
 );
 
 named!(
-    boot_message<TelemetryMessage>,
+    boot<TelemetryMessage>,
     do_parse!(
         tag!("B:")
             >> tag!([1u8])
@@ -77,6 +77,32 @@ named!(
                     systick,
                     mode,
                     value128,
+                }
+            })
+    )
+);
+
+named!(
+    stopped<TelemetryMessage>,
+    do_parse!(
+        tag!("O:")
+            >> tag!([1u8])
+            >> software_version_len: be_u8
+            >> software_version:
+                map_res!(take!(software_version_len), |bytes| std::str::from_utf8(
+                    bytes
+                ))
+            >> device_id1: be_u32
+            >> device_id2: be_u32
+            >> device_id3: be_u32
+            >> sep
+            >> systick: be_u64
+            >> end
+            >> ({
+                TelemetryMessage::StoppedMessage {
+                    version: software_version.to_string(),
+                    device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                    systick,
                 }
             })
     )
@@ -235,7 +261,7 @@ named!(
 );
 
 named!(pub parse_telemetry_message<TelemetryMessage>, alt!(
-    boot_message | data_snapshot | machine_state_snapshot | alarm_trap
+    boot | stopped | data_snapshot | machine_state_snapshot | alarm_trap
 ));
 
 #[cfg(test)]
@@ -252,9 +278,6 @@ mod tests {
             mode: Mode::Qualification,
             value128: 128,
         };
-        assert_eq!(
-            nom::dbg_dmp(boot_message, "boot_message")(input),
-            Ok((&[][..], expected))
-        );
+        assert_eq!(nom::dbg_dmp(boot, "boot")(input), Ok((&[][..], expected)));
     }
 }

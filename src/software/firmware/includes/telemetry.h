@@ -18,6 +18,9 @@ void initTelemetry(void);
 /// Send a "boot" message
 void sendBootMessage(void);
 
+/// Send a "stopped" message
+void sendStoppedMessage(void);
+
 /// Send a "data snapshot" message
 void sendDataSnapshot(uint16_t centileValue,
                       uint16_t pressureValue,

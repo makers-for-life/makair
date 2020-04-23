@@ -12,13 +12,22 @@ mod parsers;
 pub mod structures;
 
 use serial::prelude::*;
+use std::fs::File;
+use std::io::BufRead;
+use std::io::BufReader;
+use std::io::BufWriter;
 use std::io::Read;
+use std::io::Write;
 use std::sync::mpsc::Sender;
 
 use parsers::*;
 use structures::*;
 
-pub fn gather_telemetry(port_id: &str, tx: Sender<TelemetryMessage>) {
+pub fn gather_telemetry(
+    port_id: &str,
+    tx: Sender<TelemetryMessage>,
+    mut file_buf: Option<BufWriter<File>>,
+) {
     loop {
         info!("Opening {}", &port_id);
         match serial::open(&port_id) {
@@ -51,6 +60,13 @@ pub fn gather_telemetry(port_id: &str, tx: Sender<TelemetryMessage>) {
                                     match parse_telemetry_message(&buffer) {
                                         // It worked! Let's extract the message and replace the buffer with the rest of the bytes
                                         Ok((rest, message)) => {
+                                            if let Some(file_buffer) = file_buf.as_mut() {
+                                                // Write a new line with the base64 value of the message
+                                                let base64 = base64::encode(&buffer);
+                                                file_buffer.write_all(base64.as_bytes()).unwrap();
+                                                file_buffer.write_all(b"\n").unwrap();
+                                            }
+
                                             tx.send(message).unwrap();
                                             buffer = Vec::from(rest);
                                         }
@@ -62,6 +78,10 @@ pub fn gather_telemetry(port_id: &str, tx: Sender<TelemetryMessage>) {
                                         Err(e) => {
                                             debug!("{:?}", &e);
                                             if !buffer.is_empty() {
+                                                if let Some(file_buffer) = file_buf.as_mut() {
+                                                    file_buffer.flush().unwrap();
+                                                }
+
                                                 buffer.remove(0);
                                             }
                                         }
@@ -69,6 +89,9 @@ pub fn gather_telemetry(port_id: &str, tx: Sender<TelemetryMessage>) {
                                 }
                                 // We failed to get a new byte from serial
                                 Err(e) => {
+                                    if let Some(file_buffer) = file_buf.as_mut() {
+                                        file_buffer.flush().unwrap();
+                                    }
                                     if e.kind() == std::io::ErrorKind::TimedOut { // It's OK it's just a timeout; let's try again
                                          // Do nothing
                                     } else {
@@ -99,6 +122,9 @@ pub fn display_message(message: TelemetryMessage) {
                 error!("value128 should be equal to 128 (found {:b} = {}); check serial port configuration", &value128, &value128);
             }
         }
+        TelemetryMessage::StoppedMessage { .. } => {
+            debug!("stopped");
+        }
         TelemetryMessage::DataSnapshot { .. } => {
             info!("    {:?}", &message);
         }
@@ -112,6 +138,55 @@ pub fn display_message(message: TelemetryMessage) {
             debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             info!("{} {:?}", &prefix, &message);
             debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+    }
+}
+
+pub fn gather_telemetry_from_file(file: File, tx: Sender<TelemetryMessage>) {
+    let reader = BufReader::new(file);
+    let mut buffer = Vec::new();
+
+    let stopped_message_period = std::time::Duration::from_millis(100);
+    let data_message_period = std::time::Duration::from_millis(10);
+
+    info!("Start playing telemetry messages");
+
+    for line in reader.lines() {
+        if let Ok(line_str) = line {
+            if let Ok(mut bytes) = base64::decode(line_str) {
+                buffer.append(&mut bytes);
+
+                while !buffer.is_empty() {
+                    // Let's try to parse the buffer
+                    match parse_telemetry_message(&buffer) {
+                        // It worked! Let's extract the message and replace the buffer with the rest of the bytes
+                        Ok((rest, message)) => {
+                            match message {
+                                TelemetryMessage::StoppedMessage { .. } => {
+                                    std::thread::sleep(stopped_message_period);
+                                }
+                                TelemetryMessage::DataSnapshot { .. } => {
+                                    std::thread::sleep(data_message_period);
+                                }
+                                _ => (),
+                            }
+                            tx.send(message).unwrap();
+                            buffer = Vec::from(rest);
+                        }
+                        // There are not enough bytes, let's wait until we get more
+                        Err(nom::Err::Incomplete(_)) => {
+                            break;
+                        }
+                        // We can't do anything with the begining of the buffer, let's drop its first byte
+                        Err(e) => {
+                            debug!("{:?}", &e);
+                            if !buffer.is_empty() {
+                                buffer.remove(0);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

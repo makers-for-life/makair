@@ -139,6 +139,27 @@ void sendBootMessage() {
 }
 
 // cppcheck-suppress unusedFunction
+void sendStoppedMessage() {
+#if HARDWARE_VERSION == 2
+    Serial6.write("O:");
+    Serial6.write((uint8_t)1u);
+
+    Serial6.write(static_cast<uint8_t>(strlen(VERSION)));
+    Serial6.print(VERSION);
+    Serial6.write(deviceId, 12);
+
+    Serial6.print("\t");
+
+    byte systick[8];  // 64 bits
+    uint64_t systickValue = (millis() * 1000) + (micros() % 1000);
+    toBytes64(systick, systickValue);
+    Serial6.write(systick, 8);
+
+    Serial6.print("\n");
+#endif
+}
+
+// cppcheck-suppress unusedFunction
 void sendDataSnapshot(uint16_t centileValue,
                       uint16_t pressureValue,
                       CyclePhases phase,
