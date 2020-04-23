@@ -15,6 +15,8 @@ use std::{thread, time};
 
 use std::collections::vec_deque::VecDeque;
 
+use conrod_core::{Ui, UiBuilder};
+use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 use glutin_window::GlutinWindow as Window;
 use graphics::draw_state::DrawState;
 use graphics::rectangle;
@@ -26,7 +28,6 @@ use opengl_graphics::{GlGraphics, OpenGL, Texture, TextureSettings};
 use piston::event_loop::{EventSettings, Events};
 use piston::input::{RenderArgs, RenderEvent, UpdateArgs, UpdateEvent};
 use piston::window::WindowSettings;
-use piston_window::PistonWindow;
 use rand::Rng;
 use std::path::Path;
 
@@ -46,23 +47,35 @@ impl DisplayWindow {
     pub fn spawn(&self) {
         debug!("spawning window");
 
+        // Create event loop
+        let mut events_loop = EventsLoop::new();
+
         // Create window
-        let mut window: PistonWindow = WindowSettings::new(
-            "MakAir",
-            [DISPLAY_WINDOW_SIZE_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT],
-        )
-        .graphics_api(OpenGL::V3_2)
-        .decorated(false)
-        .exit_on_esc(true)
-        .build()
-        .unwrap();
+        let window = WindowBuilder::new()
+            .with_title("MakAir")
+            .with_dimensions((DISPLAY_WINDOW_SIZE_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT).into())
+            .with_decorations(false)
+            .with_resizable(false)
+            .with_always_on_top(true);
 
-        // // Create window contents drawer
-        let mut drawer = DisplayDrawerBuilder::new();
+        // Create context
+        let context = ContextBuilder::new().with_multisampling(4).with_vsync(true);
 
-        // Cycle through window contents drawing
-        while let Some(event) = window.next() {
-            drawer.cycle(&mut window, &event);
-        }
+        // Create the interface
+        let mut interface = UiBuilder::new([
+            DISPLAY_WINDOW_SIZE_WIDTH as f64,
+            DISPLAY_WINDOW_SIZE_HEIGHT as f64,
+        ])
+        .build();
+
+        interface
+            .fonts
+            .insert_from_file("./res/fonts/notosans_regular.ttf")
+            .unwrap();
+
+        // Create window contents drawer
+        let mut drawer = DisplayDrawerBuilder::new(window, context, events_loop, interface);
+
+        drawer.cycle();
     }
 }

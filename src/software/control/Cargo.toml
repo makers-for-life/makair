@@ -30,6 +30,12 @@ piston2d-graphics = "0.36.0"
 pistoncore-glutin_window = "0.63.0"
 piston2d-opengl_graphics = "0.72.0"
 image = "0.23.3"
+glium = "0.24"
+winit = "0.19"
+conrod_glium = "0.69.0"
+conrod_winit = "0.69.0"
+conrod_core = "0.69.0"
+telemetry = { path = "../telemetry", features = ["env_logger"], version = "0.1" }
 
 [profile.dev]
 opt-level = 0

@@ -4,5 +4,6 @@
 // License: Public Domain License
 
 mod drawer;
+mod support;
 
 pub mod window;

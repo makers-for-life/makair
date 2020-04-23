@@ -9,6 +9,10 @@ extern crate log;
 extern crate clap;
 #[macro_use]
 extern crate lazy_static;
+#[macro_use]
+extern crate conrod_winit;
+#[macro_use]
+extern crate conrod_core;
 extern crate glutin_window;
 extern crate graphics;
 extern crate image;
@@ -31,7 +35,7 @@ use display::window::DisplayWindowBuilder;
 
 struct AppArgs {
     log: String,
-    port: u8,
+    port: String,
 }
 
 lazy_static! {
@@ -67,7 +71,8 @@ fn make_app_args() -> AppArgs {
             .value_of("port")
             .expect("please provide a serial port value")
             .parse::<u8>()
-            .expect("serial port should be a number"),
+            .expect("serial port should be a number")
+            .to_string(),
     }
 }
 
