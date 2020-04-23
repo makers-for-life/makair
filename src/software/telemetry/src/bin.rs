@@ -4,22 +4,45 @@
 // License: Public Domain License
 
 #[macro_use]
-extern crate log;
+extern crate clap;
 
+use clap::Clap;
 use std::sync::mpsc::{Receiver, Sender, TryRecvError};
 
 use telemetry::structures::*;
 use telemetry::*;
 
+#[derive(Clap)]
+#[clap(version = crate_version!(), author = crate_authors!())]
+struct Opts {
+    #[clap(subcommand)]
+    mode: Mode,
+}
+
+#[derive(Clap)]
+enum Mode {
+    /// Reads telemetry from a serial port, parses it and streams result to stdout
+    #[clap(version = crate_version!(), author = crate_authors!())]
+    Debug(Debug),
+}
+
+#[derive(Clap)]
+struct Debug {
+    /// Address of the port to use
+    #[clap(short = "p")]
+    port: String,
+}
+
 fn main() {
     env_logger::init();
+    let opts: Opts = Opts::parse();
 
-    if let Some(port_id) = std::env::args().nth(1) {
-        if !port_id.is_empty() {
+    match opts.mode {
+        Mode::Debug(cfg) => {
             let (tx, rx): (Sender<TelemetryMessage>, Receiver<TelemetryMessage>) =
                 std::sync::mpsc::channel();
             std::thread::spawn(move || {
-                gather_telemetry(&port_id, tx);
+                gather_telemetry(&cfg.port, tx);
             });
             loop {
                 match rx.try_recv() {
@@ -34,14 +57,6 @@ fn main() {
                     }
                 }
             }
-        } else {
-            help();
         }
-    } else {
-        help();
     }
-}
-
-fn help() {
-    error!("You need to specify a serial port address as first argument");
 }
