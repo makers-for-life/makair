@@ -68,6 +68,7 @@ impl DisplayWindow {
         ])
         .build();
 
+        // Load all required fonts to interface
         interface
             .fonts
             .insert_from_file("./res/fonts/notosans_regular.ttf")

@@ -90,6 +90,7 @@ fn main() {
     // Ensure all states are bound
     ensure_states();
 
+    // Spawn window manager
     DisplayWindowBuilder::new().spawn();
 
     info!("stopped");

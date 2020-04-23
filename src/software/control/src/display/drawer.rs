@@ -102,7 +102,7 @@ impl DisplayDrawerBuilder {
 }
 
 impl DisplayDrawer {
-    pub fn cycle(self) {
+    pub fn cycle(&mut self) {
         let mut data_pressure = Vec::new();
 
         let (tx, rx): (Sender<TelemetryMessage>, Receiver<TelemetryMessage>) =
@@ -121,12 +121,12 @@ impl DisplayDrawer {
             'thread_rcv: loop {
                 match rx.try_recv() {
                     Ok(msg) => match msg {
-                        TelemetryMessage::DataSnapshot(snapshot) => {
+                        TelemetryMessage::DataSnapshot { pressure, .. } => {
                             let now = Local::now();
                             let last = now - last_point;
                             if last > chrono::Duration::milliseconds(32) {
                                 last_point = now;
-                                Self::add_pressure(&mut data_pressure, snapshot.pressure);
+                                Self::add_pressure(&mut data_pressure, pressure);
                             }
                         }
                         TelemetryMessage::MachineStateSnapshot { cpm_command, .. } => {
@@ -146,8 +146,8 @@ impl DisplayDrawer {
             // Handle all events.
             for event in self.event_loop.next(&mut self.events_loop) {
                 // Use the `winit` backend feature to convert the winit event to a conrod one.
-                if let Some(event) = support::convert_event(event.clone(), &app_core.display) {
-                    app_core.ui.handle_event(event);
+                if let Some(event) = support::convert_event(event.clone(), &self.display) {
+                    self.interface.handle_event(event);
                     self.event_loop.needs_update();
                 }
 
@@ -173,18 +173,18 @@ impl DisplayDrawer {
                 continue;
             }
 
-            let image_map = app_core.render(&data_pressure, last_cycles);
+            let image_map = self.render(&data_pressure, last_cycles);
 
             // Draw the `Ui` if it has changed.
-            if let Some(primitives) = app_core.ui.draw_if_changed() {
-                app_core
+            if let Some(primitives) = self.interface.draw_if_changed() {
+                self
                     .gl
-                    .fill(&app_core.display.0, primitives, &image_map);
-                let mut target = app_core.display.0.draw();
+                    .fill(&self.display.0, primitives, &image_map);
+                let mut target = self.display.0.draw();
                 target.clear_color(0.0, 0.0, 0.0, 1.0);
-                app_core
+                self
                     .gl
-                    .draw(&app_core.display.0, &mut target, &image_map)
+                    .draw(&self.display.0, &mut target, &image_map)
                     .unwrap();
                 target.finish().unwrap();
             }
