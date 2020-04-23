@@ -134,7 +134,7 @@ Firmware release binaries are available for download on our [releases page](http
 | [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2UT72dP) | Martial Medjber + [Eliott Vincent](https://github.com/eliottvincent)
 | [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | [view model](https://a360.co/2x1mhIx) | [Valerian Saliou](https://github.com/valeriansaliou)
 | [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | [view model](https://a360.co/2XeSVAP) | [Valerian Saliou](https://github.com/valeriansaliou)
-| [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V4 | Wall-mountable patient connectors | ✅ | [view o2 model](https://a360.co/3bVsX9N), [view blower model](https://a360.co/2UNMVgY) | Gabriel Moneyron
+| [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V4 | Wall-mountable patient connectors | ✅ | [view o2 model](https://a360.co/3bVsX9N), [view blower model](https://a360.co/2UNMVgY), [view respiratory pressure model](https://a360.co/3av64c0), [view respiratory no pressure model](https://a360.co/2XZB5T0) | Gabriel Moneyron
 | [Fan Holder](./src/mechanics/parts/fan-holder) | V1 | Initial version | ✅ | [view model](https://a360.co/2V8enEU) | [Eliott Vincent](https://github.com/eliottvincent)
 | [Container](./src/mechanics/container) | V2 | Update mensurations | ✅ | [view model](https://a360.co/2RlnfGp) | Arthur Dagard
 
