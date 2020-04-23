@@ -7,17 +7,22 @@ use std::sync::mpsc::{Receiver, Sender, TryRecvError};
 
 use chrono::offset::Local;
 use chrono::prelude::*;
+use chrono::Duration;
 use conrod_core::{color, widget, Colorable, Positionable, Sizeable, Ui, Widget};
 use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 use glium::Surface;
 use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
 use plotters::prelude::*;
-use telemetry::{gather_telemetry, structures::TelemetryMessage};
+use telemetry::{self, structures::TelemetryMessage};
 
 use crate::APP_ARGS;
 
 use super::loader::{DisplayLoader, DisplayLoaderBuilder};
 use super::support::{self, EventLoop};
+
+lazy_static! {
+    static ref SERIAL_RECEIVE_CHUNK_TIME: Duration = Duration::milliseconds(32);
+}
 
 pub struct DisplayDrawerBuilder;
 
@@ -47,6 +52,7 @@ impl DisplayDrawerBuilder {
         // Create renderer
         let renderer = conrod_glium::Renderer::new(&display.0).unwrap();
 
+        // Create drawer
         DisplayDrawer {
             loader: DisplayLoaderBuilder::new(),
             renderer: renderer,
@@ -59,33 +65,37 @@ impl DisplayDrawerBuilder {
 }
 
 impl DisplayDrawer {
-    pub fn cycle(&mut self) {
+    pub fn run(&mut self) {
         let mut data_pressure = Vec::new();
 
-        let (tx, rx): (Sender<TelemetryMessage>, Receiver<TelemetryMessage>) =
-            std::sync::mpsc::channel();
+        // TODO: move this into the "serial" module
 
-        std::thread::spawn(move || {
-            gather_telemetry(&APP_ARGS.port, tx);
-        });
+        // Start gathering telemetry
+        let rx = self.start_telemetry();
 
+        // TODO: clean this
         let (mut last_point, mut last_cycles) = (Local::now(), 0);
 
         'main: loop {
             // TODO: only update when needed
             self.event_loop.needs_update();
 
+            // Receive telemetry data (from the input serial from the motherboard)
             'thread_rcv: loop {
                 match rx.try_recv() {
-                    Ok(msg) => match msg {
+                    Ok(message) => match message {
+                        // TODO: add more message types
+
                         TelemetryMessage::DataSnapshot { pressure, .. } => {
                             let now = Local::now();
                             let last = now - last_point;
 
-                            if last > chrono::Duration::milliseconds(32) {
+                            // Last received chunk is not too recent? Add the pressure measurement \
+                            //   point that was received.
+                            if last > *SERIAL_RECEIVE_CHUNK_TIME {
                                 last_point = now;
 
-                                Self::add_pressure(&mut data_pressure, pressure);
+                                self.add_pressure(&mut data_pressure, pressure);
                             }
                         }
 
@@ -101,12 +111,12 @@ impl DisplayDrawer {
                     }
 
                     Err(TryRecvError::Disconnected) => {
-                        panic!("Channel to serial port thread was closed");
+                        panic!("channel to serial port thread was closed");
                     }
                 }
             }
 
-            // Handle all events.
+            // Handle incoming events
             for event in self.event_loop.next(&mut self.events_loop) {
                 // Use the `winit` backend feature to convert the winit event to a conrod one.
                 if let Some(event) = support::convert_event(event.clone(), &self.display) {
@@ -126,8 +136,10 @@ impl DisplayDrawer {
                                 },
                             ..
                         } => break 'main,
+
                         _ => (),
                     },
+
                     _ => (),
                 }
             }
@@ -164,7 +176,7 @@ impl DisplayDrawer {
         let root = BitMapBackend::with_buffer(&mut buffer, (780, 200)).into_drawing_area();
         root.fill(&WHITE).unwrap();
 
-        let oldest = data_pressure.first().unwrap().0 - chrono::Duration::seconds(40);
+        let oldest = data_pressure.first().unwrap().0 - Duration::seconds(40);
         let newest = data_pressure.first().unwrap().0;
 
         let mut chart = ChartBuilder::on(&root)
@@ -223,9 +235,21 @@ impl DisplayDrawer {
         image_map
     }
 
-    fn add_pressure(data: &mut DataPressure, new_point: u16) {
+    fn start_telemetry(&self) -> Receiver<TelemetryMessage> {
+        // Start gathering telemetry
+        let (tx, rx): (Sender<TelemetryMessage>, Receiver<TelemetryMessage>) =
+            std::sync::mpsc::channel();
+
+        std::thread::spawn(move || {
+            telemetry::gather_telemetry(&APP_ARGS.port, tx);
+        });
+
+        rx
+    }
+
+    fn add_pressure(&self, data: &mut DataPressure, new_point: u16) {
         data.insert(0, (Local::now(), new_point / 10));
-        let oldest = data.first().unwrap().0 - chrono::Duration::seconds(40);
+        let oldest = data.first().unwrap().0 - Duration::seconds(40);
         let newest = data.first().unwrap().0;
         let mut i = 0;
         while i != data.len() {
