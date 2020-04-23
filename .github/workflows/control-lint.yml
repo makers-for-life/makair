@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - .github/workflows/**
-      - src/software/control/**
+      - src/software/control/*
 
 jobs:
   check:
@@ -14,12 +14,8 @@ jobs:
         with:
           path: repo
 
-      - name: Prepare control codebase
-        run: |
-          mv repo/src/software/control/* ./
-          ls -la .
-
       - name: Install latest stable
+        run: cd ./repo/src/software/control/
         uses: actions-rs/toolchain@v1.0.6
         with:
             toolchain: stable
@@ -27,23 +23,27 @@ jobs:
             components: rustfmt, clippy
 
       - name: Lint
+        run: cd ./repo/src/software/control/
         uses: actions-rs/clippy-check@v1.0.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --all-targets --all-features -- -D warnings
 
       - name: Check code style
+        run: cd ./repo/src/software/control/
         uses: actions-rs/cargo@v1.0.1
         with:
           command: fmt
           args: --all -- --check
 
       - name: Build lib
+        run: cd ./repo/src/software/control/
         uses: actions-rs/cargo@v1.0.1
         with:
           command: build
 
       - name: Test lib
+        run: cd ./repo/src/software/control/
         uses: actions-rs/cargo@v1.0.1
         with:
           command: test
