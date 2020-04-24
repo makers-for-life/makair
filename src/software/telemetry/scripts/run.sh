@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 export RUST_LOG="info,telemetry=debug"
 
-cargo run --features="build-binary" "$1"
+cargo run --features="build-binary" -- "$@"

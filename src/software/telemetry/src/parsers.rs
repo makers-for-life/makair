@@ -51,7 +51,7 @@ named!(
 );
 
 named!(
-    boot_message<TelemetryMessage>,
+    boot<TelemetryMessage>,
     do_parse!(
         tag!("B:")
             >> tag!([1u8])
@@ -68,25 +68,42 @@ named!(
             >> sep
             >> mode: mode
             >> sep
-            >> min8: be_u8
-            >> sep
-            >> max8: be_u8
-            >> sep
-            >> min32: be_u32
-            >> sep
-            >> max32: be_u32
+            >> value128: be_u8
             >> end
             >> ({
-                TelemetryMessage::BootMessage {
+                TelemetryMessage::BootMessage(BootMessage {
                     version: software_version.to_string(),
                     device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                     systick,
                     mode,
-                    min8,
-                    max8,
-                    min32,
-                    max32,
-                }
+                    value128,
+                })
+            })
+    )
+);
+
+named!(
+    stopped<TelemetryMessage>,
+    do_parse!(
+        tag!("O:")
+            >> tag!([1u8])
+            >> software_version_len: be_u8
+            >> software_version:
+                map_res!(take!(software_version_len), |bytes| std::str::from_utf8(
+                    bytes
+                ))
+            >> device_id1: be_u32
+            >> device_id2: be_u32
+            >> device_id3: be_u32
+            >> sep
+            >> systick: be_u64
+            >> end
+            >> ({
+                TelemetryMessage::StoppedMessage(StoppedMessage {
+                    version: software_version.to_string(),
+                    device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                    systick,
+                })
             })
     )
 );
@@ -121,7 +138,7 @@ named!(
             >> sep
             >> battery_level: be_u8
             >> end
-            >> (TelemetryMessage::DataSnapshot {
+            >> (TelemetryMessage::DataSnapshot(DataSnapshot {
                 version: software_version.to_string(),
                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                 systick,
@@ -133,7 +150,7 @@ named!(
                 patient_valve_position,
                 blower_rpm,
                 battery_level,
-            })
+            }))
     )
 );
 
@@ -161,17 +178,17 @@ named!(
             >> sep
             >> cpm_command: be_u8
             >> sep
-            >> previous_peak_pressure: be_u8
+            >> previous_peak_pressure: be_u16
             >> sep
-            >> previous_plateau_pressure: be_u8
+            >> previous_plateau_pressure: be_u16
             >> sep
-            >> previous_peep_pressure: be_u8
+            >> previous_peep_pressure: be_u16
             >> sep
             >> current_alarm_codes: u8_array
             >> sep
             >> previous_alarm_codes: u8_array
             >> end
-            >> (TelemetryMessage::MachineStateSnapshot {
+            >> (TelemetryMessage::MachineStateSnapshot(MachineStateSnapshot {
                 version: software_version.to_string(),
                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                 cycle,
@@ -184,7 +201,7 @@ named!(
                 previous_peep_pressure,
                 current_alarm_codes,
                 previous_alarm_codes,
-            })
+            }))
     )
 );
 
@@ -224,7 +241,7 @@ named!(
             >> sep
             >> cycles_since_trigger: be_u32
             >> end
-            >> (TelemetryMessage::AlarmTrap {
+            >> (TelemetryMessage::AlarmTrap(AlarmTrap {
                 version: software_version.to_string(),
                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                 systick,
@@ -239,12 +256,12 @@ named!(
                 expected,
                 measured,
                 cycles_since_trigger,
-            })
+            }))
     )
 );
 
 named!(pub parse_telemetry_message<TelemetryMessage>, alt!(
-    boot_message | data_snapshot | machine_state_snapshot | alarm_trap
+    boot | stopped | data_snapshot | machine_state_snapshot | alarm_trap
 ));
 
 #[cfg(test)]
@@ -253,20 +270,14 @@ mod tests {
 
     #[test]
     fn test_boot_message_parser() {
-        let input = b"B:\x01\x04test\xaa\xaa\xaa\xaa\xbb\xbb\xbb\xbb\xaa\xaa\xaa\xaa\t\x00\x00\x00\x00\x00\x00\x00\xff\t\x02\t\x00\t\xff\t\x00\x00\x00\x00\t\xff\xff\xff\xff\n";
-        let expected = TelemetryMessage::BootMessage {
+        let input = b"B:\x01\x04test\xaa\xaa\xaa\xaa\xbb\xbb\xbb\xbb\xaa\xaa\xaa\xaa\t\x00\x00\x00\x00\x00\x00\x00\xff\t\x02\t\x80\n";
+        let expected = TelemetryMessage::BootMessage(BootMessage {
             version: "test".to_string(),
             device_id: "2863311530-3149642683-2863311530".to_string(),
             systick: 255,
             mode: Mode::Qualification,
-            min8: 0,
-            max8: 255,
-            min32: 0,
-            max32: 4_294_967_295,
-        };
-        assert_eq!(
-            nom::dbg_dmp(boot_message, "boot_message")(input),
-            Ok((&[][..], expected))
-        );
+            value128: 128,
+        });
+        assert_eq!(nom::dbg_dmp(boot, "boot")(input), Ok((&[][..], expected)));
     }
 }
