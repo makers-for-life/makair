@@ -6,13 +6,13 @@
 use std::sync::mpsc::{Receiver, Sender, TryRecvError};
 
 use chrono::offset::Local;
-use chrono::{Duration, DateTime};
-use conrod_core::{Ui};
+use chrono::{DateTime, Duration};
+use conrod_core::Ui;
 use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 use glium::Surface;
 use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
 use plotters::prelude::*;
-use telemetry::{self, structures::TelemetryMessage, structures::MachineStateSnapshot};
+use telemetry::{self, structures::MachineStateSnapshot, structures::TelemetryMessage};
 
 use crate::APP_ARGS;
 
@@ -43,6 +43,7 @@ enum HandleLoopOutcome {
 type DataPressure = Vec<(DateTime<Local>, u16)>;
 
 impl DisplayDrawerBuilder {
+    #[allow(clippy::new_ret_no_self)]
     pub fn new(
         window: WindowBuilder,
         context: ContextBuilder,
@@ -59,10 +60,10 @@ impl DisplayDrawerBuilder {
 
         // Create drawer
         DisplayDrawer {
-            renderer: renderer,
-            display: display,
-            interface: interface,
-            events_loop: events_loop,
+            renderer,
+            display,
+            interface,
+            events_loop,
             event_loop: EventLoop::new(),
             fonts,
         }
@@ -102,13 +103,14 @@ impl DisplayDrawer {
             }
 
             // Refresh the pressure data interface, if we have any data in the buffer
-            if data.len() > 0 {
+            if !data.is_empty() {
                 self.step_loop_refresh(&data, &last_machine_snapshot);
             }
         }
     }
 
     // TODO: refactor this
+    #[allow(clippy::ptr_arg)]
     fn render(
         &mut self,
         data_pressure: &DataPressure,
@@ -132,12 +134,17 @@ impl DisplayDrawer {
             .line_style_1(&plotters::style::colors::WHITE.mix(0.5))
             .line_style_2(&plotters::style::colors::BLACK)
             .y_labels(5)
-            .y_label_style(plotters::style::TextStyle::from(("sans-serif", 20).into_font()).color(&WHITE))
-            .draw().unwrap();
+            .y_label_style(
+                plotters::style::TextStyle::from(("sans-serif", 20).into_font()).color(&WHITE),
+            )
+            .draw()
+            .unwrap();
         chart
             .draw_series(LineSeries::new(
                 data_pressure.iter().map(|x| (x.0, x.1 as i32)),
-                ShapeStyle::from(&plotters::style::RGBColor(0, 137, 255)).filled().stroke_width(1),
+                ShapeStyle::from(&plotters::style::RGBColor(0, 137, 255))
+                    .filled()
+                    .stroke_width(1),
             ))
             .unwrap();
 
@@ -160,7 +167,7 @@ impl DisplayDrawer {
 
         // The `WidgetId` for our background and `Image` widgets.
         let ids = Ids::new(self.interface.widget_id_generator());
-        let ui = &mut self.interface.set_widgets();
+        let ui = self.interface.set_widgets();
         create_widgets(ui, ids, image_id, (w, h), &self.fonts, &machine_snapshot);
 
         image_map
@@ -181,7 +188,7 @@ impl DisplayDrawer {
     // TODO: refactor, rename and relocate this
     fn add_pressure(&self, data: &mut DataPressure, new_point: u16) {
         let now = Local::now();
-        if data.len() > 0 {
+        if !data.is_empty() {
             let last_point = data.last().unwrap();
             let diff_between = now - last_point.0;
             if diff_between < *SERIAL_RECEIVE_CHUNK_TIME {
@@ -213,7 +220,7 @@ impl DisplayDrawer {
                         }
                         _ => {}
                     }
-                },
+                }
 
                 Err(TryRecvError::Empty) => {
                     break;
@@ -225,7 +232,7 @@ impl DisplayDrawer {
             }
         }
 
-       machine_snapshot
+        machine_snapshot
     }
 
     // TODO: relocate this
@@ -238,8 +245,8 @@ impl DisplayDrawer {
             }
 
             // Break from the loop upon `Escape` or closed window.
-            match event.clone() {
-                glium::glutin::Event::WindowEvent { event, .. } => match event {
+            if let glium::glutin::Event::WindowEvent { event, .. } = event.clone() {
+                match event {
                     glium::glutin::WindowEvent::CloseRequested
                     | glium::glutin::WindowEvent::KeyboardInput {
                         input:
@@ -251,17 +258,15 @@ impl DisplayDrawer {
                     } => {
                         return HandleLoopOutcome::Break;
                     }
-
                     _ => (),
-                },
-
-                _ => (),
+                }
             }
         }
 
-        return HandleLoopOutcome::Continue;
+        HandleLoopOutcome::Continue
     }
 
+    #[allow(clippy::ptr_arg)]
     fn step_loop_refresh(&mut self, data: &DataPressure, snapshot: &MachineStateSnapshot) {
         let image_map = self.render(data, &snapshot);
 

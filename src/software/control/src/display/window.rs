@@ -15,6 +15,7 @@ pub struct DisplayWindowBuilder;
 pub struct DisplayWindow;
 
 impl DisplayWindowBuilder {
+    #[allow(clippy::new_ret_no_self)]
     pub fn new() -> DisplayWindow {
         DisplayWindow {}
     }
