@@ -185,9 +185,11 @@ impl DisplayDrawer {
                 });
             }
             crate::Source::File(path) => {
-                let file = std::fs::File::open(path).unwrap();
                 std::thread::spawn(move || {
-                    telemetry::gather_telemetry_from_file(file, tx);
+                    loop {
+                        let file = std::fs::File::open(path).unwrap();
+                        telemetry::gather_telemetry_from_file(file, tx.clone());
+                    }
                 });
             }
         }
