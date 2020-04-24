@@ -12,6 +12,7 @@ use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 use glium::Surface;
 use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
 use plotters::prelude::*;
+use std::collections::VecDeque;
 use telemetry::{
     self,
     structures::MachineStateSnapshot,
@@ -25,9 +26,10 @@ use super::support::{self, EventLoop};
 use super::widgets::{create_widgets, Ids};
 use crate::chip::Chip;
 
-lazy_static! {
-    static ref SERIAL_RECEIVE_CHUNK_TIME: Duration = Duration::milliseconds(32);
-}
+const GRAPH_RENDER_SECONDS: usize = 40;
+const TELEMETRY_POINTS_PER_SECOND: usize = 10 * 100;
+const GRAPH_NUMBER_OF_POINTS: usize = GRAPH_RENDER_SECONDS * TELEMETRY_POINTS_PER_SECOND;
+const FRAMERATE: u64 = 30;
 
 pub struct DisplayDrawerBuilder;
 
@@ -46,7 +48,7 @@ enum HandleLoopOutcome {
     Continue,
 }
 
-type DataPressure = Vec<(DateTime<Utc>, u16)>;
+type DataPressure = VecDeque<(DateTime<Utc>, u16)>;
 
 impl DisplayDrawerBuilder {
     #[allow(clippy::new_ret_no_self)]
@@ -81,7 +83,8 @@ impl DisplayDrawer {
     pub fn run(&mut self) {
         // TODO: move more of this into the "serial" module
 
-        let mut data: DataPressure = Vec::new();
+        // Allow enough space to hold X seconds of points and 1 second of latency between clean-ups
+        let mut data: DataPressure = VecDeque::with_capacity(GRAPH_NUMBER_OF_POINTS + 100);
 
         // Start gathering telemetry
         let rx = self.start_telemetry();
@@ -91,17 +94,13 @@ impl DisplayDrawer {
         // Start drawer loop
         // Flow: cycles through telemetry events, and refreshes the view every time there is an \
         //   update on the machines state.
-        'main: loop {
-            // TODO: only update when needed
-            self.event_loop.needs_update();
+        let mut last_render = Utc::now();
 
+        'main: loop {
             // Receive telemetry data (from the input serial from the motherboard)
             if let Some(machine_snapshot) = self.step_loop_telemetry(&rx, &mut data) {
                 last_machine_snapshot = machine_snapshot;
             }
-
-            let older = Utc::now() - chrono::Duration::seconds(40);
-            data.retain(|d| d.0 > older);
 
             // Handle incoming events
             match self.step_loop_events() {
@@ -110,8 +109,19 @@ impl DisplayDrawer {
             }
 
             // Refresh the pressure data interface, if we have any data in the buffer
-            if !data.is_empty() {
+            let now = Utc::now();
+            if !data.is_empty()
+                && (now - last_render) > Duration::milliseconds((1000 / FRAMERATE) as _)
+            {
+                let older = now - chrono::Duration::seconds(40);
+                while data.back().map(|p| p.0 < older).unwrap_or(false) {
+                    data.pop_back();
+                }
+
+                last_render = now;
                 self.step_loop_refresh(&data, &last_machine_snapshot);
+            } else {
+                std::thread::sleep(std::time::Duration::from_millis(10));
             }
         }
     }
@@ -127,15 +137,16 @@ impl DisplayDrawer {
         let root = BitMapBackend::with_buffer(&mut buffer, (780, 200)).into_drawing_area();
         root.fill(&BLACK).unwrap();
 
-        let oldest = data_pressure.first().unwrap().0 - chrono::Duration::seconds(40);
-        let newest = data_pressure.first().unwrap().0;
+        let newest = data_pressure.front().unwrap().0;
+        let oldest = newest - chrono::Duration::seconds(40);
 
         let mut chart = ChartBuilder::on(&root)
             .margin(10)
-            .x_label_area_size(10)
+            .x_label_area_size(0)
             .y_label_area_size(40)
             .build_ranged(oldest..newest, 0..70)
             .unwrap();
+
         chart
             .configure_mesh()
             .line_style_1(&plotters::style::colors::WHITE.mix(0.5))
@@ -146,6 +157,7 @@ impl DisplayDrawer {
             )
             .draw()
             .unwrap();
+
         chart
             .draw_series(LineSeries::new(
                 data_pressure.iter().map(|x| (x.0, x.1 as i32)),
@@ -208,16 +220,9 @@ impl DisplayDrawer {
 
         let snapshot_time =
             self.chip.boot_time.unwrap() + Duration::microseconds(snapshot.systick as i64);
-        if !data.is_empty() {
-            let last_point = data.last().unwrap();
-            let diff_between = snapshot_time - last_point.0;
-            if diff_between < *SERIAL_RECEIVE_CHUNK_TIME {
-                return;
-            }
-        }
 
         let point = snapshot.pressure / 10;
-        data.insert(0, (snapshot_time, point));
+        data.push_front((snapshot_time, point));
     }
 
     // TODO: relocate this
@@ -262,7 +267,6 @@ impl DisplayDrawer {
             // Use the `winit` backend feature to convert the winit event to a conrod one.
             if let Some(event) = support::convert_event(event.clone(), &self.display) {
                 self.interface.handle_event(event);
-                self.event_loop.needs_update();
             }
 
             // Break from the loop upon `Escape` or closed window.
