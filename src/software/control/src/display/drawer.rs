@@ -5,20 +5,25 @@
 
 use std::sync::mpsc::{Receiver, Sender, TryRecvError};
 
-use chrono::offset::Local;
+use chrono::offset::Utc;
 use chrono::{DateTime, Duration};
 use conrod_core::Ui;
 use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 use glium::Surface;
 use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
 use plotters::prelude::*;
-use telemetry::{self, structures::MachineStateSnapshot, structures::TelemetryMessage};
+use telemetry::{
+    self,
+    structures::MachineStateSnapshot,
+    structures::{DataSnapshot, TelemetryMessage},
+};
 
 use crate::APP_ARGS;
 
 use super::fonts::Fonts;
 use super::support::{self, EventLoop};
 use super::widgets::{create_widgets, Ids};
+use crate::chip::Chip;
 
 lazy_static! {
     static ref SERIAL_RECEIVE_CHUNK_TIME: Duration = Duration::milliseconds(32);
@@ -33,6 +38,7 @@ pub struct DisplayDrawer {
     events_loop: EventsLoop,
     event_loop: EventLoop,
     fonts: Fonts,
+    chip: Chip, // TODO: should be moved once we move out all the telemetry fetching code out of this display package
 }
 
 enum HandleLoopOutcome {
@@ -40,7 +46,7 @@ enum HandleLoopOutcome {
     Continue,
 }
 
-type DataPressure = Vec<(DateTime<Local>, u16)>;
+type DataPressure = Vec<(DateTime<Utc>, u16)>;
 
 impl DisplayDrawerBuilder {
     #[allow(clippy::new_ret_no_self)]
@@ -66,6 +72,7 @@ impl DisplayDrawerBuilder {
             events_loop,
             event_loop: EventLoop::new(),
             fonts,
+            chip: Chip::new(),
         }
     }
 }
@@ -93,7 +100,7 @@ impl DisplayDrawer {
                 last_machine_snapshot = machine_snapshot;
             }
 
-            let older = Local::now() - chrono::Duration::seconds(40);
+            let older = Utc::now() - chrono::Duration::seconds(40);
             data.retain(|d| d.0 > older);
 
             // Handle incoming events
@@ -186,18 +193,21 @@ impl DisplayDrawer {
     }
 
     // TODO: refactor, rename and relocate this
-    fn add_pressure(&self, data: &mut DataPressure, new_point: u16) {
-        let now = Local::now();
+    fn add_pressure(&self, data: &mut DataPressure, snapshot: DataSnapshot) {
+        assert!(self.chip.boot_time.is_some());
+
+        let snapshot_time =
+            self.chip.boot_time.unwrap() + Duration::microseconds(snapshot.systick as i64);
         if !data.is_empty() {
             let last_point = data.last().unwrap();
-            let diff_between = now - last_point.0;
+            let diff_between = snapshot_time - last_point.0;
             if diff_between < *SERIAL_RECEIVE_CHUNK_TIME {
                 return;
             }
         }
 
-        let point = new_point / 10;
-        data.insert(0, (now, point));
+        let point = snapshot.pressure / 10;
+        data.insert(0, (snapshot_time, point));
     }
 
     // TODO: relocate this
@@ -209,18 +219,19 @@ impl DisplayDrawer {
         let mut machine_snapshot = None;
         loop {
             match rx.try_recv() {
-                Ok(message) => {
-                    match message {
-                        // TODO: add more message types
-                        TelemetryMessage::DataSnapshot(snapshot) => {
-                            self.add_pressure(data, snapshot.pressure);
-                        }
-                        TelemetryMessage::MachineStateSnapshot(snapshot) => {
-                            machine_snapshot = Some(snapshot);
-                        }
-                        _ => {}
+                Ok(message) => match message {
+                    TelemetryMessage::BootMessage(snapshot) => {
+                        self.chip.reset(snapshot.systick);
                     }
-                }
+                    TelemetryMessage::DataSnapshot(snapshot) => {
+                        self.chip.update_tick(snapshot.systick);
+                        self.add_pressure(data, snapshot);
+                    }
+                    TelemetryMessage::MachineStateSnapshot(snapshot) => {
+                        machine_snapshot = Some(snapshot);
+                    }
+                    _ => {}
+                },
 
                 Err(TryRecvError::Empty) => {
                     break;
