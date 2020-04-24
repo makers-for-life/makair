@@ -29,7 +29,12 @@ use display::window::DisplayWindowBuilder;
 
 struct AppArgs {
     log: String,
-    port: String,
+    source: Source,
+}
+
+pub enum Source {
+    Port(String),
+    File(String),
 }
 
 lazy_static! {
@@ -56,16 +61,25 @@ fn make_app_args() -> AppArgs {
                 .help("Serial port ID")
                 .takes_value(true),
         )
+        .arg(
+            Arg::with_name("file")
+                .short("f")
+                .long("file")
+                .help("Path to a recorded file")
+                .takes_value(true),
+        )
         .get_matches();
+
+    let source = match (matches.value_of("port"), matches.value_of("file")) {
+        (Some(p), _) => Source::Port(p.to_string()),
+        (None, Some(f)) => Source::File(f.to_string()),
+        (None, None) => panic!("You should provide either a serial port (-p) or a file (-f)"),
+    };
 
     // Generate owned app arguments
     AppArgs {
         log: String::from(matches.value_of("log").expect("invalid log value")),
-        port: matches
-            .value_of("port")
-            .expect("please provide a serial port value")
-            .parse::<String>()
-            .expect("serial port should be a string"),
+        source,
     }
 }
 
