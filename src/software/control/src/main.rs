@@ -73,7 +73,10 @@ fn make_app_args() -> AppArgs {
     let source = match (matches.value_of("port"), matches.value_of("file")) {
         (Some(p), _) => Source::Port(p.to_string()),
         (None, Some(f)) => Source::File(f.to_string()),
-        (None, None) => panic!("You should provide either a serial port (-p) or a file (-f)"),
+        (None, None) => {
+            eprintln!("You should provide either a serial port (-p) or a file (-f)");
+            std::process::exit(1);
+        }
     };
 
     // Generate owned app arguments
