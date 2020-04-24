@@ -179,7 +179,7 @@ impl DisplayDrawer {
             std::sync::mpsc::channel();
 
         std::thread::spawn(move || {
-            telemetry::gather_telemetry(&APP_ARGS.port, tx);
+            telemetry::gather_telemetry(&APP_ARGS.port, tx, None);
         });
 
         rx
@@ -212,8 +212,8 @@ impl DisplayDrawer {
                 Ok(message) => {
                     match message {
                         // TODO: add more message types
-                        TelemetryMessage::DataSnapshot { pressure, .. } => {
-                            self.add_pressure(data, pressure);
+                        TelemetryMessage::DataSnapshot(snapshot) => {
+                            self.add_pressure(data, snapshot.pressure);
                         }
                         TelemetryMessage::MachineStateSnapshot(snapshot) => {
                             machine_snapshot = Some(snapshot);

@@ -72,7 +72,8 @@ pub fn create_widgets<'a>(
         title: "P(peak)",
         value: format!(
             "{} <- ({})",
-            machine_snapshot.previous_peak_pressure, machine_snapshot.peak_command
+            (machine_snapshot.previous_peak_pressure as f64 / 10.0).round(),
+            machine_snapshot.peak_command
         ),
         unit: "cmH20",
         ids: (
@@ -94,7 +95,7 @@ pub fn create_widgets<'a>(
         value: format!(
             "{} <- ({})",
             (machine_snapshot.previous_plateau_pressure as f64 / 10.0).round(),
-            (machine_snapshot.plateau_command as f64 / 10.0).round()
+            machine_snapshot.plateau_command
         ),
         unit: "cmH20",
         ids: (
@@ -116,7 +117,7 @@ pub fn create_widgets<'a>(
         value: format!(
             "{} <- ({})",
             (machine_snapshot.previous_peep_pressure as f64 / 10.0).round(),
-            (machine_snapshot.peep_command as f64 / 10.0).round()
+            machine_snapshot.peep_command
         ),
         unit: "cmH20",
         ids: (
