@@ -14,6 +14,7 @@ extern crate conrod_core;
 extern crate conrod_winit;
 extern crate image;
 
+mod chip;
 mod config;
 mod display;
 mod serial;
