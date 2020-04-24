@@ -115,7 +115,7 @@ pub fn gather_telemetry(
 
 pub fn display_message(message: TelemetryMessage) {
     match message {
-        TelemetryMessage::BootMessage { value128, .. } => {
+        TelemetryMessage::BootMessage(BootMessage { value128, .. }) => {
             debug!("####################################################################################");
             debug!("######### CONTROLLER STARTED #########");
             debug!("####################################################################################");
@@ -125,18 +125,18 @@ pub fn display_message(message: TelemetryMessage) {
                 error!("value128 should be equal to 128 (found {:b} = {}); check serial port configuration", &value128, &value128);
             }
         }
-        TelemetryMessage::StoppedMessage { .. } => {
+        TelemetryMessage::StoppedMessage(_) => {
             debug!("stopped");
         }
-        TelemetryMessage::DataSnapshot { .. } => {
+        TelemetryMessage::DataSnapshot(_) => {
             info!("    {:?}", &message);
         }
-        TelemetryMessage::MachineStateSnapshot { .. } => {
+        TelemetryMessage::MachineStateSnapshot(_) => {
             debug!("------------------------------------------------------------------------------------");
             info!("{:?}", &message);
             debug!("------------------------------------------------------------------------------------");
         }
-        TelemetryMessage::AlarmTrap { triggered, .. } => {
+        TelemetryMessage::AlarmTrap(AlarmTrap { triggered, .. }) => {
             let prefix = if triggered { "NEW ALARM" } else { "STOPPED" };
             debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             info!("{} {:?}", &prefix, &message);

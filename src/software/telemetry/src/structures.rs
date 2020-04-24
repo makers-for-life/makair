@@ -31,60 +31,75 @@ pub enum AlarmPriority {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub struct BootMessage {
+    pub version: String,
+    pub device_id: String,
+    pub systick: u64,
+    pub mode: Mode,
+    pub value128: u8,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct StoppedMessage {
+    pub version: String,
+    pub device_id: String,
+    pub systick: u64,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct DataSnapshot {
+    pub version: String,
+    pub device_id: String,
+    pub systick: u64,
+    pub centile: u16,
+    pub pressure: u16,
+    pub phase: Phase,
+    pub subphase: SubPhase,
+    pub blower_valve_position: u8,
+    pub patient_valve_position: u8,
+    pub blower_rpm: u8,
+    pub battery_level: u8,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct MachineStateSnapshot {
+    pub version: String,
+    pub device_id: String,
+    pub cycle: u32,
+    pub peak_command: u8,
+    pub plateau_command: u8,
+    pub peep_command: u8,
+    pub cpm_command: u8,
+    pub previous_peak_pressure: u16,
+    pub previous_plateau_pressure: u16,
+    pub previous_peep_pressure: u16,
+    pub current_alarm_codes: Vec<u8>,
+    pub previous_alarm_codes: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AlarmTrap {
+    pub version: String,
+    pub device_id: String,
+    pub systick: u64,
+    pub centile: u16,
+    pub pressure: u16,
+    pub phase: Phase,
+    pub subphase: SubPhase,
+    pub cycle: u32,
+    pub alarm_code: u8,
+    pub alarm_priority: AlarmPriority,
+    pub triggered: bool,
+    pub expected: u32,
+    pub measured: u32,
+    pub cycles_since_trigger: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum TelemetryMessage {
-    BootMessage {
-        version: String,
-        device_id: String,
-        systick: u64,
-        mode: Mode,
-        value128: u8,
-    },
-    StoppedMessage {
-        version: String,
-        device_id: String,
-        systick: u64,
-    },
-    DataSnapshot {
-        version: String,
-        device_id: String,
-        systick: u64,
-        centile: u16,
-        pressure: u16,
-        phase: Phase,
-        subphase: SubPhase,
-        blower_valve_position: u8,
-        patient_valve_position: u8,
-        blower_rpm: u8,
-        battery_level: u8,
-    },
-    MachineStateSnapshot {
-        version: String,
-        device_id: String,
-        cycle: u32,
-        peak_command: u8,
-        plateau_command: u8,
-        peep_command: u8,
-        cpm_command: u8,
-        previous_peak_pressure: u16,
-        previous_plateau_pressure: u16,
-        previous_peep_pressure: u16,
-        current_alarm_codes: Vec<u8>,
-        previous_alarm_codes: Vec<u8>,
-    },
-    AlarmTrap {
-        version: String,
-        device_id: String,
-        systick: u64,
-        centile: u16,
-        pressure: u16,
-        phase: Phase,
-        subphase: SubPhase,
-        cycle: u32,
-        alarm_code: u8,
-        alarm_priority: AlarmPriority,
-        triggered: bool,
-        expected: u32,
-        measured: u32,
-        cycles_since_trigger: u32,
-    },
+    BootMessage(BootMessage),
+    StoppedMessage(StoppedMessage),
+    DataSnapshot(DataSnapshot),
+    MachineStateSnapshot(MachineStateSnapshot),
+    AlarmTrap(AlarmTrap),
 }

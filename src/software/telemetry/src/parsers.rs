@@ -71,13 +71,13 @@ named!(
             >> value128: be_u8
             >> end
             >> ({
-                TelemetryMessage::BootMessage {
+                TelemetryMessage::BootMessage(BootMessage {
                     version: software_version.to_string(),
                     device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                     systick,
                     mode,
                     value128,
-                }
+                })
             })
     )
 );
@@ -99,11 +99,11 @@ named!(
             >> systick: be_u64
             >> end
             >> ({
-                TelemetryMessage::StoppedMessage {
+                TelemetryMessage::StoppedMessage(StoppedMessage {
                     version: software_version.to_string(),
                     device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                     systick,
-                }
+                })
             })
     )
 );
@@ -138,7 +138,7 @@ named!(
             >> sep
             >> battery_level: be_u8
             >> end
-            >> (TelemetryMessage::DataSnapshot {
+            >> (TelemetryMessage::DataSnapshot(DataSnapshot {
                 version: software_version.to_string(),
                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                 systick,
@@ -150,7 +150,7 @@ named!(
                 patient_valve_position,
                 blower_rpm,
                 battery_level,
-            })
+            }))
     )
 );
 
@@ -188,7 +188,7 @@ named!(
             >> sep
             >> previous_alarm_codes: u8_array
             >> end
-            >> (TelemetryMessage::MachineStateSnapshot {
+            >> (TelemetryMessage::MachineStateSnapshot(MachineStateSnapshot {
                 version: software_version.to_string(),
                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                 cycle,
@@ -201,7 +201,7 @@ named!(
                 previous_peep_pressure,
                 current_alarm_codes,
                 previous_alarm_codes,
-            })
+            }))
     )
 );
 
@@ -241,7 +241,7 @@ named!(
             >> sep
             >> cycles_since_trigger: be_u32
             >> end
-            >> (TelemetryMessage::AlarmTrap {
+            >> (TelemetryMessage::AlarmTrap(AlarmTrap {
                 version: software_version.to_string(),
                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                 systick,
@@ -256,7 +256,7 @@ named!(
                 expected,
                 measured,
                 cycles_since_trigger,
-            })
+            }))
     )
 );
 
@@ -271,13 +271,13 @@ mod tests {
     #[test]
     fn test_boot_message_parser() {
         let input = b"B:\x01\x04test\xaa\xaa\xaa\xaa\xbb\xbb\xbb\xbb\xaa\xaa\xaa\xaa\t\x00\x00\x00\x00\x00\x00\x00\xff\t\x02\t\x80\n";
-        let expected = TelemetryMessage::BootMessage {
+        let expected = TelemetryMessage::BootMessage(BootMessage {
             version: "test".to_string(),
             device_id: "2863311530-3149642683-2863311530".to_string(),
             systick: 255,
             mode: Mode::Qualification,
             value128: 128,
-        };
+        });
         assert_eq!(nom::dbg_dmp(boot, "boot")(input), Ok((&[][..], expected)));
     }
 }
