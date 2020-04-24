@@ -352,6 +352,7 @@ void setup(void) {
     btn_stop.attachClick(onStartClick);
     btn_stop.setDebounceTicks(0);
     MFM_calibrateZero();
+    mfmAirVolumeSum = 0;
     Serial.println("init done");
 }
 
