@@ -17,6 +17,10 @@ jobs:
         run: |
           mkdir -p local/docs/software/firmware
 
+      - name: Copy redirection
+        run: |
+          cp .github/docs-firmware-redirect.html local/docs/software/firmware/index.html
+
       - name: Generate documentation for firmware
         uses: mattnotmitt/doxygen-action@v1
         with:
