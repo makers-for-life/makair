@@ -158,7 +158,11 @@ void PressureController::initRespiratoryCycle() {
     m_maxPlateauPressure = m_maxPlateauPressureCommand;
 
     // Apply blower ramp-up
-    m_blower->runSpeed(m_blower->getSpeed() + m_blower_increment);
+    if (m_blower_increment >= 0) {
+        m_blower->runSpeed(m_blower->getSpeed() + static_cast<uint16_t>(abs(m_blower_increment)));
+    } else {
+        m_blower->runSpeed(m_blower->getSpeed() - static_cast<uint16_t>(abs(m_blower_increment)));
+    }
     m_blower_increment = 0;
 
     for (uint8_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
@@ -255,7 +259,7 @@ void PressureController::compute(uint16_t p_centiSec) {
 #if HARDWARE_VERSION == 2
     m_alarmController->updateCoreData(p_centiSec, m_pressure, m_phase, m_subPhase, m_cycleNb);
     sendDataSnapshot(p_centiSec, m_pressure, m_phase, m_subPhase, m_blower_valve.position,
-                     m_patient_valve.position, m_blower->getSpeed(), getBatteryLevel());
+                     m_patient_valve.position, m_blower->getSpeed() / 10u, getBatteryLevel());
 #endif
 
     executeCommands();
@@ -452,6 +456,7 @@ void PressureController::updatePeakPressure() {
 
         if (abs(plateauDelta) > 20) {
             m_maxPeakPressureCommand =
+                // cppcheck-suppress misra-c2012-12.3
                 min((min(m_peakPressure, m_maxPeakPressureCommand) + plateauDelta),
                     static_cast<int>(CONST_MAX_PEAK_PRESSURE));
         } else if ((abs(plateauDelta) < 20) && (abs(plateauDelta) > 5)) {
