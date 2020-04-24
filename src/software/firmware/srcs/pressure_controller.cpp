@@ -454,7 +454,7 @@ void PressureController::updatePeakPressure() {
 
         if (abs(plateauDelta) > 20) {
             m_maxPeakPressureCommand =
-                min(min(m_peakPressure, m_maxPeakPressureCommand) + plateauDelta,
+                min((min(m_peakPressure, m_maxPeakPressureCommand) + plateauDelta),
                     static_cast<int>(CONST_MAX_PEAK_PRESSURE));
         } else if ((abs(plateauDelta) < 20) && (abs(plateauDelta) > 5)) {
             m_maxPeakPressureCommand =
