@@ -11,6 +11,7 @@ extern crate nom;
 mod parsers;
 pub mod structures;
 
+pub use serial;
 use serial::prelude::*;
 use std::fs::File;
 use std::io::BufRead;
@@ -23,16 +24,19 @@ use std::sync::mpsc::Sender;
 use parsers::*;
 use structures::*;
 
+pub type TelemetryChannelType = Result<TelemetryMessage, serial::core::Error>;
+
 pub fn gather_telemetry(
     port_id: &str,
-    tx: Sender<TelemetryMessage>,
+    tx: Sender<TelemetryChannelType>,
     mut file_buf: Option<BufWriter<File>>,
 ) {
     loop {
         info!("Opening {}", &port_id);
         match serial::open(&port_id) {
             Err(e) => {
-                error!("{}", e);
+                error!("{:?}", e);
+                tx.send(Err(e)).unwrap();
                 std::thread::sleep(std::time::Duration::from_secs(1));
             }
             Ok(mut port) => {
@@ -45,6 +49,7 @@ pub fn gather_telemetry(
                 }) {
                     Err(e) => {
                         error!("{}", e);
+                        tx.send(Err(e)).unwrap();
                         std::thread::sleep(std::time::Duration::from_secs(1));
                     }
                     Ok(_) => {
@@ -67,7 +72,7 @@ pub fn gather_telemetry(
                                                 file_buffer.write_all(b"\n").unwrap();
                                             }
 
-                                            tx.send(message).unwrap();
+                                            tx.send(Ok(message)).unwrap();
                                             buffer = Vec::from(rest);
                                         }
                                         // There are not enough bytes, let's wait until we get more
@@ -113,39 +118,42 @@ pub fn gather_telemetry(
     }
 }
 
-pub fn display_message(message: TelemetryMessage) {
+pub fn display_message(message: TelemetryChannelType) {
     match message {
-        TelemetryMessage::BootMessage(BootMessage { value128, .. }) => {
+        Ok(TelemetryMessage::BootMessage(BootMessage { value128, .. })) => {
             debug!("####################################################################################");
             debug!("######### CONTROLLER STARTED #########");
             debug!("####################################################################################");
-            info!("{:?}", &message);
+            info!("{:?}", &message.unwrap());
             debug!("####################################################################################");
             if value128 != 128u8 {
                 error!("value128 should be equal to 128 (found {:b} = {}); check serial port configuration", &value128, &value128);
             }
         }
-        TelemetryMessage::StoppedMessage(_) => {
+        Ok(TelemetryMessage::StoppedMessage(_)) => {
             debug!("stopped");
         }
-        TelemetryMessage::DataSnapshot(_) => {
-            info!("    {:?}", &message);
+        Ok(TelemetryMessage::DataSnapshot(_)) => {
+            info!("    {:?}", &message.unwrap());
         }
-        TelemetryMessage::MachineStateSnapshot(_) => {
+        Ok(TelemetryMessage::MachineStateSnapshot(_)) => {
             debug!("------------------------------------------------------------------------------------");
-            info!("{:?}", &message);
+            info!("{:?}", &message.unwrap());
             debug!("------------------------------------------------------------------------------------");
         }
-        TelemetryMessage::AlarmTrap(AlarmTrap { triggered, .. }) => {
+        Ok(TelemetryMessage::AlarmTrap(AlarmTrap { triggered, .. })) => {
             let prefix = if triggered { "NEW ALARM" } else { "STOPPED" };
             debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            info!("{} {:?}", &prefix, &message);
+            info!("{} {:?}", &prefix, &message.unwrap());
             debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+        Err(e) => {
+            info!("An error occured: {:?}", e);
         }
     }
 }
 
-pub fn gather_telemetry_from_file(file: File, tx: Sender<TelemetryMessage>) {
+pub fn gather_telemetry_from_file(file: File, tx: Sender<TelemetryChannelType>) {
     let reader = BufReader::new(file);
     let mut buffer = Vec::new();
 
@@ -173,7 +181,7 @@ pub fn gather_telemetry_from_file(file: File, tx: Sender<TelemetryMessage>) {
                                 }
                                 _ => (),
                             }
-                            tx.send(message).unwrap();
+                            tx.send(Ok(message)).unwrap();
                             buffer = Vec::from(rest);
                         }
                         // There are not enough bytes, let's wait until we get more
