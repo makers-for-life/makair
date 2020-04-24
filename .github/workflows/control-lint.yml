@@ -27,6 +27,11 @@ jobs:
             override: true
             components: rustfmt, clippy
 
+      - name: Install libs
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y libxcb-shape0 libxcb-shape0-dev libxcb-xfixes0 libxcb-xfixes0-dev
+
       - name: Lint
         uses: actions-rs/clippy-check@v1.0.5
         with:
