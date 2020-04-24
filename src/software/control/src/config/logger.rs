@@ -3,7 +3,6 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
-use log;
 use log::{Level, LevelFilter, Metadata, Record, SetLoggerError};
 
 pub struct ConfigLogger;

@@ -61,7 +61,7 @@ pub struct DataSnapshot {
     pub battery_level: u8,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Default, Clone, PartialEq, Eq)]
 pub struct MachineStateSnapshot {
     pub version: String,
     pub device_id: String,
