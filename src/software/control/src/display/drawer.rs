@@ -185,9 +185,19 @@ impl DisplayDrawer {
         let (tx, rx): (Sender<TelemetryMessage>, Receiver<TelemetryMessage>) =
             std::sync::mpsc::channel();
 
-        std::thread::spawn(move || {
-            telemetry::gather_telemetry(&APP_ARGS.port, tx, None);
-        });
+        match &APP_ARGS.source {
+            crate::Source::Port(port) => {
+                std::thread::spawn(move || {
+                    telemetry::gather_telemetry(&port, tx, None);
+                });
+            }
+            crate::Source::File(path) => {
+                std::thread::spawn(move || loop {
+                    let file = std::fs::File::open(path).unwrap();
+                    telemetry::gather_telemetry_from_file(file, tx.clone());
+                });
+            }
+        }
 
         rx
     }
