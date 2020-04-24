@@ -113,10 +113,7 @@ void initTelemetry(void) {
 // cppcheck-suppress unusedFunction
 void sendBootMessage() {
 #if HARDWARE_VERSION == 2
-    uint8_t min8Value = 0u;
-    uint8_t max8Value = UINT8_MAX;
-    uint32_t min32Value = 0u;
-    uint32_t max32Value = UINT32_MAX;
+    uint8_t value128 = 128u;
 
     Serial6.write("B:");
     Serial6.write((uint8_t)1u);
@@ -135,21 +132,28 @@ void sendBootMessage() {
     Serial6.print("\t");
     Serial6.write(MODE);
     Serial6.print("\t");
-    Serial6.write(min8Value);
-    Serial6.print("\t");
-    Serial6.write(max8Value);
+    Serial6.write(value128);
+
+    Serial6.print("\n");
+#endif
+}
+
+// cppcheck-suppress unusedFunction
+void sendStoppedMessage() {
+#if HARDWARE_VERSION == 2
+    Serial6.write("O:");
+    Serial6.write((uint8_t)1u);
+
+    Serial6.write(static_cast<uint8_t>(strlen(VERSION)));
+    Serial6.print(VERSION);
+    Serial6.write(deviceId, 12);
+
     Serial6.print("\t");
 
-    byte min32[4];  // 32 bits
-    // cppcheck-suppress misra-c2012-12.3
-    toBytes32(min32, min32Value);
-    Serial6.write(min32, 4);
-
-    Serial6.print("\t");
-
-    byte max32[4];  // 32 bits
-    toBytes32(max32, max32Value);
-    Serial6.write(max32, 4);
+    byte systick[8];  // 64 bits
+    uint64_t systickValue = (millis() * 1000) + (micros() % 1000);
+    toBytes64(systick, systickValue);
+    Serial6.write(systick, 8);
 
     Serial6.print("\n");
 #endif
@@ -232,9 +236,9 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
                               uint8_t plateauCommand,
                               uint8_t peepCommand,
                               uint8_t cpmCommand,
-                              uint8_t previousPeakPressure,
-                              uint8_t previousPlateauPressure,
-                              uint8_t previousPeepPressure,
+                              uint16_t previousPeakPressureValue,
+                              uint16_t previousPlateauPressureValue,
+                              uint16_t previousPeepPressureValue,
                               uint8_t currentAlarmCodes[ALARMS_SIZE],
                               uint8_t previousAlarmCodes[ALARMS_SIZE]) {
 #if HARDWARE_VERSION == 1
@@ -243,9 +247,9 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
     (void)plateauCommand;
     (void)peepCommand;
     (void)cpmCommand;
-    (void)previousPeakPressure;
-    (void)previousPlateauPressure;
-    (void)previousPeepPressure;
+    (void)previousPeakPressureValue;
+    (void)previousPlateauPressureValue;
+    (void)previousPeepPressureValue;
     (void)currentAlarmCodes;
     (void)previousAlarmCodes;
 #elif HARDWARE_VERSION == 2
@@ -289,11 +293,22 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
     Serial6.print("\t");
     Serial6.write(cpmCommand);
     Serial6.print("\t");
-    Serial6.write(previousPeakPressure);
+
+    byte previousPeakPressure[2];  // 16 bits
+    toBytes16(previousPeakPressure, previousPeakPressureValue);
+    Serial6.write(previousPeakPressure, 2);
+
     Serial6.print("\t");
-    Serial6.write(previousPlateauPressure);
+
+    byte previousPlateauPressure[2];  // 16 bits
+    toBytes16(previousPlateauPressure, previousPlateauPressureValue);
+    Serial6.write(previousPlateauPressure, 2);
+
     Serial6.print("\t");
-    Serial6.write(previousPeepPressure);
+
+    byte previousPeepPressure[2];  // 16 bits
+    toBytes16(previousPeepPressure, previousPeepPressureValue);
+    Serial6.write(previousPeepPressure, 2);
 
     Serial6.print("\t");
 
@@ -427,4 +442,18 @@ void sendAlarmTrap(uint16_t centileValue,
 
     Serial6.print("\n");
 #endif
+}
+
+// cppcheck-suppress unusedFunction
+uint8_t mmH2OtoCmH2O(uint16_t pressure) {
+    uint8_t result;
+    uint16_t lastDigit = pressure % 10u;
+
+    if (lastDigit < 5u) {
+        result = (pressure / 10u);
+    } else {
+        result = (pressure / 10u) + 1u;
+    }
+
+    return result;
 }

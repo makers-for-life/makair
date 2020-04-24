@@ -4,7 +4,6 @@
 // License: Public Domain License
 
 use conrod_winit::WinitWindow;
-use glium;
 
 pub struct GliumDisplayWinitWrapper(pub glium::Display);
 
