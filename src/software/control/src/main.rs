@@ -17,6 +17,7 @@ extern crate image;
 mod chip;
 mod config;
 mod display;
+mod physics;
 mod serial;
 
 use std::ops::Deref;

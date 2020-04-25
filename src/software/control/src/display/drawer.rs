@@ -3,10 +3,10 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
-use std::sync::mpsc::{Receiver, Sender, TryRecvError};
+use std::sync::mpsc::{Receiver, Sender};
 
 use chrono::offset::Utc;
-use chrono::{DateTime, Duration};
+use chrono::Duration;
 use conrod_core::Ui;
 use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 use glium::Surface;
@@ -16,15 +16,17 @@ use std::collections::VecDeque;
 use telemetry::{
     self,
     structures::MachineStateSnapshot,
-    structures::{DataSnapshot, TelemetryMessage},
+    structures::TelemetryMessage,
 };
 
+use crate::physics::types::DataPressure;
+use crate::serial::handler::SerialHandlerBuilder;
 use crate::APP_ARGS;
 
+use super::events::{DisplayEventsBuilder, DisplayEventsHandleOutcome};
 use super::fonts::Fonts;
-use super::support::{self, EventLoop};
+use super::support::GliumDisplayWinitWrapper;
 use super::widgets::{create_widgets, Ids};
-use crate::chip::Chip;
 
 const GRAPH_RENDER_SECONDS: usize = 40;
 const TELEMETRY_POINTS_PER_SECOND: usize = 10 * 100;
@@ -35,20 +37,11 @@ pub struct DisplayDrawerBuilder;
 
 pub struct DisplayDrawer {
     renderer: conrod_glium::Renderer,
-    display: support::GliumDisplayWinitWrapper,
-    interface: conrod_core::Ui,
+    display: GliumDisplayWinitWrapper,
+    interface: Ui,
     events_loop: EventsLoop,
-    event_loop: EventLoop,
     fonts: Fonts,
-    chip: Chip, // TODO: should be moved once we move out all the telemetry fetching code out of this display package
 }
-
-enum HandleLoopOutcome {
-    Break,
-    Continue,
-}
-
-type DataPressure = VecDeque<(DateTime<Utc>, u16)>;
 
 impl DisplayDrawerBuilder {
     #[allow(clippy::new_ret_no_self)]
@@ -61,7 +54,7 @@ impl DisplayDrawerBuilder {
     ) -> DisplayDrawer {
         // Create display
         let display = glium::Display::new(window, context, &events_loop).unwrap();
-        let display = support::GliumDisplayWinitWrapper(display);
+        let display = GliumDisplayWinitWrapper(display);
 
         // Create renderer
         let renderer = conrod_glium::Renderer::new(&display.0).unwrap();
@@ -72,16 +65,16 @@ impl DisplayDrawerBuilder {
             display,
             interface,
             events_loop,
-            event_loop: EventLoop::new(),
             fonts,
-            chip: Chip::new(),
         }
     }
 }
 
 impl DisplayDrawer {
     pub fn run(&mut self) {
-        // TODO: move more of this into the "serial" module
+        // Create handlers
+        let mut serial_handler = SerialHandlerBuilder::new();
+        let mut events_handler = DisplayEventsBuilder::new();
 
         // Allow enough space to hold X seconds of points and 1 second of latency between clean-ups
         let mut data: DataPressure = VecDeque::with_capacity(GRAPH_NUMBER_OF_POINTS + 100);
@@ -98,28 +91,31 @@ impl DisplayDrawer {
 
         'main: loop {
             // Receive telemetry data (from the input serial from the motherboard)
-            if let Some(machine_snapshot) = self.step_loop_telemetry(&rx, &mut data) {
+            if let Some(machine_snapshot) = serial_handler.handle(&rx, &mut data) {
                 last_machine_snapshot = machine_snapshot;
             }
 
             // Handle incoming events
-            match self.step_loop_events() {
-                HandleLoopOutcome::Break => break 'main,
-                HandleLoopOutcome::Continue => {}
+            match events_handler.handle(&self.display, &mut self.interface, &mut self.events_loop) {
+                DisplayEventsHandleOutcome::Break => break 'main,
+                DisplayEventsHandleOutcome::Continue => {}
             }
 
             // Refresh the pressure data interface, if we have any data in the buffer
             let now = Utc::now();
+
             if !data.is_empty()
                 && (now - last_render) > Duration::milliseconds((1000 / FRAMERATE) as _)
             {
                 let older = now - chrono::Duration::seconds(40);
+
                 while data.back().map(|p| p.0 < older).unwrap_or(false) {
                     data.pop_back();
                 }
 
                 last_render = now;
-                self.step_loop_refresh(&data, &last_machine_snapshot);
+
+                self.refresh(&data, &last_machine_snapshot);
             } else {
                 std::thread::sleep(std::time::Duration::from_millis(10));
             }
@@ -134,6 +130,7 @@ impl DisplayDrawer {
         machine_snapshot: &MachineStateSnapshot,
     ) -> conrod_core::image::Map<glium::texture::Texture2d> {
         let mut buffer = vec![0; (780 * 200 * 4) as usize];
+
         let root = BitMapBackend::with_buffer(&mut buffer, (780, 200)).into_drawing_area();
         root.fill(&BLACK).unwrap();
 
@@ -169,6 +166,7 @@ impl DisplayDrawer {
 
         drop(chart);
         drop(root);
+
         let rgba_image: RgbaImage = RgbImage::from_raw(780, 200, buffer).unwrap().convert();
         let image_dimensions = rgba_image.dimensions();
         let raw_image = glium::texture::RawImage2d::from_raw_rgba_reversed(
@@ -181,12 +179,14 @@ impl DisplayDrawer {
             image_texture.get_width(),
             image_texture.get_height().unwrap(),
         );
+
         let mut image_map = conrod_core::image::Map::new();
         let image_id = image_map.insert(image_texture);
 
         // The `WidgetId` for our background and `Image` widgets.
         let ids = Ids::new(self.interface.widget_id_generator());
         let ui = self.interface.set_widgets();
+
         create_widgets(ui, ids, image_id, (w, h), &self.fonts, &machine_snapshot);
 
         image_map
@@ -203,6 +203,7 @@ impl DisplayDrawer {
                     telemetry::gather_telemetry(&port, tx, None);
                 });
             }
+
             crate::Source::File(path) => {
                 std::thread::spawn(move || loop {
                     let file = std::fs::File::open(path).unwrap();
@@ -214,85 +215,8 @@ impl DisplayDrawer {
         rx
     }
 
-    // TODO: refactor, rename and relocate this
-    fn add_pressure(&self, data: &mut DataPressure, snapshot: DataSnapshot) {
-        assert!(self.chip.boot_time.is_some());
-
-        let snapshot_time =
-            self.chip.boot_time.unwrap() + Duration::microseconds(snapshot.systick as i64);
-
-        let point = snapshot.pressure / 10;
-        data.push_front((snapshot_time, point));
-    }
-
-    // TODO: relocate this
-    fn step_loop_telemetry(
-        &mut self,
-        rx: &Receiver<TelemetryMessage>,
-        data: &mut DataPressure,
-    ) -> Option<MachineStateSnapshot> {
-        let mut machine_snapshot = None;
-        loop {
-            match rx.try_recv() {
-                Ok(message) => match message {
-                    TelemetryMessage::BootMessage(snapshot) => {
-                        self.chip.reset(snapshot.systick);
-                    }
-                    TelemetryMessage::DataSnapshot(snapshot) => {
-                        self.chip.update_tick(snapshot.systick);
-                        self.add_pressure(data, snapshot);
-                    }
-                    TelemetryMessage::MachineStateSnapshot(snapshot) => {
-                        machine_snapshot = Some(snapshot);
-                    }
-                    _ => {}
-                },
-
-                Err(TryRecvError::Empty) => {
-                    break;
-                }
-
-                Err(TryRecvError::Disconnected) => {
-                    panic!("channel to serial port thread was closed");
-                }
-            }
-        }
-
-        machine_snapshot
-    }
-
-    // TODO: relocate this
-    fn step_loop_events(&mut self) -> HandleLoopOutcome {
-        for event in self.event_loop.next(&mut self.events_loop) {
-            // Use the `winit` backend feature to convert the winit event to a conrod one.
-            if let Some(event) = support::convert_event(event.clone(), &self.display) {
-                self.interface.handle_event(event);
-            }
-
-            // Break from the loop upon `Escape` or closed window.
-            if let glium::glutin::Event::WindowEvent { event, .. } = event.clone() {
-                match event {
-                    glium::glutin::WindowEvent::CloseRequested
-                    | glium::glutin::WindowEvent::KeyboardInput {
-                        input:
-                            glium::glutin::KeyboardInput {
-                                virtual_keycode: Some(glium::glutin::VirtualKeyCode::Escape),
-                                ..
-                            },
-                        ..
-                    } => {
-                        return HandleLoopOutcome::Break;
-                    }
-                    _ => (),
-                }
-            }
-        }
-
-        HandleLoopOutcome::Continue
-    }
-
     #[allow(clippy::ptr_arg)]
-    fn step_loop_refresh(&mut self, data: &DataPressure, snapshot: &MachineStateSnapshot) {
+    fn refresh(&mut self, data: &DataPressure, snapshot: &MachineStateSnapshot) {
         let image_map = self.render(data, &snapshot);
 
         if let Some(primitives) = self.interface.draw_if_changed() {

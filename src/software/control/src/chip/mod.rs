@@ -1,3 +1,8 @@
+// MakAir
+//
+// Copyright: 2020, Makers For Life
+// License: Public Domain License
+
 use chrono::{offset::Utc, DateTime};
 
 pub struct Chip {
@@ -16,6 +21,7 @@ impl Chip {
     fn update_boot_time(&mut self) {
         let now = Utc::now();
         let duration = chrono::Duration::microseconds(self.last_tick as i64);
+
         self.boot_time = Some(now - duration);
     }
 
@@ -25,6 +31,7 @@ impl Chip {
             self.reset(tick);
         } else {
             self.last_tick = tick;
+
             if self.boot_time.is_none() {
                 self.update_boot_time();
             }
@@ -33,6 +40,7 @@ impl Chip {
 
     pub fn reset(&mut self, new_tick: u64) {
         self.last_tick = new_tick;
+
         self.update_boot_time();
     }
 }
