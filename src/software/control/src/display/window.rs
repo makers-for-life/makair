@@ -27,6 +27,7 @@ impl DisplayWindow {
 
         // Create event loop
         let events_loop = EventsLoop::new();
+        let monitor = events_loop.get_available_monitors().nth(0).expect("You should at least have one monitor");
 
         // Create window
         let window = WindowBuilder::new()
@@ -34,7 +35,8 @@ impl DisplayWindow {
             .with_dimensions((DISPLAY_WINDOW_SIZE_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT).into())
             .with_decorations(false)
             .with_resizable(false)
-            .with_always_on_top(true);
+            .with_always_on_top(true)
+            .with_fullscreen(Some(monitor));
 
         // Create context
         let context = ContextBuilder::new().with_multisampling(4).with_vsync(true);
