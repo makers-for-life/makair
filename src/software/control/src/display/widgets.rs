@@ -38,6 +38,16 @@ widget_ids!(pub struct Ids {
   peep_value,
   peep_unit,
 
+  ratio_parent,
+  ratio_title,
+  ratio_value,
+  ratio_unit,
+
+  tidal_parent,
+  tidal_title,
+  tidal_value,
+  tidal_unit,
+
   no_data,
   stopped,
   error
@@ -72,7 +82,7 @@ pub fn create_widgets<'a>(
         .mid_top_with_margin(10.0)
         .set(ids.pressure_graph, &mut ui);
 
-    let mut cycles_position = 0.0;
+    let mut last_widget_position = 0.0;
 
     // Initialize the peak widget
     let peak_config = WidgetConfig {
@@ -89,13 +99,13 @@ pub fn create_widgets<'a>(
             ids.peak_value,
             ids.peak_unit,
         ),
-        x_position: cycles_position,
+        x_position: last_widget_position,
         y_position: 10.0,
         background_color: Color::Rgba(39.0 / 255.0, 66.0 / 255.0, 100.0 / 255.0, 1.0),
         fonts,
     };
 
-    cycles_position = create_widget(&mut ui, peak_config);
+    last_widget_position = create_widget(&mut ui, peak_config);
 
     // Initialize the plateau widget
     let plateau_config = WidgetConfig {
@@ -112,13 +122,13 @@ pub fn create_widgets<'a>(
             ids.plateau_value,
             ids.plateau_unit,
         ),
-        x_position: cycles_position,
+        x_position: last_widget_position,
         y_position: 0.0,
         background_color: Color::Rgba(66.0 / 255.0, 44.0 / 255.0, 85.0 / 255.0, 1.0),
         fonts,
     };
 
-    cycles_position = create_widget(&mut ui, plateau_config);
+    last_widget_position = create_widget(&mut ui, plateau_config);
 
     // Initialize the PEEP widget
     let peep_config = WidgetConfig {
@@ -135,13 +145,13 @@ pub fn create_widgets<'a>(
             ids.peep_value,
             ids.peep_unit,
         ),
-        x_position: cycles_position,
+        x_position: last_widget_position,
         y_position: 0.0,
         background_color: Color::Rgba(76.0 / 255.0, 73.0 / 255.0, 25.0 / 255.0, 1.0),
         fonts,
     };
 
-    cycles_position = create_widget(&mut ui, peep_config);
+    last_widget_position = create_widget(&mut ui, peep_config);
 
     // Initialize the cycles widget
     let cycles_config = WidgetConfig {
@@ -154,13 +164,51 @@ pub fn create_widgets<'a>(
             ids.cycles_value,
             ids.cycles_unit,
         ),
-        x_position: cycles_position,
+        x_position: last_widget_position,
         y_position: 0.0,
         background_color: Color::Rgba(47.0 / 255.0, 74.0 / 255.0, 16.0 / 255.0, 1.0),
         fonts,
     };
 
-    create_widget(&mut ui, cycles_config);
+    last_widget_position = create_widget(&mut ui, cycles_config);
+
+    // Initialize the ratio widget
+    let ratio_config = WidgetConfig {
+        title: "Insp-exp ratio",
+        value: "0:0".to_string(), // TODO
+        unit: "inspiration:expiration",
+        ids: (
+            ids.ratio_parent,
+            ids.ratio_title,
+            ids.ratio_value,
+            ids.ratio_unit,
+        ),
+        x_position: last_widget_position,
+        y_position: 0.0,
+        background_color: Color::Rgba(52.0 / 255.0, 52.0 / 255.0, 52.0 / 255.0, 1.0),
+        fonts,
+    };
+
+    last_widget_position = create_widget(&mut ui, ratio_config);
+
+    // Initialize the tidal widget
+    let tidal_config = WidgetConfig {
+        title: "Tidal volume",
+        value: "0".to_string(), // TODO
+        unit: "mL (milliliters)",
+        ids: (
+            ids.tidal_parent,
+            ids.tidal_title,
+            ids.tidal_value,
+            ids.tidal_unit,
+        ),
+        x_position: last_widget_position,
+        y_position: 0.0,
+        background_color: Color::Rgba(52.0 / 255.0, 52.0 / 255.0, 52.0 / 255.0, 1.0),
+        fonts,
+    };
+
+    create_widget(&mut ui, tidal_config);
 }
 
 pub fn create_widget(ui: &mut conrod_core::UiCell, config: WidgetConfig) -> f64 {
