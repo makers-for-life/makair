@@ -78,7 +78,9 @@ impl DisplayRenderer {
         image_map: conrod_core::image::Map<texture::Texture2d>,
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let ui = interface.set_widgets();
+
         widgets::create_stopped_widget(ui, ids, &self.fonts);
+
         image_map
     }
 
@@ -90,7 +92,9 @@ impl DisplayRenderer {
         error: String,
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let ui = interface.set_widgets();
+
         widgets::create_error_widget(ui, ids, &self.fonts, error);
+
         image_map
     }
 

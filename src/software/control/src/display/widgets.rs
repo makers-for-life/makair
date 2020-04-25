@@ -3,13 +3,14 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
-use super::fonts::Fonts;
 use conrod_core::widget::Id as WidgetId;
 use conrod_core::{
     color::{self, Color},
     widget, Colorable, Positionable, Sizeable, Widget,
 };
 use telemetry::structures::MachineStateSnapshot;
+
+use super::fonts::Fonts;
 
 pub type WidgetIds = (WidgetId, WidgetId, WidgetId, WidgetId);
 
@@ -64,7 +65,8 @@ pub fn create_widgets<'a>(
     widget::Canvas::new()
         .color(color::BLACK)
         .set(ids.background, &mut ui);
-    //Instantiate the `Image` at its full size in the middle of the window.
+
+    // Instantiate the `Image` at its full size in the middle of the window.
     widget::Image::new(image)
         .w_h(w as f64, h as f64)
         .mid_top_with_margin(10.0)
@@ -72,6 +74,7 @@ pub fn create_widgets<'a>(
 
     let mut cycles_position = 0.0;
 
+    // Initialize the peak widget
     let peak_config = WidgetConfig {
         title: "P(peak)",
         value: format!(
@@ -94,6 +97,7 @@ pub fn create_widgets<'a>(
 
     cycles_position = create_widget(&mut ui, peak_config);
 
+    // Initialize the plateau widget
     let plateau_config = WidgetConfig {
         title: "P(plateau)",
         value: format!(
@@ -116,6 +120,7 @@ pub fn create_widgets<'a>(
 
     cycles_position = create_widget(&mut ui, plateau_config);
 
+    // Initialize the PEEP widget
     let peep_config = WidgetConfig {
         title: "P(expiratory)",
         value: format!(
@@ -138,6 +143,7 @@ pub fn create_widgets<'a>(
 
     cycles_position = create_widget(&mut ui, peep_config);
 
+    // Initialize the cycles widget
     let cycles_config = WidgetConfig {
         title: "Cycles/minute",
         value: format!("{}", machine_snapshot.cpm_command),
@@ -172,9 +178,11 @@ pub fn create_widget(ui: &mut conrod_core::UiCell, config: WidgetConfig) -> f64 
         .set(config.ids.1, ui);
 
     let mut value_style = conrod_core::widget::primitive::text::Style::default();
+
     value_style.font_id = Some(Some(config.fonts.bold));
     value_style.color = Some(color::WHITE);
     value_style.font_size = Some(14);
+
     widget::Text::new(&config.value)
         .with_style(value_style)
         .mid_left_with_margin_on(config.ids.0, 20.0)
@@ -191,9 +199,11 @@ pub fn create_widget(ui: &mut conrod_core::UiCell, config: WidgetConfig) -> f64 
 
 pub fn create_no_data_widget(mut ui: conrod_core::UiCell, ids: Ids, fonts: &Fonts) {
     let mut text_style = conrod_core::widget::primitive::text::Style::default();
+
     text_style.font_id = Some(Some(fonts.bold));
     text_style.color = Some(color::WHITE);
     text_style.font_size = Some(30);
+
     widget::Text::new("Device disconnected or no data received")
         .color(color::WHITE)
         .middle()
@@ -203,9 +213,11 @@ pub fn create_no_data_widget(mut ui: conrod_core::UiCell, ids: Ids, fonts: &Font
 
 pub fn create_stopped_widget(mut ui: conrod_core::UiCell, ids: Ids, fonts: &Fonts) {
     let mut text_style = conrod_core::widget::primitive::text::Style::default();
+
     text_style.font_id = Some(Some(fonts.bold));
     text_style.color = Some(color::WHITE);
     text_style.font_size = Some(30);
+
     widget::Text::new("Press start to begin")
         .color(color::WHITE)
         .middle()
@@ -215,9 +227,11 @@ pub fn create_stopped_widget(mut ui: conrod_core::UiCell, ids: Ids, fonts: &Font
 
 pub fn create_error_widget(mut ui: conrod_core::UiCell, ids: Ids, fonts: &Fonts, error: String) {
     let mut text_style = conrod_core::widget::primitive::text::Style::default();
+
     text_style.font_id = Some(Some(fonts.bold));
     text_style.color = Some(color::WHITE);
     text_style.font_size = Some(30);
+
     widget::Text::new(&format!("An error happened:\n{}", error)) // using \n instead of the wrap methods because I couldn't make them work
         .color(color::WHITE)
         .align_top() // Aligned to top otherwise I can't make the line breaks work

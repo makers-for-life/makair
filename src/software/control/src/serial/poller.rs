@@ -33,9 +33,8 @@ impl SerialPoller {
         rx: &Receiver<TelemetryChannelType>,
         chip: &mut Chip,
     ) -> Result<PolledTelemetry, Error> {
-        let mut data_snapshots = Vec::new();
-        let mut machine_snapshot = None;
-        let mut stopped_message = None;
+        let (mut data_snapshots, mut machine_snapshot, mut stopped_message) =
+            (Vec::new(), None, None);
 
         loop {
             match rx.try_recv() {
@@ -44,17 +43,23 @@ impl SerialPoller {
                         TelemetryMessage::BootMessage(snapshot) => {
                             chip.reset(snapshot.systick);
                         }
+
                         TelemetryMessage::DataSnapshot(snapshot) => {
                             chip.update_tick(snapshot.systick);
+
                             data_snapshots.push(snapshot);
                         }
+
                         TelemetryMessage::MachineStateSnapshot(snapshot) => {
                             machine_snapshot = Some(snapshot);
                         }
+
                         TelemetryMessage::StoppedMessage(message) => {
                             chip.update_tick(message.systick);
+
                             stopped_message = Some(message);
                         }
+
                         _ => {}
                     },
                     Err(serial_error) => return Err(serial_error),
@@ -65,7 +70,7 @@ impl SerialPoller {
                 }
 
                 Err(TryRecvError::Disconnected) => {
-                    return Err(Error::new(ErrorKind::NoDevice, "Device is disconnected"))
+                    return Err(Error::new(ErrorKind::NoDevice, "device is disconnected"))
                 }
             }
         }

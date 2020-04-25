@@ -60,17 +60,13 @@ impl DisplayDrawerBuilder {
         fonts: Fonts,
     ) -> DisplayDrawer {
         // Create display
-        let display = glium::Display::new(window, context, &events_loop).unwrap();
-        let display = GliumDisplayWinitWrapper(display);
-
-        // Create renderers
-        let renderer = DisplayRendererBuilder::new(fonts);
-        let glium_renderer = conrod_glium::Renderer::new(&display.0).unwrap();
+        let display =
+            GliumDisplayWinitWrapper(glium::Display::new(window, context, &events_loop).unwrap());
 
         // Create drawer
         DisplayDrawer {
-            renderer,
-            glium_renderer,
+            renderer: DisplayRendererBuilder::new(fonts),
+            glium_renderer: conrod_glium::Renderer::new(&display.0).unwrap(),
             display,
             interface,
             events_loop,
