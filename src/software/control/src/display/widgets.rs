@@ -88,20 +88,6 @@ pub fn create_widgets<'a>(
 
     let mut last_widget_position = 0.0;
 
-    // TODO
-    // gen_widget_unit!(
-    //     "peak",
-    //     "P(peak)",
-    //     format!(
-    //         "{} <- ({})",
-    //         (machine_snapshot.previous_peak_pressure as f64 / 10.0).round(),
-    //         machine_snapshot.peak_command
-    //     ),
-    //     "cmH20",
-    //     Color::Rgba(39.0 / 255.0, 66.0 / 255.0, 100.0 / 255.0, 1.0),
-    //     last_widget_position
-    // );
-
     // Initialize the peak widget
     let peak_config = WidgetConfig {
         title: "P(peak)",
@@ -194,7 +180,7 @@ pub fn create_widgets<'a>(
     let ratio_config = WidgetConfig {
         title: "Insp-exp ratio",
         value: "0:0".to_string(), // TODO
-        unit: "inspiration:expiration",
+        unit: "insp:exp.",
         ids: (
             ids.ratio_parent,
             ids.ratio_title,
