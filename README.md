@@ -1,6 +1,6 @@
 MakAir — Covid-19 Ventilator
 =====
-trigger
+
 [![Firmware Lint](https://github.com/makers-for-life/makair/workflows/Firmware%20Lint/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Firmware+Lint%22) [![Firmware Unit Tests](https://github.com/makers-for-life/makair/workflows/Firmware%20Unit%20Tests/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Firmware+Unit+Tests%22) [![Control Lint](https://github.com/makers-for-life/makair/workflows/Control%20Lint/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Control+Lint%22) [![Telemetry All](https://github.com/makers-for-life/makair/workflows/Telemetry%20All/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Telemetry+All%22)
 
 **Mass-producible open-source Covid-19 ARDS ventilator. Aims at helping hospitals cope with a possible shortage of professional ventilators during the outbreak. Worldwide.**
