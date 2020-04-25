@@ -7,7 +7,8 @@ mod drawer;
 mod events;
 mod fonts;
 mod renderer;
+mod screen;
 mod support;
-mod widgets;
+mod widget;
 
 pub mod window;
