@@ -6,6 +6,7 @@
 mod drawer;
 mod events;
 mod fonts;
+mod renderer;
 mod support;
 mod widgets;
 
