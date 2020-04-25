@@ -9,6 +9,7 @@ use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
 use plotters::prelude::*;
 use telemetry::structures::MachineStateSnapshot;
 
+use crate::config::environment::GRAPH_DRAW_SECONDS;
 use crate::physics::types::DataPressure;
 
 use super::drawer::UIState;
@@ -115,7 +116,7 @@ impl DisplayRenderer {
         root.fill(&BLACK).unwrap();
 
         let newest = data_pressure.front().unwrap().0;
-        let oldest = newest - chrono::Duration::seconds(40);
+        let oldest = newest - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
 
         let mut chart = ChartBuilder::on(&root)
             .margin(10)

@@ -20,14 +20,14 @@ use crate::physics::types::DataPressure;
 use crate::serial::poller::SerialPollerBuilder;
 use crate::APP_ARGS;
 
+use crate::config::environment::GRAPH_DRAW_SECONDS;
 use super::events::{DisplayEventsBuilder, DisplayEventsHandleOutcome};
 use super::fonts::Fonts;
 use super::renderer::{DisplayRenderer, DisplayRendererBuilder};
 use super::support::GliumDisplayWinitWrapper;
 
-const GRAPH_RENDER_SECONDS: usize = 40;
 const TELEMETRY_POINTS_PER_SECOND: usize = 10 * 100;
-const GRAPH_NUMBER_OF_POINTS: usize = GRAPH_RENDER_SECONDS * TELEMETRY_POINTS_PER_SECOND;
+const GRAPH_NUMBER_OF_POINTS: usize = GRAPH_DRAW_SECONDS * TELEMETRY_POINTS_PER_SECOND;
 const FRAMERATE: u64 = 30;
 
 pub struct DisplayDrawerBuilder;
@@ -143,7 +143,7 @@ impl DisplayDrawer {
 
             if (now - last_render) > Duration::milliseconds((1000 / FRAMERATE) as _) {
                 if !data.is_empty() {
-                    let older = now - chrono::Duration::seconds(40);
+                    let older = now - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
 
                     while data.back().map(|p| p.0 < older).unwrap_or(false) {
                         data.pop_back();
