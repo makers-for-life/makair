@@ -202,6 +202,11 @@ void PressureController::compute(uint16_t p_centiSec) {
     // Update the cycle phase
     updatePhase(p_centiSec);
 
+    Serial.print(m_pressureCommand);
+    Serial.print(",");
+    Serial.print(m_pressure);
+    Serial.println("");
+
     // Compute metrics for alarms
     m_sumOfPressures += m_pressure;
     m_numberOfPressures++;
@@ -213,7 +218,7 @@ void PressureController::compute(uint16_t p_centiSec) {
         break;
     }
     case CycleSubPhases::HOLD_INSPIRATION: {
-        plateau();
+        plateau(p_centiSec);
         break;
     }
     case CycleSubPhases::EXHALE:
@@ -403,7 +408,8 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
 
 void PressureController::inhale() {
     // Open the air stream towards the patient's lungs
-    m_blower_valve.open(pidBlower(m_pressureCommand, m_pressure, m_dt));
+    m_peakBlowerValveAnlge = pidBlower(m_pressureCommand, m_pressure, m_dt);
+    m_blower_valve.open(m_peakBlowerValveAnlge);
 
     // Open the air stream towards the patient's lungs
     m_patient_valve.close();
@@ -412,8 +418,15 @@ void PressureController::inhale() {
     m_peakPressure = max(m_pressure, m_peakPressure);
 }
 
-void PressureController::plateau() {
+void PressureController::plateau(uint16_t p_centiSec) {
     // Deviate the air stream outside
+    //m_blower_valve.close();
+
+    /*if (p_centiSec < m_plateauStartTime +30){
+        m_blower_valve.open( (p_centiSec- m_plateauStartTime)* (VALVE_CLOSED_STATE-m_peakBlowerValveAnlge)/30 + m_peakBlowerValveAnlge);
+    } else{
+        m_blower_valve.close();
+    }*/
     m_blower_valve.close();
 
     // Close the air stream towards the patient's lungs
@@ -546,4 +559,54 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
             min(maxAperture, maxAperture + (maxAperture - minAperture) * patientCommand / 1000));
 
     return patientAperture;
+}
+
+void PressureController::testFuite(){
+
+    m_blower->runSpeed(1500);
+    m_blower_valve.open(0);
+    m_patient_valve.open(55);
+    m_blower_valve.execute();
+    m_patient_valve.execute();
+    delay(4000);
+    int lastTime = millis();
+
+    while(1){
+
+        while(millis()-lastTime< 2000){
+            m_blower_valve.open(125);
+            m_patient_valve.open(55);
+            m_blower_valve.execute();
+            Serial.println(readPressureSensor(0, 0));
+            m_patient_valve.execute();
+        }
+        lastTime = millis();
+        while(millis()-lastTime< 2000){
+            m_blower_valve.open(100);
+            m_patient_valve.open(55);
+            Serial.println(readPressureSensor(0, 0));
+            m_blower_valve.execute();
+            m_patient_valve.execute();
+        }
+        lastTime = millis();
+    }
+
+    for (int i = 0; i<125; i++){
+        m_blower_valve.open(i);
+        m_patient_valve.open(55);
+        m_blower_valve.execute();
+        m_patient_valve.execute();
+        Serial.print(i);
+        Serial.print(";");
+        delay(2000);
+
+        int sum = 0;
+        int count = 0;
+        for (int j = 0; j<50; j++){
+            sum += readPressureSensor(0, 0);
+            count+=1;
+        }
+        Serial.println(sum/count);
+    }
+
 }

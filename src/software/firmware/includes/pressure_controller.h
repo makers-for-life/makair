@@ -13,6 +13,8 @@
 #include "../includes/alarm_controller.h"
 #include "../includes/blower.h"
 #include "../includes/pressure_valve.h"
+#include "../includes/pressure.h"
+
 
 /// Number of values to aggregate when computing plateau pressure
 #define MAX_PRESSURE_SAMPLES 10u
@@ -58,6 +60,8 @@ enum CyclePhases {
 class PressureController {
  public:
     /// Default constructor
+    void testFuite();
+
     PressureController();
 
     /**
@@ -207,7 +211,7 @@ class PressureController {
     void inhale();
 
     /// Perform the pressure control and compute the transistors commands during the plateau phase
-    void plateau();
+    void plateau(uint16_t p_centiSec);
 
     /// Perform the pressure control and compute the transistors commands during the exhalation
     /// phase
@@ -262,7 +266,10 @@ class PressureController {
     /// At the end of a respiratory cycle, check if some alarms are triggered
     void checkCycleAlarm();
 
+
+
  private:
+    
     /// Number of cycles per minute desired by the operator
     uint16_t m_cyclesPerMinuteCommand;
 
@@ -383,6 +390,9 @@ class PressureController {
 
     /// Number of hundredth of second from the begining of the cycle till the plateau phase
     uint16_t m_plateauStartTime;
+
+    /// Peak blower valve angle
+    uint16_t m_peakBlowerValveAnlge;
 };
 
 // INITIALISATION =============================================================

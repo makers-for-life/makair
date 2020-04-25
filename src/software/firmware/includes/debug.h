@@ -28,12 +28,12 @@
  */
 #if DEBUG == 1
 #define DBG_AFFICHE_CSPCYCLE_CSPINSPI(csparcycle, csparinspi)                                      \
-    Serial.println();                                                                              \
+    /*Serial.println();                                                                              \
     Serial.println("------ Starting cycle ------");                                                \
     Serial.print("nbreCentiemeSecParCycle = ");                                                    \
     Serial.println(csparcycle);                                                                    \
     Serial.print("nbreCentiemeSecParInspi = ");                                                    \
-    Serial.println(csparinspi);
+    Serial.println(csparinspi);*/
 #else
 #define DBG_AFFICHE_CSPCYCLE_CSPINSPI(cspc, cspi)
 #endif
@@ -48,14 +48,14 @@
  */
 #if DEBUG == 1
 #define DBG_AFFICHE_CONSIGNES(csgNBcycle, csgOuverture, csgPPEP, csgPPM)                           \
-    Serial.print("consigneNbCycle = ");                                                            \
+    /*Serial.print("consigneNbCycle = ");                                                            \
     Serial.println(csgNBcycle);                                                                    \
     Serial.print("consigneOuverture = ");                                                          \
     Serial.println(csgOuverture);                                                                  \
     Serial.print("consignePressionPEP = ");                                                        \
     Serial.println(csgPPEP);                                                                       \
     Serial.print("consignePressionPlateauMax = ");                                                 \
-    Serial.println(csgPPM);
+    Serial.println(csgPPM);*/
 #else
 #define DBG_AFFICHE_CONSIGNES(csgNBcycle, csgOuverture, csgPPEP, csgPPM)
 #endif
@@ -108,7 +108,7 @@
 #define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \
                            positionBlower, consignePatient, positionPatient)                       \
     if ((centieme % periode) == 0u) {                                                              \
-        Serial.print((cycle * 300u) + centieme);                                                   \
+        /*Serial.print((cycle * 300u) + centieme);                                                   \
         Serial.print(";");                                                                         \
         Serial.print(cycle);                                                                       \
         Serial.print(";");                                                                         \
@@ -126,7 +126,7 @@
         Serial.print(";");                                                                         \
         Serial.print(150u - consignePatient);                                                      \
         Serial.print(";");                                                                         \
-        Serial.println(150u - positionPatient);                                                    \
+        Serial.println(150u - positionPatient);  */                                                  \
     }
 #else
 #define DBG_PHASE_PRESSION(cycle, centieme, periode, phase, subPhase, pression, consigneBlower,    \

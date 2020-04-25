@@ -54,8 +54,8 @@ uint16_t PWM_LUT(uint16_t input)
 	float out;
 	
 	//Entre 0 % et 5 % LUT(x) = 0
-//Entre 5 % et 95 % LUT(x) = 3.9229E-05*x ^ 3 + 0.06*x + 48
-//Entre 95 % et 100 % LUT(x) = 100
+    //Entre 5 % et 95 % LUT(x) = 3.9229E-05*x ^ 3 + 0.06*x + 48
+    //Entre 95 % et 100 % LUT(x) = 100
 	if(inputf >= 0 && inputf <= 5.0)
 	{
 		out = 0.0;

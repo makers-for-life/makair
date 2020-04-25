@@ -217,8 +217,8 @@ void setup(void) {
     }
 
     // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
-    IWatchdog.begin(WATCHDOG_TIMEOUT);
-    IWatchdog.reload();
+    //IWatchdog.begin(WATCHDOG_TIMEOUT);
+    //IWatchdog.reload();
 }
 
 // Time of the previous loop iteration
@@ -230,6 +230,9 @@ int8_t cyclesBeforeScreenReset = LCD_RESET_PERIOD * (int8_t)CONST_MIN_CYCLE;
 
 // cppcheck-suppress unusedFunction
 void loop(void) {
+
+    //pController.testFuite();
+    //delay(10000000);
     /********************************************/
     // INITIALIZE THE RESPIRATORY CYCLE
     /********************************************/
