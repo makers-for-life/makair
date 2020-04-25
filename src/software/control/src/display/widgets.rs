@@ -254,7 +254,7 @@ pub fn create_widget(ui: &mut conrod_core::UiCell, config: WidgetConfig) -> f64 
 
     widget::Text::new(&config.value)
         .with_style(value_style)
-        .mid_left_with_margin_on(config.ids.0, 18.0, 20.0)
+        .mid_left_with_margin_on(config.ids.0, 20.0)
         .font_size(17)
         .set(config.ids.2, ui);
 
