@@ -78,17 +78,8 @@ class AlarmController {
                         CycleSubPhases p_subphase,
                         uint32_t p_cycle_number);
 
-    /// Archive alarms triggered during this cycle
-    void changeCycle(void);
-
     /// Get the alarms triggered during this cycle
-    uint8_t* currentCycleAlarms() { return m_currentCycleAlarms; }
-
-    /// Get the alarms triggered during the previous cycle
-    uint8_t* previousCycleAlarms() { return m_previousCycleAlarms; }
-
-    /// Clear both alarm logs
-    void clearAlarmLogs();
+    uint8_t* triggeredAlarms() { return m_triggeredAlarms; }
 
  private:
     /// Highest priority of the currently triggered alarms
@@ -103,11 +94,8 @@ class AlarmController {
     /// Collections of snoozed alarms
     bool m_snoozedAlarms[ALARMS_SIZE];
 
-    /// Alarms triggered during this cycle
-    uint8_t m_currentCycleAlarms[ALARMS_SIZE];
-
-    /// Alarms triggered during the previous cycle
-    uint8_t m_previousCycleAlarms[ALARMS_SIZE];
+    /// Alarms currently triggered
+    uint8_t m_triggeredAlarms[ALARMS_SIZE];
 
     /// Current pressure
     uint16_t m_centile;

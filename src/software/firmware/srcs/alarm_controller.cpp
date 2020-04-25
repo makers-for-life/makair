@@ -10,6 +10,7 @@
 // INCLUDES ===================================================================
 
 // Externals
+#include <algorithm>
 
 // Internals
 #include "../includes/alarm_controller.h"
@@ -122,7 +123,9 @@ AlarmController::AlarmController()
     for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
         m_snoozedAlarms[i] = false;
     }
-    this->clearAlarmLogs();
+    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
+        m_triggeredAlarms[i] = 0u;
+    }
 }
 
 void AlarmController::snooze() {
@@ -158,11 +161,11 @@ void AlarmController::detectedAlarm(uint8_t p_alarmCode,
 
             if (current->isTriggered()) {
                 for (uint8_t j = 0; j < ALARMS_SIZE; j++) {
-                    if (m_currentCycleAlarms[j] == p_alarmCode) {
+                    if (m_triggeredAlarms[j] == p_alarmCode) {
                         break;
                     }
-                    if (m_currentCycleAlarms[j] == 0u) {
-                        m_currentCycleAlarms[j] = p_alarmCode;
+                    if (m_triggeredAlarms[j] == 0u) {
+                        m_triggeredAlarms[j] = p_alarmCode;
                         break;
                     }
                 }
@@ -180,6 +183,24 @@ void AlarmController::detectedAlarm(uint8_t p_alarmCode,
     }
 }
 
+int compare(uint8_t a, uint8_t b) {
+    int result = 0;
+
+    if (a == b) {
+        result = 0;
+    } else if (a == 0u) {
+        result = 1;
+    } else if (b == 0u) {
+        result = -1;
+    } else if (a < b) {
+        result = -1;
+    } else {
+        result = 1;
+    }
+
+    return result;
+}
+
 void AlarmController::notDetectedAlarm(uint8_t p_alarmCode) {
     for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
         Alarm* current = &m_alarms[i];
@@ -187,13 +208,23 @@ void AlarmController::notDetectedAlarm(uint8_t p_alarmCode) {
         if (current->getCode() == p_alarmCode) {
             current->notDetected();
 
+            if (!current->isTriggered()) {
+                for (uint8_t j = 0; j < ALARMS_SIZE; j++) {
+                    if (m_triggeredAlarms[j] == p_alarmCode) {
+                        m_triggeredAlarms[j] = 0u;
+                        std::sort(m_triggeredAlarms, &m_triggeredAlarms[ALARMS_SIZE], compare);
+                        break;
+                    }
+                }
+
 #if HARDWARE_VERSION == 2
-            if (wasTriggered && !current->isTriggered()) {
-                sendAlarmTrap(m_centile, m_pressure, m_phase, m_subphase, m_cycle_number,
-                              current->getCode(), current->getPriority(), false, 0u, 0u,
-                              current->getCyclesSinceTrigger());
-            }
+                if (wasTriggered) {
+                    sendAlarmTrap(m_centile, m_pressure, m_phase, m_subphase, m_cycle_number,
+                                  current->getCode(), current->getPriority(), false, 0u, 0u,
+                                  current->getCyclesSinceTrigger());
+                }
 #endif
+            }
             break;
         }
     }
@@ -288,22 +319,4 @@ void AlarmController::updateCoreData(uint16_t p_centile,
     m_phase = p_phase;
     m_subphase = p_subphase;
     m_cycle_number = p_cycle_number;
-}
-
-void AlarmController::changeCycle() {
-    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
-        m_previousCycleAlarms[i] = m_currentCycleAlarms[i];
-    }
-    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
-        m_currentCycleAlarms[i] = 0;
-    }
-}
-
-void AlarmController::clearAlarmLogs() {
-    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
-        m_currentCycleAlarms[i] = 0;
-    }
-    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
-        m_previousCycleAlarms[i] = 0;
-    }
 }

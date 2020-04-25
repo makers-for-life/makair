@@ -74,7 +74,6 @@ pub struct MachineStateSnapshot {
     pub previous_plateau_pressure: u16,
     pub previous_peep_pressure: u16,
     pub current_alarm_codes: Vec<u8>,
-    pub previous_alarm_codes: Vec<u8>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
