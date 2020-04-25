@@ -35,7 +35,11 @@ widget_ids!(pub struct Ids {
   peep_parent,
   peep_title,
   peep_value,
-  peep_unit
+  peep_unit,
+
+  no_data,
+  stopped,
+  error
 });
 
 pub struct WidgetConfig<'a> {
@@ -183,4 +187,40 @@ pub fn create_widget(ui: &mut conrod_core::UiCell, config: WidgetConfig) -> f64 
         .set(config.ids.3, ui);
 
     10.0 + 120.0
+}
+
+pub fn create_no_data_widget(mut ui: conrod_core::UiCell, ids: Ids, fonts: &Fonts) {
+    let mut text_style = conrod_core::widget::primitive::text::Style::default();
+    text_style.font_id = Some(Some(fonts.bold));
+    text_style.color = Some(color::WHITE);
+    text_style.font_size = Some(30);
+    widget::Text::new("Device disconnected or no data received")
+        .color(color::WHITE)
+        .middle()
+        .with_style(text_style)
+        .set(ids.no_data, &mut ui);
+}
+
+pub fn create_stopped_widget(mut ui: conrod_core::UiCell, ids: Ids, fonts: &Fonts) {
+    let mut text_style = conrod_core::widget::primitive::text::Style::default();
+    text_style.font_id = Some(Some(fonts.bold));
+    text_style.color = Some(color::WHITE);
+    text_style.font_size = Some(30);
+    widget::Text::new("Press start to begin")
+        .color(color::WHITE)
+        .middle()
+        .with_style(text_style)
+        .set(ids.stopped, &mut ui);
+}
+
+pub fn create_error_widget(mut ui: conrod_core::UiCell, ids: Ids, fonts: &Fonts, error: String) {
+    let mut text_style = conrod_core::widget::primitive::text::Style::default();
+    text_style.font_id = Some(Some(fonts.bold));
+    text_style.color = Some(color::WHITE);
+    text_style.font_size = Some(30);
+    widget::Text::new(&format!("An error happened:\n{}", error)) // using \n instead of the wrap methods because I couldn't make them work
+        .color(color::WHITE)
+        .align_top() // Aligned to top otherwise I can't make the line breaks work
+        .with_style(text_style)
+        .set(ids.error, &mut ui);
 }

@@ -14,7 +14,6 @@ use std::fs::OpenOptions;
 use std::io::BufWriter;
 use std::sync::mpsc::{Receiver, Sender, TryRecvError};
 
-use telemetry::structures::*;
 use telemetry::*;
 
 #[derive(Clap)]
@@ -76,7 +75,7 @@ fn main() {
 }
 
 fn debug(cfg: Debug) {
-    let (tx, rx): (Sender<TelemetryMessage>, Receiver<TelemetryMessage>) =
+    let (tx, rx): (Sender<TelemetryChannelType>, Receiver<TelemetryChannelType>) =
         std::sync::mpsc::channel();
     std::thread::spawn(move || {
         gather_telemetry(&cfg.port, tx, None);
@@ -104,7 +103,7 @@ fn record(cfg: Record) {
         .unwrap();
     let file_buffer = BufWriter::new(file);
 
-    let (tx, rx): (Sender<TelemetryMessage>, Receiver<TelemetryMessage>) =
+    let (tx, rx): (Sender<TelemetryChannelType>, Receiver<TelemetryChannelType>) =
         std::sync::mpsc::channel();
     std::thread::spawn(move || {
         gather_telemetry(&cfg.port, tx, Some(file_buffer));
@@ -126,7 +125,7 @@ fn record(cfg: Record) {
 
 fn play(cfg: Play) {
     let file = File::open(cfg.input).unwrap();
-    let (tx, rx): (Sender<TelemetryMessage>, Receiver<TelemetryMessage>) =
+    let (tx, rx): (Sender<TelemetryChannelType>, Receiver<TelemetryChannelType>) =
         std::sync::mpsc::channel();
     std::thread::spawn(move || {
         gather_telemetry_from_file(file, tx);
