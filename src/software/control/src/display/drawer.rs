@@ -20,11 +20,11 @@ use crate::physics::types::DataPressure;
 use crate::serial::poller::SerialPollerBuilder;
 use crate::APP_ARGS;
 
-use crate::config::environment::GRAPH_DRAW_SECONDS;
 use super::events::{DisplayEventsBuilder, DisplayEventsHandleOutcome};
 use super::fonts::Fonts;
 use super::renderer::{DisplayRenderer, DisplayRendererBuilder};
 use super::support::GliumDisplayWinitWrapper;
+use crate::config::environment::GRAPH_DRAW_SECONDS;
 
 const TELEMETRY_POINTS_PER_SECOND: usize = 10 * 100;
 const GRAPH_NUMBER_OF_POINTS: usize = GRAPH_DRAW_SECONDS * TELEMETRY_POINTS_PER_SECOND;
