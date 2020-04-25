@@ -10,6 +10,10 @@ use conrod_core::{
 };
 use telemetry::structures::MachineStateSnapshot;
 
+use crate::config::environment::{
+    DISPLAY_WIDGET_SIZE_HEIGHT, DISPLAY_WIDGET_SIZE_SPACING, DISPLAY_WIDGET_SIZE_WIDTH,
+};
+
 use super::fonts::Fonts;
 
 pub type WidgetIds = (WidgetId, WidgetId, WidgetId, WidgetId);
@@ -83,6 +87,20 @@ pub fn create_widgets<'a>(
         .set(ids.pressure_graph, &mut ui);
 
     let mut last_widget_position = 0.0;
+
+    // TODO
+    // gen_widget_unit!(
+    //     "peak",
+    //     "P(peak)",
+    //     format!(
+    //         "{} <- ({})",
+    //         (machine_snapshot.previous_peak_pressure as f64 / 10.0).round(),
+    //         machine_snapshot.peak_command
+    //     ),
+    //     "cmH20",
+    //     Color::Rgba(39.0 / 255.0, 66.0 / 255.0, 100.0 / 255.0, 1.0),
+    //     last_widget_position
+    // );
 
     // Initialize the peak widget
     let peak_config = WidgetConfig {
@@ -214,15 +232,18 @@ pub fn create_widgets<'a>(
 pub fn create_widget(ui: &mut conrod_core::UiCell, config: WidgetConfig) -> f64 {
     let parent = widget::Canvas::new()
         .color(config.background_color)
-        .w_h(120.0, 75.0)
-        .bottom_left_with_margins(config.y_position, config.x_position + 10.0);
+        .w_h(DISPLAY_WIDGET_SIZE_WIDTH, DISPLAY_WIDGET_SIZE_HEIGHT)
+        .bottom_left_with_margins(
+            config.y_position,
+            config.x_position + DISPLAY_WIDGET_SIZE_SPACING,
+        );
 
     parent.set(config.ids.0, ui);
 
     widget::Text::new(config.title)
         .color(color::WHITE)
         .top_left_with_margins_on(config.ids.0, 10.0, 20.0)
-        .font_size(12)
+        .font_size(11)
         .set(config.ids.1, ui);
 
     let mut value_style = conrod_core::widget::primitive::text::Style::default();
@@ -233,16 +254,17 @@ pub fn create_widget(ui: &mut conrod_core::UiCell, config: WidgetConfig) -> f64 
 
     widget::Text::new(&config.value)
         .with_style(value_style)
-        .mid_left_with_margin_on(config.ids.0, 20.0)
+        .mid_left_with_margin_on(config.ids.0, 18.0, 20.0)
+        .font_size(17)
         .set(config.ids.2, ui);
 
     widget::Text::new(config.unit)
-        .color(color::WHITE)
-        .bottom_left_with_margins_on(config.ids.0, 15.0, 20.0)
-        .font_size(10)
+        .color(color::WHITE.with_alpha(0.2))
+        .bottom_left_with_margins_on(config.ids.0, 12.0, 20.0)
+        .font_size(11)
         .set(config.ids.3, ui);
 
-    10.0 + 120.0
+    DISPLAY_WIDGET_SIZE_WIDTH
 }
 
 pub fn create_no_data_widget(mut ui: conrod_core::UiCell, ids: Ids, fonts: &Fonts) {
