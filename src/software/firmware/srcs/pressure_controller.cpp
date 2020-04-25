@@ -174,6 +174,8 @@ void PressureController::initRespiratoryCycle() {
     m_plateauStartTime = 0u;
 
     m_alarmController->changeCycle();
+
+    m_trigger = false;
 }
 
 void PressureController::endRespiratoryCycle() {
@@ -436,6 +438,10 @@ void PressureController::exhale() {
     // Open the valve so the patient can exhale outside
     m_patient_valve.open(pidPatient(m_pressureCommand, m_pressure, m_dt));
 
+    if (m_pressure < m_pressureCommand - 20 && m_pressure >20){
+        m_trigger = true;
+    } 
+
     // Update the PEEP
     m_peep = m_pressure;
 }
@@ -537,7 +543,7 @@ void PressureController::computeCentiSecParameters() {
     m_centiSecPerCycle = 60u * 100u / m_cyclesPerMinute;
     // Inhalation = 1/3 of the cycle duration,
     // Exhalation = 2/3 of the cycle duration
-    m_centiSecPerInhalation = m_centiSecPerCycle / 3u;
+    m_centiSecPerInhalation = 100;// / 3u;
 }
 
 void PressureController::executeCommands() {

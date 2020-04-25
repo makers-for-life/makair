@@ -295,7 +295,7 @@ void loop(void) {
     /********************************************/
     uint16_t centiSec = 0;
 
-    while (centiSec < pController.centiSecPerCycle()) {
+    while (centiSec < pController.centiSecPerCycle() && !pController.trigger() ) {
         uint32_t pressure = readPressureSensor(centiSec, pressureOffset);
 
         uint32_t currentDate = millis();

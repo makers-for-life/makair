@@ -105,6 +105,7 @@ class PressureController {
      */
     void onPeakPressureIncrease(uint8_t p_increment);
 
+
     /// Get the desired number of cycles per minute
     inline uint16_t cyclesPerMinuteCommand() const { return m_cyclesPerMinuteCommand; }
 
@@ -152,6 +153,9 @@ class PressureController {
 
     /// Get the patient's Pressure Valve instance
     inline const PressureValve& patient_valve() const { return m_patient_valve; }
+
+    inline const bool trigger() const { return m_trigger; }
+    
 
     /**
      * Input the real duration since the last pressure controller computation
@@ -273,6 +277,8 @@ class PressureController {
 
     /// Positive End Expiratory Pressure
     uint16_t m_peep;
+
+    bool m_trigger;
 
     /// Current respiratory cycle phase
     CyclePhases m_phase;
