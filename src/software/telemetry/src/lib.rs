@@ -148,7 +148,7 @@ pub fn display_message(message: TelemetryChannelType) {
             debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
         Err(e) => {
-            info!("An error occured: {:?}", e);
+            warn!("An error occurred: {:?}", e);
         }
     }
 }
