@@ -5,22 +5,17 @@
 
 use std::sync::mpsc::{Receiver, TryRecvError};
 
-use chrono::Duration;
 use telemetry::serial::core::{Error, ErrorKind};
-use telemetry::structures::{DataSnapshot, MachineStateSnapshot, TelemetryMessage};
+use telemetry::structures::{DataSnapshot, MachineStateSnapshot, StoppedMessage, TelemetryMessage};
 use telemetry::{self, TelemetryChannelType};
 
 use crate::chip::Chip;
-use crate::physics::types::DataPressure;
 
 pub struct SerialPollerBuilder;
-
-pub struct SerialPoller {
-    chip: Chip,
-}
+pub struct SerialPoller;
 
 #[derive(Debug, Default)]
-struct PolledTelemetry {
+pub struct PolledTelemetry {
     pub data_snapshots: Option<Vec<DataSnapshot>>,
     pub machine_snapshot: Option<MachineStateSnapshot>,
     pub stopped_message: Option<StoppedMessage>,
@@ -28,7 +23,7 @@ struct PolledTelemetry {
 
 impl SerialPollerBuilder {
     pub fn new() -> SerialPoller {
-        SerialPoller { chip: Chip::new() }
+        SerialPoller {}
     }
 }
 
@@ -36,7 +31,8 @@ impl SerialPoller {
     pub fn poll(
         &mut self,
         rx: &Receiver<TelemetryChannelType>,
-    ) -> Result<MachineStateSnapshot, Error> {
+        chip: &mut Chip,
+    ) -> Result<PolledTelemetry, Error> {
         let mut data_snapshots = Vec::new();
         let mut machine_snapshot = None;
         let mut stopped_message = None;
@@ -46,17 +42,17 @@ impl SerialPoller {
                 Ok(message) => match message {
                     Ok(message) => match message {
                         TelemetryMessage::BootMessage(snapshot) => {
-                            self.chip.reset(snapshot.systick);
+                            chip.reset(snapshot.systick);
                         }
                         TelemetryMessage::DataSnapshot(snapshot) => {
-                            self.chip.update_tick(snapshot.systick);
+                            chip.update_tick(snapshot.systick);
                             data_snapshots.push(snapshot);
                         }
                         TelemetryMessage::MachineStateSnapshot(snapshot) => {
                             machine_snapshot = Some(snapshot);
                         }
                         TelemetryMessage::StoppedMessage(message) => {
-                            self.chip.update_tick(message.systick);
+                            chip.update_tick(message.systick);
                             stopped_message = Some(message);
                         }
                         _ => {}
@@ -83,16 +79,5 @@ impl SerialPoller {
             machine_snapshot,
             stopped_message,
         })
-    }
-
-    fn add_pressure(&self, data: &mut DataPressure, snapshot: &DataSnapshot) {
-        assert!(self.chip.boot_time.is_some());
-
-        let snapshot_time =
-            self.chip.boot_time.unwrap() + Duration::microseconds(snapshot.systick as i64);
-
-        let point = snapshot.pressure / 10;
-
-        data.push_front((snapshot_time, point));
     }
 }

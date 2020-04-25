@@ -14,9 +14,10 @@ use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
 use plotters::prelude::*;
 use std::collections::VecDeque;
 use telemetry::serial::core::ErrorKind;
-use telemetry::structures::MachineStateSnapshot;
+use telemetry::structures::{DataSnapshot, MachineStateSnapshot};
 use telemetry::{self, TelemetryChannelType};
 
+use crate::chip::Chip;
 use crate::physics::types::DataPressure;
 use crate::serial::poller::SerialPollerBuilder;
 use crate::APP_ARGS;
@@ -41,6 +42,7 @@ pub struct DisplayDrawer {
     interface: Ui,
     events_loop: EventsLoop,
     fonts: Fonts,
+    chip: Chip,
     ui_state: UIState,
 }
 
@@ -75,6 +77,7 @@ impl DisplayDrawerBuilder {
             interface,
             events_loop,
             fonts,
+            chip: Chip::new(),
             ui_state: UIState::WaitingData,
         }
     }
@@ -101,7 +104,7 @@ impl DisplayDrawer {
 
         'main: loop {
             // Receive telemetry data (from the input serial from the motherboard)
-            match serial_poller.poll(&rx) {
+            match serial_poller.poll(&rx, &mut self.chip) {
                 Ok(polled) => {
                     if let Some(data_snapshots) = polled.data_snapshots {
                         self.ui_state = UIState::Running;
@@ -319,5 +322,16 @@ impl DisplayDrawer {
 
             target.finish().unwrap();
         }
+    }
+
+    fn add_pressure(&self, data: &mut DataPressure, snapshot: &DataSnapshot) {
+        assert!(self.chip.boot_time.is_some());
+
+        let snapshot_time =
+            self.chip.boot_time.unwrap() + Duration::microseconds(snapshot.systick as i64);
+
+        let point = snapshot.pressure / 10;
+
+        data.push_front((snapshot_time, point));
     }
 }
