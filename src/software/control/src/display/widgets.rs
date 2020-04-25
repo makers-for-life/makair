@@ -230,13 +230,11 @@ pub fn create_widgets<'a>(
 }
 
 pub fn create_widget(ui: &mut conrod_core::UiCell, config: WidgetConfig) -> f64 {
-    let parent = widget::Canvas::new()
-        .color(config.background_color)
-        .w_h(DISPLAY_WIDGET_SIZE_WIDTH, DISPLAY_WIDGET_SIZE_HEIGHT)
-        .bottom_left_with_margins(
-            config.y_position,
-            config.x_position + DISPLAY_WIDGET_SIZE_SPACING,
-        );
+    let parent_fill = widget::primitive::shape::Style::Fill(Some(config.background_color));
+    let parent_dimensions = [DISPLAY_WIDGET_SIZE_WIDTH, DISPLAY_WIDGET_SIZE_HEIGHT];
+
+    let parent = widget::rounded_rectangle::RoundedRectangle::styled(parent_dimensions, 2.5, parent_fill)
+        .bottom_left_with_margins(config.y_position, config.x_position + DISPLAY_WIDGET_SIZE_SPACING);
 
     parent.set(config.ids.0, ui);
 
