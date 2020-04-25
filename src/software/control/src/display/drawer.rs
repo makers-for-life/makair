@@ -9,24 +9,24 @@ use chrono::offset::Utc;
 use chrono::Duration;
 use conrod_core::Ui;
 use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
-use glium::Surface;
+use glium::{texture, Surface};
 use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
 use plotters::prelude::*;
 use std::collections::VecDeque;
-use telemetry::{
-    self,
-    structures::MachineStateSnapshot,
-    structures::TelemetryMessage,
-};
+use telemetry::serial::core::ErrorKind;
+use telemetry::structures::MachineStateSnapshot;
+use telemetry::{self, TelemetryChannelType};
 
 use crate::physics::types::DataPressure;
-use crate::serial::handler::SerialHandlerBuilder;
+use crate::serial::poller::SerialPollerBuilder;
 use crate::APP_ARGS;
 
 use super::events::{DisplayEventsBuilder, DisplayEventsHandleOutcome};
 use super::fonts::Fonts;
 use super::support::GliumDisplayWinitWrapper;
-use super::widgets::{create_widgets, Ids};
+use super::widgets::{
+    create_error_widget, create_no_data_widget, create_stopped_widget, create_widgets, Ids,
+};
 
 const GRAPH_RENDER_SECONDS: usize = 40;
 const TELEMETRY_POINTS_PER_SECOND: usize = 10 * 100;
@@ -41,6 +41,15 @@ pub struct DisplayDrawer {
     interface: Ui,
     events_loop: EventsLoop,
     fonts: Fonts,
+    ui_state: UIState,
+}
+
+#[derive(Debug, Clone)]
+enum UIState {
+    Running,
+    Stopped,
+    WaitingData,
+    Error(String),
 }
 
 impl DisplayDrawerBuilder {
@@ -66,6 +75,7 @@ impl DisplayDrawerBuilder {
             interface,
             events_loop,
             fonts,
+            ui_state: UIState::WaitingData,
         }
     }
 }
@@ -73,7 +83,7 @@ impl DisplayDrawerBuilder {
 impl DisplayDrawer {
     pub fn run(&mut self) {
         // Create handlers
-        let mut serial_handler = SerialHandlerBuilder::new();
+        let mut serial_poller = SerialPollerBuilder::new();
         let mut events_handler = DisplayEventsBuilder::new();
 
         // Allow enough space to hold X seconds of points and 1 second of latency between clean-ups
@@ -91,9 +101,39 @@ impl DisplayDrawer {
 
         'main: loop {
             // Receive telemetry data (from the input serial from the motherboard)
-            if let Some(machine_snapshot) = serial_handler.handle(&rx, &mut data) {
-                last_machine_snapshot = machine_snapshot;
+            match serial_poller.poll(&rx) {
+                Ok(polled) => {
+                    if let Some(data_snapshots) = polled.data_snapshots {
+                        self.ui_state = UIState::Running;
+
+                        data_snapshots
+                            .iter()
+                            .for_each(|snapshot| self.add_pressure(&mut data, snapshot));
+                    } else if polled.stopped_message.is_some() {
+                        // If we received some data, ignore the stopped event
+                        // On the next iteration, we will either just receive the stopped event
+                        // or some more data without it
+                        self.ui_state = UIState::Stopped;
+                    }
+
+                    if let Some(machine_snapshot) = polled.machine_snapshot {
+                        last_machine_snapshot = machine_snapshot;
+                    }
+                }
+
+                Err(error) => match error.kind() {
+                    ErrorKind::NoDevice => self.ui_state = UIState::WaitingData,
+                    err => self.ui_state = UIState::Error(format!("{:?}", err)),
+                },
             }
+
+            match self.ui_state {
+                UIState::WaitingData | UIState::Stopped => {
+                    data.clear();
+                    last_machine_snapshot = MachineStateSnapshot::default();
+                }
+                _ => (),
+            };
 
             // Handle incoming events
             match events_handler.handle(&self.display, &mut self.interface, &mut self.events_loop) {
@@ -104,13 +144,12 @@ impl DisplayDrawer {
             // Refresh the pressure data interface, if we have any data in the buffer
             let now = Utc::now();
 
-            if !data.is_empty()
-                && (now - last_render) > Duration::milliseconds((1000 / FRAMERATE) as _)
-            {
-                let older = now - chrono::Duration::seconds(40);
-
-                while data.back().map(|p| p.0 < older).unwrap_or(false) {
-                    data.pop_back();
+            if (now - last_render) > Duration::milliseconds((1000 / FRAMERATE) as _) {
+                if !data.is_empty() {
+                    let older = now - chrono::Duration::seconds(40);
+                    while data.back().map(|p| p.0 < older).unwrap_or(false) {
+                        data.pop_back();
+                    }
                 }
 
                 last_render = now;
@@ -123,12 +162,65 @@ impl DisplayDrawer {
     }
 
     // TODO: refactor this
-    #[allow(clippy::ptr_arg)]
     fn render(
         &mut self,
         data_pressure: &DataPressure,
         machine_snapshot: &MachineStateSnapshot,
-    ) -> conrod_core::image::Map<glium::texture::Texture2d> {
+    ) -> conrod_core::image::Map<texture::Texture2d> {
+        let image_map = conrod_core::image::Map::<texture::Texture2d>::new();
+
+        // The `WidgetId` for our background and `Image` widgets.
+        let ids = Ids::new(self.interface.widget_id_generator());
+
+        // .clone() makes the borrow checker happy
+        match self.ui_state.clone() {
+            UIState::WaitingData => self.render_empty(ids, image_map),
+            UIState::Stopped => self.render_stopped(ids, image_map),
+            UIState::Running => self.render_data(ids, image_map, data_pressure, machine_snapshot),
+            UIState::Error(e) => self.render_error(ids, image_map, e),
+        }
+    }
+
+    fn render_empty(
+        &mut self,
+        ids: Ids,
+        image_map: conrod_core::image::Map<texture::Texture2d>,
+    ) -> conrod_core::image::Map<texture::Texture2d> {
+        let ui = self.interface.set_widgets();
+        create_no_data_widget(ui, ids, &self.fonts);
+        image_map
+    }
+
+    fn render_stopped(
+        &mut self,
+        ids: Ids,
+        image_map: conrod_core::image::Map<texture::Texture2d>,
+    ) -> conrod_core::image::Map<texture::Texture2d> {
+        let ui = self.interface.set_widgets();
+        create_stopped_widget(ui, ids, &self.fonts);
+        image_map
+    }
+
+    fn render_error(
+        &mut self,
+        ids: Ids,
+        image_map: conrod_core::image::Map<texture::Texture2d>,
+        error: String,
+    ) -> conrod_core::image::Map<texture::Texture2d> {
+        let ui = self.interface.set_widgets();
+        create_error_widget(ui, ids, &self.fonts, error);
+        image_map
+    }
+
+    #[allow(clippy::ptr_arg)]
+    fn render_data(
+        &mut self,
+        ids: Ids,
+        mut image_map: conrod_core::image::Map<texture::Texture2d>,
+        data_pressure: &DataPressure,
+        machine_snapshot: &MachineStateSnapshot,
+    ) -> conrod_core::image::Map<texture::Texture2d> {
+        let ui = self.interface.set_widgets();
         let mut buffer = vec![0; (780 * 200 * 4) as usize];
 
         let root = BitMapBackend::with_buffer(&mut buffer, (780, 200)).into_drawing_area();
@@ -180,21 +272,16 @@ impl DisplayDrawer {
             image_texture.get_height().unwrap(),
         );
 
-        let mut image_map = conrod_core::image::Map::new();
         let image_id = image_map.insert(image_texture);
-
-        // The `WidgetId` for our background and `Image` widgets.
-        let ids = Ids::new(self.interface.widget_id_generator());
-        let ui = self.interface.set_widgets();
 
         create_widgets(ui, ids, image_id, (w, h), &self.fonts, &machine_snapshot);
 
         image_map
     }
 
-    fn start_telemetry(&self) -> Receiver<TelemetryMessage> {
+    fn start_telemetry(&self) -> Receiver<TelemetryChannelType> {
         // Start gathering telemetry
-        let (tx, rx): (Sender<TelemetryMessage>, Receiver<TelemetryMessage>) =
+        let (tx, rx): (Sender<TelemetryChannelType>, Receiver<TelemetryChannelType>) =
             std::sync::mpsc::channel();
 
         match &APP_ARGS.source {
