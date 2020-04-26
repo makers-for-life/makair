@@ -5,6 +5,10 @@ on:
     paths:
       - .github/workflows/**
       - src/software/firmware/**
+  pull_request:
+    paths:
+      - .github/workflows/**
+      - src/software/firmware/**
 
 jobs:
   test:
