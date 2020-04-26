@@ -11,13 +11,15 @@ use crate::config::environment::DISPLAY_WIDGET_SPACING_FROM_BOTTOM;
 
 use super::fonts::Fonts;
 use super::widget::{
-    BackgroundWidgetConfig, ControlWidget, ControlWidgetType, ErrorWidgetConfig, GraphWidgetConfig,
-    NoDataWidgetConfig, StopWidgetConfig, TelemetryWidgetConfig,
+    BackgroundWidgetConfig, BrandingWidgetConfig, ControlWidget, ControlWidgetType,
+    ErrorWidgetConfig, GraphWidgetConfig, NoDataWidgetConfig, StopWidgetConfig,
+    TelemetryWidgetConfig,
 };
 
 widget_ids!(pub struct Ids {
-  alarms,
   background,
+  branding,
+  alarms,
   pressure_graph,
 
   cycles_parent,
@@ -61,6 +63,18 @@ pub struct Screen<'a> {
     widgets: ControlWidget<'a>,
 }
 
+pub struct ScreenDataBranding {
+    pub image_id: conrod_core::image::Id,
+    pub width: f64,
+    pub height: f64,
+}
+
+pub struct ScreenDataGraph {
+    pub image_id: conrod_core::image::Id,
+    pub width: f64,
+    pub height: f64,
+}
+
 impl<'a> Screen<'a> {
     pub fn new(
         ui: conrod_core::UiCell<'a>,
@@ -75,9 +89,20 @@ impl<'a> Screen<'a> {
         }
     }
 
-    pub fn render_with_data(&mut self, image_id: conrod_core::image::Id, width: f64, height: f64) {
+    pub fn render_with_data(
+        &mut self,
+        branding_data: ScreenDataBranding,
+        graph_data: ScreenDataGraph,
+    ) {
         self.render_background();
-        self.render_graph(image_id, width, height);
+        self.render_branding(
+            "?.?.?".to_string(),
+            "?.?.?".to_string(),
+            branding_data.image_id,
+            branding_data.width,
+            branding_data.height,
+        ); // TODO: from dyn vals
+        self.render_graph(graph_data.image_id, graph_data.width, graph_data.height);
         self.render_telemetry();
     }
 
@@ -85,6 +110,26 @@ impl<'a> Screen<'a> {
         let config = BackgroundWidgetConfig::new(color::BLACK, self.ids.background);
 
         self.widgets.render(ControlWidgetType::Background(config));
+    }
+
+    pub fn render_branding(
+        &mut self,
+        version_firmware: String,
+        version_control: String,
+        image_id: conrod_core::image::Id,
+        width: f64,
+        height: f64,
+    ) {
+        let config = BrandingWidgetConfig::new(
+            version_firmware,
+            version_control,
+            width,
+            height,
+            image_id,
+            self.ids.branding,
+        );
+
+        self.widgets.render(ControlWidgetType::Branding(config));
     }
 
     pub fn render_graph(&mut self, image_id: conrod_core::image::Id, width: f64, height: f64) {

@@ -29,6 +29,15 @@ impl BackgroundWidgetConfig {
     }
 }
 
+pub struct BrandingWidgetConfig {
+    version_firmware: String,
+    version_control: String,
+    width: f64,
+    height: f64,
+    image: conrod_core::image::Id,
+    id: WidgetId,
+}
+
 pub struct TelemetryWidgetConfig<'a> {
     pub title: &'a str,
     pub value: String,
@@ -44,6 +53,26 @@ pub struct GraphWidgetConfig {
     height: f64,
     image: conrod_core::image::Id,
     id: WidgetId,
+}
+
+impl BrandingWidgetConfig {
+    pub fn new(
+        version_firmware: String,
+        version_control: String,
+        width: f64,
+        height: f64,
+        image: conrod_core::image::Id,
+        id: WidgetId,
+    ) -> BrandingWidgetConfig {
+        BrandingWidgetConfig {
+            version_firmware,
+            version_control,
+            width,
+            height,
+            image,
+            id,
+        }
+    }
 }
 
 impl GraphWidgetConfig {
@@ -96,6 +125,7 @@ impl NoDataWidgetConfig {
 pub enum ControlWidgetType<'a> {
     Background(BackgroundWidgetConfig),
     Error(ErrorWidgetConfig),
+    Branding(BrandingWidgetConfig),
     Graph(GraphWidgetConfig),
     NoData(NoDataWidgetConfig),
     Stop(StopWidgetConfig),
@@ -116,6 +146,7 @@ impl<'a> ControlWidget<'a> {
         match widget_type {
             ControlWidgetType::Background(config) => self.background(config),
             ControlWidgetType::Error(config) => self.error(config),
+            ControlWidgetType::Branding(config) => self.branding(config),
             ControlWidgetType::Graph(config) => self.graph(config),
             ControlWidgetType::NoData(config) => self.no_data(config),
             ControlWidgetType::Stop(config) => self.stop(config),
@@ -128,6 +159,16 @@ impl<'a> ControlWidget<'a> {
             .color(config.color)
             .set(config.id, &mut self.ui);
 
+        0 as _
+    }
+
+    fn branding(&mut self, config: BrandingWidgetConfig) -> f64 {
+        widget::Image::new(config.image)
+            .w_h(config.width, config.height)
+            .top_left_with_margin(0.0) // TODO
+            .set(config.id, &mut self.ui);
+
+        // TODO
         0 as _
     }
 

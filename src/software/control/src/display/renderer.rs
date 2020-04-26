@@ -10,17 +10,18 @@ use plotters::prelude::*;
 use telemetry::structures::MachineStateSnapshot;
 
 use crate::config::environment::{
-    DISPLAY_GRAPH_OFFSET_HEIGHT, DISPLAY_GRAPH_OFFSET_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT,
-    DISPLAY_WINDOW_SIZE_WIDTH, GRAPH_DRAW_LABEL_WIDTH, GRAPH_DRAW_LINE_SIZE,
-    GRAPH_DRAW_MARGIN_BOTTOM, GRAPH_DRAW_MARGIN_LEFT, GRAPH_DRAW_MARGIN_RIGHT,
-    GRAPH_DRAW_MARGIN_TOP, GRAPH_DRAW_RANGE_HIGH, GRAPH_DRAW_RANGE_LOW, GRAPH_DRAW_SECONDS,
+    BRANDING_HEIGHT, BRANDING_WIDTH, DISPLAY_GRAPH_OFFSET_HEIGHT, DISPLAY_GRAPH_OFFSET_WIDTH,
+    DISPLAY_WINDOW_SIZE_HEIGHT, DISPLAY_WINDOW_SIZE_WIDTH, GRAPH_DRAW_LABEL_WIDTH,
+    GRAPH_DRAW_LINE_SIZE, GRAPH_DRAW_MARGIN_BOTTOM, GRAPH_DRAW_MARGIN_LEFT,
+    GRAPH_DRAW_MARGIN_RIGHT, GRAPH_DRAW_MARGIN_TOP, GRAPH_DRAW_RANGE_HIGH, GRAPH_DRAW_RANGE_LOW,
+    GRAPH_DRAW_SECONDS,
 };
 
 use crate::chip::ChipState;
 use crate::physics::types::DataPressure;
 
 use super::fonts::Fonts;
-use super::screen::{Ids, Screen};
+use super::screen::{Ids, Screen, ScreenDataBranding, ScreenDataGraph};
 use super::support::GliumDisplayWinitWrapper;
 
 pub struct DisplayRendererBuilder;
@@ -124,22 +125,60 @@ impl DisplayRenderer {
         data_pressure: &DataPressure,
         machine_snapshot: &MachineStateSnapshot,
     ) -> conrod_core::image::Map<texture::Texture2d> {
-        // Create chart
-        let image_texture = self.draw_data_chart(data_pressure, display);
-        let (w, h) = (
-            image_texture.get_width(),
-            image_texture.get_height().unwrap(),
+        // Create branding
+        let branding_image_texture = self.draw_branding(display);
+        let (branding_width, branding_height) = (
+            branding_image_texture.get_width(),
+            branding_image_texture.get_height().unwrap(),
         );
-        let image_id = image_map.insert(image_texture);
+        let branding_image_id = image_map.insert(branding_image_texture);
+
+        // Create graph
+        let graph_image_texture = self.draw_data_chart(data_pressure, display);
+        let (graph_width, graph_height) = (
+            graph_image_texture.get_width(),
+            graph_image_texture.get_height().unwrap(),
+        );
+        let graph_image_id = image_map.insert(graph_image_texture);
 
         // Create widgets
         let ui = interface.set_widgets();
 
         let mut screen = Screen::new(ui, &ids, &self.fonts, Some(machine_snapshot));
 
-        screen.render_with_data(image_id, w as _, h as _);
+        screen.render_with_data(
+            ScreenDataBranding {
+                image_id: branding_image_id,
+                width: branding_width as _,
+                height: branding_height as _,
+            },
+            ScreenDataGraph {
+                image_id: graph_image_id,
+                width: graph_width as _,
+                height: graph_height as _,
+            },
+        );
 
         image_map
+    }
+
+    fn draw_branding(&self, display: &GliumDisplayWinitWrapper) -> glium::texture::Texture2d {
+        let buffer = vec![0; (BRANDING_WIDTH * BRANDING_HEIGHT * 4) as usize];
+
+        // TODO: fill buffer
+
+        // Create image from raw buffer
+        let rgba_image: RgbaImage = RgbImage::from_raw(BRANDING_WIDTH, BRANDING_HEIGHT, buffer)
+            .unwrap()
+            .convert();
+        let image_dimensions = rgba_image.dimensions();
+
+        let raw_image = glium::texture::RawImage2d::from_raw_rgba_reversed(
+            &rgba_image.into_raw(),
+            image_dimensions,
+        );
+
+        glium::texture::Texture2d::new(&display.0, raw_image).unwrap()
     }
 
     fn draw_data_chart(
@@ -203,6 +242,7 @@ impl DisplayRenderer {
             .unwrap()
             .convert();
         let image_dimensions = rgba_image.dimensions();
+
         let raw_image = glium::texture::RawImage2d::from_raw_rgba_reversed(
             &rgba_image.into_raw(),
             image_dimensions,
