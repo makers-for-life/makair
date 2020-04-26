@@ -527,7 +527,7 @@ mod tests {
              ]);
 
              let expected = TelemetryMessage::MachineStateSnapshot(msg);
-             assert_eq!( nom::dbg_dmp(machine_state_snapshot, "machine_state_snapshot")(input), Ok((&[][..], expected)) );
+             assert_eq!(nom::dbg_dmp(machine_state_snapshot, "machine_state_snapshot")(input), Ok((&[][..], expected)));
          }
     }
 
