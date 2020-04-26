@@ -305,7 +305,7 @@ mod tests {
                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                 systick,
                 mode,
-                value128: value128,
+                value128,
             };
 
             // This needs to be consistent with sendBootMessage() defined in src/software/firmware/srcs/telemetry.cpp
