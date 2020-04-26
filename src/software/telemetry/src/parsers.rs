@@ -267,6 +267,7 @@ named!(pub parse_telemetry_message<TelemetryMessage>, alt!(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::collection;
     use proptest::prelude::*;
 
     fn flat(v: &[&[u8]]) -> Vec<u8> {
@@ -438,6 +439,77 @@ mod tests {
 
              let expected = TelemetryMessage::DataSnapshot(msg);
              assert_eq!( nom::dbg_dmp(data_snapshot, "data_snapshot")(input), Ok((&[][..], expected)) );
+         }
+    }
+
+    proptest! {
+         #[test]
+         fn test_machine_state_snapshot_message_parser(
+             version in ".*",
+             device_id1 in (0u32..),
+             device_id2 in (0u32..),
+             device_id3 in (0u32..),
+             cycle in (0u32..),
+             peak_command in (0u8..),
+             plateau_command in (0u8..),
+             peep_command in (0u8..),
+             cpm_command in (0u8..),
+             previous_peak_pressure in (0u16..),
+             previous_plateau_pressure in (0u16..),
+             previous_peep_pressure in (0u16..),
+             current_alarm_codes in collection::vec(0u8.., 0..100),
+             previous_alarm_codes in collection::vec(0u8.., 0..100),
+         ) {
+             let msg = MachineStateSnapshot {
+                 version,
+                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                 cycle,
+                 peak_command,
+                 plateau_command,
+                 peep_command,
+                 cpm_command,
+                 previous_peak_pressure,
+                 previous_plateau_pressure,
+                 previous_peep_pressure,
+                 current_alarm_codes,
+                 previous_alarm_codes,
+             };
+
+             // This needs to be consistent with sendMachineStateSnapshot() defined in src/software/firmware/srcs/telemetry.cpp
+             let input = &flat(&[
+                 b"S:\x01",
+                 &[msg.version.len() as u8],
+                 &msg.version.as_bytes(),
+                 &device_id1.to_be_bytes(),
+                 &device_id2.to_be_bytes(),
+                 &device_id3.to_be_bytes(),
+                 b"\t",
+                 &msg.cycle.to_be_bytes(),
+                 b"\t",
+                 &[msg.peak_command],
+                 b"\t",
+                 &[msg.plateau_command],
+                 b"\t",
+                 &[msg.peep_command],
+                 b"\t",
+                 &[msg.cpm_command],
+                 b"\t",
+                 &msg.previous_peak_pressure.to_be_bytes(),
+                 b"\t",
+                 &msg.previous_plateau_pressure.to_be_bytes(),
+                 b"\t",
+                 &msg.previous_peep_pressure.to_be_bytes(),
+                 b"\t",
+                 &[msg.current_alarm_codes.len() as u8],
+                 &msg.current_alarm_codes,
+                 b"\t",
+                 &[msg.previous_alarm_codes.len() as u8],
+                 &msg.previous_alarm_codes,
+                 b"\n",
+             ]);
+
+             let expected = TelemetryMessage::MachineStateSnapshot(msg);
+             assert_eq!( nom::dbg_dmp(machine_state_snapshot, "machine_state_snapshot")(input), Ok((&[][..], expected)) );
          }
     }
 }
