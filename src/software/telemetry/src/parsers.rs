@@ -601,7 +601,7 @@ mod tests {
              ]);
 
              let expected = TelemetryMessage::AlarmTrap(msg);
-             assert_eq!( nom::dbg_dmp(alarm_trap, "alarm_trap")(input), Ok((&[][..], expected)) );
+             assert_eq!(nom::dbg_dmp(alarm_trap, "alarm_trap")(input), Ok((&[][..], expected)));
          }
     }
 }
