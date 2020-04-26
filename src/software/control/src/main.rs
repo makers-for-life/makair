@@ -32,6 +32,7 @@ use display::window::DisplayWindowBuilder;
 struct AppArgs {
     log: String,
     source: Source,
+    fullscreen: bool,
 }
 
 pub enum Source {
@@ -70,6 +71,11 @@ fn make_app_args() -> AppArgs {
                 .help("Path to a recorded file")
                 .takes_value(true),
         )
+        .arg(
+            Arg::with_name("fullscreen")
+                .long("fullscreen")
+                .help("Launch in fullscreen mode"),
+        )
         .get_matches();
 
     let source = match (matches.value_of("port"), matches.value_of("file")) {
@@ -85,6 +91,7 @@ fn make_app_args() -> AppArgs {
     AppArgs {
         log: String::from(matches.value_of("log").expect("invalid log value")),
         source,
+        fullscreen: matches.is_present("fullscreen"),
     }
 }
 

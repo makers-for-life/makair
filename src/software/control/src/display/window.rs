@@ -7,6 +7,7 @@ use conrod_core::UiBuilder;
 use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 
 use crate::config::environment::{DISPLAY_WINDOW_SIZE_HEIGHT, DISPLAY_WINDOW_SIZE_WIDTH};
+use crate::APP_ARGS;
 
 use super::drawer::DisplayDrawerBuilder;
 use super::fonts::Fonts;
@@ -35,6 +36,13 @@ impl DisplayWindow {
             .with_decorations(false)
             .with_resizable(false)
             .with_always_on_top(true);
+
+        let window = if APP_ARGS.fullscreen {
+            let primary_monitor = events_loop.get_primary_monitor();
+            window.with_fullscreen(Some(primary_monitor))
+        } else {
+            window
+        };
 
         // Create context
         let context = ContextBuilder::new().with_multisampling(4).with_vsync(true);

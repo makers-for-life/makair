@@ -18,8 +18,8 @@ use crate::physics::types::DataPressure;
 
 use super::drawer::UIState;
 use super::fonts::Fonts;
+use super::screen::{Ids, Screen};
 use super::support::GliumDisplayWinitWrapper;
-use super::widgets::{self, Ids};
 
 pub struct DisplayRendererBuilder;
 
@@ -74,7 +74,9 @@ impl DisplayRenderer {
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let ui = interface.set_widgets();
 
-        widgets::create_no_data_widget(ui, ids, &self.fonts);
+        let mut screen = Screen::new(ui, &ids, &self.fonts, None);
+
+        screen.render_no_data();
 
         image_map
     }
@@ -87,7 +89,9 @@ impl DisplayRenderer {
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let ui = interface.set_widgets();
 
-        widgets::create_stopped_widget(ui, ids, &self.fonts);
+        let mut screen = Screen::new(ui, &ids, &self.fonts, None);
+
+        screen.render_stop();
 
         image_map
     }
@@ -101,7 +105,9 @@ impl DisplayRenderer {
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let ui = interface.set_widgets();
 
-        widgets::create_error_widget(ui, ids, &self.fonts, error);
+        let mut screen = Screen::new(ui, &ids, &self.fonts, None);
+
+        screen.render_error(error);
 
         image_map
     }
@@ -188,7 +194,9 @@ impl DisplayRenderer {
         // Create widgets
         let ui = interface.set_widgets();
 
-        widgets::create_widgets(ui, ids, image_id, (w, h), &self.fonts, &machine_snapshot);
+        let mut screen = Screen::new(ui, &ids, &self.fonts, Some(machine_snapshot));
+
+        screen.render_with_data(image_id, w as _, h as _);
 
         image_map
     }
