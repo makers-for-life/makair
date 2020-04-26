@@ -308,8 +308,6 @@ mod tests {
                 value128: value128,
             };
 
-            // println!("{:?}",&msg);
-
             // Need to be consistent with sendBootMessage() defined in src/software/firmware/srcs/telemetry.cpp .
             let input = &flat(&[
                 b"B:\x01",
