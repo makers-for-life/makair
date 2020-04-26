@@ -270,7 +270,7 @@ mod tests {
     use proptest::prelude::*;
 
     fn flat(v: &[&[u8]]) -> Vec<u8> {
-        v.iter().flat_map(|a| a.iter()).map(|v| *v).collect()
+        v.iter().flat_map(|a| a.iter()).copied().collect()
     }
 
     fn mode_strategy() -> impl Strategy<Value = Mode> {
@@ -310,7 +310,7 @@ mod tests {
              value128 in (0u8..)
          ) {
              let msg = BootMessage {
-                 version: version.to_string(),
+                 version,
                  device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                  systick,
                  mode,
@@ -320,7 +320,7 @@ mod tests {
              // This needs to be consistent with sendBootMessage() defined in src/software/firmware/srcs/telemetry.cpp
              let input = &flat(&[
                  b"B:\x01",
-                 &[*&msg.version.len() as u8],
+                 &[msg.version.len() as u8],
                  &msg.version.as_bytes(),
                  &device_id1.to_be_bytes(),
                  &device_id2.to_be_bytes(),
@@ -330,7 +330,7 @@ mod tests {
                  b"\t",
                  &[mode_ordinal(&msg.mode)],
                  b"\t",
-                 &[*&msg.value128],
+                 &[msg.value128],
                  b"\n",
              ]);
 
@@ -349,7 +349,7 @@ mod tests {
              systick in (0u64..),
          ) {
              let msg = StoppedMessage {
-                 version: version.to_string(),
+                 version,
                  device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                  systick,
              };
@@ -357,7 +357,7 @@ mod tests {
              // This needs to be consistent with sendStoppedMessage() defined in src/software/firmware/srcs/telemetry.cpp
              let input = &flat(&[
                  b"O:\x01",
-                 &[*&msg.version.len() as u8],
+                 &[msg.version.len() as u8],
                  &msg.version.as_bytes(),
                  &device_id1.to_be_bytes(),
                  &device_id2.to_be_bytes(),
@@ -389,7 +389,7 @@ mod tests {
              battery_level in (0u8..),
          ) {
              let msg = DataSnapshot {
-                 version: version.to_string(),
+                 version,
                  device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                  systick,
                  centile,
@@ -412,7 +412,7 @@ mod tests {
              // This needs to be consistent with sendDataSnapshot() defined in src/software/firmware/srcs/telemetry.cpp
              let input = &flat(&[
                  b"D:\x01",
-                 &[*&msg.version.len() as u8],
+                 &[msg.version.len() as u8],
                  &msg.version.as_bytes(),
                  &device_id1.to_be_bytes(),
                  &device_id2.to_be_bytes(),
@@ -426,13 +426,13 @@ mod tests {
                  b"\t",
                  &[phase_value],
                  b"\t",
-                 &[*&msg.blower_valve_position],
+                 &[msg.blower_valve_position],
                  b"\t",
-                 &[*&msg.patient_valve_position],
+                 &[msg.patient_valve_position],
                  b"\t",
-                 &[*&msg.blower_rpm],
+                 &[msg.blower_rpm],
                  b"\t",
-                 &[*&msg.battery_level],
+                 &[msg.battery_level],
                  b"\n",
              ]);
 
