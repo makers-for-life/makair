@@ -16,4 +16,6 @@ pub const DISPLAY_WIDGET_SIZE_SPACING: f64 = 14.0;
 pub const GRAPH_DRAW_SECONDS: usize = 9;
 pub const GRAPH_DRAW_RANGE_LOW: i32 = 0;
 pub const GRAPH_DRAW_RANGE_HIGH: i32 = 90;
+pub const GRAPH_DRAW_MARGIN: u32 = 10;
 pub const GRAPH_DRAW_LINE_SIZE: u32 = 2;
+pub const GRAPH_DRAW_LABEL_WIDTH: u32 = 50;

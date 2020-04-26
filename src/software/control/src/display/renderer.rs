@@ -11,8 +11,8 @@ use telemetry::structures::MachineStateSnapshot;
 
 use crate::config::environment::{
     DISPLAY_GRAPH_OFFSET_HEIGHT, DISPLAY_GRAPH_OFFSET_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT,
-    DISPLAY_WINDOW_SIZE_WIDTH, GRAPH_DRAW_LINE_SIZE, GRAPH_DRAW_RANGE_HIGH, GRAPH_DRAW_RANGE_LOW,
-    GRAPH_DRAW_SECONDS,
+    DISPLAY_WINDOW_SIZE_WIDTH, GRAPH_DRAW_LABEL_WIDTH, GRAPH_DRAW_LINE_SIZE, GRAPH_DRAW_MARGIN,
+    GRAPH_DRAW_RANGE_HIGH, GRAPH_DRAW_RANGE_LOW, GRAPH_DRAW_SECONDS,
 };
 use crate::physics::types::DataPressure;
 
@@ -129,10 +129,13 @@ impl DisplayRenderer {
 
         // Docs: https://docs.rs/plotters/0.2.12/plotters/chart/struct.ChartBuilder.html
         let mut chart = ChartBuilder::on(&root)
-            .margin(10)
+            .margin(GRAPH_DRAW_MARGIN)
             .x_label_area_size(0)
-            .y_label_area_size(60)
-            .build_ranged(oldest_time..newest_time, GRAPH_DRAW_RANGE_LOW..GRAPH_DRAW_RANGE_HIGH)
+            .y_label_area_size(GRAPH_DRAW_LABEL_WIDTH)
+            .build_ranged(
+                oldest_time..newest_time,
+                GRAPH_DRAW_RANGE_LOW..GRAPH_DRAW_RANGE_HIGH,
+            )
             .unwrap();
 
         chart
@@ -149,12 +152,13 @@ impl DisplayRenderer {
 
         // Docs: https://docs.rs/plotters/0.2.12/plotters/prelude/struct.LineSeries.html
         chart
-            .draw_series(LineSeries::new(
-                data_pressure.iter().map(|x| (x.0, x.1 as i32)),
-                ShapeStyle::from(&plotters::style::RGBColor(0, 137, 255))
-                    .filled()
-                    .stroke_width(GRAPH_DRAW_LINE_SIZE),
-            ))
+            .draw_series(
+                LineSeries::new(
+                    data_pressure.iter().map(|x| (x.0, x.1 as i32)),
+                    ShapeStyle::from(&plotters::style::RGBColor(0, 137, 255)).filled(),
+                )
+                .point_size(GRAPH_DRAW_LINE_SIZE),
+            )
             .unwrap();
 
         drop(chart);
