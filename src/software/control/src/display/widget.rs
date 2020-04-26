@@ -11,6 +11,7 @@ use conrod_core::{
 
 use crate::config::environment::{
     DISPLAY_WIDGET_SIZE_HEIGHT, DISPLAY_WIDGET_SIZE_SPACING, DISPLAY_WIDGET_SIZE_WIDTH,
+    GRAPH_DRAW_SPACING_FROM_BOTTOM,
 };
 
 use super::fonts::Fonts;
@@ -133,14 +134,14 @@ impl<'a> ControlWidget<'a> {
     fn graph(&mut self, config: GraphWidgetConfig) -> f64 {
         widget::Image::new(config.image)
             .w_h(config.width, config.height)
-            .mid_top_with_margin(10.0)
+            .mid_bottom_with_margin(GRAPH_DRAW_SPACING_FROM_BOTTOM)
             .set(config.id, &mut self.ui);
 
         config.width
     }
 
     #[allow(clippy::too_many_arguments)]
-    fn create_rounded_rectangle(
+    fn create_bottom_left_rounded_rectangle(
         &mut self,
         width: f64,
         height: f64,
@@ -164,7 +165,7 @@ impl<'a> ControlWidget<'a> {
     }
 
     fn telemetry_widget(&mut self, config: TelemetryWidgetConfig) -> f64 {
-        self.create_rounded_rectangle(
+        self.create_bottom_left_rounded_rectangle(
             DISPLAY_WIDGET_SIZE_WIDTH,
             DISPLAY_WIDGET_SIZE_HEIGHT,
             2.5,

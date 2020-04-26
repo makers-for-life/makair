@@ -7,6 +7,8 @@ use conrod_core::color::{self, Color};
 
 use telemetry::structures::MachineStateSnapshot;
 
+use crate::config::environment::DISPLAY_WIDGET_SPACING_FROM_BOTTOM;
+
 use super::fonts::Fonts;
 use super::widget::{
     BackgroundWidgetConfig, ControlWidget, ControlWidgetType, ErrorWidgetConfig, GraphWidgetConfig,
@@ -81,27 +83,33 @@ impl<'a> Screen<'a> {
 
     pub fn render_background(&mut self) {
         let config = BackgroundWidgetConfig::new(color::BLACK, self.ids.background);
+
         self.widgets.render(ControlWidgetType::Background(config));
     }
 
     pub fn render_graph(&mut self, image_id: conrod_core::image::Id, width: f64, height: f64) {
         let config = GraphWidgetConfig::new(width, height, image_id, self.ids.pressure_graph);
+
         self.widgets.render(ControlWidgetType::Graph(config));
     }
 
     pub fn render_stop(&mut self) {
         let config = StopWidgetConfig::new(self.ids.stopped);
+
         self.widgets.render(ControlWidgetType::Stop(config));
     }
 
     pub fn render_no_data(&mut self) {
         let config = NoDataWidgetConfig::new(self.ids.no_data);
+
         self.widgets.render(ControlWidgetType::NoData(config));
     }
 
     pub fn render_error(&mut self, error: String) {
         let config = ErrorWidgetConfig::new(error, self.ids.error);
+
         self.render_background();
+
         self.widgets.render(ControlWidgetType::Error(config));
     }
 
@@ -124,7 +132,7 @@ impl<'a> Screen<'a> {
                 self.ids.peak_unit,
             ),
             x_position: last_widget_position,
-            y_position: 10.0,
+            y_position: DISPLAY_WIDGET_SPACING_FROM_BOTTOM,
             background_color: Color::Rgba(39.0 / 255.0, 66.0 / 255.0, 100.0 / 255.0, 1.0),
         };
 
@@ -132,7 +140,7 @@ impl<'a> Screen<'a> {
             .widgets
             .render(ControlWidgetType::Telemetry(peak_config));
 
-        //Initialize the plateau widget
+        // Initialize the plateau widget
         let plateau_config = TelemetryWidgetConfig {
             title: "P(plateau)",
             value: format!(
@@ -156,7 +164,7 @@ impl<'a> Screen<'a> {
             .widgets
             .render(ControlWidgetType::Telemetry(plateau_config));
 
-        //Initialize the PEEP widget
+        // Initialize the PEEP widget
         let peep_config = TelemetryWidgetConfig {
             title: "P(expiratory)",
             value: format!(
@@ -180,7 +188,7 @@ impl<'a> Screen<'a> {
             .widgets
             .render(ControlWidgetType::Telemetry(peep_config));
 
-        //Initialize the cycles widget
+        // Initialize the cycles widget
         let cycles_config = TelemetryWidgetConfig {
             title: "Cycles/minute",
             value: format!("{}", machine_snapshot.cpm_command),
@@ -200,7 +208,7 @@ impl<'a> Screen<'a> {
             .widgets
             .render(ControlWidgetType::Telemetry(cycles_config));
 
-        //Initialize the ratio widget
+        // Initialize the ratio widget
         let ratio_config = TelemetryWidgetConfig {
             title: "Insp-exp ratio",
             value: "0:0".to_string(), //TODO
@@ -220,7 +228,7 @@ impl<'a> Screen<'a> {
             .widgets
             .render(ControlWidgetType::Telemetry(ratio_config));
 
-        //Initialize the tidal widget
+        // Initialize the tidal widget
         let tidal_config = TelemetryWidgetConfig {
             title: "Tidal volume",
             value: "0".to_string(), //TODO
