@@ -277,7 +277,7 @@ mod tests {
         prop_oneof![
             Just(Mode::Production),
             Just(Mode::Qualification),
-            Just(Mode::IntegrationTest)
+            Just(Mode::IntegrationTest),
         ]
     }
 
