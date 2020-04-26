@@ -131,7 +131,7 @@ impl DisplayRenderer {
             .margin(10)
             .x_label_area_size(0)
             .y_label_area_size(60)
-            .build_ranged(oldest..newest, 0..GRAPH_DRAW_RANGE_HIGH)
+            .build_ranged(oldest..newest, GRAPH_DRAW_RANGE_LOW..GRAPH_DRAW_RANGE_HIGH)
             .unwrap();
 
         chart
