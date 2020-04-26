@@ -24,7 +24,7 @@ Is it too complex for me? For information, this project has been started by a 9 
 # Authors
 
 - Marceau Juliot (9 yo)
-- Léonie Juliot (13 yo)
+- Léonie Juliot (14 yo)
 - [Etienne Juliot](https://github.com/ejuliot)
 
 Special thanks to [Frederic Madiot](https://github.com/fmadiot) for this idea of contribution.
@@ -40,12 +40,12 @@ Use Github to propose an update.
 
 Who are the actors?
 <p>
-  <img alt="actors" src="./export/[OEBD] Operational Entities.jpg" height="240">
+  <img alt="actors" src="./export/[OEBD] Operational Entities.jpg">
 </p>
 
 Which activities do they perform?
 <p>
-  <img alt="actors" src="./export/[OAB] Operational Entities.jpg" height="240">
+  <img alt="actors" src="./export/[OAB] Operational Entities.jpg">
 </p>
 
 ## Comments
@@ -57,7 +57,7 @@ Which activities do they perform?
 
 Which main functions does MakAir perform? And does a function need other functions to work (provided by MakAir or an another system provided by the hospital)?
 <p>
-  <img alt="actors" src="./export/[SAB] Structure.jpg" height="240">
+  <img alt="actors" src="./export/[SAB] Structure.jpg">
 </p>
 
 This analysis has been performed thanks to [these requirements](https://github.com/makers-for-life/makair/blob/master/docs/Notes/English/Medical%20Requirements%20(English).md).
@@ -66,12 +66,12 @@ This analysis has been performed thanks to [these requirements](https://github.c
 
 How the internal of MakAir is organized, in term of subcomponents? What are the functions performed by each subcomponent?
 <p>
-  <img alt="actors" src="./export/[LAB] Structure.jpg" height="240">
+  <img alt="actors" src="./export/[LAB] Structure.jpg">
 </p>
 
 What is the functional dataflow of the pneumatic circuit?
 <p>
-  <img alt="actors" src="./export/[LDFB] Pneumatic Circuit Scheme Logical Function.jpg" height="240">
+  <img alt="actors" src="./export/[LDFB] Pneumatic Circuit Scheme Logical Function.jpg">
 </p>
 
 ## Comments
@@ -82,12 +82,12 @@ What is the functional dataflow of the pneumatic circuit?
 
 What is the physical breakdown of MakAir, to identify each physical part?
 <p>
-  <img alt="actors" src="./export/[PCBD] Structure.jpg" height="240">
+  <img alt="actors" src="./export/[PCBD] Structure.jpg">
 </p>
 
 How each physical part are deployed in the container and how are they connected together?
 <p>
-  <img alt="actors" src="./export/[PAB] Structure.jpg" height="240">
+  <img alt="actors" src="./export/[PAB] Structure.jpg">
 </p>
 
 ## Comments
