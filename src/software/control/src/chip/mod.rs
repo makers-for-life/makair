@@ -13,6 +13,7 @@ use telemetry::structures::{DataSnapshot, MachineStateSnapshot, TelemetryMessage
 
 #[derive(Debug)]
 pub enum ChipState {
+    Initializing,
     Running,
     Stopped,
     WaitingData,
@@ -44,7 +45,7 @@ impl Chip {
 
             TelemetryMessage::BootMessage(snapshot) => {
                 self.reset(snapshot.systick);
-                self.state = ChipState::WaitingData;
+                self.state = ChipState::Initializing;
             }
 
             TelemetryMessage::DataSnapshot(snapshot) => {

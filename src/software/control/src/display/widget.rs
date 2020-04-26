@@ -122,10 +122,21 @@ impl NoDataWidgetConfig {
     }
 }
 
+pub struct InitializingWidgetConfig {
+    id: WidgetId,
+}
+
+impl InitializingWidgetConfig {
+    pub fn new(id: WidgetId) -> InitializingWidgetConfig {
+        InitializingWidgetConfig { id }
+    }
+}
+
 pub enum ControlWidgetType<'a> {
     Background(BackgroundWidgetConfig),
     Error(ErrorWidgetConfig),
     Branding(BrandingWidgetConfig),
+    Initializing(InitializingWidgetConfig),
     Graph(GraphWidgetConfig),
     NoData(NoDataWidgetConfig),
     Stop(StopWidgetConfig),
@@ -147,6 +158,7 @@ impl<'a> ControlWidget<'a> {
             ControlWidgetType::Background(config) => self.background(config),
             ControlWidgetType::Error(config) => self.error(config),
             ControlWidgetType::Branding(config) => self.branding(config),
+            ControlWidgetType::Initializing(config) => self.initializing(config),
             ControlWidgetType::Graph(config) => self.graph(config),
             ControlWidgetType::NoData(config) => self.no_data(config),
             ControlWidgetType::Stop(config) => self.stop(config),
@@ -283,6 +295,21 @@ impl<'a> ControlWidget<'a> {
         text_style.font_size = Some(30);
 
         widget::Text::new("Device disconnected or no data received")
+            .color(color::WHITE)
+            .middle()
+            .with_style(text_style)
+            .set(config.id, &mut self.ui);
+        0 as _
+    }
+
+    fn initializing(&mut self, config: InitializingWidgetConfig) -> f64 {
+        let mut text_style = conrod_core::widget::primitive::text::Style::default();
+
+        text_style.font_id = Some(Some(self.fonts.bold));
+        text_style.color = Some(color::WHITE);
+        text_style.font_size = Some(30);
+
+        widget::Text::new("Initialization..")
             .color(color::WHITE)
             .middle()
             .with_style(text_style)

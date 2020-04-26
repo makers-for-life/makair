@@ -55,6 +55,7 @@ impl DisplayRenderer {
         let ids = Ids::new(interface.widget_id_generator());
 
         match chip_state {
+            ChipState::Initializing => self.initializing(ids, interface, image_map),
             ChipState::WaitingData => self.empty(ids, interface, image_map),
             ChipState::Stopped => self.stopped(ids, interface, image_map),
             ChipState::Running => self.data(
@@ -95,6 +96,21 @@ impl DisplayRenderer {
         let mut screen = Screen::new(ui, &ids, &self.fonts, None);
 
         screen.render_stop();
+
+        image_map
+    }
+
+    fn initializing(
+        &mut self,
+        ids: Ids,
+        interface: &mut Ui,
+        image_map: conrod_core::image::Map<texture::Texture2d>,
+    ) -> conrod_core::image::Map<texture::Texture2d> {
+        let ui = interface.set_widgets();
+
+        let mut screen = Screen::new(ui, &ids, &self.fonts, None);
+
+        screen.render_initializing();
 
         image_map
     }

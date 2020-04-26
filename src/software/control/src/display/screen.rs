@@ -12,8 +12,8 @@ use crate::config::environment::DISPLAY_WIDGET_SPACING_FROM_BOTTOM;
 use super::fonts::Fonts;
 use super::widget::{
     BackgroundWidgetConfig, BrandingWidgetConfig, ControlWidget, ControlWidgetType,
-    ErrorWidgetConfig, GraphWidgetConfig, NoDataWidgetConfig, StopWidgetConfig,
-    TelemetryWidgetConfig,
+    ErrorWidgetConfig, GraphWidgetConfig, InitializingWidgetConfig, NoDataWidgetConfig,
+    StopWidgetConfig, TelemetryWidgetConfig,
 };
 
 widget_ids!(pub struct Ids {
@@ -54,7 +54,8 @@ widget_ids!(pub struct Ids {
 
   no_data,
   stopped,
-  error
+  error,
+  initializing
 });
 
 pub struct Screen<'a> {
@@ -156,6 +157,14 @@ impl<'a> Screen<'a> {
         self.render_background();
 
         self.widgets.render(ControlWidgetType::Error(config));
+    }
+
+    pub fn render_initializing(&mut self) {
+        let config = InitializingWidgetConfig::new(self.ids.initializing);
+
+        self.render_background();
+
+        self.widgets.render(ControlWidgetType::Initializing(config));
     }
 
     pub fn render_telemetry(&mut self) {
