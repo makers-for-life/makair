@@ -328,5 +328,36 @@ mod tests {
             let expected = TelemetryMessage::BootMessage(msg);
             assert_eq!(nom::dbg_dmp(boot, "boot")(input), Ok((&[][..], expected)));
         }
+
+        #[test]
+        fn test_stopped_message_parser(
+            version in ".*",
+            device_id1 in (0u32..),
+            device_id2 in (0u32..),
+            device_id3 in (0u32..),
+            systick in (0u64..),
+        ) {
+            let msg = StoppedMessage {
+                version: version.to_string(),
+                device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                systick,
+            };
+
+            // This needs to be consistent with sendStoppedMessage() defined in src/software/firmware/srcs/telemetry.cpp
+            let input = &flat(&[
+                b"O:\x01",
+                &[*&msg.version.len() as u8],
+                &msg.version.as_bytes(),
+                &device_id1.to_be_bytes(),
+                &device_id2.to_be_bytes(),
+                &device_id3.to_be_bytes(),
+                b"\t",
+                &msg.systick.to_be_bytes(),
+                b"\n",
+            ]);
+
+            let expected = TelemetryMessage::StoppedMessage(msg);
+            assert_eq!(nom::dbg_dmp(stopped, "stopped")(input), Ok((&[][..], expected)));
+        }
     }
 }
