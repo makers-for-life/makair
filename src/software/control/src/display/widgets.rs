@@ -92,7 +92,7 @@ pub fn create_widgets<'a>(
     let peak_config = WidgetConfig {
         title: "P(peak)",
         value: format!(
-            "{} <- ({})",
+            "{} ← ({})",
             (machine_snapshot.previous_peak_pressure as f64 / 10.0).round(),
             machine_snapshot.peak_command
         ),
@@ -115,7 +115,7 @@ pub fn create_widgets<'a>(
     let plateau_config = WidgetConfig {
         title: "P(plateau)",
         value: format!(
-            "{} <- ({})",
+            "{} ← ({})",
             (machine_snapshot.previous_plateau_pressure as f64 / 10.0).round(),
             machine_snapshot.plateau_command
         ),
@@ -138,7 +138,7 @@ pub fn create_widgets<'a>(
     let peep_config = WidgetConfig {
         title: "P(expiratory)",
         value: format!(
-            "{} <- ({})",
+            "{} ← ({})",
             (machine_snapshot.previous_peep_pressure as f64 / 10.0).round(),
             machine_snapshot.peep_command
         ),

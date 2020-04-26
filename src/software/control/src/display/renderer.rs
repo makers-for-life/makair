@@ -9,7 +9,10 @@ use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
 use plotters::prelude::*;
 use telemetry::structures::MachineStateSnapshot;
 
-use crate::config::environment::GRAPH_DRAW_SECONDS;
+use crate::config::environment::{
+    DISPLAY_GRAPH_OFFSET_HEIGHT, DISPLAY_GRAPH_OFFSET_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT,
+    DISPLAY_WINDOW_SIZE_WIDTH, GRAPH_DRAW_SECONDS,
+};
 use crate::physics::types::DataPressure;
 
 use super::drawer::UIState;
@@ -22,6 +25,9 @@ pub struct DisplayRendererBuilder;
 pub struct DisplayRenderer {
     fonts: Fonts,
 }
+
+const GRAPH_WIDTH: u32 = DISPLAY_WINDOW_SIZE_WIDTH - DISPLAY_GRAPH_OFFSET_WIDTH;
+const GRAPH_HEIGHT: u32 = DISPLAY_WINDOW_SIZE_HEIGHT - DISPLAY_GRAPH_OFFSET_HEIGHT;
 
 impl DisplayRendererBuilder {
     pub fn new(fonts: Fonts) -> DisplayRenderer {
@@ -109,10 +115,11 @@ impl DisplayRenderer {
         data_pressure: &DataPressure,
         machine_snapshot: &MachineStateSnapshot,
     ) -> conrod_core::image::Map<texture::Texture2d> {
-        let ui = interface.set_widgets();
-        let mut buffer = vec![0; (780 * 200 * 4) as usize];
+        // Create chart
+        let mut buffer = vec![0; (GRAPH_WIDTH * GRAPH_HEIGHT * 4) as usize];
 
-        let root = BitMapBackend::with_buffer(&mut buffer, (780, 200)).into_drawing_area();
+        let root = BitMapBackend::with_buffer(&mut buffer, (GRAPH_WIDTH, GRAPH_HEIGHT))
+            .into_drawing_area();
         root.fill(&BLACK).unwrap();
 
         let newest = data_pressure.front().unwrap().0;
@@ -148,7 +155,10 @@ impl DisplayRenderer {
         drop(chart);
         drop(root);
 
-        let rgba_image: RgbaImage = RgbImage::from_raw(780, 200, buffer).unwrap().convert();
+        // Convert chart to an image
+        let rgba_image: RgbaImage = RgbImage::from_raw(GRAPH_WIDTH, GRAPH_HEIGHT, buffer)
+            .unwrap()
+            .convert();
         let image_dimensions = rgba_image.dimensions();
         let raw_image = glium::texture::RawImage2d::from_raw_rgba_reversed(
             &rgba_image.into_raw(),
@@ -162,6 +172,9 @@ impl DisplayRenderer {
         );
 
         let image_id = image_map.insert(image_texture);
+
+        // Create widgets
+        let ui = interface.set_widgets();
 
         widgets::create_widgets(ui, ids, image_id, (w, h), &self.fonts, &machine_snapshot);
 
