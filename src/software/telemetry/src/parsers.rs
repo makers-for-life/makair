@@ -308,7 +308,7 @@ mod tests {
                 value128: value128,
             };
 
-            // Need to be consistent with sendBootMessage() defined in src/software/firmware/srcs/telemetry.cpp .
+            // This needs to be consistent with sendBootMessage() defined in src/software/firmware/srcs/telemetry.cpp
             let input = &flat(&[
                 b"B:\x01",
                 &[*&msg.version.len() as u8],
