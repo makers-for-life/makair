@@ -5,6 +5,10 @@ on:
     paths:
       - .github/workflows/**
       - src/software/telemetry/**
+  pull_request:
+    paths:
+      - .github/workflows/**
+      - src/software/telemetry/**
 
 jobs:
   check:
