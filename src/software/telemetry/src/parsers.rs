@@ -304,7 +304,7 @@ mod tests {
                 version: version.to_string(),
                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                 systick,
-                mode: mode,
+                mode,
                 value128: value128,
             };
 
