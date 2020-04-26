@@ -299,7 +299,7 @@ mod tests {
             systick in (0u64..),
             mode in mode_strategy(),
             value128 in (0u8..)
-            ) {
+        ) {
             let msg = BootMessage {
                 version: version.to_string(),
                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
