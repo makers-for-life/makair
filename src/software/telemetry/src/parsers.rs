@@ -456,7 +456,7 @@ mod tests {
              ]);
 
              let expected = TelemetryMessage::DataSnapshot(msg);
-             assert_eq!( nom::dbg_dmp(data_snapshot, "data_snapshot")(input), Ok((&[][..], expected)) );
+             assert_eq!(nom::dbg_dmp(data_snapshot, "data_snapshot")(input), Ok((&[][..], expected)));
          }
     }
 
