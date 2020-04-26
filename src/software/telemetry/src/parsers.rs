@@ -299,6 +299,31 @@ mod tests {
         ]
     }
 
+    fn phase_value(phase: Phase, subphase: SubPhase) -> u8 {
+        match (phase, subphase) {
+            (Phase::Inhalation, SubPhase::Inspiration) => 17,
+            (Phase::Inhalation, SubPhase::HoldInspiration) => 18,
+            (Phase::Exhalation, SubPhase::Exhale) => 68,
+            _ => 0,
+        }
+    }
+
+    fn alarm_priority_strategy() -> impl Strategy<Value = AlarmPriority> {
+        prop_oneof![
+            Just(AlarmPriority::Low),
+            Just(AlarmPriority::Medium),
+            Just(AlarmPriority::High),
+        ]
+    }
+
+    fn alarm_priority_value(m: &AlarmPriority) -> u8 {
+        match m {
+            AlarmPriority::High => 4,
+            AlarmPriority::Medium => 2,
+            AlarmPriority::Low => 1,
+        }
+    }
+
     proptest! {
          #[test]
          fn test_boot_message_parser(
@@ -403,13 +428,6 @@ mod tests {
                  battery_level,
              };
 
-             let phase_value : u8 = match (phase_subphase.0, phase_subphase.1) {
-                (Phase::Inhalation, SubPhase::Inspiration)      => 17,
-                (Phase::Inhalation, SubPhase::HoldInspiration)  => 18,
-                (Phase::Exhalation, SubPhase::Exhale)           => 68,
-                _                                               => 0
-             };
-
              // This needs to be consistent with sendDataSnapshot() defined in src/software/firmware/srcs/telemetry.cpp
              let input = &flat(&[
                  b"D:\x01",
@@ -425,7 +443,7 @@ mod tests {
                  b"\t",
                  &msg.pressure.to_be_bytes(),
                  b"\t",
-                 &[phase_value],
+                 &[phase_value(phase_subphase.0, phase_subphase.1)],
                  b"\t",
                  &[msg.blower_valve_position],
                  b"\t",
@@ -510,6 +528,80 @@ mod tests {
 
              let expected = TelemetryMessage::MachineStateSnapshot(msg);
              assert_eq!( nom::dbg_dmp(machine_state_snapshot, "machine_state_snapshot")(input), Ok((&[][..], expected)) );
+         }
+    }
+
+    proptest! {
+         #[test]
+         fn test_alarm_trap_message_parser(
+             version in ".*",
+             device_id1 in (0u32..),
+             device_id2 in (0u32..),
+             device_id3 in (0u32..),
+             systick in (0u64..),
+             centile in (0u16..),
+             pressure in (0u16..),
+             phase_subphase in phase_subphase_strategy(),
+             cycle in (0u32..),
+             alarm_code in (0u8..),
+             alarm_priority in alarm_priority_strategy(),
+             triggered in proptest::bool::ANY,
+             expected in (0u32..),
+             measured in (0u32..),
+             cycles_since_trigger in (0u32..),
+         ) {
+             let msg = AlarmTrap {
+                 version,
+                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                 systick,
+                 centile,
+                 pressure,
+                 phase: phase_subphase.0.clone(),
+                 subphase: phase_subphase.1.clone(),
+                 cycle,
+                 alarm_code,
+                 alarm_priority,
+                 triggered,
+                 expected,
+                 measured,
+                 cycles_since_trigger,
+             };
+
+             // This needs to be consistent with sendAlarmTrap() defined in src/software/firmware/srcs/telemetry.cpp
+             let input = &flat(&[
+                 b"T:\x01",
+                 &[msg.version.len() as u8],
+                 &msg.version.as_bytes(),
+                 &device_id1.to_be_bytes(),
+                 &device_id2.to_be_bytes(),
+                 &device_id3.to_be_bytes(),
+                 b"\t",
+                 &msg.systick.to_be_bytes(),
+                 b"\t",
+                 &msg.centile.to_be_bytes(),
+                 b"\t",
+                 &msg.pressure.to_be_bytes(),
+                 b"\t",
+                 &[phase_value(phase_subphase.0, phase_subphase.1)],
+                 b"\t",
+                 &msg.cycle.to_be_bytes(),
+                 b"\t",
+                 &[msg.alarm_code],
+                 b"\t",
+                 &[alarm_priority_value(&msg.alarm_priority)],
+                 b"\t",
+                 &[if msg.triggered { 240u8 } else { 15u8 }],
+                 b"\t",
+                 &msg.expected.to_be_bytes(),
+                 b"\t",
+                 &msg.measured.to_be_bytes(),
+                 b"\t",
+                 &msg.cycles_since_trigger.to_be_bytes(),
+                 b"\n",
+             ]);
+
+             let expected = TelemetryMessage::AlarmTrap(msg);
+             assert_eq!( nom::dbg_dmp(alarm_trap, "alarm_trap")(input), Ok((&[][..], expected)) );
          }
     }
 }
