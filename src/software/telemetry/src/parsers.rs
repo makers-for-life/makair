@@ -267,17 +267,62 @@ named!(pub parse_telemetry_message<TelemetryMessage>, alt!(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::prelude::*;
 
-    #[test]
-    fn test_boot_message_parser() {
-        let input = b"B:\x01\x04test\xaa\xaa\xaa\xaa\xbb\xbb\xbb\xbb\xaa\xaa\xaa\xaa\t\x00\x00\x00\x00\x00\x00\x00\xff\t\x02\t\x80\n";
-        let expected = TelemetryMessage::BootMessage(BootMessage {
-            version: "test".to_string(),
-            device_id: "2863311530-3149642683-2863311530".to_string(),
-            systick: 255,
-            mode: Mode::Qualification,
-            value128: 128,
-        });
-        assert_eq!(nom::dbg_dmp(boot, "boot")(input), Ok((&[][..], expected)));
+    fn flat(v: &[&[u8]]) -> Vec<u8> {
+        v.iter().flat_map(|a| a.iter()).map(|v| *v).collect()
+    }
+
+    fn mode_strategy() -> impl Strategy<Value = Mode> {
+        prop_oneof![
+            Just(Mode::Production),
+            Just(Mode::Qualification),
+            Just(Mode::IntegrationTest)
+        ]
+    }
+
+    fn mode_ordinal(m: &Mode) -> u8 {
+        match m {
+            Mode::Production => 1,
+            Mode::Qualification => 2,
+            Mode::IntegrationTest => 3,
+        }
+    }
+
+    proptest! {
+        #[test]
+        fn test_boot_message_parser(
+            version in ".*",
+            systick in (0u64..),
+            mode in mode_strategy(),
+            value128 in (0u8..)
+            ) {
+            let msg = BootMessage {
+                version: version.to_string(),
+                device_id: "2863311530-3149642683-2863311530".to_string(), // TODO Use a Strategy.
+                systick: systick,
+                mode: mode,
+                value128: value128,
+            };
+
+            // println!("{:?}",&msg);
+
+            // Need to be consistent with sendBootMessage() defined in src/software/firmware/srcs/telemetry.cpp .
+            let input = &flat(&[
+                b"B:\x01",
+                &[*&msg.version.len() as u8],
+                &msg.version.as_bytes(),
+                b"\xaa\xaa\xaa\xaa\xbb\xbb\xbb\xbb\xaa\xaa\xaa\xaa\t",
+                &msg.systick.to_be_bytes(),
+                b"\t",
+                &[mode_ordinal(&msg.mode)],
+                b"\t",
+                &[*&msg.value128],
+                b"\n",
+            ]);
+
+            let expected = TelemetryMessage::BootMessage(msg);
+            assert_eq!(nom::dbg_dmp(boot, "boot")(input), Ok((&[][..], expected)));
+        }
     }
 }

@@ -14,6 +14,9 @@ serial = "0.4.0"
 clap = { git = "https://github.com/clap-rs/clap/", rev = "99b1b768c25c1f317174e0b42e6740884c620f44", optional = true }
 env_logger = { version = "0.7.1", optional = true }
 
+[dev-dependencies]
+proptest = "0.9.6"
+
 [lib]
 name = "telemetry"
 path = "src/lib.rs"
