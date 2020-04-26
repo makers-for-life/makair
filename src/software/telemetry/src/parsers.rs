@@ -333,7 +333,7 @@ mod tests {
              device_id3 in (0u32..),
              systick in (0u64..),
              mode in mode_strategy(),
-             value128 in (0u8..)
+             value128 in (0u8..),
          ) {
              let msg = BootMessage {
                  version,
