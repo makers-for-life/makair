@@ -11,7 +11,7 @@ use telemetry::structures::MachineStateSnapshot;
 
 use crate::config::environment::{
     DISPLAY_GRAPH_OFFSET_HEIGHT, DISPLAY_GRAPH_OFFSET_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT,
-    DISPLAY_WINDOW_SIZE_WIDTH, GRAPH_DRAW_SECONDS,
+    DISPLAY_WINDOW_SIZE_WIDTH, GRAPH_DRAW_RANGE_HIGH, GRAPH_DRAW_RANGE_LOW, GRAPH_DRAW_SECONDS,
 };
 use crate::physics::types::DataPressure;
 
@@ -118,6 +118,7 @@ impl DisplayRenderer {
         // Create chart
         let mut buffer = vec![0; (GRAPH_WIDTH * GRAPH_HEIGHT * 4) as usize];
 
+        // Docs: https://docs.rs/plotters/0.2.12/plotters/drawing/struct.BitMapBackend.html
         let root = BitMapBackend::with_buffer(&mut buffer, (GRAPH_WIDTH, GRAPH_HEIGHT))
             .into_drawing_area();
         root.fill(&BLACK).unwrap();
@@ -125,11 +126,12 @@ impl DisplayRenderer {
         let newest = data_pressure.front().unwrap().0;
         let oldest = newest - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
 
+        // Docs: https://docs.rs/plotters/0.2.12/plotters/chart/struct.ChartBuilder.html
         let mut chart = ChartBuilder::on(&root)
             .margin(10)
             .x_label_area_size(0)
-            .y_label_area_size(40)
-            .build_ranged(oldest..newest, 0..70)
+            .y_label_area_size(60)
+            .build_ranged(oldest..newest, 0..GRAPH_DRAW_RANGE_HIGH)
             .unwrap();
 
         chart
@@ -143,12 +145,13 @@ impl DisplayRenderer {
             .draw()
             .unwrap();
 
+        // Docs: https://docs.rs/plotters/0.2.12/plotters/prelude/struct.LineSeries.html
         chart
             .draw_series(LineSeries::new(
                 data_pressure.iter().map(|x| (x.0, x.1 as i32)),
                 ShapeStyle::from(&plotters::style::RGBColor(0, 137, 255))
                     .filled()
-                    .stroke_width(1),
+                    .stroke_width(2),
             ))
             .unwrap();
 
@@ -156,6 +159,9 @@ impl DisplayRenderer {
         drop(root);
 
         // Convert chart to an image
+        // TODO: draw image on a @2x or @4x buffer, then downsize and re-sample as to "simulate" \
+        //   anti-aliasing, as by default all graphs are aliased
+        // TODO: docs on https://docs.rs/image/0.23.4/image/imageops/fn.resize.html
         let rgba_image: RgbaImage = RgbImage::from_raw(GRAPH_WIDTH, GRAPH_HEIGHT, buffer)
             .unwrap()
             .convert();
@@ -179,5 +185,13 @@ impl DisplayRenderer {
         widgets::create_widgets(ui, ids, image_id, (w, h), &self.fonts, &machine_snapshot);
 
         image_map
+    }
+
+    fn draw_data_chart() {
+        // TODO: move chart drawer code block there
+    }
+
+    fn draw_data_widgets() {
+        // TODO: move widgets drawer code block there
     }
 }
