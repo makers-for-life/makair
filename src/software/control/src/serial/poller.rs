@@ -18,6 +18,7 @@ pub enum PollEvent {
     Pending,
 }
 
+#[allow(clippy::new_ret_no_self)]
 impl SerialPollerBuilder {
     pub fn new() -> SerialPoller {
         SerialPoller {}

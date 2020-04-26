@@ -19,6 +19,7 @@ pub enum DisplayEventsHandleOutcome {
     Continue,
 }
 
+#[allow(clippy::new_ret_no_self)]
 impl DisplayEventsBuilder {
     pub fn new() -> DisplayEvents {
         DisplayEvents {
