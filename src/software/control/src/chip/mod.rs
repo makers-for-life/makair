@@ -39,7 +39,6 @@ impl Chip {
     }
 
     pub fn new_event(&mut self, event: TelemetryMessage) {
-        info!("New event: {:?}", event);
         match event {
             TelemetryMessage::AlarmTrap(_) => {}
 
