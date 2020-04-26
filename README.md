@@ -155,13 +155,13 @@ _🚧 Work In Progress. The Control Unit UI is coming as part of MakAir V2._
 
 ## Software
 
+[![Firmware Lint](https://github.com/makers-for-life/makair/workflows/Firmware%20Lint/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Firmware+Lint%22) [![Firmware Unit Tests](https://github.com/makers-for-life/makair/workflows/Firmware%20Unit%20Tests/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Firmware+Unit+Tests%22) [![Control Lint](https://github.com/makers-for-life/makair/workflows/Control%20Lint/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Control+Lint%22) [![Telemetry All](https://github.com/makers-for-life/makair/workflows/Telemetry%20All/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Telemetry+All%22)
+
 | Runtime | Version | Major Changes | Ready? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
 | [Ventilator Firmware](./src/software/firmware) | V1.5.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + [Gabriel Moneyron](https://github.com/Benhalor)
 | [Control Unit](./src/software/control) | V0.1.x | Project started | ❌ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce) + [Arnaud Lefebvre](https://github.com/BlackYoup)
 | [Telemetry Library](./src/software/telemetry) | V1.0.0 | Working serial parsing from firmware | ✅ | [David Sferruzza](https://github.com/dsferruzza)
-
-[![Firmware Lint](https://github.com/makers-for-life/makair/workflows/Firmware%20Lint/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Firmware+Lint%22) [![Firmware Unit Tests](https://github.com/makers-for-life/makair/workflows/Firmware%20Unit%20Tests/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Firmware+Unit+Tests%22) [![Control Lint](https://github.com/makers-for-life/makair/workflows/Control%20Lint/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Control+Lint%22) [![Telemetry All](https://github.com/makers-for-life/makair/workflows/Telemetry%20All/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Telemetry+All%22)
 
 # Schemes
 
