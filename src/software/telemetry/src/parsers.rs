@@ -293,13 +293,16 @@ mod tests {
         #[test]
         fn test_boot_message_parser(
             version in ".*",
+            device_id1 in (0u32..),
+            device_id2 in (0u32..),
+            device_id3 in (0u32..),
             systick in (0u64..),
             mode in mode_strategy(),
             value128 in (0u8..)
             ) {
             let msg = BootMessage {
                 version: version.to_string(),
-                device_id: "2863311530-3149642683-2863311530".to_string(), // TODO Use a Strategy.
+                device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
                 systick: systick,
                 mode: mode,
                 value128: value128,
@@ -312,7 +315,10 @@ mod tests {
                 b"B:\x01",
                 &[*&msg.version.len() as u8],
                 &msg.version.as_bytes(),
-                b"\xaa\xaa\xaa\xaa\xbb\xbb\xbb\xbb\xaa\xaa\xaa\xaa\t",
+                &device_id1.to_be_bytes(),
+                &device_id2.to_be_bytes(),
+                &device_id3.to_be_bytes(),
+                b"\t",
                 &msg.systick.to_be_bytes(),
                 b"\t",
                 &[mode_ordinal(&msg.mode)],
