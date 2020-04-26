@@ -112,7 +112,7 @@ impl<'a> Screen<'a> {
         let peak_config = TelemetryWidgetConfig {
             title: "P(peak)",
             value: format!(
-                "{} <- ({})",
+                "{} ← ({})",
                 (machine_snapshot.previous_peak_pressure as f64 / 10.0).round(),
                 machine_snapshot.peak_command
             ),
@@ -136,7 +136,7 @@ impl<'a> Screen<'a> {
         let plateau_config = TelemetryWidgetConfig {
             title: "P(plateau)",
             value: format!(
-                "{} <- ({})",
+                "{} ← ({})",
                 (machine_snapshot.previous_plateau_pressure as f64 / 10.0).round(),
                 machine_snapshot.plateau_command
             ),
@@ -160,7 +160,7 @@ impl<'a> Screen<'a> {
         let peep_config = TelemetryWidgetConfig {
             title: "P(expiratory)",
             value: format!(
-                "{} <- ({})",
+                "{} ← ({})",
                 (machine_snapshot.previous_peep_pressure as f64 / 10.0).round(),
                 machine_snapshot.peep_command
             ),
@@ -204,7 +204,7 @@ impl<'a> Screen<'a> {
         let ratio_config = TelemetryWidgetConfig {
             title: "Insp-exp ratio",
             value: "0:0".to_string(), //TODO
-            unit: "inspiration:expiration",
+            unit: "insp:exp.",
             ids: (
                 self.ids.ratio_parent,
                 self.ids.ratio_title,
