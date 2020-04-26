@@ -14,9 +14,10 @@ use crate::config::environment::{
     DISPLAY_WINDOW_SIZE_WIDTH, GRAPH_DRAW_LABEL_WIDTH, GRAPH_DRAW_LINE_SIZE, GRAPH_DRAW_MARGIN,
     GRAPH_DRAW_RANGE_HIGH, GRAPH_DRAW_RANGE_LOW, GRAPH_DRAW_SECONDS,
 };
+
+use crate::chip::ChipState;
 use crate::physics::types::DataPressure;
 
-use super::drawer::UIState;
 use super::fonts::Fonts;
 use super::screen::{Ids, Screen};
 use super::support::GliumDisplayWinitWrapper;
@@ -43,7 +44,7 @@ impl DisplayRenderer {
         machine_snapshot: &MachineStateSnapshot,
         display: &GliumDisplayWinitWrapper,
         interface: &mut Ui,
-        ui_state: &UIState,
+        chip_state: &ChipState,
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let image_map = conrod_core::image::Map::<texture::Texture2d>::new();
 
@@ -51,10 +52,10 @@ impl DisplayRenderer {
         let ids = Ids::new(interface.widget_id_generator());
 
         // .clone() makes the borrow checker happy
-        match ui_state.clone() {
-            UIState::WaitingData => self.empty(ids, interface, image_map),
-            UIState::Stopped => self.stopped(ids, interface, image_map),
-            UIState::Running => self.data(
+        match chip_state {
+            ChipState::WaitingData => self.empty(ids, interface, image_map),
+            ChipState::Stopped => self.stopped(ids, interface, image_map),
+            ChipState::Running => self.data(
                 ids,
                 display,
                 interface,
@@ -62,7 +63,7 @@ impl DisplayRenderer {
                 data_pressure,
                 machine_snapshot,
             ),
-            UIState::Error(e) => self.error(ids, interface, image_map, e),
+            ChipState::Error(e) => self.error(ids, interface, image_map, e.clone()),
         }
     }
 
