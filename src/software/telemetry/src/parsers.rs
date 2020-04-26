@@ -289,75 +289,155 @@ mod tests {
         }
     }
 
+    // TODO Generate all combinations (independent each other) ?
+    fn phase_subphase_strategy() -> impl Strategy<Value = (Phase, SubPhase)> {
+        prop_oneof![
+            (Just(Phase::Inhalation), Just(SubPhase::Inspiration)),
+            (Just(Phase::Inhalation), Just(SubPhase::HoldInspiration)),
+            (Just(Phase::Exhalation), Just(SubPhase::Exhale)),
+        ]
+    }
+
     proptest! {
-        #[test]
-        fn test_boot_message_parser(
-            version in ".*",
-            device_id1 in (0u32..),
-            device_id2 in (0u32..),
-            device_id3 in (0u32..),
-            systick in (0u64..),
-            mode in mode_strategy(),
-            value128 in (0u8..)
-        ) {
-            let msg = BootMessage {
-                version: version.to_string(),
-                device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
-                systick,
-                mode,
-                value128,
-            };
+         #[test]
+         fn test_boot_message_parser(
+             version in ".*",
+             device_id1 in (0u32..),
+             device_id2 in (0u32..),
+             device_id3 in (0u32..),
+             systick in (0u64..),
+             mode in mode_strategy(),
+             value128 in (0u8..)
+         ) {
+             let msg = BootMessage {
+                 version: version.to_string(),
+                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                 systick,
+                 mode,
+                 value128,
+             };
 
-            // This needs to be consistent with sendBootMessage() defined in src/software/firmware/srcs/telemetry.cpp
-            let input = &flat(&[
-                b"B:\x01",
-                &[*&msg.version.len() as u8],
-                &msg.version.as_bytes(),
-                &device_id1.to_be_bytes(),
-                &device_id2.to_be_bytes(),
-                &device_id3.to_be_bytes(),
-                b"\t",
-                &msg.systick.to_be_bytes(),
-                b"\t",
-                &[mode_ordinal(&msg.mode)],
-                b"\t",
-                &[*&msg.value128],
-                b"\n",
-            ]);
+             // This needs to be consistent with sendBootMessage() defined in src/software/firmware/srcs/telemetry.cpp
+             let input = &flat(&[
+                 b"B:\x01",
+                 &[*&msg.version.len() as u8],
+                 &msg.version.as_bytes(),
+                 &device_id1.to_be_bytes(),
+                 &device_id2.to_be_bytes(),
+                 &device_id3.to_be_bytes(),
+                 b"\t",
+                 &msg.systick.to_be_bytes(),
+                 b"\t",
+                 &[mode_ordinal(&msg.mode)],
+                 b"\t",
+                 &[*&msg.value128],
+                 b"\n",
+             ]);
 
-            let expected = TelemetryMessage::BootMessage(msg);
-            assert_eq!(nom::dbg_dmp(boot, "boot")(input), Ok((&[][..], expected)));
-        }
+             let expected = TelemetryMessage::BootMessage(msg);
+             assert_eq!(nom::dbg_dmp(boot, "boot")(input), Ok((&[][..], expected)));
+         }
+    }
 
-        #[test]
-        fn test_stopped_message_parser(
-            version in ".*",
-            device_id1 in (0u32..),
-            device_id2 in (0u32..),
-            device_id3 in (0u32..),
-            systick in (0u64..),
-        ) {
-            let msg = StoppedMessage {
-                version: version.to_string(),
-                device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
-                systick,
-            };
+    proptest! {
+         #[test]
+         fn test_stopped_message_parser(
+             version in ".*",
+             device_id1 in (0u32..),
+             device_id2 in (0u32..),
+             device_id3 in (0u32..),
+             systick in (0u64..),
+         ) {
+             let msg = StoppedMessage {
+                 version: version.to_string(),
+                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                 systick,
+             };
 
-            // This needs to be consistent with sendStoppedMessage() defined in src/software/firmware/srcs/telemetry.cpp
-            let input = &flat(&[
-                b"O:\x01",
-                &[*&msg.version.len() as u8],
-                &msg.version.as_bytes(),
-                &device_id1.to_be_bytes(),
-                &device_id2.to_be_bytes(),
-                &device_id3.to_be_bytes(),
-                b"\t",
-                &msg.systick.to_be_bytes(),
-                b"\n",
-            ]);
+             // This needs to be consistent with sendStoppedMessage() defined in src/software/firmware/srcs/telemetry.cpp
+             let input = &flat(&[
+                 b"O:\x01",
+                 &[*&msg.version.len() as u8],
+                 &msg.version.as_bytes(),
+                 &device_id1.to_be_bytes(),
+                 &device_id2.to_be_bytes(),
+                 &device_id3.to_be_bytes(),
+                 b"\t",
+                 &msg.systick.to_be_bytes(),
+                 b"\n",
+             ]);
 
-            let expected = TelemetryMessage::StoppedMessage(msg);
-            assert_eq!(nom::dbg_dmp(stopped, "stopped")(input), Ok((&[][..], expected)));
-        }
+             let expected = TelemetryMessage::StoppedMessage(msg);
+             assert_eq!(nom::dbg_dmp(stopped, "stopped")(input), Ok((&[][..], expected)));
+         }
+    }
+
+    proptest! {
+         #[test]
+         fn test_data_snapshot_message_parser(
+             version in ".*",
+             device_id1 in (0u32..),
+             device_id2 in (0u32..),
+             device_id3 in (0u32..),
+             systick in (0u64..),
+             centile in (0u16..),
+             pressure in (0u16..),
+             phase_subphase in phase_subphase_strategy(),
+             blower_valve_position in (0u8..),
+             patient_valve_position in (0u8..),
+             blower_rpm in (0u8..),
+             battery_level in (0u8..),
+         ) {
+             let msg = DataSnapshot {
+                 version: version.to_string(),
+                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                 systick,
+                 centile,
+                 pressure,
+                 phase: phase_subphase.0.clone(),
+                 subphase: phase_subphase.1.clone(),
+                 blower_valve_position,
+                 patient_valve_position,
+                 blower_rpm,
+                 battery_level,
+             };
+
+             let phase_value : u8 = match (phase_subphase.0, phase_subphase.1) {
+                (Phase::Inhalation, SubPhase::Inspiration)      => 17,
+                (Phase::Inhalation, SubPhase::HoldInspiration)  => 18,
+                (Phase::Exhalation, SubPhase::Exhale)           => 68,
+                _                                               => 0
+             };
+
+             // This needs to be consistent with sendDataSnapshot() defined in src/software/firmware/srcs/telemetry.cpp
+             let input = &flat(&[
+                 b"D:\x01",
+                 &[*&msg.version.len() as u8],
+                 &msg.version.as_bytes(),
+                 &device_id1.to_be_bytes(),
+                 &device_id2.to_be_bytes(),
+                 &device_id3.to_be_bytes(),
+                 b"\t",
+                 &msg.systick.to_be_bytes(),
+                 b"\t",
+                 &msg.centile.to_be_bytes(),
+                 b"\t",
+                 &msg.pressure.to_be_bytes(),
+                 b"\t",
+                 &[phase_value],
+                 b"\t",
+                 &[*&msg.blower_valve_position],
+                 b"\t",
+                 &[*&msg.patient_valve_position],
+                 b"\t",
+                 &[*&msg.blower_rpm],
+                 b"\t",
+                 &[*&msg.battery_level],
+                 b"\n",
+             ]);
+
+             let expected = TelemetryMessage::DataSnapshot(msg);
+             assert_eq!( nom::dbg_dmp(data_snapshot, "data_snapshot")(input), Ok((&[][..], expected)) );
+         }
     }
 }
