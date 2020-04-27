@@ -5,7 +5,7 @@
 
 use conrod_core::color::Color;
 
-pub const RUNTIME_VERSION: &'static str = env!("CARGO_PKG_VERSION");
+pub const RUNTIME_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 pub const DISPLAY_WINDOW_SIZE_WIDTH: u32 = 800;
 pub const DISPLAY_WINDOW_SIZE_HEIGHT: u32 = 480;
@@ -19,10 +19,6 @@ pub const BRANDING_IMAGE_MARGIN_TOP: f64 = 22.0;
 pub const BRANDING_IMAGE_MARGIN_LEFT: f64 = 26.0;
 pub const BRANDING_TEXT_MARGIN_TOP: f64 = 52.0;
 pub const BRANDING_TEXT_MARGIN_LEFT: f64 = 82.0;
-
-// TODO: use those
-pub const ALARMS_PARENT_MARGIN_TOP: f64 = 12.0;
-pub const ALARMS_LABEL_MARGIN_LEFT: f64 = 22.0;
 
 pub const DISPLAY_ALARM_CONTAINER_WIDTH: f64 = 274.0;
 pub const DISPLAY_ALARM_CONTAINER_HEIGHT: f64 = 66.0;

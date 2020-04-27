@@ -35,7 +35,7 @@ pub struct DisplayRenderer {
 const GRAPH_WIDTH: u32 = DISPLAY_WINDOW_SIZE_WIDTH - DISPLAY_GRAPH_OFFSET_WIDTH;
 const GRAPH_HEIGHT: u32 = DISPLAY_WINDOW_SIZE_HEIGHT - DISPLAY_GRAPH_OFFSET_HEIGHT;
 
-const FIRMWARE_VERSION_NONE: &'static str = "n/a";
+const FIRMWARE_VERSION_NONE: &str = "n/a";
 
 lazy_static! {
     static ref IMAGE_TOP_LOGO_RGBA_RAW: Vec<u8> = open("./res/images/top-logo.png")
