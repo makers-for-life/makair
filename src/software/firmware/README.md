@@ -36,11 +36,11 @@ Low-level configuration options can be found in [includes/parameters.h](includes
 
 The following version of software are build and analysed.
 
-| Software Mode    | Hardware | Version | Valve version | Link                                                                                                                                    |
-| ---------------- | -------- | ------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| integration-test | HW1      | dev     | pinch valve   | [respirator-integration-test-HW1-dev](https://sonarcloud.io/organizations/makers-for-life/projects/respirator-integration-test-HW1-dev) |
-| integration-test | HW2      | dev     | pinch valve   | [respirator-integration-test-HW2-dev](https://sonarcloud.io/organizations/makers-for-life/projects/respirator-integration-test-HW2-dev) |
-| production       | HW1      | dev     | pinch valve   | [respirator-production-HW1-dev](https://sonarcloud.io/organizations/makers-for-life/projects/respirator-production-HW1-dev)             |
-| production       | HW2      | dev     | pinch valve   | [respirator-production-HW2-dev](https://sonarcloud.io/organizations/makers-for-life/projects/respirator-production-HW2-dev)             |
-| qualification    | HW1      | dev     | pinch valve   | [respirator-qualification-HW1-dev](https://sonarcloud.io/organizations/makers-for-life/projects/respirator-qualification-HW1-dev)       |
-| qualification    | HW2      | dev     | pinch valve   | [respirator-qualification-HW2-dev](https://sonarcloud.io/organizations/makers-for-life/projects/respirator-qualification-HW2-dev)       |
+| Software Mode    | Hardware | Valve version | Link                                                                                                  |
+| ---------------- | -------- | ------------- | ----------------------------------------------------------------------------------------------------- |
+| integration-test | HW1      | pinch valve   | [respirator-integration-test-HW1](https://sonarcloud.io/dashboard?id=respirator-integration-test-HW1) |
+| integration-test | HW2      | pinch valve   | [respirator-integration-test-HW2](https://sonarcloud.io/dashboard?id=respirator-integration-test-HW2) |
+| production       | HW1      | pinch valve   | [respirator-production-HW1](https://sonarcloud.io/dashboard?id=respirator-production-HW1)             |
+| production       | HW2      | pinch valve   | [respirator-production-HW2](https://sonarcloud.io/dashboard?id=respirator-production-HW2)             |
+| qualification    | HW1      | pinch valve   | [respirator-qualification-HW1](https://sonarcloud.io/dashboard?id=respirator-qualification-HW1)       |
+| qualification    | HW2      | pinch valve   | [respirator-qualification-HW2](https://sonarcloud.io/dashboard?id=respirator-qualification-HW2)       |

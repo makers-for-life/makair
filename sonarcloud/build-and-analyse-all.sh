@@ -12,13 +12,13 @@ for softwareIndex in "${!softwareNames[@]}"
 do
     for hardwareIndex in "${!hardwareVersionNames[@]}"
     do
-      export SOFTWARE_FULLNAME="respirator-${softwareNames[$softwareIndex]}-${hardwareVersionNames[$hardwareIndex]}-dev"
+      export SOFTWARE_FULLNAME="respirator-${softwareNames[$softwareIndex]}-${hardwareVersionNames[$hardwareIndex]}"
       export MODE=${softwareModes[$softwareIndex]}
       export HARDWARE_VERSION=${hardwareVersions[$hardwareIndex]}
 
       path="build/${SOFTWARE_FULLNAME}/bo"
 
-      mkdir -p path
+      mkdir -p "$path"
 
       arduino-cli cache clean
       build-wrapper-linux-x86-64 --out-dir "$path" bash sonarcloud/build.sh > /dev/null

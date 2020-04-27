@@ -32,8 +32,10 @@ cache:
     - "$HOME/.sonar/cache/respirator-production-HW2-dev"
     - "$HOME/.sonar/cache/respirator-qualification-HW1-dev"
     - "$HOME/.sonar/cache/respirator-qualification-HW2-dev"
+
+branches:
+  only:
+    - master
+
 script:
-  - |
-    if [[ $TRAVIS_PULL_REQUEST_SLUG == "" || $TRAVIS_PULL_REQUEST_SLUG == "makers-for-life/makair" ]]; then
-      bash sonarcloud/build-and-analyse-all.sh
-    fi
+  - bash sonarcloud/build-and-analyse-all.sh
