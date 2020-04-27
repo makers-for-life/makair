@@ -7,7 +7,7 @@ use conrod_core::color::{self, Color};
 
 use telemetry::structures::MachineStateSnapshot;
 
-use crate::config::environment::DISPLAY_WIDGET_SPACING_FROM_BOTTOM;
+use crate::config::environment::{DISPLAY_WIDGET_SPACING_FROM_BOTTOM, RUNTIME_VERSION};
 
 use super::fonts::Fonts;
 use super::widget::{
@@ -102,7 +102,7 @@ impl<'a> Screen<'a> {
         self.render_background();
         self.render_branding(
             "?.?.?".to_string(),
-            "?.?.?".to_string(),
+            RUNTIME_VERSION,
             branding_data.image_id,
             branding_data.width,
             branding_data.height,
@@ -120,7 +120,7 @@ impl<'a> Screen<'a> {
     pub fn render_branding(
         &mut self,
         version_firmware: String,
-        version_control: String,
+        version_control: &'a str,
         image_id: conrod_core::image::Id,
         width: f64,
         height: f64,

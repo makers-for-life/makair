@@ -28,9 +28,9 @@ impl BackgroundWidgetConfig {
     }
 }
 
-pub struct BrandingWidgetConfig {
+pub struct BrandingWidgetConfig<'a> {
     version_firmware: String,
-    version_control: String,
+    version_control: &'a str,
     width: f64,
     height: f64,
     image: conrod_core::image::Id,
@@ -54,10 +54,10 @@ pub struct GraphWidgetConfig {
     id: WidgetId,
 }
 
-impl BrandingWidgetConfig {
+impl<'a> BrandingWidgetConfig<'a> {
     pub fn new(
         version_firmware: String,
-        version_control: String,
+        version_control: &str,
         width: f64,
         height: f64,
         image: conrod_core::image::Id,
@@ -134,7 +134,7 @@ impl InitializingWidgetConfig {
 pub enum ControlWidgetType<'a> {
     Background(BackgroundWidgetConfig),
     Error(ErrorWidgetConfig),
-    Branding(BrandingWidgetConfig),
+    Branding(BrandingWidgetConfig<'a>),
     Initializing(InitializingWidgetConfig),
     Graph(GraphWidgetConfig),
     NoData(NoDataWidgetConfig),

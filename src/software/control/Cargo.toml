@@ -1,6 +1,6 @@
 [package]
 name = "makair-control"
-version = "0.1.0"
+version = "1.0.0"
 description = "Control UI for the MakAir SARS respirator."
 readme = "README.md"
 license-file = "LICENSE.txt"

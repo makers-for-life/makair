@@ -4,7 +4,7 @@
 
 | Version | Last Changelog | Ready? |
 | ------- | -------------- | ------ |
-| V0.1.x | Project started | ❌
+| V1.0.x | Project started | ❌
 
 ## How To Build?
 
