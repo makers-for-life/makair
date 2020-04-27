@@ -85,6 +85,7 @@ pub struct DataSnapshot {
 pub struct MachineStateSnapshot {
     pub version: String,
     pub device_id: String,
+    pub systick: u64,
     pub cycle: u32,
     pub peak_command: u8,
     pub plateau_command: u8,
