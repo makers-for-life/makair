@@ -32,7 +32,7 @@ pub fn gather_telemetry(
     mut file_buf: Option<BufWriter<File>>,
 ) {
     loop {
-        info!("Opening {}", &port_id);
+        info!("opening {}", &port_id);
         match serial::open(&port_id) {
             Err(e) => {
                 error!("{:?}", e);
@@ -148,7 +148,7 @@ pub fn display_message(message: TelemetryChannelType) {
             debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
         Err(e) => {
-            warn!("An error occurred: {:?}", e);
+            warn!("an error occurred: {:?}", e);
         }
     }
 }
@@ -160,7 +160,7 @@ pub fn gather_telemetry_from_file(file: File, tx: Sender<TelemetryChannelType>) 
     let stopped_message_period = std::time::Duration::from_millis(100);
     let data_message_period = std::time::Duration::from_millis(10);
 
-    info!("Start playing telemetry messages");
+    info!("start playing telemetry messages");
 
     for line in reader.lines() {
         if let Ok(line_str) = line {

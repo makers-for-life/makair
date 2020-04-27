@@ -186,7 +186,7 @@ impl<'a> ControlWidget<'a> {
         widget::Text::new(&branding_text)
             .color(color::WHITE.with_alpha(0.45))
             .top_left_with_margins(BRANDING_TEXT_MARGIN_TOP, BRANDING_TEXT_MARGIN_LEFT)
-            .font_size(11)
+            .font_size(10)
             .set(config.ids.1, &mut self.ui);
 
         config.width

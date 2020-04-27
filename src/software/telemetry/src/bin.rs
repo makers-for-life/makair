@@ -89,7 +89,7 @@ fn debug(cfg: Debug) {
                 std::thread::sleep(std::time::Duration::from_millis(10));
             }
             Err(TryRecvError::Disconnected) => {
-                panic!("Channel to serial port thread was closed");
+                panic!("channel to serial port thread was closed");
             }
         }
     }
@@ -117,7 +117,7 @@ fn record(cfg: Record) {
                 std::thread::sleep(std::time::Duration::from_millis(10));
             }
             Err(TryRecvError::Disconnected) => {
-                panic!("Channel to serial port thread was closed");
+                panic!("channel to serial port thread was closed");
             }
         }
     }
@@ -139,7 +139,7 @@ fn play(cfg: Play) {
                 std::thread::sleep(std::time::Duration::from_millis(1));
             }
             Err(TryRecvError::Disconnected) => {
-                warn!("End of recording");
+                warn!("end of recording");
                 std::process::exit(0);
             }
         }

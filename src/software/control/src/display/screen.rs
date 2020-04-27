@@ -7,7 +7,7 @@ use conrod_core::color::{self, Color};
 
 use telemetry::structures::MachineStateSnapshot;
 
-use crate::config::environment::{DISPLAY_WIDGET_SPACING_FROM_BOTTOM, RUNTIME_VERSION};
+use crate::config::environment::DISPLAY_WIDGET_SPACING_FROM_BOTTOM;
 
 use super::fonts::Fonts;
 use super::widget::{
@@ -62,6 +62,8 @@ widget_ids!(pub struct Ids {
   initializing
 });
 
+const RUNTIME_VERSION: &'static str = env!("CARGO_PKG_VERSION");
+
 pub struct Screen<'a> {
     ids: &'a Ids,
     machine_snapshot: Option<&'a MachineStateSnapshot>,
@@ -101,12 +103,13 @@ impl<'a> Screen<'a> {
     ) {
         self.render_background();
         self.render_branding(
-            "?.?.?".to_string(),
+            // TODO: pass firmware version from firmware env
+            "0.0.0".to_string(),
             RUNTIME_VERSION,
             branding_data.image_id,
             branding_data.width,
             branding_data.height,
-        ); // TODO: from dyn vals
+        );
         self.render_graph(graph_data.image_id, graph_data.width, graph_data.height);
         self.render_telemetry();
     }
