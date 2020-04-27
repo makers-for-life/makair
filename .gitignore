@@ -9,3 +9,5 @@ src/software/firmware/*.ods
 src/software/firmware/*.csv#
 src/software/firmware/*.ods#
 src/software/control/target/*
+build/*
+.scannerwork

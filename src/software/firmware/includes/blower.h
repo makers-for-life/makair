@@ -40,18 +40,18 @@ class Blower {
      * Run the Blower to a speed
      * @param p_speed  speed between MIN_BLOWER_SPEED and MAX_BLOWER_SPEED.
      */
-    void runSpeed(int16_t p_speed);
+    void runSpeed(uint16_t p_speed);
 
     /// Stops the blower
     void stop();
 
     /// Get speed value
-    int getSpeed() const;
+    uint16_t getSpeed() const;
 
  private:
     HardwareTimer* actuator;
     uint16_t timerChannel;
     uint16_t blowerPin;
-    int16_t m_speed;
+    uint16_t m_speed;
     bool m_stopped;
 };

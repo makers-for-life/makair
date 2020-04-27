@@ -269,6 +269,13 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
 
     Serial6.print("\t");
 
+    byte systick[8];  // 64 bits
+    uint64_t systickValue = (millis() * 1000) + (micros() % 1000);
+    toBytes64(systick, systickValue);
+    Serial6.write(systick, 8);
+
+    Serial6.print("\t");
+
     byte cycle[4];  // 32 bits
     toBytes32(cycle, cycleValue);
     Serial6.write(cycle, 4);

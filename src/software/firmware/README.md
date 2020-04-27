@@ -31,3 +31,16 @@ arduino-cli compile --fqbn STM32:stm32:Nucleo_64:opt=o3std,pnum=NUCLEO_F411RE --
 High-level configuration options are available and documented in [includes/config.h](includes/config.h).
 
 Low-level configuration options can be found in [includes/parameters.h](includes/parameters.h).
+
+## Sonar analysis
+
+The following version of software are build and analysed.
+
+| Software Mode    | Hardware | Valve version | Link                                                                                                  |
+| ---------------- | -------- | ------------- | ----------------------------------------------------------------------------------------------------- |
+| integration-test | HW1      | pinch valve   | [respirator-integration-test-HW1](https://sonarcloud.io/dashboard?id=respirator-integration-test-HW1) |
+| integration-test | HW2      | pinch valve   | [respirator-integration-test-HW2](https://sonarcloud.io/dashboard?id=respirator-integration-test-HW2) |
+| production       | HW1      | pinch valve   | [respirator-production-HW1](https://sonarcloud.io/dashboard?id=respirator-production-HW1)             |
+| production       | HW2      | pinch valve   | [respirator-production-HW2](https://sonarcloud.io/dashboard?id=respirator-production-HW2)             |
+| qualification    | HW1      | pinch valve   | [respirator-qualification-HW1](https://sonarcloud.io/dashboard?id=respirator-qualification-HW1)       |
+| qualification    | HW2      | pinch valve   | [respirator-qualification-HW2](https://sonarcloud.io/dashboard?id=respirator-qualification-HW2)       |

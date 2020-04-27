@@ -6,7 +6,7 @@
 use conrod_core::color::{self, Color};
 
 use telemetry::alarm::AlarmCode;
-use telemetry::structures::{AlarmTrap, MachineStateSnapshot};
+use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
 
 use crate::config::environment::{RUNTIME_VERSION, TELEMETRY_WIDGET_SPACING_FROM_BOTTOM};
 
@@ -64,8 +64,13 @@ widget_ids!(pub struct Ids {
   tidal_value,
   tidal_unit,
 
+  stopped_background,
+  stopped_container_borders,
+  stopped_container,
+  stopped_title,
+  stopped_message,
+
   no_data,
-  stopped,
   error,
   initializing
 });
@@ -73,7 +78,7 @@ widget_ids!(pub struct Ids {
 pub struct Screen<'a> {
     ids: &'a Ids,
     machine_snapshot: Option<&'a MachineStateSnapshot>,
-    ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmTrap)]>,
+    ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmPriority)]>,
     widgets: ControlWidget<'a>,
 }
 
@@ -96,7 +101,7 @@ impl<'a> Screen<'a> {
         ids: &'a Ids,
         fonts: &'a Fonts,
         machine_snapshot: Option<&'a MachineStateSnapshot>,
-        ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmTrap)]>,
+        ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmPriority)]>,
     ) -> Screen<'a> {
         Screen {
             ids,
@@ -185,8 +190,21 @@ impl<'a> Screen<'a> {
         self.widgets.render(ControlWidgetType::Graph(config));
     }
 
-    pub fn render_stop(&mut self) {
-        let config = StopWidgetConfig::new(self.ids.stopped);
+    pub fn render_stop(
+        &mut self,
+        branding_data: ScreenDataBranding<'a>,
+        graph_data: ScreenDataGraph,
+    ) {
+        self.render_with_data(branding_data, graph_data);
+
+        let config = StopWidgetConfig {
+            parent: self.ids.background,
+            background: self.ids.stopped_background,
+            container_borders: self.ids.stopped_container_borders,
+            container: self.ids.stopped_container,
+            title: self.ids.stopped_title,
+            message: self.ids.stopped_message,
+        };
 
         self.widgets.render(ControlWidgetType::Stop(config));
     }

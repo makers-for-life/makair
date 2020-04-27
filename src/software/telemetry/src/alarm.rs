@@ -16,52 +16,34 @@ const RMC_SW_19: u8 = 24;
 
 #[allow(non_camel_case_types)]
 #[derive(Debug, Eq, PartialEq, Hash, Clone, Copy)]
-pub enum AlarmCode {
-    RMC_SW_1,
-    RMC_SW_2,
-    RMC_SW_3,
-    RMC_SW_11,
-    RMC_SW_12,
-    RMC_SW_14,
-    RMC_SW_15,
-    RMC_SW_16,
-    RMC_SW_18,
-    RMC_SW_19,
-    Unknown(u8),
+pub struct AlarmCode {
+    code: u8,
 }
 
 impl AlarmCode {
     pub fn description(self) -> String {
-        match self {
-            Self::RMC_SW_1 => "Plateau pressure is not reached".to_string(),
-            Self::RMC_SW_2 => "Patient is unplugged".to_string(),
-            Self::RMC_SW_3 => "PEEP pressure is not reached".to_string(),
-            Self::RMC_SW_11 => "Battery low".to_string(),
-            Self::RMC_SW_12 => "Battery very low".to_string(),
-            Self::RMC_SW_14 => "Plateau pressure is not reached".to_string(),
-            Self::RMC_SW_15 => "PEEP pressure is not reached".to_string(),
-            Self::RMC_SW_16 => "Power cable unplugged".to_string(),
-            Self::RMC_SW_18 => "Pressure too high".to_string(),
-            Self::RMC_SW_19 => "Patient is unplugged".to_string(),
-            Self::Unknown(code) => format!("Unknown alert {}", code),
+        match self.code {
+            RMC_SW_1 => "Plateau pressure is not reached".to_string(),
+            RMC_SW_2 => "Patient is unplugged".to_string(),
+            RMC_SW_3 => "PEEP pressure is not reached".to_string(),
+            RMC_SW_11 => "Battery low".to_string(),
+            RMC_SW_12 => "Battery very low".to_string(),
+            RMC_SW_14 => "Plateau pressure is not reached".to_string(),
+            RMC_SW_15 => "PEEP pressure is not reached".to_string(),
+            RMC_SW_16 => "Power cable unplugged".to_string(),
+            RMC_SW_18 => "Pressure too high".to_string(),
+            RMC_SW_19 => "Patient is unplugged".to_string(),
+            _ => format!("Unknown alert {}", self.code),
         }
+    }
+
+    pub fn code(self) -> u8 {
+        self.code
     }
 }
 
 impl From<u8> for AlarmCode {
     fn from(code: u8) -> AlarmCode {
-        match code {
-            RMC_SW_1 => AlarmCode::RMC_SW_1,
-            RMC_SW_2 => AlarmCode::RMC_SW_2,
-            RMC_SW_3 => AlarmCode::RMC_SW_3,
-            RMC_SW_11 => AlarmCode::RMC_SW_11,
-            RMC_SW_12 => AlarmCode::RMC_SW_12,
-            RMC_SW_14 => AlarmCode::RMC_SW_14,
-            RMC_SW_15 => AlarmCode::RMC_SW_15,
-            RMC_SW_16 => AlarmCode::RMC_SW_16,
-            RMC_SW_18 => AlarmCode::RMC_SW_18,
-            RMC_SW_19 => AlarmCode::RMC_SW_19,
-            _ => AlarmCode::Unknown(code),
-        }
+        AlarmCode { code }
     }
 }
