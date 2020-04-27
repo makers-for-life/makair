@@ -5,7 +5,7 @@
 
 use conrod_core::Ui;
 use glium::texture;
-use image::{buffer::ConvertBuffer, RgbImage, RgbaImage};
+use image::{buffer::ConvertBuffer, open, RgbImage, RgbaImage};
 use plotters::prelude::*;
 use telemetry::structures::MachineStateSnapshot;
 
@@ -32,6 +32,13 @@ pub struct DisplayRenderer {
 
 const GRAPH_WIDTH: u32 = DISPLAY_WINDOW_SIZE_WIDTH - DISPLAY_GRAPH_OFFSET_WIDTH;
 const GRAPH_HEIGHT: u32 = DISPLAY_WINDOW_SIZE_HEIGHT - DISPLAY_GRAPH_OFFSET_HEIGHT;
+
+lazy_static! {
+    static ref IMAGE_TOP_LOGO_RGBA_RAW: Vec<u8> = open("./res/images/top-logo.png")
+        .unwrap()
+        .into_rgba()
+        .into_raw();
+}
 
 #[allow(clippy::new_ret_no_self)]
 impl DisplayRendererBuilder {
@@ -179,19 +186,10 @@ impl DisplayRenderer {
     }
 
     fn draw_branding(&self, display: &GliumDisplayWinitWrapper) -> glium::texture::Texture2d {
-        let buffer = vec![0; (BRANDING_WIDTH * BRANDING_HEIGHT * 4) as usize];
-
-        // TODO: fill buffer
-
         // Create image from raw buffer
-        let rgba_image: RgbaImage = RgbImage::from_raw(BRANDING_WIDTH, BRANDING_HEIGHT, buffer)
-            .unwrap()
-            .convert();
-        let image_dimensions = rgba_image.dimensions();
-
         let raw_image = glium::texture::RawImage2d::from_raw_rgba_reversed(
-            &rgba_image.into_raw(),
-            image_dimensions,
+            &*IMAGE_TOP_LOGO_RGBA_RAW,
+            (BRANDING_WIDTH, BRANDING_HEIGHT),
         );
 
         glium::texture::Texture2d::new(&display.0, raw_image).unwrap()

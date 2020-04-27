@@ -11,7 +11,7 @@ use conrod_core::{
 
 use crate::config::environment::{
     DISPLAY_WIDGET_SIZE_HEIGHT, DISPLAY_WIDGET_SIZE_SPACING, DISPLAY_WIDGET_SIZE_WIDTH,
-    GRAPH_DRAW_SPACING_FROM_BOTTOM,
+    GRAPH_DRAW_SPACING_FROM_BOTTOM, BRANDING_MARGIN_TOP, BRANDING_MARGIN_LEFT
 };
 
 use super::fonts::Fonts;
@@ -177,7 +177,7 @@ impl<'a> ControlWidget<'a> {
     fn branding(&mut self, config: BrandingWidgetConfig) -> f64 {
         widget::Image::new(config.image)
             .w_h(config.width, config.height)
-            .top_left_with_margin(0.0) // TODO
+            .top_left_with_margins(BRANDING_MARGIN_TOP, BRANDING_MARGIN_LEFT)
             .set(config.id, &mut self.ui);
 
         // TODO

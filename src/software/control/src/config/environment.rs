@@ -14,8 +14,10 @@ pub const DISPLAY_WIDGET_SIZE_WIDTH: f64 = 116.0;
 pub const DISPLAY_WIDGET_SIZE_HEIGHT: f64 = 72.0;
 pub const DISPLAY_WIDGET_SIZE_SPACING: f64 = 14.0;
 
-pub const BRANDING_WIDTH: u32 = 100;
-pub const BRANDING_HEIGHT: u32 = 30;
+pub const BRANDING_WIDTH: u32 = 121;
+pub const BRANDING_HEIGHT: u32 = 45;
+pub const BRANDING_MARGIN_TOP: f64 = 22.0;
+pub const BRANDING_MARGIN_LEFT: f64 = 26.0;
 
 pub const TELEMETRY_POINTS_PER_SECOND: usize = 10 * 100;
 
