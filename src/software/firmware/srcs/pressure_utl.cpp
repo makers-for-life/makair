@@ -29,7 +29,7 @@ static const int16_t RAW_PRESSURE_TO_MMH20_CONSTANT = 45;
 static const int32_t RAW_PRESSURE_TO_MMH20_NUM = 8774;
 static const int32_t RAW_PRESSURE_TO_MMH20_DEN = 10000;
 
-int16_t convertSensor2Pressure(uint16_t sensorValue) {
+int16_t convertSensor2Pressure(uint32_t sensorValue) {
     int32_t rawPressure = static_cast<int32_t>(sensorValue);
     int32_t delta = rawPressure - filteredRawPressure;
 
