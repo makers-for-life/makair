@@ -223,18 +223,18 @@ This project would not have been possible without the support of those companies
 
 We are supported by public entities as well, namely:
 
-* [Region of Auvergne-Rhône-Alpes](https://www.auvergnerhonealpes.fr/) (France)
-* [City of Nantes](https://metropole.nantes.fr/) (France)
+* [Defence Innovation Agency](https://www.defense.gouv.fr/) (Ministry of Armed Forces of France)
 * [CEA](http://www.cea.fr/) (France)
 * [CHU of Nantes](https://www.chu-nantes.fr/) (France)
 * [University of Nantes](https://www.univ-nantes.fr/) (France)
-* [Defence Innovation Agency](https://www.defense.gouv.fr/) (Ministry of Armed Forces of France)
+* [City of Nantes](https://metropole.nantes.fr/) (France)
+* [Region of Auvergne-Rhône-Alpes](https://www.auvergnerhonealpes.fr/) (France)
 
 Adding to that, 200+ individual members of the project who contributed to technical, legal, medical and press subjects (and more).
 
 # Press Coverage
 
-## TV
+## 📺 TV
 
 * [TF1, 26th April 2020](https://www.youtube.com/watch?v=2X157RLbRIA) (French-speaking)
 
