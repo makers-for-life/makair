@@ -267,8 +267,6 @@ void setup(void) {
     // Init the watchdog timer. It must be reloaded frequently otherwise MCU resests
     IWatchdog.begin(WATCHDOG_TIMEOUT);
     IWatchdog.reload();
-
-    alarmController.clearAlarmLogs();
 }
 
 // Time of the previous loop iteration
