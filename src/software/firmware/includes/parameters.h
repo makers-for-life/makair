@@ -134,9 +134,9 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
  * @name Blower
  */
 ///@{
-#define MIN_BLOWER_SPEED 950
-#define MAX_BLOWER_SPEED 1800
-#define DEFAULT_BLOWER_SPEED 1300
+#define MIN_BLOWER_SPEED 950u
+#define MAX_BLOWER_SPEED 1800u
+#define DEFAULT_BLOWER_SPEED 1300u
 ///@}
 
 /**
