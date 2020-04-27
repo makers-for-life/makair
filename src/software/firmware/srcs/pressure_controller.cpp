@@ -172,8 +172,6 @@ void PressureController::initRespiratoryCycle() {
     m_numberOfPressures = 0u;
 
     m_plateauStartTime = 0u;
-
-    m_alarmController->changeCycle();
 }
 
 void PressureController::endRespiratoryCycle() {
@@ -196,11 +194,11 @@ void PressureController::endRespiratoryCycle() {
         plateauPressureToDisplay = 0;
     }
 
-    sendMachineStateSnapshot(
-        m_cycleNb, mmH2OtoCmH2O(m_maxPeakPressureCommand),
-        mmH2OtoCmH2O(m_maxPlateauPressureCommand), mmH2OtoCmH2O(m_minPeepCommand),
-        m_cyclesPerMinuteCommand, m_peakPressure, plateauPressureToDisplay, m_peep,
-        m_alarmController->currentCycleAlarms(), m_alarmController->previousCycleAlarms());
+    sendMachineStateSnapshot(m_cycleNb, mmH2OtoCmH2O(m_maxPeakPressureCommand),
+                             mmH2OtoCmH2O(m_maxPlateauPressureCommand),
+                             mmH2OtoCmH2O(m_minPeepCommand), m_cyclesPerMinuteCommand,
+                             m_peakPressure, plateauPressureToDisplay, m_peep,
+                             m_alarmController->triggeredAlarms());
 #endif
 }
 

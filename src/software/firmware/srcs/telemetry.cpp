@@ -239,8 +239,7 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
                               uint16_t previousPeakPressureValue,
                               uint16_t previousPlateauPressureValue,
                               uint16_t previousPeepPressureValue,
-                              uint8_t currentAlarmCodes[ALARMS_SIZE],
-                              uint8_t previousAlarmCodes[ALARMS_SIZE]) {
+                              uint8_t currentAlarmCodes[ALARMS_SIZE]) {
 #if HARDWARE_VERSION == 1
     (void)cycleValue;
     (void)peakCommand;
@@ -251,21 +250,11 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
     (void)previousPlateauPressureValue;
     (void)previousPeepPressureValue;
     (void)currentAlarmCodes;
-    (void)previousAlarmCodes;
 #elif HARDWARE_VERSION == 2
     uint8_t currentAlarmSize = 0;
     for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
         if (currentAlarmCodes[i] != 0u) {
             currentAlarmSize++;
-        } else {
-            break;
-        }
-    }
-
-    uint8_t previousAlarmSize = 0;
-    for (uint8_t i = 0; i < ALARMS_SIZE; i++) {
-        if (previousAlarmCodes[i] != 0u) {
-            previousAlarmSize++;
         } else {
             break;
         }
@@ -314,11 +303,6 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
 
     Serial6.write(currentAlarmSize);
     Serial6.write(currentAlarmCodes, currentAlarmSize);
-
-    Serial6.print("\t");
-
-    Serial6.write(previousAlarmSize);
-    Serial6.write(previousAlarmCodes, previousAlarmSize);
 
     Serial6.print("\n");
 #endif
