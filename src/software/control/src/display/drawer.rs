@@ -12,7 +12,7 @@ use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 use glium::Surface;
 use telemetry::{self, TelemetryChannelType};
 
-use crate::chip::Chip;
+use crate::chip::{Chip, ChipState};
 use crate::serial::poller::{PollEvent, SerialPollerBuilder};
 use crate::APP_ARGS;
 
@@ -97,7 +97,9 @@ impl DisplayDrawer {
             let now = Utc::now();
 
             if (now - last_render) > Duration::milliseconds((1000 / FRAMERATE) as _) {
-                self.chip.clean_events();
+                if self.chip.get_state() != &ChipState::Stopped {
+                    self.chip.clean_events();
+                }
                 last_render = now;
 
                 self.refresh();

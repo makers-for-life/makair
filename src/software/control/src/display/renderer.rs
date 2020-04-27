@@ -3,6 +3,7 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
+use chrono::{DateTime, NaiveDateTime, Utc};
 use conrod_core::Ui;
 use glium::texture;
 use image::{buffer::ConvertBuffer, open, RgbImage, RgbaImage};
@@ -68,8 +69,7 @@ impl DisplayRenderer {
         match chip_state {
             ChipState::Initializing => self.initializing(ids, interface, image_map),
             ChipState::WaitingData => self.empty(ids, interface, image_map),
-            ChipState::Stopped => self.stopped(ids, interface, image_map),
-            ChipState::Running => self.data(
+            ChipState::Running | ChipState::Stopped => self.data(
                 ids,
                 display,
                 interface,
@@ -77,6 +77,7 @@ impl DisplayRenderer {
                 data_pressure,
                 machine_snapshot,
                 ongoing_alarms,
+                chip_state,
             ),
             ChipState::Error(e) => self.error(ids, interface, image_map, e.clone()),
         }
@@ -93,21 +94,6 @@ impl DisplayRenderer {
         let mut screen = Screen::new(ui, &ids, &self.fonts, None, None);
 
         screen.render_no_data();
-
-        image_map
-    }
-
-    fn stopped(
-        &mut self,
-        ids: Ids,
-        interface: &mut Ui,
-        image_map: conrod_core::image::Map<texture::Texture2d>,
-    ) -> conrod_core::image::Map<texture::Texture2d> {
-        let ui = interface.set_widgets();
-
-        let mut screen = Screen::new(ui, &ids, &self.fonts, None, None);
-
-        screen.render_stop();
 
         image_map
     }
@@ -153,6 +139,7 @@ impl DisplayRenderer {
         data_pressure: &DataPressure,
         machine_snapshot: &MachineStateSnapshot,
         ongoing_alarms: &[(&AlarmCode, &AlarmTrap)],
+        chip_state: &ChipState,
     ) -> conrod_core::image::Map<texture::Texture2d> {
         // Create branding
         let branding_image_texture = self.draw_branding(display);
@@ -194,23 +181,28 @@ impl DisplayRenderer {
             Some(ongoing_alarms),
         );
 
-        screen.render_with_data(
-            ScreenDataBranding {
-                firmware_version: if machine_snapshot.version.is_empty() {
-                    FIRMWARE_VERSION_NONE
-                } else {
-                    &machine_snapshot.version
-                },
-                image_id: branding_image_id,
-                width: branding_width as _,
-                height: branding_height as _,
+        let screen_data_branding = ScreenDataBranding {
+            firmware_version: if machine_snapshot.version.is_empty() {
+                FIRMWARE_VERSION_NONE
+            } else {
+                &machine_snapshot.version
             },
-            ScreenDataGraph {
-                image_id: graph_image_id,
-                width: graph_width as _,
-                height: graph_height as _,
-            },
-        );
+            image_id: branding_image_id,
+            width: branding_width as _,
+            height: branding_height as _,
+        };
+
+        let screen_data_graph = ScreenDataGraph {
+            image_id: graph_image_id,
+            width: graph_width as _,
+            height: graph_height as _,
+        };
+
+        match chip_state {
+            ChipState::Running => screen.render_with_data(screen_data_branding, screen_data_graph),
+            ChipState::Stopped => screen.render_stop(screen_data_branding, screen_data_graph),
+            _ => unreachable!(),
+        };
 
         image_map
     }
@@ -237,7 +229,13 @@ impl DisplayRenderer {
             .into_drawing_area();
         root.fill(&BLACK).unwrap();
 
-        let newest_time = data_pressure.front().unwrap().0;
+        let newest_time = data_pressure
+            .front()
+            .unwrap_or(&(
+                DateTime::from_utc(NaiveDateTime::from_timestamp(0, 0), Utc),
+                0,
+            ))
+            .0;
         let oldest_time = newest_time - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
 
         // Docs: https://docs.rs/plotters/0.2.12/plotters/chart/struct.ChartBuilder.html

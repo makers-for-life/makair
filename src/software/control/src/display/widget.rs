@@ -109,13 +109,12 @@ impl ErrorWidgetConfig {
 }
 
 pub struct StopWidgetConfig {
-    id: WidgetId,
-}
-
-impl StopWidgetConfig {
-    pub fn new(id: WidgetId) -> StopWidgetConfig {
-        StopWidgetConfig { id }
-    }
+    pub parent: WidgetId,
+    pub background: WidgetId,
+    pub container_borders: WidgetId,
+    pub container: WidgetId,
+    pub title: WidgetId,
+    pub message: WidgetId,
 }
 
 pub struct NoDataWidgetConfig {
@@ -413,17 +412,70 @@ impl<'a> ControlWidget<'a> {
     }
 
     fn stop(&mut self, config: StopWidgetConfig) -> f64 {
-        let mut text_style = conrod_core::widget::primitive::text::Style::default();
+        let mut style = canvas::Style::default();
+        style.color = Some(Color::Rgba(0.0, 0.0, 0.0, 0.8));
+        style.border = Some(0.0);
+        style.border_color = Some(color::TRANSPARENT);
 
-        text_style.font_id = Some(Some(self.fonts.bold));
-        text_style.color = Some(color::WHITE);
-        text_style.font_size = Some(30);
+        canvas::Canvas::new()
+            .with_style(style)
+            .w_h(
+                DISPLAY_WINDOW_SIZE_WIDTH as _,
+                DISPLAY_WINDOW_SIZE_HEIGHT as f64 - DISPLAY_ALARM_CONTAINER_HEIGHT,
+            )
+            .x_y(0.0, -DISPLAY_ALARM_CONTAINER_HEIGHT)
+            .set(config.background, &mut self.ui);
 
-        widget::Text::new("Press start to begin")
-            .color(color::WHITE)
-            .middle()
-            .with_style(text_style)
-            .set(config.id, &mut self.ui);
+        let container_borders_style = Style::Fill(Some(Color::Rgba(
+            81.0 / 255.0,
+            81.0 / 255.0,
+            81.0 / 255.0,
+            1.0,
+        )));
+        RoundedRectangle::styled(
+            [
+                DISPLAY_STOPPED_MESSAGE_CONTAINER_WIDTH + 5.0,
+                DISPLAY_STOPPED_MESSAGE_CONTAINER_HEIGHT + 5.0,
+            ],
+            DISPLAY_ROUNDED_RECTANGLES_ROUND,
+            container_borders_style,
+        )
+        .middle_of(config.parent)
+        .set(config.container_borders, &mut self.ui);
+
+        let mut container_style = canvas::Style::default();
+        container_style.color = Some(Color::Rgba(26.0 / 255.0, 26.0 / 255.0, 26.0 / 255.0, 1.0));
+        container_style.border = Some(0.0);
+        container_style.border_color = Some(color::TRANSPARENT);
+
+        canvas::Canvas::new()
+            .with_style(container_style)
+            .w_h(
+                DISPLAY_STOPPED_MESSAGE_CONTAINER_WIDTH,
+                DISPLAY_STOPPED_MESSAGE_CONTAINER_HEIGHT,
+            )
+            .middle_of(config.container_borders)
+            .set(config.container, &mut self.ui);
+
+        let mut title_style = widget::text::Style::default();
+        title_style.color = Some(color::WHITE);
+        title_style.font_size = Some(14);
+        title_style.font_id = Some(Some(self.fonts.bold));
+
+        widget::text::Text::new("Ventilator unit inactive")
+            .with_style(title_style)
+            .mid_top_with_margin_on(config.container, DISPLAY_STOPPED_MESSAGE_PADDING)
+            .set(config.title, &mut self.ui);
+
+        let mut message_style = widget::text::Style::default();
+        message_style.color = Some(color::WHITE);
+        message_style.font_size = Some(10);
+        message_style.font_id = Some(Some(self.fonts.regular));
+
+        widget::text::Text::new("Please re-enable it to resume respiration")
+            .with_style(message_style)
+            .mid_bottom_with_margin_on(config.container, DISPLAY_STOPPED_MESSAGE_PADDING)
+            .set(config.message, &mut self.ui);
 
         0 as _
     }

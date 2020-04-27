@@ -12,7 +12,7 @@ use telemetry::alarm::AlarmCode;
 use telemetry::serial::core;
 use telemetry::structures::{AlarmTrap, DataSnapshot, MachineStateSnapshot, TelemetryMessage};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum ChipState {
     Initializing,
     Running,
@@ -63,6 +63,7 @@ impl Chip {
             }
 
             TelemetryMessage::DataSnapshot(snapshot) => {
+                self.clean_if_stopped();
                 self.update_tick(snapshot.systick);
 
                 self.add_pressure(&snapshot);
@@ -71,6 +72,7 @@ impl Chip {
             }
 
             TelemetryMessage::MachineStateSnapshot(snapshot) => {
+                self.clean_if_stopped();
                 self.last_machine_snapshot = snapshot;
 
                 self.state = ChipState::Running;
@@ -79,9 +81,6 @@ impl Chip {
             TelemetryMessage::StoppedMessage(message) => {
                 self.update_tick(message.systick);
 
-                self.data_pressure.clear();
-
-                self.last_machine_snapshot = MachineStateSnapshot::default();
                 self.state = ChipState::Stopped;
             }
         };
@@ -128,8 +127,17 @@ impl Chip {
         }
     }
 
+    fn clean_if_stopped(&mut self) {
+        if self.state == ChipState::Stopped {
+            self.data_pressure.clear();
+            self.last_machine_snapshot = MachineStateSnapshot::default();
+        }
+    }
+
     pub fn reset(&mut self, new_tick: u64) {
         self.last_tick = new_tick;
+        self.data_pressure.clear();
+        self.last_machine_snapshot = MachineStateSnapshot::default();
 
         self.update_boot_time();
     }

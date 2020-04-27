@@ -64,8 +64,13 @@ widget_ids!(pub struct Ids {
   tidal_value,
   tidal_unit,
 
+  stopped_background,
+  stopped_container_borders,
+  stopped_container,
+  stopped_title,
+  stopped_message,
+
   no_data,
-  stopped,
   error,
   initializing
 });
@@ -185,8 +190,21 @@ impl<'a> Screen<'a> {
         self.widgets.render(ControlWidgetType::Graph(config));
     }
 
-    pub fn render_stop(&mut self) {
-        let config = StopWidgetConfig::new(self.ids.stopped);
+    pub fn render_stop(
+        &mut self,
+        branding_data: ScreenDataBranding<'a>,
+        graph_data: ScreenDataGraph,
+    ) {
+        self.render_with_data(branding_data, graph_data);
+
+        let config = StopWidgetConfig {
+            parent: self.ids.background,
+            background: self.ids.stopped_background,
+            container_borders: self.ids.stopped_container_borders,
+            container: self.ids.stopped_container,
+            title: self.ids.stopped_title,
+            message: self.ids.stopped_message,
+        };
 
         self.widgets.render(ControlWidgetType::Stop(config));
     }
