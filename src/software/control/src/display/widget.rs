@@ -10,9 +10,10 @@ use conrod_core::{
 };
 
 use crate::config::environment::{
+    ALARMS_HEIGHT, ALARMS_LABEL_MARGIN_LEFT, ALARMS_PARENT_MARGIN_TOP, ALARMS_WIDTH,
     BRANDING_IMAGE_MARGIN_LEFT, BRANDING_IMAGE_MARGIN_TOP, BRANDING_TEXT_MARGIN_LEFT,
-    BRANDING_TEXT_MARGIN_TOP, TELEMETRY_WIDGET_SIZE_HEIGHT, TELEMETRY_WIDGET_SIZE_SPACING,
-    TELEMETRY_WIDGET_SIZE_WIDTH, GRAPH_DRAW_SPACING_FROM_BOTTOM, ALARMS_WIDTH, ALARMS_HEIGHT, ALARMS_PARENT_MARGIN_TOP
+    BRANDING_TEXT_MARGIN_TOP, GRAPH_DRAW_SPACING_FROM_BOTTOM, TELEMETRY_WIDGET_SIZE_HEIGHT,
+    TELEMETRY_WIDGET_SIZE_SPACING, TELEMETRY_WIDGET_SIZE_WIDTH,
 };
 
 use super::fonts::Fonts;
@@ -206,17 +207,25 @@ impl<'a> ControlWidget<'a> {
 
     fn alarms(&mut self, config: AlarmsWidgetConfig) -> f64 {
         // Create rounded rectangle
-        let parent_fill = widget::primitive::shape::Style::Fill(Some(Color::Rgba(42.0 / 255.0, 42.0 / 255.0, 42.0 / 255.0, 1.0)));
+        let parent_fill = widget::primitive::shape::Style::Fill(Some(Color::Rgba(
+            42.0 / 255.0,
+            42.0 / 255.0,
+            42.0 / 255.0,
+            1.0,
+        )));
         let parent_dimensions = [ALARMS_WIDTH, ALARMS_HEIGHT];
 
-        let parent = widget::rounded_rectangle::RoundedRectangle::styled(
-            parent_dimensions,
-            2.0,
-            parent_fill,
-        )
-        .mid_top_with_margin(ALARMS_PARENT_MARGIN_TOP);
+        widget::rounded_rectangle::RoundedRectangle::styled(parent_dimensions, 2.0, parent_fill)
+            .mid_top_with_margin(ALARMS_PARENT_MARGIN_TOP)
+            .set(config.ids.0, &mut self.ui);
 
-        parent.set(config.ids.0, &mut self.ui);
+        // Display label text
+        // widget::Text::new("TODO TEST")
+        //     .color(color::WHITE)
+        //     .mid_left_with_margin_on(config.ids.0, ALARMS_LABEL_MARGIN_LEFT)
+        //     // TODO: bold
+        //     .font_size(11)
+        //     .set(config.ids.1, &mut self.ui);
 
         ALARMS_WIDTH
     }
@@ -232,20 +241,16 @@ impl<'a> ControlWidget<'a> {
 
     fn telemetry_widget(&mut self, config: TelemetryWidgetConfig) -> f64 {
         // Create rounded rectangle
-        let parent_fill = widget::primitive::shape::Style::Fill(Some(config.background_color));
-        let parent_dimensions = [TELEMETRY_WIDGET_SIZE_WIDTH, TELEMETRY_WIDGET_SIZE_HEIGHT];
-
-        let parent = widget::rounded_rectangle::RoundedRectangle::styled(
-            parent_dimensions,
+        widget::rounded_rectangle::RoundedRectangle::styled(
+            [TELEMETRY_WIDGET_SIZE_WIDTH, TELEMETRY_WIDGET_SIZE_HEIGHT],
             2.5,
-            parent_fill,
+            widget::primitive::shape::Style::Fill(Some(config.background_color)),
         )
         .bottom_left_with_margins(
             config.y_position,
             config.x_position + TELEMETRY_WIDGET_SIZE_SPACING,
-        );
-
-        parent.set(config.ids.0, &mut self.ui);
+        )
+        .set(config.ids.0, &mut self.ui);
 
         // Create each text unit
         widget::Text::new(config.title)
