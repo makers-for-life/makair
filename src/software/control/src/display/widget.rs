@@ -11,8 +11,8 @@ use conrod_core::{
 
 use crate::config::environment::{
     BRANDING_IMAGE_MARGIN_LEFT, BRANDING_IMAGE_MARGIN_TOP, BRANDING_TEXT_MARGIN_LEFT,
-    BRANDING_TEXT_MARGIN_TOP, DISPLAY_WIDGET_SIZE_HEIGHT, DISPLAY_WIDGET_SIZE_SPACING,
-    DISPLAY_WIDGET_SIZE_WIDTH, GRAPH_DRAW_SPACING_FROM_BOTTOM,
+    BRANDING_TEXT_MARGIN_TOP, TELEMETRY_WIDGET_SIZE_HEIGHT, TELEMETRY_WIDGET_SIZE_SPACING,
+    TELEMETRY_WIDGET_SIZE_WIDTH, GRAPH_DRAW_SPACING_FROM_BOTTOM, ALARMS_WIDTH, ALARMS_HEIGHT, ALARMS_PARENT_MARGIN_TOP
 };
 
 use super::fonts::Fonts;
@@ -34,6 +34,10 @@ pub struct BrandingWidgetConfig<'a> {
     width: f64,
     height: f64,
     image: conrod_core::image::Id,
+    pub ids: (WidgetId, WidgetId),
+}
+
+pub struct AlarmsWidgetConfig {
     pub ids: (WidgetId, WidgetId),
 }
 
@@ -71,6 +75,12 @@ impl<'a> BrandingWidgetConfig<'a> {
             image,
             ids,
         }
+    }
+}
+
+impl<'a> AlarmsWidgetConfig {
+    pub fn new(ids: (WidgetId, WidgetId)) -> AlarmsWidgetConfig {
+        AlarmsWidgetConfig { ids }
     }
 }
 
@@ -136,6 +146,7 @@ pub enum ControlWidgetType<'a> {
     Error(ErrorWidgetConfig),
     Branding(BrandingWidgetConfig<'a>),
     Initializing(InitializingWidgetConfig),
+    Alarms(AlarmsWidgetConfig),
     Graph(GraphWidgetConfig),
     NoData(NoDataWidgetConfig),
     Stop(StopWidgetConfig),
@@ -158,6 +169,7 @@ impl<'a> ControlWidget<'a> {
             ControlWidgetType::Error(config) => self.error(config),
             ControlWidgetType::Branding(config) => self.branding(config),
             ControlWidgetType::Initializing(config) => self.initializing(config),
+            ControlWidgetType::Alarms(config) => self.alarms(config),
             ControlWidgetType::Graph(config) => self.graph(config),
             ControlWidgetType::NoData(config) => self.no_data(config),
             ControlWidgetType::Stop(config) => self.stop(config),
@@ -192,6 +204,23 @@ impl<'a> ControlWidget<'a> {
         config.width
     }
 
+    fn alarms(&mut self, config: AlarmsWidgetConfig) -> f64 {
+        // Create rounded rectangle
+        let parent_fill = widget::primitive::shape::Style::Fill(Some(Color::Rgba(42.0 / 255.0, 42.0 / 255.0, 42.0 / 255.0, 1.0)));
+        let parent_dimensions = [ALARMS_WIDTH, ALARMS_HEIGHT];
+
+        let parent = widget::rounded_rectangle::RoundedRectangle::styled(
+            parent_dimensions,
+            2.0,
+            parent_fill,
+        )
+        .mid_top_with_margin(ALARMS_PARENT_MARGIN_TOP);
+
+        parent.set(config.ids.0, &mut self.ui);
+
+        ALARMS_WIDTH
+    }
+
     fn graph(&mut self, config: GraphWidgetConfig) -> f64 {
         widget::Image::new(config.image)
             .w_h(config.width, config.height)
@@ -201,41 +230,24 @@ impl<'a> ControlWidget<'a> {
         config.width
     }
 
-    #[allow(clippy::too_many_arguments)]
-    fn create_bottom_left_rounded_rectangle(
-        &mut self,
-        width: f64,
-        height: f64,
-        round: f64,
-        background_color: Option<Color>,
-        id: WidgetId,
-        x_position: f64,
-        y_position: f64,
-    ) {
-        let parent_fill = widget::primitive::shape::Style::Fill(background_color);
-        let parent_dimensions = [width, height];
+    fn telemetry_widget(&mut self, config: TelemetryWidgetConfig) -> f64 {
+        // Create rounded rectangle
+        let parent_fill = widget::primitive::shape::Style::Fill(Some(config.background_color));
+        let parent_dimensions = [TELEMETRY_WIDGET_SIZE_WIDTH, TELEMETRY_WIDGET_SIZE_HEIGHT];
 
         let parent = widget::rounded_rectangle::RoundedRectangle::styled(
             parent_dimensions,
-            round,
+            2.5,
             parent_fill,
         )
-        .bottom_left_with_margins(y_position, x_position);
-
-        parent.set(id, &mut self.ui);
-    }
-
-    fn telemetry_widget(&mut self, config: TelemetryWidgetConfig) -> f64 {
-        self.create_bottom_left_rounded_rectangle(
-            DISPLAY_WIDGET_SIZE_WIDTH,
-            DISPLAY_WIDGET_SIZE_HEIGHT,
-            2.5,
-            Some(config.background_color),
-            config.ids.0,
-            config.x_position + DISPLAY_WIDGET_SIZE_SPACING,
+        .bottom_left_with_margins(
             config.y_position,
+            config.x_position + TELEMETRY_WIDGET_SIZE_SPACING,
         );
 
+        parent.set(config.ids.0, &mut self.ui);
+
+        // Create each text unit
         widget::Text::new(config.title)
             .color(color::WHITE)
             .top_left_with_margins_on(config.ids.0, 10.0, 20.0)
@@ -260,7 +272,7 @@ impl<'a> ControlWidget<'a> {
             .font_size(11)
             .set(config.ids.3, &mut self.ui);
 
-        DISPLAY_WIDGET_SIZE_WIDTH
+        TELEMETRY_WIDGET_SIZE_WIDTH
     }
 
     fn error(&mut self, config: ErrorWidgetConfig) -> f64 {

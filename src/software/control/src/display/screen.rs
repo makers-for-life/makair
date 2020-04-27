@@ -7,19 +7,20 @@ use conrod_core::color::{self, Color};
 
 use telemetry::structures::MachineStateSnapshot;
 
-use crate::config::environment::{DISPLAY_WIDGET_SPACING_FROM_BOTTOM, RUNTIME_VERSION};
+use crate::config::environment::{RUNTIME_VERSION, TELEMETRY_WIDGET_SPACING_FROM_BOTTOM};
 
 use super::fonts::Fonts;
 use super::widget::{
-    BackgroundWidgetConfig, BrandingWidgetConfig, ControlWidget, ControlWidgetType,
-    ErrorWidgetConfig, GraphWidgetConfig, InitializingWidgetConfig, NoDataWidgetConfig,
-    StopWidgetConfig, TelemetryWidgetConfig,
+    AlarmsWidgetConfig, BackgroundWidgetConfig, BrandingWidgetConfig, ControlWidget,
+    ControlWidgetType, ErrorWidgetConfig, GraphWidgetConfig, InitializingWidgetConfig,
+    NoDataWidgetConfig, StopWidgetConfig, TelemetryWidgetConfig,
 };
 
 widget_ids!(pub struct Ids {
   background,
 
-  alarms,
+  alarms_parent,
+  alarms_label,
 
   pressure_graph,
 
@@ -100,7 +101,10 @@ impl<'a> Screen<'a> {
         branding_data: ScreenDataBranding<'a>,
         graph_data: ScreenDataGraph,
     ) {
+        // Render common background
         self.render_background();
+
+        // Render top elements
         self.render_branding(
             branding_data.firmware_version,
             RUNTIME_VERSION,
@@ -108,7 +112,12 @@ impl<'a> Screen<'a> {
             branding_data.width,
             branding_data.height,
         );
+        self.render_alarms();
+
+        // Render middle elements
         self.render_graph(graph_data.image_id, graph_data.width, graph_data.height);
+
+        // Render bottom elements
         self.render_telemetry();
     }
 
@@ -136,6 +145,12 @@ impl<'a> Screen<'a> {
         );
 
         self.widgets.render(ControlWidgetType::Branding(config));
+    }
+
+    pub fn render_alarms(&mut self) {
+        let config = AlarmsWidgetConfig::new((self.ids.alarms_parent, self.ids.alarms_label));
+
+        self.widgets.render(ControlWidgetType::Alarms(config));
     }
 
     pub fn render_graph(&mut self, image_id: conrod_core::image::Id, width: f64, height: f64) {
@@ -191,7 +206,7 @@ impl<'a> Screen<'a> {
                 self.ids.peak_unit,
             ),
             x_position: last_widget_position,
-            y_position: DISPLAY_WIDGET_SPACING_FROM_BOTTOM,
+            y_position: TELEMETRY_WIDGET_SPACING_FROM_BOTTOM,
             background_color: Color::Rgba(39.0 / 255.0, 66.0 / 255.0, 100.0 / 255.0, 1.0),
         };
 
