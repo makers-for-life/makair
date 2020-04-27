@@ -155,7 +155,6 @@ impl Chip {
             .iter()
             .collect::<Vec<(&AlarmCode, &AlarmTrap)>>();
 
-        // TODO: maybe there is a way to sort reverse?
         vec_alarms.sort_by(|(_, alarm1), (_, alarm2)| {
             alarm1.alarm_priority.cmp(&alarm2.alarm_priority).reverse()
         });

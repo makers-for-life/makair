@@ -253,10 +253,7 @@ impl<'a> ControlWidget<'a> {
         match alarm.alarm_priority {
             AlarmPriority::High => Color::Rgba(1.0, 32.0 / 255.0, 32.0 / 255.0, 1.0),
             AlarmPriority::Medium => Color::Rgba(1.0, 138.0 / 255.0, 0.0, 1.0),
-            AlarmPriority::Low => {
-                warn!("Don't know color of low alarm");
-                color::GREEN
-            }
+            AlarmPriority::Low => Color::Rgba(1.0, 195.0 / 255.0, 0.0, 1.0),
         }
     }
 
@@ -264,10 +261,7 @@ impl<'a> ControlWidget<'a> {
         match alarm.alarm_priority {
             AlarmPriority::High => Color::Rgba(169.0 / 255.0, 35.0 / 255.0, 35.0 / 255.0, 1.0),
             AlarmPriority::Medium => Color::Rgba(169.0 / 255.0, 99.0 / 255.0, 16.0 / 255.0, 1.0),
-            AlarmPriority::Low => {
-                warn!("Don't know color of low alarm");
-                color::GREEN
-            }
+            AlarmPriority::Low => Color::Rgba(174.0 / 255.0, 133.0 / 255.0, 0.0, 1.0),
         }
     }
 
