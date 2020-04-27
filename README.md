@@ -215,12 +215,26 @@ This project would not have been possible without the support of those companies
 * [Renault Group](https://www.renault.fr/) (manufacturing)
 * [SEB Group](https://www.groupeseb.com/) (manufacturing)
 * [Le Palace Nantes](https://lepalace.work/) (team offices)
+* [Parrot](https://www.parrot.com/) (hardware provider)
+* [STMicroelectronics](https://www.st.com/) (hardware provider)
+* [Diabeloop](https://www.diabeloop.com/) (regulatory help)
+* [Legrand](https://www.legrand.fr/) (hardware provider)
+* [RTsys](https://rtsys.eu/) (engineering provider)
+
+# Press Coverage
+
+## TV
+
+* [TF1, 26th April 2020](https://www.youtube.com/watch?v=2X157RLbRIA) (French-speaking)
 
 We are supported by public entities as well, namely:
 
 * [Region of Auvergne-Rhône-Alpes](https://www.auvergnerhonealpes.fr/) (France)
 * [City of Nantes](https://metropole.nantes.fr/) (France)
 * [CEA](http://www.cea.fr/) (France)
+* [CHU of Nantes](https://www.chu-nantes.fr/) (France)
+* [University of Nantes](https://www.univ-nantes.fr/) (France)
+* [Defence Innovation Agency](https://www.defense.gouv.fr/) (Ministry of Armed Forces of France)
 
 Adding to that, 200+ individual members of the project who contributed to technical, legal, medical and press subjects (and more).
 
