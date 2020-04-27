@@ -168,6 +168,8 @@ named!(
             >> device_id2: be_u32
             >> device_id3: be_u32
             >> sep
+            >> systick: be_u64
+            >> sep
             >> cycle: be_u32
             >> sep
             >> peak_command: be_u8
@@ -189,6 +191,7 @@ named!(
             >> (TelemetryMessage::MachineStateSnapshot(MachineStateSnapshot {
                 version: software_version.to_string(),
                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                systick,
                 cycle,
                 peak_command,
                 plateau_command,
@@ -464,6 +467,7 @@ mod tests {
             device_id1 in (0u32..),
             device_id2 in (0u32..),
             device_id3 in (0u32..),
+            systick in (0u64..),
             cycle in (0u32..),
             peak_command in (0u8..),
             plateau_command in (0u8..),
@@ -477,6 +481,7 @@ mod tests {
             let msg = MachineStateSnapshot {
                 version,
                 device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
+                systick,
                 cycle,
                 peak_command,
                 plateau_command,
@@ -496,6 +501,8 @@ mod tests {
                 &device_id1.to_be_bytes(),
                 &device_id2.to_be_bytes(),
                 &device_id3.to_be_bytes(),
+                b"\t",
+                &msg.systick.to_be_bytes(),
                 b"\t",
                 &msg.cycle.to_be_bytes(),
                 b"\t",
