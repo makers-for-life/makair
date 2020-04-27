@@ -16,13 +16,15 @@ do
       export MODE=${softwareModes[$softwareIndex]}
       export HARDWARE_VERSION=${hardwareVersions[$hardwareIndex]}
 
+      mkdir -p build/${SOFTWARE_FULLNAME}/bo
+
       arduino-cli cache clean
-      build-wrapper-linux-x86-64 --out-dir sonarcloud/${SOFTWARE_FULLNAME}/bo bash sonarcloud/build.sh > /dev/null
+      build-wrapper-linux-x86-64 --out-dir build/${SOFTWARE_FULLNAME}/bo bash sonarcloud/build.sh > /dev/null
       sonar-scanner -Dsonar.cfamily.cache.path=$HOME/.sonar/cache/${SOFTWARE_FULLNAME}          \
         -Dsonar.projectKey=${SOFTWARE_FULLNAME}                                                 \
         -Dsonar.projectVersion=dev                                                              \
         -Dsonar.sources=.                                                                       \
-        -Dsonar.cfamily.build-wrapper-output=sonarcloud/${SOFTWARE_FULLNAME}/bo                 \
+        -Dsonar.cfamily.build-wrapper-output=build/${SOFTWARE_FULLNAME}/bo                 \
         -Dsonar.cfamily.cache.enabled=true                                                      \
         -Dsonar.cfamily.threads=8                                                               \
         -Dsonar.scm.exclusions.disabled=true
