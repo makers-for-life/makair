@@ -23,7 +23,6 @@ addons:
   sonarcloud:
     organization: "makers-for-life"
 
-# Cache PlatformIO packages using Travis CI container-based infrastructure
 sudo: false
 cache:
   directories:
