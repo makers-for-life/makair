@@ -221,12 +221,6 @@ This project would not have been possible without the support of those companies
 * [Legrand](https://www.legrand.fr/) (hardware provider)
 * [RTsys](https://rtsys.eu/) (engineering provider)
 
-# Press Coverage
-
-## TV
-
-* [TF1, 26th April 2020](https://www.youtube.com/watch?v=2X157RLbRIA) (French-speaking)
-
 We are supported by public entities as well, namely:
 
 * [Region of Auvergne-Rhône-Alpes](https://www.auvergnerhonealpes.fr/) (France)
@@ -237,6 +231,12 @@ We are supported by public entities as well, namely:
 * [Defence Innovation Agency](https://www.defense.gouv.fr/) (Ministry of Armed Forces of France)
 
 Adding to that, 200+ individual members of the project who contributed to technical, legal, medical and press subjects (and more).
+
+# Press Coverage
+
+## TV
+
+* [TF1, 26th April 2020](https://www.youtube.com/watch?v=2X157RLbRIA) (French-speaking)
 
 # Renders
 
