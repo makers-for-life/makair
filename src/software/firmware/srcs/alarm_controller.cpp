@@ -10,7 +10,6 @@
 // INCLUDES ===================================================================
 
 // Externals
-#include <algorithm>
 
 // Internals
 #include "../includes/alarm_controller.h"
