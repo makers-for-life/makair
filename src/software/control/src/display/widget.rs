@@ -179,7 +179,6 @@ impl<'a> ControlWidget<'a> {
             ControlWidgetType::Error(config) => self.error(config),
             ControlWidgetType::Branding(config) => self.branding(config),
             ControlWidgetType::Initializing(config) => self.initializing(config),
-            ControlWidgetType::Alarms(config) => self.alarms(config),
             ControlWidgetType::Graph(config) => self.graph(config),
             ControlWidgetType::NoData(config) => self.no_data(config),
             ControlWidgetType::Stop(config) => self.stop(config),
