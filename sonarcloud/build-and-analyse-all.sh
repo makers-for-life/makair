@@ -17,8 +17,7 @@ do
       export HARDWARE_VERSION=${hardwareVersions[$hardwareIndex]}
 
       arduino-cli cache clean
-      bash sonarcloud/build.sh
-      build-wrapper-linux-x86-64 --out-dir sonarcloud/${SOFTWARE_FULLNAME}/bo bash sonarcloud/build.sh
+      build-wrapper-linux-x86-64 --out-dir sonarcloud/${SOFTWARE_FULLNAME}/bo bash sonarcloud/build.sh > /dev/null
       sonar-scanner -Dsonar.cfamily.cache.path=$HOME/.sonar/cache/${SOFTWARE_FULLNAME}          \
         -Dsonar.projectKey=${SOFTWARE_FULLNAME}                                                 \
         -Dsonar.projectVersion=dev                                                              \
