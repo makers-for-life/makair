@@ -1,0 +1,40 @@
+language: generic
+before_install:
+  - wget http://downloads.arduino.cc/arduino-cli/arduino-cli_latest_Linux_64bit.tar.gz
+  - tar xf arduino-cli_latest_Linux_64bit.tar.gz
+  - mkdir -p $HOME/bin
+  - mv arduino-cli $HOME/bin/arduino-cli
+  - export PATH=$PATH:$HOME/bin
+  - arduino-cli core update-index
+  - arduino-cli config init --additional-urls https://github.com/stm32duino/BoardManagerFiles/raw/master/STM32/package_stm_index.json
+  - arduino-cli config dump
+  - arduino-cli core update-index
+  - arduino-cli core install STM32:stm32
+  - arduino-cli lib install LiquidCrystal
+  - arduino-cli lib install "Analog Buttons"
+  - arduino-cli lib install OneButton
+  - sed -i '/recipe.output.tmp_file={build.project_name}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
+  - sed -i '/recipe.output.save_file={build.project_name}.{build.variant}.hex/d' "$HOME/.arduino15/packages/STM32/hardware/stm32/1.8.0/platform.txt"
+install:
+  - mkdir -p $HOME/Arduino/libraries
+  - ln -s $PWD $HOME/Arduino/libraries/.
+
+addons:
+  sonarcloud:
+    organization: "makers-for-life"
+
+# Cache PlatformIO packages using Travis CI container-based infrastructure
+sudo: false
+cache:
+  directories:
+    - "$HOME/.sonar/cache/respirator-integration-test-HW1-dev"
+    - "$HOME/.sonar/cache/respirator-integration-test-HW2-dev"
+    - "$HOME/.sonar/cache/respirator-production-HW1-dev"
+    - "$HOME/.sonar/cache/respirator-production-HW2-dev"
+    - "$HOME/.sonar/cache/respirator-qualification-HW1-dev"
+    - "$HOME/.sonar/cache/respirator-qualification-HW2-dev"
+script:
+  - |
+    if [[ $TRAVIS_PULL_REQUEST_SLUG == "" || $TRAVIS_PULL_REQUEST_SLUG == "makers-for-life/makair" ]]; then
+      bash sonarcloud/build-and-analyse-all.sh
+    fi
