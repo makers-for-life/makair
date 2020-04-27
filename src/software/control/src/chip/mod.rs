@@ -170,3 +170,27 @@ impl Chip {
         vec_alarms
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::chip::Chip;
+    use proptest::collection;
+    use proptest::prelude::*;
+    use telemetry::parsers::tests::shared_parser_test_fun;
+    use telemetry::parsers::tests::telemetry_message_strategy;
+
+    #[test]
+    fn shared_test() {
+        assert!(shared_parser_test_fun(5) > 40);
+    }
+
+    proptest! {
+        #[test]
+        fn test_boot_message_parser(msgs in collection::vec(telemetry_message_strategy(), 0..2)) {
+            dbg!(msgs);
+            let chip = Chip::new();
+            // With any sequence of TelemetryMessage, new_event() must not crash.
+            msgs.iter().for_each(|msg| chip.new_event(msg))
+        }
+    }
+}

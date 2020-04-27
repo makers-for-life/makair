@@ -265,10 +265,14 @@ named!(pub parse_telemetry_message<TelemetryMessage>, alt!(
 ));
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use super::*;
     use proptest::collection;
     use proptest::prelude::*;
+
+    pub fn shared_parser_test_fun(a: u8) -> u8 {
+        a + 42
+    }
 
     fn flat(v: &[&[u8]]) -> Vec<u8> {
         v.iter().flat_map(|a| a.iter()).copied().collect()
@@ -324,33 +328,50 @@ mod tests {
         }
     }
 
-    proptest! {
-        #[test]
-        fn test_boot_message_parser(
+    #[derive(Debug, Eq, PartialEq, Hash, Clone, Copy)]
+    pub struct DeviceIdComponents(u32, u32, u32);
+
+    impl DeviceIdComponents {
+        fn str(&self) -> String {
+            format!("{}-{}-{}", self.0, self.1, self.2)
+        }
+    }
+
+    prop_compose! {
+        pub fn device_id_components_strategy()(id1 in (0u32..), id2 in (0u32..), id3 in (0u32..)) -> DeviceIdComponents {
+            DeviceIdComponents(id1, id2, id3)
+        }
+    }
+
+    prop_compose! {
+        fn boot_message_strategy()(
             version in ".*",
-            device_id1 in (0u32..),
-            device_id2 in (0u32..),
-            device_id3 in (0u32..),
+            device_id in device_id_components_strategy(),
             systick in (0u64..),
             mode in mode_strategy(),
             value128 in (0u8..),
-        ) {
-            let msg = BootMessage {
-                version,
-                device_id: format!("{}-{}-{}", device_id1, device_id2, device_id3),
-                systick,
-                mode,
-                value128,
-            };
+        ) -> (BootMessage, DeviceIdComponents) {
+            (BootMessage { version, device_id: device_id.str(), systick, mode, value128 }, device_id)
+        }
+    }
+
+    pub fn telemetry_message_strategy() -> impl Strategy<Value = TelemetryMessage> {
+        prop_oneof![boot_message_strategy().prop_map(|(msg, _)| TelemetryMessage::BootMessage(msg)),]
+    }
+
+    proptest! {
+        #[test]
+        fn test_boot_message_parser( msg_and_device_id in boot_message_strategy()) {
+            let (msg, device_id) = msg_and_device_id;
 
             // This needs to be consistent with sendBootMessage() defined in src/software/firmware/srcs/telemetry.cpp
             let input = &flat(&[
                 b"B:\x01",
                 &[msg.version.len() as u8],
                 &msg.version.as_bytes(),
-                &device_id1.to_be_bytes(),
-                &device_id2.to_be_bytes(),
-                &device_id3.to_be_bytes(),
+                &device_id.0.to_be_bytes(),
+                &device_id.1.to_be_bytes(),
+                &device_id.2.to_be_bytes(),
                 b"\t",
                 &msg.systick.to_be_bytes(),
                 b"\t",

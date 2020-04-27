@@ -9,7 +9,7 @@ extern crate log;
 extern crate nom;
 
 pub mod alarm;
-mod parsers;
+pub mod parsers;
 pub mod structures;
 
 pub use serial;
