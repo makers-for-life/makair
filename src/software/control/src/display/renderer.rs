@@ -33,6 +33,8 @@ pub struct DisplayRenderer {
 const GRAPH_WIDTH: u32 = DISPLAY_WINDOW_SIZE_WIDTH - DISPLAY_GRAPH_OFFSET_WIDTH;
 const GRAPH_HEIGHT: u32 = DISPLAY_WINDOW_SIZE_HEIGHT - DISPLAY_GRAPH_OFFSET_HEIGHT;
 
+const FIRMWARE_VERSION_NONE: &'static str = "n/a";
+
 lazy_static! {
     static ref IMAGE_TOP_LOGO_RGBA_RAW: Vec<u8> = open("./res/images/top-logo.png")
         .unwrap()
@@ -171,6 +173,11 @@ impl DisplayRenderer {
 
         screen.render_with_data(
             ScreenDataBranding {
+                firmware_version: if machine_snapshot.version.is_empty() {
+                    FIRMWARE_VERSION_NONE
+                } else {
+                    &machine_snapshot.version
+                },
                 image_id: branding_image_id,
                 width: branding_width as _,
                 height: branding_height as _,

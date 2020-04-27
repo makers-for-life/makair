@@ -7,7 +7,7 @@ use conrod_core::color::{self, Color};
 
 use telemetry::structures::MachineStateSnapshot;
 
-use crate::config::environment::DISPLAY_WIDGET_SPACING_FROM_BOTTOM;
+use crate::config::environment::{DISPLAY_WIDGET_SPACING_FROM_BOTTOM, RUNTIME_VERSION};
 
 use super::fonts::Fonts;
 use super::widget::{
@@ -62,15 +62,14 @@ widget_ids!(pub struct Ids {
   initializing
 });
 
-const RUNTIME_VERSION: &'static str = env!("CARGO_PKG_VERSION");
-
 pub struct Screen<'a> {
     ids: &'a Ids,
     machine_snapshot: Option<&'a MachineStateSnapshot>,
     widgets: ControlWidget<'a>,
 }
 
-pub struct ScreenDataBranding {
+pub struct ScreenDataBranding<'a> {
+    pub firmware_version: &'a str,
     pub image_id: conrod_core::image::Id,
     pub width: f64,
     pub height: f64,
@@ -98,13 +97,12 @@ impl<'a> Screen<'a> {
 
     pub fn render_with_data(
         &mut self,
-        branding_data: ScreenDataBranding,
+        branding_data: ScreenDataBranding<'a>,
         graph_data: ScreenDataGraph,
     ) {
         self.render_background();
         self.render_branding(
-            // TODO: pass firmware version from firmware env
-            "0.0.0".to_string(),
+            branding_data.firmware_version,
             RUNTIME_VERSION,
             branding_data.image_id,
             branding_data.width,
@@ -122,7 +120,7 @@ impl<'a> Screen<'a> {
 
     pub fn render_branding(
         &mut self,
-        version_firmware: String,
+        version_firmware: &'a str,
         version_control: &'a str,
         image_id: conrod_core::image::Id,
         width: f64,

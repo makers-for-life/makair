@@ -45,6 +45,7 @@ impl Chip {
 
             TelemetryMessage::BootMessage(snapshot) => {
                 self.reset(snapshot.systick);
+
                 self.state = ChipState::Initializing;
             }
 
@@ -52,17 +53,21 @@ impl Chip {
                 self.update_tick(snapshot.systick);
 
                 self.add_pressure(&snapshot);
+
                 self.state = ChipState::Running;
             }
 
             TelemetryMessage::MachineStateSnapshot(snapshot) => {
                 self.last_machine_snapshot = snapshot;
+
                 self.state = ChipState::Running;
             }
 
             TelemetryMessage::StoppedMessage(message) => {
                 self.update_tick(message.systick);
+
                 self.data_pressure.clear();
+
                 self.last_machine_snapshot = MachineStateSnapshot::default();
                 self.state = ChipState::Stopped;
             }

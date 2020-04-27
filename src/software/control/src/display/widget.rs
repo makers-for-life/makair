@@ -29,7 +29,7 @@ impl BackgroundWidgetConfig {
 }
 
 pub struct BrandingWidgetConfig<'a> {
-    version_firmware: String,
+    version_firmware: &'a str,
     version_control: &'a str,
     width: f64,
     height: f64,
@@ -56,13 +56,13 @@ pub struct GraphWidgetConfig {
 
 impl<'a> BrandingWidgetConfig<'a> {
     pub fn new(
-        version_firmware: String,
-        version_control: &str,
+        version_firmware: &'a str,
+        version_control: &'a str,
         width: f64,
         height: f64,
         image: conrod_core::image::Id,
         ids: (WidgetId, WidgetId),
-    ) -> BrandingWidgetConfig {
+    ) -> BrandingWidgetConfig<'a> {
         BrandingWidgetConfig {
             version_firmware,
             version_control,
