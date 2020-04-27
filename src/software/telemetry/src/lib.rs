@@ -8,6 +8,7 @@ extern crate log;
 #[macro_use]
 extern crate nom;
 
+pub mod alarm;
 mod parsers;
 pub mod structures;
 

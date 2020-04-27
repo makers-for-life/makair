@@ -7,7 +7,8 @@ use conrod_core::Ui;
 use glium::texture;
 use image::{buffer::ConvertBuffer, open, RgbImage, RgbaImage};
 use plotters::prelude::*;
-use telemetry::structures::MachineStateSnapshot;
+use telemetry::alarm::AlarmCode;
+use telemetry::structures::{AlarmTrap, MachineStateSnapshot};
 
 use crate::config::environment::{
     BRANDING_HEIGHT, BRANDING_WIDTH, DISPLAY_GRAPH_OFFSET_HEIGHT, DISPLAY_GRAPH_OFFSET_WIDTH,
@@ -54,6 +55,7 @@ impl DisplayRenderer {
         &mut self,
         data_pressure: &DataPressure,
         machine_snapshot: &MachineStateSnapshot,
+        ongoing_alarms: &[(&AlarmCode, &AlarmTrap)],
         display: &GliumDisplayWinitWrapper,
         interface: &mut Ui,
         chip_state: &ChipState,
@@ -74,6 +76,7 @@ impl DisplayRenderer {
                 image_map,
                 data_pressure,
                 machine_snapshot,
+                ongoing_alarms,
             ),
             ChipState::Error(e) => self.error(ids, interface, image_map, e.clone()),
         }
@@ -87,7 +90,7 @@ impl DisplayRenderer {
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let ui = interface.set_widgets();
 
-        let mut screen = Screen::new(ui, &ids, &self.fonts, None);
+        let mut screen = Screen::new(ui, &ids, &self.fonts, None, None);
 
         screen.render_no_data();
 
@@ -102,7 +105,7 @@ impl DisplayRenderer {
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let ui = interface.set_widgets();
 
-        let mut screen = Screen::new(ui, &ids, &self.fonts, None);
+        let mut screen = Screen::new(ui, &ids, &self.fonts, None, None);
 
         screen.render_stop();
 
@@ -117,7 +120,7 @@ impl DisplayRenderer {
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let ui = interface.set_widgets();
 
-        let mut screen = Screen::new(ui, &ids, &self.fonts, None);
+        let mut screen = Screen::new(ui, &ids, &self.fonts, None, None);
 
         screen.render_initializing();
 
@@ -133,22 +136,23 @@ impl DisplayRenderer {
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let ui = interface.set_widgets();
 
-        let mut screen = Screen::new(ui, &ids, &self.fonts, None);
+        let mut screen = Screen::new(ui, &ids, &self.fonts, None, None);
 
         screen.render_error(error);
 
         image_map
     }
 
-    #[allow(clippy::ptr_arg)]
+    #[allow(clippy::ptr_arg, clippy::too_many_arguments)]
     fn data(
         &mut self,
-        ids: Ids,
+        mut ids: Ids,
         display: &GliumDisplayWinitWrapper,
         interface: &mut Ui,
         mut image_map: conrod_core::image::Map<texture::Texture2d>,
         data_pressure: &DataPressure,
         machine_snapshot: &MachineStateSnapshot,
+        ongoing_alarms: &[(&AlarmCode, &AlarmTrap)],
     ) -> conrod_core::image::Map<texture::Texture2d> {
         // Create branding
         let branding_image_texture = self.draw_branding(display);
@@ -167,9 +171,28 @@ impl DisplayRenderer {
         let graph_image_id = image_map.insert(graph_image_texture);
 
         // Create widgets
-        let ui = interface.set_widgets();
+        let mut ui = interface.set_widgets();
 
-        let mut screen = Screen::new(ui, &ids, &self.fonts, Some(machine_snapshot));
+        for i in 0..ongoing_alarms.len() {
+            let index = i + 1;
+            ids.alarm_alarms
+                .resize(index, &mut ui.widget_id_generator());
+            ids.alarm_codes_containers
+                .resize(index, &mut ui.widget_id_generator());
+            ids.alarm_codes.resize(index, &mut ui.widget_id_generator());
+            ids.alarm_messages_containers
+                .resize(index, &mut ui.widget_id_generator());
+            ids.alarm_messages
+                .resize(index, &mut ui.widget_id_generator());
+        }
+
+        let mut screen = Screen::new(
+            ui,
+            &ids,
+            &self.fonts,
+            Some(machine_snapshot),
+            Some(ongoing_alarms),
+        );
 
         screen.render_with_data(
             ScreenDataBranding {

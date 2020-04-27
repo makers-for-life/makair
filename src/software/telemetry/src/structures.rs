@@ -3,6 +3,8 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
+use std::cmp::{Ord, Ordering, PartialOrd};
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Mode {
     Production,
@@ -28,6 +30,24 @@ pub enum AlarmPriority {
     High,
     Medium,
     Low,
+}
+
+impl PartialOrd for AlarmPriority {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for AlarmPriority {
+    fn cmp(&self, other: &Self) -> Ordering {
+        let priority_to_int = |priority: &AlarmPriority| match priority {
+            AlarmPriority::High => 3,
+            AlarmPriority::Medium => 2,
+            AlarmPriority::Low => 1,
+        };
+
+        priority_to_int(self).cmp(&priority_to_int(other))
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -101,4 +121,32 @@ pub enum TelemetryMessage {
     DataSnapshot(DataSnapshot),
     MachineStateSnapshot(MachineStateSnapshot),
     AlarmTrap(AlarmTrap),
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::structures::AlarmPriority;
+    use std::cmp::Ordering;
+
+    #[test]
+    fn order_alarm_priority() {
+        let high = AlarmPriority::High;
+        let medium = AlarmPriority::Medium;
+        let low = AlarmPriority::Low;
+
+        // equal
+        assert_eq!(high.cmp(&high), Ordering::Equal);
+        assert_eq!(medium.cmp(&medium), Ordering::Equal);
+        assert_eq!(low.cmp(&low), Ordering::Equal);
+
+        // lower
+        assert_eq!(medium.cmp(&high), Ordering::Less);
+        assert_eq!(low.cmp(&high), Ordering::Less);
+        assert_eq!(low.cmp(&medium), Ordering::Less);
+
+        // greater
+        assert_eq!(high.cmp(&medium), Ordering::Greater);
+        assert_eq!(high.cmp(&low), Ordering::Greater);
+        assert_eq!(medium.cmp(&low), Ordering::Greater);
+    }
 }
