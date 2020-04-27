@@ -192,7 +192,11 @@ void setup(void) {
     waitForInMs(3000);
 
     resetScreen();
-    pressureOffset = pressureOffsetSum / static_cast<int32_t>(pressureOffsetCount);
+    if (pressureOffsetCount != 0u) {
+        pressureOffset = pressureOffsetSum / static_cast<int32_t>(pressureOffsetCount);
+    } else {
+        pressureOffset = 0;
+    }
     DBG_DO({
         Serial.print("pressure offset = ");
         Serial.print(pressureOffsetSum);
