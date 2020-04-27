@@ -3,6 +3,8 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
+use conrod_core::color::Color;
+
 pub const RUNTIME_VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
 pub const DISPLAY_WINDOW_SIZE_WIDTH: u32 = 800;
@@ -18,10 +20,25 @@ pub const BRANDING_IMAGE_MARGIN_LEFT: f64 = 26.0;
 pub const BRANDING_TEXT_MARGIN_TOP: f64 = 52.0;
 pub const BRANDING_TEXT_MARGIN_LEFT: f64 = 82.0;
 
-pub const ALARMS_WIDTH: f64 = 274.0;
-pub const ALARMS_HEIGHT: f64 = 66.0;
+// TODO: use those
 pub const ALARMS_PARENT_MARGIN_TOP: f64 = 12.0;
 pub const ALARMS_LABEL_MARGIN_LEFT: f64 = 22.0;
+
+pub const DISPLAY_ALARM_CONTAINER_WIDTH: f64 = 274.0;
+pub const DISPLAY_ALARM_CONTAINER_HEIGHT: f64 = 66.0;
+pub const DISPLAY_ALARM_CONTAINER_PADDING_LEFT: f64 = 12.5;
+pub const DISPLAY_ALARM_CONTAINER_COLOR: Color =
+    Color::Rgba(42.0 / 255.0, 42.0 / 255.0, 42.0 / 255.0, 1.0);
+
+pub const DISPLAY_ALARM_MESSAGE_WIDTH: f64 = 110.0;
+pub const DISPLAY_ALARM_MESSAGE_HEIGHT: f64 = 17.5;
+
+pub const DISPLAY_ALARM_CODE_WIDTH: f64 = 22.5;
+pub const DISPLAY_ALARM_CODE_HEIGHT: f64 = DISPLAY_ALARM_MESSAGE_HEIGHT;
+
+pub const DISPLAY_MAX_ALARMS: usize = 2;
+
+pub const DISPLAY_ROUNDED_RECTANGLES_ROUND: f64 = 2.5;
 
 pub const TELEMETRY_POINTS_PER_SECOND: usize = 10 * 100;
 pub const TELEMETRY_WIDGET_SPACING_FROM_BOTTOM: f64 = 18.0;

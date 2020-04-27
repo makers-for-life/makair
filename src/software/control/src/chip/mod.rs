@@ -4,12 +4,13 @@
 // License: Public Domain License
 
 use chrono::{offset::Utc, DateTime, Duration};
-use std::collections::VecDeque;
+use std::collections::{HashMap, VecDeque};
 
 use crate::config::environment::{GRAPH_DRAW_SECONDS, GRAPH_NUMBER_OF_POINTS};
 use crate::physics::types::DataPressure;
+use telemetry::alarm::AlarmCode;
 use telemetry::serial::core;
-use telemetry::structures::{DataSnapshot, MachineStateSnapshot, TelemetryMessage};
+use telemetry::structures::{AlarmTrap, DataSnapshot, MachineStateSnapshot, TelemetryMessage};
 
 #[derive(Debug)]
 pub enum ChipState {
@@ -25,6 +26,7 @@ pub struct Chip {
     pub last_tick: u64,
     pub data_pressure: DataPressure,
     pub last_machine_snapshot: MachineStateSnapshot,
+    pub ongoing_alarms: HashMap<AlarmCode, AlarmTrap>,
     state: ChipState,
 }
 
@@ -35,13 +37,24 @@ impl Chip {
             last_tick: 0,
             data_pressure: VecDeque::with_capacity(GRAPH_NUMBER_OF_POINTS + 100),
             last_machine_snapshot: MachineStateSnapshot::default(),
+            ongoing_alarms: HashMap::new(),
             state: ChipState::WaitingData,
         }
     }
 
     pub fn new_event(&mut self, event: TelemetryMessage) {
         match event {
-            TelemetryMessage::AlarmTrap(_) => {}
+            TelemetryMessage::AlarmTrap(alarm) => {
+                self.update_tick(alarm.systick);
+
+                let code = alarm.alarm_code.into();
+
+                if alarm.triggered {
+                    self.ongoing_alarms.insert(code, alarm); // If we ever receive the same alarm, just replace the one we have
+                } else {
+                    self.ongoing_alarms.remove(&code);
+                }
+            }
 
             TelemetryMessage::BootMessage(snapshot) => {
                 self.reset(snapshot.systick);
@@ -134,5 +147,19 @@ impl Chip {
                 self.data_pressure.pop_back();
             }
         }
+    }
+
+    pub fn ongoing_alarms_sorted(&self) -> Vec<(&AlarmCode, &AlarmTrap)> {
+        let mut vec_alarms = self
+            .ongoing_alarms
+            .iter()
+            .collect::<Vec<(&AlarmCode, &AlarmTrap)>>();
+
+        // TODO: maybe there is a way to sort reverse?
+        vec_alarms.sort_by(|(_, alarm1), (_, alarm2)| {
+            alarm1.alarm_priority.cmp(&alarm2.alarm_priority).reverse()
+        });
+
+        vec_alarms
     }
 }

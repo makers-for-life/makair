@@ -5,7 +5,8 @@
 
 use conrod_core::color::{self, Color};
 
-use telemetry::structures::MachineStateSnapshot;
+use telemetry::alarm::AlarmCode;
+use telemetry::structures::{AlarmTrap, MachineStateSnapshot};
 
 use crate::config::environment::{RUNTIME_VERSION, TELEMETRY_WIDGET_SPACING_FROM_BOTTOM};
 
@@ -17,11 +18,17 @@ use super::widget::{
 };
 
 widget_ids!(pub struct Ids {
+  alarm_container,
+  alarm_title,
+  alarm_alarms[],
+  alarm_codes_containers[],
+  alarm_codes[],
+  alarm_messages_containers[],
+  alarm_messages[],
+
   background,
 
-  alarms_parent,
-  alarms_label,
-
+  branding,
   pressure_graph,
 
   branding_image,
@@ -66,6 +73,7 @@ widget_ids!(pub struct Ids {
 pub struct Screen<'a> {
     ids: &'a Ids,
     machine_snapshot: Option<&'a MachineStateSnapshot>,
+    ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmTrap)]>,
     widgets: ControlWidget<'a>,
 }
 
@@ -88,10 +96,12 @@ impl<'a> Screen<'a> {
         ids: &'a Ids,
         fonts: &'a Fonts,
         machine_snapshot: Option<&'a MachineStateSnapshot>,
+        ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmTrap)]>,
     ) -> Screen<'a> {
         Screen {
             ids,
             machine_snapshot,
+            ongoing_alarms,
             widgets: ControlWidget::new(ui, fonts),
         }
     }
@@ -148,13 +158,29 @@ impl<'a> Screen<'a> {
     }
 
     pub fn render_alarms(&mut self) {
-        let config = AlarmsWidgetConfig::new((self.ids.alarms_parent, self.ids.alarms_label));
+        let config = AlarmsWidgetConfig {
+            parent: self.ids.background,
+            container: self.ids.alarm_container,
+            title: self.ids.alarm_title,
+            alarm_widgets: &self.ids.alarm_alarms,
+            alarm_codes_containers: &self.ids.alarm_codes_containers,
+            alarm_codes: &self.ids.alarm_codes,
+            alarm_messages_containers: &self.ids.alarm_messages_containers,
+            alarm_messages: &self.ids.alarm_messages,
+            alarms: self.ongoing_alarms.unwrap(),
+        };
 
         self.widgets.render(ControlWidgetType::Alarms(config));
     }
 
     pub fn render_graph(&mut self, image_id: conrod_core::image::Id, width: f64, height: f64) {
-        let config = GraphWidgetConfig::new(width, height, image_id, self.ids.pressure_graph);
+        let config = GraphWidgetConfig::new(
+            width,
+            height,
+            image_id,
+            self.ids.background,
+            self.ids.pressure_graph,
+        );
 
         self.widgets.render(ControlWidgetType::Graph(config));
     }
@@ -200,6 +226,7 @@ impl<'a> Screen<'a> {
             ),
             unit: "cmH20",
             ids: (
+                self.ids.background,
                 self.ids.peak_parent,
                 self.ids.peak_title,
                 self.ids.peak_value,
@@ -224,6 +251,7 @@ impl<'a> Screen<'a> {
             ),
             unit: "cmH20",
             ids: (
+                self.ids.peak_parent,
                 self.ids.plateau_parent,
                 self.ids.plateau_title,
                 self.ids.plateau_value,
@@ -248,6 +276,7 @@ impl<'a> Screen<'a> {
             ),
             unit: "cmH20",
             ids: (
+                self.ids.plateau_parent,
                 self.ids.peep_parent,
                 self.ids.peep_title,
                 self.ids.peep_value,
@@ -268,6 +297,7 @@ impl<'a> Screen<'a> {
             value: format!("{}", machine_snapshot.cpm_command),
             unit: "/minute",
             ids: (
+                self.ids.peep_parent,
                 self.ids.cycles_parent,
                 self.ids.cycles_title,
                 self.ids.cycles_value,
@@ -288,6 +318,7 @@ impl<'a> Screen<'a> {
             value: "0:0".to_string(), //TODO
             unit: "insp:exp.",
             ids: (
+                self.ids.cycles_parent,
                 self.ids.ratio_parent,
                 self.ids.ratio_title,
                 self.ids.ratio_value,
@@ -308,6 +339,7 @@ impl<'a> Screen<'a> {
             value: "0".to_string(), //TODO
             unit: "mL (milliliters)",
             ids: (
+                self.ids.ratio_parent,
                 self.ids.tidal_parent,
                 self.ids.tidal_title,
                 self.ids.tidal_value,
