@@ -13,7 +13,7 @@ use conrod_core::{
 };
 
 use telemetry::alarm::AlarmCode;
-use telemetry::structures::{AlarmPriority, AlarmTrap};
+use telemetry::structures::AlarmPriority;
 
 use crate::config::environment::*;
 
@@ -146,7 +146,7 @@ pub struct AlarmsWidgetConfig<'a> {
     pub alarm_codes: &'a List,
     pub alarm_messages_containers: &'a List,
     pub alarm_messages: &'a List,
-    pub alarms: &'a [(&'a AlarmCode, &'a AlarmTrap)],
+    pub alarms: &'a [(&'a AlarmCode, &'a AlarmPriority)],
 }
 
 pub enum ControlWidgetType<'a> {
@@ -220,7 +220,7 @@ impl<'a> ControlWidget<'a> {
         &mut self,
         config: &AlarmsWidgetConfig,
         code: AlarmCode,
-        alarm: &AlarmTrap,
+        alarm_priority: &AlarmPriority,
         index: usize,
     ) {
         let mut style = canvas::Style::default();
@@ -243,28 +243,34 @@ impl<'a> ControlWidget<'a> {
             .right_from(config.title, 10.0)
             .set(config.alarm_widgets[index], &mut self.ui);
 
-        self.alarm_code(&config, alarm, index);
-        self.alarm_message(&config, code, alarm, index);
+        self.alarm_code(&config, code, alarm_priority, index);
+        self.alarm_message(&config, code, alarm_priority, index);
     }
 
-    fn alarm_code_color(&self, alarm: &AlarmTrap) -> Color {
-        match alarm.alarm_priority {
+    fn alarm_code_color(&self, alarm_priority: &AlarmPriority) -> Color {
+        match alarm_priority {
             AlarmPriority::High => Color::Rgba(1.0, 32.0 / 255.0, 32.0 / 255.0, 1.0),
             AlarmPriority::Medium => Color::Rgba(1.0, 138.0 / 255.0, 0.0, 1.0),
             AlarmPriority::Low => Color::Rgba(1.0, 195.0 / 255.0, 0.0, 1.0),
         }
     }
 
-    fn alarm_message_color(&self, alarm: &AlarmTrap) -> Color {
-        match alarm.alarm_priority {
+    fn alarm_message_color(&self, alarm_priority: &AlarmPriority) -> Color {
+        match alarm_priority {
             AlarmPriority::High => Color::Rgba(169.0 / 255.0, 35.0 / 255.0, 35.0 / 255.0, 1.0),
             AlarmPriority::Medium => Color::Rgba(169.0 / 255.0, 99.0 / 255.0, 16.0 / 255.0, 1.0),
             AlarmPriority::Low => Color::Rgba(174.0 / 255.0, 133.0 / 255.0, 0.0, 1.0),
         }
     }
 
-    fn alarm_code(&mut self, config: &AlarmsWidgetConfig, alarm: &AlarmTrap, index: usize) {
-        let color = self.alarm_code_color(alarm);
+    fn alarm_code(
+        &mut self,
+        config: &AlarmsWidgetConfig,
+        alarm_code: AlarmCode,
+        alarm_priority: &AlarmPriority,
+        index: usize,
+    ) {
+        let color = self.alarm_code_color(alarm_priority);
 
         let mut style = canvas::Style::default();
         style.border = Some(0.0);
@@ -280,7 +286,7 @@ impl<'a> ControlWidget<'a> {
             )
             .set(config.alarm_codes_containers[index], &mut self.ui);
 
-        widget::text::Text::new(&format!("{}", alarm.alarm_code))
+        widget::text::Text::new(&format!("{}", alarm_code.code()))
             .color(color::WHITE)
             .font_size(8)
             .middle_of(config.alarm_codes_containers[index])
@@ -291,10 +297,10 @@ impl<'a> ControlWidget<'a> {
         &mut self,
         config: &AlarmsWidgetConfig,
         code: AlarmCode,
-        alarm: &AlarmTrap,
+        alarm_priority: &AlarmPriority,
         index: usize,
     ) {
-        let color = self.alarm_message_color(alarm);
+        let color = self.alarm_message_color(alarm_priority);
 
         let mut style = canvas::Style::default();
         style.border = Some(0.0);

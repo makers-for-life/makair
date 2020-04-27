@@ -6,7 +6,7 @@
 use conrod_core::color::{self, Color};
 
 use telemetry::alarm::AlarmCode;
-use telemetry::structures::{AlarmTrap, MachineStateSnapshot};
+use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
 
 use crate::config::environment::{RUNTIME_VERSION, TELEMETRY_WIDGET_SPACING_FROM_BOTTOM};
 
@@ -78,7 +78,7 @@ widget_ids!(pub struct Ids {
 pub struct Screen<'a> {
     ids: &'a Ids,
     machine_snapshot: Option<&'a MachineStateSnapshot>,
-    ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmTrap)]>,
+    ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmPriority)]>,
     widgets: ControlWidget<'a>,
 }
 
@@ -101,7 +101,7 @@ impl<'a> Screen<'a> {
         ids: &'a Ids,
         fonts: &'a Fonts,
         machine_snapshot: Option<&'a MachineStateSnapshot>,
-        ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmTrap)]>,
+        ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmPriority)]>,
     ) -> Screen<'a> {
         Screen {
             ids,

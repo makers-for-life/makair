@@ -9,7 +9,7 @@ use glium::texture;
 use image::{buffer::ConvertBuffer, open, RgbImage, RgbaImage};
 use plotters::prelude::*;
 use telemetry::alarm::AlarmCode;
-use telemetry::structures::{AlarmTrap, MachineStateSnapshot};
+use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
 
 use crate::config::environment::{
     BRANDING_HEIGHT, BRANDING_WIDTH, DISPLAY_GRAPH_OFFSET_HEIGHT, DISPLAY_GRAPH_OFFSET_WIDTH,
@@ -56,7 +56,7 @@ impl DisplayRenderer {
         &mut self,
         data_pressure: &DataPressure,
         machine_snapshot: &MachineStateSnapshot,
-        ongoing_alarms: &[(&AlarmCode, &AlarmTrap)],
+        ongoing_alarms: &[(&AlarmCode, &AlarmPriority)],
         display: &GliumDisplayWinitWrapper,
         interface: &mut Ui,
         chip_state: &ChipState,
@@ -138,7 +138,7 @@ impl DisplayRenderer {
         mut image_map: conrod_core::image::Map<texture::Texture2d>,
         data_pressure: &DataPressure,
         machine_snapshot: &MachineStateSnapshot,
-        ongoing_alarms: &[(&AlarmCode, &AlarmTrap)],
+        ongoing_alarms: &[(&AlarmCode, &AlarmPriority)],
         chip_state: &ChipState,
     ) -> conrod_core::image::Map<texture::Texture2d> {
         // Create branding
