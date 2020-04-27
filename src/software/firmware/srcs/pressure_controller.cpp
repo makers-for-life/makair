@@ -161,7 +161,14 @@ void PressureController::initRespiratoryCycle() {
     if (m_blower_increment >= 0) {
         m_blower->runSpeed(m_blower->getSpeed() + static_cast<uint16_t>(abs(m_blower_increment)));
     } else {
-        m_blower->runSpeed(m_blower->getSpeed() - static_cast<uint16_t>(abs(m_blower_increment)));
+        // When blower increment is negative, we need to check that it is less than current speed
+        // If not, it would result in an overflow
+        if (static_cast<uint16_t>(abs(m_blower_increment)) < m_blower->getSpeed()) {
+            m_blower->runSpeed(m_blower->getSpeed()
+                               - static_cast<uint16_t>(abs(m_blower_increment)));
+        } else {
+            m_blower->runSpeed(MIN_BLOWER_SPEED);
+        }
     }
     m_blower_increment = 0;
 
