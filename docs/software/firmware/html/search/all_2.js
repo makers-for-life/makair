@@ -27,7 +27,7 @@ var searchData=
   ['const_5fmin_5fpeep_5fpressure_115',['CONST_MIN_PEEP_PRESSURE',['../parameters_8h.html#a3168705fb44f50a7555981aed2271822',1,'parameters.h']]],
   ['const_5fmin_5fplateau_5fpressure_116',['CONST_MIN_PLATEAU_PRESSURE',['../parameters_8h.html#a83ccc8990de27988b24e94bd648458d3',1,'parameters.h']]],
   ['convertandround_117',['convertAndRound',['../screen_8cpp.html#a5402e6820eabdb024a802ac7e4a1f313',1,'convertAndRound(uint16_t pressure):&#160;screen.cpp'],['../screen_8h.html#a5402e6820eabdb024a802ac7e4a1f313',1,'convertAndRound(uint16_t pressure):&#160;screen.cpp']]],
-  ['convertsensor2pressure_118',['convertSensor2Pressure',['../pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953',1,'convertSensor2Pressure(uint16_t sensorValue):&#160;pressure_utl.cpp'],['../pressure__utl_8h.html#a2abb82c34f3841e689d1ac60cc998953',1,'convertSensor2Pressure(uint16_t sensorValue):&#160;pressure_utl.cpp']]],
+  ['convertsensor2pressure_118',['convertSensor2Pressure',['../pressure__utl_8cpp.html#ae54b5404d86a2ddfcd518d42a8f1d35d',1,'convertSensor2Pressure(uint32_t sensorValue):&#160;pressure_utl.cpp'],['../pressure__utl_8h.html#ae54b5404d86a2ddfcd518d42a8f1d35d',1,'convertSensor2Pressure(uint32_t sensorValue):&#160;pressure_utl.cpp']]],
   ['convertsensor2pressurefloat_119',['convertSensor2PressureFloat',['../test__pressure_8cpp.html#a630e98ef2bac7105f488cc6f7d83ea18',1,'test_pressure.cpp']]],
   ['cycle_2eh_120',['cycle.h',['../cycle_8h.html',1,'']]],
   ['cyclenumber_121',['cycleNumber',['../class_pressure_controller.html#afe70f5073fe91a4ae906d0b0f1c74d2b',1,'PressureController']]],

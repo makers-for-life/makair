@@ -147,7 +147,7 @@ Functions</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="pressure_8cpp_source.html#l00052">52</a> of file <a class="el" href="pressure_8cpp_source.html">pressure.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                                                      {</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    (void)centiSec;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    int16_t withOffset = <a class="code" href="pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953">convertSensor2Pressure</a>(analogRead(<a class="code" href="parameters_8h.html#a499c5087d06d6128d28540802fc59872">PIN_PRESSURE_SENSOR</a>)) - <a class="code" href="respirator_8cpp.html#abfbf6dd828afcb2b2e17d7fb86b79173">pressureOffset</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    int16_t withOffset = <a class="code" href="pressure__utl_8cpp.html#ae54b5404d86a2ddfcd518d42a8f1d35d">convertSensor2Pressure</a>(analogRead(<a class="code" href="parameters_8h.html#a499c5087d06d6128d28540802fc59872">PIN_PRESSURE_SENSOR</a>)) - <a class="code" href="respirator_8cpp.html#abfbf6dd828afcb2b2e17d7fb86b79173">pressureOffset</a>;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> max(int16_t(0), withOffset);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
 </div><!-- fragment -->
@@ -155,8 +155,8 @@ Functions</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="apressure__utl_8cpp_html_a2abb82c34f3841e689d1ac60cc998953"><div class="ttname"><a href="pressure__utl_8cpp.html#a2abb82c34f3841e689d1ac60cc998953">convertSensor2Pressure</a></div><div class="ttdeci">int16_t convertSensor2Pressure(uint16_t sensorValue)</div><div class="ttdoc">Convert the analog value from sensor to a pressure value.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__utl_8cpp_source.html#l00032">pressure_utl.cpp:32</a></div></div>
 <div class="ttc" id="aparameters_8h_html_a499c5087d06d6128d28540802fc59872"><div class="ttname"><a href="parameters_8h.html#a499c5087d06d6128d28540802fc59872">PIN_PRESSURE_SENSOR</a></div><div class="ttdeci">#define PIN_PRESSURE_SENSOR</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00262">parameters.h:261</a></div></div>
+<div class="ttc" id="apressure__utl_8cpp_html_ae54b5404d86a2ddfcd518d42a8f1d35d"><div class="ttname"><a href="pressure__utl_8cpp.html#ae54b5404d86a2ddfcd518d42a8f1d35d">convertSensor2Pressure</a></div><div class="ttdeci">int16_t convertSensor2Pressure(uint32_t sensorValue)</div><div class="ttdoc">Convert the analog value from sensor to a pressure value.</div><div class="ttdef"><b>Definition:</b> <a href="pressure__utl_8cpp_source.html#l00032">pressure_utl.cpp:32</a></div></div>
 <div class="ttc" id="arespirator_8cpp_html_abfbf6dd828afcb2b2e17d7fb86b79173"><div class="ttname"><a href="respirator_8cpp.html#abfbf6dd828afcb2b2e17d7fb86b79173">pressureOffset</a></div><div class="ttdeci">int16_t pressureOffset</div><div class="ttdef"><b>Definition:</b> <a href="respirator_8cpp_source.html#l00052">respirator.cpp:52</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
