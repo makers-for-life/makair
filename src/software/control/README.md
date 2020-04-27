@@ -12,7 +12,13 @@ In order to setup your environment and build the code, please follow the followi
 
 1. Install [Rustup](https://rustup.rs/)
 2. Ènsure you are using the Rust stable toolchain: `rustup default stable`
-3. Build the project: `cargo build`
+3. On Linux, make sure you have cmake installed and those libraries (debian):
+  `libxcb-shape0 libxcb-shape0-dev libxcb-xfixes0 libxcb-xfixes0-dev libfontconfig libfontconfig1-dev`
+4. Build the project: `cargo build`
+
+Wayland support may be available but it hasn't been tested. You need a working X11 server.
+
+If you are on linux, you need to be in the `dialout` group for your user to be able to use the device created by the serial port.
 
 ## How To Run?
 
@@ -20,7 +26,7 @@ To run the Control UI, please ensure that your device first has an open serial c
 
 Take note of the serial port used as an input on your Control UI board, and call:
 
-1. `./makair-control --port=0` (where `--port` is your serial port ID)
+1. `./makair-control --port=0` (where `--port` is your serial port ID, maybe /dev/ttyUSB0)
 
 ## How To Build A Release? (Cross-Compile For ARM)
 
