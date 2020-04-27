@@ -12,18 +12,18 @@ use telemetry::alarm::AlarmCode;
 use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
 
 use crate::config::environment::{
-    BRANDING_HEIGHT, BRANDING_WIDTH, DISPLAY_GRAPH_OFFSET_HEIGHT, DISPLAY_GRAPH_OFFSET_WIDTH,
-    DISPLAY_WINDOW_SIZE_HEIGHT, DISPLAY_WINDOW_SIZE_WIDTH, GRAPH_DRAW_LABEL_WIDTH,
-    GRAPH_DRAW_LINE_SIZE, GRAPH_DRAW_MARGIN_BOTTOM, GRAPH_DRAW_MARGIN_LEFT,
-    GRAPH_DRAW_MARGIN_RIGHT, GRAPH_DRAW_MARGIN_TOP, GRAPH_DRAW_RANGE_HIGH, GRAPH_DRAW_RANGE_LOW,
-    GRAPH_DRAW_SECONDS,
+    BOOTLOADER_LOGO_HEIGHT, BOOTLOADER_LOGO_WIDTH, BRANDING_HEIGHT, BRANDING_WIDTH,
+    DISPLAY_GRAPH_OFFSET_HEIGHT, DISPLAY_GRAPH_OFFSET_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT,
+    DISPLAY_WINDOW_SIZE_WIDTH, GRAPH_DRAW_LABEL_WIDTH, GRAPH_DRAW_LINE_SIZE,
+    GRAPH_DRAW_MARGIN_BOTTOM, GRAPH_DRAW_MARGIN_LEFT, GRAPH_DRAW_MARGIN_RIGHT,
+    GRAPH_DRAW_MARGIN_TOP, GRAPH_DRAW_RANGE_HIGH, GRAPH_DRAW_RANGE_LOW, GRAPH_DRAW_SECONDS,
 };
 
 use crate::chip::ChipState;
 use crate::physics::types::DataPressure;
 
 use super::fonts::Fonts;
-use super::screen::{Ids, Screen, ScreenDataBranding, ScreenDataGraph};
+use super::screen::{Ids, Screen, ScreenBootLoader, ScreenDataBranding, ScreenDataGraph};
 use super::support::GliumDisplayWinitWrapper;
 
 pub struct DisplayRendererBuilder;
@@ -39,6 +39,10 @@ const FIRMWARE_VERSION_NONE: &str = "n/a";
 
 lazy_static! {
     static ref IMAGE_TOP_LOGO_RGBA_RAW: Vec<u8> = open("./res/images/top-logo.png")
+        .unwrap()
+        .into_rgba()
+        .into_raw();
+    static ref IMAGE_BOOTLOADER_LOGO_RGBA_RAW: Vec<u8> = open("./res/images/bootloader-logo.png")
         .unwrap()
         .into_rgba()
         .into_raw();
@@ -67,7 +71,7 @@ impl DisplayRenderer {
         let ids = Ids::new(interface.widget_id_generator());
 
         match chip_state {
-            ChipState::Initializing => self.initializing(ids, interface, image_map),
+            ChipState::Initializing => self.initializing(ids, display, interface, image_map),
             ChipState::WaitingData => self.empty(ids, interface, image_map),
             ChipState::Running | ChipState::Stopped => self.data(
                 ids,
@@ -101,14 +105,28 @@ impl DisplayRenderer {
     fn initializing(
         &mut self,
         ids: Ids,
+        display: &GliumDisplayWinitWrapper,
         interface: &mut Ui,
-        image_map: conrod_core::image::Map<texture::Texture2d>,
+        mut image_map: conrod_core::image::Map<texture::Texture2d>,
     ) -> conrod_core::image::Map<texture::Texture2d> {
+        let bootloader_logo_image_texture = self.draw_bootloader_logo(display);
+        let (bootloader_logo_width, bootloader_logo_height) = (
+            bootloader_logo_image_texture.get_width(),
+            bootloader_logo_image_texture.get_height().unwrap(),
+        );
+        let image_id = image_map.insert(bootloader_logo_image_texture);
+
         let ui = interface.set_widgets();
+
+        let screen_boot_loader = ScreenBootLoader {
+            image_id,
+            width: bootloader_logo_width as _,
+            height: bootloader_logo_height as _,
+        };
 
         let mut screen = Screen::new(ui, &ids, &self.fonts, None, None);
 
-        screen.render_initializing();
+        screen.render_initializing(screen_boot_loader);
 
         image_map
     }
@@ -205,6 +223,19 @@ impl DisplayRenderer {
         };
 
         image_map
+    }
+
+    fn draw_bootloader_logo(
+        &self,
+        display: &GliumDisplayWinitWrapper,
+    ) -> glium::texture::Texture2d {
+        // Create image from raw buffer
+        let raw_image = glium::texture::RawImage2d::from_raw_rgba_reversed(
+            &*IMAGE_BOOTLOADER_LOGO_RGBA_RAW,
+            (BOOTLOADER_LOGO_WIDTH, BOOTLOADER_LOGO_HEIGHT),
+        );
+
+        glium::texture::Texture2d::new(&display.0, raw_image).unwrap()
     }
 
     fn draw_branding(&self, display: &GliumDisplayWinitWrapper) -> glium::texture::Texture2d {

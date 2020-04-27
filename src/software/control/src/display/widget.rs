@@ -129,11 +129,24 @@ impl NoDataWidgetConfig {
 
 pub struct InitializingWidgetConfig {
     id: WidgetId,
+    width: f64,
+    height: f64,
+    image: conrod_core::image::Id,
 }
 
 impl InitializingWidgetConfig {
-    pub fn new(id: WidgetId) -> InitializingWidgetConfig {
-        InitializingWidgetConfig { id }
+    pub fn new(
+        id: WidgetId,
+        width: f64,
+        height: f64,
+        image: conrod_core::image::Id,
+    ) -> InitializingWidgetConfig {
+        InitializingWidgetConfig {
+            id,
+            width,
+            height,
+            image,
+        }
     }
 }
 
@@ -502,17 +515,11 @@ impl<'a> ControlWidget<'a> {
     }
 
     fn initializing(&mut self, config: InitializingWidgetConfig) -> f64 {
-        let mut text_style = conrod_core::widget::primitive::text::Style::default();
-
-        text_style.font_id = Some(Some(self.fonts.bold));
-        text_style.color = Some(color::WHITE);
-        text_style.font_size = Some(30);
-
-        widget::Text::new("Initialization..")
-            .color(color::WHITE)
+        widget::Image::new(config.image)
+            .w_h(config.width, config.height)
             .middle()
-            .with_style(text_style)
             .set(config.id, &mut self.ui);
+
         0 as _
     }
 }

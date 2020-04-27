@@ -72,7 +72,8 @@ widget_ids!(pub struct Ids {
 
   no_data,
   error,
-  initializing
+
+  initializing_logo,
 });
 
 pub struct Screen<'a> {
@@ -90,6 +91,12 @@ pub struct ScreenDataBranding<'a> {
 }
 
 pub struct ScreenDataGraph {
+    pub image_id: conrod_core::image::Id,
+    pub width: f64,
+    pub height: f64,
+}
+
+pub struct ScreenBootLoader {
     pub image_id: conrod_core::image::Id,
     pub width: f64,
     pub height: f64,
@@ -223,8 +230,13 @@ impl<'a> Screen<'a> {
         self.widgets.render(ControlWidgetType::Error(config));
     }
 
-    pub fn render_initializing(&mut self) {
-        let config = InitializingWidgetConfig::new(self.ids.initializing);
+    pub fn render_initializing(&mut self, config: ScreenBootLoader) {
+        let config = InitializingWidgetConfig::new(
+            self.ids.initializing_logo,
+            config.width,
+            config.height,
+            config.image_id,
+        );
 
         self.render_background();
 
