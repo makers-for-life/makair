@@ -6,7 +6,7 @@ var telemetry_8cpp =
     [ "sendAlarmTrap", "telemetry_8cpp.html#a8a52623e1220d2f1941f75525a3cbe16", null ],
     [ "sendBootMessage", "telemetry_8cpp.html#a46ccd6539de37e53697fe5e3981cdd0b", null ],
     [ "sendDataSnapshot", "telemetry_8cpp.html#a98bf45d9b6065dd4000ad613ca44e196", null ],
-    [ "sendMachineStateSnapshot", "telemetry_8cpp.html#a86737dba47eaac7be9e6556085d36167", null ],
+    [ "sendMachineStateSnapshot", "telemetry_8cpp.html#a2b3ea905bb743120869e751af915a717", null ],
     [ "sendStoppedMessage", "telemetry_8cpp.html#a1076b930a2321a882ec1613de151246e", null ],
     [ "toBytes16", "telemetry_8cpp.html#a58847ba6e44352308e4733ee03bd5be6", null ],
     [ "toBytes32", "telemetry_8cpp.html#ab8863bbbd9f5615734eb1b31bab87234", null ],

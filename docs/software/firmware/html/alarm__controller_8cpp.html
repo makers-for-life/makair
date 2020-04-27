@@ -83,6 +83,7 @@ $(document).ready(function(){initNavTree('alarm__controller_8cpp.html',''); init
 
 <div class="header">
   <div class="summary">
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">alarm_controller.cpp File Reference</div>  </div>
@@ -98,6 +99,11 @@ $(document).ready(function(){initNavTree('alarm__controller_8cpp.html',''); init
 </div>
 <p><a href="alarm__controller_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ad55d50cca187507c63183c393597dcd2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="alarm__controller_8cpp.html#ad55d50cca187507c63183c393597dcd2">compare</a> (uint8_t a, uint8_t b)</td></tr>
+<tr class="separator:ad55d50cca187507c63183c393597dcd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a3da8ff857dba84bdd627e51a2544604b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_alarm_controller.html">AlarmController</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="alarm__controller_8cpp.html#a3da8ff857dba84bdd627e51a2544604b">alarmController</a></td></tr>
@@ -110,7 +116,55 @@ Variables</h2></td></tr>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2020 Makers For Life </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="alarm__controller_8cpp_source.html">alarm_controller.cpp</a>.</p>
-</div><h2 class="groupheader">Variable Documentation</h2>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="ad55d50cca187507c63183c393597dcd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad55d50cca187507c63183c393597dcd2">&#9670;&nbsp;</a></span>compare()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int compare </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="alarm__controller_8cpp_source.html#l00185">185</a> of file <a class="el" href="alarm__controller_8cpp_source.html">alarm_controller.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                                  {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordtype">int</span> result = 0;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordflow">if</span> (a == b) {</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        result = 0;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (a == 0u) {</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        result = 1;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (b == 0u) {</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        result = -1;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (a &lt; b) {</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        result = -1;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        result = 1;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    }</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
 <a id="a3da8ff857dba84bdd627e51a2544604b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3da8ff857dba84bdd627e51a2544604b">&#9670;&nbsp;</a></span>alarmController</h2>
 
