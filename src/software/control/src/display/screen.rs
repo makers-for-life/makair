@@ -18,9 +18,13 @@ use super::widget::{
 
 widget_ids!(pub struct Ids {
   background,
-  branding,
+
   alarms,
+
   pressure_graph,
+
+  branding_image,
+  branding_text,
 
   cycles_parent,
   cycles_title,
@@ -127,7 +131,7 @@ impl<'a> Screen<'a> {
             width,
             height,
             image_id,
-            self.ids.branding,
+            (self.ids.branding_image, self.ids.branding_text),
         );
 
         self.widgets.render(ControlWidgetType::Branding(config));

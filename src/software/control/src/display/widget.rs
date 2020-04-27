@@ -10,13 +10,12 @@ use conrod_core::{
 };
 
 use crate::config::environment::{
-    BRANDING_MARGIN_LEFT, BRANDING_MARGIN_TOP, DISPLAY_WIDGET_SIZE_HEIGHT,
-    DISPLAY_WIDGET_SIZE_SPACING, DISPLAY_WIDGET_SIZE_WIDTH, GRAPH_DRAW_SPACING_FROM_BOTTOM,
+    BRANDING_IMAGE_MARGIN_LEFT, BRANDING_IMAGE_MARGIN_TOP, BRANDING_TEXT_MARGIN_LEFT,
+    BRANDING_TEXT_MARGIN_TOP, DISPLAY_WIDGET_SIZE_HEIGHT, DISPLAY_WIDGET_SIZE_SPACING,
+    DISPLAY_WIDGET_SIZE_WIDTH, GRAPH_DRAW_SPACING_FROM_BOTTOM,
 };
 
 use super::fonts::Fonts;
-
-pub type WidgetIds = (WidgetId, WidgetId, WidgetId, WidgetId);
 
 pub struct BackgroundWidgetConfig {
     color: conrod_core::color::Color,
@@ -35,14 +34,14 @@ pub struct BrandingWidgetConfig {
     width: f64,
     height: f64,
     image: conrod_core::image::Id,
-    id: WidgetId,
+    pub ids: (WidgetId, WidgetId),
 }
 
 pub struct TelemetryWidgetConfig<'a> {
     pub title: &'a str,
     pub value: String,
     pub unit: &'a str,
-    pub ids: WidgetIds,
+    pub ids: (WidgetId, WidgetId, WidgetId, WidgetId),
     pub x_position: f64,
     pub y_position: f64,
     pub background_color: Color,
@@ -62,7 +61,7 @@ impl BrandingWidgetConfig {
         width: f64,
         height: f64,
         image: conrod_core::image::Id,
-        id: WidgetId,
+        ids: (WidgetId, WidgetId),
     ) -> BrandingWidgetConfig {
         BrandingWidgetConfig {
             version_firmware,
@@ -70,7 +69,7 @@ impl BrandingWidgetConfig {
             width,
             height,
             image,
-            id,
+            ids,
         }
     }
 }
@@ -175,10 +174,20 @@ impl<'a> ControlWidget<'a> {
     }
 
     fn branding(&mut self, config: BrandingWidgetConfig) -> f64 {
+        // Display branding image
         widget::Image::new(config.image)
             .w_h(config.width, config.height)
-            .top_left_with_margins(BRANDING_MARGIN_TOP, BRANDING_MARGIN_LEFT)
-            .set(config.id, &mut self.ui);
+            .top_left_with_margins(BRANDING_IMAGE_MARGIN_TOP, BRANDING_IMAGE_MARGIN_LEFT)
+            .set(config.ids.0, &mut self.ui);
+
+        // Display branding text
+        let branding_text = format!("F{} | C{}", config.version_firmware, config.version_control);
+
+        widget::Text::new(&branding_text)
+            .color(color::WHITE.with_alpha(0.45))
+            .top_left_with_margins(BRANDING_TEXT_MARGIN_TOP, BRANDING_TEXT_MARGIN_LEFT)
+            .font_size(11)
+            .set(config.ids.1, &mut self.ui);
 
         config.width
     }
