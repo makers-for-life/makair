@@ -71,6 +71,7 @@ impl Chip {
 
             TelemetryMessage::MachineStateSnapshot(snapshot) => {
                 self.clean_if_stopped();
+                self.update_tick(snapshot.systick);
 
                 for alarm in &snapshot.current_alarm_codes {
                     match AlarmPriority::try_from(*alarm) {
