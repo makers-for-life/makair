@@ -10,8 +10,8 @@ use conrod_core::{
 };
 
 use crate::config::environment::{
-    DISPLAY_WIDGET_SIZE_HEIGHT, DISPLAY_WIDGET_SIZE_SPACING, DISPLAY_WIDGET_SIZE_WIDTH,
-    GRAPH_DRAW_SPACING_FROM_BOTTOM, BRANDING_MARGIN_TOP, BRANDING_MARGIN_LEFT
+    BRANDING_MARGIN_LEFT, BRANDING_MARGIN_TOP, DISPLAY_WIDGET_SIZE_HEIGHT,
+    DISPLAY_WIDGET_SIZE_SPACING, DISPLAY_WIDGET_SIZE_WIDTH, GRAPH_DRAW_SPACING_FROM_BOTTOM,
 };
 
 use super::fonts::Fonts;
@@ -180,8 +180,7 @@ impl<'a> ControlWidget<'a> {
             .top_left_with_margins(BRANDING_MARGIN_TOP, BRANDING_MARGIN_LEFT)
             .set(config.id, &mut self.ui);
 
-        // TODO
-        0 as _
+        config.width
     }
 
     fn graph(&mut self, config: GraphWidgetConfig) -> f64 {
