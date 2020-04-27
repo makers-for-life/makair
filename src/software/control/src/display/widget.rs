@@ -201,7 +201,7 @@ impl<'a> ControlWidget<'a> {
         .mid_top_with_margin_on(config.parent, 10.0)
         .set(config.container, &mut self.ui);
 
-        widget::text::Text::new("Alarms")
+        widget::text::Text::new("ALARMS")
             .color(color::WHITE)
             .mid_left_with_margin_on(config.container, DISPLAY_ALARM_CONTAINER_PADDING_LEFT)
             .font_size(14)
