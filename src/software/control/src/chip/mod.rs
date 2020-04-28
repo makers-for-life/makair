@@ -7,7 +7,7 @@ use chrono::{offset::Utc, DateTime, Duration};
 use std::collections::{HashMap, VecDeque};
 use std::convert::TryFrom;
 
-use crate::config::environment::{GRAPH_DRAW_SECONDS, GRAPH_NUMBER_OF_POINTS};
+use crate::config::environment::*;
 use crate::physics::types::DataPressure;
 use telemetry::alarm::AlarmCode;
 use telemetry::serial::core;

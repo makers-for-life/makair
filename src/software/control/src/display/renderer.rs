@@ -11,19 +11,15 @@ use plotters::prelude::*;
 use telemetry::alarm::AlarmCode;
 use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
 
-use crate::config::environment::{
-    BOOTLOADER_LOGO_HEIGHT, BOOTLOADER_LOGO_WIDTH, BRANDING_HEIGHT, BRANDING_WIDTH,
-    DISPLAY_GRAPH_OFFSET_HEIGHT, DISPLAY_GRAPH_OFFSET_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT,
-    DISPLAY_WINDOW_SIZE_WIDTH, GRAPH_DRAW_LABEL_WIDTH, GRAPH_DRAW_LINE_SIZE,
-    GRAPH_DRAW_MARGIN_BOTTOM, GRAPH_DRAW_MARGIN_LEFT, GRAPH_DRAW_MARGIN_RIGHT,
-    GRAPH_DRAW_MARGIN_TOP, GRAPH_DRAW_RANGE_HIGH, GRAPH_DRAW_RANGE_LOW, GRAPH_DRAW_SECONDS,
-};
+use crate::config::environment::*;
 
 use crate::chip::ChipState;
 use crate::physics::types::DataPressure;
 
 use super::fonts::Fonts;
-use super::screen::{Ids, Screen, ScreenBootLoader, ScreenDataBranding, ScreenDataGraph};
+use super::screen::{
+    Ids, Screen, ScreenBootLoader, ScreenDataBranding, ScreenDataGraph, ScreenDataTelemetry,
+};
 use super::support::GliumDisplayWinitWrapper;
 
 pub struct DisplayRendererBuilder;
@@ -179,6 +175,10 @@ impl DisplayRenderer {
         );
         let graph_image_id = image_map.insert(graph_image_texture);
 
+        // Create telemetry
+        let telemetry_arrow_image_texture = self.draw_telemetry_arrow(display);
+        let telemetry_arrow_image_id = image_map.insert(telemetry_arrow_image_texture);
+
         // Create widgets
         let mut ui = interface.set_widgets();
 
@@ -220,9 +220,21 @@ impl DisplayRenderer {
             height: graph_height as _,
         };
 
+        let screen_data_telemetry = ScreenDataTelemetry {
+            arrow_image_id: telemetry_arrow_image_id,
+        };
+
         match chip_state {
-            ChipState::Running => screen.render_with_data(screen_data_branding, screen_data_graph),
-            ChipState::Stopped => screen.render_stop(screen_data_branding, screen_data_graph),
+            ChipState::Running => screen.render_with_data(
+                screen_data_branding,
+                screen_data_graph,
+                screen_data_telemetry,
+            ),
+            ChipState::Stopped => screen.render_stop(
+                screen_data_branding,
+                screen_data_graph,
+                screen_data_telemetry,
+            ),
             _ => unreachable!(),
         };
 
@@ -237,6 +249,19 @@ impl DisplayRenderer {
         let raw_image = glium::texture::RawImage2d::from_raw_rgba_reversed(
             &*IMAGE_BOOTLOADER_LOGO_RGBA_RAW,
             (BOOTLOADER_LOGO_WIDTH, BOOTLOADER_LOGO_HEIGHT),
+        );
+
+        glium::texture::Texture2d::new(&display.0, raw_image).unwrap()
+    }
+
+    fn draw_telemetry_arrow(
+        &self,
+        display: &GliumDisplayWinitWrapper,
+    ) -> glium::texture::Texture2d {
+        // Create image from raw buffer
+        let raw_image = glium::texture::RawImage2d::from_raw_rgba_reversed(
+            &*IMAGE_TELEMETRY_ARROW_RGBA_RAW,
+            (TELEMETRY_ARROW_WIDTH, TELEMETRY_ARROW_HEIGHT),
         );
 
         glium::texture::Texture2d::new(&display.0, raw_image).unwrap()

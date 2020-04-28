@@ -8,7 +8,7 @@ use conrod_core::color::{self, Color};
 use telemetry::alarm::AlarmCode;
 use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
 
-use crate::config::environment::{RUNTIME_VERSION, TELEMETRY_WIDGET_SPACING_FROM_BOTTOM};
+use crate::config::environment::*;
 
 use super::fonts::Fonts;
 use super::widget::{
@@ -109,6 +109,10 @@ pub struct ScreenDataGraph {
     pub height: f64,
 }
 
+pub struct ScreenDataTelemetry {
+    pub arrow_image_id: conrod_core::image::Id,
+}
+
 pub struct ScreenBootLoader {
     pub image_id: conrod_core::image::Id,
     pub width: f64,
@@ -135,6 +139,7 @@ impl<'a> Screen<'a> {
         &mut self,
         branding_data: ScreenDataBranding<'a>,
         graph_data: ScreenDataGraph,
+        telemetry_data: ScreenDataTelemetry,
     ) {
         // Render common background
         self.render_background();
@@ -153,7 +158,7 @@ impl<'a> Screen<'a> {
         self.render_graph(graph_data.image_id, graph_data.width, graph_data.height);
 
         // Render bottom elements
-        self.render_telemetry();
+        self.render_telemetry(telemetry_data);
     }
 
     pub fn render_background(&mut self) {
@@ -215,8 +220,9 @@ impl<'a> Screen<'a> {
         &mut self,
         branding_data: ScreenDataBranding<'a>,
         graph_data: ScreenDataGraph,
+        telemetry_data: ScreenDataTelemetry,
     ) {
-        self.render_with_data(branding_data, graph_data);
+        self.render_with_data(branding_data, graph_data, telemetry_data);
 
         let config = StopWidgetConfig {
             parent: self.ids.background,
@@ -257,7 +263,7 @@ impl<'a> Screen<'a> {
         self.widgets.render(ControlWidgetType::Initializing(config));
     }
 
-    pub fn render_telemetry(&mut self) {
+    pub fn render_telemetry(&mut self, telemetry_data: ScreenDataTelemetry) {
         let mut last_widget_position = 0.0;
         let machine_snapshot = self.machine_snapshot.unwrap();
 
@@ -269,6 +275,7 @@ impl<'a> Screen<'a> {
                     .to_string(),
             ),
             value_target: Some(machine_snapshot.peak_command.to_string()),
+            value_arrow: telemetry_data.arrow_image_id,
             unit: "cmH20",
             ids: (
                 self.ids.background,
@@ -297,6 +304,7 @@ impl<'a> Screen<'a> {
                     .to_string(),
             ),
             value_target: Some(machine_snapshot.plateau_command.to_string()),
+            value_arrow: telemetry_data.arrow_image_id,
             unit: "cmH20",
             ids: (
                 self.ids.peak_parent,
@@ -325,6 +333,7 @@ impl<'a> Screen<'a> {
                     .to_string(),
             ),
             value_target: Some(machine_snapshot.peep_command.to_string()),
+            value_arrow: telemetry_data.arrow_image_id,
             unit: "cmH20",
             ids: (
                 self.ids.plateau_parent,
@@ -349,6 +358,7 @@ impl<'a> Screen<'a> {
             title: "Cycles/minute",
             value_measured: None,
             value_target: Some(machine_snapshot.cpm_command.to_string()),
+            value_arrow: telemetry_data.arrow_image_id,
             unit: "/minute",
             ids: (
                 self.ids.peep_parent,
@@ -373,6 +383,7 @@ impl<'a> Screen<'a> {
             title: "Insp-exp ratio",
             value_measured: None,
             value_target: Some("0:0".to_string()),
+            value_arrow: telemetry_data.arrow_image_id,
             unit: "insp:exp.",
             ids: (
                 self.ids.cycles_parent,
@@ -397,6 +408,7 @@ impl<'a> Screen<'a> {
             title: "Tidal volume",
             value_measured: Some("0".to_string()),
             value_target: None,
+            value_arrow: telemetry_data.arrow_image_id,
             unit: "mL (milliliters)",
             ids: (
                 self.ids.ratio_parent,

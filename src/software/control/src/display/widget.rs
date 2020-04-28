@@ -43,6 +43,7 @@ pub struct TelemetryWidgetConfig<'a> {
     pub title: &'a str,
     pub value_measured: Option<String>,
     pub value_target: Option<String>,
+    pub value_arrow: conrod_core::image::Id,
     pub unit: &'a str,
     pub ids: (
         WidgetId,
@@ -256,8 +257,6 @@ impl<'a> ControlWidget<'a> {
         0 as _
     }
 
-    // TODO: create a rounded rectangle of either right or left angles
-    //   check how rounded rectangles are created
     fn alarm(
         &mut self,
         config: &AlarmsWidgetConfig,
@@ -459,13 +458,16 @@ impl<'a> ControlWidget<'a> {
                     .set(config.ids.3, &mut self.ui);
 
                 // Draw arrow
-                // TODO: config.ids.4
+                widget::Image::new(config.value_arrow)
+                    .w_h(TELEMETRY_ARROW_WIDTH as f64, TELEMETRY_ARROW_HEIGHT as f64)
+                    .right_from(config.ids.3, TELEMETRY_ARROW_SPACING_SIDES)
+                    .y_relative_to(config.ids.3, -3.0)
+                    .set(config.ids.4, &mut self.ui);
 
                 // Draw target value
                 widget::Text::new(&format!("({})", value_target))
                     .with_style(target_text_style)
-                    // TODO: on 4 rather
-                    .right_from(config.ids.3, 4.0)
+                    .right_from(config.ids.4, TELEMETRY_ARROW_SPACING_SIDES)
                     .y_relative_to(config.ids.3, -1.0)
                     .set(config.ids.5, &mut self.ui);
             }

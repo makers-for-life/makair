@@ -6,7 +6,7 @@
 use conrod_core::UiBuilder;
 use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 
-use crate::config::environment::{DISPLAY_WINDOW_SIZE_HEIGHT, DISPLAY_WINDOW_SIZE_WIDTH};
+use crate::config::environment::*;
 use crate::APP_ARGS;
 
 use super::drawer::DisplayDrawerBuilder;
