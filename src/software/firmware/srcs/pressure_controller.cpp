@@ -470,12 +470,14 @@ void PressureController::updatePeakPressure() {
             m_maxPeakPressureCommand =
                 // cppcheck-suppress misra-c2012-12.3
                 max(min(min(m_peakPressure, m_maxPeakPressureCommand) + plateauDelta,
+                        // cppcheck-suppress misra-c2012-12.3
                         static_cast<int>(CONST_MAX_PEAK_PRESSURE)),
                     static_cast<int>(m_maxPlateauPressureCommand));
         } else if ((abs(plateauDelta) < 20) && (abs(plateauDelta) > 5)) {
             m_maxPeakPressureCommand =
                 // cppcheck-suppress misra-c2012-12.3
                 max(min(min(m_peakPressure, m_maxPeakPressureCommand) + (plateauDelta / 2),
+                        // cppcheck-suppress misra-c2012-12.3
                         static_cast<int>(CONST_MAX_PEAK_PRESSURE)),
                     static_cast<int>(m_maxPlateauPressureCommand));
         } else {
