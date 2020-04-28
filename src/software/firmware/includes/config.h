@@ -15,7 +15,7 @@
 #define MODE_VALVE_TEST_VOLZ 11       ///< Cycle tests for valves
 
 /// Defines the current mode
-#define MODE MODE_VALVE_TEST_VOLZ
+#define MODE MODE_VALVE_TEST
 
 /**
  * Activates debug traces

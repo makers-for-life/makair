@@ -37,7 +37,7 @@ boolean ValveOpened = true;
 uint32_t cycleCount = 0;
 int currentPwm = 0;
 
-#define PWM_OPENED 56
+#define PWM_OPENED 64
 #define PWM_CLOSED 90
 
 enum statemachine { CYCLING, FORCEOPENED, FORCECLOSED, MANUAL };
