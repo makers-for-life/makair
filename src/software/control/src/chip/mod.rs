@@ -177,7 +177,6 @@ mod tests {
     use crate::dirty_copy_paste::tests::telemetry_message_strategy;
     use proptest::collection;
     use proptest::prelude::*;
-    use telemetry::structures::TelemetryMessage;
 
     proptest! {
         #[test]

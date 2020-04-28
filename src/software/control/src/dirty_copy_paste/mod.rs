@@ -1,10 +1,3 @@
-use telemetry::alarm::AlarmCode;
-use telemetry::serial::core;
-use telemetry::structures::{
-    AlarmPriority, AlarmTrap, BootMessage, DataSnapshot, MachineStateSnapshot, Mode, Phase,
-    StoppedMessage, SubPhase, TelemetryMessage,
-};
-
 // /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\
 // /!\ THIS FILE IS JUST A PARTIAL COPY OF src/software/telemetry/src/parsers.rs
 // /!\ IT MUST BE DELETED AND REPLACED BY A GOOD CARGO CONFIG.
@@ -12,9 +5,12 @@ use telemetry::structures::{
 
 #[cfg(test)]
 pub mod tests {
-    use super::*;
     use proptest::collection;
     use proptest::prelude::*;
+    use telemetry::structures::{
+        AlarmPriority, AlarmTrap, BootMessage, DataSnapshot, MachineStateSnapshot, Mode, Phase,
+        StoppedMessage, SubPhase, TelemetryMessage,
+    };
 
     fn mode_strategy() -> impl Strategy<Value = Mode> {
         prop_oneof![
