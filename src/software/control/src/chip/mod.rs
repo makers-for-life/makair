@@ -162,7 +162,7 @@ impl Chip {
 
     pub fn clean_events(&mut self) {
         if !self.data_pressure.is_empty() {
-            let older = Utc::now() - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
+            let older = self.data_pressure.front().unwrap().0 - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
 
             while self
                 .data_pressure
