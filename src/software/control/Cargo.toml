@@ -20,6 +20,7 @@ doc = false
 log = "0.4"
 clap = { version = "2.33", default-features = false }
 lazy_static = "1.4"
+rust-embed = { version = "5.5.1", features = ["compression"] }
 chrono = "0.4.11"
 winit = "0.19"
 image = "0.23.3"

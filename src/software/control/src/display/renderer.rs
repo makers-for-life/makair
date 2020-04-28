@@ -6,10 +6,12 @@
 use chrono::{DateTime, NaiveDateTime, Utc};
 use conrod_core::Ui;
 use glium::texture;
-use image::{buffer::ConvertBuffer, open, RgbImage, RgbaImage};
+use image::{buffer::ConvertBuffer, load_from_memory, RgbImage, RgbaImage};
 use plotters::prelude::*;
 use telemetry::alarm::AlarmCode;
 use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
+
+use crate::EmbeddedImages;
 
 use crate::config::environment::*;
 
@@ -34,18 +36,21 @@ const GRAPH_HEIGHT: u32 = DISPLAY_WINDOW_SIZE_HEIGHT - DISPLAY_GRAPH_OFFSET_HEIG
 const FIRMWARE_VERSION_NONE: &str = "n/a";
 
 lazy_static! {
-    static ref IMAGE_TOP_LOGO_RGBA_RAW: Vec<u8> = open("./res/images/top-logo.png")
-        .unwrap()
-        .into_rgba()
-        .into_raw();
-    static ref IMAGE_BOOTLOADER_LOGO_RGBA_RAW: Vec<u8> = open("./res/images/bootloader-logo.png")
-        .unwrap()
-        .into_rgba()
-        .into_raw();
-    static ref IMAGE_TELEMETRY_ARROW_RGBA_RAW: Vec<u8> = open("./res/images/telemetry-arrow.png")
-        .unwrap()
-        .into_rgba()
-        .into_raw();
+    static ref IMAGE_TOP_LOGO_RGBA_RAW: Vec<u8> =
+        load_from_memory(EmbeddedImages::get("top-logo.png").unwrap().to_mut())
+            .unwrap()
+            .into_rgba()
+            .into_raw();
+    static ref IMAGE_BOOTLOADER_LOGO_RGBA_RAW: Vec<u8> =
+        load_from_memory(EmbeddedImages::get("bootloader-logo.png").unwrap().to_mut())
+            .unwrap()
+            .into_rgba()
+            .into_raw();
+    static ref IMAGE_TELEMETRY_ARROW_RGBA_RAW: Vec<u8> =
+        load_from_memory(EmbeddedImages::get("telemetry-arrow.png").unwrap().to_mut())
+            .unwrap()
+            .into_rgba()
+            .into_raw();
 }
 
 #[allow(clippy::new_ret_no_self)]
