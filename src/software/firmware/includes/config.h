@@ -11,9 +11,9 @@
 #define MODE_PROD 1              ///< Ventilator mode
 #define MODE_QUALIFICATION 2     ///< Test electrical wiring mode
 #define MODE_INTEGRATION_TEST 3  ///< Test integration mode
-
+#define MODE_STEPPER_CONTROLLER 101 ///< Program to embed in another STM32F411 controller
 /// Defines the current mode
-#define MODE MODE_PROD
+#define MODE MODE_STEPPER_CONTROLLER
 
 /**
  * Activates debug traces
