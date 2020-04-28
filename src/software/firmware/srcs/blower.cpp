@@ -31,7 +31,7 @@ void Blower::setup() {
     actuator->setMode(timerChannel, TIMER_OUTPUT_COMPARE_PWM1, blowerPin);
 
     // Set PPM width to 1ms
-    actuator->setCaptureCompare(timerChannel, BlowerSpeed2MicroSeconds(0), MICROSEC_COMPARE_FORMAT);
+    actuator->setCaptureCompare(timerChannel, 1, MICROSEC_COMPARE_FORMAT);
     actuator->resume();
 }
 
@@ -60,6 +60,6 @@ void Blower::runSpeed(int16_t p_speed) {
 int Blower::getSpeed() const { return m_speed; }
 
 void Blower::stop() {
-    actuator->setCaptureCompare(timerChannel, BlowerSpeed2MicroSeconds(0), MICROSEC_COMPARE_FORMAT);
+    actuator->setCaptureCompare(timerChannel, 1, MICROSEC_COMPARE_FORMAT);
     m_stopped = true;
 }
