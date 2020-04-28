@@ -465,22 +465,10 @@ impl<'a> ControlWidget<'a> {
         // Convert diameters to radius
         let (ground_radius, surround_radius) = (
             HEARTBEAT_GROUND_DIAMETER / 2.0,
-            HEARTBEAT_SURROUND_DIAMETER / 2.0
+            HEARTBEAT_SURROUND_DIAMETER / 2.0,
         );
 
-        // Create ground circle
-        widget::primitive::shape::circle::Circle::fill_with(
-            ground_radius,
-            Color::Rgba(116.0 / 255.0, 116.0 / 255.0, 116.0 / 255.0, 1.0),
-        )
-        .top_right_with_margins_on(
-            config.container,
-            HEARTBEAT_GROUND_MARGIN_TOP,
-            HEARTBEAT_GROUND_MARGIN_RIGHT,
-        )
-        .set(config.ground, &mut self.ui);
-
-        // Create surround circle
+        // #1: Create surround circle
         let surround_line_style = widget::primitive::line::Style::solid()
             .color(Color::Rgba(
                 153.0 / 255.0,
@@ -494,11 +482,29 @@ impl<'a> ControlWidget<'a> {
             surround_radius,
             surround_line_style,
         )
-        .middle_of(config.ground)
+        .top_right_with_margins_on(
+            config.container,
+            HEARTBEAT_SURROUND_MARGIN_TOP,
+            HEARTBEAT_SURROUND_MARGIN_RIGHT,
+        )
         .set(config.surround, &mut self.ui);
 
-        // Create inner circle
-        // TODO
+        // #2: Create inner circle
+        widget::primitive::shape::circle::Circle::fill_with(
+            // TODO: pass dynamic radius
+            14.0,
+            color::WHITE,
+        )
+        .middle_of(config.surround)
+        .set(config.inner, &mut self.ui);
+
+        // #3: Create ground circle
+        widget::primitive::shape::circle::Circle::fill_with(
+            ground_radius,
+            Color::Rgba(116.0 / 255.0, 116.0 / 255.0, 116.0 / 255.0, 1.0),
+        )
+        .middle_of(config.surround)
+        .set(config.ground, &mut self.ui);
 
         HEARTBEAT_GROUND_DIAMETER
     }
