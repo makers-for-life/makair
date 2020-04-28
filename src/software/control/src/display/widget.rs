@@ -44,7 +44,12 @@ pub struct StatusWidgetConfig {
     wrapper: WidgetId,
 }
 
-pub struct HeartbeatWidgetConfig;
+pub struct HeartbeatWidgetConfig {
+    container: WidgetId,
+    ground: WidgetId,
+    surround: WidgetId,
+    inner: WidgetId,
+}
 
 pub struct TelemetryWidgetConfig<'a> {
     pub title: &'a str,
@@ -96,16 +101,23 @@ impl<'a> BrandingWidgetConfig<'a> {
 
 impl StatusWidgetConfig {
     pub fn new(container: WidgetId, wrapper: WidgetId) -> StatusWidgetConfig {
-        StatusWidgetConfig {
-            container,
-            wrapper
-        }
+        StatusWidgetConfig { container, wrapper }
     }
 }
 
 impl HeartbeatWidgetConfig {
-    pub fn new() -> HeartbeatWidgetConfig {
-        HeartbeatWidgetConfig {}
+    pub fn new(
+        container: WidgetId,
+        ground: WidgetId,
+        surround: WidgetId,
+        inner: WidgetId,
+    ) -> HeartbeatWidgetConfig {
+        HeartbeatWidgetConfig {
+            container,
+            ground,
+            surround,
+            inner,
+        }
     }
 }
 
@@ -438,21 +450,57 @@ impl<'a> ControlWidget<'a> {
 
         canvas::Canvas::new()
             .with_style(wrapper_style)
-            .w_h(
-                STATUS_WRAPPER_WIDTH,
-                STATUS_WRAPPER_HEIGHT,
+            .w_h(STATUS_WRAPPER_WIDTH, STATUS_WRAPPER_HEIGHT)
+            .top_right_with_margins_on(
+                config.container,
+                STATUS_WRAPPER_MARGIN_TOP,
+                STATUS_WRAPPER_MARGIN_RIGHT,
             )
-            .top_right_with_margins_on(config.container, STATUS_WRAPPER_MARGIN_TOP, STATUS_WRAPPER_MARGIN_RIGHT)
             .set(config.wrapper, &mut self.ui);
 
         STATUS_WRAPPER_WIDTH
     }
 
     fn heartbeat(&mut self, config: HeartbeatWidgetConfig) -> f64 {
+        // Convert diameters to radius
+        let (ground_radius, surround_radius) = (
+            HEARTBEAT_GROUND_DIAMETER / 2.0,
+            HEARTBEAT_SURROUND_DIAMETER / 2.0
+        );
+
+        // Create ground circle
+        widget::primitive::shape::circle::Circle::fill_with(
+            ground_radius,
+            Color::Rgba(116.0 / 255.0, 116.0 / 255.0, 116.0 / 255.0, 1.0),
+        )
+        .top_right_with_margins_on(
+            config.container,
+            HEARTBEAT_GROUND_MARGIN_TOP,
+            HEARTBEAT_GROUND_MARGIN_RIGHT,
+        )
+        .set(config.ground, &mut self.ui);
+
+        // Create surround circle
+        let surround_line_style = widget::primitive::line::Style::solid()
+            .color(Color::Rgba(
+                153.0 / 255.0,
+                153.0 / 255.0,
+                153.0 / 255.0,
+                1.0,
+            ))
+            .thickness(2.0);
+
+        widget::primitive::shape::circle::Circle::outline_styled(
+            surround_radius,
+            surround_line_style,
+        )
+        .middle_of(config.ground)
+        .set(config.surround, &mut self.ui);
+
+        // Create inner circle
         // TODO
 
-        // TODO
-        0 as _
+        HEARTBEAT_GROUND_DIAMETER
     }
 
     fn graph(&mut self, config: GraphWidgetConfig) -> f64 {

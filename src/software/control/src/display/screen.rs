@@ -38,6 +38,10 @@ widget_ids!(pub struct Ids {
 
   status_wrapper,
 
+  heartbeat_ground,
+  heartbeat_surround,
+  heartbeat_inner,
+
   cycles_parent,
   cycles_title,
   cycles_value_measured,
@@ -210,19 +214,20 @@ impl<'a> Screen<'a> {
     }
 
     pub fn render_status(&mut self) {
-        let config = StatusWidgetConfig::new(
-            self.ids.background, self.ids.status_wrapper
-        );
+        let config = StatusWidgetConfig::new(self.ids.background, self.ids.status_wrapper);
 
         self.widgets.render(ControlWidgetType::Status(config));
     }
 
     pub fn render_heartbeat(&mut self) {
         let config = HeartbeatWidgetConfig::new(
-            // TODO
+            self.ids.background,
+            self.ids.heartbeat_ground,
+            self.ids.heartbeat_surround,
+            self.ids.heartbeat_inner,
         );
 
-        // TODO
+        self.widgets.render(ControlWidgetType::Heartbeat(config));
     }
 
     pub fn render_graph(&mut self, image_id: conrod_core::image::Id, width: f64, height: f64) {
