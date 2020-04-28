@@ -36,8 +36,15 @@ pub struct BrandingWidgetConfig<'a> {
     width: f64,
     height: f64,
     image: conrod_core::image::Id,
-    pub ids: (WidgetId, WidgetId),
+    ids: (WidgetId, WidgetId),
 }
+
+pub struct StatusWidgetConfig {
+    container: WidgetId,
+    wrapper: WidgetId,
+}
+
+pub struct HeartbeatWidgetConfig;
 
 pub struct TelemetryWidgetConfig<'a> {
     pub title: &'a str,
@@ -84,6 +91,21 @@ impl<'a> BrandingWidgetConfig<'a> {
             image,
             ids,
         }
+    }
+}
+
+impl StatusWidgetConfig {
+    pub fn new(container: WidgetId, wrapper: WidgetId) -> StatusWidgetConfig {
+        StatusWidgetConfig {
+            container,
+            wrapper
+        }
+    }
+}
+
+impl HeartbeatWidgetConfig {
+    pub fn new() -> HeartbeatWidgetConfig {
+        HeartbeatWidgetConfig {}
     }
 }
 
@@ -176,6 +198,8 @@ pub enum ControlWidgetType<'a> {
     Background(BackgroundWidgetConfig),
     Error(ErrorWidgetConfig),
     Branding(BrandingWidgetConfig<'a>),
+    Status(StatusWidgetConfig),
+    Heartbeat(HeartbeatWidgetConfig),
     Initializing(InitializingWidgetConfig),
     Graph(GraphWidgetConfig),
     NoData(NoDataWidgetConfig),
@@ -199,6 +223,8 @@ impl<'a> ControlWidget<'a> {
             ControlWidgetType::Background(config) => self.background(config),
             ControlWidgetType::Error(config) => self.error(config),
             ControlWidgetType::Branding(config) => self.branding(config),
+            ControlWidgetType::Status(config) => self.status(config),
+            ControlWidgetType::Heartbeat(config) => self.heartbeat(config),
             ControlWidgetType::Initializing(config) => self.initializing(config),
             ControlWidgetType::Graph(config) => self.graph(config),
             ControlWidgetType::NoData(config) => self.no_data(config),
@@ -401,6 +427,32 @@ impl<'a> ControlWidget<'a> {
             .set(config.ids.1, &mut self.ui);
 
         config.width
+    }
+
+    fn status(&mut self, config: StatusWidgetConfig) -> f64 {
+        let mut wrapper_style = canvas::Style::default();
+
+        wrapper_style.color = Some(Color::Rgba(52.0 / 255.0, 52.0 / 255.0, 52.0 / 255.0, 1.0));
+        wrapper_style.border = Some(0.0);
+        wrapper_style.border_color = Some(color::TRANSPARENT);
+
+        canvas::Canvas::new()
+            .with_style(wrapper_style)
+            .w_h(
+                STATUS_WRAPPER_WIDTH,
+                STATUS_WRAPPER_HEIGHT,
+            )
+            .top_right_with_margins_on(config.container, STATUS_WRAPPER_MARGIN_TOP, STATUS_WRAPPER_MARGIN_RIGHT)
+            .set(config.wrapper, &mut self.ui);
+
+        STATUS_WRAPPER_WIDTH
+    }
+
+    fn heartbeat(&mut self, config: HeartbeatWidgetConfig) -> f64 {
+        // TODO
+
+        // TODO
+        0 as _
     }
 
     fn graph(&mut self, config: GraphWidgetConfig) -> f64 {

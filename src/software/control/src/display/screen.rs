@@ -13,8 +13,9 @@ use crate::config::environment::*;
 use super::fonts::Fonts;
 use super::widget::{
     AlarmsWidgetConfig, BackgroundWidgetConfig, BrandingWidgetConfig, ControlWidget,
-    ControlWidgetType, ErrorWidgetConfig, GraphWidgetConfig, InitializingWidgetConfig,
-    NoDataWidgetConfig, StopWidgetConfig, TelemetryWidgetConfig,
+    ControlWidgetType, ErrorWidgetConfig, GraphWidgetConfig, HeartbeatWidgetConfig,
+    InitializingWidgetConfig, NoDataWidgetConfig, StatusWidgetConfig, StopWidgetConfig,
+    TelemetryWidgetConfig,
 };
 
 widget_ids!(pub struct Ids {
@@ -34,6 +35,8 @@ widget_ids!(pub struct Ids {
 
   branding_image,
   branding_text,
+
+  status_wrapper,
 
   cycles_parent,
   cycles_title,
@@ -153,6 +156,8 @@ impl<'a> Screen<'a> {
             branding_data.height,
         );
         self.render_alarms();
+        self.render_status();
+        self.render_heartbeat();
 
         // Render middle elements
         self.render_graph(graph_data.image_id, graph_data.width, graph_data.height);
@@ -202,6 +207,22 @@ impl<'a> Screen<'a> {
         };
 
         self.widgets.render(ControlWidgetType::Alarms(config));
+    }
+
+    pub fn render_status(&mut self) {
+        let config = StatusWidgetConfig::new(
+            self.ids.background, self.ids.status_wrapper
+        );
+
+        self.widgets.render(ControlWidgetType::Status(config));
+    }
+
+    pub fn render_heartbeat(&mut self) {
+        let config = HeartbeatWidgetConfig::new(
+            // TODO
+        );
+
+        // TODO
     }
 
     pub fn render_graph(&mut self, image_id: conrod_core::image::Id, width: f64, height: f64) {
