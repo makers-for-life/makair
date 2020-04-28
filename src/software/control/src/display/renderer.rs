@@ -46,6 +46,10 @@ lazy_static! {
         .unwrap()
         .into_rgba()
         .into_raw();
+    static ref IMAGE_TELEMETRY_ARROW_RGBA_RAW: Vec<u8> = open("./res/images/telemetry-arrow.png")
+        .unwrap()
+        .into_rgba()
+        .into_raw();
 }
 
 #[allow(clippy::new_ret_no_self)]
