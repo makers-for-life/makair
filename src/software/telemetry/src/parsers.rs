@@ -270,10 +270,6 @@ pub mod tests {
     use proptest::collection;
     use proptest::prelude::*;
 
-    pub fn shared_parser_test_fun(a: u8) -> u8 {
-        a + 42
-    }
-
     fn flat(v: &[&[u8]]) -> Vec<u8> {
         v.iter().flat_map(|a| a.iter()).copied().collect()
     }
@@ -328,7 +324,7 @@ pub mod tests {
         }
     }
 
-    #[derive(Debug, Eq, PartialEq, Hash, Clone, Copy)]
+    #[derive(Debug, Clone, Copy)]
     pub struct DeviceIdInts(u32, u32, u32);
 
     impl DeviceIdInts {
