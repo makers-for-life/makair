@@ -462,7 +462,7 @@ void PressureController::updatePeakPressure() {
         DBG_DO(Serial.println("Plateau detected");)
 
         if (plateauDelta > 60u) {
-            m_maxPeakPressureCommand = min(min(m_peakPressure, m_maxPeakPressureCommand) + 60u,
+            m_maxPeakPressureCommand = min(min(m_peakPressure, m_maxPeakPressureCommand) + 60,
                                            static_cast<int>(CONST_MAX_PEAK_PRESSURE));
         } else if (abs(plateauDelta) > 20u) {
             m_maxPeakPressureCommand =  // cppcheck-suppress misra-c2012-12.3
