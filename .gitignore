@@ -11,3 +11,4 @@ src/software/firmware/*.ods#
 src/software/control/target/*
 build/*
 .scannerwork
+proptest-regressions/

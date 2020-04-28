@@ -16,6 +16,7 @@ extern crate image;
 
 mod chip;
 mod config;
+mod dirty_copy_paste;
 mod display;
 mod physics;
 mod serial;
