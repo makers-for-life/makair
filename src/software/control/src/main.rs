@@ -10,6 +10,8 @@ extern crate clap;
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]
+extern crate rust_embed;
+#[macro_use]
 extern crate conrod_core;
 extern crate conrod_winit;
 extern crate image;
@@ -28,6 +30,14 @@ use log::LevelFilter;
 
 use config::logger::ConfigLogger;
 use display::window::DisplayWindowBuilder;
+
+#[derive(RustEmbed)]
+#[folder = "res/images/"]
+pub struct EmbeddedImages;
+
+#[derive(RustEmbed)]
+#[folder = "res/fonts/"]
+pub struct EmbeddedFonts;
 
 struct AppArgs {
     log: String,
