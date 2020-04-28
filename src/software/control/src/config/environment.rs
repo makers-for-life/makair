@@ -7,6 +7,9 @@ use conrod_core::color::Color;
 
 pub const RUNTIME_VERSION: &str = env!("CARGO_PKG_VERSION");
 
+pub const WINDOW_ICON_WIDTH: u32 = 512;
+pub const WINDOW_ICON_HEIGHT: u32 = 512;
+
 pub const DISPLAY_WINDOW_SIZE_WIDTH: u32 = 800;
 pub const DISPLAY_WINDOW_SIZE_HEIGHT: u32 = 480;
 

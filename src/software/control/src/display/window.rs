@@ -4,7 +4,9 @@
 // License: Public Domain License
 
 use conrod_core::UiBuilder;
+use glium::glutin::Icon;
 use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
+use image::open;
 
 use crate::config::environment::*;
 use crate::APP_ARGS;
@@ -29,9 +31,18 @@ impl DisplayWindow {
         // Create event loop
         let events_loop = EventsLoop::new();
 
+        // Load window icon
+        let window_icon = open("./res/images/window-icon.png")
+            .unwrap()
+            .into_rgba()
+            .into_raw();
+
         // Create window
         let window = WindowBuilder::new()
             .with_title("MakAir")
+            .with_window_icon(Some(
+                Icon::from_rgba(window_icon, WINDOW_ICON_WIDTH, WINDOW_ICON_HEIGHT).unwrap(),
+            ))
             .with_dimensions((DISPLAY_WINDOW_SIZE_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT).into())
             .with_decorations(false)
             .with_resizable(false)
