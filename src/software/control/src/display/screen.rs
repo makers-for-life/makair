@@ -20,6 +20,7 @@ use super::widget::{
 widget_ids!(pub struct Ids {
   alarm_container,
   alarm_title,
+  alarm_empty,
   alarm_alarms[],
   alarm_codes_containers[],
   alarm_codes[],
@@ -174,6 +175,7 @@ impl<'a> Screen<'a> {
             parent: self.ids.background,
             container: self.ids.alarm_container,
             title: self.ids.alarm_title,
+            empty: self.ids.alarm_empty,
             alarm_widgets: &self.ids.alarm_alarms,
             alarm_codes_containers: &self.ids.alarm_codes_containers,
             alarm_codes: &self.ids.alarm_codes,

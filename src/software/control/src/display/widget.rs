@@ -154,6 +154,7 @@ pub struct AlarmsWidgetConfig<'a> {
     pub parent: WidgetId,
     pub container: WidgetId,
     pub title: WidgetId,
+    pub empty: WidgetId,
     pub alarm_widgets: &'a List,
     pub alarm_codes_containers: &'a List,
     pub alarm_codes: &'a List,
@@ -204,6 +205,7 @@ impl<'a> ControlWidget<'a> {
             DISPLAY_ALARM_CONTAINER_HEIGHT,
         ];
 
+        // Draw container box
         RoundedRectangle::fill_with(
             dimensions,
             DISPLAY_ROUNDED_RECTANGLES_ROUND,
@@ -212,23 +214,43 @@ impl<'a> ControlWidget<'a> {
         .mid_top_with_margin_on(config.parent, 10.0)
         .set(config.container, &mut self.ui);
 
+        // Draw text
+        let mut text_style = conrod_core::widget::primitive::text::Style::default();
+
+        text_style.font_id = Some(Some(self.fonts.bold));
+        text_style.color = Some(color::WHITE);
+        text_style.font_size = Some(11);
+
         widget::text::Text::new("ALARMS")
-            .color(color::WHITE)
+            .with_style(text_style)
             .mid_left_with_margin_on(config.container, DISPLAY_ALARM_CONTAINER_PADDING_LEFT)
-            .font_size(14)
             .set(config.title, &mut self.ui);
 
-        let max_alarms = std::cmp::min(DISPLAY_MAX_ALARMS, config.alarms.len());
-        for x in 0..max_alarms {
-            let (code, alarm) = config.alarms.get(x).unwrap();
-            self.alarm(&config, **code, alarm, x);
+        // Append all alarms?
+        // Notice: only draw alarms box if there are active alarms
+        if config.alarms.len() > 0 {
+            // TODO: we should not cap the alarms to display in case there are more than 2; this is \
+            //   unsafe regulatory and safety wise
+            let max_alarms = std::cmp::min(DISPLAY_MAX_ALARMS, config.alarms.len());
+
+            for x in 0..max_alarms {
+                let (code, alarm) = config.alarms.get(x).unwrap();
+
+                self.alarm(&config, **code, alarm, x);
+            }
+        } else {
+            widget::text::Text::new("There is no active alarm.")
+                .color(Color::Rgba(1.0, 1.0, 1.0, 0.5))
+                .font_size(11)
+                .right_from(config.title, 42.0)
+                .set(config.empty, &mut self.ui);
         }
 
         0 as _
     }
 
     // TODO: create a rounded rectangle of either right or left angles
-    // check how rounded rectangles are created
+    //   check how rounded rectangles are created
     fn alarm(
         &mut self,
         config: &AlarmsWidgetConfig,
@@ -237,14 +259,17 @@ impl<'a> ControlWidget<'a> {
         index: usize,
     ) {
         let mut style = canvas::Style::default();
+
         style.border = Some(0.0);
         style.border_color = Some(color::TRANSPARENT);
         style.color = Some(color::TRANSPARENT);
 
         let from_top = if index == 0 {
-            10.0
+            DISPLAY_ALARM_MESSAGE_SPACING_TOP_INITIAL
         } else {
-            index as f64 * (DISPLAY_ALARM_MESSAGE_HEIGHT + (10.0 * 2.0))
+            DISPLAY_ALARM_MESSAGE_SPACING_TOP_INITIAL
+                + index as f64
+                    * (DISPLAY_ALARM_MESSAGE_HEIGHT + DISPLAY_ALARM_MESSAGE_SPACING_TOP_INNER)
         };
 
         canvas::Canvas::new()
@@ -253,7 +278,7 @@ impl<'a> ControlWidget<'a> {
                 config.container,
                 conrod_core::position::Place::End(Some(from_top)),
             )
-            .right_from(config.title, 10.0)
+            .right_from(config.title, 28.0)
             .set(config.alarm_widgets[index], &mut self.ui);
 
         self.alarm_code(&config, code, alarm_priority, index);
@@ -285,7 +310,9 @@ impl<'a> ControlWidget<'a> {
     ) {
         let color = self.alarm_code_color(alarm_priority);
 
+        // Draw canvas
         let mut style = canvas::Style::default();
+
         style.border = Some(0.0);
         style.border_color = Some(color::TRANSPARENT);
         style.color = Some(color);
@@ -299,10 +326,16 @@ impl<'a> ControlWidget<'a> {
             )
             .set(config.alarm_codes_containers[index], &mut self.ui);
 
+        // Draw text
+        let mut text_style = conrod_core::widget::primitive::text::Style::default();
+
+        text_style.font_id = Some(Some(self.fonts.bold));
+        text_style.color = Some(color::WHITE);
+        text_style.font_size = Some(11);
+
         widget::text::Text::new(&format!("{}", alarm_code.code()))
-            .color(color::WHITE)
-            .font_size(8)
-            .middle_of(config.alarm_codes_containers[index])
+            .with_style(text_style)
+            .mid_top_with_margin_on(config.alarm_codes_containers[index], 4.0)
             .set(config.alarm_codes[index], &mut self.ui);
     }
 
@@ -316,6 +349,7 @@ impl<'a> ControlWidget<'a> {
         let color = self.alarm_message_color(alarm_priority);
 
         let mut style = canvas::Style::default();
+
         style.border = Some(0.0);
         style.border_color = Some(color::TRANSPARENT);
         style.color = Some(color);
@@ -331,8 +365,8 @@ impl<'a> ControlWidget<'a> {
 
         widget::text::Text::new(&code.description())
             .color(color::WHITE)
-            .font_size(8)
-            .middle_of(config.alarm_messages_containers[index])
+            .font_size(10)
+            .top_left_with_margins_on(config.alarm_messages_containers[index], 4.0, 10.0)
             .set(config.alarm_messages[index], &mut self.ui);
     }
 
@@ -393,16 +427,15 @@ impl<'a> ControlWidget<'a> {
             .font_size(11)
             .set(config.ids.2, &mut self.ui);
 
-        let mut value_style = conrod_core::widget::primitive::text::Style::default();
+        let mut text_style = conrod_core::widget::primitive::text::Style::default();
 
-        value_style.font_id = Some(Some(self.fonts.bold));
-        value_style.color = Some(color::WHITE);
-        value_style.font_size = Some(14);
+        text_style.font_id = Some(Some(self.fonts.bold));
+        text_style.color = Some(color::WHITE);
+        text_style.font_size = Some(17);
 
         widget::Text::new(&config.value)
-            .with_style(value_style)
+            .with_style(text_style)
             .mid_left_with_margin_on(config.ids.1, 20.0)
-            .font_size(17)
             .set(config.ids.3, &mut self.ui);
 
         widget::Text::new(config.unit)
@@ -432,7 +465,8 @@ impl<'a> ControlWidget<'a> {
 
     fn stop(&mut self, config: StopWidgetConfig) -> f64 {
         let mut style = canvas::Style::default();
-        style.color = Some(Color::Rgba(0.0, 0.0, 0.0, 0.8));
+
+        style.color = Some(Color::Rgba(0.0, 0.0, 0.0, 0.75));
         style.border = Some(0.0);
         style.border_color = Some(color::TRANSPARENT);
 
@@ -478,22 +512,22 @@ impl<'a> ControlWidget<'a> {
 
         let mut title_style = widget::text::Style::default();
         title_style.color = Some(color::WHITE);
-        title_style.font_size = Some(14);
+        title_style.font_size = Some(18);
         title_style.font_id = Some(Some(self.fonts.bold));
 
         widget::text::Text::new("Ventilator unit inactive")
             .with_style(title_style)
-            .mid_top_with_margin_on(config.container, DISPLAY_STOPPED_MESSAGE_PADDING)
+            .mid_top_with_margin_on(config.container, DISPLAY_STOPPED_MESSAGE_PADDING_TOP)
             .set(config.title, &mut self.ui);
 
         let mut message_style = widget::text::Style::default();
-        message_style.color = Some(color::WHITE);
-        message_style.font_size = Some(10);
+        message_style.color = Some(Color::Rgba(1.0, 1.0, 1.0, 0.75));
+        message_style.font_size = Some(13);
         message_style.font_id = Some(Some(self.fonts.regular));
 
         widget::text::Text::new("Please re-enable it to resume respiration")
             .with_style(message_style)
-            .mid_bottom_with_margin_on(config.container, DISPLAY_STOPPED_MESSAGE_PADDING)
+            .mid_bottom_with_margin_on(config.container, DISPLAY_STOPPED_MESSAGE_PADDING_BOTTOM)
             .set(config.message, &mut self.ui);
 
         0 as _
