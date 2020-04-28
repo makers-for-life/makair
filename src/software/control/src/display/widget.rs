@@ -287,16 +287,16 @@ impl<'a> ControlWidget<'a> {
 
     fn alarm_code_color(&self, alarm_priority: &AlarmPriority) -> Color {
         match alarm_priority {
-            AlarmPriority::High => Color::Rgba(1.0, 32.0 / 255.0, 32.0 / 255.0, 1.0),
-            AlarmPriority::Medium => Color::Rgba(1.0, 138.0 / 255.0, 0.0, 1.0),
+            AlarmPriority::High => Color::Rgba(1.0, 0.0 / 255.0, 3.0 / 255.0, 1.0),
+            AlarmPriority::Medium => Color::Rgba(1.0, 135.0 / 255.0, 0.0, 1.0),
             AlarmPriority::Low => Color::Rgba(1.0, 195.0 / 255.0, 0.0, 1.0),
         }
     }
 
     fn alarm_message_color(&self, alarm_priority: &AlarmPriority) -> Color {
         match alarm_priority {
-            AlarmPriority::High => Color::Rgba(169.0 / 255.0, 35.0 / 255.0, 35.0 / 255.0, 1.0),
-            AlarmPriority::Medium => Color::Rgba(169.0 / 255.0, 99.0 / 255.0, 16.0 / 255.0, 1.0),
+            AlarmPriority::High => Color::Rgba(180.0 / 255.0, 24.0 / 255.0, 28.0 / 255.0, 1.0),
+            AlarmPriority::Medium => Color::Rgba(189.0 / 255.0, 93.0 / 255.0, 0.0, 1.0),
             AlarmPriority::Low => Color::Rgba(174.0 / 255.0, 133.0 / 255.0, 0.0, 1.0),
         }
     }
