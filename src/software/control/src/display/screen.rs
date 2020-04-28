@@ -37,32 +37,44 @@ widget_ids!(pub struct Ids {
 
   cycles_parent,
   cycles_title,
-  cycles_value,
+  cycles_value_measured,
+  cycles_value_arrow,
+  cycles_value_target,
   cycles_unit,
 
   peak_parent,
   peak_title,
-  peak_value,
+  peak_value_measured,
+  peak_value_arrow,
+  peak_value_target,
   peak_unit,
 
   plateau_parent,
   plateau_title,
-  plateau_value,
+  plateau_value_measured,
+  plateau_value_arrow,
+  plateau_value_target,
   plateau_unit,
 
   peep_parent,
   peep_title,
-  peep_value,
+  peep_value_measured,
+  peep_value_arrow,
+  peep_value_target,
   peep_unit,
 
   ratio_parent,
   ratio_title,
-  ratio_value,
+  ratio_value_measured,
+  ratio_value_arrow,
+  ratio_value_target,
   ratio_unit,
 
   tidal_parent,
   tidal_title,
-  tidal_value,
+  tidal_value_measured,
+  tidal_value_arrow,
+  tidal_value_target,
   tidal_unit,
 
   stopped_background,
@@ -251,17 +263,20 @@ impl<'a> Screen<'a> {
 
         let peak_config = TelemetryWidgetConfig {
             title: "P(peak)",
-            value: format!(
-                "{} ← ({})",
-                (machine_snapshot.previous_peak_pressure as f64 / 10.0).round(),
-                machine_snapshot.peak_command
+            value_measured: Some(
+                (machine_snapshot.previous_peak_pressure as f64 / 10.0)
+                    .round()
+                    .to_string(),
             ),
+            value_target: Some(machine_snapshot.peak_command.to_string()),
             unit: "cmH20",
             ids: (
                 self.ids.background,
                 self.ids.peak_parent,
                 self.ids.peak_title,
-                self.ids.peak_value,
+                self.ids.peak_value_measured,
+                self.ids.peak_value_arrow,
+                self.ids.peak_value_target,
                 self.ids.peak_unit,
             ),
             x_position: last_widget_position,
@@ -276,17 +291,20 @@ impl<'a> Screen<'a> {
         // Initialize the plateau widget
         let plateau_config = TelemetryWidgetConfig {
             title: "P(plateau)",
-            value: format!(
-                "{} ← ({})",
-                (machine_snapshot.previous_plateau_pressure as f64 / 10.0).round(),
-                machine_snapshot.plateau_command
+            value_measured: Some(
+                (machine_snapshot.previous_plateau_pressure as f64 / 10.0)
+                    .round()
+                    .to_string(),
             ),
+            value_target: Some(machine_snapshot.plateau_command.to_string()),
             unit: "cmH20",
             ids: (
                 self.ids.peak_parent,
                 self.ids.plateau_parent,
                 self.ids.plateau_title,
-                self.ids.plateau_value,
+                self.ids.plateau_value_measured,
+                self.ids.plateau_value_arrow,
+                self.ids.plateau_value_target,
                 self.ids.plateau_unit,
             ),
             x_position: last_widget_position,
@@ -301,17 +319,20 @@ impl<'a> Screen<'a> {
         // Initialize the PEEP widget
         let peep_config = TelemetryWidgetConfig {
             title: "P(expiratory)",
-            value: format!(
-                "{} ← ({})",
-                (machine_snapshot.previous_peep_pressure as f64 / 10.0).round(),
-                machine_snapshot.peep_command
+            value_measured: Some(
+                (machine_snapshot.previous_peep_pressure as f64 / 10.0)
+                    .round()
+                    .to_string(),
             ),
+            value_target: Some(machine_snapshot.peep_command.to_string()),
             unit: "cmH20",
             ids: (
                 self.ids.plateau_parent,
                 self.ids.peep_parent,
                 self.ids.peep_title,
-                self.ids.peep_value,
+                self.ids.peep_value_measured,
+                self.ids.peep_value_arrow,
+                self.ids.peep_value_target,
                 self.ids.peep_unit,
             ),
             x_position: last_widget_position,
@@ -326,13 +347,16 @@ impl<'a> Screen<'a> {
         // Initialize the cycles widget
         let cycles_config = TelemetryWidgetConfig {
             title: "Cycles/minute",
-            value: format!("{}", machine_snapshot.cpm_command),
+            value_measured: None,
+            value_target: Some(machine_snapshot.cpm_command.to_string()),
             unit: "/minute",
             ids: (
                 self.ids.peep_parent,
                 self.ids.cycles_parent,
                 self.ids.cycles_title,
-                self.ids.cycles_value,
+                self.ids.cycles_value_measured,
+                self.ids.cycles_value_arrow,
+                self.ids.cycles_value_target,
                 self.ids.cycles_unit,
             ),
             x_position: last_widget_position,
@@ -347,13 +371,16 @@ impl<'a> Screen<'a> {
         // Initialize the ratio widget
         let ratio_config = TelemetryWidgetConfig {
             title: "Insp-exp ratio",
-            value: "0:0".to_string(), //TODO
+            value_measured: None,
+            value_target: Some("0:0".to_string()),
             unit: "insp:exp.",
             ids: (
                 self.ids.cycles_parent,
                 self.ids.ratio_parent,
                 self.ids.ratio_title,
-                self.ids.ratio_value,
+                self.ids.ratio_value_measured,
+                self.ids.ratio_value_arrow,
+                self.ids.ratio_value_target,
                 self.ids.ratio_unit,
             ),
             x_position: last_widget_position,
@@ -368,13 +395,16 @@ impl<'a> Screen<'a> {
         // Initialize the tidal widget
         let tidal_config = TelemetryWidgetConfig {
             title: "Tidal volume",
-            value: "0".to_string(), //TODO
+            value_measured: Some("0".to_string()),
+            value_target: None,
             unit: "mL (milliliters)",
             ids: (
                 self.ids.ratio_parent,
                 self.ids.tidal_parent,
                 self.ids.tidal_title,
-                self.ids.tidal_value,
+                self.ids.tidal_value_measured,
+                self.ids.tidal_value_arrow,
+                self.ids.tidal_value_target,
                 self.ids.tidal_unit,
             ),
             x_position: last_widget_position,

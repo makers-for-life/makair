@@ -19,8 +19,6 @@ use crate::config::environment::*;
 
 use super::fonts::Fonts;
 
-pub type WidgetIds = (WidgetId, WidgetId, WidgetId, WidgetId, WidgetId);
-
 pub struct BackgroundWidgetConfig {
     color: conrod_core::color::Color,
     id: WidgetId,
@@ -43,9 +41,18 @@ pub struct BrandingWidgetConfig<'a> {
 
 pub struct TelemetryWidgetConfig<'a> {
     pub title: &'a str,
-    pub value: String,
+    pub value_measured: Option<String>,
+    pub value_target: Option<String>,
     pub unit: &'a str,
-    pub ids: WidgetIds,
+    pub ids: (
+        WidgetId,
+        WidgetId,
+        WidgetId,
+        WidgetId,
+        WidgetId,
+        WidgetId,
+        WidgetId,
+    ),
     pub x_position: f64,
     pub y_position: f64,
     pub background_color: Color,
@@ -420,29 +427,71 @@ impl<'a> ControlWidget<'a> {
         )
         .set(config.ids.1, &mut self.ui);
 
-        // Create each text unit
+        // Create title text
         widget::Text::new(config.title)
             .color(color::WHITE)
-            .top_left_with_margins_on(config.ids.1, 10.0, 20.0)
+            .top_left_with_margins_on(config.ids.1, 10.0, TELEMETRY_WIDGET_PADDING_LEFT)
             .font_size(11)
             .set(config.ids.2, &mut self.ui);
 
-        let mut text_style = conrod_core::widget::primitive::text::Style::default();
+        // Initiate text style for measured value
+        let mut value_text_style = conrod_core::widget::primitive::text::Style::default();
 
-        text_style.font_id = Some(Some(self.fonts.bold));
-        text_style.color = Some(color::WHITE);
-        text_style.font_size = Some(17);
+        value_text_style.font_id = Some(Some(self.fonts.bold));
+        value_text_style.color = Some(color::WHITE);
+        value_text_style.font_size = Some(17);
 
-        widget::Text::new(&config.value)
-            .with_style(text_style)
-            .mid_left_with_margin_on(config.ids.1, 20.0)
-            .set(config.ids.3, &mut self.ui);
+        // Create value text
+        // Notice: there are different drawing cases depending on values provided
+        match (config.value_measured, config.value_target) {
+            (Some(value_measured), Some(value_target)) => {
+                // Initiate text sub-style for target value
+                let mut target_text_style = conrod_core::widget::primitive::text::Style::default();
 
+                target_text_style.font_id = Some(Some(self.fonts.regular));
+                target_text_style.color = Some(color::WHITE);
+                target_text_style.font_size = Some(13);
+
+                // Draw measured value
+                widget::Text::new(&value_measured)
+                    .with_style(value_text_style)
+                    .mid_left_with_margin_on(config.ids.1, TELEMETRY_WIDGET_PADDING_LEFT)
+                    .set(config.ids.3, &mut self.ui);
+
+                // Draw arrow
+                // TODO: config.ids.4
+
+                // Draw target value
+                widget::Text::new(&format!("({})", value_target))
+                    .with_style(target_text_style)
+                    // TODO: on 4 rather
+                    .right_from(config.ids.3, 4.0)
+                    .y_relative_to(config.ids.3, -1.0)
+                    .set(config.ids.5, &mut self.ui);
+            }
+            (Some(value_measured), None) => {
+                // Draw measured value
+                widget::Text::new(&value_measured)
+                    .with_style(value_text_style)
+                    .mid_left_with_margin_on(config.ids.1, TELEMETRY_WIDGET_PADDING_LEFT)
+                    .set(config.ids.3, &mut self.ui);
+            }
+            (None, Some(value_target)) => {
+                // Draw target value
+                widget::Text::new(&value_target)
+                    .with_style(value_text_style)
+                    .mid_left_with_margin_on(config.ids.1, TELEMETRY_WIDGET_PADDING_LEFT)
+                    .set(config.ids.5, &mut self.ui);
+            }
+            _ => {}
+        }
+
+        // Create unit text
         widget::Text::new(config.unit)
             .color(color::WHITE.with_alpha(0.2))
-            .bottom_left_with_margins_on(config.ids.1, 12.0, 20.0)
+            .bottom_left_with_margins_on(config.ids.1, 12.0, TELEMETRY_WIDGET_PADDING_LEFT)
             .font_size(11)
-            .set(config.ids.4, &mut self.ui);
+            .set(config.ids.6, &mut self.ui);
 
         TELEMETRY_WIDGET_SIZE_WIDTH
     }
