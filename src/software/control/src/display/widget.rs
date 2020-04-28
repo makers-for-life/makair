@@ -236,7 +236,7 @@ impl<'a> ControlWidget<'a> {
 
         // Append all alarms?
         // Notice: only draw alarms box if there are active alarms
-        if config.alarms.len() > 0 {
+        if !config.alarms.is_empty() {
             // TODO: we should not cap the alarms to display in case there are more than 2; this is \
             //   unsafe regulatory and safety wise
             let max_alarms = std::cmp::min(DISPLAY_MAX_ALARMS, config.alarms.len());
