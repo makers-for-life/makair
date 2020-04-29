@@ -3,7 +3,7 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
-use std::sync::mpsc::{Receiver, TryRecvError};
+use std::sync::mpsc::{Receiver, Sender, TryRecvError};
 
 use telemetry::serial::core::{Error, ErrorKind};
 use telemetry::structures::TelemetryMessage;
@@ -26,10 +26,19 @@ impl SerialPollerBuilder {
 }
 
 impl SerialPoller {
-    pub fn poll(&mut self, rx: &Receiver<TelemetryChannelType>) -> Result<PollEvent, Error> {
+    pub fn poll(
+        &mut self,
+        rx: &Receiver<TelemetryChannelType>,
+        warp10tx: &Option<Sender<TelemetryMessage>>,
+    ) -> Result<PollEvent, Error> {
         match rx.try_recv() {
             Ok(message) => match message {
-                Ok(message) => Ok(PollEvent::Ready(message)),
+                Ok(message) => {
+                    if let Some(tx) = warp10tx {
+                        tx.send(message.clone()).unwrap_or(());
+                    }
+                    Ok(PollEvent::Ready(message))
+                }
                 Err(serial_error) => Err(serial_error),
             },
             Err(TryRecvError::Empty) => Ok(PollEvent::Pending),

@@ -30,6 +30,8 @@ conrod_glium = "0.69"
 conrod_winit = "0.69"
 conrod_core = "0.69"
 telemetry = { path = "../telemetry", features = ["env_logger"], version = "1.0" }
+warp10 = "0.11.2"
+time = "0.1.43"
 
 [profile.dev]
 opt-level = 0

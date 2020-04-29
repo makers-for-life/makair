@@ -43,6 +43,7 @@ struct AppArgs {
     log: String,
     mode: Mode,
     fullscreen: bool,
+    warp10: Warp10,
 }
 
 pub enum Mode {
@@ -51,6 +52,11 @@ pub enum Mode {
         output_dir: Option<String>,
     },
     Input(String),
+}
+
+struct Warp10 {
+    host: Option<String>,
+    token: Option<String>,
 }
 
 lazy_static! {
@@ -92,6 +98,18 @@ fn make_app_args() -> AppArgs {
                 .takes_value(true),
         )
         .arg(
+            Arg::with_name("warp10-host")
+                .long("warp10-host")
+                .help("Hostname of a Warp10 instance (example: http://localhost:8080)")
+                .takes_value(true),
+        )
+        .arg(
+            Arg::with_name("warp10-token")
+                .long("warp10-token")
+                .help("Warp10 write token")
+                .takes_value(true),
+        )
+        .arg(
             Arg::with_name("fullscreen")
                 .short("f")
                 .long("fullscreen")
@@ -116,6 +134,10 @@ fn make_app_args() -> AppArgs {
         log: String::from(matches.value_of("log").expect("invalid log value")),
         mode,
         fullscreen: matches.is_present("fullscreen"),
+        warp10: Warp10 {
+            host: matches.value_of("warp10-host").map(|str| str.to_string()),
+            token: matches.value_of("warp10-token").map(|str| str.to_string()),
+        },
     }
 }
 

@@ -10,6 +10,7 @@ use chrono::Duration;
 use conrod_core::Ui;
 use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 use glium::Surface;
+use telemetry::structures::TelemetryMessage;
 use telemetry::{self, TelemetryChannelType};
 
 use crate::chip::{Chip, ChipState};
@@ -70,6 +71,8 @@ impl DisplayDrawer {
         // Start gathering telemetry
         let rx = self.start_telemetry();
 
+        let warp10_tx = self.start_warp10();
+
         // Start drawer loop
         // Flow: cycles through telemetry events, and refreshes the view every time there is an \
         //   update on the machines state.
@@ -79,7 +82,7 @@ impl DisplayDrawer {
             // Receive telemetry data (from the input serial from the motherboard)
             // Empty the events queue before doing anything else
             'poll_serial: loop {
-                match serial_poller.poll(&rx) {
+                match serial_poller.poll(&rx, &warp10_tx) {
                     Ok(PollEvent::Ready(event)) => self.chip.new_event(event),
                     Ok(PollEvent::Pending) => break 'poll_serial,
                     Err(error) => {
@@ -142,6 +145,16 @@ impl DisplayDrawer {
         }
 
         rx
+    }
+
+    fn start_warp10(&self) -> Option<Sender<TelemetryMessage>> {
+        match (&APP_ARGS.warp10.host, &APP_ARGS.warp10.token) {
+            (Some(h), Some(t)) => {
+                info!("Starting a thread to send data to Warp10");
+                Some(crate::serial::warp10::init(h, t))
+            }
+            _ => None,
+        }
     }
 
     #[allow(clippy::ptr_arg)]
