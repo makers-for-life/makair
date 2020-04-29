@@ -3,8 +3,6 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
-use conrod_core::color::Color;
-
 pub const RUNTIME_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 pub const WINDOW_ICON_WIDTH: u32 = 512;
@@ -43,8 +41,6 @@ pub const DISPLAY_ALARM_CONTAINER_WIDTH: f64 = 320.0;
 pub const DISPLAY_ALARM_CONTAINER_HEIGHT: f64 = 66.0;
 pub const DISPLAY_ALARM_CONTAINER_PADDING_TOP: f64 = 26.0;
 pub const DISPLAY_ALARM_CONTAINER_PADDING_LEFT: f64 = 22.0;
-pub const DISPLAY_ALARM_CONTAINER_COLOR: Color =
-    Color::Rgba(42.0 / 255.0, 42.0 / 255.0, 42.0 / 255.0, 1.0);
 
 pub const DISPLAY_ALARM_MESSAGE_WIDTH: f64 = 182.0;
 pub const DISPLAY_ALARM_MESSAGE_HEIGHT: f64 = 22.0;

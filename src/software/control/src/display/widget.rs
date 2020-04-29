@@ -280,10 +280,16 @@ impl<'a> ControlWidget<'a> {
         ];
 
         // Draw container box
+        let container_color = if !config.alarms.is_empty() {
+            Color::Rgba(42.0 / 255.0, 42.0 / 255.0, 42.0 / 255.0, 1.0)
+        } else {
+            Color::Rgba(17.0 / 255.0, 17.0 / 255.0, 17.0 / 255.0, 1.0)
+        };
+
         RoundedRectangle::fill_with(
             dimensions,
             DISPLAY_ROUNDED_RECTANGLES_ROUND,
-            DISPLAY_ALARM_CONTAINER_COLOR,
+            container_color,
         )
         .mid_top_with_margin_on(config.parent, 10.0)
         .set(config.container, &mut self.ui);
