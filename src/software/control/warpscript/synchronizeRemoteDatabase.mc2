@@ -41,7 +41,7 @@
     <%
         //there was nothing to upload. upload is done correctly !
         [ $localReadToken 'local.lastUploadDone' { } NOW -1 ] FETCH 0 GET CLONEEMPTY
-        NOW NaN NaN NaN 1 ADDVALUE  
+        $uploadTS NaN NaN NaN 1 ADDVALUE  
         DUP NAME RENAME $localWriteToken UPDATE
         'nothing to update'
     %>
