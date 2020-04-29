@@ -441,94 +441,99 @@ $(document).ready(function(){initNavTree('integration__test_8cpp_source.html',''
 <div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;            <a class="code" href="respirator_8cpp.html#affc823d03733aba32ed4af66a75dcd50">waitForInMs</a>(10000);</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
 <div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Moyenne : %3d mmH2O&quot;</span>,</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                           <a class="code" href="respirator_8cpp.html#ac7f1a8263663a0f57bcc73ff2fa055b3">pressureOffsetSum</a> / <a class="code" href="respirator_8cpp.html#a331963f0e7fbf48312e82c5782b14074">pressureOffsetCount</a>);</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            displayLine(msg, 1);</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Fuite : %3d mmH2O&quot;</span>,</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                           <a class="code" href="respirator_8cpp.html#a318dd5a6b5913312455d34f0d2c28110">maxOffsetValue</a> - <a class="code" href="respirator_8cpp.html#a7c0e4178c5f778c8d5c45ea962eaaadc">minOffsetValue</a>);</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;            displayLine(msg, 2);</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160; </div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Continuer : Start&quot;</span>);</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;            displayLine(msg, 3);</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160; </div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;            firstRun = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        }</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    }</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            int32_t mean;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="respirator_8cpp.html#a331963f0e7fbf48312e82c5782b14074">pressureOffsetCount</a> != 0) {</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                mean = <a class="code" href="respirator_8cpp.html#ac7f1a8263663a0f57bcc73ff2fa055b3">pressureOffsetSum</a> / <a class="code" href="respirator_8cpp.html#a331963f0e7fbf48312e82c5782b14074">pressureOffsetCount</a>;</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                mean = 0;</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;            }</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Moyenne : %3dl mmH2O&quot;</span>, mean);</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;            displayLine(msg, 1);</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Fuite : %3d mmH2O&quot;</span>,</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                           <a class="code" href="respirator_8cpp.html#a318dd5a6b5913312455d34f0d2c28110">maxOffsetValue</a> - <a class="code" href="respirator_8cpp.html#a7c0e4178c5f778c8d5c45ea962eaaadc">minOffsetValue</a>);</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;            displayLine(msg, 2);</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160; </div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Continuer : Start&quot;</span>);</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;            displayLine(msg, 3);</div>
 <div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160; </div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    <span class="keywordflow">case</span> STEP_O2_TEST: {</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        UNGREEDY(is_drawn, display(<span class="stringliteral">&quot;Test sortie 02&quot;</span>, <span class="stringliteral">&quot;Continuer : Start&quot;</span>));</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#a9a411fb7dda2f8df75b9d5396aa58c55">open</a>();</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#aeadd7baf8d4b728c89a824673a6d5eda">close</a>();</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <a class="code" href="respirator_8cpp.html#a178ba5bcb45305131ee9a9bb86e8e32c">blower</a>.<a class="code" href="class_blower.html#a6661c79b02db6771db9cbdeaaff04f1c">runSpeed</a>(1500);</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    }</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160; </div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    <span class="keywordflow">case</span> STEP_PRESSURE_TEST: {</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#aeadd7baf8d4b728c89a824673a6d5eda">close</a>();</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#a9a411fb7dda2f8df75b9d5396aa58c55">open</a>();</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        <a class="code" href="respirator_8cpp.html#a178ba5bcb45305131ee9a9bb86e8e32c">blower</a>.<a class="code" href="class_blower.html#a6661c79b02db6771db9cbdeaaff04f1c">runSpeed</a>(1790);</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;        UNGREEDY(is_drawn, display(<span class="stringliteral">&quot;Test pression&quot;</span>, <span class="stringliteral">&quot;Continuer : Start&quot;</span>));</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        <span class="keywordflow">if</span> ((millis() - last_time) &gt;= 200) {</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;            <span class="keywordtype">int</span> pressure = <a class="code" href="pressure_8cpp.html#a80b718fbea70d8e9df350bbac79d5810">readPressureSensor</a>(0, <a class="code" href="respirator_8cpp.html#abfbf6dd828afcb2b2e17d7fb86b79173">pressureOffset</a>);</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Pression : %3d mmH2O&quot;</span>, pressure);</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;            displayLine(msg, 3);</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;            last_time = millis();</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;        }</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    }</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160; </div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    <span class="keywordflow">case</span> STEP_PRESSURE_OFFSET_TEST: {</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#aeadd7baf8d4b728c89a824673a6d5eda">close</a>();</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#a9a411fb7dda2f8df75b9d5396aa58c55">open</a>();</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;        <a class="code" href="respirator_8cpp.html#a178ba5bcb45305131ee9a9bb86e8e32c">blower</a>.<a class="code" href="class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8">stop</a>();</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;        UNGREEDY(is_drawn, display(<span class="stringliteral">&quot;Test offset pression&quot;</span>, <span class="stringliteral">&quot;Continuer : Start&quot;</span>));</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;        <span class="keywordflow">if</span> ((millis() - last_time) &gt;= 200) {</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;            <span class="keywordtype">int</span> pressure = <a class="code" href="pressure_8cpp.html#a80b718fbea70d8e9df350bbac79d5810">readPressureSensor</a>(0, <a class="code" href="respirator_8cpp.html#abfbf6dd828afcb2b2e17d7fb86b79173">pressureOffset</a>);</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Pression : %3d mmH2O&quot;</span>, pressure);</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            displayLine(msg, 3);</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            last_time = millis();</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        }</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;    }</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160; </div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    <span class="keywordflow">case</span> STEP_BATTERY_TEST: {</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        UNGREEDY(is_drawn, {</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            display(<span class="stringliteral">&quot;Test batterie&quot;</span>, <span class="stringliteral">&quot;Continuer : Start&quot;</span>);</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;            <a class="code" href="respirator_8cpp.html#a178ba5bcb45305131ee9a9bb86e8e32c">blower</a>.<a class="code" href="class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8">stop</a>();</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;        });</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;        <a class="code" href="battery_8cpp.html#a9ffac32955710f7a3aefe1fb7120b263">updateBatterySample</a>();</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        <span class="keywordflow">if</span> ((millis() - last_time) &gt;= 200) {</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Batterie : %2u.%1u V&quot;</span>, <a class="code" href="battery_8cpp.html#a6bcb1af204a68c17e23c0c0262cb1fab">getBatteryLevel</a>(),</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;                           (<a class="code" href="battery_8cpp.html#a29614bbbfb2b660c087260efed859c00">getBatteryLevelX10</a>() - (10u * <a class="code" href="battery_8cpp.html#a6bcb1af204a68c17e23c0c0262cb1fab">getBatteryLevel</a>())));</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;            displayLine(msg, 3);</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;            last_time = millis();</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        }</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;    }</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160; </div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    <span class="keywordflow">case</span> STEP_BUZZER_TEST: {</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        UNGREEDY(is_drawn, {</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            display(<span class="stringliteral">&quot;Test alarme&quot;</span>, <span class="stringliteral">&quot;Continuer : Start&quot;</span>);</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            <a class="code" href="buzzer_8cpp.html#a4931ca20aaed197c5417e1eef0b59dd0">Buzzer_High_Prio_Start</a>();</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        });</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    }</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    }</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160; </div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;    delay(10);</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;}</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160; </div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;            firstRun = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        }</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    }</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160; </div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="keywordflow">case</span> STEP_O2_TEST: {</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        UNGREEDY(is_drawn, display(<span class="stringliteral">&quot;Test sortie 02&quot;</span>, <span class="stringliteral">&quot;Continuer : Start&quot;</span>));</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#a9a411fb7dda2f8df75b9d5396aa58c55">open</a>();</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#aeadd7baf8d4b728c89a824673a6d5eda">close</a>();</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <a class="code" href="respirator_8cpp.html#a178ba5bcb45305131ee9a9bb86e8e32c">blower</a>.<a class="code" href="class_blower.html#a6661c79b02db6771db9cbdeaaff04f1c">runSpeed</a>(1500);</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    }</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160; </div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    <span class="keywordflow">case</span> STEP_PRESSURE_TEST: {</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#aeadd7baf8d4b728c89a824673a6d5eda">close</a>();</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#a9a411fb7dda2f8df75b9d5396aa58c55">open</a>();</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;        <a class="code" href="respirator_8cpp.html#a178ba5bcb45305131ee9a9bb86e8e32c">blower</a>.<a class="code" href="class_blower.html#a6661c79b02db6771db9cbdeaaff04f1c">runSpeed</a>(1790);</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        UNGREEDY(is_drawn, display(<span class="stringliteral">&quot;Test pression&quot;</span>, <span class="stringliteral">&quot;Continuer : Start&quot;</span>));</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        <span class="keywordflow">if</span> ((millis() - last_time) &gt;= 200) {</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;            <span class="keywordtype">int</span> pressure = <a class="code" href="pressure_8cpp.html#a80b718fbea70d8e9df350bbac79d5810">readPressureSensor</a>(0, <a class="code" href="respirator_8cpp.html#abfbf6dd828afcb2b2e17d7fb86b79173">pressureOffset</a>);</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Pression : %3d mmH2O&quot;</span>, pressure);</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;            displayLine(msg, 3);</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;            last_time = millis();</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        }</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    }</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160; </div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    <span class="keywordflow">case</span> STEP_PRESSURE_OFFSET_TEST: {</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#aeadd7baf8d4b728c89a824673a6d5eda">close</a>();</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;        <a class="code" href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#a9a411fb7dda2f8df75b9d5396aa58c55">open</a>();</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;        <a class="code" href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a>.<a class="code" href="class_pressure_valve.html#a95cc22d9a5422382adff84ee55f5c01c">execute</a>();</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;        <a class="code" href="respirator_8cpp.html#a178ba5bcb45305131ee9a9bb86e8e32c">blower</a>.<a class="code" href="class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8">stop</a>();</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        UNGREEDY(is_drawn, display(<span class="stringliteral">&quot;Test offset pression&quot;</span>, <span class="stringliteral">&quot;Continuer : Start&quot;</span>));</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;        <span class="keywordflow">if</span> ((millis() - last_time) &gt;= 200) {</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;            <span class="keywordtype">int</span> pressure = <a class="code" href="pressure_8cpp.html#a80b718fbea70d8e9df350bbac79d5810">readPressureSensor</a>(0, <a class="code" href="respirator_8cpp.html#abfbf6dd828afcb2b2e17d7fb86b79173">pressureOffset</a>);</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Pression : %3d mmH2O&quot;</span>, pressure);</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;            displayLine(msg, 3);</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            last_time = millis();</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        }</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    }</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160; </div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    <span class="keywordflow">case</span> STEP_BATTERY_TEST: {</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        UNGREEDY(is_drawn, {</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            display(<span class="stringliteral">&quot;Test batterie&quot;</span>, <span class="stringliteral">&quot;Continuer : Start&quot;</span>);</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            <a class="code" href="respirator_8cpp.html#a178ba5bcb45305131ee9a9bb86e8e32c">blower</a>.<a class="code" href="class_blower.html#aa8d7ed93ae09574c4a402e79f75eabc8">stop</a>();</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        });</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        <a class="code" href="battery_8cpp.html#a9ffac32955710f7a3aefe1fb7120b263">updateBatterySample</a>();</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;        <span class="keywordflow">if</span> ((millis() - last_time) &gt;= 200) {</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;            <span class="keywordtype">char</span> msg[<a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1];</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;            (void)snprintf(msg, <a class="code" href="parameters_8h.html#a5a5ed10b5050dd70fd32ca7cbae79441">SCREEN_LINE_LENGTH</a> + 1, <span class="stringliteral">&quot;Batterie : %2ul.%1ul V&quot;</span>, <a class="code" href="battery_8cpp.html#a6bcb1af204a68c17e23c0c0262cb1fab">getBatteryLevel</a>(),</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                           (<a class="code" href="battery_8cpp.html#a29614bbbfb2b660c087260efed859c00">getBatteryLevelX10</a>() - (10u * <a class="code" href="battery_8cpp.html#a6bcb1af204a68c17e23c0c0262cb1fab">getBatteryLevel</a>())));</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;            displayLine(msg, 3);</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            last_time = millis();</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        }</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;    }</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160; </div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    <span class="keywordflow">case</span> STEP_BUZZER_TEST: {</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;        UNGREEDY(is_drawn, {</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            display(<span class="stringliteral">&quot;Test alarme&quot;</span>, <span class="stringliteral">&quot;Continuer : Start&quot;</span>);</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            <a class="code" href="buzzer_8cpp.html#a4931ca20aaed197c5417e1eef0b59dd0">Buzzer_High_Prio_Start</a>();</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;        });</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    }</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;    }</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160; </div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    delay(10);</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;}</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160; </div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aparameters_8h_html_a0d6135ebcd5051473b00c3b879394b9f"><div class="ttname"><a href="parameters_8h.html#a0d6135ebcd5051473b00c3b879394b9f">PIN_BTN_START</a></div><div class="ttdeci">#define PIN_BTN_START</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00188">parameters.h:187</a></div></div>
@@ -541,7 +546,7 @@ $(document).ready(function(){initNavTree('integration__test_8cpp_source.html',''
 <div class="ttc" id="arespirator_8cpp_html_ac7f1a8263663a0f57bcc73ff2fa055b3"><div class="ttname"><a href="respirator_8cpp.html#ac7f1a8263663a0f57bcc73ff2fa055b3">pressureOffsetSum</a></div><div class="ttdeci">int32_t pressureOffsetSum</div><div class="ttdef"><b>Definition:</b> <a href="respirator_8cpp_source.html#l00053">respirator.cpp:53</a></div></div>
 <div class="ttc" id="atelemetry_8cpp_html_a46ccd6539de37e53697fe5e3981cdd0b"><div class="ttname"><a href="telemetry_8cpp.html#a46ccd6539de37e53697fe5e3981cdd0b">sendBootMessage</a></div><div class="ttdeci">void sendBootMessage()</div><div class="ttdoc">Send a &quot;boot&quot; message.</div><div class="ttdef"><b>Definition:</b> <a href="telemetry_8cpp_source.html#l00114">telemetry.cpp:114</a></div></div>
 <div class="ttc" id="arespirator_8cpp_html_a50fc6ee637eb896d1548d2f5d2f4aa82"><div class="ttname"><a href="respirator_8cpp.html#a50fc6ee637eb896d1548d2f5d2f4aa82">servoPatient</a></div><div class="ttdeci">PressureValve servoPatient</div><div class="ttdef"><b>Definition:</b> <a href="respirator_8cpp_source.html#l00046">respirator.cpp:46</a></div></div>
-<div class="ttc" id="arespirator_8cpp_html_a0b33edabd7f1c4e4a0bf32c67269be2f"><div class="ttname"><a href="respirator_8cpp.html#a0b33edabd7f1c4e4a0bf32c67269be2f">loop</a></div><div class="ttdeci">void loop(void)</div><div class="ttdef"><b>Definition:</b> <a href="respirator_8cpp_source.html#l00280">respirator.cpp:280</a></div></div>
+<div class="ttc" id="arespirator_8cpp_html_a0b33edabd7f1c4e4a0bf32c67269be2f"><div class="ttname"><a href="respirator_8cpp.html#a0b33edabd7f1c4e4a0bf32c67269be2f">loop</a></div><div class="ttdeci">void loop(void)</div><div class="ttdef"><b>Definition:</b> <a href="respirator_8cpp_source.html#l00284">respirator.cpp:284</a></div></div>
 <div class="ttc" id="aclass_blower_html_a3e124c8a70abb893efea331c80fceb57"><div class="ttname"><a href="class_blower.html#a3e124c8a70abb893efea331c80fceb57">Blower::setup</a></div><div class="ttdeci">void setup()</div><div class="ttdef"><b>Definition:</b> <a href="blower_8cpp_source.html#l00030">blower.cpp:30</a></div></div>
 <div class="ttc" id="arespirator_8cpp_html_a6f65d7fcf22ad9b2342ddbe528a71c70"><div class="ttname"><a href="respirator_8cpp.html#a6f65d7fcf22ad9b2342ddbe528a71c70">servoBlower</a></div><div class="ttdeci">PressureValve servoBlower</div><div class="ttdef"><b>Definition:</b> <a href="respirator_8cpp_source.html#l00045">respirator.cpp:45</a></div></div>
 <div class="ttc" id="aparameters_8h_html_a9e02d15f3a04d23fd31b7e3cd304d032"><div class="ttname"><a href="parameters_8h.html#a9e02d15f3a04d23fd31b7e3cd304d032">VALVE_OPEN_STATE</a></div><div class="ttdeci">#define VALVE_OPEN_STATE</div><div class="ttdoc">Angle when opened.</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00104">parameters.h:103</a></div></div>
