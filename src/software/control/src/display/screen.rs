@@ -428,9 +428,15 @@ impl<'a> Screen<'a> {
         let ratio_config = TelemetryWidgetConfig {
             title: "Insp-exp ratio",
             value_measured: None,
-            value_target: Some("0:0".to_string()),
+            // TODO: gather dynamic numerator + denominator from telemetry (avoid sharing the same \
+            //   constants in 2 places)
+            value_target: Some(format!(
+                "{}/{}",
+                CYCLE_RATIO_INSPIRATION,
+                CYCLE_RATIO_INSPIRATION + CYCLE_RATIO_EXPIRATION
+            )),
             value_arrow: telemetry_data.arrow_image_id,
-            unit: "insp:exp.",
+            unit: "insp./total",
             ids: (
                 self.ids.cycles_parent,
                 self.ids.ratio_parent,
@@ -452,7 +458,7 @@ impl<'a> Screen<'a> {
         // Initialize the tidal widget
         let tidal_config = TelemetryWidgetConfig {
             title: "Tidal volume",
-            value_measured: Some("0".to_string()),
+            value_measured: Some("n/a".to_string()),
             value_target: None,
             value_arrow: telemetry_data.arrow_image_id,
             unit: "mL (milliliters)",
