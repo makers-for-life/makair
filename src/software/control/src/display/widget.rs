@@ -290,12 +290,18 @@ impl<'a> ControlWidget<'a> {
             Color::Rgba(17.0 / 255.0, 17.0 / 255.0, 17.0 / 255.0, 0.96)
         };
 
+        let container_margin_top = if alarms_count > 1 {
+            DISPLAY_ALARM_CONTAINER_MARGIN_TOP_MULTIPLE
+        } else {
+            DISPLAY_ALARM_CONTAINER_MARGIN_TOP_SINGLE_OR_NONE
+        };
+
         RoundedRectangle::fill_with(
             dimensions,
             DISPLAY_ROUNDED_RECTANGLES_ROUND,
             container_color,
         )
-        .mid_top_with_margin_on(config.parent, 10.0)
+        .mid_top_with_margin_on(config.parent, container_margin_top)
         .set(config.container, &mut self.ui);
 
         // Draw text
