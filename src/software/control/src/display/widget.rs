@@ -274,16 +274,20 @@ impl<'a> ControlWidget<'a> {
     }
 
     fn alarms(&mut self, config: AlarmsWidgetConfig) -> f64 {
+        let alarms_count = config.alarms.len();
+
         let dimensions = [
             DISPLAY_ALARM_CONTAINER_WIDTH,
-            DISPLAY_ALARM_CONTAINER_HEIGHT,
+            (max(1, alarms_count) as f64) * DISPLAY_ALARM_MESSAGE_HEIGHT
+                + 2.0 * DISPLAY_ALARM_MESSAGE_SPACING_TOP_INITIAL
+                + ((max(1, alarms_count) - 1) as f64) * DISPLAY_ALARM_MESSAGE_SPACING_TOP_INNER,
         ];
 
         // Draw container box
-        let container_color = if !config.alarms.is_empty() {
-            Color::Rgba(42.0 / 255.0, 42.0 / 255.0, 42.0 / 255.0, 1.0)
+        let container_color = if alarms_count > 0 {
+            Color::Rgba(42.0 / 255.0, 42.0 / 255.0, 42.0 / 255.0, 0.96)
         } else {
-            Color::Rgba(17.0 / 255.0, 17.0 / 255.0, 17.0 / 255.0, 1.0)
+            Color::Rgba(17.0 / 255.0, 17.0 / 255.0, 17.0 / 255.0, 0.96)
         };
 
         RoundedRectangle::fill_with(
@@ -316,12 +320,8 @@ impl<'a> ControlWidget<'a> {
 
         // Append all alarms?
         // Notice: only draw alarms box if there are active alarms
-        if !config.alarms.is_empty() {
-            // TODO: we should not cap the alarms to display in case there are more than 2; this is \
-            //   unsafe regulatory and safety wise
-            let max_alarms = min(DISPLAY_MAX_ALARMS, config.alarms.len());
-
-            for x in 0..max_alarms {
+        if alarms_count > 0 {
+            for x in 0..alarms_count {
                 let (code, alarm) = config.alarms.get(x).unwrap();
 
                 self.alarm(&config, **code, alarm, x);
@@ -356,7 +356,7 @@ impl<'a> ControlWidget<'a> {
             DISPLAY_ALARM_MESSAGE_SPACING_TOP_INITIAL
                 + index as f64
                     * (DISPLAY_ALARM_MESSAGE_HEIGHT + DISPLAY_ALARM_MESSAGE_SPACING_TOP_INNER)
-        };
+        } + DISPLAY_ALARM_MESSAGE_SPACING_TOP_INITIAL_OFFSET;
 
         canvas::Canvas::new()
             .with_style(style)
@@ -747,9 +747,9 @@ impl<'a> ControlWidget<'a> {
             .with_style(style)
             .w_h(
                 DISPLAY_WINDOW_SIZE_WIDTH as _,
-                DISPLAY_WINDOW_SIZE_HEIGHT as f64 - DISPLAY_ALARM_CONTAINER_HEIGHT,
+                DISPLAY_WINDOW_SIZE_HEIGHT as _,
             )
-            .x_y(0.0, -DISPLAY_ALARM_CONTAINER_HEIGHT)
+            .x_y(0.0, 0.0)
             .set(config.background, &mut self.ui);
 
         let container_borders_style = Style::Fill(Some(Color::Rgba(

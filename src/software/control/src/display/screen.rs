@@ -161,6 +161,9 @@ impl<'a> Screen<'a> {
         // Render common background
         self.render_background();
 
+        // Render middle elements
+        self.render_graph(graph_data.image_id, graph_data.width, graph_data.height);
+
         // Render top elements
         self.render_branding(
             branding_data.firmware_version,
@@ -172,9 +175,6 @@ impl<'a> Screen<'a> {
         self.render_alarms();
         self.render_status();
         self.render_heartbeat(heartbeat_data);
-
-        // Render middle elements
-        self.render_graph(graph_data.image_id, graph_data.width, graph_data.height);
 
         // Render bottom elements
         self.render_telemetry(telemetry_data);
