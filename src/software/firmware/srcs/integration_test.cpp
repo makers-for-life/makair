@@ -366,8 +366,13 @@ void loop() {
             waitForInMs(10000);
 
             char msg[SCREEN_LINE_LENGTH + 1];
-            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Moyenne : %3d mmH2O",
-                           pressureOffsetSum / pressureOffsetCount);
+            int32_t mean;
+            if (pressureOffsetCount != 0) {
+                mean = pressureOffsetSum / pressureOffsetCount;
+            } else {
+                mean = 0;
+            }
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Moyenne : %3dl mmH2O", mean);
             displayLine(msg, 1);
             (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Fuite : %3d mmH2O",
                            maxOffsetValue - minOffsetValue);
@@ -433,7 +438,7 @@ void loop() {
         updateBatterySample();
         if ((millis() - last_time) >= 200) {
             char msg[SCREEN_LINE_LENGTH + 1];
-            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie : %2u.%1u V", getBatteryLevel(),
+            (void)snprintf(msg, SCREEN_LINE_LENGTH + 1, "Batterie : %2ul.%1ul V", getBatteryLevel(),
                            (getBatteryLevelX10() - (10u * getBatteryLevel())));
             displayLine(msg, 3);
             last_time = millis();
