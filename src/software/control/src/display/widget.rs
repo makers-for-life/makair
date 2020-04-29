@@ -53,6 +53,7 @@ pub struct StatusWidgetConfig {
 
 pub struct HeartbeatWidgetConfig<'a> {
     data_pressure: &'a DataPressure,
+    peak_command: u8,
     container: WidgetId,
     ground: WidgetId,
     surround: WidgetId,
@@ -130,6 +131,7 @@ impl StatusWidgetConfig {
 impl<'a> HeartbeatWidgetConfig<'a> {
     pub fn new(
         data_pressure: &'a DataPressure,
+        peak_command: u8,
         container: WidgetId,
         ground: WidgetId,
         surround: WidgetId,
@@ -137,6 +139,7 @@ impl<'a> HeartbeatWidgetConfig<'a> {
     ) -> HeartbeatWidgetConfig<'a> {
         HeartbeatWidgetConfig {
             data_pressure,
+            peak_command,
             container,
             ground,
             surround,
@@ -581,8 +584,16 @@ impl<'a> ControlWidget<'a> {
             0
         };
 
-        // TODO: handle zero division case
-        let last_pressure_ratio = last_pressure as f64 / HEARTBEAT_INNER_PRESSURE_ALERT;
+        let mut pressure_alert_threshold = if config.peak_command > 0 {
+            config.peak_command as f64
+        } else {
+            HEARTBEAT_INNER_PRESSURE_INITIAL_MIN
+        };
+
+        pressure_alert_threshold = pressure_alert_threshold
+            + pressure_alert_threshold * HEARTBEAT_INNER_PRESSURE_ALERT_ERROR_RATIO;
+
+        let last_pressure_ratio = last_pressure as f64 / pressure_alert_threshold;
         let last_pressure_radius = surround_radius * last_pressure_ratio;
 
         let inner_radius = min(

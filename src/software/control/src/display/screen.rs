@@ -239,6 +239,7 @@ impl<'a> Screen<'a> {
     pub fn render_heartbeat(&mut self, heartbeat_data: ScreenDataHeartbeat<'a>) {
         let config = HeartbeatWidgetConfig::new(
             heartbeat_data.data_pressure,
+            self.machine_snapshot.unwrap().peak_command,
             self.ids.background,
             self.ids.heartbeat_ground,
             self.ids.heartbeat_surround,
