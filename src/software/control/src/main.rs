@@ -42,12 +42,12 @@ pub struct EmbeddedFonts;
 struct AppArgs {
     log: String,
     source: Source,
-    expanded: bool,
+    fullscreen: bool,
 }
 
 pub enum Source {
     Port(String),
-    File(String),
+    Input(String),
 }
 
 lazy_static! {
@@ -75,25 +75,25 @@ fn make_app_args() -> AppArgs {
                 .takes_value(true),
         )
         .arg(
-            Arg::with_name("file")
-                .short("f")
-                .long("file")
-                .help("Path to a recorded file")
+            Arg::with_name("input")
+                .short("i")
+                .long("input")
+                .help("Path to a recorded input file")
                 .takes_value(true),
         )
         .arg(
-            Arg::with_name("expanded")
-                .short("e")
-                .long("expanded")
-                .help("Launch in expanded mode (fullscreen)"),
+            Arg::with_name("fullscreen")
+                .short("f")
+                .long("fullscreen")
+                .help("Launch in fullscreen mode"),
         )
         .get_matches();
 
-    let source = match (matches.value_of("port"), matches.value_of("file")) {
+    let source = match (matches.value_of("port"), matches.value_of("input")) {
         (Some(p), _) => Source::Port(p.to_string()),
-        (None, Some(f)) => Source::File(f.to_string()),
+        (None, Some(i)) => Source::Input(i.to_string()),
         (None, None) => {
-            eprintln!("You should provide either a serial port (-p) or a file (-f)");
+            eprintln!("You should provide either a serial port (-p) or an input file (-i)");
             std::process::exit(1);
         }
     };
@@ -102,7 +102,7 @@ fn make_app_args() -> AppArgs {
     AppArgs {
         log: String::from(matches.value_of("log").expect("invalid log value")),
         source,
-        expanded: matches.is_present("expanded"),
+        fullscreen: matches.is_present("fullscreen"),
     }
 }
 

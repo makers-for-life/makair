@@ -123,7 +123,7 @@ impl DisplayDrawer {
                 });
             }
 
-            crate::Source::File(path) => {
+            crate::Source::Input(path) => {
                 std::thread::spawn(move || loop {
                     let file = std::fs::File::open(path).unwrap();
                     telemetry::gather_telemetry_from_file(file, tx.clone());
