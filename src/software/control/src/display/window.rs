@@ -71,12 +71,16 @@ impl DisplayWindow {
             .with_resizable(false)
             .with_always_on_top(true);
 
-        let window = if APP_ARGS.fullscreen {
+        let window = if APP_ARGS.expanded {
             let primary_monitor = events_loop.get_primary_monitor();
+
             window.with_fullscreen(Some(primary_monitor))
         } else {
             window
         };
+
+        // TODO: disable cursor when fullscreen (cannot be done on WindowBuilder; can only be done \
+        //   on a Window instance)
 
         // Create context
         let context = ContextBuilder::new().with_multisampling(4).with_vsync(true);

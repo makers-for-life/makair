@@ -42,7 +42,7 @@ pub struct EmbeddedFonts;
 struct AppArgs {
     log: String,
     source: Source,
-    fullscreen: bool,
+    expanded: bool,
 }
 
 pub enum Source {
@@ -82,9 +82,10 @@ fn make_app_args() -> AppArgs {
                 .takes_value(true),
         )
         .arg(
-            Arg::with_name("fullscreen")
-                .long("fullscreen")
-                .help("Launch in fullscreen mode"),
+            Arg::with_name("expanded")
+                .short("e")
+                .long("expanded")
+                .help("Launch in expanded mode (fullscreen)"),
         )
         .get_matches();
 
@@ -101,7 +102,7 @@ fn make_app_args() -> AppArgs {
     AppArgs {
         log: String::from(matches.value_of("log").expect("invalid log value")),
         source,
-        fullscreen: matches.is_present("fullscreen"),
+        expanded: matches.is_present("expanded"),
     }
 }
 

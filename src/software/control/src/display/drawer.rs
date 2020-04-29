@@ -47,6 +47,8 @@ impl DisplayDrawerBuilder {
         let display =
             GliumDisplayWinitWrapper(glium::Display::new(window, context, &events_loop).unwrap());
 
+        // TODO: mark window as no cursor
+
         // Create drawer
         DisplayDrawer {
             renderer: DisplayRendererBuilder::new(fonts),
