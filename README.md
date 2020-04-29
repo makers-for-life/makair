@@ -114,7 +114,9 @@ The motherboard electronic schematics and wiring diagrams [can be found there](.
 
 ### 2. Control Unit Screen
 
-_🚧 Work In Progress. The Control Unit UI is coming as part of MakAir V2._
+The control unit is made of a [Raspberry Pi 4](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) computer, plugged to a [Raspberry Pi Touch Display](https://www.raspberrypi.org/products/raspberry-pi-touch-display/).
+
+👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
 
 ## 3️⃣ Flash the firmware
 
@@ -128,7 +130,9 @@ Firmware release binaries are available for download on our [releases page](http
 
 ### 2. Control Unit Runtime
 
-_🚧 Work In Progress. The Control Unit UI is coming as part of MakAir V2._
+The Control Unit should be built and ran on the Raspberry Pi 4 using instructions available on the [Control Unit](./src/software/control) documentation.
+
+👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
 
 # Components
 
