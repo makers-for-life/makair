@@ -9,6 +9,7 @@ use telemetry::alarm::AlarmCode;
 use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
 
 use crate::config::environment::*;
+use crate::physics::types::DataPressure;
 
 use super::fonts::Fonts;
 use super::widget::{
@@ -114,6 +115,10 @@ pub struct ScreenDataBranding<'a> {
     pub height: f64,
 }
 
+pub struct ScreenDataHeartbeat<'a> {
+    pub data_pressure: &'a DataPressure,
+}
+
 pub struct ScreenDataGraph {
     pub image_id: conrod_core::image::Id,
     pub width: f64,
@@ -149,6 +154,7 @@ impl<'a> Screen<'a> {
     pub fn render_with_data(
         &mut self,
         branding_data: ScreenDataBranding<'a>,
+        heartbeat_data: ScreenDataHeartbeat<'a>,
         graph_data: ScreenDataGraph,
         telemetry_data: ScreenDataTelemetry,
     ) {
@@ -165,7 +171,7 @@ impl<'a> Screen<'a> {
         );
         self.render_alarms();
         self.render_status();
-        self.render_heartbeat();
+        self.render_heartbeat(heartbeat_data);
 
         // Render middle elements
         self.render_graph(graph_data.image_id, graph_data.width, graph_data.height);
@@ -230,8 +236,9 @@ impl<'a> Screen<'a> {
         self.widgets.render(ControlWidgetType::Status(config));
     }
 
-    pub fn render_heartbeat(&mut self) {
+    pub fn render_heartbeat(&mut self, heartbeat_data: ScreenDataHeartbeat<'a>) {
         let config = HeartbeatWidgetConfig::new(
+            heartbeat_data.data_pressure,
             self.ids.background,
             self.ids.heartbeat_ground,
             self.ids.heartbeat_surround,
@@ -256,10 +263,11 @@ impl<'a> Screen<'a> {
     pub fn render_stop(
         &mut self,
         branding_data: ScreenDataBranding<'a>,
+        heartbeat_data: ScreenDataHeartbeat<'a>,
         graph_data: ScreenDataGraph,
         telemetry_data: ScreenDataTelemetry,
     ) {
-        self.render_with_data(branding_data, graph_data, telemetry_data);
+        self.render_with_data(branding_data, heartbeat_data, graph_data, telemetry_data);
 
         let config = StopWidgetConfig {
             parent: self.ids.background,

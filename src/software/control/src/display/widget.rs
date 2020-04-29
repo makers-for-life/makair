@@ -3,6 +3,8 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
+use std::cmp::{max, min};
+
 use conrod_core::widget::Id as WidgetId;
 use conrod_core::{
     color::{self, Color},
@@ -16,6 +18,7 @@ use telemetry::alarm::AlarmCode;
 use telemetry::structures::AlarmPriority;
 
 use crate::config::environment::*;
+use crate::physics::types::DataPressure;
 
 use super::fonts::Fonts;
 
@@ -48,7 +51,8 @@ pub struct StatusWidgetConfig {
     power_text: WidgetId,
 }
 
-pub struct HeartbeatWidgetConfig {
+pub struct HeartbeatWidgetConfig<'a> {
+    data_pressure: &'a DataPressure,
     container: WidgetId,
     ground: WidgetId,
     surround: WidgetId,
@@ -123,14 +127,16 @@ impl StatusWidgetConfig {
     }
 }
 
-impl HeartbeatWidgetConfig {
+impl<'a> HeartbeatWidgetConfig<'a> {
     pub fn new(
+        data_pressure: &'a DataPressure,
         container: WidgetId,
         ground: WidgetId,
         surround: WidgetId,
         inner: WidgetId,
-    ) -> HeartbeatWidgetConfig {
+    ) -> HeartbeatWidgetConfig<'a> {
         HeartbeatWidgetConfig {
+            data_pressure,
             container,
             ground,
             surround,
@@ -229,7 +235,7 @@ pub enum ControlWidgetType<'a> {
     Error(ErrorWidgetConfig),
     Branding(BrandingWidgetConfig<'a>),
     Status(StatusWidgetConfig),
-    Heartbeat(HeartbeatWidgetConfig),
+    Heartbeat(HeartbeatWidgetConfig<'a>),
     Initializing(InitializingWidgetConfig),
     Graph(GraphWidgetConfig),
     NoData(NoDataWidgetConfig),
@@ -303,7 +309,7 @@ impl<'a> ControlWidget<'a> {
         if !config.alarms.is_empty() {
             // TODO: we should not cap the alarms to display in case there are more than 2; this is \
             //   unsafe regulatory and safety wise
-            let max_alarms = std::cmp::min(DISPLAY_MAX_ALARMS, config.alarms.len());
+            let max_alarms = min(DISPLAY_MAX_ALARMS, config.alarms.len());
 
             for x in 0..max_alarms {
                 let (code, alarm) = config.alarms.get(x).unwrap();
@@ -555,7 +561,7 @@ impl<'a> ControlWidget<'a> {
                 153.0 / 255.0,
                 1.0,
             ))
-            .thickness(2.0);
+            .thickness(HEARTBEAT_SURROUND_THICKNESS);
 
         widget::primitive::shape::circle::Circle::outline_styled(
             surround_radius,
@@ -569,21 +575,41 @@ impl<'a> ControlWidget<'a> {
         .set(config.surround, &mut self.ui);
 
         // #2: Create inner circle
-        widget::primitive::shape::circle::Circle::fill_with(
-            // TODO: pass dynamic radius
-            14.0,
-            color::WHITE,
-        )
-        .middle_of(config.surround)
-        .set(config.inner, &mut self.ui);
+        let last_pressure = if let Some(last_pressure_inner) = config.data_pressure.get(0) {
+            last_pressure_inner.1
+        } else {
+            0
+        };
+
+        // TODO: handle zero division case
+        let last_pressure_ratio = last_pressure as f64 / HEARTBEAT_INNER_PRESSURE_ALERT;
+        let last_pressure_radius = surround_radius * last_pressure_ratio;
+
+        let inner_radius = min(
+            max(last_pressure_radius as u16, ground_radius as u16 + 1),
+            surround_radius as u16 + HEARTBEAT_INNER_MAX_OVERFLOW,
+        ) as f64;
+
+        let inner_color = if last_pressure_radius >= surround_radius {
+            Color::Rgba(184.0 / 255.0, 1.0 / 255.0, 24.0 / 255.0, 1.0)
+        } else {
+            color::WHITE
+        };
+
+        widget::primitive::shape::circle::Circle::fill_with(inner_radius, inner_color)
+            .middle_of(config.surround)
+            .set(config.inner, &mut self.ui);
 
         // #3: Create ground circle
-        widget::primitive::shape::circle::Circle::fill_with(
-            ground_radius,
-            Color::Rgba(116.0 / 255.0, 116.0 / 255.0, 116.0 / 255.0, 1.0),
-        )
-        .middle_of(config.surround)
-        .set(config.ground, &mut self.ui);
+        let ground_color = if last_pressure_radius >= surround_radius {
+            Color::Rgba(204.0 / 255.0, 204.0 / 255.0, 204.0 / 255.0, 1.0)
+        } else {
+            Color::Rgba(116.0 / 255.0, 116.0 / 255.0, 116.0 / 255.0, 1.0)
+        };
+
+        widget::primitive::shape::circle::Circle::fill_with(ground_radius, ground_color)
+            .middle_of(config.surround)
+            .set(config.ground, &mut self.ui);
 
         HEARTBEAT_GROUND_DIAMETER
     }
