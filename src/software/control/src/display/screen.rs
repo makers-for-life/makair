@@ -324,7 +324,7 @@ impl<'a> Screen<'a> {
             ),
             value_target: Some(machine_snapshot.peak_command.to_string()),
             value_arrow: telemetry_data.arrow_image_id,
-            unit: "cmH20",
+            unit: "cmH2O",
             ids: (
                 self.ids.background,
                 self.ids.peak_parent,
@@ -353,7 +353,7 @@ impl<'a> Screen<'a> {
             ),
             value_target: Some(machine_snapshot.plateau_command.to_string()),
             value_arrow: telemetry_data.arrow_image_id,
-            unit: "cmH20",
+            unit: "cmH2O",
             ids: (
                 self.ids.peak_parent,
                 self.ids.plateau_parent,
@@ -382,7 +382,7 @@ impl<'a> Screen<'a> {
             ),
             value_target: Some(machine_snapshot.peep_command.to_string()),
             value_arrow: telemetry_data.arrow_image_id,
-            unit: "cmH20",
+            unit: "cmH2O",
             ids: (
                 self.ids.plateau_parent,
                 self.ids.peep_parent,
