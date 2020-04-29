@@ -1,0 +1,7 @@
+// @endpoint https://warp.senx.io/api/v0/exec
+
+"gILtW5uIiE7hHea8OssSJMXmEwLVhclKrF_ZfPGwab0MVK6hCRQce0R47X2wPJjzKijFP6LV.grhNFxf6lPkfW8iSfDVdwITMP.62xWlxi7rb7mLr77r9O5lUt4VdWaUvbDOwe6C6J7_PaDL6RCQEV"
+'readToken' STORE
+
+[ $readToken '~makair.*' {} NOW 5 m ] FETCH
+
