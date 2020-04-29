@@ -1,0 +1,66 @@
+// This WarpScript must be executed every 30s or so to synchronize local database and remote database.
+// symlink it in /opt/warp10/warpscript/makair/30000/synchronize.mc2
+
+// token to read data locally
+"x5SWRXwPVx9Pu.iQT91i6vXrH6l1eEvBxODgui2lZE3mH5Jezmy3ZkbVT2mDxhaGUOZSKj0Om4c27B84nbzNzwxzVebmVhROt6oUEzPn6ClW7vr80D6SEQ4I5VYCQYXS3TwAb2T9.x2eSDEjAEEbBwMlu5NmtMH.Fip9W69709RwvY0_u1jzNk" 
+'localReadToken' STORE
+
+// token to write data locally
+"SLbx_8spBVZkNoMaXDFJXRQQHkrYVPDI3ORTBnfDUy0LBmPcPJVA_xpGjiGH8.ylLel.T8N2DspDF2_xQyjD7UjwXFK27ldXQlgPhDFtOqaC_kXgdueeHTkeIt6MX8LZ"
+'localWriteToken' STORE
+
+// remote url
+'https://warp.senx.io/api/v0/exec' 'url' STORE
+
+// token to write on the remote url
+"6Ocn93BmeU10_olgB8jzIVd2jRKPqRdmFniBst1eF9KV1LfiVxW_3YYeV4Tq7SeMkSeywf4zPV.KZER.Q0.9cKVrtQL8AhYAXzhdwmXCGxEIEuBPzWvTqSaILZqEh19Esnl5yQUQ0qAHAc4pKCP."
+'remoteWriteToken' STORE
+
+
+<%  
+    'time' STORE
+    true 'networkOK' STORE
+    NOW 'uploadTS' STORE
+    
+    // fetch data between time and now...
+    [ $localReadToken '~makair.*' { }  $time ISO8601 $uploadTS ISO8601 ] FETCH 'res' STORE
+    <% $res SIZE 0 > %>
+    <%
+    
+      $res SNAPSHOT 'wrapped' STORE
+    
+      $wrapped " <%25 DROP DUP NAME RENAME %25> LMAP DUP '" + $remoteWriteToken + "' UPDATE '" + $remoteWriteToken + "' META" +
+      $url REXECZ  //remote execution, gzipped. The script may fail here if there is no network. 
+      // if it fails, then the local.lastUploadDone will not be updated.
+
+      [ $localReadToken 'local.lastUploadDone' { } ] FIND 0 GET 
+      $uploadTS NaN NaN NaN 1 ADDVALUE 
+      DUP NAME RENAME $localWriteToken UPDATE
+      'all updated'
+    %>
+    <%
+        //there was nothing to upload. upload is done correctly !
+        [ $localReadToken 'local.lastUploadDone' { 'uuid' @device/uuid } NOW -1 ] FETCH 0 GET CLONEEMPTY
+        NOW NaN NaN NaN 1 ADDVALUE  
+        DUP NAME RENAME $localWriteToken UPDATE
+        'nothing to update'
+    %>
+    IFTE
+    
+%> 'upload' STORE
+
+
+
+// upload between last valid upload (if not, create the local.lastUploadDone gts, and upload from timestamp 0).
+[ $localReadToken 'local.lastUploadDone' { 'uuid' @device/uuid } NOW -1 ] FETCH 'uploadGTS' STORE
+<% $uploadGTS SIZE 0 == %>
+<%
+    NEWGTS 'local.lastUploadDone' RENAME { 'uuid' @device/uuid } RELABEL
+    0 NaN NaN NaN 1 ADDVALUE
+    $localWriteToken UPDATE
+    0 @upload
+%>
+<%
+    $uploadGTS 0 GET LASTTICK @upload
+%>
+IFTE
