@@ -261,6 +261,10 @@ impl<'a> ControlWidget<'a> {
         .set(config.container, &mut self.ui);
 
         // Draw text
+        // Notice: the first text layer needs to be positionned using relative coordinates, and \
+        //   cannot be positionned using a 'mid' auto coordinate, as this has been seen to center \
+        //   vertically with a slight offset, which would make the text look uncentered to the \
+        //   human eye.
         let mut text_style = conrod_core::widget::primitive::text::Style::default();
 
         text_style.font_id = Some(Some(self.fonts.bold));
@@ -269,7 +273,7 @@ impl<'a> ControlWidget<'a> {
 
         widget::text::Text::new("ALARMS")
             .with_style(text_style)
-            .mid_left_with_margin_on(config.container, DISPLAY_ALARM_CONTAINER_PADDING_LEFT)
+            .top_left_with_margins_on(config.container, DISPLAY_ALARM_CONTAINER_PADDING_TOP, DISPLAY_ALARM_CONTAINER_PADDING_LEFT)
             .set(config.title, &mut self.ui);
 
         // Append all alarms?
