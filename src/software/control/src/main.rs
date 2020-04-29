@@ -99,12 +99,12 @@ fn make_app_args() -> AppArgs {
         )
         .get_matches();
 
-    let mode = match (matches.value_of("port"), matches.value_of("file")) {
+    let mode = match (matches.value_of("port"), matches.value_of("input")) {
         (Some(p), _) => Mode::Port {
             port: p.to_string(),
             output_dir: matches.value_of("output").map(|str| str.to_string()),
         },
-        (None, Some(f)) => Mode::Input(f.to_string()),
+        (None, Some(i)) => Mode::Input(i.to_string()),
         (None, None) => {
             eprintln!("You should provide either a serial port (-p) or an input file (-i)");
             std::process::exit(1);
