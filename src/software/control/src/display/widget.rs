@@ -18,6 +18,7 @@ use telemetry::alarm::AlarmCode;
 use telemetry::structures::AlarmPriority;
 
 use crate::config::environment::*;
+use crate::physics::pressure::process_max_allowed_pressure;
 use crate::physics::types::DataPressure;
 
 use super::fonts::Fonts;
@@ -584,14 +585,7 @@ impl<'a> ControlWidget<'a> {
             0
         };
 
-        let mut pressure_alert_threshold = if config.peak_command > 0 {
-            config.peak_command as f64
-        } else {
-            HEARTBEAT_INNER_PRESSURE_INITIAL_MIN
-        };
-
-        pressure_alert_threshold = pressure_alert_threshold
-            + pressure_alert_threshold * HEARTBEAT_INNER_PRESSURE_ALERT_ERROR_RATIO;
+        let pressure_alert_threshold = process_max_allowed_pressure(config.peak_command) as f64;
 
         let last_pressure_ratio = last_pressure as f64 / pressure_alert_threshold;
         let last_pressure_radius = surround_radius * last_pressure_ratio;

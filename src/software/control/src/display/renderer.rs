@@ -16,6 +16,7 @@ use crate::EmbeddedImages;
 use crate::config::environment::*;
 
 use crate::chip::ChipState;
+use crate::physics::pressure::process_max_allowed_pressure;
 use crate::physics::types::DataPressure;
 
 use super::fonts::Fonts;
@@ -174,7 +175,7 @@ impl DisplayRenderer {
         let branding_image_id = image_map.insert(branding_image_texture);
 
         // Create graph
-        let graph_image_texture = self.draw_data_chart(data_pressure, display);
+        let graph_image_texture = self.draw_data_chart(data_pressure, machine_snapshot, display);
         let (graph_width, graph_height) = (
             graph_image_texture.get_width(),
             graph_image_texture.get_height().unwrap(),
@@ -290,6 +291,7 @@ impl DisplayRenderer {
     fn draw_data_chart(
         &self,
         data_pressure: &DataPressure,
+        machine_snapshot: &MachineStateSnapshot,
         display: &GliumDisplayWinitWrapper,
     ) -> glium::texture::Texture2d {
         let mut buffer = vec![0; (GRAPH_WIDTH * GRAPH_HEIGHT * 4) as usize];
@@ -309,6 +311,13 @@ impl DisplayRenderer {
         let oldest_time = newest_time - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
 
         // Docs: https://docs.rs/plotters/0.2.12/plotters/chart/struct.ChartBuilder.html
+        let peak_command_or_initial = if machine_snapshot.peak_command > 0 {
+            machine_snapshot.peak_command
+        } else {
+            GRAPH_DRAW_RANGE_HIGH_INITIAL
+        };
+        let range_high = process_max_allowed_pressure(peak_command_or_initial) as i32;
+
         let mut chart = ChartBuilder::on(&root)
             .margin_top(GRAPH_DRAW_MARGIN_TOP)
             .margin_bottom(GRAPH_DRAW_MARGIN_BOTTOM)
@@ -316,10 +325,7 @@ impl DisplayRenderer {
             .margin_right(GRAPH_DRAW_MARGIN_RIGHT)
             .x_label_area_size(0)
             .y_label_area_size(GRAPH_DRAW_LABEL_WIDTH)
-            .build_ranged(
-                oldest_time..newest_time,
-                GRAPH_DRAW_RANGE_LOW..GRAPH_DRAW_RANGE_HIGH,
-            )
+            .build_ranged(oldest_time..newest_time, GRAPH_DRAW_RANGE_LOW..range_high)
             .unwrap();
 
         chart
