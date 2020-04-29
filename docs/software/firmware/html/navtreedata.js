@@ -26,18 +26,19 @@ var NAVTREE =
 [
   [ "software:firmware", "index.html", [
     [ "Changelog", "index.html", [
-      [ "v1.5.3", "index.html#autotoc_md8", null ],
-      [ "v1.5.2", "index.html#autotoc_md9", null ],
-      [ "v1.5.1", "index.html#autotoc_md10", null ],
-      [ "v1.5.0", "index.html#autotoc_md11", null ],
-      [ "v1.4.0", "index.html#autotoc_md12", null ],
-      [ "v1.3.2", "index.html#autotoc_md13", null ],
-      [ "v1.3.1", "index.html#autotoc_md14", null ],
-      [ "v1.3.0", "index.html#autotoc_md15", null ],
-      [ "v1.2.3", "index.html#autotoc_md16", null ],
-      [ "v1.2.2", "index.html#autotoc_md17", null ],
-      [ "v1.2.1", "index.html#autotoc_md18", null ],
-      [ "v1.2.0", "index.html#autotoc_md19", null ]
+      [ "v1.5.4", "index.html#autotoc_md8", null ],
+      [ "v1.5.3", "index.html#autotoc_md9", null ],
+      [ "v1.5.2", "index.html#autotoc_md10", null ],
+      [ "v1.5.1", "index.html#autotoc_md11", null ],
+      [ "v1.5.0", "index.html#autotoc_md12", null ],
+      [ "v1.4.0", "index.html#autotoc_md13", null ],
+      [ "v1.3.2", "index.html#autotoc_md14", null ],
+      [ "v1.3.1", "index.html#autotoc_md15", null ],
+      [ "v1.3.0", "index.html#autotoc_md16", null ],
+      [ "v1.2.3", "index.html#autotoc_md17", null ],
+      [ "v1.2.2", "index.html#autotoc_md18", null ],
+      [ "v1.2.1", "index.html#autotoc_md19", null ],
+      [ "v1.2.0", "index.html#autotoc_md20", null ]
     ] ],
     [ "How to build and run the tests", "md_src_software_firmware_test__r_e_a_d_m_e.html", [
       [ "Install Google Test", "md_src_software_firmware_test__r_e_a_d_m_e.html#autotoc_md1", null ],
@@ -78,7 +79,7 @@ var NAVTREEINDEX =
 [
 "activation_8cpp.html",
 "class_pressure_controller.html#ab7bceebb6d6df50331ee5c0a3e1d5cbb",
-"parameters_8h.html#ae4a1fc768fc44355ec045901ee92f883"
+"parameters_8h.html#ae40a069871060b9e0136e1d127e0436e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -88,25 +88,32 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_src_software_firmware_CHANGELOG"></a> </p>
 <h1><a class="anchor" id="autotoc_md8"></a>
+v1.5.4</h1>
+<ul>
+<li>improve dynamic update of the peak pressure command according to the measured plateau pressure</li>
+<li>fix telemetry bugs</li>
+<li>fix minor bugs</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md9"></a>
 v1.5.3</h1>
 <ul>
 <li>warn if pressure is not stable enough at startup</li>
 <li>improve pressure control</li>
 <li>fix a regression (<em>the PPeak+ button was not functioning anymore</em>)</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 v1.5.2</h1>
 <ul>
 <li>improve pressure control</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md11"></a>
 v1.5.1</h1>
 <ul>
 <li>calibrate pressure sensor's offset on startup</li>
 <li>better round displayed pressure values (in cmH2O)</li>
 <li>minor improvement to the pressure control</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 v1.5.0</h1>
 <ul>
 <li>rework pressure and blower control (<em>blower will now take more time to ramp up/down but this will greatly improve the stability of injected air volume in many scenario</em>)</li>
@@ -118,16 +125,16 @@ v1.5.0</h1>
 <li>improve code quality (MISRA)</li>
 <li>add a step in integration test to check O2 pipe</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 v1.4.0</h1>
 <p><em>This release was depublished</em></p>
-<h1><a class="anchor" id="autotoc_md13"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 v1.3.2</h1>
 <ul>
 <li>fix blower control (<em>it used to unexpectedly slow down a bit from times to times</em>)</li>
 <li>improve the measured and displayed pressures for peak and plateau</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 v1.3.1</h1>
 <ul>
 <li>use the green LED near the start button to show whether the breathing mode is ON or not</li>
@@ -135,7 +142,7 @@ v1.3.1</h1>
 <li>fix an issue with a battery alarm being briefly triggered at every boot</li>
 <li>integration test: open both valves at startup</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 v1.3.0</h1>
 <ul>
 <li>add a program to test integration</li>
@@ -144,21 +151,21 @@ v1.3.0</h1>
 <li>handle Emerson valves (<em>through a config flag</em>)</li>
 <li>improve the way buzzer is controlled</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 v1.2.3</h1>
 <ul>
 <li>fix an issue with buzzer (sometimes it was stuck buzzing whereas no alarm were triggered)</li>
 <li>add battery-related alarms</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="autotoc_md18"></a>
 v1.2.2</h1>
 <ul>
 <li>handle several pneumatic systems _(for the first 2 working typologies of prototype)_</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 v1.2.1</h1>
 <p><em>Unreleased</em></p>
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="autotoc_md20"></a>
 v1.2.0</h1>
 <p>First release version </p>
 </div></div><!-- PageDoc -->
