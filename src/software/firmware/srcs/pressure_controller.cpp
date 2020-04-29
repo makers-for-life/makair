@@ -241,7 +241,7 @@ void PressureController::compute(uint16_t p_centiSec) {
         break;
     }
     case CycleSubPhases::HOLD_INSPIRATION: {
-        plateau();
+        plateau(p_centiSec);
         break;
     }
     case CycleSubPhases::EXHALE:
@@ -412,21 +412,29 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
 
 void PressureController::inhale() {
     // Open the air stream towards the patient's lungs
-    m_blower_valve.open(pidBlower(m_pressureCommand, m_pressure, m_dt));
+    m_peakBlowerValveAnlge = pidBlower(m_pressureCommand, m_pressure, m_dt);
+    m_blower_valve.open(m_peakBlowerValveAnlge);
 
     // Open the air stream towards the patient's lungs
     m_patient_valve.close();
 
     // Update the peak pressure
     m_peakPressure = max(m_pressure, m_peakPressure);
+
 }
 
-void PressureController::plateau() {
+void PressureController::plateau(uint16_t p_centiSec) {
     // Deviate the air stream outside
     m_blower_valve.close();
 
-    // Close the air stream towards the patient's lungs
-    m_patient_valve.close();
+    // Gently close the air stream towards the patient's lungs
+    if (p_centiSec < m_plateauStartTime+10){
+        m_blower_valve.open( (p_centiSec- m_plateauStartTime)* (VALVE_CLOSED_STATE-m_peakBlowerValveAnlge)/10 + m_peakBlowerValveAnlge);
+    } else {
+        m_patient_valve.close();
+    }
+    
+    
 
     // Update the peak pressure
     m_peakPressure = max(m_pressure, m_peakPressure);

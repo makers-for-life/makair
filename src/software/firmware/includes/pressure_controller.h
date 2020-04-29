@@ -176,7 +176,7 @@ class PressureController {
     void inhale();
 
     /// Perform the pressure control and compute the transistors commands during the plateau phase
-    void plateau();
+    void plateau(uint16_t p_centiSec);
 
     /// Perform the pressure control and compute the transistors commands during the exhalation
     /// phase
@@ -273,6 +273,9 @@ class PressureController {
 
     /// Positive End Expiratory Pressure
     uint16_t m_peep;
+
+    /// Blower valve angle at peak
+    int32_t m_peakBlowerValveAnlge;
 
     /// Current respiratory cycle phase
     CyclePhases m_phase;
