@@ -37,6 +37,10 @@ widget_ids!(pub struct Ids {
   branding_text,
 
   status_wrapper,
+  status_unit_box,
+  status_unit_text,
+  status_power_box,
+  status_power_text,
 
   heartbeat_ground,
   heartbeat_surround,
@@ -214,7 +218,14 @@ impl<'a> Screen<'a> {
     }
 
     pub fn render_status(&mut self) {
-        let config = StatusWidgetConfig::new(self.ids.background, self.ids.status_wrapper);
+        let config = StatusWidgetConfig::new(
+            self.ids.background,
+            self.ids.status_wrapper,
+            self.ids.status_unit_box,
+            self.ids.status_unit_text,
+            self.ids.status_power_box,
+            self.ids.status_power_text,
+        );
 
         self.widgets.render(ControlWidgetType::Status(config));
     }

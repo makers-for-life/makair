@@ -42,6 +42,10 @@ pub struct BrandingWidgetConfig<'a> {
 pub struct StatusWidgetConfig {
     container: WidgetId,
     wrapper: WidgetId,
+    unit_box: WidgetId,
+    unit_text: WidgetId,
+    power_box: WidgetId,
+    power_text: WidgetId,
 }
 
 pub struct HeartbeatWidgetConfig {
@@ -100,8 +104,22 @@ impl<'a> BrandingWidgetConfig<'a> {
 }
 
 impl StatusWidgetConfig {
-    pub fn new(container: WidgetId, wrapper: WidgetId) -> StatusWidgetConfig {
-        StatusWidgetConfig { container, wrapper }
+    pub fn new(
+        container: WidgetId,
+        wrapper: WidgetId,
+        unit_box: WidgetId,
+        unit_text: WidgetId,
+        power_box: WidgetId,
+        power_text: WidgetId,
+    ) -> StatusWidgetConfig {
+        StatusWidgetConfig {
+            container,
+            wrapper,
+            unit_box,
+            unit_text,
+            power_box,
+            power_text,
+        }
     }
 }
 
@@ -273,7 +291,11 @@ impl<'a> ControlWidget<'a> {
 
         widget::text::Text::new("ALARMS")
             .with_style(text_style)
-            .top_left_with_margins_on(config.container, DISPLAY_ALARM_CONTAINER_PADDING_TOP, DISPLAY_ALARM_CONTAINER_PADDING_LEFT)
+            .top_left_with_margins_on(
+                config.container,
+                DISPLAY_ALARM_CONTAINER_PADDING_TOP,
+                DISPLAY_ALARM_CONTAINER_PADDING_LEFT,
+            )
             .set(config.title, &mut self.ui);
 
         // Append all alarms?
@@ -446,6 +468,9 @@ impl<'a> ControlWidget<'a> {
     }
 
     fn status(&mut self, config: StatusWidgetConfig) -> f64 {
+        let (box_height, box_width) = (STATUS_WRAPPER_HEIGHT / 2.0, STATUS_WRAPPER_WIDTH);
+
+        // Render canvas
         let mut wrapper_style = canvas::Style::default();
 
         wrapper_style.color = Some(Color::Rgba(52.0 / 255.0, 52.0 / 255.0, 52.0 / 255.0, 1.0));
@@ -461,6 +486,56 @@ impl<'a> ControlWidget<'a> {
                 STATUS_WRAPPER_MARGIN_RIGHT,
             )
             .set(config.wrapper, &mut self.ui);
+
+        // Display unit status text
+        let mut unit_box_style = canvas::Style::default();
+        let mut unit_text_style = conrod_core::widget::primitive::text::Style::default();
+
+        unit_text_style.font_id = Some(Some(self.fonts.bold));
+        unit_text_style.color = Some(color::WHITE);
+        unit_text_style.font_size = Some(10);
+
+        // TODO: dynamic color depending on ON/OFF status
+        unit_box_style.color = Some(Color::Rgba(50.0 / 255.0, 186.0 / 255.0, 0.0, 1.0));
+        unit_box_style.border = Some(0.0);
+        unit_box_style.border_color = Some(color::TRANSPARENT);
+
+        canvas::Canvas::new()
+            .with_style(unit_box_style)
+            .w_h(box_width, box_height)
+            .top_left_of(config.wrapper)
+            .set(config.unit_box, &mut self.ui);
+
+        // TODO: dynamic text depending on ON/OFF status
+        widget::text::Text::new("Unit active")
+            .with_style(unit_text_style)
+            .mid_top_with_margin_on(config.unit_box, STATUS_BOX_TEXT_MARGIN_TOP)
+            .set(config.unit_text, &mut self.ui);
+
+        // Display power status text
+        let mut power_box_style = canvas::Style::default();
+        let mut power_text_style = conrod_core::widget::primitive::text::Style::default();
+
+        power_text_style.font_id = Some(Some(self.fonts.bold));
+        power_text_style.color = Some(color::WHITE);
+        power_text_style.font_size = Some(10);
+
+        // TODO: dynamic color depending on battery status
+        power_box_style.color = Some(color::TRANSPARENT);
+        power_box_style.border = Some(0.0);
+        power_box_style.border_color = Some(color::TRANSPARENT);
+
+        canvas::Canvas::new()
+            .with_style(power_box_style)
+            .w_h(box_width, box_height)
+            .bottom_left_of(config.wrapper)
+            .set(config.power_box, &mut self.ui);
+
+        // TODO: dynamic text depending on battery status
+        widget::text::Text::new("AC power")
+            .with_style(power_text_style)
+            .mid_top_with_margin_on(config.power_box, STATUS_BOX_TEXT_MARGIN_TOP)
+            .set(config.power_text, &mut self.ui);
 
         STATUS_WRAPPER_WIDTH
     }
