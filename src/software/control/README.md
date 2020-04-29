@@ -18,6 +18,8 @@ In order to setup your environment and build the code, please follow the followi
 
 Wayland support may be available but it hasn't been tested. You need a working X11 server.
 
+_Tested at Rust version: `rustc 1.43.0 (4fb7144ed 2020-04-20)`_
+
 ## How To Run?
 
 To run the Control UI, please ensure that your device first has an open serial connection with the motherboard.
