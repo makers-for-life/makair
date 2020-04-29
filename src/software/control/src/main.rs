@@ -41,12 +41,15 @@ pub struct EmbeddedFonts;
 
 struct AppArgs {
     log: String,
-    source: Source,
+    mode: Mode,
     fullscreen: bool,
 }
 
-pub enum Source {
-    Port(String),
+pub enum Mode {
+    Port {
+        port: String,
+        output_dir: Option<String>,
+    },
     Input(String),
 }
 
@@ -82,6 +85,13 @@ fn make_app_args() -> AppArgs {
                 .takes_value(true),
         )
         .arg(
+            Arg::with_name("output")
+                .short("o")
+                .long("output")
+                .help("Path to a directory where to record telemetry")
+                .takes_value(true),
+        )
+        .arg(
             Arg::with_name("fullscreen")
                 .short("f")
                 .long("fullscreen")
@@ -89,9 +99,12 @@ fn make_app_args() -> AppArgs {
         )
         .get_matches();
 
-    let source = match (matches.value_of("port"), matches.value_of("input")) {
-        (Some(p), _) => Source::Port(p.to_string()),
-        (None, Some(i)) => Source::Input(i.to_string()),
+    let mode = match (matches.value_of("port"), matches.value_of("file")) {
+        (Some(p), _) => Mode::Port {
+            port: p.to_string(),
+            output_dir: matches.value_of("output").map(|str| str.to_string()),
+        },
+        (None, Some(f)) => Mode::Input(f.to_string()),
         (None, None) => {
             eprintln!("You should provide either a serial port (-p) or an input file (-i)");
             std::process::exit(1);
@@ -101,7 +114,7 @@ fn make_app_args() -> AppArgs {
     // Generate owned app arguments
     AppArgs {
         log: String::from(matches.value_of("log").expect("invalid log value")),
-        source,
+        mode,
         fullscreen: matches.is_present("fullscreen"),
     }
 }
