@@ -268,6 +268,7 @@ impl<'a> Screen<'a> {
         graph_data: ScreenDataGraph,
         telemetry_data: ScreenDataTelemetry,
     ) {
+        // Render regular data as background
         self.render_with_data(branding_data, heartbeat_data, graph_data, telemetry_data);
 
         let config = StopWidgetConfig {
@@ -279,6 +280,7 @@ impl<'a> Screen<'a> {
             message: self.ids.stopped_message,
         };
 
+        // Render stop layer
         self.widgets.render(ControlWidgetType::Stop(config));
     }
 
