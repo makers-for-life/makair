@@ -132,6 +132,10 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 #define EMERSON_MIN_PWM 600      // 18 % PWM is the minimum to start opening (3278 * 0.18)
 #elif VALVE_TYPE == VT_FAULHABER
 #define SERVO_VALVE_PERIOD 1000  // 1 khz Faulhaber motors are controlled with a 1khz PWM
+// pwm duty cycle 64% -> open
+#define FAULHABER_OPENED 640
+// pwm duty cycle 90% -> closed
+#define FAULHABER_CLOSED 900
 #endif
 
 #if HARDWARE_VERSION == 1
