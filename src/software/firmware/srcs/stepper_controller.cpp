@@ -14,10 +14,10 @@
 // INCLUDES ===================================================================
 #if MODE == MODE_STEPPER_CONTROLLER
 
-#define STEPPER_IDLE_CURRENT 20
+#define STEPPER_IDLE_CURRENT 15
 #define STEPPER_MOVING_CURRENT 40
 #define STEPPER_MIN_SPEED 400
-#define STEPPER_MAX_SPEED 1400
+#define STEPPER_MAX_SPEED 3000
 
 #define STEPPER_EN PA10
 #define STEPPER_HALFFULL PB5
@@ -38,12 +38,26 @@ HardwareTimer* Timer_Stepper_Speed_Control;
 
 int VrefIdle = STEPPER_IDLE_CURRENT;
 int VrefPwmPercent = STEPPER_IDLE_CURRENT;
+int VrefCurrent = STEPPER_IDLE_CURRENT;
 int32_t stepperSetpoint = 0;
 int32_t stepperCurrentPosition = 0;
 int32_t stepperSpeed = 0;  // 0 (low speed) - 100 (full speed)  signed, speed can turn negative.
 boolean lastClockState = false;
 
-void setVref(uint32_t pwm_percent) { Timer_Hw_Vref->setCaptureCompare(2, pwm_percent); }
+void setVref(uint32_t pwm_percent) {
+    Timer_Hw_Vref->setCaptureCompare(2, pwm_percent);
+    VrefCurrent = pwm_percent;
+}
+
+void setVrefRamp(uint32_t pwm_percent) {
+    if (pwm_percent > VrefCurrent) {
+        VrefCurrent = pwm_percent;
+    }
+    if (pwm_percent < VrefCurrent) {
+        VrefCurrent--;
+    }
+    Timer_Hw_Vref->setCaptureCompare(2, VrefCurrent);
+}
 
 // fixed period
 void Timer_Stepper_SpeedControl_Callback(HardwareTimer*) {
@@ -65,7 +79,7 @@ void Timer_Stepper_SpeedControl_Callback(HardwareTimer*) {
 
     } else {
         stepperSpeed = 0;
-        setVref(VrefIdle);
+        setVrefRamp(VrefIdle);
     }
 }
 
@@ -130,6 +144,12 @@ void loop(void) {
         case '1':
             stepperSetpoint = 400;
             break;
+        case '2':
+            stepperSetpoint--;
+            break;
+        case '8':
+            stepperSetpoint++;
+            break;
         }
     }
 }
@@ -150,11 +170,12 @@ void setup(void) {
 
     // digitalWrite(STEPPER_VREF, LOW);
     digitalWrite(STEPPER_RESET, LOW);
-    digitalWrite(STEPPER_CONTROL, HIGH);   // low = fast decay
+    digitalWrite(STEPPER_CONTROL, LOW);    // low = fast decay
     digitalWrite(STEPPER_HALFFULL, HIGH);  // low = full step
     digitalWrite(STEPPER_CWCCW, LOW);
     digitalWrite(STEPPER_EN, LOW);  // low = disable power
     digitalWrite(STEPPER_RESET, HIGH);
+    digitalWrite(STEPPER_EN, HIGH);  // low = disable power
 
     // create Vref with a pwm on pwm3 channel 2
     Timer_Hw_Vref = new HardwareTimer(TIM3);
