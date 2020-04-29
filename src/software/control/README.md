@@ -28,6 +28,10 @@ Take note of the serial port used as an input on your Control UI board, and call
 
 1. `./makair-control --port=0` (where `--port` is your serial port ID, maybe /dev/ttyUSB0)
 
+You may also play a pre-recorded file, by passing it as an input (this is handy while developing):
+
+1. `./makair-control --input=../telemetry/records/few_cycles` (where `--input` is an UNIX file path)
+
 ## How To Build A Release? (Cross-Compile For ARM)
 
 To cross-compile a new release for an ARM target (using MUSL; statically-linked libraries), you can call the `release_binaries.sh` script:
