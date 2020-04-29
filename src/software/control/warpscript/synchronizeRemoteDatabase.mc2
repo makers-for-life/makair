@@ -40,7 +40,7 @@
     %>
     <%
         //there was nothing to upload. upload is done correctly !
-        [ $localReadToken 'local.lastUploadDone' { 'uuid' @device/uuid } NOW -1 ] FETCH 0 GET CLONEEMPTY
+        [ $localReadToken 'local.lastUploadDone' { } NOW -1 ] FETCH 0 GET CLONEEMPTY
         NOW NaN NaN NaN 1 ADDVALUE  
         DUP NAME RENAME $localWriteToken UPDATE
         'nothing to update'
@@ -52,10 +52,10 @@
 
 
 // upload between last valid upload (if not, create the local.lastUploadDone gts, and upload from timestamp 0).
-[ $localReadToken 'local.lastUploadDone' { 'uuid' @device/uuid } NOW -1 ] FETCH 'uploadGTS' STORE
+[ $localReadToken 'local.lastUploadDone' { } NOW -1 ] FETCH 'uploadGTS' STORE
 <% $uploadGTS SIZE 0 == %>
 <%
-    NEWGTS 'local.lastUploadDone' RENAME { 'uuid' @device/uuid } RELABEL
+    NEWGTS 'local.lastUploadDone' RENAME 
     0 NaN NaN NaN 1 ADDVALUE
     $localWriteToken UPDATE
     0 @upload
