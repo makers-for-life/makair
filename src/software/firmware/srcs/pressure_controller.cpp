@@ -134,6 +134,8 @@ void PressureController::setup() {
     m_peep = 0;
 
     m_cycleNb = 0;
+
+    m_pressureTrigger = -20;
 }
 
 void PressureController::initRespiratoryCycle() {
@@ -183,6 +185,8 @@ void PressureController::initRespiratoryCycle() {
     m_numberOfPressures = 0u;
 
     m_plateauStartTime = 0u;
+
+    m_trigger = false;
 }
 
 void PressureController::endRespiratoryCycle() {
@@ -229,6 +233,14 @@ void PressureController::updatePressure(int16_t p_currentPressure) {
 void PressureController::compute(uint16_t p_centiSec) {
     // Update the cycle phase
     updatePhase(p_centiSec);
+    Serial.print(m_pressureCommand);
+    Serial.print(",");
+    Serial.print(m_pressure);
+    Serial.print(",");
+    Serial.print(m_trigger*100);
+    Serial.print(",");
+    Serial.print((m_pressure < (m_maxPeakPressureCommand - 10u))*100);
+    Serial.println();
 
     // Compute metrics for alarms
     m_sumOfPressures += m_pressure;
@@ -372,20 +384,22 @@ void PressureController::onPlateauPressureIncrease() {
 void PressureController::onPeakPressureDecrease(uint8_t p_decrement) {
     DBG_DO(Serial.println("Peak Pressure --");)
 
-    m_maxPeakPressureCommand = m_maxPeakPressureCommand - p_decrement;
+    m_pressureTrigger --;
+    /*m_maxPeakPressureCommand = m_maxPeakPressureCommand - p_decrement;
 
     m_maxPeakPressureCommand =
-            max(m_maxPeakPressureCommand, static_cast<uint16_t>(CONST_MIN_PEAK_PRESSURE));
+            max(m_maxPeakPressureCommand, static_cast<uint16_t>(CONST_MIN_PEAK_PRESSURE));*/
 }
 
 void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
     DBG_DO(Serial.println("Peak Pressure ++");)
 
-    m_maxPeakPressureCommand = m_maxPeakPressureCommand + p_increment;
+    m_pressureTrigger++;
+    /*m_maxPeakPressureCommand = m_maxPeakPressureCommand + p_increment;
 
     if (m_maxPeakPressureCommand > CONST_MAX_PEAK_PRESSURE) {
         m_maxPeakPressureCommand = CONST_MAX_PEAK_PRESSURE;
-    }
+    }*/
 }
 
 void PressureController::updatePhase(uint16_t p_centiSec) {
@@ -419,6 +433,7 @@ void PressureController::inhale() {
 
     // Update the peak pressure
     m_peakPressure = max(m_pressure, m_peakPressure);
+
 }
 
 void PressureController::plateau() {
@@ -438,6 +453,10 @@ void PressureController::exhale() {
 
     // Open the valve so the patient can exhale outside
     m_patient_valve.open(pidPatient(m_pressureCommand, m_pressure, m_dt));
+
+    if (m_pressure < m_pressureCommand + m_pressureTrigger && m_pressure >15){
+        m_trigger = true;
+    } 
 
     // Update the PEEP
     m_peep = m_pressure;
@@ -554,7 +573,8 @@ void PressureController::computeCentiSecParameters() {
     m_centiSecPerCycle = 60u * 100u / m_cyclesPerMinute;
     // Inhalation = 1/3 of the cycle duration,
     // Exhalation = 2/3 of the cycle duration
-    m_centiSecPerInhalation = m_centiSecPerCycle / 3u;
+    //m_centiSecPerInhalation = m_centiSecPerCycle / 3u;
+    m_centiSecPerInhalation = 100;// / 3u;
 }
 
 void PressureController::executeCommands() {

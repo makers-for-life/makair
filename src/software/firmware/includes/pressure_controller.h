@@ -153,6 +153,10 @@ class PressureController {
     /// Get the patient's Pressure Valve instance
     inline const PressureValve& patient_valve() const { return m_patient_valve; }
 
+    inline const bool trigger() const { return m_trigger; } 
+
+    inline const int16_t pressureTrigger() const { return m_pressureTrigger; }
+
     /**
      * Input the real duration since the last pressure controller computation
      *
@@ -265,6 +269,9 @@ class PressureController {
     /// Measured pressure
     uint16_t m_pressure;
 
+    // Pressure trigger value
+    int16_t m_pressureTrigger;
+
     /// Peak pressure
     uint16_t m_peakPressure;
 
@@ -276,6 +283,8 @@ class PressureController {
 
     /// Current respiratory cycle phase
     CyclePhases m_phase;
+
+    bool m_trigger;
 
     /// Current respiratory cycle phase
     CycleSubPhases m_subPhase;

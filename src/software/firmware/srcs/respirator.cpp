@@ -54,6 +54,7 @@ int32_t pressureOffsetSum;
 uint32_t pressureOffsetCount;
 int16_t minOffsetValue = 0;
 int16_t maxOffsetValue = 0;
+bool enablePressureTrigger = true;
 
 #if HARDWARE_VERSION == 2
 HardwareSerial Serial6(PIN_TELEMETRY_SERIAL_RX, PIN_TELEMETRY_SERIAL_TX);
@@ -293,7 +294,7 @@ void loop(void) {
     /********************************************/
     uint16_t centiSec = 0;
 
-    while (centiSec < pController.centiSecPerCycle()) {
+    while (centiSec < pController.centiSecPerCycle()  && (!pController.trigger() || !enablePressureTrigger) ) {
         uint32_t pressure = readPressureSensor(centiSec, pressureOffset);
 
         uint32_t currentDate = millis();
