@@ -18,8 +18,6 @@ In order to setup your environment and build the code, please follow the followi
 
 Wayland support may be available but it hasn't been tested. You need a working X11 server.
 
-If you are on linux, you need to be in the `dialout` group for your user to be able to use the device created by the serial port.
-
 ## How To Run?
 
 To run the Control UI, please ensure that your device first has an open serial connection with the motherboard.
@@ -39,3 +37,9 @@ To cross-compile a new release for an ARM target (using MUSL; statically-linked 
 1. `./scripts/release_binaries.sh --version=1.0.0`
 
 _Make sure to replace the `version` script argument with the current release version. This is used for file naming purposes only._
+
+## Troubleshooting
+
+In case of an issue, please review the following points and check if any could help:
+
+* If you are on Linux, you need to be a member of the `dialout` group for your user to be able to use the device created by the serial port;
