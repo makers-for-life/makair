@@ -240,6 +240,7 @@ Adding to that, 200+ individual members of the project who contributed to techni
 
 ## 📺 TV
 
+* [France 3, 21st April 2020](https://www.youtube.com/watch?v=M3QLCvUyIII) (French-speaking)
 * [TF1, 26th April 2020](https://www.youtube.com/watch?v=2X157RLbRIA) (French-speaking)
 
 # Renders
