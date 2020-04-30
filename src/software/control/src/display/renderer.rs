@@ -368,12 +368,15 @@ impl DisplayRenderer {
 
         // Docs: https://docs.rs/plotters/0.2.12/plotters/prelude/struct.LineSeries.html
         chart
-            .draw_series(LineSeries::new(
-                data_pressure.iter().map(|x| (x.0, x.1 as i32)),
-                ShapeStyle::from(&plotters::style::RGBColor(0, 137, 255))
-                    .filled()
-                    .stroke_width(GRAPH_DRAW_LINE_SIZE),
-            ))
+            .draw_series(
+                LineSeries::new(
+                    data_pressure.iter().map(|x| (x.0, x.1 as i32)),
+                    ShapeStyle::from(&plotters::style::RGBColor(0, 137, 255))
+                        .filled()
+                        .stroke_width(GRAPH_DRAW_LINE_SIZE),
+                )
+                .point_size(GRAPH_DRAW_POINT_SIZE),
+            )
             .unwrap();
 
         drop(chart);
