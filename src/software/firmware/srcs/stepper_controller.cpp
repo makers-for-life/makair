@@ -28,6 +28,8 @@
 // VrefA = VrefB, connect them together on IHM05A1
 #define STEPPER_VREF PC7
 
+#define STEPPER_OPTICAL_INPUT PA6
+
 // do not include math.h for such function...
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #define max(a, b) (((a) > (b)) ? (a) : (b))
@@ -43,6 +45,7 @@ int32_t stepperSetpoint = 0;
 int32_t stepperCurrentPosition = 0;
 int32_t stepperSpeed = 0;  // 0 (low speed) - 100 (full speed)  signed, speed can turn negative.
 boolean lastClockState = false;
+boolean initialized = false;  // false until optical zero is reached
 
 void setVref(uint32_t pwm_percent) {
     Timer_Hw_Vref->setCaptureCompare(2, pwm_percent);
@@ -59,28 +62,41 @@ void setVrefRamp(uint32_t pwm_percent) {
     Timer_Hw_Vref->setCaptureCompare(2, VrefCurrent);
 }
 
-// fixed period
+int previousOpticalInput = LOW;
+int currentOpticalInput;
+// fixed period 1khz
 void Timer_Stepper_SpeedControl_Callback(HardwareTimer*) {
-    if (stepperSetpoint != stepperCurrentPosition) {
-        setVref(STEPPER_MOVING_CURRENT);
-        if (stepperSetpoint > stepperCurrentPosition) {
-            stepperSpeed =
-                min(min(stepperSpeed + 2, ((stepperSetpoint - stepperCurrentPosition) / 2)), 100);
-            if (stepperSpeed == 0) {
-                stepperSpeed = 2;
+    if (initialized) {
+        if (stepperSetpoint != stepperCurrentPosition) {
+            setVref(STEPPER_MOVING_CURRENT);
+            if (stepperSetpoint > stepperCurrentPosition) {
+                stepperSpeed = min(
+                    min(stepperSpeed + 2, ((stepperSetpoint - stepperCurrentPosition) / 2)), 100);
+                if (stepperSpeed == 0) {
+                    stepperSpeed = 2;
+                }
+            } else {
+                stepperSpeed = max(
+                    max(stepperSpeed - 2, ((stepperSetpoint - stepperCurrentPosition) / 2)), -100);
+                if (stepperSpeed == 0) {
+                    stepperSpeed = -2;
+                }
             }
-        } else {
-            stepperSpeed =
-                max(max(stepperSpeed - 2, ((stepperSetpoint - stepperCurrentPosition) / 2)), -100);
-            if (stepperSpeed == 0) {
-                stepperSpeed = -2;
-            }
-        }
 
+        } else {
+            stepperSpeed = 0;
+            setVrefRamp(VrefIdle);
+        }
     } else {
-        stepperSpeed = 0;
-        setVrefRamp(VrefIdle);
+        stepperSpeed = 1;  // rotate until initilized
     }
+    // if rising edge on optical input while speed is positive, set zero
+    currentOpticalInput = digitalRead(STEPPER_OPTICAL_INPUT);
+    if (stepperSpeed > 0 && previousOpticalInput == LOW && currentOpticalInput == HIGH) {
+        stepperCurrentPosition = 0;
+        initialized = true;
+    }
+    previousOpticalInput = currentOpticalInput;
 }
 
 // clock and rotation direction (period vary up to speed)
@@ -137,12 +153,15 @@ void loop(void) {
             digitalWrite(STEPPER_EN, !digitalRead(STEPPER_EN));
             Serial.print("toggle power enable ");
             Serial.println(digitalRead(STEPPER_EN) == LOW ? "OFF" : "ON");
+            if (digitalRead(STEPPER_EN) == LOW) {
+                initialized = false;
+            }
             break;
         case '0':
-            stepperSetpoint = 0;
+            stepperSetpoint = -160;
             break;
         case '1':
-            stepperSetpoint = 400;
+            stepperSetpoint = 160;
             break;
         case '2':
             stepperSetpoint--;
@@ -167,6 +186,7 @@ void setup(void) {
     pinMode(STEPPER_VREF, OUTPUT);
     pinMode(PB3, INPUT);  // the other vref source
     pinMode(PA7, INPUT);  // the other vref source
+    pinMode(STEPPER_OPTICAL_INPUT, INPUT);
 
     // digitalWrite(STEPPER_VREF, LOW);
     digitalWrite(STEPPER_RESET, LOW);
