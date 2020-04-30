@@ -637,6 +637,9 @@ impl<'a> ControlWidget<'a> {
         widget::Image::new(config.image)
             .w_h(config.width, config.height)
             .mid_bottom_with_margin_on(config.parent, GRAPH_DRAW_SPACING_FROM_BOTTOM)
+            .x_position(conrod_core::Position::Absolute(
+                -(GRAPH_DRAW_LABEL_JITTER_FIX_WIDTH as f64) / 2.0,
+            )) // Apply dirty left slope jitter fix
             .set(config.id, &mut self.ui);
 
         config.width

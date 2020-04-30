@@ -32,7 +32,8 @@ pub struct DisplayRenderer {
     fonts: Fonts,
 }
 
-const GRAPH_WIDTH: u32 = DISPLAY_WINDOW_SIZE_WIDTH - DISPLAY_GRAPH_OFFSET_WIDTH;
+const GRAPH_WIDTH: u32 =
+    DISPLAY_WINDOW_SIZE_WIDTH - DISPLAY_GRAPH_OFFSET_WIDTH + GRAPH_DRAW_LABEL_JITTER_FIX_WIDTH;
 const GRAPH_HEIGHT: u32 = DISPLAY_WINDOW_SIZE_HEIGHT - DISPLAY_GRAPH_OFFSET_HEIGHT;
 
 const FIRMWARE_VERSION_NONE: &str = "n/a";
@@ -345,7 +346,7 @@ impl DisplayRenderer {
             .margin_left(GRAPH_DRAW_MARGIN_LEFT)
             .margin_right(GRAPH_DRAW_MARGIN_RIGHT)
             .x_label_area_size(0)
-            .y_label_area_size(GRAPH_DRAW_LABEL_WIDTH)
+            .y_label_area_size(GRAPH_DRAW_LABEL_WIDTH + GRAPH_DRAW_LABEL_JITTER_FIX_WIDTH)
             .build_ranged(oldest_time..newest_time, GRAPH_DRAW_RANGE_LOW..range_high)
             .unwrap();
 
