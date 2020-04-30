@@ -117,9 +117,8 @@ impl Chip {
         let snapshot_time =
             self.boot_time.unwrap() + Duration::microseconds(snapshot.systick as i64);
 
-        let point = snapshot.pressure / 10;
-
-        self.data_pressure.push_front((snapshot_time, point));
+        // Points are stored as mmH20 (for more precision; though we do work in cmH20)
+        self.data_pressure.push_front((snapshot_time, snapshot.pressure));
     }
 
     pub fn get_state(&self) -> &ChipState {

@@ -354,6 +354,11 @@ impl DisplayRenderer {
                 plotters::style::TextStyle::from(("sans-serif", 13).into_font())
                     .color(&WHITE.mix(0.65)),
             )
+            .y_label_formatter(&|y| {
+                // Convert high-precision point in mmH20 back to cmH20 (which measurements & \
+                //   targets both use)
+                (y / TELEMETRY_POINTS_PRECISION_DIVIDE as i32).to_string()
+            })
             .draw()
             .unwrap();
 

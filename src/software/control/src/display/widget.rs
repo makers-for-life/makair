@@ -592,7 +592,9 @@ impl<'a> ControlWidget<'a> {
 
         // #2: Create inner circle
         let last_pressure = if let Some(last_pressure_inner) = config.data_pressure.get(0) {
-            last_pressure_inner.1
+            // Convert high-precision point in mmH20 back to cmH20 (which measurements & targets \
+            //   both use)
+            last_pressure_inner.1 / TELEMETRY_POINTS_PRECISION_DIVIDE
         } else {
             0
         };
