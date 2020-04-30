@@ -353,7 +353,7 @@ impl DisplayRenderer {
             .configure_mesh()
             .line_style_1(&plotters::style::colors::WHITE.mix(0.04))
             .line_style_2(&plotters::style::colors::BLACK)
-            .y_labels(5)
+            .y_labels(GRAPH_DRAW_LABEL_NUMBER_MAX)
             .y_label_style(
                 plotters::style::TextStyle::from(("sans-serif", 13).into_font())
                     .color(&WHITE.mix(0.65)),
