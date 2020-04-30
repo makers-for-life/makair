@@ -1,7 +1,23 @@
 // @endpoint https://warp.senx.io/api/v0/exec
 
-"gILtW5uIiE7hHea8OssSJMXmEwLVhclKrF_ZfPGwab0MVK6hCRQce0R47X2wPJjzKijFP6LV.grhNFxf6lPkfW8iSfDVdwITMP.62xWlxi7rb7mLr77r9O5lUt4VdWaUvbDOwe6C6J7_PaDL6RCQEV"
+// Read token to access Makair data
+"hDmRxtj9IarVnWd99WdXPdPYL3dFJTpkbzkfxc_5xkD6VxcYHqGFvDfub2U0wFCNtX.H1rba49aekL84VlYL2R_Em3KmxLh6ZWtLWU3dXPGBKBx9ssoNBJg3ARySTE4dNVK9i7QO1cPs6n1KQU5dvk"
 'readToken' STORE
 
-[ $readToken '~makair.*' {} NOW 5 m ] FETCH
+// Fetch every time series from makair, only the last 40 seconds
+[ $readToken '~makair.*' {} NOW 40 s ] FETCH
 
+// Sort the output list to make sure pressure appears first.
+<% NAME %> SORTBY REVERSE 
+
+<%
+  'gts' STORE
+  $gts NAME 'makair.pressure' ==
+  <%
+    $gts 0.1 *  //divide value per 10 if the name is "makair.pressure"
+  %> 
+  <%
+    $gts // keep value for other setpoints
+  %> IFTE
+
+%> F LMAP
