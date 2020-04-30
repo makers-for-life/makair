@@ -316,7 +316,24 @@ impl DisplayRenderer {
         } else {
             GRAPH_DRAW_RANGE_HIGH_INITIAL
         };
-        let range_high = process_max_allowed_pressure(peak_command_or_initial) as i32;
+        let mut range_high = process_max_allowed_pressure(peak_command_or_initial) as i32;
+
+        // Override "range high" with a larger value contained in graph (avoids \
+        //   larger-than-range-high graph points to flat out)
+        let graph_largest_point = {
+            let mut data_pressure_points_ordered = data_pressure
+                .iter()
+                .map(|x| x.1 as i32)
+                .collect::<Vec<i32>>();
+
+            data_pressure_points_ordered.sort();
+
+            *data_pressure_points_ordered.last().unwrap_or(&0)
+        };
+
+        if graph_largest_point > range_high {
+            range_high = graph_largest_point;
+        }
 
         let mut chart = ChartBuilder::on(&root)
             .margin_top(GRAPH_DRAW_MARGIN_TOP)
