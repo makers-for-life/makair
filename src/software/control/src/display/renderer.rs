@@ -316,7 +316,11 @@ impl DisplayRenderer {
         } else {
             GRAPH_DRAW_RANGE_HIGH_INITIAL
         };
-        let mut range_high = process_max_allowed_pressure(peak_command_or_initial) as i32;
+
+        // Convert the "range high" value from cmH20 to mmH20, as this is the high-precision unit \
+        //   we work with for graphing purposes only.
+        let mut range_high = (process_max_allowed_pressure(peak_command_or_initial) as u16
+            * TELEMETRY_POINTS_PRECISION_DIVIDE) as i32;
 
         // Override "range high" with a larger value contained in graph (avoids \
         //   larger-than-range-high graph points to flat out)
