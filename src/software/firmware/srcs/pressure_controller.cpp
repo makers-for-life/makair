@@ -428,14 +428,18 @@ void PressureController::plateau(uint16_t p_centiSec) {
     // Deviate the air stream outside
     m_blower_valve.close();
 
-    // Gently close the air stream towards the patient's lungs
-    if (p_centiSec < (m_plateauStartTime + 10u)) {
-        m_blower_valve.open(((p_centiSec - m_plateauStartTime)
-                             * (VALVE_CLOSED_STATE - m_peakBlowerValveAngle) / 10u)
-                            + m_peakBlowerValveAngle);
-    } else {
+    // With Faulhaber valves, gently close the air stream towards the patient's lungs
+    #if VALVE_TYPE == VT_SERVO_V1
+        if (p_centiSec < (m_plateauStartTime + 10u)) {
+            m_blower_valve.open(((p_centiSec - m_plateauStartTime)
+                                 * (VALVE_CLOSED_STATE - m_peakBlowerValveAngle) / 10u)
+                                + m_peakBlowerValveAngle);
+        } else {
+            m_patient_valve.close();
+        }
+    #else 
         m_patient_valve.close();
-    }
+    #endif
 
     // Update the peak pressure
     m_peakPressure = max(m_pressure, m_peakPressure);
