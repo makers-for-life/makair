@@ -77,8 +77,6 @@ pub const TELEMETRY_ARROW_SPACING_SIDES: f64 = 5.0;
 pub const GRAPH_DRAW_SPACING_FROM_BOTTOM: f64 = 120.0;
 pub const GRAPH_DRAW_SECONDS: usize = 9;
 pub const GRAPH_DRAW_RANGE_LOW: i32 = 0;
-pub const GRAPH_DRAW_RANGE_HIGH_STATIC_INITIAL: u8 = 65;
-pub const GRAPH_DRAW_RANGE_HIGH_DYNAMIC_INITIAL: u8 = 20;
 pub const GRAPH_DRAW_MARGIN_TOP: u32 = 0;
 pub const GRAPH_DRAW_MARGIN_BOTTOM: u32 = 10;
 pub const GRAPH_DRAW_MARGIN_LEFT: u32 = 0;
@@ -94,3 +92,9 @@ pub const PEAK_PRESSURE_INITIAL_MIN: f64 = 0.0;
 pub const PEAK_PRESSURE_ALERT_ERROR_RATIO: f64 = 0.15;
 pub const CYCLE_RATIO_INSPIRATION: u8 = 1;
 pub const CYCLE_RATIO_EXPIRATION: u8 = 1;
+
+#[cfg(not(feature = "graph-scaler"))]
+pub const GRAPH_DRAW_RANGE_HIGH_STATIC_INITIAL: u8 = 65;
+
+#[cfg(feature = "graph-scaler")]
+pub const GRAPH_DRAW_RANGE_HIGH_DYNAMIC_INITIAL: u8 = 20;

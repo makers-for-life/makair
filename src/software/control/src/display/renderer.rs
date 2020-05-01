@@ -16,8 +16,10 @@ use crate::EmbeddedImages;
 use crate::config::environment::*;
 
 use crate::chip::ChipState;
-use crate::physics::pressure::process_max_allowed_pressure;
 use crate::physics::types::DataPressure;
+
+#[cfg(feature = "graph-scaler")]
+use crate::physics::pressure::process_max_allowed_pressure;
 
 use super::fonts::Fonts;
 use super::screen::{
@@ -325,8 +327,16 @@ impl DisplayRenderer {
         // Convert the "range high" value from cmH20 to mmH20, as this is the high-precision unit \
         //   we work with for graphing purposes only.
         #[cfg(not(feature = "graph-scaler"))]
-        let range_high = (GRAPH_DRAW_RANGE_HIGH_STATIC_INITIAL as i32)
-            * (TELEMETRY_POINTS_PRECISION_DIVIDE as i32);
+        let range_high = {
+            let range_high = (GRAPH_DRAW_RANGE_HIGH_STATIC_INITIAL as i32)
+                * (TELEMETRY_POINTS_PRECISION_DIVIDE as i32);
+
+            // Void statement to prevent the compiler from warning about unused \
+            //   'machine_snapshot', which is indeed used under feature 'graph-scaler'.
+            let _ = machine_snapshot.peak_command;
+
+            range_high
+        };
 
         // "Graph scaler" auto-scale mode requested, will auto-process graph maximum
         #[cfg(feature = "graph-scaler")]
