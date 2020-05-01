@@ -8,6 +8,7 @@ use conrod_core::color::{self, Color};
 use telemetry::alarm::AlarmCode;
 use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
 
+use crate::chip::ChipState;
 use crate::config::environment::*;
 use crate::physics::types::DataPressure;
 
@@ -115,6 +116,10 @@ pub struct ScreenDataBranding<'a> {
     pub height: f64,
 }
 
+pub struct ScreenDataStatus<'a> {
+    pub chip_state: &'a ChipState,
+}
+
 pub struct ScreenDataHeartbeat<'a> {
     pub data_pressure: &'a DataPressure,
 }
@@ -154,6 +159,7 @@ impl<'a> Screen<'a> {
     pub fn render_with_data(
         &mut self,
         branding_data: ScreenDataBranding<'a>,
+        status_data: ScreenDataStatus<'a>,
         heartbeat_data: ScreenDataHeartbeat<'a>,
         graph_data: ScreenDataGraph,
         telemetry_data: ScreenDataTelemetry,
@@ -173,7 +179,7 @@ impl<'a> Screen<'a> {
             branding_data.height,
         );
         self.render_alarms();
-        self.render_status();
+        self.render_status(status_data);
         self.render_heartbeat(heartbeat_data);
 
         // Render bottom elements
@@ -223,7 +229,7 @@ impl<'a> Screen<'a> {
         self.widgets.render(ControlWidgetType::Alarms(config));
     }
 
-    pub fn render_status(&mut self) {
+    pub fn render_status(&mut self, status_data: ScreenDataStatus<'a>) {
         let config = StatusWidgetConfig::new(
             self.ids.background,
             self.ids.status_wrapper,
@@ -231,6 +237,7 @@ impl<'a> Screen<'a> {
             self.ids.status_unit_text,
             self.ids.status_power_box,
             self.ids.status_power_text,
+            status_data.chip_state,
             self.ongoing_alarms.unwrap(),
         );
 
@@ -265,12 +272,19 @@ impl<'a> Screen<'a> {
     pub fn render_stop(
         &mut self,
         branding_data: ScreenDataBranding<'a>,
+        status_data: ScreenDataStatus<'a>,
         heartbeat_data: ScreenDataHeartbeat<'a>,
         graph_data: ScreenDataGraph,
         telemetry_data: ScreenDataTelemetry,
     ) {
         // Render regular data as background
-        self.render_with_data(branding_data, heartbeat_data, graph_data, telemetry_data);
+        self.render_with_data(
+            branding_data,
+            status_data,
+            heartbeat_data,
+            graph_data,
+            telemetry_data,
+        );
 
         let config = StopWidgetConfig {
             parent: self.ids.background,

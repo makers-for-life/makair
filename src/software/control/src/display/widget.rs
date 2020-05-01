@@ -17,6 +17,7 @@ use conrod_core::{
 use telemetry::alarm::AlarmCode;
 use telemetry::structures::AlarmPriority;
 
+use crate::chip::ChipState;
 use crate::config::environment::*;
 use crate::physics::pressure::process_max_allowed_pressure;
 use crate::physics::types::DataPressure;
@@ -50,6 +51,7 @@ pub struct StatusWidgetConfig<'a> {
     unit_text: WidgetId,
     power_box: WidgetId,
     power_text: WidgetId,
+    chip_state: &'a ChipState,
     alarms: &'a [(&'a AlarmCode, &'a AlarmPriority)],
 }
 
@@ -118,8 +120,9 @@ impl<'a> StatusWidgetConfig<'a> {
         unit_text: WidgetId,
         power_box: WidgetId,
         power_text: WidgetId,
+        chip_state: &'a ChipState,
         alarms: &'a [(&'a AlarmCode, &'a AlarmPriority)],
-    ) -> StatusWidgetConfig {
+    ) -> StatusWidgetConfig<'a> {
         StatusWidgetConfig {
             container,
             wrapper,
@@ -127,6 +130,7 @@ impl<'a> StatusWidgetConfig<'a> {
             unit_text,
             power_box,
             power_text,
+            chip_state,
             alarms,
         }
     }
@@ -503,6 +507,9 @@ impl<'a> ControlWidget<'a> {
     fn status(&mut self, config: StatusWidgetConfig) -> f64 {
         let (box_height, box_width) = (STATUS_WRAPPER_HEIGHT / 2.0, STATUS_WRAPPER_WIDTH);
 
+        // Check whether chip state is currently in stopped mode or active (running)
+        let is_unit_stopped = config.chip_state == &ChipState::Stopped;
+
         // Check whether power is currently on AC or battery
         // Notice: the telemetry library reports this as an alarm
         let is_battery_powered = config
@@ -535,8 +542,13 @@ impl<'a> ControlWidget<'a> {
         unit_text_style.color = Some(color::WHITE);
         unit_text_style.font_size = Some(10);
 
-        // TODO: dynamic color depending on ON/OFF status
-        unit_box_style.color = Some(Color::Rgba(50.0 / 255.0, 186.0 / 255.0, 0.0, 1.0));
+        if is_unit_stopped {
+            unit_box_style.color =
+                Some(Color::Rgba(180.0 / 255.0, 24.0 / 255.0, 28.0 / 255.0, 1.0));
+        } else {
+            unit_box_style.color = Some(Color::Rgba(50.0 / 255.0, 186.0 / 255.0, 0.0, 1.0));
+        }
+
         unit_box_style.border = Some(0.0);
         unit_box_style.border_color = Some(color::TRANSPARENT);
 
@@ -546,11 +558,14 @@ impl<'a> ControlWidget<'a> {
             .top_left_of(config.wrapper)
             .set(config.unit_box, &mut self.ui);
 
-        // TODO: dynamic text depending on ON/OFF status
-        widget::text::Text::new("Unit active")
-            .with_style(unit_text_style)
-            .mid_top_with_margin_on(config.unit_box, STATUS_BOX_TEXT_MARGIN_TOP)
-            .set(config.unit_text, &mut self.ui);
+        widget::text::Text::new(if is_unit_stopped {
+            "Unit stopped"
+        } else {
+            "Unit active"
+        })
+        .with_style(unit_text_style)
+        .mid_top_with_margin_on(config.unit_box, STATUS_BOX_TEXT_MARGIN_TOP)
+        .set(config.unit_text, &mut self.ui);
 
         // Display power status text
         let mut power_box_style = canvas::Style::default();

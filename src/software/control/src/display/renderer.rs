@@ -22,7 +22,7 @@ use crate::physics::types::DataPressure;
 use super::fonts::Fonts;
 use super::screen::{
     Ids, Screen, ScreenBootLoader, ScreenDataBranding, ScreenDataGraph, ScreenDataHeartbeat,
-    ScreenDataTelemetry,
+    ScreenDataStatus, ScreenDataTelemetry,
 };
 use super::support::GliumDisplayWinitWrapper;
 
@@ -222,6 +222,7 @@ impl DisplayRenderer {
             height: branding_height as _,
         };
 
+        let screen_data_status = ScreenDataStatus { chip_state };
         let screen_data_heartbeat = ScreenDataHeartbeat { data_pressure };
 
         let screen_data_graph = ScreenDataGraph {
@@ -237,12 +238,14 @@ impl DisplayRenderer {
         match chip_state {
             ChipState::Running => screen.render_with_data(
                 screen_data_branding,
+                screen_data_status,
                 screen_data_heartbeat,
                 screen_data_graph,
                 screen_data_telemetry,
             ),
             ChipState::Stopped => screen.render_stop(
                 screen_data_branding,
+                screen_data_status,
                 screen_data_heartbeat,
                 screen_data_graph,
                 screen_data_telemetry,
