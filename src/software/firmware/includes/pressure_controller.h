@@ -275,7 +275,7 @@ class PressureController {
     uint16_t m_peep;
 
     /// Blower valve angle at peak
-    int32_t m_peakBlowerValveAnlge;
+    uint32_t m_peakBlowerValveAngle;
 
     /// Current respiratory cycle phase
     CyclePhases m_phase;

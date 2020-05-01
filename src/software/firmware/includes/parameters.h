@@ -123,19 +123,18 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 
 /// Angle when closed
 #define VALVE_CLOSED_STATE 125u
+
 #if VALVE_TYPE == VT_SERVO_V1
 #define SERVO_VALVE_PERIOD                                                                         \
     10000  // 100 Hz : on hardware 1, esc timer is shared between servo and esc. Servo can handle
-           // 100hz too
+           // 100 Hz too
 #elif VALVE_TYPE == VT_EMERSON_ASCO
 #define SERVO_VALVE_PERIOD 3278  // 305 Hz
 #define EMERSON_MIN_PWM 600      // 18 % PWM is the minimum to start opening (3278 * 0.18)
 #elif VALVE_TYPE == VT_FAULHABER
-#define SERVO_VALVE_PERIOD 1000  // 1 khz Faulhaber motors are controlled with a 1khz PWM
-// pwm duty cycle 64% -> open
-#define FAULHABER_OPENED 640
-// pwm duty cycle 90% -> closed
-#define FAULHABER_CLOSED 900
+#define SERVO_VALVE_PERIOD 1000  // 1 kHz Faulhaber motors are controlled with a 1 kHz PWM
+#define FAULHABER_OPENED 640     // PWM duty cycle 64% -> open
+#define FAULHABER_CLOSED 900     // PWM duty cycle 90% -> closed
 #endif
 
 #if HARDWARE_VERSION == 1
@@ -313,9 +312,7 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 10;
 
 ///@}
 
-// preprocessor checks
-#if VALVE_TYPE == VT_FAULHABER
-#if HARDWARE_VERSION == 1
+// Preprocessor checks
+#if VALVE_TYPE == VT_FAULHABER && HARDWARE_VERSION == 1
 #error "Faulhaber can only be driven with hardware v2"
-#endif
 #endif

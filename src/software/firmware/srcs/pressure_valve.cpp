@@ -59,16 +59,14 @@ uint16_t valveAngle2MicroSeconds(uint16_t value) {
     // TODO: avoid 500ns spikes
     uint16_t result = 1;
 
-    // map 0 - 125 ° to 100% pwm - EMERSON_MIN_PWM (0% when fully closed)
+    // map 0 - 125 ° to 100% PWM - EMERSON_MIN_PWM (0% when fully closed)
     if (VALVE_CLOSED_STATE != value) {
         result = map(value, 0, 125, SERVO_VALVE_PERIOD, EMERSON_MIN_PWM);
     }
 
     return result;
 #elif VALVE_TYPE == VT_FAULHABER
-    // Faulhaber motors, in the first run :
-    // pwm duty cycle 64% -> open
-    // pwm duty cycle 90% -> closed
+    // Faulhaber motors works with PWM
     return map(value, 0, 125, FAULHABER_OPENED, FAULHABER_CLOSED);
 #endif
 }
