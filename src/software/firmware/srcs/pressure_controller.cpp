@@ -64,7 +64,8 @@ PressureController::PressureController()
       m_lastPressureValuesIndex(0),
       m_sumOfPressures(0),
       m_numberOfPressures(0),
-      m_plateauStartTime(0u) {
+      m_plateauStartTime(0u),
+      m_peakBlowerValveAngle(VALVE_CLOSED_STATE) {
     computeCentiSecParameters();
     for (uint8_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
         m_lastPressureValues[i] = 0;
@@ -112,7 +113,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_lastPressureValuesIndex(0),
       m_sumOfPressures(0),
       m_numberOfPressures(0),
-      m_plateauStartTime(0u) {
+      m_plateauStartTime(0u),
+      m_peakBlowerValveAngle(VALVE_CLOSED_STATE) {
     computeCentiSecParameters();
     for (uint8_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
         m_lastPressureValues[i] = 0;
@@ -241,7 +243,7 @@ void PressureController::compute(uint16_t p_centiSec) {
         break;
     }
     case CycleSubPhases::HOLD_INSPIRATION: {
-        plateau();
+        plateau(p_centiSec);
         break;
     }
     case CycleSubPhases::EXHALE:
@@ -375,7 +377,7 @@ void PressureController::onPeakPressureDecrease(uint8_t p_decrement) {
     m_maxPeakPressureCommand = m_maxPeakPressureCommand - p_decrement;
 
     m_maxPeakPressureCommand =
-            max(m_maxPeakPressureCommand, static_cast<uint16_t>(CONST_MIN_PEAK_PRESSURE));
+        max(m_maxPeakPressureCommand, static_cast<uint16_t>(CONST_MIN_PEAK_PRESSURE));
 }
 
 void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
@@ -412,7 +414,8 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
 
 void PressureController::inhale() {
     // Open the air stream towards the patient's lungs
-    m_blower_valve.open(pidBlower(m_pressureCommand, m_pressure, m_dt));
+    m_peakBlowerValveAngle = pidBlower(m_pressureCommand, m_pressure, m_dt);
+    m_blower_valve.open(m_peakBlowerValveAngle);
 
     // Open the air stream towards the patient's lungs
     m_patient_valve.close();
@@ -421,12 +424,23 @@ void PressureController::inhale() {
     m_peakPressure = max(m_pressure, m_peakPressure);
 }
 
-void PressureController::plateau() {
+void PressureController::plateau(uint16_t p_centiSec) {
     // Deviate the air stream outside
     m_blower_valve.close();
 
-    // Close the air stream towards the patient's lungs
+#if VALVE_TYPE == VT_FAULHABER
+    // With Faulhaber valves, gently close the air stream towards the patient's lungs
+    if (p_centiSec < (m_plateauStartTime + 10u)) {
+        m_blower_valve.open(((p_centiSec - m_plateauStartTime)
+                             * (VALVE_CLOSED_STATE - m_peakBlowerValveAngle) / 10u)
+                            + m_peakBlowerValveAngle);
+    } else {
+        m_patient_valve.close();
+    }
+#else
+    (void)p_centiSec;
     m_patient_valve.close();
+#endif
 
     // Update the peak pressure
     m_peakPressure = max(m_pressure, m_peakPressure);
