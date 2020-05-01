@@ -277,7 +277,15 @@ impl<'a> ControlWidget<'a> {
     }
 
     fn alarms(&mut self, config: AlarmsWidgetConfig) -> f64 {
-        let alarms_count = config.alarms.len();
+        // Rebuild alarms that should go for display, and count their total
+        // Notice: ignored alarm codes are used in other more specific places, eg. code \
+        //   31 for battery power usage indicator.
+        let alarms_for_display = config
+            .alarms
+            .iter()
+            .filter(|&alarm| DISPLAY_ALARM_CODE_IGNORES.contains(&alarm.0.code()) == false)
+            .collect::<Vec<_>>();
+        let alarms_count = alarms_for_display.len();
 
         let dimensions = [
             DISPLAY_ALARM_CONTAINER_WIDTH,
@@ -331,14 +339,9 @@ impl<'a> ControlWidget<'a> {
         // Notice: only draw alarms box if there are active alarms
         if alarms_count > 0 {
             for x in 0..alarms_count {
-                let (code, alarm) = config.alarms.get(x).unwrap();
+                let (code, alarm) = alarms_for_display.get(x).unwrap();
 
-                // Should this code be displayed or ignored?
-                // Notice: ignored alarm codes are used in other more specific places, eg. code \
-                //   31 for battery power usage indicator.
-                if DISPLAY_ALARM_CODE_IGNORES.contains(&code.code()) == false {
-                    self.alarm(&config, **code, alarm, x);
-                }
+                self.alarm(&config, **code, alarm, x);
             }
         } else {
             widget::text::Text::new("There is no active alarm.")
