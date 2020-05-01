@@ -31,6 +31,10 @@ conrod_winit = "0.69"
 conrod_core = "0.69"
 telemetry = { path = "../telemetry", features = ["env_logger"], version = "1.0" }
 
+[features]
+default = []
+graph-scaler = []
+
 [profile.dev]
 opt-level = 0
 debug = true

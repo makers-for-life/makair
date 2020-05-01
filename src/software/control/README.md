@@ -40,6 +40,15 @@ To cross-compile a new release for an ARM target (using MUSL; statically-linked 
 
 _Make sure to replace the `version` script argument with the current release version. This is used for file naming purposes only._
 
+## Optional Features
+
+The Control UI behavior can be tuned at compile time, by enabling some optional features while building the binary:
+
+* **Automatic graph scaler:**
+  * Feature name: `graph-scaler`
+  * Build command: `cargo build --features=graph-scaler`
+  * Purpose: enables automatic graph maximum calculation, and re-adjustments as the target peak pressure is adjusted by an operator, or the largest point pressure value on screen overflows the graph. This overrides the default static maximum pressure value, that is based on the theoretical saturation maximum in an human subject. While the dynamic graph scaler system was previously the default, based on medical staff feedback it has been made static in order to improve machine usability in real-world scenarios. The auto-scaler feature was confusing for them, as traditional respirator systems use an hardcoded maximum.
+
 ## Troubleshooting
 
 In case of an issue, please review the following points and check if any could help:

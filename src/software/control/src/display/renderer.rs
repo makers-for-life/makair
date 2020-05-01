@@ -321,33 +321,47 @@ impl DisplayRenderer {
         let oldest_time = newest_time - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
 
         // Docs: https://docs.rs/plotters/0.2.12/plotters/chart/struct.ChartBuilder.html
-        let peak_command_or_initial = if machine_snapshot.peak_command > 0 {
-            machine_snapshot.peak_command
-        } else {
-            GRAPH_DRAW_RANGE_HIGH_INITIAL
-        };
 
+        // "Default" static graph maximum mode requested
         // Convert the "range high" value from cmH20 to mmH20, as this is the high-precision unit \
         //   we work with for graphing purposes only.
-        let mut range_high = (process_max_allowed_pressure(peak_command_or_initial) as u16
-            * TELEMETRY_POINTS_PRECISION_DIVIDE) as i32;
+        #[cfg(not(feature = "graph-scaler"))]
+        let range_high = (GRAPH_DRAW_RANGE_HIGH_STATIC_INITIAL as i32)
+            * (TELEMETRY_POINTS_PRECISION_DIVIDE as i32);
 
-        // Override "range high" with a larger value contained in graph (avoids \
-        //   larger-than-range-high graph points to flat out)
-        let graph_largest_point = {
-            let mut data_pressure_points_ordered = data_pressure
-                .iter()
-                .map(|x| x.1 as i32)
-                .collect::<Vec<i32>>();
+        // "Graph scaler" auto-scale mode requested, will auto-process graph maximum
+        #[cfg(feature = "graph-scaler")]
+        let range_high = {
+            let peak_command_or_initial = if machine_snapshot.peak_command > 0 {
+                machine_snapshot.peak_command
+            } else {
+                GRAPH_DRAW_RANGE_HIGH_DYNAMIC_INITIAL
+            };
 
-            data_pressure_points_ordered.sort();
+            // Convert the "range high" value from cmH20 to mmH20, as this is the high-precision unit \
+            //   we work with for graphing purposes only.
+            let mut range_high = (process_max_allowed_pressure(peak_command_or_initial) as u16
+                * TELEMETRY_POINTS_PRECISION_DIVIDE) as i32;
 
-            *data_pressure_points_ordered.last().unwrap_or(&0)
+            // Override "range high" with a larger value contained in graph (avoids \
+            //   larger-than-range-high graph points to flat out)
+            let graph_largest_point = {
+                let mut data_pressure_points_ordered = data_pressure
+                    .iter()
+                    .map(|x| x.1 as i32)
+                    .collect::<Vec<i32>>();
+
+                data_pressure_points_ordered.sort();
+
+                *data_pressure_points_ordered.last().unwrap_or(&0)
+            };
+
+            if graph_largest_point > range_high {
+                range_high = graph_largest_point;
+            }
+
+            range_high
         };
-
-        if graph_largest_point > range_high {
-            range_high = graph_largest_point;
-        }
 
         let mut chart = ChartBuilder::on(&root)
             .margin_top(GRAPH_DRAW_MARGIN_TOP)
