@@ -3,10 +3,12 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
-use chrono::{DateTime, NaiveDateTime, Utc};
 use conrod_core::Ui;
 use glium::texture;
-use image::{buffer::ConvertBuffer, load_from_memory, RgbImage, RgbaImage};
+use image::{buffer::ConvertBuffer, load_from_memory, ImageBuffer, Rgb, RgbaImage};
+use plotters::chart::ChartState;
+use plotters::coord::{RangedCoord, RangedCoordi32};
+use plotters::drawing::bitmap_pixel::RGBPixel;
 use plotters::prelude::*;
 use telemetry::alarm::AlarmCode;
 use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
@@ -33,6 +35,9 @@ pub struct DisplayRendererBuilder;
 pub struct DisplayRenderer {
     fonts: Fonts,
     ids: Ids,
+    chart_buffer: Vec<u8>,
+    chart_state: Option<ChartState<RangedCoord<RangedCoordi32, RangedCoordi32>>>,
+    chart_range_high: i32,
 }
 
 const GRAPH_WIDTH: u32 =
@@ -62,7 +67,13 @@ lazy_static! {
 #[allow(clippy::new_ret_no_self)]
 impl DisplayRendererBuilder {
     pub fn new(fonts: Fonts, ids: Ids) -> DisplayRenderer {
-        DisplayRenderer { fonts, ids }
+        DisplayRenderer {
+            fonts,
+            ids,
+            chart_buffer: vec![0; (GRAPH_WIDTH * GRAPH_HEIGHT * 4) as usize],
+            chart_state: None,
+            chart_range_high: 0,
+        }
     }
 }
 
@@ -299,50 +310,139 @@ impl DisplayRenderer {
         glium::texture::Texture2d::new(&display.0, raw_image).unwrap()
     }
 
+    fn init_chart(&mut self) {
+        let root = BitMapBackend::<RGBPixel>::with_buffer_and_format(
+            &mut self.chart_buffer[..],
+            (GRAPH_WIDTH, GRAPH_HEIGHT),
+        )
+        .unwrap()
+        .into_drawing_area();
+
+        root.fill(&BLACK).unwrap();
+
+        let mut chart = ChartBuilder::on(&root)
+            .margin_top(GRAPH_DRAW_MARGIN_TOP)
+            .margin_bottom(GRAPH_DRAW_MARGIN_BOTTOM)
+            .margin_left(GRAPH_DRAW_MARGIN_LEFT)
+            .margin_right(GRAPH_DRAW_MARGIN_RIGHT)
+            .x_label_area_size(0)
+            .y_label_area_size(GRAPH_DRAW_LABEL_WIDTH + GRAPH_DRAW_LABEL_JITTER_FIX_WIDTH)
+            .build_ranged(
+                -(GRAPH_NUMBER_OF_POINTS as i32)..0,
+                GRAPH_DRAW_RANGE_LOW..self.chart_range_high,
+            )
+            .unwrap();
+
+        chart
+            .configure_mesh()
+            .y_labels(GRAPH_DRAW_LABEL_NUMBER_MAX)
+            .y_label_style(
+                plotters::style::TextStyle::from(("sans-serif", 13).into_font())
+                    .color(&WHITE.mix(0.65)),
+            )
+            .y_label_formatter(&|y| {
+                // Convert high-precision point in mmH20 back to cmH20 (which measurements & \
+                //   targets both use)
+                (y / TELEMETRY_POINTS_PRECISION_DIVIDE as i32).to_string()
+            })
+            .draw()
+            .unwrap();
+
+        let chart_state = chart.into_chart_state();
+        self.chart_state = Some(chart_state);
+    }
+
     fn draw_data_chart(
-        &self,
+        &mut self,
         data_pressure: &DataPressure,
         machine_snapshot: &MachineStateSnapshot,
         display: &GliumDisplayWinitWrapper,
     ) -> glium::texture::Texture2d {
-        let mut buffer = vec![0; (GRAPH_WIDTH * GRAPH_HEIGHT * 4) as usize];
+        if self.chart_state.is_none()
+            || self
+                .set_chart_range_high(machine_snapshot, data_pressure)
+                .is_some()
+        {
+            self.init_chart();
+        }
 
         // Docs: https://docs.rs/plotters/0.2.12/plotters/drawing/struct.BitMapBackend.html
-        let root = BitMapBackend::with_buffer(&mut buffer, (GRAPH_WIDTH, GRAPH_HEIGHT))
-            .into_drawing_area();
-        root.fill(&BLACK).unwrap();
+        let root = BitMapBackend::<RGBPixel>::with_buffer_and_format(
+            &mut self.chart_buffer[..],
+            (GRAPH_WIDTH, GRAPH_HEIGHT),
+        )
+        .unwrap()
+        .into_drawing_area();
 
-        let newest_time = data_pressure
-            .front()
-            .unwrap_or(&(
-                DateTime::from_utc(NaiveDateTime::from_timestamp(0, 0), Utc),
-                0,
-            ))
-            .0;
-        let oldest_time = newest_time - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
+        let data: Vec<(i32, i32)> = data_pressure
+            .iter()
+            .enumerate()
+            .map(|(pos, (_, val))| (-(pos as i32), *val as i32))
+            .collect();
 
+        let mut chart = self.chart_state.clone().unwrap().restore(&root);
+        chart.plotting_area().fill(&BLACK).unwrap();
+
+        chart
+            .configure_mesh()
+            .line_style_1(&plotters::style::colors::WHITE.mix(0.04))
+            .line_style_2(&plotters::style::colors::BLACK)
+            .draw()
+            .unwrap();
+
+        // Docs: https://docs.rs/plotters/0.2.12/plotters/prelude/struct.LineSeries.html
+        chart
+            .draw_series(
+                LineSeries::new(
+                    data,
+                    ShapeStyle::from(&plotters::style::RGBColor(0, 137, 255))
+                        .filled()
+                        .stroke_width(GRAPH_DRAW_LINE_SIZE),
+                )
+                .point_size(GRAPH_DRAW_POINT_SIZE),
+            )
+            .unwrap();
+
+        drop(chart);
+        drop(root);
+
+        // Convert chart to an image
+        // TODO: draw image on a @2x or @4x buffer, then downsize and re-sample as to "simulate" \
+        //   anti-aliasing, as by default all graphs are aliased
+        // TODO: docs on https://docs.rs/image/0.23.4/image/imageops/fn.resize.html
+        let rgba_image: RgbaImage =
+            ImageBuffer::<Rgb<u8>, _>::from_raw(GRAPH_WIDTH, GRAPH_HEIGHT, &self.chart_buffer[..])
+                .unwrap()
+                .convert();
+        let image_dimensions = rgba_image.dimensions();
+
+        let raw_image = glium::texture::RawImage2d::from_raw_rgba_reversed(
+            &rgba_image.into_raw(),
+            image_dimensions,
+        );
+
+        glium::texture::Texture2d::new(&display.0, raw_image).unwrap()
+    }
+
+    fn set_chart_range_high(
+        &mut self,
+        _machine_snapshot: &MachineStateSnapshot,
+        _data_pressure: &DataPressure,
+    ) -> Option<()> {
         // Docs: https://docs.rs/plotters/0.2.12/plotters/chart/struct.ChartBuilder.html
 
         // "Default" static graph maximum mode requested
         // Convert the "range high" value from cmH20 to mmH20, as this is the high-precision unit \
         //   we work with for graphing purposes only.
         #[cfg(not(feature = "graph-scaler"))]
-        let range_high = {
-            let range_high = (GRAPH_DRAW_RANGE_HIGH_STATIC_INITIAL as i32)
-                * (TELEMETRY_POINTS_PRECISION_DIVIDE as i32);
-
-            // Void statement to prevent the compiler from warning about unused \
-            //   'machine_snapshot', which is indeed used under feature 'graph-scaler'.
-            let _ = machine_snapshot.peak_command;
-
-            range_high
-        };
+        let range_high = (GRAPH_DRAW_RANGE_HIGH_STATIC_INITIAL as i32)
+            * (TELEMETRY_POINTS_PRECISION_DIVIDE as i32);
 
         // "Graph scaler" auto-scale mode requested, will auto-process graph maximum
         #[cfg(feature = "graph-scaler")]
         let range_high = {
-            let peak_command_or_initial = if machine_snapshot.peak_command > 0 {
-                machine_snapshot.peak_command
+            let peak_command_or_initial = if _machine_snapshot.peak_command > 0 {
+                _machine_snapshot.peak_command
             } else {
                 GRAPH_DRAW_RANGE_HIGH_DYNAMIC_INITIAL
             };
@@ -355,7 +455,7 @@ impl DisplayRenderer {
             // Override "range high" with a larger value contained in graph (avoids \
             //   larger-than-range-high graph points to flat out)
             let graph_largest_point = {
-                let mut data_pressure_points_ordered = data_pressure
+                let mut data_pressure_points_ordered = _data_pressure
                     .iter()
                     .map(|x| x.1 as i32)
                     .collect::<Vec<i32>>();
@@ -372,63 +472,11 @@ impl DisplayRenderer {
             range_high
         };
 
-        let mut chart = ChartBuilder::on(&root)
-            .margin_top(GRAPH_DRAW_MARGIN_TOP)
-            .margin_bottom(GRAPH_DRAW_MARGIN_BOTTOM)
-            .margin_left(GRAPH_DRAW_MARGIN_LEFT)
-            .margin_right(GRAPH_DRAW_MARGIN_RIGHT)
-            .x_label_area_size(0)
-            .y_label_area_size(GRAPH_DRAW_LABEL_WIDTH + GRAPH_DRAW_LABEL_JITTER_FIX_WIDTH)
-            .build_ranged(oldest_time..newest_time, GRAPH_DRAW_RANGE_LOW..range_high)
-            .unwrap();
-
-        chart
-            .configure_mesh()
-            .line_style_1(&plotters::style::colors::WHITE.mix(0.04))
-            .line_style_2(&plotters::style::colors::BLACK)
-            .y_labels(GRAPH_DRAW_LABEL_NUMBER_MAX)
-            .y_label_style(
-                plotters::style::TextStyle::from(("sans-serif", 13).into_font())
-                    .color(&WHITE.mix(0.65)),
-            )
-            .y_label_formatter(&|y| {
-                // Convert high-precision point in mmH20 back to cmH20 (which measurements & \
-                //   targets both use)
-                (y / TELEMETRY_POINTS_PRECISION_DIVIDE as i32).to_string()
-            })
-            .draw()
-            .unwrap();
-
-        // Docs: https://docs.rs/plotters/0.2.12/plotters/prelude/struct.LineSeries.html
-        chart
-            .draw_series(
-                LineSeries::new(
-                    data_pressure.iter().map(|x| (x.0, x.1 as i32)),
-                    ShapeStyle::from(&plotters::style::RGBColor(0, 137, 255))
-                        .filled()
-                        .stroke_width(GRAPH_DRAW_LINE_SIZE),
-                )
-                .point_size(GRAPH_DRAW_POINT_SIZE),
-            )
-            .unwrap();
-
-        drop(chart);
-        drop(root);
-
-        // Convert chart to an image
-        // TODO: draw image on a @2x or @4x buffer, then downsize and re-sample as to "simulate" \
-        //   anti-aliasing, as by default all graphs are aliased
-        // TODO: docs on https://docs.rs/image/0.23.4/image/imageops/fn.resize.html
-        let rgba_image: RgbaImage = RgbImage::from_raw(GRAPH_WIDTH, GRAPH_HEIGHT, buffer)
-            .unwrap()
-            .convert();
-        let image_dimensions = rgba_image.dimensions();
-
-        let raw_image = glium::texture::RawImage2d::from_raw_rgba_reversed(
-            &rgba_image.into_raw(),
-            image_dimensions,
-        );
-
-        glium::texture::Texture2d::new(&display.0, raw_image).unwrap()
+        if range_high != self.chart_range_high {
+            self.chart_range_high = range_high;
+            Some(())
+        } else {
+            None
+        }
     }
 }
