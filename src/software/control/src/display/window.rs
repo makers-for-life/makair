@@ -67,9 +67,9 @@ impl DisplayWindow {
                 .unwrap(),
             ))
             .with_dimensions((DISPLAY_WINDOW_SIZE_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT).into())
-            .with_decorations(false)
+            .with_decorations(!APP_ARGS.fullscreen)
             .with_resizable(false)
-            .with_always_on_top(true);
+            .with_always_on_top(APP_ARGS.fullscreen);
 
         let window = if APP_ARGS.fullscreen {
             let primary_monitor = events_loop.get_primary_monitor();
