@@ -16,10 +16,10 @@ extern crate image;
 
 mod chip;
 mod config;
-mod dirty_copy_paste;
 mod display;
 mod physics;
 mod serial;
+mod test_strategies;
 
 use std::ops::Deref;
 use std::str::FromStr;

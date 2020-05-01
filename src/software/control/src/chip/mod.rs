@@ -174,19 +174,31 @@ impl Chip {
 #[cfg(test)]
 mod tests {
     use crate::chip::Chip;
-    use crate::dirty_copy_paste::tests::telemetry_message_strategy;
+    use crate::test_strategies::tests::TelemetryStrategies;
     use proptest::collection;
-    use proptest::prelude::*;
+    use proptest::test_runner::TestRunner;
+    use std::cell::Cell;
 
-    proptest! {
-        #[test]
-        fn test_chip_new_event(msgs in collection::vec(telemetry_message_strategy(), 0..100)) {
-            let mut chip = Chip::new();
+    #[test]
+    fn test_chip_new_event() {
+        let tms = TelemetryStrategies {
+            current_systick: Cell::new(10_000_000_000_u64),
+        };
+        let mut runner = TestRunner::default();
 
-            // With any sequence of TelemetryMessage, new_event() must not crash.
-            for msg in msgs {
-                chip.new_event(msg.to_owned());
-            }
-        }
+        runner
+            .run(
+                &collection::vec(tms.telemetry_message_strategy(), 0..100),
+                |msgs| {
+                    let mut chip = Chip::new();
+
+                    // With any sequence of TelemetryMessage, new_event() must not crash.
+                    for msg in msgs {
+                        chip.new_event(msg.to_owned());
+                    }
+                    Ok(())
+                },
+            )
+            .unwrap();
     }
 }
