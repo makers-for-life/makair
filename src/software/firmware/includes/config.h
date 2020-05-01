@@ -36,7 +36,7 @@
 #define PHW_FAULHABER 2
 
 /// Defines which preset to use for controlling pressure
-#define PNEUMATIC_HARDWARE_VERSION PHW_FAULHABER
+#define PNEUMATIC_HARDWARE_VERSION PHW_CHU
 
 // Available valves
 #define VT_SERVO_V1 0
@@ -44,11 +44,11 @@
 #define VT_FAULHABER 2
 
 // Defines which valves are fitted
-#define VALVE_TYPE VT_FAULHABER
+#define VALVE_TYPE VT_SERVO_V1
 
 /**
  * Defines which hardware preset to use
  *
  * This changes which hardware is used, to which pins it is connected, as well as various parameters
  */
-#define HARDWARE_VERSION 2
+#define HARDWARE_VERSION 1
