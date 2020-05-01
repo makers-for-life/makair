@@ -10,7 +10,7 @@ use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
 
 use crate::chip::ChipState;
 use crate::config::environment::*;
-use crate::physics::types::DataPressure;
+use crate::physics::types::DataPoint;
 
 use super::fonts::Fonts;
 use super::widget::{
@@ -122,7 +122,7 @@ pub struct ScreenDataStatus<'a> {
 }
 
 pub struct ScreenDataHeartbeat<'a> {
-    pub data_pressure: &'a DataPressure,
+    pub data_pressure: &'a DataPoint,
 }
 
 pub struct ScreenDataGraph {

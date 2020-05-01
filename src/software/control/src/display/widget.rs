@@ -20,7 +20,7 @@ use telemetry::structures::AlarmPriority;
 use crate::chip::ChipState;
 use crate::config::environment::*;
 use crate::physics::pressure::process_max_allowed_pressure;
-use crate::physics::types::DataPressure;
+use crate::physics::types::DataPoint;
 
 use super::fonts::Fonts;
 
@@ -57,7 +57,7 @@ pub struct StatusWidgetConfig<'a> {
 }
 
 pub struct HeartbeatWidgetConfig<'a> {
-    data_pressure: &'a DataPressure,
+    data_pressure: &'a DataPoint,
     peak_command: u8,
     container: WidgetId,
     ground: WidgetId,
@@ -141,7 +141,7 @@ impl<'a> StatusWidgetConfig<'a> {
 
 impl<'a> HeartbeatWidgetConfig<'a> {
     pub fn new(
-        data_pressure: &'a DataPressure,
+        data_pressure: &'a DataPoint,
         peak_command: u8,
         container: WidgetId,
         ground: WidgetId,

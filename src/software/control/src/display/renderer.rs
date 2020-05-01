@@ -10,15 +10,14 @@ use plotters::chart::ChartState;
 use plotters::coord::{RangedCoord, RangedCoordi32};
 use plotters::drawing::bitmap_pixel::RGBPixel;
 use plotters::prelude::*;
-use telemetry::alarm::AlarmCode;
-use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
+use telemetry::structures::MachineStateSnapshot;
 
 use crate::EmbeddedImages;
 
 use crate::config::environment::*;
 
-use crate::chip::ChipState;
-use crate::physics::types::DataPressure;
+use crate::chip::{Chip, ChipState};
+use crate::physics::types::DataPoint;
 
 #[cfg(feature = "graph-scaler")]
 use crate::physics::pressure::process_max_allowed_pressure;
@@ -80,29 +79,18 @@ impl DisplayRendererBuilder {
 impl DisplayRenderer {
     pub fn render(
         &mut self,
-        data_pressure: &DataPressure,
-        machine_snapshot: &MachineStateSnapshot,
-        ongoing_alarms: &[(&AlarmCode, &AlarmPriority)],
+        chip: &Chip,
         display: &GliumDisplayWinitWrapper,
         interface: &mut Ui,
-        battery_level: Option<u8>,
-        chip_state: &ChipState,
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let image_map = conrod_core::image::Map::<texture::Texture2d>::new();
 
-        match chip_state {
+        match chip.get_state() {
             ChipState::Initializing => self.initializing(display, interface, image_map),
             ChipState::WaitingData => self.empty(interface, image_map),
-            ChipState::Running | ChipState::Stopped => self.data(
-                display,
-                interface,
-                image_map,
-                data_pressure,
-                machine_snapshot,
-                ongoing_alarms,
-                battery_level,
-                chip_state,
-            ),
+            ChipState::Running | ChipState::Stopped => {
+                self.data(display, interface, image_map, chip)
+            }
             ChipState::Error(e) => self.error(interface, image_map, e.clone()),
         }
     }
@@ -170,11 +158,7 @@ impl DisplayRenderer {
         display: &GliumDisplayWinitWrapper,
         interface: &mut Ui,
         mut image_map: conrod_core::image::Map<texture::Texture2d>,
-        data_pressure: &DataPressure,
-        machine_snapshot: &MachineStateSnapshot,
-        ongoing_alarms: &[(&AlarmCode, &AlarmPriority)],
-        battery_level: Option<u8>,
-        chip_state: &ChipState,
+        chip: &Chip,
     ) -> conrod_core::image::Map<texture::Texture2d> {
         // Create branding
         let branding_image_texture = self.draw_branding(display);
@@ -185,7 +169,12 @@ impl DisplayRenderer {
         let branding_image_id = image_map.insert(branding_image_texture);
 
         // Create graph
-        let graph_image_texture = self.draw_data_chart(data_pressure, machine_snapshot, display);
+        let graph_image_texture = self.draw_data_chart(
+            &chip.data_pressure,
+            &chip.pressure_target,
+            &chip.last_machine_snapshot,
+            display,
+        );
         let (graph_width, graph_height) = (
             graph_image_texture.get_width(),
             graph_image_texture.get_height().unwrap(),
@@ -198,6 +187,8 @@ impl DisplayRenderer {
 
         // Create widgets
         let mut ui = interface.set_widgets();
+
+        let ongoing_alarms = chip.ongoing_alarms_sorted();
 
         for i in 0..ongoing_alarms.len() {
             let index = i + 1;
@@ -222,15 +213,15 @@ impl DisplayRenderer {
             ui,
             &self.ids,
             &self.fonts,
-            Some(machine_snapshot),
-            Some(ongoing_alarms),
+            Some(&chip.last_machine_snapshot),
+            Some(&ongoing_alarms),
         );
 
         let screen_data_branding = ScreenDataBranding {
-            firmware_version: if machine_snapshot.version.is_empty() {
+            firmware_version: if chip.last_machine_snapshot.version.is_empty() {
                 FIRMWARE_VERSION_NONE
             } else {
-                &machine_snapshot.version
+                &chip.last_machine_snapshot.version
             },
             image_id: branding_image_id,
             width: branding_width as _,
@@ -238,10 +229,12 @@ impl DisplayRenderer {
         };
 
         let screen_data_status = ScreenDataStatus {
-            chip_state,
-            battery_level,
+            chip_state: chip.get_state(),
+            battery_level: chip.get_battery_level(),
         };
-        let screen_data_heartbeat = ScreenDataHeartbeat { data_pressure };
+        let screen_data_heartbeat = ScreenDataHeartbeat {
+            data_pressure: &chip.data_pressure,
+        };
 
         let screen_data_graph = ScreenDataGraph {
             image_id: graph_image_id,
@@ -253,7 +246,7 @@ impl DisplayRenderer {
             arrow_image_id: telemetry_arrow_image_id,
         };
 
-        match chip_state {
+        match chip.get_state() {
             ChipState::Running => screen.render_with_data(
                 screen_data_branding,
                 screen_data_status,
@@ -354,7 +347,8 @@ impl DisplayRenderer {
 
     fn draw_data_chart(
         &mut self,
-        data_pressure: &DataPressure,
+        data_pressure: &DataPoint,
+        pressure_target: &DataPoint,
         machine_snapshot: &MachineStateSnapshot,
         display: &GliumDisplayWinitWrapper,
     ) -> glium::texture::Texture2d {
@@ -374,7 +368,13 @@ impl DisplayRenderer {
         .unwrap()
         .into_drawing_area();
 
-        let data: Vec<(i32, i32)> = data_pressure
+        let data_pressure: Vec<(i32, i32)> = data_pressure
+            .iter()
+            .enumerate()
+            .map(|(pos, (_, val))| (-(pos as i32), *val as i32))
+            .collect();
+
+        let data_pressure_target: Vec<(i32, i32)> = pressure_target
             .iter()
             .enumerate()
             .map(|(pos, (_, val))| (-(pos as i32), *val as i32))
@@ -394,8 +394,20 @@ impl DisplayRenderer {
         chart
             .draw_series(
                 LineSeries::new(
-                    data,
-                    ShapeStyle::from(&plotters::style::RGBColor(0, 137, 255))
+                    data_pressure_target,
+                    ShapeStyle::from(&GRAPH_PRESSURE_TARGET_LINE_COLOR)
+                        .filled()
+                        .stroke_width(GRAPH_DRAW_LINE_SIZE),
+                )
+                .point_size(GRAPH_DRAW_POINT_SIZE),
+            )
+            .unwrap();
+
+        chart
+            .draw_series(
+                LineSeries::new(
+                    data_pressure,
+                    ShapeStyle::from(&GRAPH_PRESSURE_LINE_COLOR)
                         .filled()
                         .stroke_width(GRAPH_DRAW_LINE_SIZE),
                 )
@@ -427,7 +439,7 @@ impl DisplayRenderer {
     fn set_chart_range_high(
         &mut self,
         _machine_snapshot: &MachineStateSnapshot,
-        _data_pressure: &DataPressure,
+        _data_pressure: &DataPoint,
     ) -> Option<()> {
         // Docs: https://docs.rs/plotters/0.2.12/plotters/chart/struct.ChartBuilder.html
 

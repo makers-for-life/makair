@@ -8,4 +8,4 @@ use std::collections::VecDeque;
 use chrono::offset::Utc;
 use chrono::DateTime;
 
-pub type DataPressure = VecDeque<(DateTime<Utc>, u16)>;
+pub type DataPoint = VecDeque<(DateTime<Utc>, u16)>;

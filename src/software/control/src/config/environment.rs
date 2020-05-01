@@ -87,6 +87,8 @@ pub const GRAPH_DRAW_LABEL_JITTER_FIX_WIDTH: u32 = 40;
 pub const GRAPH_DRAW_LABEL_WIDTH: u32 = 28;
 pub const GRAPH_DRAW_LABEL_NUMBER_MAX: usize = 5;
 pub const GRAPH_NUMBER_OF_POINTS: usize = GRAPH_DRAW_SECONDS * TELEMETRY_POINTS_PER_SECOND;
+pub const GRAPH_PRESSURE_LINE_COLOR: plotters::style::RGBColor = plotters::style::RGBColor(0, 137, 255);
+pub const GRAPH_PRESSURE_TARGET_LINE_COLOR: plotters::style::RGBColor = plotters::style::RGBColor(255, 138, 0);
 
 pub const PEAK_PRESSURE_INITIAL_MIN: f64 = 0.0;
 pub const PEAK_PRESSURE_ALERT_ERROR_RATIO: f64 = 0.15;

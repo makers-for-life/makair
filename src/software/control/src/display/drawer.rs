@@ -157,15 +157,9 @@ impl<'a> DisplayDrawer<'a> {
 
     #[allow(clippy::ptr_arg)]
     fn refresh(&mut self) {
-        let image_map = self.renderer.render(
-            &self.chip.data_pressure,
-            &self.chip.last_machine_snapshot,
-            &self.chip.ongoing_alarms_sorted(),
-            &self.display,
-            &mut self.interface,
-            self.chip.get_battery_level(),
-            &self.chip.get_state(),
-        );
+        let image_map = self
+            .renderer
+            .render(&self.chip, &self.display, &mut self.interface);
 
         if let Some(primitives) = self.interface.draw_if_changed() {
             self.glium_renderer

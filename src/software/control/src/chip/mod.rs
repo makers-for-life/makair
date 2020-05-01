@@ -8,10 +8,12 @@ use std::collections::{HashMap, VecDeque};
 use std::convert::TryFrom;
 
 use crate::config::environment::*;
-use crate::physics::types::DataPressure;
+use crate::physics::types::DataPoint;
 use telemetry::alarm::AlarmCode;
 use telemetry::serial::core;
-use telemetry::structures::{AlarmPriority, DataSnapshot, MachineStateSnapshot, TelemetryMessage};
+use telemetry::structures::{
+    AlarmPriority, DataSnapshot, MachineStateSnapshot, SubPhase, TelemetryMessage,
+};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum ChipState {
@@ -25,10 +27,11 @@ pub enum ChipState {
 pub struct Chip {
     pub boot_time: Option<DateTime<Utc>>,
     pub last_tick: u64,
-    pub data_pressure: DataPressure,
+    pub data_pressure: DataPoint,
+    pub pressure_target: DataPoint,
+    pub last_data_snapshot: Option<DataSnapshot>,
     pub last_machine_snapshot: MachineStateSnapshot,
     pub ongoing_alarms: HashMap<AlarmCode, AlarmPriority>,
-    pub battery_level: Option<u8>,
     state: ChipState,
 }
 
@@ -38,9 +41,10 @@ impl Chip {
             boot_time: None,
             last_tick: 0,
             data_pressure: VecDeque::with_capacity(GRAPH_NUMBER_OF_POINTS + 100),
+            pressure_target: VecDeque::with_capacity(GRAPH_NUMBER_OF_POINTS + 100),
+            last_data_snapshot: None,
             last_machine_snapshot: MachineStateSnapshot::default(),
             ongoing_alarms: HashMap::new(),
-            battery_level: None,
             state: ChipState::WaitingData,
         }
     }
@@ -67,8 +71,9 @@ impl Chip {
                 self.update_tick(snapshot.systick);
 
                 self.add_pressure(&snapshot);
+                self.add_pressure_target(&snapshot);
 
-                self.battery_level = Some(snapshot.battery_level);
+                self.last_data_snapshot = Some(snapshot);
                 self.state = ChipState::Running;
             }
 
@@ -117,16 +122,38 @@ impl Chip {
     fn add_pressure(&mut self, snapshot: &DataSnapshot) {
         assert!(self.boot_time.is_some());
 
-        let snapshot_time =
-            self.boot_time.unwrap() + Duration::microseconds(snapshot.systick as i64);
+        let snapshot_time = self.get_snapshot_time(snapshot.systick);
 
         // Points are stored as mmH20 (for more precision; though we do work in cmH20)
         self.data_pressure
             .push_front((snapshot_time, snapshot.pressure));
     }
 
+    #[inline(always)]
+    fn get_snapshot_time(&self, systick: u64) -> DateTime<Utc> {
+        self.boot_time.unwrap() + Duration::microseconds(systick as i64)
+    }
+
+    fn add_pressure_target(&mut self, snapshot: &DataSnapshot) {
+        let pressure_target_value = match snapshot.subphase {
+            SubPhase::Inspiration => self.last_machine_snapshot.peak_command,
+            SubPhase::HoldInspiration => self.last_machine_snapshot.plateau_command,
+            SubPhase::Exhale => self.last_machine_snapshot.peep_command,
+        };
+
+        // TODO: maybe we could avoid drawing that many points? We would need a better way to order points
+        // We currently use the index in the Vec but that's not really great.
+        // See renderer::Renderer::draw_data_chart
+        self.pressure_target.push_front((
+            self.get_snapshot_time(snapshot.systick),
+            (pressure_target_value as u16) * 10,
+        ));
+    }
+
     pub fn get_battery_level(&self) -> Option<u8> {
-        self.battery_level
+        self.last_data_snapshot
+            .as_ref()
+            .map(|snapshot| snapshot.battery_level)
     }
 
     pub fn get_state(&self) -> &ChipState {
@@ -169,17 +196,19 @@ impl Chip {
 
     pub fn clean_events(&mut self) {
         if !self.data_pressure.is_empty() {
-            let older = self.data_pressure.front().unwrap().0
-                - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
+            Chip::clean_vec_events(&mut self.data_pressure);
+        }
 
-            while self
-                .data_pressure
-                .back()
-                .map(|p| p.0 < older)
-                .unwrap_or(false)
-            {
-                self.data_pressure.pop_back();
-            }
+        if !self.pressure_target.is_empty() {
+            Chip::clean_vec_events(&mut self.pressure_target);
+        }
+    }
+
+    fn clean_vec_events(events: &mut DataPoint) {
+        let older = events.front().unwrap().0 - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
+
+        while events.back().map(|p| p.0 < older).unwrap_or(false) {
+            events.pop_back();
         }
     }
 
