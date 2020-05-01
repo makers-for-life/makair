@@ -101,7 +101,8 @@ impl DisplayWindow {
         let fonts = Fonts::new(regular_font, bold_font);
 
         // Create window contents drawer
-        let mut drawer = DisplayDrawerBuilder::new(window, context, events_loop, interface, fonts);
+        let mut drawer =
+            DisplayDrawerBuilder::new(window, context, events_loop, &mut interface, fonts);
 
         drawer.run();
     }
