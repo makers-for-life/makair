@@ -29,6 +29,7 @@
 #define STEPPER_VREF PC7
 
 #define STEPPER_OPTICAL_INPUT PA6
+#define STEPPER_PWM_INPUT PB6
 
 // do not include math.h for such function...
 #define min(a, b) (((a) < (b)) ? (a) : (b))
@@ -37,6 +38,7 @@
 HardwareTimer* Timer_Hw_Vref;
 HardwareTimer* Timer_Stepper;
 HardwareTimer* Timer_Stepper_Speed_Control;
+HardwareTimer* Timer_Pwm_Input;
 
 int VrefIdle = STEPPER_IDLE_CURRENT;
 int VrefPwmPercent = STEPPER_IDLE_CURRENT;
@@ -46,6 +48,56 @@ int32_t stepperCurrentPosition = 0;
 int32_t stepperSpeed = 0;  // 0 (low speed) - 100 (full speed)  signed, speed can turn negative.
 boolean lastClockState = false;
 boolean initialized = false;  // false until optical zero is reached
+
+#define PWM_CAPTURE_OVERFLOW 50000
+#define PWM_CAPTURE_PRESCALER 100    // 100 -> 1 us precision
+int32_t pwm_capture_frequency = -1;  // will be computed during init
+int32_t edge_counter = 0;
+int32_t current_edge_capture;
+int32_t last_period_capture = 0;
+int32_t measured_high_state = 0;
+int32_t measured_freq;  // herz
+int32_t measured_duty;  // per thousand
+
+enum stepper_modeEnum { AUTO, MANUAL };
+enum stepper_modeEnum stepperMode = AUTO;
+
+// measure time between last falling edge and rising edge, compute freq and duty cycle
+void PWM_Input_Rising_Callback(HardwareTimer*) {
+    edge_counter++;
+    current_edge_capture = Timer_Pwm_Input->getCaptureCompare(1);  // get channel 1 capture
+    if (current_edge_capture > last_period_capture) {
+        measured_freq = pwm_capture_frequency / (current_edge_capture - last_period_capture);
+        measured_duty = 1000 * measured_high_state / (current_edge_capture - last_period_capture);
+    } else {
+        measured_freq = pwm_capture_frequency
+                        / (current_edge_capture - last_period_capture + PWM_CAPTURE_OVERFLOW);
+        measured_duty = 1000 * measured_high_state
+                        / (current_edge_capture - last_period_capture + PWM_CAPTURE_OVERFLOW);
+    }
+
+    last_period_capture = current_edge_capture;
+}
+
+// measure time between last rising edge and current falling edge
+void PWM_Input_Falling_Callback(HardwareTimer*) {
+    edge_counter++;
+    current_edge_capture = Timer_Pwm_Input->getCaptureCompare(2);  // get channel 2 capture
+    if (current_edge_capture > last_period_capture) {
+        measured_high_state = current_edge_capture - last_period_capture;
+    } else {
+        measured_high_state = current_edge_capture - last_period_capture + PWM_CAPTURE_OVERFLOW;
+    }
+}
+
+void PWM_Input_Rollover_Callback(HardwareTimer*) {
+    if (edge_counter == 0) {
+        measured_duty = 0;
+        measured_freq = 0;
+        Serial.println("no PWM input signal");
+    }
+    edge_counter = 0;
+}
 
 void setVref(uint32_t pwm_percent) {
     Timer_Hw_Vref->setCaptureCompare(2, pwm_percent);
@@ -158,19 +210,38 @@ void loop(void) {
             }
             break;
         case '0':
+            stepperMode = MANUAL;
             stepperSetpoint = -160;
             break;
         case '1':
+            stepperMode = MANUAL;
             stepperSetpoint = 160;
             break;
         case '2':
+            stepperMode = MANUAL;
             stepperSetpoint--;
             break;
         case '8':
+            stepperMode = MANUAL;
             stepperSetpoint++;
+            break;
+        case 'a':
+            stepperMode = AUTO;
             break;
         }
     }
+
+    if (stepperMode == AUTO) {
+        stepperSetpoint = map(measured_duty, 640, 900, -160, 160);
+    }
+    Serial.println (map(measured_duty, 640, 900, -160, 160));
+
+    // Serial.print("freq=");
+    // Serial.print(measured_freq);
+    // Serial.print(" highstate=");
+    // Serial.print(measured_high_state);
+    // Serial.print(" duty=");
+    // Serial.println((measured_duty));
 }
 
 void setup(void) {
@@ -187,6 +258,7 @@ void setup(void) {
     pinMode(PB3, INPUT);  // the other vref source
     pinMode(PA7, INPUT);  // the other vref source
     pinMode(STEPPER_OPTICAL_INPUT, INPUT);
+    pinMode(STEPPER_PWM_INPUT, INPUT);
 
     // digitalWrite(STEPPER_VREF, LOW);
     digitalWrite(STEPPER_RESET, LOW);
@@ -221,7 +293,7 @@ void setup(void) {
 
     Serial.println("stepper timer launched");
 
-    // user TIM11, channel 1.
+    // use TIM11, channel 1.
     Timer_Stepper_Speed_Control = new HardwareTimer(TIM11);
     // prescaler. stm32f411 clock is 100mhz
     Timer_Stepper_Speed_Control->setPrescaleFactor(1000);  // 100khz
@@ -230,6 +302,22 @@ void setup(void) {
     Timer_Stepper_Speed_Control->setMode(1, TIMER_OUTPUT_COMPARE, NC);  // channel 1
     Timer_Stepper_Speed_Control->attachInterrupt(Timer_Stepper_SpeedControl_Callback);
     Timer_Stepper_Speed_Control->resume();
+
+    // Use TIM4 for input capture of the PWM command signal.
+    Timer_Pwm_Input = new HardwareTimer(TIM4);
+    // prescaler. stm32f411 clock is 100mhz
+    Timer_Pwm_Input->setPrescaleFactor(PWM_CAPTURE_PRESCALER);  // 100khz -> 10 us precision...
+    pwm_capture_frequency = Timer_Pwm_Input->getTimerClkFreq() / PWM_CAPTURE_PRESCALER;
+    // Used 2 channels for a single pin. One channel in TIM_INPUTCHANNELPOLARITY_RISING another
+    // channel in TIM_INPUTCHANNELPOLARITY_FALLING.
+    // Channels must be used by pair: CH1 with CH2, or CH3 with CH4
+    Timer_Pwm_Input->setMode(1, TIMER_INPUT_FREQ_DUTY_MEASUREMENT, STEPPER_PWM_INPUT);  // channel 1
+    Timer_Pwm_Input->setOverflow(PWM_CAPTURE_OVERFLOW);               // 0.5 second before overflow
+    Timer_Pwm_Input->attachInterrupt(1, PWM_Input_Rising_Callback);   // channel 1
+    Timer_Pwm_Input->attachInterrupt(2, PWM_Input_Falling_Callback);  // channel 2
+    Timer_Pwm_Input->attachInterrupt(PWM_Input_Rollover_Callback);
+
+    Timer_Pwm_Input->resume();
 }
 
 #endif
