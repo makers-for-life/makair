@@ -265,7 +265,7 @@ named!(pub parse_telemetry_message<TelemetryMessage>, alt!(
 ));
 
 #[cfg(test)]
-pub mod tests {
+mod tests {
     use super::*;
     use proptest::collection;
     use proptest::prelude::*;
@@ -325,7 +325,7 @@ pub mod tests {
     }
 
     #[derive(Debug, Clone, Copy)]
-    pub struct DeviceIdInts(u32, u32, u32);
+    struct DeviceIdInts(u32, u32, u32);
 
     impl DeviceIdInts {
         fn str(&self) -> String {
@@ -334,7 +334,7 @@ pub mod tests {
     }
 
     prop_compose! {
-        pub fn device_id_ints_strategy()(id1 in (0u32..), id2 in (0u32..), id3 in (0u32..)) -> DeviceIdInts {
+        fn device_id_ints_strategy()(id1 in (0u32..), id2 in (0u32..), id3 in (0u32..)) -> DeviceIdInts {
             DeviceIdInts(id1, id2, id3)
         }
     }
@@ -455,18 +455,6 @@ pub mod tests {
                 cycles_since_trigger,
             }, device_id, phase_subphase)
         }
-    }
-
-    pub fn telemetry_message_strategy() -> impl Strategy<Value = TelemetryMessage> {
-        prop_oneof![
-            boot_message_strategy().prop_map(|(msg, _)| TelemetryMessage::BootMessage(msg)),
-            stopped_message_strategy().prop_map(|(msg, _)| TelemetryMessage::StoppedMessage(msg)),
-            data_snapshot_message_strategy()
-                .prop_map(|(msg, _, _)| TelemetryMessage::DataSnapshot(msg)),
-            machine_state_message_strategy()
-                .prop_map(|(msg, _)| TelemetryMessage::MachineStateSnapshot(msg)),
-            alarm_trap_message_strategy().prop_map(|(msg, _, _)| TelemetryMessage::AlarmTrap(msg)),
-        ]
     }
 
     proptest! {
