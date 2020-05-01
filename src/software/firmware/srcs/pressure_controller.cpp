@@ -429,7 +429,7 @@ void PressureController::plateau(uint16_t p_centiSec) {
     m_blower_valve.close();
 
     // With Faulhaber valves, gently close the air stream towards the patient's lungs
-    #if VALVE_TYPE == VT_SERVO_V1
+    #if VALVE_TYPE == VT_FAULHABER
         if (p_centiSec < (m_plateauStartTime + 10u)) {
             m_blower_valve.open(((p_centiSec - m_plateauStartTime)
                                  * (VALVE_CLOSED_STATE - m_peakBlowerValveAngle) / 10u)
