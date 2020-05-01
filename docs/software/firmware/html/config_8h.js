@@ -7,10 +7,12 @@ var config_8h =
     [ "MODE_PROD", "config_8h.html#a0411b2098b68e25eee2e6e12e260ca98", null ],
     [ "MODE_QUALIFICATION", "config_8h.html#af3c748d47bde01edbd190cebc5033ad6", null ],
     [ "PHW_CHU", "config_8h.html#acce73259f986d697a4dcb168fa3328e0", null ],
+    [ "PHW_FAULHABER", "config_8h.html#ad212715cd844118d7df93a460cb57ddf", null ],
     [ "PHW_PIGGY", "config_8h.html#a69d4593c02247efa7743800d8d134222", null ],
     [ "PNEUMATIC_HARDWARE_VERSION", "config_8h.html#a299b8eba7e0de82975c4df2f08b727ff", null ],
     [ "SIMULATION", "config_8h.html#afd29c78cd36d8946cf1202e8e684f7a5", null ],
     [ "VALVE_TYPE", "config_8h.html#a814487cd904f0eccb0162d1bc5e3c42b", null ],
     [ "VT_EMERSON_ASCO", "config_8h.html#ad52c15c77cfe47ed02af6b0c55f790d6", null ],
+    [ "VT_FAULHABER", "config_8h.html#a78ef47cba1b6ba9cc95dff37056eb051", null ],
     [ "VT_SERVO_V1", "config_8h.html#a6d5976e789947b3defb26d33ddc70763", null ]
 ];
