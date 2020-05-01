@@ -51,6 +51,7 @@ pub struct StatusWidgetConfig<'a> {
     unit_text: WidgetId,
     power_box: WidgetId,
     power_text: WidgetId,
+    battery_level: Option<u8>,
     chip_state: &'a ChipState,
     alarms: &'a [(&'a AlarmCode, &'a AlarmPriority)],
 }
@@ -120,6 +121,7 @@ impl<'a> StatusWidgetConfig<'a> {
         unit_text: WidgetId,
         power_box: WidgetId,
         power_text: WidgetId,
+        battery_level: Option<u8>,
         chip_state: &'a ChipState,
         alarms: &'a [(&'a AlarmCode, &'a AlarmPriority)],
     ) -> StatusWidgetConfig<'a> {
@@ -130,6 +132,7 @@ impl<'a> StatusWidgetConfig<'a> {
             unit_text,
             power_box,
             power_text,
+            battery_level,
             chip_state,
             alarms,
         }
@@ -590,14 +593,24 @@ impl<'a> ControlWidget<'a> {
             .bottom_left_of(config.wrapper)
             .set(config.power_box, &mut self.ui);
 
-        widget::text::Text::new(if is_battery_powered {
-            "Battery power"
+        let power_text_value = if is_battery_powered {
+            let mut value = String::from("Battery");
+
+            if let Some(battery_level) = config.battery_level {
+                value.push_str(" (");
+                value.push_str(&battery_level.to_string());
+                value.push_str("V)");
+            }
+
+            value
         } else {
-            "AC power"
-        })
-        .with_style(power_text_style)
-        .mid_top_with_margin_on(config.power_box, STATUS_BOX_TEXT_MARGIN_TOP)
-        .set(config.power_text, &mut self.ui);
+            "AC power".to_string()
+        };
+
+        widget::text::Text::new(&power_text_value)
+            .with_style(power_text_style)
+            .mid_top_with_margin_on(config.power_box, STATUS_BOX_TEXT_MARGIN_TOP)
+            .set(config.power_text, &mut self.ui);
 
         STATUS_WRAPPER_WIDTH
     }

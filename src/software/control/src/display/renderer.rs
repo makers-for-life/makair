@@ -71,6 +71,7 @@ impl DisplayRenderer {
         ongoing_alarms: &[(&AlarmCode, &AlarmPriority)],
         display: &GliumDisplayWinitWrapper,
         interface: &mut Ui,
+        battery_level: Option<u8>,
         chip_state: &ChipState,
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let image_map = conrod_core::image::Map::<texture::Texture2d>::new();
@@ -89,6 +90,7 @@ impl DisplayRenderer {
                 data_pressure,
                 machine_snapshot,
                 ongoing_alarms,
+                battery_level,
                 chip_state,
             ),
             ChipState::Error(e) => self.error(ids, interface, image_map, e.clone()),
@@ -165,6 +167,7 @@ impl DisplayRenderer {
         data_pressure: &DataPressure,
         machine_snapshot: &MachineStateSnapshot,
         ongoing_alarms: &[(&AlarmCode, &AlarmPriority)],
+        battery_level: Option<u8>,
         chip_state: &ChipState,
     ) -> conrod_core::image::Map<texture::Texture2d> {
         // Create branding
@@ -222,7 +225,10 @@ impl DisplayRenderer {
             height: branding_height as _,
         };
 
-        let screen_data_status = ScreenDataStatus { chip_state };
+        let screen_data_status = ScreenDataStatus {
+            chip_state,
+            battery_level,
+        };
         let screen_data_heartbeat = ScreenDataHeartbeat { data_pressure };
 
         let screen_data_graph = ScreenDataGraph {

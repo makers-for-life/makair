@@ -117,6 +117,7 @@ pub struct ScreenDataBranding<'a> {
 }
 
 pub struct ScreenDataStatus<'a> {
+    pub battery_level: Option<u8>,
     pub chip_state: &'a ChipState,
 }
 
@@ -237,6 +238,7 @@ impl<'a> Screen<'a> {
             self.ids.status_unit_text,
             self.ids.status_power_box,
             self.ids.status_power_text,
+            status_data.battery_level,
             status_data.chip_state,
             self.ongoing_alarms.unwrap(),
         );

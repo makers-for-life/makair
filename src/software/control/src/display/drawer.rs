@@ -152,6 +152,7 @@ impl DisplayDrawer {
             &self.chip.ongoing_alarms_sorted(),
             &self.display,
             &mut self.interface,
+            self.chip.get_battery_level(),
             &self.chip.get_state(),
         );
 
