@@ -19,6 +19,9 @@
 #define STEPPER_MIN_SPEED 400
 #define STEPPER_MAX_SPEED 3000
 
+#define STEPPER_OPENED_POSITION -134
+#define STEPPER_CLOSED_POSITION 59
+
 #define STEPPER_EN PA10
 #define STEPPER_HALFFULL PB5
 #define STEPPER_CONTROL PB4
@@ -45,9 +48,9 @@ int VrefPwmPercent = STEPPER_IDLE_CURRENT;
 int VrefCurrent = STEPPER_IDLE_CURRENT;
 int32_t stepperSetpoint = 0;
 int32_t stepperCurrentPosition = 0;
-int32_t stepperSpeed = 0;  // 0 (low speed) - 100 (full speed)  signed, speed can turn negative.
-boolean lastClockState = false;
+int32_t stepperSpeed = 0;     // 0 (low speed) - 100 (full speed)  signed, speed can turn negative.
 boolean initialized = false;  // false until optical zero is reached
+int32_t stepperPreviousMeasuredDuty = 0;
 
 #define PWM_CAPTURE_OVERFLOW 50000
 #define PWM_CAPTURE_PRESCALER 100    // 100 -> 1 us precision
@@ -140,7 +143,7 @@ void Timer_Stepper_SpeedControl_Callback(HardwareTimer*) {
             setVrefRamp(VrefIdle);
         }
     } else {
-        stepperSpeed = 1;  // rotate until initilized
+        stepperSpeed = 15;  // rotate until initilized
     }
     // if rising edge on optical input while speed is positive, set zero
     currentOpticalInput = digitalRead(STEPPER_OPTICAL_INPUT);
@@ -154,6 +157,7 @@ void Timer_Stepper_SpeedControl_Callback(HardwareTimer*) {
 // clock and rotation direction (period vary up to speed)
 void Timer_Stepper_Callback(HardwareTimer*) {
     if (stepperSpeed != 0) {
+        digitalWrite(STEPPER_CLOCK, LOW);
         if (stepperSpeed > 0) {
             digitalWrite(STEPPER_CWCCW, LOW);
             stepperCurrentPosition++;
@@ -161,8 +165,8 @@ void Timer_Stepper_Callback(HardwareTimer*) {
             digitalWrite(STEPPER_CWCCW, HIGH);
             stepperCurrentPosition--;
         }
-        lastClockState = !lastClockState;
-        digitalWrite(STEPPER_CLOCK, lastClockState ? LOW : HIGH);
+        delayMicroseconds(1);
+        digitalWrite(STEPPER_CLOCK, HIGH);
     }
     // 0->100 pulse/s  100->1400 pulse/s
     Timer_Stepper->setOverflow(
@@ -232,9 +236,13 @@ void loop(void) {
     }
 
     if (stepperMode == AUTO) {
-        stepperSetpoint = map(measured_duty, 640, 900, -160, 160);
+        if (abs(stepperPreviousMeasuredDuty - measured_duty) > 3) {
+            stepperSetpoint =
+                map(measured_duty, 640, 900, STEPPER_OPENED_POSITION, STEPPER_CLOSED_POSITION);
+        }
+        stepperPreviousMeasuredDuty = measured_duty;
     }
-    Serial.println (map(measured_duty, 640, 900, -160, 160));
+    Serial.println(measured_duty);
 
     // Serial.print("freq=");
     // Serial.print(measured_freq);
@@ -265,6 +273,7 @@ void setup(void) {
     digitalWrite(STEPPER_CONTROL, LOW);    // low = fast decay
     digitalWrite(STEPPER_HALFFULL, HIGH);  // low = full step
     digitalWrite(STEPPER_CWCCW, LOW);
+    digitalWrite(STEPPER_CLOCK, HIGH);
     digitalWrite(STEPPER_EN, LOW);  // low = disable power
     digitalWrite(STEPPER_RESET, HIGH);
     digitalWrite(STEPPER_EN, HIGH);  // low = disable power
