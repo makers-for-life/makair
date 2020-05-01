@@ -231,6 +231,7 @@ impl<'a> Screen<'a> {
             self.ids.status_unit_text,
             self.ids.status_power_box,
             self.ids.status_power_text,
+            self.ongoing_alarms.unwrap(),
         );
 
         self.widgets.render(ControlWidgetType::Status(config));

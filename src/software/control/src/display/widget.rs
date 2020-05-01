@@ -43,13 +43,14 @@ pub struct BrandingWidgetConfig<'a> {
     ids: (WidgetId, WidgetId),
 }
 
-pub struct StatusWidgetConfig {
+pub struct StatusWidgetConfig<'a> {
     container: WidgetId,
     wrapper: WidgetId,
     unit_box: WidgetId,
     unit_text: WidgetId,
     power_box: WidgetId,
     power_text: WidgetId,
+    alarms: &'a [(&'a AlarmCode, &'a AlarmPriority)],
 }
 
 pub struct HeartbeatWidgetConfig<'a> {
@@ -109,7 +110,7 @@ impl<'a> BrandingWidgetConfig<'a> {
     }
 }
 
-impl StatusWidgetConfig {
+impl<'a> StatusWidgetConfig<'a> {
     pub fn new(
         container: WidgetId,
         wrapper: WidgetId,
@@ -117,6 +118,7 @@ impl StatusWidgetConfig {
         unit_text: WidgetId,
         power_box: WidgetId,
         power_text: WidgetId,
+        alarms: &'a [(&'a AlarmCode, &'a AlarmPriority)],
     ) -> StatusWidgetConfig {
         StatusWidgetConfig {
             container,
@@ -125,6 +127,7 @@ impl StatusWidgetConfig {
             unit_text,
             power_box,
             power_text,
+            alarms,
         }
     }
 }
@@ -238,7 +241,7 @@ pub enum ControlWidgetType<'a> {
     Background(BackgroundWidgetConfig),
     Error(ErrorWidgetConfig),
     Branding(BrandingWidgetConfig<'a>),
-    Status(StatusWidgetConfig),
+    Status(StatusWidgetConfig<'a>),
     Heartbeat(HeartbeatWidgetConfig<'a>),
     Initializing(InitializingWidgetConfig),
     Graph(GraphWidgetConfig),
@@ -330,7 +333,12 @@ impl<'a> ControlWidget<'a> {
             for x in 0..alarms_count {
                 let (code, alarm) = config.alarms.get(x).unwrap();
 
-                self.alarm(&config, **code, alarm, x);
+                // Should this code be displayed or ignored?
+                // Notice: ignored alarm codes are used in other more specific places, eg. code \
+                //   31 for battery power usage indicator.
+                if DISPLAY_ALARM_CODE_IGNORES.contains(&code.code()) == false {
+                    self.alarm(&config, **code, alarm, x);
+                }
             }
         } else {
             widget::text::Text::new("There is no active alarm.")
@@ -492,6 +500,13 @@ impl<'a> ControlWidget<'a> {
     fn status(&mut self, config: StatusWidgetConfig) -> f64 {
         let (box_height, box_width) = (STATUS_WRAPPER_HEIGHT / 2.0, STATUS_WRAPPER_WIDTH);
 
+        // Check whether power is currently on AC or battery
+        // Notice: the telemetry library reports this as an alarm
+        let is_battery_powered = config
+            .alarms
+            .iter()
+            .any(|alarm| alarm.0.code() == STATUS_ALARM_CODE_POWER_BATTERY);
+
         // Render canvas
         let mut wrapper_style = canvas::Style::default();
 
@@ -542,8 +557,12 @@ impl<'a> ControlWidget<'a> {
         power_text_style.color = Some(color::WHITE);
         power_text_style.font_size = Some(10);
 
-        // TODO: dynamic color depending on battery status
-        power_box_style.color = Some(color::TRANSPARENT);
+        if is_battery_powered {
+            power_box_style.color = Some(Color::Rgba(208.0 / 255.0, 92.0 / 255.0, 0.0, 1.0));
+        } else {
+            power_box_style.color = Some(color::TRANSPARENT);
+        }
+
         power_box_style.border = Some(0.0);
         power_box_style.border_color = Some(color::TRANSPARENT);
 
@@ -553,11 +572,14 @@ impl<'a> ControlWidget<'a> {
             .bottom_left_of(config.wrapper)
             .set(config.power_box, &mut self.ui);
 
-        // TODO: dynamic text depending on battery status
-        widget::text::Text::new("AC power")
-            .with_style(power_text_style)
-            .mid_top_with_margin_on(config.power_box, STATUS_BOX_TEXT_MARGIN_TOP)
-            .set(config.power_text, &mut self.ui);
+        widget::text::Text::new(if is_battery_powered {
+            "Battery power"
+        } else {
+            "AC power"
+        })
+        .with_style(power_text_style)
+        .mid_top_with_margin_on(config.power_box, STATUS_BOX_TEXT_MARGIN_TOP)
+        .set(config.power_text, &mut self.ui);
 
         STATUS_WRAPPER_WIDTH
     }
