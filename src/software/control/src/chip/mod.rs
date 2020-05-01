@@ -177,18 +177,15 @@ mod tests {
     use crate::test_strategies::tests::TelemetryStrategies;
     use proptest::collection;
     use proptest::test_runner::TestRunner;
-    use std::cell::Cell;
 
     #[test]
     fn test_chip_new_event() {
-        let tms = TelemetryStrategies {
-            current_systick: Cell::new(10_000_000_000_u64),
-        };
-        let mut runner = TestRunner::default();
-
-        runner
+        TestRunner::default()
             .run(
-                &collection::vec(tms.telemetry_message_strategy(), 0..100),
+                &collection::vec(
+                    TelemetryStrategies::new().telemetry_message_strategy(),
+                    0..100,
+                ),
                 |msgs| {
                     let mut chip = Chip::new();
 

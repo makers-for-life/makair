@@ -60,7 +60,13 @@ pub mod tests {
     }
 
     impl TelemetryStrategies {
-        pub fn systick_strategy<'a>(&'a self) -> impl Strategy<Value = u64> + 'a {
+        pub fn new() -> TelemetryStrategies {
+            TelemetryStrategies {
+                current_systick: Cell::new(10_000_000_000_u64),
+            }
+        }
+
+        pub fn systick_strategy(&self) -> impl Strategy<Value = u64> + '_ {
             (-100i64..1000).prop_map(move |delta| {
                 let new_state = (self.current_systick.get() as i64 + delta) as u64;
                 self.current_systick.set(new_state);
@@ -68,9 +74,9 @@ pub mod tests {
             })
         }
 
-        pub fn boot_message_strategy<'a>(
-            &'a self,
-        ) -> impl Strategy<Value = (BootMessage, DeviceIdInts)> + 'a {
+        pub fn boot_message_strategy(
+            &self,
+        ) -> impl Strategy<Value = (BootMessage, DeviceIdInts)> + '_ {
             (
                 ".*",
                 device_id_ints_strategy(),
@@ -92,9 +98,9 @@ pub mod tests {
                 })
         }
 
-        pub fn stopped_message_strategy<'a>(
-            &'a self,
-        ) -> impl Strategy<Value = (StoppedMessage, DeviceIdInts)> + 'a {
+        pub fn stopped_message_strategy(
+            &self,
+        ) -> impl Strategy<Value = (StoppedMessage, DeviceIdInts)> + '_ {
             (".*", device_id_ints_strategy(), self.systick_strategy()).prop_map(
                 |(version, device_id, systick)| {
                     (
@@ -109,9 +115,9 @@ pub mod tests {
             )
         }
 
-        pub fn data_snapshot_message_strategy<'a>(
-            &'a self,
-        ) -> impl Strategy<Value = (DataSnapshot, DeviceIdInts, (Phase, SubPhase))> + 'a {
+        pub fn data_snapshot_message_strategy(
+            &self,
+        ) -> impl Strategy<Value = (DataSnapshot, DeviceIdInts, (Phase, SubPhase))> + '_ {
             (
                 ".*",
                 device_id_ints_strategy(),
@@ -158,9 +164,9 @@ pub mod tests {
                 )
         }
 
-        pub fn machine_state_message_strategy<'a>(
-            &'a self,
-        ) -> impl Strategy<Value = (MachineStateSnapshot, DeviceIdInts)> + 'a {
+        pub fn machine_state_message_strategy(
+            &self,
+        ) -> impl Strategy<Value = (MachineStateSnapshot, DeviceIdInts)> + '_ {
             (
                 (
                     ".*",
@@ -216,9 +222,9 @@ pub mod tests {
                 )
         }
 
-        pub fn alarm_trap_message_strategy<'a>(
-            &'a self,
-        ) -> impl Strategy<Value = (AlarmTrap, DeviceIdInts, (Phase, SubPhase))> + 'a {
+        pub fn alarm_trap_message_strategy(
+            &self,
+        ) -> impl Strategy<Value = (AlarmTrap, DeviceIdInts, (Phase, SubPhase))> + '_ {
             (
                 (
                     ".*",
@@ -279,9 +285,7 @@ pub mod tests {
                 )
         }
 
-        pub fn telemetry_message_strategy<'a>(
-            &'a self,
-        ) -> impl Strategy<Value = TelemetryMessage> + 'a {
+        pub fn telemetry_message_strategy(&self) -> impl Strategy<Value = TelemetryMessage> + '_ {
             prop_oneof![
                 self.boot_message_strategy()
                     .prop_map(|(msg, _)| TelemetryMessage::BootMessage(msg)),
