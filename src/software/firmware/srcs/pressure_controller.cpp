@@ -27,6 +27,7 @@
 #endif
 
 static const int32_t INVALID_ERROR_MARKER = INT32_MIN;
+static const uint32_t INVALID_ERROR_MARKER_U = UINT32_MAX;
 
 // INITIALISATION =============================================================
 
@@ -64,7 +65,8 @@ PressureController::PressureController()
       m_lastPressureValuesIndex(0),
       m_sumOfPressures(0),
       m_numberOfPressures(0),
-      m_plateauStartTime(0u) {
+      m_plateauStartTime(0u),
+      m_isPlateauSquareModeOn(true) {
     computeCentiSecParameters();
     for (uint8_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
         m_lastPressureValues[i] = 0;
@@ -78,7 +80,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
                                        const PressureValve& p_blower_valve,
                                        const PressureValve& p_patient_valve,
                                        AlarmController* p_alarmController,
-                                       Blower* p_blower)
+                                       Blower* p_blower,
+                                       bool p_isPlateauSquareModeOn)
     : m_cyclesPerMinuteCommand(p_cyclesPerMinute),
       m_minPeepCommand(p_minPeepCommand),
       m_maxPlateauPressureCommand(p_maxPlateauPressure),
@@ -112,7 +115,8 @@ PressureController::PressureController(int16_t p_cyclesPerMinute,
       m_lastPressureValuesIndex(0),
       m_sumOfPressures(0),
       m_numberOfPressures(0),
-      m_plateauStartTime(0u) {
+      m_plateauStartTime(0u),
+      m_isPlateauSquareModeOn(p_isPlateauSquareModeOn) {
     computeCentiSecParameters();
     for (uint8_t i = 0; i < MAX_PRESSURE_SAMPLES; i++) {
         m_lastPressureValues[i] = 0;
@@ -147,6 +151,7 @@ void PressureController::initRespiratoryCycle() {
     blowerLastError = INVALID_ERROR_MARKER;
     patientIntegral = 0;
     patientLastError = INVALID_ERROR_MARKER;
+    patientLastAperture = INVALID_ERROR_MARKER_U;
 
     m_peakPressure = 0;
     computeCentiSecParameters();
@@ -183,10 +188,21 @@ void PressureController::initRespiratoryCycle() {
     m_numberOfPressures = 0u;
 
     m_plateauStartTime = 0u;
+
+    m_squarePlateauSum = 0u;
+    m_squarePlateauCount = 0u;
 }
 
 void PressureController::endRespiratoryCycle() {
-    updatePeakPressure();
+
+    if (m_isPlateauSquareModeOn){
+        updateOnlyBlower();
+        // In square plateau mode, plateau pressure is the mean pressure during plateau
+        m_plateauPressure = m_squarePlateauSum / m_squarePlateauCount;
+    } else {
+        updatePeakPressure();
+    }
+    
     checkCycleAlarm();
 
     // If plateau is not detected or is too close to PEEP, mark it as "unknown"
@@ -230,6 +246,7 @@ void PressureController::compute(uint16_t p_centiSec) {
     // Update the cycle phase
     updatePhase(p_centiSec);
 
+
     // Compute metrics for alarms
     m_sumOfPressures += m_pressure;
     m_numberOfPressures++;
@@ -247,8 +264,13 @@ void PressureController::compute(uint16_t p_centiSec) {
     case CycleSubPhases::EXHALE:
     default: {
         exhale();
-        // Plateau happens with delay related to the pressure command
-        computePlateau(p_centiSec);
+        // in this mode, Plateau happens with delay related to the pressure command
+        if (m_isPlateauSquareModeOn){
+            //Do nothing
+        } else {
+            computePlateau(p_centiSec);
+        }
+        
         break;
     }
     }
@@ -395,7 +417,13 @@ void PressureController::updatePhase(uint16_t p_centiSec) {
         if ((p_centiSec < ((m_centiSecPerInhalation * 80u) / 100u))
             && (m_pressure < (m_maxPeakPressureCommand - 10u))) {
             if (m_subPhase != CycleSubPhases::HOLD_INSPIRATION) {
-                m_pressureCommand = m_maxPeakPressureCommand;
+                
+                if (m_isPlateauSquareModeOn){
+                    m_pressureCommand = m_maxPlateauPressureCommand;
+                } else {
+                    m_pressureCommand = m_maxPeakPressureCommand;
+                }
+
                 setSubPhase(CycleSubPhases::INSPIRATION, p_centiSec);
             }
         } else {
@@ -423,7 +451,16 @@ void PressureController::inhale() {
 
 void PressureController::plateau() {
     // Deviate the air stream outside
-    m_blower_valve.close();
+    
+    if (m_isPlateauSquareModeOn){
+        m_blower_valve.open(pidBlower(m_pressureCommand, m_pressure, m_dt));
+        m_squarePlateauSum += m_pressure;
+        m_squarePlateauCount += 1u;
+    } else {
+        m_blower_valve.close();
+    }
+
+
 
     // Close the air stream towards the patient's lungs
     m_patient_valve.close();
@@ -438,6 +475,8 @@ void PressureController::exhale() {
 
     // Open the valve so the patient can exhale outside
     m_patient_valve.open(pidPatient(m_pressureCommand, m_pressure, m_dt));
+
+    
 
     // Update the PEEP
     m_peep = m_pressure;
@@ -548,6 +587,52 @@ void PressureController::updatePeakPressure() {
             DBG_DO(Serial.println("BLOWER +0");)
         }
     }
+}
+
+
+void PressureController::updateOnlyBlower() {
+    int16_t plateauDelta = m_maxPlateauPressureCommand - m_plateauPressure;
+
+    DBG_DO(Serial.println("updatePeakPressure");)
+// If plateau was reached quite early
+        if (m_plateauStartTime < ((m_centiSecPerInhalation * 10u) / 100u)) {
+            DBG_DO(Serial.println("BLOWER -20");)
+
+            // If the peak delta is high, decrease blower's speed a lot
+            if (plateauDelta < -20) {
+                m_blower_increment = -60;
+                DBG_DO(Serial.print("BLOWER -60, peak: ");)
+                DBG_DO(Serial.println(plateauDelta);)
+            } else {
+                m_blower_increment = -20;
+                DBG_DO(Serial.println("BLOWER -20");)
+            }
+        } else if ((m_plateauStartTime >= ((m_centiSecPerInhalation * 10u) / 100u))
+                   && (m_plateauStartTime < ((m_centiSecPerInhalation * 20u) / 100u))) {
+            DBG_DO(Serial.println("BLOWER -10");)
+            m_blower_increment = -10;
+        } else if ((m_plateauStartTime > ((m_centiSecPerInhalation * 30u) / 100u))
+                   && (m_plateauStartTime <= ((m_centiSecPerInhalation * 40u) / 100u))
+                   && abs(plateauDelta) > 10) {
+            DBG_DO(Serial.println("BLOWER +10");)
+            m_blower_increment = +10;
+        } else if (m_plateauStartTime > ((m_centiSecPerInhalation * 40u) / 100u)) {
+            if (plateauDelta > 60) {
+                m_blower_increment = +60;
+                DBG_DO(Serial.print("BLOWER +60, peak: ");)
+                DBG_DO(Serial.println(plateauDelta);)
+            } else if (plateauDelta > 40) {
+                m_blower_increment = +40;
+                DBG_DO(Serial.print("BLOWER +40, peak: ");)
+                DBG_DO(Serial.println(plateauDelta);)
+            } else {
+                m_blower_increment = +20;
+                DBG_DO(Serial.println("BLOWER +20");)
+            }
+        } else {
+            m_blower_increment = 0;
+            DBG_DO(Serial.println("BLOWER +0");)
+        }
 }
 
 void PressureController::computeCentiSecParameters() {
@@ -662,6 +747,36 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
     uint32_t patientAperture =
         max(minAperture,
             min(maxAperture, maxAperture + (maxAperture - minAperture) * patientCommand / 1000));
+
+    Serial.print(m_pressureCommand);
+    Serial.print(",");
+    Serial.print(m_pressure);
+    Serial.print(",");
+    Serial.print((PID_PATIENT_KP * error));
+    Serial.print(",");
+    Serial.print(patientIntegral);
+    Serial.print(",");
+    Serial.print(((PID_PATIENT_KD * derivative) / 1000));
+    Serial.print(",");
+    Serial.print(patientCommand);
+    Serial.print(",");
+    Serial.print(patientAperture);
+    Serial.print(",");
+    Serial.print(patientLastAperture);
+    Serial.println();
+
+    if (patientLastAperture != INVALID_ERROR_MARKER_U){
+        if (patientAperture > patientLastAperture + 1){
+            patientAperture = patientLastAperture + 1;
+        } else if ( patientLastAperture > 1& patientAperture < patientLastAperture - 1){
+            patientAperture = patientLastAperture - 1;
+        }
+    }
+    patientLastAperture = patientAperture;
+
+
+
+    
 
     return patientAperture;
 }

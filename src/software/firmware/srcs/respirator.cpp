@@ -54,6 +54,7 @@ int32_t pressureOffsetSum;
 uint32_t pressureOffsetCount;
 int16_t minOffsetValue = 0;
 int16_t maxOffsetValue = 0;
+bool isPlateauSquareModeOn = true;
 
 #if HARDWARE_VERSION == 2
 HardwareSerial Serial6(PIN_TELEMETRY_SERIAL_RX, PIN_TELEMETRY_SERIAL_TX);
@@ -151,7 +152,7 @@ void setup(void) {
 
     pController = PressureController(INITIAL_CYCLE_NUMBER, DEFAULT_MIN_PEEP_COMMAND,
                                      DEFAULT_MAX_PLATEAU_COMMAND, DEFAULT_MAX_PEAK_PRESSURE_COMMAND,
-                                     servoBlower, servoPatient, &alarmController, blower_pointer);
+                                     servoBlower, servoPatient, &alarmController, blower_pointer, isPlateauSquareModeOn);
     pController.setup();
 
     // Prepare LEDs

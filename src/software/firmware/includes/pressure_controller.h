@@ -49,7 +49,8 @@ class PressureController {
                        const PressureValve& p_blower_valve,
                        const PressureValve& p_patient_valve,
                        AlarmController* p_alarmController,
-                       Blower* p_blower);
+                       Blower* p_blower,
+                       bool p_isPlateauSquareModeOn);
 
     /// Initialize actuators
     void setup();
@@ -231,6 +232,9 @@ class PressureController {
     /// At the end of a respiratory cycle, check if some alarms are triggered
     void checkCycleAlarm();
 
+    /// Update only blower speed
+    void updateOnlyBlower();
+
  private:
     /// Number of cycles per minute desired by the operator
     uint16_t m_cyclesPerMinuteCommand;
@@ -264,6 +268,12 @@ class PressureController {
 
     /// Measured pressure
     uint16_t m_pressure;
+
+    /// Sum for calulating square plateau value
+    uint64_t m_squarePlateauSum;
+
+    /// Count for calulating square plateau value
+    uint16_t m_squarePlateauCount;
 
     /// Peak pressure
     uint16_t m_peakPressure;
@@ -329,6 +339,13 @@ class PressureController {
      */
     int32_t patientLastError;
 
+    /**
+     * Aperture of the last computation of the patient PID
+     *
+     * @note This must be persisted between computation
+     */
+    uint32_t patientLastAperture;
+
     /// Alarm controller
     AlarmController* m_alarmController;
 
@@ -337,6 +354,9 @@ class PressureController {
 
     /// True if plateau is computed, false otherwise
     bool m_plateauComputed;
+
+    /// Is plateau square mode ON
+    bool m_isPlateauSquareModeOn;
 
     /// Last pressure values
     uint16_t m_lastPressureValues[MAX_PRESSURE_SAMPLES];

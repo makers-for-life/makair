@@ -76,16 +76,16 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 20;
 #elif PNEUMATIC_HARDWARE_VERSION == PHW_CHU
 
 static const int32_t PID_BLOWER_KP = 1;
-static const int32_t PID_BLOWER_KI = 25;
-static const int32_t PID_BLOWER_KD = 0;
+static const int32_t PID_BLOWER_KI = 50;
+static const int32_t PID_BLOWER_KD = 25;
 static const int32_t PID_BLOWER_INTEGRAL_MAX = 1000;
 static const int32_t PID_BLOWER_INTEGRAL_MIN = -1000;
 
-static const int32_t PID_PATIENT_KP = 4;
-static const int32_t PID_PATIENT_KI = 32;
-static const int32_t PID_PATIENT_KD = 12;
-static const int32_t PID_PATIENT_INTEGRAL_MAX = 630;
-static const int32_t PID_PATIENT_INTEGRAL_MIN = -630;
+static const int32_t PID_PATIENT_KP = 13;
+static const int32_t PID_PATIENT_KI = 0;
+static const int32_t PID_PATIENT_KD = 0;
+static const int32_t PID_PATIENT_INTEGRAL_MAX = 1000;
+static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
 
 /// Increase target pressure by an offset (in mmH2O) for safety, to avoid going below the target
 /// pressure
@@ -103,7 +103,7 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
 #define VALVE_OPEN_STATE 0u
 
 /// Angle when closed
-#define VALVE_CLOSED_STATE 125u
+#define VALVE_CLOSED_STATE 105u
 #if VALVE_TYPE == VT_SERVO_V1
 #define SERVO_VALVE_PERIOD                                                                         \
     10000  // 100 Hz : on hardware 1, esc timer is shared between servo and esc. Servo can handle
