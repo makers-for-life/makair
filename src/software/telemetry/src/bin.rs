@@ -100,7 +100,7 @@ fn record(cfg: Record) {
         .write(true)
         .create_new(true)
         .open(&cfg.output)
-        .unwrap();
+        .expect("failed to create recording file");
     let file_buffer = BufWriter::new(file);
 
     let (tx, rx): (Sender<TelemetryChannelType>, Receiver<TelemetryChannelType>) =
@@ -124,7 +124,7 @@ fn record(cfg: Record) {
 }
 
 fn play(cfg: Play) {
-    let file = File::open(cfg.input).unwrap();
+    let file = File::open(cfg.input).expect("failed to play recorded file");
     let (tx, rx): (Sender<TelemetryChannelType>, Receiver<TelemetryChannelType>) =
         std::sync::mpsc::channel();
     std::thread::spawn(move || {
