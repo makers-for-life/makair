@@ -365,11 +365,8 @@ void PressureController::onPlateauPressureIncrease() {
 
     m_maxPlateauPressureCommand = m_maxPlateauPressureCommand + 10u;
 
-    if (m_maxPlateauPressureCommand
-        > min(m_maxPeakPressureCommand, static_cast<uint16_t>(CONST_MAX_PLATEAU_PRESSURE))) {
-        m_maxPlateauPressureCommand =
-            min(m_maxPeakPressureCommand, static_cast<uint16_t>(CONST_MAX_PLATEAU_PRESSURE));
-    }
+    m_maxPlateauPressureCommand =
+        min(m_maxPlateauPressureCommand, static_cast<uint16_t>(CONST_MAX_PLATEAU_PRESSURE));
 }
 
 void PressureController::onPeakPressureDecrease(uint8_t p_decrement) {
@@ -377,11 +374,8 @@ void PressureController::onPeakPressureDecrease(uint8_t p_decrement) {
 
     m_maxPeakPressureCommand = m_maxPeakPressureCommand - p_decrement;
 
-    if (m_maxPeakPressureCommand
-        < max(m_maxPlateauPressureCommand, static_cast<uint16_t>(CONST_MIN_PEAK_PRESSURE))) {
-        m_maxPeakPressureCommand =
-            max(m_maxPlateauPressureCommand, static_cast<uint16_t>(CONST_MIN_PEAK_PRESSURE));
-    }
+    m_maxPeakPressureCommand =
+            max(m_maxPeakPressureCommand, static_cast<uint16_t>(CONST_MIN_PEAK_PRESSURE));
 }
 
 void PressureController::onPeakPressureIncrease(uint8_t p_increment) {
@@ -461,18 +455,31 @@ void PressureController::updatePeakPressure() {
     if ((m_plateauPressure > 0u) && (m_plateauPressure < UINT16_MAX)) {
         DBG_DO(Serial.println("Plateau detected");)
 
-        if (abs(plateauDelta) > 20) {
+        if (plateauDelta > 60) {
             m_maxPeakPressureCommand =
                 // cppcheck-suppress misra-c2012-12.3
-                min((min(m_peakPressure, m_maxPeakPressureCommand) + plateauDelta),
+                min(min(m_peakPressure, m_maxPeakPressureCommand) + 60,
                     static_cast<int>(CONST_MAX_PEAK_PRESSURE));
+        } else if (abs(plateauDelta) > 20) {
+            m_maxPeakPressureCommand =
+                // cppcheck-suppress misra-c2012-12.3
+                max(min(min(m_peakPressure, m_maxPeakPressureCommand) + plateauDelta,
+                        // cppcheck-suppress misra-c2012-12.3
+                        static_cast<int>(CONST_MAX_PEAK_PRESSURE)),
+                    static_cast<int>(m_maxPlateauPressureCommand));
         } else if ((abs(plateauDelta) < 20) && (abs(plateauDelta) > 5)) {
             m_maxPeakPressureCommand =
-                min(min(m_peakPressure, m_maxPeakPressureCommand) + (plateauDelta / 2),
-                    static_cast<int>(CONST_MAX_PEAK_PRESSURE));
+                // cppcheck-suppress misra-c2012-12.3
+                max(min(min(m_peakPressure, m_maxPeakPressureCommand) + (plateauDelta / 2),
+                        // cppcheck-suppress misra-c2012-12.3
+                        static_cast<int>(CONST_MAX_PEAK_PRESSURE)),
+                    static_cast<int>(m_maxPlateauPressureCommand));
         } else {
             // Do nothing
         }
+
+        m_maxPeakPressureCommand = min(m_maxPeakPressureCommand,
+                                       static_cast<uint16_t>(m_maxPlateauPressureCommand + 150u));
 
         DBG_DO(Serial.print("Peak command:");)
         DBG_DO(Serial.println(m_maxPeakPressureCommand);)

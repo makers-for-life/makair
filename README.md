@@ -114,7 +114,9 @@ The motherboard electronic schematics and wiring diagrams [can be found there](.
 
 ### 2. Control Unit Screen
 
-_🚧 Work In Progress. The Control Unit UI is coming as part of MakAir V2._
+The control unit is made of a [Raspberry Pi 4](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) computer, plugged to a [Raspberry Pi Touch Display](https://www.raspberrypi.org/products/raspberry-pi-touch-display/).
+
+👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
 
 ## 3️⃣ Flash the firmware
 
@@ -128,7 +130,9 @@ Firmware release binaries are available for download on our [releases page](http
 
 ### 2. Control Unit Runtime
 
-_🚧 Work In Progress. The Control Unit UI is coming as part of MakAir V2._
+The Control Unit should be built and ran on the Raspberry Pi 4 using instructions available on the [Control Unit](./src/software/control) documentation.
+
+👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
 
 # Components
 
@@ -160,7 +164,7 @@ _🚧 Work In Progress. The Control Unit UI is coming as part of MakAir V2._
 | Runtime | Version | Major Changes | Ready? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
 | [Ventilator Firmware](./src/software/firmware) | V1.5.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + [Gabriel Moneyron](https://github.com/Benhalor)
-| [Control Unit](./src/software/control) | V1.0.x | Project started | ❌ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce) + [Arnaud Lefebvre](https://github.com/BlackYoup)
+| [Control Unit](./src/software/control) | V1.1.x | Operational initial release | ✅ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce) + [Arnaud Lefebvre](https://github.com/BlackYoup)
 | [Telemetry Library](./src/software/telemetry) | V1.0.0 | Working serial parsing from firmware | ✅ | [David Sferruzza](https://github.com/dsferruzza)
 
 # Schemes
@@ -236,6 +240,7 @@ Adding to that, 200+ individual members of the project who contributed to techni
 
 ## 📺 TV
 
+* [France 3, 21st April 2020](https://www.youtube.com/watch?v=M3QLCvUyIII) (French-speaking)
 * [TF1, 26th April 2020](https://www.youtube.com/watch?v=2X157RLbRIA) (French-speaking)
 
 # Renders

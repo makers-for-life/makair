@@ -1,6 +1,6 @@
 [package]
 name = "makair-control"
-version = "1.0.0"
+version = "1.1.0"
 description = "Control UI for the MakAir SARS respirator."
 readme = "README.md"
 license-file = "LICENSE.txt"
@@ -20,6 +20,7 @@ doc = false
 log = "0.4"
 clap = { version = "2.33", default-features = false }
 lazy_static = "1.4"
+rust-embed = { version = "5.5.1", features = ["compression"] }
 chrono = "0.4.11"
 winit = "0.19"
 image = "0.23.3"
@@ -32,6 +33,10 @@ telemetry = { path = "../telemetry", features = ["env_logger"], version = "1.0" 
 
 [dev-dependencies]
 proptest = "0.9.6"
+
+[features]
+default = []
+graph-scaler = []
 
 [profile.dev]
 opt-level = 0

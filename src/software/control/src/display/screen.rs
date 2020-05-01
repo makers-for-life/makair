@@ -6,20 +6,24 @@
 use conrod_core::color::{self, Color};
 
 use telemetry::alarm::AlarmCode;
-use telemetry::structures::{AlarmTrap, MachineStateSnapshot};
+use telemetry::structures::{AlarmPriority, MachineStateSnapshot};
 
-use crate::config::environment::{RUNTIME_VERSION, TELEMETRY_WIDGET_SPACING_FROM_BOTTOM};
+use crate::chip::ChipState;
+use crate::config::environment::*;
+use crate::physics::types::DataPressure;
 
 use super::fonts::Fonts;
 use super::widget::{
     AlarmsWidgetConfig, BackgroundWidgetConfig, BrandingWidgetConfig, ControlWidget,
-    ControlWidgetType, ErrorWidgetConfig, GraphWidgetConfig, InitializingWidgetConfig,
-    NoDataWidgetConfig, StopWidgetConfig, TelemetryWidgetConfig,
+    ControlWidgetType, ErrorWidgetConfig, GraphWidgetConfig, HeartbeatWidgetConfig,
+    InitializingWidgetConfig, NoDataWidgetConfig, StatusWidgetConfig, StopWidgetConfig,
+    TelemetryWidgetConfig,
 };
 
 widget_ids!(pub struct Ids {
   alarm_container,
   alarm_title,
+  alarm_empty,
   alarm_alarms[],
   alarm_codes_containers[],
   alarm_codes[],
@@ -34,34 +38,56 @@ widget_ids!(pub struct Ids {
   branding_image,
   branding_text,
 
+  status_wrapper,
+  status_unit_box,
+  status_unit_text,
+  status_power_box,
+  status_power_text,
+
+  heartbeat_ground,
+  heartbeat_surround,
+  heartbeat_inner,
+
   cycles_parent,
   cycles_title,
-  cycles_value,
+  cycles_value_measured,
+  cycles_value_arrow,
+  cycles_value_target,
   cycles_unit,
 
   peak_parent,
   peak_title,
-  peak_value,
+  peak_value_measured,
+  peak_value_arrow,
+  peak_value_target,
   peak_unit,
 
   plateau_parent,
   plateau_title,
-  plateau_value,
+  plateau_value_measured,
+  plateau_value_arrow,
+  plateau_value_target,
   plateau_unit,
 
   peep_parent,
   peep_title,
-  peep_value,
+  peep_value_measured,
+  peep_value_arrow,
+  peep_value_target,
   peep_unit,
 
   ratio_parent,
   ratio_title,
-  ratio_value,
+  ratio_value_measured,
+  ratio_value_arrow,
+  ratio_value_target,
   ratio_unit,
 
   tidal_parent,
   tidal_title,
-  tidal_value,
+  tidal_value_measured,
+  tidal_value_arrow,
+  tidal_value_target,
   tidal_unit,
 
   stopped_background,
@@ -72,13 +98,14 @@ widget_ids!(pub struct Ids {
 
   no_data,
   error,
-  initializing
+
+  initializing_logo,
 });
 
 pub struct Screen<'a> {
     ids: &'a Ids,
     machine_snapshot: Option<&'a MachineStateSnapshot>,
-    ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmTrap)]>,
+    ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmPriority)]>,
     widgets: ControlWidget<'a>,
 }
 
@@ -89,7 +116,26 @@ pub struct ScreenDataBranding<'a> {
     pub height: f64,
 }
 
+pub struct ScreenDataStatus<'a> {
+    pub battery_level: Option<u8>,
+    pub chip_state: &'a ChipState,
+}
+
+pub struct ScreenDataHeartbeat<'a> {
+    pub data_pressure: &'a DataPressure,
+}
+
 pub struct ScreenDataGraph {
+    pub image_id: conrod_core::image::Id,
+    pub width: f64,
+    pub height: f64,
+}
+
+pub struct ScreenDataTelemetry {
+    pub arrow_image_id: conrod_core::image::Id,
+}
+
+pub struct ScreenBootLoader {
     pub image_id: conrod_core::image::Id,
     pub width: f64,
     pub height: f64,
@@ -101,7 +147,7 @@ impl<'a> Screen<'a> {
         ids: &'a Ids,
         fonts: &'a Fonts,
         machine_snapshot: Option<&'a MachineStateSnapshot>,
-        ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmTrap)]>,
+        ongoing_alarms: Option<&'a [(&'a AlarmCode, &'a AlarmPriority)]>,
     ) -> Screen<'a> {
         Screen {
             ids,
@@ -114,10 +160,16 @@ impl<'a> Screen<'a> {
     pub fn render_with_data(
         &mut self,
         branding_data: ScreenDataBranding<'a>,
+        status_data: ScreenDataStatus<'a>,
+        heartbeat_data: ScreenDataHeartbeat<'a>,
         graph_data: ScreenDataGraph,
+        telemetry_data: ScreenDataTelemetry,
     ) {
         // Render common background
         self.render_background();
+
+        // Render middle elements
+        self.render_graph(graph_data.image_id, graph_data.width, graph_data.height);
 
         // Render top elements
         self.render_branding(
@@ -128,12 +180,11 @@ impl<'a> Screen<'a> {
             branding_data.height,
         );
         self.render_alarms();
-
-        // Render middle elements
-        self.render_graph(graph_data.image_id, graph_data.width, graph_data.height);
+        self.render_status(status_data);
+        self.render_heartbeat(heartbeat_data);
 
         // Render bottom elements
-        self.render_telemetry();
+        self.render_telemetry(telemetry_data);
     }
 
     pub fn render_background(&mut self) {
@@ -167,6 +218,7 @@ impl<'a> Screen<'a> {
             parent: self.ids.background,
             container: self.ids.alarm_container,
             title: self.ids.alarm_title,
+            empty: self.ids.alarm_empty,
             alarm_widgets: &self.ids.alarm_alarms,
             alarm_codes_containers: &self.ids.alarm_codes_containers,
             alarm_codes: &self.ids.alarm_codes,
@@ -176,6 +228,35 @@ impl<'a> Screen<'a> {
         };
 
         self.widgets.render(ControlWidgetType::Alarms(config));
+    }
+
+    pub fn render_status(&mut self, status_data: ScreenDataStatus<'a>) {
+        let config = StatusWidgetConfig::new(
+            self.ids.background,
+            self.ids.status_wrapper,
+            self.ids.status_unit_box,
+            self.ids.status_unit_text,
+            self.ids.status_power_box,
+            self.ids.status_power_text,
+            status_data.battery_level,
+            status_data.chip_state,
+            self.ongoing_alarms.unwrap(),
+        );
+
+        self.widgets.render(ControlWidgetType::Status(config));
+    }
+
+    pub fn render_heartbeat(&mut self, heartbeat_data: ScreenDataHeartbeat<'a>) {
+        let config = HeartbeatWidgetConfig::new(
+            heartbeat_data.data_pressure,
+            self.machine_snapshot.unwrap().peak_command,
+            self.ids.background,
+            self.ids.heartbeat_ground,
+            self.ids.heartbeat_surround,
+            self.ids.heartbeat_inner,
+        );
+
+        self.widgets.render(ControlWidgetType::Heartbeat(config));
     }
 
     pub fn render_graph(&mut self, image_id: conrod_core::image::Id, width: f64, height: f64) {
@@ -193,9 +274,19 @@ impl<'a> Screen<'a> {
     pub fn render_stop(
         &mut self,
         branding_data: ScreenDataBranding<'a>,
+        status_data: ScreenDataStatus<'a>,
+        heartbeat_data: ScreenDataHeartbeat<'a>,
         graph_data: ScreenDataGraph,
+        telemetry_data: ScreenDataTelemetry,
     ) {
-        self.render_with_data(branding_data, graph_data);
+        // Render regular data as background
+        self.render_with_data(
+            branding_data,
+            status_data,
+            heartbeat_data,
+            graph_data,
+            telemetry_data,
+        );
 
         let config = StopWidgetConfig {
             parent: self.ids.background,
@@ -206,6 +297,7 @@ impl<'a> Screen<'a> {
             message: self.ids.stopped_message,
         };
 
+        // Render stop layer
         self.widgets.render(ControlWidgetType::Stop(config));
     }
 
@@ -223,31 +315,40 @@ impl<'a> Screen<'a> {
         self.widgets.render(ControlWidgetType::Error(config));
     }
 
-    pub fn render_initializing(&mut self) {
-        let config = InitializingWidgetConfig::new(self.ids.initializing);
+    pub fn render_initializing(&mut self, config: ScreenBootLoader) {
+        let config = InitializingWidgetConfig::new(
+            self.ids.initializing_logo,
+            config.width,
+            config.height,
+            config.image_id,
+        );
 
         self.render_background();
 
         self.widgets.render(ControlWidgetType::Initializing(config));
     }
 
-    pub fn render_telemetry(&mut self) {
+    pub fn render_telemetry(&mut self, telemetry_data: ScreenDataTelemetry) {
         let mut last_widget_position = 0.0;
         let machine_snapshot = self.machine_snapshot.unwrap();
 
         let peak_config = TelemetryWidgetConfig {
             title: "P(peak)",
-            value: format!(
-                "{} ← ({})",
-                (machine_snapshot.previous_peak_pressure as f64 / 10.0).round(),
-                machine_snapshot.peak_command
+            value_measured: Some(
+                (machine_snapshot.previous_peak_pressure as f64 / 10.0)
+                    .round()
+                    .to_string(),
             ),
-            unit: "cmH20",
+            value_target: Some(machine_snapshot.peak_command.to_string()),
+            value_arrow: telemetry_data.arrow_image_id,
+            unit: "cmH2O",
             ids: (
                 self.ids.background,
                 self.ids.peak_parent,
                 self.ids.peak_title,
-                self.ids.peak_value,
+                self.ids.peak_value_measured,
+                self.ids.peak_value_arrow,
+                self.ids.peak_value_target,
                 self.ids.peak_unit,
             ),
             x_position: last_widget_position,
@@ -262,17 +363,21 @@ impl<'a> Screen<'a> {
         // Initialize the plateau widget
         let plateau_config = TelemetryWidgetConfig {
             title: "P(plateau)",
-            value: format!(
-                "{} ← ({})",
-                (machine_snapshot.previous_plateau_pressure as f64 / 10.0).round(),
-                machine_snapshot.plateau_command
+            value_measured: Some(
+                (machine_snapshot.previous_plateau_pressure as f64 / 10.0)
+                    .round()
+                    .to_string(),
             ),
-            unit: "cmH20",
+            value_target: Some(machine_snapshot.plateau_command.to_string()),
+            value_arrow: telemetry_data.arrow_image_id,
+            unit: "cmH2O",
             ids: (
                 self.ids.peak_parent,
                 self.ids.plateau_parent,
                 self.ids.plateau_title,
-                self.ids.plateau_value,
+                self.ids.plateau_value_measured,
+                self.ids.plateau_value_arrow,
+                self.ids.plateau_value_target,
                 self.ids.plateau_unit,
             ),
             x_position: last_widget_position,
@@ -287,17 +392,21 @@ impl<'a> Screen<'a> {
         // Initialize the PEEP widget
         let peep_config = TelemetryWidgetConfig {
             title: "P(expiratory)",
-            value: format!(
-                "{} ← ({})",
-                (machine_snapshot.previous_peep_pressure as f64 / 10.0).round(),
-                machine_snapshot.peep_command
+            value_measured: Some(
+                (machine_snapshot.previous_peep_pressure as f64 / 10.0)
+                    .round()
+                    .to_string(),
             ),
-            unit: "cmH20",
+            value_target: Some(machine_snapshot.peep_command.to_string()),
+            value_arrow: telemetry_data.arrow_image_id,
+            unit: "cmH2O",
             ids: (
                 self.ids.plateau_parent,
                 self.ids.peep_parent,
                 self.ids.peep_title,
-                self.ids.peep_value,
+                self.ids.peep_value_measured,
+                self.ids.peep_value_arrow,
+                self.ids.peep_value_target,
                 self.ids.peep_unit,
             ),
             x_position: last_widget_position,
@@ -312,13 +421,17 @@ impl<'a> Screen<'a> {
         // Initialize the cycles widget
         let cycles_config = TelemetryWidgetConfig {
             title: "Cycles/minute",
-            value: format!("{}", machine_snapshot.cpm_command),
+            value_measured: None,
+            value_target: Some(machine_snapshot.cpm_command.to_string()),
+            value_arrow: telemetry_data.arrow_image_id,
             unit: "/minute",
             ids: (
                 self.ids.peep_parent,
                 self.ids.cycles_parent,
                 self.ids.cycles_title,
-                self.ids.cycles_value,
+                self.ids.cycles_value_measured,
+                self.ids.cycles_value_arrow,
+                self.ids.cycles_value_target,
                 self.ids.cycles_unit,
             ),
             x_position: last_widget_position,
@@ -333,13 +446,23 @@ impl<'a> Screen<'a> {
         // Initialize the ratio widget
         let ratio_config = TelemetryWidgetConfig {
             title: "Insp-exp ratio",
-            value: "0:0".to_string(), //TODO
-            unit: "insp:exp.",
+            value_measured: None,
+            // TODO: gather dynamic numerator + denominator from telemetry (avoid sharing the same \
+            //   constants in 2 places)
+            value_target: Some(format!(
+                "{}/{}",
+                CYCLE_RATIO_INSPIRATION,
+                CYCLE_RATIO_INSPIRATION + CYCLE_RATIO_EXPIRATION
+            )),
+            value_arrow: telemetry_data.arrow_image_id,
+            unit: "insp./total",
             ids: (
                 self.ids.cycles_parent,
                 self.ids.ratio_parent,
                 self.ids.ratio_title,
-                self.ids.ratio_value,
+                self.ids.ratio_value_measured,
+                self.ids.ratio_value_arrow,
+                self.ids.ratio_value_target,
                 self.ids.ratio_unit,
             ),
             x_position: last_widget_position,
@@ -354,13 +477,17 @@ impl<'a> Screen<'a> {
         // Initialize the tidal widget
         let tidal_config = TelemetryWidgetConfig {
             title: "Tidal volume",
-            value: "0".to_string(), //TODO
+            value_measured: Some("n/a".to_string()),
+            value_target: None,
+            value_arrow: telemetry_data.arrow_image_id,
             unit: "mL (milliliters)",
             ids: (
                 self.ids.ratio_parent,
                 self.ids.tidal_parent,
                 self.ids.tidal_title,
-                self.ids.tidal_value,
+                self.ids.tidal_value_measured,
+                self.ids.tidal_value_arrow,
+                self.ids.tidal_value_target,
                 self.ids.tidal_unit,
             ),
             x_position: last_widget_position,

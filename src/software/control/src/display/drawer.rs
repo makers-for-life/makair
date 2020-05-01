@@ -47,6 +47,8 @@ impl DisplayDrawerBuilder {
         let display =
             GliumDisplayWinitWrapper(glium::Display::new(window, context, &events_loop).unwrap());
 
+        // TODO: mark window as no cursor
+
         // Create drawer
         DisplayDrawer {
             renderer: DisplayRendererBuilder::new(fonts),
@@ -114,14 +116,24 @@ impl DisplayDrawer {
         let (tx, rx): (Sender<TelemetryChannelType>, Receiver<TelemetryChannelType>) =
             std::sync::mpsc::channel();
 
-        match &APP_ARGS.source {
-            crate::Source::Port(port) => {
+        match &APP_ARGS.mode {
+            crate::Mode::Port { port, output_dir } => {
+                let optional_file_buffer = output_dir.as_ref().map(|dir| {
+                    let path = format!(
+                        "{}/{}.record",
+                        &dir,
+                        chrono::Local::now().format("%Y%m%d-%H%M%S")
+                    );
+                    let file = std::fs::File::create(&path)
+                        .unwrap_or_else(|_| panic!("Could not create file '{}'", &path));
+                    std::io::BufWriter::new(file)
+                });
                 std::thread::spawn(move || {
-                    telemetry::gather_telemetry(&port, tx, None);
+                    telemetry::gather_telemetry(&port, tx, optional_file_buffer);
                 });
             }
 
-            crate::Source::File(path) => {
+            crate::Mode::Input(path) => {
                 std::thread::spawn(move || loop {
                     let file = std::fs::File::open(path).unwrap();
                     telemetry::gather_telemetry_from_file(file, tx.clone());
@@ -140,6 +152,7 @@ impl DisplayDrawer {
             &self.chip.ongoing_alarms_sorted(),
             &self.display,
             &mut self.interface,
+            self.chip.get_battery_level(),
             &self.chip.get_state(),
         );
 

@@ -3,6 +3,8 @@
 // Copyright: 2020, Makers For Life
 // License: Public Domain License
 
+use std::cmp::{max, min};
+
 use conrod_core::widget::Id as WidgetId;
 use conrod_core::{
     color::{self, Color},
@@ -13,13 +15,14 @@ use conrod_core::{
 };
 
 use telemetry::alarm::AlarmCode;
-use telemetry::structures::{AlarmPriority, AlarmTrap};
+use telemetry::structures::AlarmPriority;
 
+use crate::chip::ChipState;
 use crate::config::environment::*;
+use crate::physics::pressure::process_max_allowed_pressure;
+use crate::physics::types::DataPressure;
 
 use super::fonts::Fonts;
-
-pub type WidgetIds = (WidgetId, WidgetId, WidgetId, WidgetId, WidgetId);
 
 pub struct BackgroundWidgetConfig {
     color: conrod_core::color::Color,
@@ -38,14 +41,45 @@ pub struct BrandingWidgetConfig<'a> {
     width: f64,
     height: f64,
     image: conrod_core::image::Id,
-    pub ids: (WidgetId, WidgetId),
+    ids: (WidgetId, WidgetId),
+}
+
+pub struct StatusWidgetConfig<'a> {
+    container: WidgetId,
+    wrapper: WidgetId,
+    unit_box: WidgetId,
+    unit_text: WidgetId,
+    power_box: WidgetId,
+    power_text: WidgetId,
+    battery_level: Option<u8>,
+    chip_state: &'a ChipState,
+    alarms: &'a [(&'a AlarmCode, &'a AlarmPriority)],
+}
+
+pub struct HeartbeatWidgetConfig<'a> {
+    data_pressure: &'a DataPressure,
+    peak_command: u8,
+    container: WidgetId,
+    ground: WidgetId,
+    surround: WidgetId,
+    inner: WidgetId,
 }
 
 pub struct TelemetryWidgetConfig<'a> {
     pub title: &'a str,
-    pub value: String,
+    pub value_measured: Option<String>,
+    pub value_target: Option<String>,
+    pub value_arrow: conrod_core::image::Id,
     pub unit: &'a str,
-    pub ids: WidgetIds,
+    pub ids: (
+        WidgetId,
+        WidgetId,
+        WidgetId,
+        WidgetId,
+        WidgetId,
+        WidgetId,
+        WidgetId,
+    ),
     pub x_position: f64,
     pub y_position: f64,
     pub background_color: Color,
@@ -75,6 +109,52 @@ impl<'a> BrandingWidgetConfig<'a> {
             height,
             image,
             ids,
+        }
+    }
+}
+
+impl<'a> StatusWidgetConfig<'a> {
+    pub fn new(
+        container: WidgetId,
+        wrapper: WidgetId,
+        unit_box: WidgetId,
+        unit_text: WidgetId,
+        power_box: WidgetId,
+        power_text: WidgetId,
+        battery_level: Option<u8>,
+        chip_state: &'a ChipState,
+        alarms: &'a [(&'a AlarmCode, &'a AlarmPriority)],
+    ) -> StatusWidgetConfig<'a> {
+        StatusWidgetConfig {
+            container,
+            wrapper,
+            unit_box,
+            unit_text,
+            power_box,
+            power_text,
+            battery_level,
+            chip_state,
+            alarms,
+        }
+    }
+}
+
+impl<'a> HeartbeatWidgetConfig<'a> {
+    pub fn new(
+        data_pressure: &'a DataPressure,
+        peak_command: u8,
+        container: WidgetId,
+        ground: WidgetId,
+        surround: WidgetId,
+        inner: WidgetId,
+    ) -> HeartbeatWidgetConfig<'a> {
+        HeartbeatWidgetConfig {
+            data_pressure,
+            peak_command,
+            container,
+            ground,
+            surround,
+            inner,
         }
     }
 }
@@ -129,11 +209,24 @@ impl NoDataWidgetConfig {
 
 pub struct InitializingWidgetConfig {
     id: WidgetId,
+    width: f64,
+    height: f64,
+    image: conrod_core::image::Id,
 }
 
 impl InitializingWidgetConfig {
-    pub fn new(id: WidgetId) -> InitializingWidgetConfig {
-        InitializingWidgetConfig { id }
+    pub fn new(
+        id: WidgetId,
+        width: f64,
+        height: f64,
+        image: conrod_core::image::Id,
+    ) -> InitializingWidgetConfig {
+        InitializingWidgetConfig {
+            id,
+            width,
+            height,
+            image,
+        }
     }
 }
 
@@ -141,12 +234,13 @@ pub struct AlarmsWidgetConfig<'a> {
     pub parent: WidgetId,
     pub container: WidgetId,
     pub title: WidgetId,
+    pub empty: WidgetId,
     pub alarm_widgets: &'a List,
     pub alarm_codes_containers: &'a List,
     pub alarm_codes: &'a List,
     pub alarm_messages_containers: &'a List,
     pub alarm_messages: &'a List,
-    pub alarms: &'a [(&'a AlarmCode, &'a AlarmTrap)],
+    pub alarms: &'a [(&'a AlarmCode, &'a AlarmPriority)],
 }
 
 pub enum ControlWidgetType<'a> {
@@ -154,6 +248,8 @@ pub enum ControlWidgetType<'a> {
     Background(BackgroundWidgetConfig),
     Error(ErrorWidgetConfig),
     Branding(BrandingWidgetConfig<'a>),
+    Status(StatusWidgetConfig<'a>),
+    Heartbeat(HeartbeatWidgetConfig<'a>),
     Initializing(InitializingWidgetConfig),
     Graph(GraphWidgetConfig),
     NoData(NoDataWidgetConfig),
@@ -177,6 +273,8 @@ impl<'a> ControlWidget<'a> {
             ControlWidgetType::Background(config) => self.background(config),
             ControlWidgetType::Error(config) => self.error(config),
             ControlWidgetType::Branding(config) => self.branding(config),
+            ControlWidgetType::Status(config) => self.status(config),
+            ControlWidgetType::Heartbeat(config) => self.heartbeat(config),
             ControlWidgetType::Initializing(config) => self.initializing(config),
             ControlWidgetType::Graph(config) => self.graph(config),
             ControlWidgetType::NoData(config) => self.no_data(config),
@@ -186,53 +284,103 @@ impl<'a> ControlWidget<'a> {
     }
 
     fn alarms(&mut self, config: AlarmsWidgetConfig) -> f64 {
+        // Rebuild alarms that should go for display, and count their total
+        // Notice: ignored alarm codes are used in other more specific places, eg. code \
+        //   31 for battery power usage indicator.
+        let alarms_for_display = config
+            .alarms
+            .iter()
+            .filter(|&alarm| DISPLAY_ALARM_CODE_IGNORES.contains(&alarm.0.code()) == false)
+            .collect::<Vec<_>>();
+        let alarms_count = alarms_for_display.len();
+
         let dimensions = [
             DISPLAY_ALARM_CONTAINER_WIDTH,
-            DISPLAY_ALARM_CONTAINER_HEIGHT,
+            (max(1, alarms_count) as f64) * DISPLAY_ALARM_MESSAGE_HEIGHT
+                + 2.0 * DISPLAY_ALARM_MESSAGE_SPACING_TOP_INITIAL
+                + ((max(1, alarms_count) - 1) as f64) * DISPLAY_ALARM_MESSAGE_SPACING_TOP_INNER,
         ];
+
+        // Draw container box
+        let container_color = if alarms_count > 0 {
+            Color::Rgba(42.0 / 255.0, 42.0 / 255.0, 42.0 / 255.0, 0.96)
+        } else {
+            Color::Rgba(17.0 / 255.0, 17.0 / 255.0, 17.0 / 255.0, 0.96)
+        };
+
+        let container_margin_top = if alarms_count > 1 {
+            DISPLAY_ALARM_CONTAINER_MARGIN_TOP_MULTIPLE
+        } else {
+            DISPLAY_ALARM_CONTAINER_MARGIN_TOP_SINGLE_OR_NONE
+        };
 
         RoundedRectangle::fill_with(
             dimensions,
             DISPLAY_ROUNDED_RECTANGLES_ROUND,
-            DISPLAY_ALARM_CONTAINER_COLOR,
+            container_color,
         )
-        .mid_top_with_margin_on(config.parent, 10.0)
+        .mid_top_with_margin_on(config.parent, container_margin_top)
         .set(config.container, &mut self.ui);
 
-        widget::text::Text::new("Alarms")
-            .color(color::WHITE)
-            .mid_left_with_margin_on(config.container, DISPLAY_ALARM_CONTAINER_PADDING_LEFT)
-            .font_size(14)
+        // Draw text
+        // Notice: the first text layer needs to be positionned using relative coordinates, and \
+        //   cannot be positionned using a 'mid' auto coordinate, as this has been seen to center \
+        //   vertically with a slight offset, which would make the text look uncentered to the \
+        //   human eye.
+        let mut text_style = conrod_core::widget::primitive::text::Style::default();
+
+        text_style.font_id = Some(Some(self.fonts.bold));
+        text_style.color = Some(color::WHITE);
+        text_style.font_size = Some(11);
+
+        widget::text::Text::new("ALARMS")
+            .with_style(text_style)
+            .top_left_with_margins_on(
+                config.container,
+                DISPLAY_ALARM_CONTAINER_PADDING_TOP,
+                DISPLAY_ALARM_CONTAINER_PADDING_LEFT,
+            )
             .set(config.title, &mut self.ui);
 
-        let max_alarms = std::cmp::min(DISPLAY_MAX_ALARMS, config.alarms.len());
-        for x in 0..max_alarms {
-            let (code, alarm) = config.alarms.get(x).unwrap();
-            self.alarm(&config, **code, alarm, x);
+        // Append all alarms?
+        // Notice: only draw alarms box if there are active alarms
+        if alarms_count > 0 {
+            for x in 0..alarms_count {
+                let (code, alarm) = alarms_for_display.get(x).unwrap();
+
+                self.alarm(&config, **code, alarm, x);
+            }
+        } else {
+            widget::text::Text::new("There are no active alarms.")
+                .color(Color::Rgba(1.0, 1.0, 1.0, 0.5))
+                .font_size(11)
+                .right_from(config.title, 42.0)
+                .set(config.empty, &mut self.ui);
         }
 
         0 as _
     }
 
-    // TODO: create a rounded rectangle of either right or left angles
-    // check how rounded rectangles are created
     fn alarm(
         &mut self,
         config: &AlarmsWidgetConfig,
         code: AlarmCode,
-        alarm: &AlarmTrap,
+        alarm_priority: &AlarmPriority,
         index: usize,
     ) {
         let mut style = canvas::Style::default();
+
         style.border = Some(0.0);
         style.border_color = Some(color::TRANSPARENT);
         style.color = Some(color::TRANSPARENT);
 
         let from_top = if index == 0 {
-            10.0
+            DISPLAY_ALARM_MESSAGE_SPACING_TOP_INITIAL
         } else {
-            index as f64 * (DISPLAY_ALARM_MESSAGE_HEIGHT + (10.0 * 2.0))
-        };
+            DISPLAY_ALARM_MESSAGE_SPACING_TOP_INITIAL
+                + index as f64
+                    * (DISPLAY_ALARM_MESSAGE_HEIGHT + DISPLAY_ALARM_MESSAGE_SPACING_TOP_INNER)
+        } + DISPLAY_ALARM_MESSAGE_SPACING_TOP_INITIAL_OFFSET;
 
         canvas::Canvas::new()
             .with_style(style)
@@ -240,33 +388,41 @@ impl<'a> ControlWidget<'a> {
                 config.container,
                 conrod_core::position::Place::End(Some(from_top)),
             )
-            .right_from(config.title, 10.0)
+            .right_from(config.title, 28.0)
             .set(config.alarm_widgets[index], &mut self.ui);
 
-        self.alarm_code(&config, alarm, index);
-        self.alarm_message(&config, code, alarm, index);
+        self.alarm_code(&config, code, alarm_priority, index);
+        self.alarm_message(&config, code, alarm_priority, index);
     }
 
-    fn alarm_code_color(&self, alarm: &AlarmTrap) -> Color {
-        match alarm.alarm_priority {
-            AlarmPriority::High => Color::Rgba(1.0, 32.0 / 255.0, 32.0 / 255.0, 1.0),
-            AlarmPriority::Medium => Color::Rgba(1.0, 138.0 / 255.0, 0.0, 1.0),
+    fn alarm_code_color(&self, alarm_priority: &AlarmPriority) -> Color {
+        match alarm_priority {
+            AlarmPriority::High => Color::Rgba(1.0, 0.0 / 255.0, 3.0 / 255.0, 1.0),
+            AlarmPriority::Medium => Color::Rgba(1.0, 135.0 / 255.0, 0.0, 1.0),
             AlarmPriority::Low => Color::Rgba(1.0, 195.0 / 255.0, 0.0, 1.0),
         }
     }
 
-    fn alarm_message_color(&self, alarm: &AlarmTrap) -> Color {
-        match alarm.alarm_priority {
-            AlarmPriority::High => Color::Rgba(169.0 / 255.0, 35.0 / 255.0, 35.0 / 255.0, 1.0),
-            AlarmPriority::Medium => Color::Rgba(169.0 / 255.0, 99.0 / 255.0, 16.0 / 255.0, 1.0),
+    fn alarm_message_color(&self, alarm_priority: &AlarmPriority) -> Color {
+        match alarm_priority {
+            AlarmPriority::High => Color::Rgba(180.0 / 255.0, 24.0 / 255.0, 28.0 / 255.0, 1.0),
+            AlarmPriority::Medium => Color::Rgba(189.0 / 255.0, 93.0 / 255.0, 0.0, 1.0),
             AlarmPriority::Low => Color::Rgba(174.0 / 255.0, 133.0 / 255.0, 0.0, 1.0),
         }
     }
 
-    fn alarm_code(&mut self, config: &AlarmsWidgetConfig, alarm: &AlarmTrap, index: usize) {
-        let color = self.alarm_code_color(alarm);
+    fn alarm_code(
+        &mut self,
+        config: &AlarmsWidgetConfig,
+        alarm_code: AlarmCode,
+        alarm_priority: &AlarmPriority,
+        index: usize,
+    ) {
+        let color = self.alarm_code_color(alarm_priority);
 
+        // Draw canvas
         let mut style = canvas::Style::default();
+
         style.border = Some(0.0);
         style.border_color = Some(color::TRANSPARENT);
         style.color = Some(color);
@@ -280,10 +436,16 @@ impl<'a> ControlWidget<'a> {
             )
             .set(config.alarm_codes_containers[index], &mut self.ui);
 
-        widget::text::Text::new(&format!("{}", alarm.alarm_code))
-            .color(color::WHITE)
-            .font_size(8)
-            .middle_of(config.alarm_codes_containers[index])
+        // Draw text
+        let mut text_style = conrod_core::widget::primitive::text::Style::default();
+
+        text_style.font_id = Some(Some(self.fonts.bold));
+        text_style.color = Some(color::WHITE);
+        text_style.font_size = Some(11);
+
+        widget::text::Text::new(&format!("{}", alarm_code.code()))
+            .with_style(text_style)
+            .mid_top_with_margin_on(config.alarm_codes_containers[index], 4.0)
             .set(config.alarm_codes[index], &mut self.ui);
     }
 
@@ -291,12 +453,13 @@ impl<'a> ControlWidget<'a> {
         &mut self,
         config: &AlarmsWidgetConfig,
         code: AlarmCode,
-        alarm: &AlarmTrap,
+        alarm_priority: &AlarmPriority,
         index: usize,
     ) {
-        let color = self.alarm_message_color(alarm);
+        let color = self.alarm_message_color(alarm_priority);
 
         let mut style = canvas::Style::default();
+
         style.border = Some(0.0);
         style.border_color = Some(color::TRANSPARENT);
         style.color = Some(color);
@@ -312,8 +475,8 @@ impl<'a> ControlWidget<'a> {
 
         widget::text::Text::new(&code.description())
             .color(color::WHITE)
-            .font_size(8)
-            .middle_of(config.alarm_messages_containers[index])
+            .font_size(10)
+            .top_left_with_margins_on(config.alarm_messages_containers[index], 4.0, 10.0)
             .set(config.alarm_messages[index], &mut self.ui);
     }
 
@@ -344,10 +507,192 @@ impl<'a> ControlWidget<'a> {
         config.width
     }
 
+    fn status(&mut self, config: StatusWidgetConfig) -> f64 {
+        let (box_height, box_width) = (STATUS_WRAPPER_HEIGHT / 2.0, STATUS_WRAPPER_WIDTH);
+
+        // Check whether chip state is currently in stopped mode or active (running)
+        let is_unit_stopped = config.chip_state == &ChipState::Stopped;
+
+        // Check whether power is currently on AC or battery
+        // Notice: the telemetry library reports this as an alarm
+        let is_battery_powered = config
+            .alarms
+            .iter()
+            .any(|alarm| alarm.0.code() == STATUS_ALARM_CODE_POWER_BATTERY);
+
+        // Render canvas
+        let mut wrapper_style = canvas::Style::default();
+
+        wrapper_style.color = Some(Color::Rgba(52.0 / 255.0, 52.0 / 255.0, 52.0 / 255.0, 1.0));
+        wrapper_style.border = Some(0.0);
+        wrapper_style.border_color = Some(color::TRANSPARENT);
+
+        canvas::Canvas::new()
+            .with_style(wrapper_style)
+            .w_h(STATUS_WRAPPER_WIDTH, STATUS_WRAPPER_HEIGHT)
+            .top_right_with_margins_on(
+                config.container,
+                STATUS_WRAPPER_MARGIN_TOP,
+                STATUS_WRAPPER_MARGIN_RIGHT,
+            )
+            .set(config.wrapper, &mut self.ui);
+
+        // Display unit status text
+        let mut unit_box_style = canvas::Style::default();
+        let mut unit_text_style = conrod_core::widget::primitive::text::Style::default();
+
+        unit_text_style.font_id = Some(Some(self.fonts.bold));
+        unit_text_style.color = Some(color::WHITE);
+        unit_text_style.font_size = Some(10);
+
+        if is_unit_stopped {
+            unit_box_style.color =
+                Some(Color::Rgba(180.0 / 255.0, 24.0 / 255.0, 28.0 / 255.0, 1.0));
+        } else {
+            unit_box_style.color = Some(Color::Rgba(50.0 / 255.0, 186.0 / 255.0, 0.0, 1.0));
+        }
+
+        unit_box_style.border = Some(0.0);
+        unit_box_style.border_color = Some(color::TRANSPARENT);
+
+        canvas::Canvas::new()
+            .with_style(unit_box_style)
+            .w_h(box_width, box_height)
+            .top_left_of(config.wrapper)
+            .set(config.unit_box, &mut self.ui);
+
+        widget::text::Text::new(if is_unit_stopped {
+            "Unit stopped"
+        } else {
+            "Unit active"
+        })
+        .with_style(unit_text_style)
+        .mid_top_with_margin_on(config.unit_box, STATUS_BOX_TEXT_MARGIN_TOP)
+        .set(config.unit_text, &mut self.ui);
+
+        // Display power status text
+        let mut power_box_style = canvas::Style::default();
+        let mut power_text_style = conrod_core::widget::primitive::text::Style::default();
+
+        power_text_style.font_id = Some(Some(self.fonts.bold));
+        power_text_style.color = Some(color::WHITE);
+        power_text_style.font_size = Some(10);
+
+        if is_battery_powered {
+            power_box_style.color = Some(Color::Rgba(208.0 / 255.0, 92.0 / 255.0, 0.0, 1.0));
+        } else {
+            power_box_style.color = Some(color::TRANSPARENT);
+        }
+
+        power_box_style.border = Some(0.0);
+        power_box_style.border_color = Some(color::TRANSPARENT);
+
+        canvas::Canvas::new()
+            .with_style(power_box_style)
+            .w_h(box_width, box_height)
+            .bottom_left_of(config.wrapper)
+            .set(config.power_box, &mut self.ui);
+
+        let power_text_value = if is_battery_powered {
+            let mut value = String::from("Battery");
+
+            if let Some(battery_level) = config.battery_level {
+                value.push_str(" (");
+                value.push_str(&battery_level.to_string());
+                value.push_str("V)");
+            }
+
+            value
+        } else {
+            "AC power".to_string()
+        };
+
+        widget::text::Text::new(&power_text_value)
+            .with_style(power_text_style)
+            .mid_top_with_margin_on(config.power_box, STATUS_BOX_TEXT_MARGIN_TOP)
+            .set(config.power_text, &mut self.ui);
+
+        STATUS_WRAPPER_WIDTH
+    }
+
+    fn heartbeat(&mut self, config: HeartbeatWidgetConfig) -> f64 {
+        // Convert diameters to radius
+        let (ground_radius, surround_radius) = (
+            HEARTBEAT_GROUND_DIAMETER / 2.0,
+            HEARTBEAT_SURROUND_DIAMETER / 2.0,
+        );
+
+        // #1: Create surround circle
+        let surround_line_style = widget::primitive::line::Style::solid()
+            .color(Color::Rgba(
+                153.0 / 255.0,
+                153.0 / 255.0,
+                153.0 / 255.0,
+                1.0,
+            ))
+            .thickness(HEARTBEAT_SURROUND_THICKNESS);
+
+        widget::primitive::shape::circle::Circle::outline_styled(
+            surround_radius,
+            surround_line_style,
+        )
+        .top_right_with_margins_on(
+            config.container,
+            HEARTBEAT_SURROUND_MARGIN_TOP,
+            HEARTBEAT_SURROUND_MARGIN_RIGHT,
+        )
+        .set(config.surround, &mut self.ui);
+
+        // #2: Create inner circle
+        let last_pressure = if let Some(last_pressure_inner) = config.data_pressure.get(0) {
+            // Convert high-precision point in mmH20 back to cmH20 (which measurements & targets \
+            //   both use)
+            last_pressure_inner.1 / TELEMETRY_POINTS_PRECISION_DIVIDE
+        } else {
+            0
+        };
+
+        let pressure_alert_threshold = process_max_allowed_pressure(config.peak_command) as f64;
+
+        let last_pressure_ratio = last_pressure as f64 / pressure_alert_threshold;
+        let last_pressure_radius = surround_radius * last_pressure_ratio;
+
+        let inner_radius = min(
+            max(last_pressure_radius as u16, ground_radius as u16 + 1),
+            surround_radius as u16 + HEARTBEAT_INNER_MAX_OVERFLOW,
+        ) as f64;
+
+        let inner_color = if last_pressure_radius >= surround_radius {
+            Color::Rgba(184.0 / 255.0, 1.0 / 255.0, 24.0 / 255.0, 1.0)
+        } else {
+            color::WHITE
+        };
+
+        widget::primitive::shape::circle::Circle::fill_with(inner_radius, inner_color)
+            .middle_of(config.surround)
+            .set(config.inner, &mut self.ui);
+
+        // #3: Create ground circle
+        let ground_color = if last_pressure_radius >= surround_radius {
+            Color::Rgba(204.0 / 255.0, 204.0 / 255.0, 204.0 / 255.0, 1.0)
+        } else {
+            Color::Rgba(116.0 / 255.0, 116.0 / 255.0, 116.0 / 255.0, 1.0)
+        };
+
+        widget::primitive::shape::circle::Circle::fill_with(ground_radius, ground_color)
+            .middle_of(config.surround)
+            .set(config.ground, &mut self.ui);
+
+        HEARTBEAT_GROUND_DIAMETER
+    }
+
     fn graph(&mut self, config: GraphWidgetConfig) -> f64 {
         widget::Image::new(config.image)
             .w_h(config.width, config.height)
             .mid_bottom_with_margin_on(config.parent, GRAPH_DRAW_SPACING_FROM_BOTTOM)
+            .x_position(conrod_core::Position::Absolute(
+                -(GRAPH_DRAW_LABEL_JITTER_FIX_WIDTH as f64) / 2.0,
+            )) // Apply dirty left slope jitter fix
             .set(config.id, &mut self.ui);
 
         config.width
@@ -367,30 +712,74 @@ impl<'a> ControlWidget<'a> {
         )
         .set(config.ids.1, &mut self.ui);
 
-        // Create each text unit
+        // Create title text
         widget::Text::new(config.title)
             .color(color::WHITE)
-            .top_left_with_margins_on(config.ids.1, 10.0, 20.0)
+            .top_left_with_margins_on(config.ids.1, 10.0, TELEMETRY_WIDGET_PADDING_LEFT)
             .font_size(11)
             .set(config.ids.2, &mut self.ui);
 
-        let mut value_style = conrod_core::widget::primitive::text::Style::default();
+        // Initiate text style for measured value
+        let mut value_text_style = conrod_core::widget::primitive::text::Style::default();
 
-        value_style.font_id = Some(Some(self.fonts.bold));
-        value_style.color = Some(color::WHITE);
-        value_style.font_size = Some(14);
+        value_text_style.font_id = Some(Some(self.fonts.bold));
+        value_text_style.color = Some(color::WHITE);
+        value_text_style.font_size = Some(17);
 
-        widget::Text::new(&config.value)
-            .with_style(value_style)
-            .mid_left_with_margin_on(config.ids.1, 20.0)
-            .font_size(17)
-            .set(config.ids.3, &mut self.ui);
+        // Create value text
+        // Notice: there are different drawing cases depending on values provided
+        match (config.value_measured, config.value_target) {
+            (Some(value_measured), Some(value_target)) => {
+                // Initiate text sub-style for target value
+                let mut target_text_style = conrod_core::widget::primitive::text::Style::default();
 
+                target_text_style.font_id = Some(Some(self.fonts.regular));
+                target_text_style.color = Some(color::WHITE);
+                target_text_style.font_size = Some(13);
+
+                // Draw measured value
+                widget::Text::new(&value_measured)
+                    .with_style(value_text_style)
+                    .mid_left_with_margin_on(config.ids.1, TELEMETRY_WIDGET_PADDING_LEFT)
+                    .set(config.ids.3, &mut self.ui);
+
+                // Draw arrow
+                widget::Image::new(config.value_arrow)
+                    .w_h(TELEMETRY_ARROW_WIDTH as f64, TELEMETRY_ARROW_HEIGHT as f64)
+                    .right_from(config.ids.3, TELEMETRY_ARROW_SPACING_SIDES)
+                    .y_relative_to(config.ids.3, -3.0)
+                    .set(config.ids.4, &mut self.ui);
+
+                // Draw target value
+                widget::Text::new(&format!("({})", value_target))
+                    .with_style(target_text_style)
+                    .right_from(config.ids.4, TELEMETRY_ARROW_SPACING_SIDES)
+                    .y_relative_to(config.ids.3, -1.0)
+                    .set(config.ids.5, &mut self.ui);
+            }
+            (Some(value_measured), None) => {
+                // Draw measured value
+                widget::Text::new(&value_measured)
+                    .with_style(value_text_style)
+                    .mid_left_with_margin_on(config.ids.1, TELEMETRY_WIDGET_PADDING_LEFT)
+                    .set(config.ids.3, &mut self.ui);
+            }
+            (None, Some(value_target)) => {
+                // Draw target value
+                widget::Text::new(&value_target)
+                    .with_style(value_text_style)
+                    .mid_left_with_margin_on(config.ids.1, TELEMETRY_WIDGET_PADDING_LEFT)
+                    .set(config.ids.5, &mut self.ui);
+            }
+            _ => {}
+        }
+
+        // Create unit text
         widget::Text::new(config.unit)
             .color(color::WHITE.with_alpha(0.2))
-            .bottom_left_with_margins_on(config.ids.1, 12.0, 20.0)
+            .bottom_left_with_margins_on(config.ids.1, 12.0, TELEMETRY_WIDGET_PADDING_LEFT)
             .font_size(11)
-            .set(config.ids.4, &mut self.ui);
+            .set(config.ids.6, &mut self.ui);
 
         TELEMETRY_WIDGET_SIZE_WIDTH
     }
@@ -413,7 +802,8 @@ impl<'a> ControlWidget<'a> {
 
     fn stop(&mut self, config: StopWidgetConfig) -> f64 {
         let mut style = canvas::Style::default();
-        style.color = Some(Color::Rgba(0.0, 0.0, 0.0, 0.8));
+
+        style.color = Some(Color::Rgba(0.0, 0.0, 0.0, 0.75));
         style.border = Some(0.0);
         style.border_color = Some(color::TRANSPARENT);
 
@@ -421,9 +811,9 @@ impl<'a> ControlWidget<'a> {
             .with_style(style)
             .w_h(
                 DISPLAY_WINDOW_SIZE_WIDTH as _,
-                DISPLAY_WINDOW_SIZE_HEIGHT as f64 - DISPLAY_ALARM_CONTAINER_HEIGHT,
+                DISPLAY_WINDOW_SIZE_HEIGHT as _,
             )
-            .x_y(0.0, -DISPLAY_ALARM_CONTAINER_HEIGHT)
+            .x_y(0.0, 0.0)
             .set(config.background, &mut self.ui);
 
         let container_borders_style = Style::Fill(Some(Color::Rgba(
@@ -459,22 +849,22 @@ impl<'a> ControlWidget<'a> {
 
         let mut title_style = widget::text::Style::default();
         title_style.color = Some(color::WHITE);
-        title_style.font_size = Some(14);
+        title_style.font_size = Some(18);
         title_style.font_id = Some(Some(self.fonts.bold));
 
         widget::text::Text::new("Ventilator unit inactive")
             .with_style(title_style)
-            .mid_top_with_margin_on(config.container, DISPLAY_STOPPED_MESSAGE_PADDING)
+            .mid_top_with_margin_on(config.container, DISPLAY_STOPPED_MESSAGE_PADDING_TOP)
             .set(config.title, &mut self.ui);
 
         let mut message_style = widget::text::Style::default();
-        message_style.color = Some(color::WHITE);
-        message_style.font_size = Some(10);
+        message_style.color = Some(Color::Rgba(1.0, 1.0, 1.0, 0.75));
+        message_style.font_size = Some(13);
         message_style.font_id = Some(Some(self.fonts.regular));
 
         widget::text::Text::new("Please re-enable it to resume respiration")
             .with_style(message_style)
-            .mid_bottom_with_margin_on(config.container, DISPLAY_STOPPED_MESSAGE_PADDING)
+            .mid_bottom_with_margin_on(config.container, DISPLAY_STOPPED_MESSAGE_PADDING_BOTTOM)
             .set(config.message, &mut self.ui);
 
         0 as _
@@ -496,17 +886,11 @@ impl<'a> ControlWidget<'a> {
     }
 
     fn initializing(&mut self, config: InitializingWidgetConfig) -> f64 {
-        let mut text_style = conrod_core::widget::primitive::text::Style::default();
-
-        text_style.font_id = Some(Some(self.fonts.bold));
-        text_style.color = Some(color::WHITE);
-        text_style.font_size = Some(30);
-
-        widget::Text::new("Initialization..")
-            .color(color::WHITE)
+        widget::Image::new(config.image)
+            .w_h(config.width, config.height)
             .middle()
-            .with_style(text_style)
             .set(config.id, &mut self.ui);
+
         0 as _
     }
 }

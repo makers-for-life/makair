@@ -4,6 +4,8 @@
 // License: Public Domain License
 
 use std::cmp::{Ord, Ordering, PartialOrd};
+use std::convert::TryFrom;
+use std::io;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Mode {
@@ -47,6 +49,22 @@ impl Ord for AlarmPriority {
         };
 
         priority_to_int(self).cmp(&priority_to_int(other))
+    }
+}
+
+impl TryFrom<u8> for AlarmPriority {
+    type Error = io::Error;
+
+    fn try_from(value: u8) -> Result<AlarmPriority, Self::Error> {
+        match value {
+            10..=19 => Ok(AlarmPriority::High),
+            20..=29 => Ok(AlarmPriority::Medium),
+            30..=39 => Ok(AlarmPriority::Low),
+            _ => Err(io::Error::new(
+                io::ErrorKind::InvalidData,
+                format!("Invalid priority {}", value),
+            )),
+        }
     }
 }
 

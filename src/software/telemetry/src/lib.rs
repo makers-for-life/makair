@@ -37,7 +37,7 @@ pub fn gather_telemetry(
         match serial::open(&port_id) {
             Err(e) => {
                 error!("{:?}", e);
-                tx.send(Err(e)).unwrap();
+                tx.send(Err(e)).expect("[tx channel] failed to send error");
                 std::thread::sleep(std::time::Duration::from_secs(1));
             }
             Ok(mut port) => {
@@ -50,7 +50,7 @@ pub fn gather_telemetry(
                 }) {
                     Err(e) => {
                         error!("{}", e);
-                        tx.send(Err(e)).unwrap();
+                        tx.send(Err(e)).expect("[tx channel] failed setting up port");
                         std::thread::sleep(std::time::Duration::from_secs(1));
                     }
                     Ok(_) => {
@@ -69,18 +69,19 @@ pub fn gather_telemetry(
                                             if let Some(file_buffer) = file_buf.as_mut() {
                                                 // Write a new line with the base64 value of the message
                                                 let base64 = base64::encode(&buffer);
-                                                file_buffer.write_all(base64.as_bytes()).unwrap();
-                                                file_buffer.write_all(b"\n").unwrap();
+                                                file_buffer.write_all(base64.as_bytes()).expect("[tx channel] failed flushing buffer to file");
+                                                file_buffer.write_all(b"\n").expect("[tx channel] failed ending buffer flush to file");
                                             }
 
-                                            tx.send(Ok(message)).unwrap();
+                                            tx.send(Ok(message)).expect("[tx channel] failed sending message");
+
                                             buffer = Vec::from(rest);
                                         }
                                         // There are not enough bytes, let's wait until we get more
                                         Err(nom::Err::Incomplete(_)) => {
                                             // Do nothing
                                             if let Some(file_buffer) = file_buf.as_mut() {
-                                                file_buffer.flush().unwrap();
+                                                file_buffer.flush().expect("[tx channel] failed flushing file buffer from incomplete parsing");
                                             }
                                         }
                                         // We can't do anything with the begining of the buffer, let's drop its first byte
@@ -88,7 +89,7 @@ pub fn gather_telemetry(
                                             debug!("{:?}", &e);
                                             if !buffer.is_empty() {
                                                 if let Some(file_buffer) = file_buf.as_mut() {
-                                                    file_buffer.flush().unwrap();
+                                                    file_buffer.flush().expect("[tx channel] failed flushing file buffer from parsing error");
                                                 }
 
                                                 buffer.remove(0);
@@ -99,7 +100,7 @@ pub fn gather_telemetry(
                                 // We failed to get a new byte from serial
                                 Err(e) => {
                                     if let Some(file_buffer) = file_buf.as_mut() {
-                                        file_buffer.flush().unwrap();
+                                        file_buffer.flush().expect("[tx channel] failed flushing file buffer from serial error");
                                     }
                                     if e.kind() == std::io::ErrorKind::TimedOut { // It's OK it's just a timeout; let's try again
                                          // Do nothing
@@ -125,7 +126,7 @@ pub fn display_message(message: TelemetryChannelType) {
             debug!("####################################################################################");
             debug!("######### CONTROLLER STARTED #########");
             debug!("####################################################################################");
-            info!("{:?}", &message.unwrap());
+            info!("{:?}", &message.expect("failed unwrapping message for boot"));
             debug!("####################################################################################");
             if value128 != 128u8 {
                 error!("value128 should be equal to 128 (found {:b} = {}); check serial port configuration", &value128, &value128);
@@ -135,17 +136,17 @@ pub fn display_message(message: TelemetryChannelType) {
             debug!("stopped");
         }
         Ok(TelemetryMessage::DataSnapshot(_)) => {
-            info!("    {:?}", &message.unwrap());
+            info!("    {:?}", &message.expect("failed unwrapping message for data snapshot"));
         }
         Ok(TelemetryMessage::MachineStateSnapshot(_)) => {
             debug!("------------------------------------------------------------------------------------");
-            info!("{:?}", &message.unwrap());
+            info!("{:?}", &message.expect("failed unwrapping message for machine snapshot"));
             debug!("------------------------------------------------------------------------------------");
         }
         Ok(TelemetryMessage::AlarmTrap(AlarmTrap { triggered, .. })) => {
             let prefix = if triggered { "NEW ALARM" } else { "STOPPED" };
             debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            info!("{} {:?}", &prefix, &message.unwrap());
+            info!("{} {:?}", &prefix, &message.expect("failed unwrapping message for alarm trap"));
             debug!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
         Err(e) => {
@@ -182,7 +183,7 @@ pub fn gather_telemetry_from_file(file: File, tx: Sender<TelemetryChannelType>) 
                                 }
                                 _ => (),
                             }
-                            tx.send(Ok(message)).unwrap();
+                            tx.send(Ok(message)).expect("failed sending message to tx channel");
                             buffer = Vec::from(rest);
                         }
                         // There are not enough bytes, let's wait until we get more

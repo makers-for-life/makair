@@ -5,12 +5,13 @@
 
 use chrono::{offset::Utc, DateTime, Duration};
 use std::collections::{HashMap, VecDeque};
+use std::convert::TryFrom;
 
-use crate::config::environment::{GRAPH_DRAW_SECONDS, GRAPH_NUMBER_OF_POINTS};
+use crate::config::environment::*;
 use crate::physics::types::DataPressure;
 use telemetry::alarm::AlarmCode;
 use telemetry::serial::core;
-use telemetry::structures::{AlarmTrap, DataSnapshot, MachineStateSnapshot, TelemetryMessage};
+use telemetry::structures::{AlarmPriority, DataSnapshot, MachineStateSnapshot, TelemetryMessage};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum ChipState {
@@ -26,7 +27,8 @@ pub struct Chip {
     pub last_tick: u64,
     pub data_pressure: DataPressure,
     pub last_machine_snapshot: MachineStateSnapshot,
-    pub ongoing_alarms: HashMap<AlarmCode, AlarmTrap>,
+    pub ongoing_alarms: HashMap<AlarmCode, AlarmPriority>,
+    pub battery_level: Option<u8>,
     state: ChipState,
 }
 
@@ -38,6 +40,7 @@ impl Chip {
             data_pressure: VecDeque::with_capacity(GRAPH_NUMBER_OF_POINTS + 100),
             last_machine_snapshot: MachineStateSnapshot::default(),
             ongoing_alarms: HashMap::new(),
+            battery_level: None,
             state: ChipState::WaitingData,
         }
     }
@@ -46,14 +49,11 @@ impl Chip {
         match event {
             TelemetryMessage::AlarmTrap(alarm) => {
                 self.update_tick(alarm.systick);
-
-                let code = alarm.alarm_code.into();
-
-                if alarm.triggered {
-                    self.ongoing_alarms.insert(code, alarm); // If we ever receive the same alarm, just replace the one we have
-                } else {
-                    self.ongoing_alarms.remove(&code);
-                }
+                self.new_alarm(
+                    alarm.alarm_code.into(),
+                    alarm.alarm_priority,
+                    alarm.triggered,
+                );
             }
 
             TelemetryMessage::BootMessage(snapshot) => {
@@ -68,11 +68,24 @@ impl Chip {
 
                 self.add_pressure(&snapshot);
 
+                self.battery_level = Some(snapshot.battery_level);
                 self.state = ChipState::Running;
             }
 
             TelemetryMessage::MachineStateSnapshot(snapshot) => {
                 self.clean_if_stopped();
+                self.update_tick(snapshot.systick);
+
+                for alarm in &snapshot.current_alarm_codes {
+                    match AlarmPriority::try_from(*alarm) {
+                        Ok(priority) => self.new_alarm((*alarm).into(), priority, true),
+                        Err(e) => warn!(
+                            "Skip alarm {} because we couldn't get the priority: {:?}",
+                            alarm, e
+                        ),
+                    };
+                }
+
                 self.last_machine_snapshot = snapshot;
 
                 self.state = ChipState::Running;
@@ -93,15 +106,27 @@ impl Chip {
         };
     }
 
+    fn new_alarm(&mut self, code: AlarmCode, priority: AlarmPriority, triggered: bool) {
+        if triggered {
+            self.ongoing_alarms.insert(code, priority); // If we ever receive the same alarm, just replace the one we have
+        } else {
+            self.ongoing_alarms.remove(&code);
+        }
+    }
+
     fn add_pressure(&mut self, snapshot: &DataSnapshot) {
         assert!(self.boot_time.is_some());
 
         let snapshot_time =
             self.boot_time.unwrap() + Duration::microseconds(snapshot.systick as i64);
 
-        let point = snapshot.pressure / 10;
+        // Points are stored as mmH20 (for more precision; though we do work in cmH20)
+        self.data_pressure
+            .push_front((snapshot_time, snapshot.pressure));
+    }
 
-        self.data_pressure.push_front((snapshot_time, point));
+    pub fn get_battery_level(&self) -> Option<u8> {
+        self.battery_level
     }
 
     pub fn get_state(&self) -> &ChipState {
@@ -144,7 +169,8 @@ impl Chip {
 
     pub fn clean_events(&mut self) {
         if !self.data_pressure.is_empty() {
-            let older = Utc::now() - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
+            let older = self.data_pressure.front().unwrap().0
+                - chrono::Duration::seconds(GRAPH_DRAW_SECONDS as _);
 
             while self
                 .data_pressure
@@ -157,15 +183,13 @@ impl Chip {
         }
     }
 
-    pub fn ongoing_alarms_sorted(&self) -> Vec<(&AlarmCode, &AlarmTrap)> {
+    pub fn ongoing_alarms_sorted(&self) -> Vec<(&AlarmCode, &AlarmPriority)> {
         let mut vec_alarms = self
             .ongoing_alarms
             .iter()
-            .collect::<Vec<(&AlarmCode, &AlarmTrap)>>();
+            .collect::<Vec<(&AlarmCode, &AlarmPriority)>>();
 
-        vec_alarms.sort_by(|(_, alarm1), (_, alarm2)| {
-            alarm1.alarm_priority.cmp(&alarm2.alarm_priority).reverse()
-        });
+        vec_alarms.sort_by(|(_, priority1), (_, priority2)| priority1.cmp(&priority2).reverse());
 
         vec_alarms
     }

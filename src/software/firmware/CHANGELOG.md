@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.4
+
+- improve dynamic update of the peak pressure command according to the measured plateau pressure
+- fix telemetry bugs
+- fix minor bugs
+
 ## v1.5.3
 
 - warn if pressure is not stable enough at startup
