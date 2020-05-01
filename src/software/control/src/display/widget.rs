@@ -344,7 +344,7 @@ impl<'a> ControlWidget<'a> {
                 self.alarm(&config, **code, alarm, x);
             }
         } else {
-            widget::text::Text::new("There is no active alarm.")
+            widget::text::Text::new("There are no active alarms.")
                 .color(Color::Rgba(1.0, 1.0, 1.0, 0.5))
                 .font_size(11)
                 .right_from(config.title, 42.0)
