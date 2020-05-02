@@ -16,8 +16,10 @@ use crate::EmbeddedImages;
 use crate::config::environment::*;
 
 use crate::chip::ChipState;
-use crate::physics::pressure::process_max_allowed_pressure;
 use crate::physics::types::DataPressure;
+
+#[cfg(feature = "graph-scaler")]
+use crate::physics::pressure::process_max_allowed_pressure;
 
 use super::fonts::Fonts;
 use super::screen::{
@@ -30,6 +32,7 @@ pub struct DisplayRendererBuilder;
 
 pub struct DisplayRenderer {
     fonts: Fonts,
+    ids: Ids,
 }
 
 const GRAPH_WIDTH: u32 =
@@ -58,8 +61,8 @@ lazy_static! {
 
 #[allow(clippy::new_ret_no_self)]
 impl DisplayRendererBuilder {
-    pub fn new(fonts: Fonts) -> DisplayRenderer {
-        DisplayRenderer { fonts }
+    pub fn new(fonts: Fonts, ids: Ids) -> DisplayRenderer {
+        DisplayRenderer { fonts, ids }
     }
 }
 
@@ -76,14 +79,10 @@ impl DisplayRenderer {
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let image_map = conrod_core::image::Map::<texture::Texture2d>::new();
 
-        // The `WidgetId` for our background and `Image` widgets.
-        let ids = Ids::new(interface.widget_id_generator());
-
         match chip_state {
-            ChipState::Initializing => self.initializing(ids, display, interface, image_map),
-            ChipState::WaitingData => self.empty(ids, interface, image_map),
+            ChipState::Initializing => self.initializing(display, interface, image_map),
+            ChipState::WaitingData => self.empty(interface, image_map),
             ChipState::Running | ChipState::Stopped => self.data(
-                ids,
                 display,
                 interface,
                 image_map,
@@ -93,19 +92,18 @@ impl DisplayRenderer {
                 battery_level,
                 chip_state,
             ),
-            ChipState::Error(e) => self.error(ids, interface, image_map, e.clone()),
+            ChipState::Error(e) => self.error(interface, image_map, e.clone()),
         }
     }
 
     fn empty(
         &mut self,
-        ids: Ids,
         interface: &mut Ui,
         image_map: conrod_core::image::Map<texture::Texture2d>,
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let ui = interface.set_widgets();
 
-        let mut screen = Screen::new(ui, &ids, &self.fonts, None, None);
+        let mut screen = Screen::new(ui, &self.ids, &self.fonts, None, None);
 
         screen.render_no_data();
 
@@ -114,7 +112,6 @@ impl DisplayRenderer {
 
     fn initializing(
         &mut self,
-        ids: Ids,
         display: &GliumDisplayWinitWrapper,
         interface: &mut Ui,
         mut image_map: conrod_core::image::Map<texture::Texture2d>,
@@ -134,7 +131,7 @@ impl DisplayRenderer {
             height: bootloader_logo_height as _,
         };
 
-        let mut screen = Screen::new(ui, &ids, &self.fonts, None, None);
+        let mut screen = Screen::new(ui, &self.ids, &self.fonts, None, None);
 
         screen.render_initializing(screen_boot_loader);
 
@@ -143,14 +140,13 @@ impl DisplayRenderer {
 
     fn error(
         &mut self,
-        ids: Ids,
         interface: &mut Ui,
         image_map: conrod_core::image::Map<texture::Texture2d>,
         error: String,
     ) -> conrod_core::image::Map<texture::Texture2d> {
         let ui = interface.set_widgets();
 
-        let mut screen = Screen::new(ui, &ids, &self.fonts, None, None);
+        let mut screen = Screen::new(ui, &self.ids, &self.fonts, None, None);
 
         screen.render_error(error);
 
@@ -160,7 +156,6 @@ impl DisplayRenderer {
     #[allow(clippy::ptr_arg, clippy::too_many_arguments)]
     fn data(
         &mut self,
-        mut ids: Ids,
         display: &GliumDisplayWinitWrapper,
         interface: &mut Ui,
         mut image_map: conrod_core::image::Map<texture::Texture2d>,
@@ -195,20 +190,26 @@ impl DisplayRenderer {
 
         for i in 0..ongoing_alarms.len() {
             let index = i + 1;
-            ids.alarm_alarms
+            self.ids
+                .alarm_alarms
                 .resize(index, &mut ui.widget_id_generator());
-            ids.alarm_codes_containers
+            self.ids
+                .alarm_codes_containers
                 .resize(index, &mut ui.widget_id_generator());
-            ids.alarm_codes.resize(index, &mut ui.widget_id_generator());
-            ids.alarm_messages_containers
+            self.ids
+                .alarm_codes
                 .resize(index, &mut ui.widget_id_generator());
-            ids.alarm_messages
+            self.ids
+                .alarm_messages_containers
+                .resize(index, &mut ui.widget_id_generator());
+            self.ids
+                .alarm_messages
                 .resize(index, &mut ui.widget_id_generator());
         }
 
         let mut screen = Screen::new(
             ui,
-            &ids,
+            &self.ids,
             &self.fonts,
             Some(machine_snapshot),
             Some(ongoing_alarms),
@@ -326,8 +327,16 @@ impl DisplayRenderer {
         // Convert the "range high" value from cmH20 to mmH20, as this is the high-precision unit \
         //   we work with for graphing purposes only.
         #[cfg(not(feature = "graph-scaler"))]
-        let range_high = (GRAPH_DRAW_RANGE_HIGH_STATIC_INITIAL as i32)
-            * (TELEMETRY_POINTS_PRECISION_DIVIDE as i32);
+        let range_high = {
+            let range_high = (GRAPH_DRAW_RANGE_HIGH_STATIC_INITIAL as i32)
+                * (TELEMETRY_POINTS_PRECISION_DIVIDE as i32);
+
+            // Void statement to prevent the compiler from warning about unused \
+            //   'machine_snapshot', which is indeed used under feature 'graph-scaler'.
+            let _ = machine_snapshot.peak_command;
+
+            range_high
+        };
 
         // "Graph scaler" auto-scale mode requested, will auto-process graph maximum
         #[cfg(feature = "graph-scaler")]

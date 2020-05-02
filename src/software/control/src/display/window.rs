@@ -70,10 +70,10 @@ impl DisplayWindow {
                 .unwrap(),
             ))
             .with_dimensions((DISPLAY_WINDOW_SIZE_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT).into())
-            .with_decorations(false)
+            .with_decorations(!self.app_args.fullscreen)
             .with_resizable(false)
             .with_visibility(!matches!(self.app_args.mode, Test(_)))
-            .with_always_on_top(true);
+            .with_always_on_top(self.app_args.fullscreen);
 
         let window = if self.app_args.fullscreen {
             let primary_monitor = events_loop.get_primary_monitor();
@@ -110,7 +110,7 @@ impl DisplayWindow {
             window,
             context,
             events_loop,
-            interface,
+            &mut interface,
             fonts,
         );
 

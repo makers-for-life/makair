@@ -140,9 +140,12 @@ mod tests {
     use crate::AppArgs;
     use proptest::collection;
     use proptest::test_runner::TestRunner;
+    use std::cell::Cell;
 
     #[test]
     fn test_gui_with_telemetry_messages() {
+        let test_counter = Cell::new(0);
+
         // With any sequence of TelemetryMessage, the GUI must not crash.
         TestRunner::default()
             .run(
@@ -151,7 +154,8 @@ mod tests {
                     1..100,
                 ),
                 |msgs| {
-                    dbg!(&msgs.len());
+                    &test_counter.set(&test_counter.get() + 1);
+                    dbg!(&test_counter.get(), &msgs.len());
                     DisplayWindowBuilder::new(AppArgs {
                         log: "test".to_string(),
                         mode: super::Mode::Test(msgs),

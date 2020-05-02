@@ -18,46 +18,52 @@ use crate::serial::poller::{PollEvent, SerialPollerBuilder};
 use super::events::{DisplayEventsBuilder, DisplayEventsHandleOutcome};
 use super::fonts::Fonts;
 use super::renderer::{DisplayRenderer, DisplayRendererBuilder};
+use super::screen::Ids;
 use super::support::GliumDisplayWinitWrapper;
 use crate::AppArgs;
 use crate::Mode::Test;
 
 const FRAMERATE: u64 = 30;
 
-pub struct DisplayDrawerBuilder {
+#[allow(dead_code)]
+pub struct DisplayDrawerBuilder<'a> {
     pub app_args: AppArgs,
+    phantom: &'a std::marker::PhantomData<u8>,
 }
 
-pub struct DisplayDrawer {
+pub struct DisplayDrawer<'a> {
     app_args: AppArgs,
     renderer: DisplayRenderer,
     glium_renderer: conrod_glium::Renderer,
     display: GliumDisplayWinitWrapper,
-    interface: Ui,
+    interface: &'a mut Ui,
     events_loop: EventsLoop,
     chip: Chip,
 }
 
-impl DisplayDrawerBuilder {
+impl<'a> DisplayDrawerBuilder<'a> {
     #[allow(clippy::new_ret_no_self)]
     pub fn new(
         app_args: AppArgs,
         window: WindowBuilder,
         context: ContextBuilder,
         events_loop: EventsLoop,
-        interface: Ui,
+        interface: &'a mut Ui,
         fonts: Fonts,
-    ) -> DisplayDrawer {
+    ) -> DisplayDrawer<'a> {
         // Create display
         let display =
             GliumDisplayWinitWrapper(glium::Display::new(window, context, &events_loop).unwrap());
 
         // TODO: mark window as no cursor
 
+        // create drawer ids
+        let ids = Ids::new(interface.widget_id_generator());
+
         // Create drawer
         DisplayDrawer {
             app_args,
-            renderer: DisplayRendererBuilder::new(fonts),
+            renderer: DisplayRendererBuilder::new(fonts, ids),
             glium_renderer: conrod_glium::Renderer::new(&display.0).unwrap(),
             display,
             interface,
@@ -67,7 +73,7 @@ impl DisplayDrawerBuilder {
     }
 }
 
-impl DisplayDrawer {
+impl<'a> DisplayDrawer<'a> {
     pub fn run(&mut self) {
         match &mut self.app_args.mode {
             Test(msgs) => {
@@ -120,6 +126,10 @@ impl DisplayDrawer {
                     if (now - last_render) > Duration::milliseconds((1000 / FRAMERATE) as _) {
                         if self.chip.get_state() != &ChipState::Stopped {
                             self.chip.clean_events();
+                            // Force redraw if we are not stopped
+                            // For some reason, with a "shared" Ids struct, conrod won't detect we need to redraw
+                            // even though we know we have a different graph each new frame
+                            self.interface.needs_redraw();
                         }
                         last_render = now;
 

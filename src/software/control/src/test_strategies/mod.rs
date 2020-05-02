@@ -56,6 +56,10 @@ pub mod tests {
         ) -> Vec<u8> { current_alarm_codes }
     }
 
+    fn pressure_strategy() -> impl Strategy<Value = u16> {
+        0u16..32768
+    }
+
     pub struct TelemetryStrategies {
         pub current_systick: Cell<u64>,
     }
@@ -129,7 +133,7 @@ pub mod tests {
                 device_id_ints_strategy(),
                 self.systick_strategy(),
                 0u16..,
-                0u16..,
+                pressure_strategy(),
                 phase_subphase_strategy(),
                 0u8..,
                 0u8..,
@@ -237,7 +241,7 @@ pub mod tests {
                     device_id_ints_strategy(),
                     self.systick_strategy(),
                     0u16..,
-                    0u16..,
+                    pressure_strategy(),
                     phase_subphase_strategy(),
                     0u32..,
                     0u8..,
