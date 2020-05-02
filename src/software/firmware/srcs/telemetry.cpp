@@ -100,6 +100,16 @@ void computeDeviceId(void) {
     deviceId[10] = (LL_GetUID_Word2() >> 8) & FIRST_BYTE;
     deviceId[11] = LL_GetUID_Word2() & FIRST_BYTE;
 }
+
+/**
+ * Compute current systick
+ *
+ * @return Systick in microseconds
+ */
+// cppcheck-suppress unusedFunction
+uint64_t computeSystick(void) {
+    return (static_cast<uint64_t>(millis()) * 1000u) + (micros() % 1000u);
+}
 #endif
 
 // cppcheck-suppress unusedFunction
@@ -125,8 +135,7 @@ void sendBootMessage() {
     Serial6.print("\t");
 
     byte systick[8];  // 64 bits
-    uint64_t systickValue = (millis() * 1000) + (micros() % 1000);
-    toBytes64(systick, systickValue);
+    toBytes64(systick, computeSystick());
     Serial6.write(systick, 8);
 
     Serial6.print("\t");
@@ -151,8 +160,7 @@ void sendStoppedMessage() {
     Serial6.print("\t");
 
     byte systick[8];  // 64 bits
-    uint64_t systickValue = (millis() * 1000) + (micros() % 1000);
-    toBytes64(systick, systickValue);
+    toBytes64(systick, computeSystick());
     Serial6.write(systick, 8);
 
     Serial6.print("\n");
@@ -200,8 +208,7 @@ void sendDataSnapshot(uint16_t centileValue,
     Serial6.print("\t");
 
     byte systick[8];  // 64 bits
-    uint64_t systickValue = (millis() * 1000) + (micros() % 1000);
-    toBytes64(systick, systickValue);
+    toBytes64(systick, computeSystick());
     Serial6.write(systick, 8);
 
     Serial6.print("\t");
@@ -270,8 +277,7 @@ void sendMachineStateSnapshot(uint32_t cycleValue,
     Serial6.print("\t");
 
     byte systick[8];  // 64 bits
-    uint64_t systickValue = (millis() * 1000) + (micros() % 1000);
-    toBytes64(systick, systickValue);
+    toBytes64(systick, computeSystick());
     Serial6.write(systick, 8);
 
     Serial6.print("\t");
@@ -380,8 +386,7 @@ void sendAlarmTrap(uint16_t centileValue,
     Serial6.print("\t");
 
     byte systick[8];  // 64 bits
-    uint64_t systickValue = (millis() * 1000) + (micros() % 1000);
-    toBytes64(systick, systickValue);
+    toBytes64(systick, computeSystick());
     Serial6.write(systick, 8);
 
     Serial6.print("\t");
