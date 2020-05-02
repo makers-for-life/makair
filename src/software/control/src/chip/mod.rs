@@ -124,9 +124,14 @@ impl Chip {
             0
         };
 
+        // Low pass filter
+        let new_point = last_pressure as i16
+            - ((last_pressure as i16 - snapshot.pressure as i16)
+                / TELEMETRY_POINTS_LOW_PASS_DEGREE as i16);
+
         // Points are stored as mmH20 (for more precision; though we do work in cmH20)
         self.data_pressure
-            .push_front((snapshot_time, (snapshot.pressure + last_pressure) / 2));
+            .push_front((snapshot_time, new_point as u16));
     }
 
     pub fn get_state(&self) -> &ChipState {
