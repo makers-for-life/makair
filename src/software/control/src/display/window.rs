@@ -8,22 +8,25 @@ use glium::glutin::Icon;
 use glium::glutin::{ContextBuilder, EventsLoop, WindowBuilder};
 use image::load_from_memory;
 
-use crate::EmbeddedFonts;
-use crate::EmbeddedImages;
-
 use crate::config::environment::*;
-use crate::APP_ARGS;
+use crate::EmbeddedImages;
+use crate::Mode::Test;
+use crate::{AppArgs, EmbeddedFonts};
 
 use super::drawer::DisplayDrawerBuilder;
 use super::fonts::Fonts;
 
 pub struct DisplayWindowBuilder;
-pub struct DisplayWindow;
+
+#[derive(Clone, Debug)]
+pub struct DisplayWindow {
+    pub app_args: AppArgs,
+}
 
 impl DisplayWindowBuilder {
     #[allow(clippy::new_ret_no_self)]
-    pub fn new() -> DisplayWindow {
-        DisplayWindow {}
+    pub fn new(app_args: AppArgs) -> DisplayWindow {
+        DisplayWindow { app_args }
     }
 }
 
@@ -69,9 +72,10 @@ impl DisplayWindow {
             .with_dimensions((DISPLAY_WINDOW_SIZE_WIDTH, DISPLAY_WINDOW_SIZE_HEIGHT).into())
             .with_decorations(false)
             .with_resizable(false)
+            .with_visibility(!matches!(self.app_args.mode, Test(_)))
             .with_always_on_top(true);
 
-        let window = if APP_ARGS.fullscreen {
+        let window = if self.app_args.fullscreen {
             let primary_monitor = events_loop.get_primary_monitor();
 
             window.with_fullscreen(Some(primary_monitor))
@@ -101,7 +105,14 @@ impl DisplayWindow {
         let fonts = Fonts::new(regular_font, bold_font);
 
         // Create window contents drawer
-        let mut drawer = DisplayDrawerBuilder::new(window, context, events_loop, interface, fonts);
+        let mut drawer = DisplayDrawerBuilder::new(
+            self.app_args.to_owned(),
+            window,
+            context,
+            events_loop,
+            interface,
+            fonts,
+        );
 
         drawer.run();
     }

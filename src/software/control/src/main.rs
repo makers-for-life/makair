@@ -23,7 +23,6 @@ mod physics;
 mod serial;
 mod test_strategies;
 
-use std::ops::Deref;
 use std::str::FromStr;
 
 use clap::{App, Arg};
@@ -31,6 +30,7 @@ use log::LevelFilter;
 
 use config::logger::ConfigLogger;
 use display::window::DisplayWindowBuilder;
+use telemetry::structures::TelemetryMessage;
 
 #[derive(RustEmbed)]
 #[folder = "res/images/"]
@@ -40,22 +40,21 @@ pub struct EmbeddedImages;
 #[folder = "res/fonts/"]
 pub struct EmbeddedFonts;
 
-struct AppArgs {
+#[derive(Clone, Debug)]
+pub struct AppArgs {
     log: String,
     mode: Mode,
     fullscreen: bool,
 }
 
+#[derive(Clone, Debug)]
 pub enum Mode {
     Port {
         port: String,
         output_dir: Option<String>,
     },
     Input(String),
-}
-
-lazy_static! {
-    static ref APP_ARGS: AppArgs = make_app_args();
+    Test(Vec<TelemetryMessage>),
 }
 
 fn make_app_args() -> AppArgs {
@@ -120,22 +119,49 @@ fn make_app_args() -> AppArgs {
     }
 }
 
-fn ensure_states() {
-    // Ensure all statics are valid (a `deref` is enough to lazily initialize them)
-    let _ = APP_ARGS.deref();
-}
-
 fn main() {
+    let app_args = make_app_args();
+
     let _logger =
-        ConfigLogger::init(LevelFilter::from_str(&APP_ARGS.log).expect("invalid log level"));
+        ConfigLogger::init(LevelFilter::from_str(&app_args.log).expect("invalid log level"));
 
     info!("starting up");
 
-    // Ensure all states are bound
-    ensure_states();
-
     // Spawn window manager
-    DisplayWindowBuilder::new().spawn();
+    DisplayWindowBuilder::new(app_args).spawn();
 
     info!("stopped");
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::display::window::DisplayWindowBuilder;
+    use crate::test_strategies::tests::TelemetryStrategies;
+    use crate::AppArgs;
+    use proptest::collection;
+    use proptest::test_runner::TestRunner;
+
+    #[test]
+    fn test_gui_with_telemetry_messages() {
+        // With any sequence of TelemetryMessage, the GUI must not crash.
+        TestRunner::default()
+            .run(
+                &collection::vec(
+                    TelemetryStrategies::new().telemetry_message_strategy(),
+                    1..100,
+                ),
+                |msgs| {
+                    dbg!(&msgs.len());
+                    DisplayWindowBuilder::new(AppArgs {
+                        log: "test".to_string(),
+                        mode: super::Mode::Test(msgs),
+                        fullscreen: false,
+                    })
+                    .spawn();
+
+                    Ok(())
+                },
+            )
+            .unwrap();
+    }
 }

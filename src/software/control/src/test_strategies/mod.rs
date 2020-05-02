@@ -4,6 +4,7 @@ pub mod tests {
     use proptest::prelude::*;
     use proptest::strategy::Strategy;
     use std::cell::Cell;
+    use std::time::SystemTime;
     use telemetry::structures::{
         AlarmPriority, AlarmTrap, BootMessage, DataSnapshot, MachineStateSnapshot, Mode, Phase,
         StoppedMessage, SubPhase, TelemetryMessage,
@@ -62,7 +63,12 @@ pub mod tests {
     impl TelemetryStrategies {
         pub fn new() -> TelemetryStrategies {
             TelemetryStrategies {
-                current_systick: Cell::new(10_000_000_000_u64),
+                current_systick: Cell::new(
+                    SystemTime::now()
+                        .duration_since(SystemTime::UNIX_EPOCH)
+                        .expect("Can't get millis time since UNIX_EPOCH")
+                        .as_millis() as u64,
+                ),
             }
         }
 

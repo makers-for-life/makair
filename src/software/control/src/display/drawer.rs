@@ -14,18 +14,22 @@ use telemetry::{self, TelemetryChannelType};
 
 use crate::chip::{Chip, ChipState};
 use crate::serial::poller::{PollEvent, SerialPollerBuilder};
-use crate::APP_ARGS;
 
 use super::events::{DisplayEventsBuilder, DisplayEventsHandleOutcome};
 use super::fonts::Fonts;
 use super::renderer::{DisplayRenderer, DisplayRendererBuilder};
 use super::support::GliumDisplayWinitWrapper;
+use crate::AppArgs;
+use crate::Mode::Test;
 
 const FRAMERATE: u64 = 30;
 
-pub struct DisplayDrawerBuilder;
+pub struct DisplayDrawerBuilder {
+    pub app_args: AppArgs,
+}
 
 pub struct DisplayDrawer {
+    app_args: AppArgs,
     renderer: DisplayRenderer,
     glium_renderer: conrod_glium::Renderer,
     display: GliumDisplayWinitWrapper,
@@ -37,6 +41,7 @@ pub struct DisplayDrawer {
 impl DisplayDrawerBuilder {
     #[allow(clippy::new_ret_no_self)]
     pub fn new(
+        app_args: AppArgs,
         window: WindowBuilder,
         context: ContextBuilder,
         events_loop: EventsLoop,
@@ -51,6 +56,7 @@ impl DisplayDrawerBuilder {
 
         // Create drawer
         DisplayDrawer {
+            app_args,
             renderer: DisplayRendererBuilder::new(fonts),
             glium_renderer: conrod_glium::Renderer::new(&display.0).unwrap(),
             display,
@@ -63,50 +69,65 @@ impl DisplayDrawerBuilder {
 
 impl DisplayDrawer {
     pub fn run(&mut self) {
-        // Create handlers
-        let mut serial_poller = SerialPollerBuilder::new();
-        let mut events_handler = DisplayEventsBuilder::new();
-
-        // Start gathering telemetry
-        let rx = self.start_telemetry();
-
-        // Start drawer loop
-        // Flow: cycles through telemetry events, and refreshes the view every time there is an \
-        //   update on the machines state.
-        let mut last_render = Utc::now();
-
-        'main: loop {
-            // Receive telemetry data (from the input serial from the motherboard)
-            // Empty the events queue before doing anything else
-            'poll_serial: loop {
-                match serial_poller.poll(&rx) {
-                    Ok(PollEvent::Ready(event)) => self.chip.new_event(event),
-                    Ok(PollEvent::Pending) => break 'poll_serial,
-                    Err(error) => {
-                        self.chip.new_error(error);
-                        break 'poll_serial;
-                    }
-                };
-            }
-
-            // Handle incoming events
-            match events_handler.handle(&self.display, &mut self.interface, &mut self.events_loop) {
-                DisplayEventsHandleOutcome::Break => break 'main,
-                DisplayEventsHandleOutcome::Continue => {}
-            }
-
-            // Refresh the pressure data interface, if we have any data in the buffer
-            let now = Utc::now();
-
-            if (now - last_render) > Duration::milliseconds((1000 / FRAMERATE) as _) {
-                if self.chip.get_state() != &ChipState::Stopped {
-                    self.chip.clean_events();
+        match &mut self.app_args.mode {
+            Test(msgs) => {
+                for msg in msgs.to_owned() {
+                    self.chip.new_event(msg.to_owned());
+                    self.refresh();
                 }
-                last_render = now;
+            }
 
-                self.refresh();
-            } else {
-                std::thread::sleep(std::time::Duration::from_millis(10));
+            _ => {
+                // Create handlers
+                let mut serial_poller = SerialPollerBuilder::new();
+                let mut events_handler = DisplayEventsBuilder::new();
+
+                // Start gathering telemetry
+                let rx = self.start_telemetry();
+
+                // Start drawer loop
+                // Flow: cycles through telemetry events, and refreshes the view every time there is an \
+                //   update on the machines state.
+                let mut last_render = Utc::now();
+
+                'main: loop {
+                    // Receive telemetry data (from the input serial from the motherboard)
+                    // Empty the events queue before doing anything else
+                    'poll_serial: loop {
+                        match serial_poller.poll(&rx) {
+                            Ok(PollEvent::Ready(event)) => self.chip.new_event(event),
+                            Ok(PollEvent::Pending) => break 'poll_serial,
+                            Err(error) => {
+                                self.chip.new_error(error);
+                                break 'poll_serial;
+                            }
+                        };
+                    }
+
+                    // Handle incoming events
+                    match events_handler.handle(
+                        &self.display,
+                        &mut self.interface,
+                        &mut self.events_loop,
+                    ) {
+                        DisplayEventsHandleOutcome::Break => break 'main,
+                        DisplayEventsHandleOutcome::Continue => {}
+                    }
+
+                    // Refresh the pressure data interface, if we have any data in the buffer
+                    let now = Utc::now();
+
+                    if (now - last_render) > Duration::milliseconds((1000 / FRAMERATE) as _) {
+                        if self.chip.get_state() != &ChipState::Stopped {
+                            self.chip.clean_events();
+                        }
+                        last_render = now;
+
+                        self.refresh();
+                    } else {
+                        std::thread::sleep(std::time::Duration::from_millis(10));
+                    }
+                }
             }
         }
     }
@@ -116,7 +137,7 @@ impl DisplayDrawer {
         let (tx, rx): (Sender<TelemetryChannelType>, Receiver<TelemetryChannelType>) =
             std::sync::mpsc::channel();
 
-        match &APP_ARGS.mode {
+        match self.app_args.mode.to_owned() {
             crate::Mode::Port { port, output_dir } => {
                 let optional_file_buffer = output_dir.as_ref().map(|dir| {
                     let path = format!(
@@ -135,10 +156,12 @@ impl DisplayDrawer {
 
             crate::Mode::Input(path) => {
                 std::thread::spawn(move || loop {
-                    let file = std::fs::File::open(path).unwrap();
+                    let file = std::fs::File::open(&path).unwrap();
                     telemetry::gather_telemetry_from_file(file, tx.clone());
                 });
             }
+
+            crate::Mode::Test(_) => (),
         }
 
         rx

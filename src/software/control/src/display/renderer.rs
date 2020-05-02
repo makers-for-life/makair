@@ -394,7 +394,14 @@ impl DisplayRenderer {
         chart
             .draw_series(
                 LineSeries::new(
-                    data_pressure.iter().map(|x| (x.0, x.1 as i32)),
+                    data_pressure
+                        .iter()
+                        // Uncomment the next `.map()` to see the effectiveness of the GUI tests.
+                        .map(|v| {
+                            assert!(v.1 <= 500, format!("This assert! is here only to show the effectiveness of the GUI tests ({} > 500)", v.1));
+                            v
+                        })
+                        .map(|x| (x.0, x.1 as i32)),
                     ShapeStyle::from(&plotters::style::RGBColor(0, 137, 255))
                         .filled()
                         .stroke_width(GRAPH_DRAW_LINE_SIZE),
