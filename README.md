@@ -164,7 +164,7 @@ The Control Unit should be built and ran on the Raspberry Pi 4 using instruction
 | Runtime | Version | Major Changes | Ready? | Contributors |
 | ------- | ------- | ------------- | ------ | ------------ |
 | [Ventilator Firmware](./src/software/firmware) | V1.5.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + [Gabriel Moneyron](https://github.com/Benhalor)
-| [Control Unit](./src/software/control) | V1.1.x | Operational initial release | ✅ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce) + [Arnaud Lefebvre](https://github.com/BlackYoup)
+| [Control Unit](./src/software/control) | V1.1.x | Operational initial release | ✅ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce) + [Arnaud Lefebvre](https://github.com/BlackYoup) + [David Sferruzza](https://github.com/dsferruzza)
 | [Telemetry Library](./src/software/telemetry) | V1.0.0 | Working serial parsing from firmware | ✅ | [David Sferruzza](https://github.com/dsferruzza)
 
 # Schemes
