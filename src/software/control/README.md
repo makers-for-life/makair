@@ -5,6 +5,7 @@
 | Version | Last Changelog | Ready? |
 | ------- | -------------- | ------ |
 | V1.1.x | Operational initial release | ✅
+| V1.2.x | Crashes fixed + smoother graph + implemented medical staff feedbacks | ✅
 
 ## How To Build?
 
