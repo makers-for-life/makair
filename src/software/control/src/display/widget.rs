@@ -290,7 +290,7 @@ impl<'a> ControlWidget<'a> {
         let alarms_for_display = config
             .alarms
             .iter()
-            .filter(|&alarm| DISPLAY_ALARM_CODE_IGNORES.contains(&alarm.0.code()) == false)
+            .filter(|&alarm| !DISPLAY_ALARM_CODE_IGNORES.contains(&alarm.0.code()))
             .collect::<Vec<_>>();
         let alarms_count = alarms_for_display.len();
 
