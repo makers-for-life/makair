@@ -76,20 +76,39 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 20;
 #elif PNEUMATIC_HARDWARE_VERSION == PHW_CHU
 
 static const int32_t PID_BLOWER_KP = 1;
-static const int32_t PID_BLOWER_KI = 50;
-static const int32_t PID_BLOWER_KD = 25;
+static const int32_t PID_BLOWER_KI = 25;
+static const int32_t PID_BLOWER_KD = 0;
 static const int32_t PID_BLOWER_INTEGRAL_MAX = 1000;
 static const int32_t PID_BLOWER_INTEGRAL_MIN = -1000;
 
-static const int32_t PID_PATIENT_KP = 13;
-static const int32_t PID_PATIENT_KI = 0;
-static const int32_t PID_PATIENT_KD = 0;
-static const int32_t PID_PATIENT_INTEGRAL_MAX = 1000;
-static const int32_t PID_PATIENT_INTEGRAL_MIN = -1000;
+static const int32_t PID_PATIENT_KP = 4;
+static const int32_t PID_PATIENT_KI = 32;
+static const int32_t PID_PATIENT_KD = 12;
+static const int32_t PID_PATIENT_INTEGRAL_MAX = 630;
+static const int32_t PID_PATIENT_INTEGRAL_MIN = -630;
 
 /// Increase target pressure by an offset (in mmH2O) for safety, to avoid going below the target
 /// pressure
 static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
+
+#elif PNEUMATIC_HARDWARE_VERSION == PHW_FAULHABER
+
+static const int32_t PID_BLOWER_KP = 1;
+static const int32_t PID_BLOWER_KI = 25;
+static const int32_t PID_BLOWER_KD = 0;
+static const int32_t PID_BLOWER_INTEGRAL_MAX = 1000;
+static const int32_t PID_BLOWER_INTEGRAL_MIN = -1000;
+
+static const int32_t PID_PATIENT_KP = 33000;
+static const int32_t PID_PATIENT_KI = 50;
+static const int32_t PID_PATIENT_KD = 000;
+static const int32_t PID_PATIENT_INTEGRAL_MAX = 400;
+static const int32_t PID_PATIENT_INTEGRAL_MIN = -400;
+
+/// Increase target pressure by an offset (in mmH2O) for safety, to avoid going below the target
+/// pressure
+static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
+
 #endif
 
 ///@}
@@ -103,20 +122,19 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
 #define VALVE_OPEN_STATE 0u
 
 /// Angle when closed
-#define VALVE_CLOSED_STATE 105u
+#define VALVE_CLOSED_STATE 125u
+
 #if VALVE_TYPE == VT_SERVO_V1
 #define SERVO_VALVE_PERIOD                                                                         \
     10000  // 100 Hz : on hardware 1, esc timer is shared between servo and esc. Servo can handle
-           // 100hz too
+           // 100 Hz too
 #elif VALVE_TYPE == VT_EMERSON_ASCO
 #define SERVO_VALVE_PERIOD 3278  // 305 Hz
 #define EMERSON_MIN_PWM 600      // 18 % PWM is the minimum to start opening (3278 * 0.18)
 #elif VALVE_TYPE == VT_FAULHABER
-#define SERVO_VALVE_PERIOD 1000  // 1 khz Faulhaber motors are controlled with a 1khz PWM
-// pwm duty cycle 64% -> open
-#define FAULHABER_OPENED 640
-// pwm duty cycle 90% -> closed
-#define FAULHABER_CLOSED 900
+#define SERVO_VALVE_PERIOD 1000  // 1 kHz Faulhaber motors are controlled with a 1 kHz PWM
+#define FAULHABER_OPENED 640     // PWM duty cycle 64% -> open
+#define FAULHABER_CLOSED 900     // PWM duty cycle 90% -> closed
 #endif
 
 #if HARDWARE_VERSION == 1
@@ -294,9 +312,7 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
 
 ///@}
 
-// preprocessor checks
-#if VALVE_TYPE == VT_FAULHABER
-#if HARDWARE_VERSION == 1
+// Preprocessor checks
+#if VALVE_TYPE == VT_FAULHABER && HARDWARE_VERSION == 1
 #error "Faulhaber can only be driven with hardware v2"
-#endif
 #endif
