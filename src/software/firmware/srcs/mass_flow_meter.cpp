@@ -52,6 +52,9 @@ HardwareTimer* massFlowTimer;
 int32_t mfmCalibrationOffset = 0;
 
 volatile int32_t mfmAirVolumeSum = 0;
+double mfm_flow = 0.0;
+double mfm_voltage = 0.0;
+
 volatile int32_t mfmSensorDetected = 0;
 
 volatile int32_t mfmSampleCount = 0;
@@ -112,11 +115,21 @@ void MFM_Timer_Callback(HardwareTimer*) {
 #endif
 
 #if MASS_FLOW_METER_SENSOR == MFM_OMRON_D6F
+
+        static double mfm_x2, mfm_x3, mfm_x4;
         mfmLastValue = analogRead(MFM_ANALOG_INPUT);
-        if (mfmLastValue > mfmCalibrationOffset + 10) {
-            mfmAirVolumeSum += analogRead(MFM_ANALOG_INPUT);
+        if (mfmLastValue > mfmCalibrationOffset + 5) {
+            mfm_voltage = (mfmLastValue - mfmCalibrationOffset) * 3.3 / 1024.0;
+            mfm_x2 = mfm_voltage * mfm_voltage;
+            mfm_x3 = mfm_x2 * mfm_voltage;
+            // mfm_x4 = mfm_x3 * mfm_voltage;
+            mfm_flow = -16.63 * mfm_x3 + 29.82 * mfm_x2 + 27.7 * mfm_voltage + 1.84;
+        } else {
+            mfm_flow = 0.0;
         }
-        Serial.println(mfmLastValue);
+        // Serial.println(mfm_flow);
+        // sum milliliters
+        mfmAirVolumeSum += (uint32_t)(mfm_flow * 1000.0);
 #endif
 
 #if MODE == MODE_MFM_TESTS
@@ -280,11 +293,12 @@ void MFM_reset(void) {
 void MFM_calibrateZero(void) {
 #if MASS_FLOW_METER_SENSOR == MFM_OMRON_D6F
     int32_t sum = 0;
-    for (int i = 0; i < 10; i++) {
+    // 500ms with one point per ms is great
+    for (int i = 0; i < 500; i++) {
         sum += analogRead(MFM_ANALOG_INPUT);
-        delayMicroseconds(5000);
+        delayMicroseconds(1000);
     }
-    mfmCalibrationOffset = sum / 10;
+    mfmCalibrationOffset = sum / 500;
 #endif
 }
 
@@ -312,7 +326,7 @@ int32_t MFM_read_liters(boolean reset_after_read) {
 #endif
 
 #if MASS_FLOW_METER_SENSOR == MFM_OMRON_D6F
-    result = mfmFaultCondition ? 999999 : (mfmAirVolumeSum / 130);
+    result = result = mfmFaultCondition ? 999999 : (mfmAirVolumeSum / 6000);
 #endif
 
     if (reset_after_read) {
@@ -379,7 +393,8 @@ void loop(void) {
         if (volume == MASS_FLOw_ERROR_VALUE) {
             screen.print("sensor not OK");
         } else {
-            screen.print("sensor OK");
+            screen.print("sensor OK ");
+            screen.print(mfm_flow);
             // screen.print(mfmLastValue);
             screen.setCursor(0, 3);
             sprintf(buffer, "volume=%dmL", volume);
