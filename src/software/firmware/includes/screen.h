@@ -41,7 +41,7 @@ void resetScreen();
  * @param pressure            The current pressure [mmH2O]
  * @param cyclesPerMinute     Next desired number of cycles per minute
  */
-void displayCurrentPressure(uint16_t pressure, uint16_t cyclesPerMinute);
+void displayCurrentPressure(uint16_t pressure, uint16_t cyclesPerMinute, int32_t volumeMassFlow);
 
 /**
  * Display the current settings

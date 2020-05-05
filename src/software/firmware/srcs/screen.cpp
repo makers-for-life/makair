@@ -49,13 +49,13 @@ void startScreen() {
 
 void resetScreen() { screen.clear(); }
 
-void displayCurrentPressure(uint16_t pressure, uint16_t cyclesPerMinute) {
+void displayCurrentPressure(uint16_t pressure, uint16_t cyclesPerMinute, int32_t volumeMassFlow) {
     screen.setCursor(0, 0);
 
     char message[SCREEN_LINE_LENGTH + 1];
 
-    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "Pressure:%2u    %2ucpm",
-                   convertAndRound(pressure), cyclesPerMinute);
+    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "Pressure:%2u  %4dml",
+                   convertAndRound(pressure), volumeMassFlow);
 
     screen.print(message);
 }

@@ -25,6 +25,7 @@
 #include "../includes/battery.h"
 #include "../includes/telemetry.h"
 #endif
+#include "../includes/mass_flow_meter.h"
 
 static const int32_t INVALID_ERROR_MARKER = INT32_MIN;
 static const uint32_t INVALID_ERROR_MARKER_U = UINT32_MAX;
@@ -265,6 +266,7 @@ void PressureController::compute(uint16_t p_centiSec) {
     }
     case CycleSubPhases::HOLD_INSPIRATION: {
         plateau();
+        MFM_reset();
         break;
     }
     case CycleSubPhases::EXHALE:

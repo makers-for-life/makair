@@ -296,9 +296,26 @@ static const int32_t PID_PATIENT_SAFETY_PEEP_OFFSET = 0;
 #define PIN_BATTERY A2
 #define PIN_TELEMETRY_SERIAL_RX PA12
 #define PIN_TELEMETRY_SERIAL_TX PA11
+#define MASS_FLOW_METER
 #endif
 
 ///@}
+
+
+/**
+ * Define the flow meter parameters
+ */
+#ifdef MASS_FLOW_METER
+#define MASS_FLOW_TIMER TIM10
+#define MASS_FLOW_CHANNEL 1
+#define PIN_I2C_SDA PB9
+#define PIN_I2C_SCL PB8
+#define MFM_ANALOG_INPUT A3
+#define MFM_SFM_3300D 1
+#define MFM_SDP703_02 2
+#define MFM_OMRON_D6F 3
+#define MASS_FLOW_METER_SENSOR MFM_OMRON_D6F
+#endif
 
 /**
  * @name Alarm thresholds

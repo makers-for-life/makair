@@ -39,6 +39,7 @@
 #if HARDWARE_VERSION == 2
 #include "../includes/telemetry.h"
 #endif
+#include "../includes/mass_flow_meter.h"
 
 // PROGRAM =====================================================================
 
@@ -190,7 +191,13 @@ void setup(void) {
     screen.print("Patient must be");
     screen.setCursor(0, 3);
     screen.print("unplugged");
-    waitForInMs(3000);
+    waitForInMs(2000);
+
+// Mass Flow Meter, if any
+#ifdef MASS_FLOW_METER
+    MFM_init();
+    MFM_calibrateZero();  // Patient unplugged, also set the zero of mass flow meter.
+#endif
 
     resetScreen();
     if (pressureOffsetCount != 0u) {
@@ -346,8 +353,8 @@ void loop(void) {
 
             // Display relevant information during the cycle
             if ((centiSec % LCD_UPDATE_PERIOD) == 0u) {
-                displayCurrentPressure(pController.pressure(),
-                                       pController.cyclesPerMinuteCommand());
+                displayCurrentPressure(pController.pressure(), pController.cyclesPerMinuteCommand(),
+                                       MFM_read_liters(false));
 
                 displayCurrentSettings(pController.maxPeakPressureCommand(),
                                        pController.maxPlateauPressureCommand(),
