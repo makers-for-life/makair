@@ -117,7 +117,7 @@ void MFM_Timer_Callback(HardwareTimer*) {
 #if MASS_FLOW_METER_SENSOR == MFM_OMRON_D6F
 
         static double mfm_x2, mfm_x3, mfm_x4;
-        mfmLastValue = analogRead(MFM_ANALOG_INPUT);
+        mfmLastValue = analogRead(MFM_ANALOG_INPUT)-mfmCalibrationOffset;
         if (mfmLastValue > mfmCalibrationOffset + 5) {
             mfm_voltage = (mfmLastValue - mfmCalibrationOffset) * 3.3 / 1024.0;
             mfm_x2 = mfm_voltage * mfm_voltage;
@@ -376,35 +376,57 @@ void loop(void) {
 
     delay(10);
     loopcounter++;
-    if (loopcounter == 50) {
-        loopcounter = 0;
+    char buffer[30];
 
-        char buffer[30];
-
-        int32_t volume = MFM_read_liters(false);
-
-        resetScreen();
-        screen.setCursor(0, 0);
-        screen.print("debug prog");
-        screen.setCursor(0, 1);
-        screen.print("mass flow sensor");
-        screen.setCursor(0, 2);
-
-        if (volume == MASS_FLOw_ERROR_VALUE) {
-            screen.print("sensor not OK");
-        } else {
-            screen.print("sensor OK ");
-            screen.print(mfm_flow);
-            // screen.print(mfmLastValue);
-            screen.setCursor(0, 3);
-            sprintf(buffer, "volume=%dmL", volume);
-            screen.print(buffer);
-        }
-
-        // Serial.print("volume = ");
-        // Serial.print(volume);
-        // Serial.println("mL");
+    int32_t sum = 0;
+    // 500ms with one point per ms is great
+    for (int i = 0; i < 3500; i++) {
+        sum += mfmLastValue;
+        delayMicroseconds(1000);
     }
+    uint32_t mean = sum / 3500;
+
+    resetScreen();
+    screen.setCursor(0, 0);
+    screen.print("debug prog");
+    screen.setCursor(0, 1);
+    screen.print("mass flow sensor");
+    screen.setCursor(0, 2);
+    sprintf(buffer, "volume=%d    ", mean);
+screen.print(buffer);
+    //         screen.print(buffer);
+
+    //     screen.setCursor(0, 2);
+
+    // if (loopcounter == 50) {
+    //     loopcounter = 0;
+
+    //     char buffer[30];
+
+    //     int32_t volume = MFM_read_liters(false);
+
+    //     resetScreen();
+    //     screen.setCursor(0, 0);
+    //     screen.print("debug prog");
+    //     screen.setCursor(0, 1);
+    //     screen.print("mass flow sensor");
+    //     screen.setCursor(0, 2);
+
+    //     if (volume == MASS_FLOw_ERROR_VALUE) {
+    //         screen.print("sensor not OK");
+    //     } else {
+    //         screen.print("sensor OK ");
+    //         screen.print(mfm_flow);
+    //         // screen.print(mfmLastValue);
+    //         screen.setCursor(0, 3);
+    //         sprintf(buffer, "volume=%dmL", volume);
+    //         screen.print(buffer);
+    //     }
+
+    //     // Serial.print("volume = ");
+    //     // Serial.print(volume);
+    //     // Serial.println("mL");
+    // }
     btn_stop.tick();
 }
 #endif
