@@ -380,12 +380,6 @@ class PressureController {
     /// Number of hundredth of second from the begining of the cycle till the plateau phase
     uint16_t m_plateauStartTime;
 
-    bool patientPIDFastMode;
-
-    int32_t patientPIDCount;
-
-    int32_t patientDerivativeTable[20];
-    int32_t patientDerivativeTableIndex;
 };
 
 // INITIALISATION =============================================================
