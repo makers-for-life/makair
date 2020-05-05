@@ -152,12 +152,8 @@ void PressureController::initRespiratoryCycle() {
     patientIntegral = 0;
     patientLastError = INVALID_ERROR_MARKER;
     patientLastAperture = INVALID_ERROR_MARKER_U;
-    for (int i = 0; i<10; i++){
-        patientDerivativeTable[i] = 0;
-    }
-    patientDerivativeTableIndex = 0;
     patientPIDFastMode = true;
-    patientPIDCount = 0;
+
 
     m_peakPressure = 0;
     computeCentiSecParameters();
@@ -201,20 +197,22 @@ void PressureController::initRespiratoryCycle() {
 
 void PressureController::endRespiratoryCycle() {
 
+    // If plateau is not detected or is too close to PEEP, mark it as "unknown"
+    if ((m_plateauPressure == 0u) || (abs(m_plateauPressure - m_peep) < 10)) {
+        m_plateauPressure = UINT16_MAX;
+    }
+
     if (m_isPlateauSquareModeOn){
-        updateOnlyBlower();
         // In square plateau mode, plateau pressure is the mean pressure during plateau
         m_plateauPressure = m_squarePlateauSum / m_squarePlateauCount;
+        updateOnlyBlower();
     } else {
         updatePeakPressure();
     }
     
     checkCycleAlarm();
 
-    // If plateau is not detected or is too close to PEEP, mark it as "unknown"
-    if ((m_plateauPressure == 0u) || (abs(m_plateauPressure - m_peep) < 10)) {
-        m_plateauPressure = UINT16_MAX;
-    }
+    
 
     // RCM-SW-18
     if (m_pressure <= ALARM_THRESHOLD_MAX_PRESSURE) {
@@ -626,7 +624,9 @@ void PressureController::updateOnlyBlower() {
             if (plateauDelta > 60) {
                 m_blower_increment = +60;
                 DBG_DO(Serial.print("BLOWER +60, peak: ");)
-                DBG_DO(Serial.println(plateauDelta);)
+                DBG_DO(Serial.print(m_maxPlateauPressureCommand);)
+                DBG_DO(Serial.print("-");)
+                DBG_DO(Serial.println(m_plateauPressure);)
             } else if (plateauDelta > 40) {
                 m_blower_increment = +40;
                 DBG_DO(Serial.print("BLOWER +40, peak: ");)
@@ -639,6 +639,9 @@ void PressureController::updateOnlyBlower() {
             m_blower_increment = 0;
             DBG_DO(Serial.println("BLOWER +0");)
         }
+        DBG_DO(Serial.print("Plateau Start time:");)
+        DBG_DO(Serial.println(m_plateauStartTime);)
+        
 }
 
 void PressureController::computeCentiSecParameters() {
@@ -726,6 +729,21 @@ int32_t PressureController::pidBlower(int32_t targetPressure, int32_t currentPre
         max(minAperture,
             min(maxAperture, maxAperture + (minAperture - maxAperture) * blowerCommand / 1000));
 
+    Serial.print(m_pressureCommand);
+    Serial.print(",");
+    Serial.print(m_pressure);
+    Serial.print(",");
+    Serial.print(PID_BLOWER_KP * error);
+    Serial.print(",");
+    Serial.print(blowerIntegral);
+    Serial.print(",");
+    Serial.print((PID_BLOWER_KD * derivative) / 1000);
+    Serial.print(",");
+    Serial.print(blowerCommand);
+    Serial.print(",");
+    Serial.print(blowerAperture);
+    Serial.println();
+
     return blowerAperture;
 }
 
@@ -754,7 +772,6 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
     if (patientPIDFastMode){
         coefficientP = PID_PATIENT_KP * abs(error);
     } else {
-        patientPIDCount++;
         coefficientP = 4000;
         if (abs(error)<10){
             coefficientI = PID_PATIENT_KI*2;
@@ -778,7 +795,7 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
 
     
     
-    Serial.print(m_pressureCommand);
+    /*Serial.print(m_pressureCommand);
     Serial.print(",");
     Serial.print(m_pressure);
     Serial.print(",");
@@ -793,7 +810,7 @@ PressureController::pidPatient(int32_t targetPressure, int32_t currentPressure, 
     Serial.print(patientAperture);
     Serial.print(",");
     Serial.print(patientPIDFastMode);
-    Serial.println();
+    Serial.println();*/
 
     return patientAperture;
 }
