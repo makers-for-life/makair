@@ -333,6 +333,13 @@ class PressureController {
     int32_t patientIntegral;
 
     /**
+     * Fast mode at start of expiration
+     *
+     * @note This must be persisted between computations
+     */
+    bool patientPIDFastMode;
+
+    /**
      * Error of the last computation of the patient PID
      *
      * @note This must be persisted between computation in order to compute derivative gain
