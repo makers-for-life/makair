@@ -54,8 +54,8 @@ void displayCurrentPressure(uint16_t pressure, uint16_t cyclesPerMinute, int32_t
 
     char message[SCREEN_LINE_LENGTH + 1];
 
-    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "Pressure:%2u  %4dml",
-                   convertAndRound(pressure), volumeMassFlow);
+    (void)snprintf(message, SCREEN_LINE_LENGTH + 1, "Cpm:%2u      %4dml",
+                   cyclesPerMinute, volumeMassFlow);
 
     screen.print(message);
 }
