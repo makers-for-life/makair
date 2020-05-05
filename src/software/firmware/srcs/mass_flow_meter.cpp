@@ -119,12 +119,15 @@ void MFM_Timer_Callback(HardwareTimer*) {
 
 
         //mfmLastValue = analogRead(MFM_ANALOG_INPUT);
+        static double mfm_x2, mfm_x3, mfm_x4, mfm_x5;
         if (mfmLastValue > mfmCalibrationOffset + 5) {
-            mfm_voltage = (mfmLastValue - mfmCalibrationOffset) * 3.3 / 1024.0;
+            mfm_voltage = mfmLastValue - mfmCalibrationOffset;
             mfm_x2 = mfm_voltage * mfm_voltage;
             mfm_x3 = mfm_x2 * mfm_voltage;
-            // mfm_x4 = mfm_x3 * mfm_voltage;
-            mfm_flow = -16.63 * mfm_x3 + 29.82 * mfm_x2 + 27.7 * mfm_voltage + 1.84;
+            mfm_x4 = mfm_x3 * mfm_voltage;
+            mfm_x5 = mfm_x4 * mfm_voltage;
+            mfm_flow = 7.89e-12 * mfm_x5 - 1.164e-8 * mfm_x4 + 6.34e-6 * mfm_x3 - 0.001515 * mfm_x2
+                       + 0.2612 * mfm_voltage + 0.70069;
         } else {
             mfm_flow = 0.0;
         }
