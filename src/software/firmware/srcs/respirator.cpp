@@ -307,7 +307,9 @@ void loop(void) {
 
     while (centiSec < pController.centiSecPerCycle()) {
         uint32_t pressure = readPressureSensor(centiSec, pressureOffset);
-
+        // ADC should not be used in another higher level of interruption (reading adc is for from being atomic)
+        // So the mass flow meter value is updated here.
+        mfmLastValue = analogRead(MFM_ANALOG_INPUT);
         uint32_t currentDate = millis();
 
         uint32_t diff = (currentDate - lastpControllerComputeDate);

@@ -13,7 +13,7 @@ int32_t MFM_read_liters(boolean reset_after_read);
 void MFM_calibrateZero(void);
 void MFM_reset(void);
 boolean MFM_init(void);
-
+extern int32_t mfmLastValue;
 
 #define MASS_FLOw_ERROR_VALUE 999999
 

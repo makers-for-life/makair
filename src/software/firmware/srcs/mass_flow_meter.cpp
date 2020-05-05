@@ -49,11 +49,12 @@
 
 HardwareTimer* massFlowTimer;
 
-int32_t mfmCalibrationOffset = 0;
+volatile int32_t mfmCalibrationOffset = 0;
 
 volatile int32_t mfmAirVolumeSum = 0;
-double mfm_flow = 0.0;
-double mfm_voltage = 0.0;
+volatile double mfm_flow = 0.0;
+volatile double mfm_voltage = 0.0;
+volatile double mfm_x2, mfm_x3, mfm_x4;
 
 volatile int32_t mfmSensorDetected = 0;
 
@@ -116,8 +117,8 @@ void MFM_Timer_Callback(HardwareTimer*) {
 
 #if MASS_FLOW_METER_SENSOR == MFM_OMRON_D6F
 
-        static double mfm_x2, mfm_x3, mfm_x4;
-        mfmLastValue = analogRead(MFM_ANALOG_INPUT);
+
+        //mfmLastValue = analogRead(MFM_ANALOG_INPUT);
         if (mfmLastValue > mfmCalibrationOffset + 5) {
             mfm_voltage = (mfmLastValue - mfmCalibrationOffset) * 3.3 / 1024.0;
             mfm_x2 = mfm_voltage * mfm_voltage;
