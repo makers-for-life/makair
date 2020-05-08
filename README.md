@@ -109,13 +109,13 @@ Electronics are comprised of two parts: the firmware controller board (typically
 
 The motherboard electronic schematics and wiring diagrams [can be found there](https://github.com/makers-for-life/makair-motherboard/tree/master/src/schematics). Please pick the last version available.
 
-👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
+👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair-motherboard/issues/new)._
 
 ### 2. Control Unit Screen
 
 The control unit is made of a [Raspberry Pi 4](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) computer, plugged to a [Raspberry Pi Touch Display](https://www.raspberrypi.org/products/raspberry-pi-touch-display/).
 
-👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
+👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair-control-ui/issues/new)._
 
 ## 3️⃣ Flash the firmware
 
@@ -125,13 +125,13 @@ Now that both mechanical parts and electronics are ready, you may flash the late
 
 Firmware release binaries are available for download on our [releases page](https://github.com/makers-for-life/makair-firmware/releases).
 
-👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
+👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair-firmware/issues/new)._
 
 ### 2. Control Unit Runtime
 
 The Control Unit should be built and ran on the Raspberry Pi 4 using instructions available on the [Control Unit](https://github.com/makers-for-life/makair-control-ui) documentation.
 
-👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
+👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair-control-ui/issues/new)._
 
 # Components
 
