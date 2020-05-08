@@ -133,39 +133,6 @@ The Control Unit should be built and ran on the Raspberry Pi 4 using instruction
 
 👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair-control-ui/issues/new)._
 
-# Components
-
-## Mechanics
-
-| Part | Version | Last Changelog | Ready? | Live CAD Models | Contributors |
-| ---- | ------- | -------------- | ------ | --------------- | ------------ |
-| [Blower](./src/mechanics/parts/blower) | V14 | Smaller form factor & more powerful | ✅ | [view model](https://a360.co/2JIBr8d) | Gabriel Moneyron + [Baptiste Jamin](https://github.com/baptistejamin) + [Valerian Saliou](https://github.com/valeriansaliou)
-| [Blower Holder](./src/mechanics/parts/blower-holder) | V3 | Differentiate Model A and Model B | ✅ | [view a model](https://a360.co/2xiu2tr), [view b model](https://a360.co/2ViA05J) | Gabriel Moneyron + [Valerian Saliou](https://github.com/valeriansaliou)
-| [Pressure Valve](./src/mechanics/parts/pressure-valve) | V6 | General improvements | ✅ | [view model](https://a360.co/2RyQLsr) | [Clement Niclot](https://github.com/clementniclot)
-| [Oxygen Mixer](./src/mechanics/parts/oxygen-mixer) | V4 | Updated with correct O2 ID diameter, reinforced O2 nipple. | ✅ | [view model](https://a360.co/2XrUdIV) | [Yohann Nédélec](https://github.com/Melkaz) + Steven Daix
-| [Patient Filter Box](./src/mechanics/parts/patient-filter-box) | V6 | Update input/output mensurations | ✅ | [view model](https://a360.co/2UT72dP) | Martial Medjber + [Eliott Vincent](https://github.com/eliottvincent)
-| [Machine Filter Box (Intake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | [view model](https://a360.co/2x1mhIx) | [Valerian Saliou](https://github.com/valeriansaliou)
-| [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | [view model](https://a360.co/2XeSVAP) | [Valerian Saliou](https://github.com/valeriansaliou)
-| [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V4 | Wall-mountable patient connectors | ✅ | [view o2 model](https://a360.co/3bVsX9N), [view blower model](https://a360.co/2UNMVgY), [view respiratory pressure model](https://a360.co/3av64c0), [view respiratory no pressure model](https://a360.co/2XZB5T0) | Gabriel Moneyron
-| [Fan Holder](./src/mechanics/parts/fan-holder) | V2 | Wall-mounted version | ✅ | [view floor-mounted model](https://a360.co/2V8enEU), [view wall-mounted model](https://a360.co/3cLgsy1) | [Eliott Vincent](https://github.com/eliottvincent)
-| [Casing](./src/mechanics/casing) | V2 | Update mensurations | ✅ | [view model](https://a360.co/2RlnfGp) | Arthur Dagard
-
-## Electronics
-
-| Board | Version | Major Changes | Ready? | Schematics | Contributors |
-| ----- | ------- | ------------- | ------ | ---------- | ------------ |
-| [Motherboard](./src/electronics/motherboard) | V2 | Working PCB w/ software | ✅ | [view schematic](./src/electronics/motherboard/schematics/V2/Electrical%20Schematics.pdf) | Vincent Le Cunff + Cherine Kamel + [Pierre Papin](https://github.com/pi-r-p)
-
-## Software
-
-[![Firmware Lint](https://github.com/makers-for-life/makair-firmware/workflows/Firmware%20Lint/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Firmware+Lint%22) [![Firmware Unit Tests](https://github.com/makers-for-life/makair-firmware/workflows/Firmware%20Unit%20Tests/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Firmware+Unit+Tests%22) [![Control Lint](https://github.com/makers-for-life/makair-control-ui/workflows/Control%20Lint/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Control+Lint%22) [![Telemetry All](https://github.com/makers-for-life/makair-telemetry/workflows/Telemetry%20All/badge.svg)](https://github.com/makers-for-life/makair/actions?query=workflow%3A%22Telemetry+All%22)
-
-| Runtime | Version | Major Changes | Ready? | Contributors |
-| ------- | ------- | ------------- | ------ | ------------ |
-| [Ventilator Firmware](https://github.com/makers-for-life/makair-firmware) | V1.5.x | Initial test working | ✅ | [Emmanuel Feller](https://github.com/Mefl) + [Gautier de Saint Martin Lacaze](https://github.com/jabby) + [David Sferruzza](https://github.com/dsferruzza) + [Baptiste Jamin](https://github.com/baptistejamin) + [Gabriel Moneyron](https://github.com/Benhalor)
-| [Control Unit](https://github.com/makers-for-life/makair-control-ui) | V1.2.x | Crashes fixed + smoother graph + implemented medical staff feedbacks | ✅ | [Valerian Saliou](https://github.com/valeriansaliou) + [Quentin Adam](https://github.com/waxzce) + [Arnaud Lefebvre](https://github.com/BlackYoup) + [David Sferruzza](https://github.com/dsferruzza)
-| [Telemetry Tools](https://github.com/makers-for-life/makair-telemetry) | V1.0.0 | Working serial parsing from firmware | ✅ | [David Sferruzza](https://github.com/dsferruzza)
-
 # Schemes
 
 ## Pneumatic Circuit Scheme
