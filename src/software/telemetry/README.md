@@ -1,7 +1,3 @@
-# Telemetry Library
+# This software was moved in another repository
 
-## Versions
-
-| Version | Last Changelog | Ready? |
-| ------- | -------------- | ------ |
-| V1.0.0 | Working serial parsing from firmware | ✅
+You can now find it here: https://github.com/makers-for-life/makair-telemetry
