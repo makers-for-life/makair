@@ -1,6 +1,0 @@
-{
-    "script": "misra.py",
-    "args": [
-        "--rule-texts=./src/software/firmware/cppcheck/MISRA_C_2012_AppendixA.txt"
-    ]
-}
