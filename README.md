@@ -68,6 +68,17 @@ All those components are fitted in box (ie. a casing) that we designed:
 
 _MakAir and Makers For Life should not be held resposible — at any time, for harm caused to human life (eg. lung damage or loss of life). By building your own MakAir, you are held responsible for its safety validations & use._
 
+# Sub-Projects
+
+As the MakAir ventilator project grew up to be quite large, it is split up in sub-repositories (eg. firmware, PCB designs, etc.):
+
+* **[makair-firmware](https://github.com/makers-for-life/makair-firmware)**: The firmware software source code and builds, that runs on the motherboard;
+* **[makair-control-ui](https://github.com/makers-for-life/makair-control-ui)**: The control user interface, that shows realtime graphs of the ventilator while running, on a LCD display;
+* **[makair-telemetry](https://github.com/makers-for-life/makair-telemetry)**: The telemetry library, used as a protocol bridge between the Firmware and Control UI;
+* **[makair-motherboard](https://github.com/makers-for-life/makair-motherboard)**: The motherboard electronics and PCB design;
+* **[makair-parts](https://github.com/makers-for-life/makair-parts)**: The mechanical parts that can be 3D-printed and assembled to build the pneumatic circuit;
+* **[makair-casing](https://github.com/makers-for-life/makair-casing)**: The MakAir casing which houses all electronics and pneumatics;
+
 # How To Build?
 
 This section aims at introducing you on how to manufacture your own MakAir — _the 3D-printed way_. In other words, we will explain there how to build a DIY MakAir using on-the-shelf parts and 3D printers.
