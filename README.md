@@ -1,7 +1,6 @@
 MakAir — Covid-19 Ventilator
 =====
 
-
 **Mass-producible open-source Covid-19 ARDS ventilator. Aims at helping hospitals cope with a possible shortage of professional ventilators during the outbreak. Worldwide.**
 
 We are a distributed team of [200+ contributors](http://makersforlife.fr/) (engineering, medical, regulatory, etc.), mostly spread through France. Makers, developers, university teachers, researchers and medical teams collaborated on this project. Our testing & assembly operations are located in France.
@@ -47,11 +46,11 @@ Mechanically-speaking, the overall system is composed of sub-components that can
 - **Connectors** (called "Pneumatic Connectors");
 - **Fan support** (called "Fan Holder");
 
-All those components are fitted in box (ie. a container) that we designed:
+All those components are fitted in box (ie. a casing) that we designed:
 
-- **Housing container** (called "Container");
+- **Housing container** (called "Casing");
 
-![MakAir Container + UI](./res/assets/abstract-readme.jpg)
+![MakAir Casing + UI](./res/assets/abstract-readme.jpg)
 
 # ⚠️ Warning Notices
 
@@ -83,22 +82,22 @@ In order to 3D-print your MakAir, please first ensure you have access to a [SLS]
 
 You can find a list of all parts that should be 3D-printed, as well as the number of parts that should be printed for each one (pick the last active version for each part):
 
-- 1 x **Blower** — Print [all STL parts](./src/mechanics/parts/blower/printing/stl) using the same printer (SLA or SLS; FDM discouraged; 50 microns minimum);
-- 2 x **Pressure Valve** — Print [all STL parts](./src/mechanics/parts/pressure-valve/printing/stl) using the same printer (SLA, SLS or FDM; 200 microns minimum);
-- 1 x **Oxygen Mixer** — Print [the STL part](./src/mechanics/parts/oxygen-mixer/printing/stl) (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Patient Filter Box** — Print [all STL parts](./src/mechanics/parts/patient-filter-box/printing/stl) using the same printer (SLA, SLS or FDM; 100 microns minimum);
-- 1 x **Machine Filter Box (Intake)** — Print [all STL parts](./src/mechanics/parts/machine-filter-box/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Machine Filter Box (Outtake)** — Print [all STL parts](./src/mechanics/parts/machine-filter-box/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Pneumatic Connectors (Blower)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Pneumatic Connectors (O2)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Pneumatic Connectors (No Pressure)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
-- 1 x **Pneumatic Connectors (Pressure)** — Print [the STL part](./src/mechanics/parts/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Blower** — Print [all STL parts](https://github.com/makers-for-life/makair-parts/tree/master/src/blower/printing/stl) using the same printer (SLA or SLS; FDM discouraged; 50 microns minimum);
+- 2 x **Pressure Valve** — Print [all STL parts](https://github.com/makers-for-life/makair-parts/tree/master/src/pressure-valve/printing/stl) using the same printer (SLA, SLS or FDM; 200 microns minimum);
+- 1 x **Oxygen Mixer** — Print [the STL part](https://github.com/makers-for-life/makair-parts/tree/master/src/oxygen-mixer/printing/stl) (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Patient Filter Box** — Print [all STL parts](https://github.com/makers-for-life/makair-parts/tree/master/src/patient-filter-box/printing/stl) using the same printer (SLA, SLS or FDM; 100 microns minimum);
+- 1 x **Machine Filter Box (Intake)** — Print [all STL parts](https://github.com/makers-for-life/makair-parts/tree/master/src/machine-filter-box/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Machine Filter Box (Outtake)** — Print [all STL parts](https://github.com/makers-for-life/makair-parts/tree/master/src/machine-filter-box/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (Blower)** — Print [the STL part](https://github.com/makers-for-life/makair-parts/tree/master/src/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (O2)** — Print [the STL part](https://github.com/makers-for-life/makair-parts/tree/master/src/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (No Pressure)** — Print [the STL part](https://github.com/makers-for-life/makair-parts/tree/master/src/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
+- 1 x **Pneumatic Connectors (Pressure)** — Print [the STL part](https://github.com/makers-for-life/makair-parts/tree/master/src/pneumatic-connectors/printing/stl) using the same printer, make sure that you pick the proper sub-part (SLA or SLS; FDM discouraged; 100 microns minimum);
 
-If you are using your own proprietary blower — _in addition to the parts above_ — please adjust the [Blower Holder](./src/mechanics/parts/blower-holder) CAD model and print it as well (this one prints well using a FDM printer at worst).
+If you are using your own proprietary blower — _in addition to the parts above_ — please adjust the [Blower Holder](https://github.com/makers-for-life/makair-parts/tree/master/src/blower-holder) CAD model and print it as well (this one prints well using a FDM printer at worst).
 
-### 2. Container
+### 2. Casing
 
-Now that you got all parts printed, you may assemble them in the MakAir container box. We recommend that you build the container using laser-cut acrylic panels. You may find the container CAD model for [Fusion 360](./src/mechanics/container/molding/fusion) or as a [STEP file](./src/mechanics/container/molding/step).
+Now that you got all parts printed, you may assemble them in the MakAir casing box. We recommend that you build the casing using laser-cut acrylic panels. You may find the casing CAD model for [Fusion 360](https://github.com/makers-for-life/makair-casing/tree/master/src/fusion) or as a [STEP file](https://github.com/makers-for-life/makair-casing/tree/master/src/step).
 
 _Please ensure that you cut your acrylic panels using the same sizes than stated on our models; as those sizes are optimized to contain all required parts and electronics in the minimum amount of space._
 
@@ -108,7 +107,7 @@ Electronics are comprised of two parts: the firmware controller board (typically
 
 ### 1. Motherboard
 
-The motherboard electronic schematics and wiring diagrams [can be found there](./src/electronics/motherboard/schematics). Please pick the last version available.
+The motherboard electronic schematics and wiring diagrams [can be found there](https://github.com/makers-for-life/makair-motherboard/tree/master/src/schematics). Please pick the last version available.
 
 👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair/issues/new)._
 
@@ -149,7 +148,7 @@ The Control Unit should be built and ran on the Raspberry Pi 4 using instruction
 | [Machine Filter Box (Outtake)](./src/mechanics/parts/machine-filter-box) | V2 | Modeling corrections | ✅ | [view model](https://a360.co/2XeSVAP) | [Valerian Saliou](https://github.com/valeriansaliou)
 | [Pneumatic Connectors](./src/mechanics/parts/pneumatic-connectors) | V4 | Wall-mountable patient connectors | ✅ | [view o2 model](https://a360.co/3bVsX9N), [view blower model](https://a360.co/2UNMVgY), [view respiratory pressure model](https://a360.co/3av64c0), [view respiratory no pressure model](https://a360.co/2XZB5T0) | Gabriel Moneyron
 | [Fan Holder](./src/mechanics/parts/fan-holder) | V2 | Wall-mounted version | ✅ | [view floor-mounted model](https://a360.co/2V8enEU), [view wall-mounted model](https://a360.co/3cLgsy1) | [Eliott Vincent](https://github.com/eliottvincent)
-| [Container](./src/mechanics/container) | V2 | Update mensurations | ✅ | [view model](https://a360.co/2RlnfGp) | Arthur Dagard
+| [Casing](./src/mechanics/casing) | V2 | Update mensurations | ✅ | [view model](https://a360.co/2RlnfGp) | Arthur Dagard
 
 ## Electronics
 
@@ -175,17 +174,17 @@ The Control Unit should be built and ran on the Raspberry Pi 4 using instruction
 
 _(design by [Valerian Saliou](https://github.com/valeriansaliou))_
 
-## Container Layout
+## Casing Layout
 
 ### Top Part: Electronics (Power & Controllers)
 
-[![Container Layout Electronics Drawing](./docs/Container/Container%20Layout/Container%20Layout%20Electronics.jpg)](./docs/Container/Container%20Layout/Container%20Layout%20Electronics.jpg)
+[![Casing Layout Electronics Drawing](./docs/Casing/Casing%20Layout/Casing%20Layout%20Electronics.jpg)](./docs/Casing/Casing%20Layout/Casing%20Layout%20Electronics.jpg)
 
 _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valeriansaliou))_
 
 ### Bottom Part: Pneumatics
 
-[![Container Layout Pneumatics Drawing](./docs/Container/Container%20Layout/Container%20Layout%20Pneumatics.jpg)](./docs/Container/Container%20Layout/Container%20Layout%20Pneumatics.jpg)
+[![Casing Layout Pneumatics Drawing](./docs/Casing/Casing%20Layout/Casing%20Layout%20Pneumatics.jpg)](./docs/Casing/Casing%20Layout/Casing%20Layout%20Pneumatics.jpg)
 
 _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valeriansaliou))_
 
@@ -316,16 +315,16 @@ Adding to that, 200+ individual members of the project who contributed to techni
   <img alt="Fan Holder Wall Print" src="./src/mechanics/parts/fan-holder/printing/schemes/V2/Fan%20Holder%20V2%20(Wall)/Fan%20Holder%20Wall%20(Print%201).jpg" height="240">
 </p>
 
-### The "Container"
+### The "Casing"
 
 <p>
-  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%201).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%202).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%204).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%206).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%207).png" height="240">
-  <img alt="Container Render" src="./src/mechanics/container/molding/schemes/V2/Container%20(Render%208).png" height="240">
-  <img alt="Container Assembly" src="./src/mechanics/container/molding/schemes/V2/Container%20(Assembly%201).jpg" height="240">
+  <img alt="Casing Render" src="./src/mechanics/casing/molding/schemes/V2/Casing%20(Render%201).png" height="240">
+  <img alt="Casing Render" src="./src/mechanics/casing/molding/schemes/V2/Casing%20(Render%202).png" height="240">
+  <img alt="Casing Render" src="./src/mechanics/casing/molding/schemes/V2/Casing%20(Render%204).png" height="240">
+  <img alt="Casing Render" src="./src/mechanics/casing/molding/schemes/V2/Casing%20(Render%206).png" height="240">
+  <img alt="Casing Render" src="./src/mechanics/casing/molding/schemes/V2/Casing%20(Render%207).png" height="240">
+  <img alt="Casing Render" src="./src/mechanics/casing/molding/schemes/V2/Casing%20(Render%208).png" height="240">
+  <img alt="Casing Assembly" src="./src/mechanics/casing/molding/schemes/V2/Casing%20(Assembly%201).jpg" height="240">
 </p>
 
 ## Electronics
