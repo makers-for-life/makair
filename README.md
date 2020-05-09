@@ -156,15 +156,15 @@ _(design by [Valerian Saliou](https://github.com/valeriansaliou))_
 
 ### Top Part: Electronics (Power & Controllers)
 
-[![Casing Layout Electronics Drawing](./docs/Casing/Casing%20Layout/Casing%20Layout%20Electronics.jpg)](./docs/Casing/Casing%20Layout/Casing%20Layout%20Electronics.jpg)
+[![Casing Layout Electronics Drawing](./docs/Casing/Casing%20Layout/Casing%20Layout%20Electronics.png)](./docs/Casing/Casing%20Layout/Casing%20Layout%20Electronics.png)
 
-_(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valeriansaliou))_
+_(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valeriansaliou); remake by [Lāsma Fedotova](https://github.com/lasmafedotova))_
 
 ### Bottom Part: Pneumatics
 
-[![Casing Layout Pneumatics Drawing](./docs/Casing/Casing%20Layout/Casing%20Layout%20Pneumatics.jpg)](./docs/Casing/Casing%20Layout/Casing%20Layout%20Pneumatics.jpg)
+[![Casing Layout Pneumatics Drawing](./docs/Casing/Casing%20Layout/Casing%20Layout%20Pneumatics.png)](./docs/Casing/Casing%20Layout/Casing%20Layout%20Pneumatics.png)
 
-_(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valeriansaliou))_
+_(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valeriansaliou); remake by [Lāsma Fedotova](https://github.com/lasmafedotova))_
 
 # News & Contact
 
