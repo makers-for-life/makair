@@ -227,3 +227,10 @@ Adding to that, 200+ individual members of the project who contributed to techni
 
 * [France 3, 21st April 2020](https://www.youtube.com/watch?v=M3QLCvUyIII) (French-speaking)
 * [TF1, 26th April 2020](https://www.youtube.com/watch?v=2X157RLbRIA) (French-speaking)
+
+## 🗞 Newspapers
+
+* [Le Monde, 20th April 2020](https://www.lemonde.fr/campus/article/2020/04/20/entre-nantes-et-grenoble-une-course-contre-la-montre-pour-creer-un-respirateur-artificiel-a-bas-cout_6037140_4401467.html) (French-speaking)
+* [Le Parisien, 21st April 2020](http://www.leparisien.fr/economie/business/coronavirus-une-equipe-nantaise-a-reinvente-le-respirateur-artificiel-en-un-mois-21-04-2020-8303016.php) (French-speaking)
+* [Le Figaro, 26th April 2020](https://www.lefigaro.fr/secteur/high-tech/creer-un-respirateur-artificiel-a-bas-cout-la-folle-aventure-de-makers-for-life-20200426) (French-speaking)
+* [Le Point, 6th May 2020](https://www.lepoint.fr/sciences-nature/a-brest-on-teste-le-respirateur-concu-par-des-geeks-06-05-2020-2374359_1924.php) (French-speaking)
