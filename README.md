@@ -68,7 +68,7 @@ All those components are fitted in box (ie. a casing) that we designed:
 
 _MakAir and Makers For Life should not be held resposible — at any time, for harm caused to human life (eg. lung damage or loss of life). By building your own MakAir, you are held responsible for its safety validations & use._
 
-# Sub-Projects
+# Projects
 
 As the MakAir ventilator project grew up to be quite large, it is split up in sub-repositories (eg. firmware, PCB designs, etc.):
 
