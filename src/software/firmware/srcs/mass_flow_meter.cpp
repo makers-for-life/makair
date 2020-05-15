@@ -48,7 +48,7 @@
 #endif
 
 #if MASS_FLOW_METER_SENSOR == MFM_HONEYWELL_HAF
-#define MASS_FLOW_PERIOD 10
+#define MASS_FLOW_PERIOD 100
 #endif
 
 #endif
@@ -95,7 +95,7 @@ void MFM_Timer_Callback(HardwareTimer*) {
         mfmLastData.c[0] = Wire.read();
         if (Wire.endTransmission() != 0) {  // If transmission failed
             mfmFaultCondition = true;
-            mfmResetStateMachine = 5;
+            mfmResetStateMachine = MFM_WAIT_RESET_PERIODS;
         }
 
         mfmLastValue = (int32_t)mfmLastData.i - 0x8000;
@@ -112,7 +112,7 @@ void MFM_Timer_Callback(HardwareTimer*) {
 
         if (Wire.endTransmission() != 0) {  // If transmission failed
             // mfmFaultCondition = true;
-            // mfmResetStateMachine = 5;
+            // mfmResetStateMachine = MFM_WAIT_RESET_PERIODS;
         }
         mfmLastValue = abs(mfmLastData.si);
         if (mfmLastValue > 40) {
@@ -131,9 +131,6 @@ void MFM_Timer_Callback(HardwareTimer*) {
 #endif
 
 #if MASS_FLOW_METER_SENSOR == MFM_HONEYWELL_HAF
-        
-        //digitalWrite(PIN_LED_GREEN, HIGH); //External trigger for oscilloscope
-        
         Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
         
         Wire.requestFrom(MFM_SENSOR_I2C_ADDRESS, 2);
@@ -142,18 +139,13 @@ void MFM_Timer_Callback(HardwareTimer*) {
         mfmLastData.c[1] = Wire.read();
 
         if (Wire.endTransmission() != 0) { 
-        
             //The sensor tends to NACK the address quite often. So let's say there is actually something wrong when the sensor does that five times in a row, don't care otherwise.
-            
-            //Serial.println("Return value:");
-            //Serial.println(returnValue);
-            
             failureCount++;
 
             if(failureCount == 5)
             {
                 mfmFaultCondition = true;
-                mfmResetStateMachine = 5;
+                mfmResetStateMachine = MFM_WAIT_RESET_PERIODS;
             }
         }
 
@@ -162,22 +154,17 @@ void MFM_Timer_Callback(HardwareTimer*) {
             failureCount = 0;
         }
 
-        //digitalWrite(PIN_LED_GREEN, LOW); //External trigger for oscilloscope
-
         mfmLastValue = (uint32_t)mfmLastData.c[1] & 0xFF;
         mfmLastValue |= ( ( (uint32_t)mfmLastData.c[0] ) << 8 ) & 0xFF00;
 
         mfmLastValue = MFM_HONEYWELL_HAF_RANGE * ( ( (uint32_t)mfmLastValue/16384.0) - 0.1) / 0.8; //Output value in SLPM
         
-        //The sensor (100SLM version) tends to output spurrious values located at around 500 SLM, which are obviously not correct, so let's filter them out based on the range of the sensor + 10%.
+        //The sensor (100SLM version anyway) tends to output spurrious values located at around 500 SLM, which are obviously not correct. Let's filter them out based on the range of the sensor + 10%.
         if (mfmLastValue < MFM_HONEYWELL_HAF_RANGE * 1.1) {
             mfmAirVolumeSum += mfmLastValue;
         }
 
 #endif
-
-
-
 
 #if MODE == MODE_MFM_TESTS
         digitalWrite(PIN_LED_START, false);
@@ -201,10 +188,10 @@ void MFM_Timer_Callback(HardwareTimer*) {
 #endif
 
 #if MASS_FLOW_METER_SENSOR == MFM_HONYWELL_HAF
-            Wire.begin();
+            /*Wire.begin();
             Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
             Wire.write(0x02);
-            Wire.endTransmission();
+            Wire.endTransmission();*/
 #endif
         }
         mfmResetStateMachine--;
@@ -240,6 +227,7 @@ void MFM_Timer_Callback(HardwareTimer*) {
 
 #if MASS_FLOW_METER_SENSOR == MFM_HONEYWELL_HAF
 
+            Wire.begin();
             Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
             Wire.write(0x02); //Force reset
             Wire.endTransmission();
@@ -250,11 +238,7 @@ void MFM_Timer_Callback(HardwareTimer*) {
             mfmLastData.c[1] = Wire.read();
             mfmLastData.c[0] = Wire.read();
 
-            if (Wire.endTransmission() != 0) {  // If transmission failed
-                    mfmFaultCondition = true;
-                    mfmResetStateMachine = 5;
-            }
-
+            mfmFaultCondition = (Wire.endTransmission() != 0);
 #endif
 
             if (mfmFaultCondition) {
@@ -339,7 +323,7 @@ Subsequent read operations: the sensor will send calibrated mass air flow values
 
     if (Wire.endTransmission() != 0) {  // If transmission failed
             mfmFaultCondition = true;
-            mfmResetStateMachine = 5;
+            mfmResetStateMachine = MFM_WAIT_RESET_PERIODS;
     }
     Serial.println("Read 1");
     Serial.println(mfmLastData.i);
@@ -461,7 +445,7 @@ int32_t MFM_read_liters(boolean reset_after_read) {
 #endif
 
 #if MASS_FLOW_METER_SENSOR == MFM_HONEYWELL_HAF
-    result = mfmFaultCondition ? 999999 : (mfmAirVolumeSum / (60));
+    result = mfmFaultCondition ? 999999 : ( (mfmAirVolumeSum * MASS_FLOW_PERIOD) / (60 * 10) );
 #endif
 
     if (reset_after_read) {
