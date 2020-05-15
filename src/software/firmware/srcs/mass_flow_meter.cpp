@@ -380,11 +380,11 @@ void loop(void) {
 
     int32_t sum = 0;
     // 500ms with one point per ms is great
-    for (int i = 0; i < 3500; i++) {
+    for (int i = 0; i < 500; i++) {
         sum += mfmLastValue;
         delayMicroseconds(1000);
     }
-    uint32_t mean = sum / 3500;
+    uint32_t mean = sum / 500;
 
     resetScreen();
     screen.setCursor(0, 0);
