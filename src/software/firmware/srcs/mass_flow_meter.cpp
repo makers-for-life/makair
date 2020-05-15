@@ -80,8 +80,8 @@ void MFM_Timer_Callback(HardwareTimer*) {
     int32_t rawValue;
     int32_t newSum;
 
-    //if (!mfmFaultCondition) {
-    if(1<2){
+    if (!mfmFaultCondition) {
+    //if(1<2){
 #if MODE == MODE_MFM_TESTS
         digitalWrite(PIN_LED_START, true);
 #endif
@@ -95,7 +95,9 @@ void MFM_Timer_Callback(HardwareTimer*) {
             mfmFaultCondition = true;
             mfmResetStateMachine = 5;
         }
+
         mfmLastValue = (int32_t)mfmLastData.i - 0x8000;
+
         if (mfmLastValue > 28) {
             mfmAirVolumeSum += mfmLastValue;
         }
@@ -140,26 +142,21 @@ void MFM_Timer_Callback(HardwareTimer*) {
         mfmLastData.c[1] = Wire.read();
 
         if (Wire.endTransmission() != 0) {  // If transmission failed
-            mfmFaultCondition = true;
-            mfmResetStateMachine = 5;
+//            mfmFaultCondition = true;
+  //          mfmResetStateMachine = 5;
         }
         digitalWrite(PIN_LED_GREEN, LOW);
 
         mfmLastValue = (uint32_t)mfmLastData.c[1] & 0xFF;
         mfmLastValue |= ( ( (uint32_t)mfmLastData.c[0] ) << 8 ) & 0xFF00;
 
-        //Serial.println("raw last value:");
-        //Serial.println(mfmLastValue);
-
-        mfmLastValue = MFM_HONEYWELL_HAF_RANGE * ( ( (float)mfmLastValue/16384.0) - 0.1)/0.8; //Output value in SLPM
-
-        //Serial.println("SLPM last value:");
-        Serial.println(mfmLastValue);
+        mfmLastValue = MFM_HONEYWELL_HAF_RANGE * ( ( (uint32_t)mfmLastValue/16384.0) - 0.1) / 0.8; //Output value in SLPM
         
-        //Serial.println(mfmLastValue);
-        //if (mfmLastValue > 28) {
-        mfmAirVolumeSum += mfmLastValue;
-        //}
+        //The sensor tends to output spurrious values located at around 500 SLM, which are obviously not correct.
+        if (mfmLastValue < 110) {
+            mfmAirVolumeSum += mfmLastValue;
+        }
+
 #endif
 
 
@@ -342,7 +339,7 @@ Subsequent read operations: the sensor will send calibrated mass air flow values
     Serial.println("fault condition:");
     Serial.println(mfmFaultCondition);
 */
-    mfmFaultCondition = (Wire.endTransmission() != 0);
+    //mfmFaultCondition = (Wire.endTransmission() != 0);
     delay(100);
 #endif
 
@@ -429,7 +426,7 @@ int32_t MFM_read_liters(boolean reset_after_read) {
 #endif
 
 #if MASS_FLOW_METER_SENSOR == MFM_HONEYWELL_HAF
-    result = mfmFaultCondition ? 999999 : (mfmAirVolumeSum / (60 * 120));
+    result = mfmFaultCondition ? 999999 : (mfmAirVolumeSum / (60));
 #endif
 
     if (reset_after_read) {
