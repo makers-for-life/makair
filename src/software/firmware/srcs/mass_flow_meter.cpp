@@ -47,6 +47,12 @@
 #define MASS_FLOW_PERIOD 100
 #endif
 
+#if MASS_FLOW_METER_SENSOR == MFM_HONEYWELL_HAF
+#define MASS_FLOW_PERIOD 10
+#endif
+
+#endif
+
 HardwareTimer* massFlowTimer;
 
 int32_t mfmCalibrationOffset = 0;
@@ -74,7 +80,8 @@ void MFM_Timer_Callback(HardwareTimer*) {
     int32_t rawValue;
     int32_t newSum;
 
-    if (!mfmFaultCondition) {
+    //if (!mfmFaultCondition) {
+    if(1<2){
 #if MODE == MODE_MFM_TESTS
         digitalWrite(PIN_LED_START, true);
 #endif
@@ -119,6 +126,45 @@ void MFM_Timer_Callback(HardwareTimer*) {
         Serial.println(mfmLastValue);
 #endif
 
+#if MASS_FLOW_METER_SENSOR == MFM_HONEYWELL_HAF
+        
+        uint8_t buffer[2];
+
+        digitalWrite(PIN_LED_GREEN, HIGH);
+        
+        Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+        
+        Wire.requestFrom(MFM_SENSOR_I2C_ADDRESS, 2);
+
+        mfmLastData.c[0] = Wire.read();
+        mfmLastData.c[1] = Wire.read();
+
+        if (Wire.endTransmission() != 0) {  // If transmission failed
+            mfmFaultCondition = true;
+            mfmResetStateMachine = 5;
+        }
+        digitalWrite(PIN_LED_GREEN, LOW);
+
+        mfmLastValue = (uint32_t)mfmLastData.c[1] & 0xFF;
+        mfmLastValue |= ( ( (uint32_t)mfmLastData.c[0] ) << 8 ) & 0xFF00;
+
+        //Serial.println("raw last value:");
+        //Serial.println(mfmLastValue);
+
+        mfmLastValue = MFM_HONEYWELL_HAF_RANGE * ( ( (float)mfmLastValue/16384.0) - 0.1)/0.8; //Output value in SLPM
+
+        //Serial.println("SLPM last value:");
+        Serial.println(mfmLastValue);
+        
+        //Serial.println(mfmLastValue);
+        //if (mfmLastValue > 28) {
+        mfmAirVolumeSum += mfmLastValue;
+        //}
+#endif
+
+
+
+
 #if MODE == MODE_MFM_TESTS
         digitalWrite(PIN_LED_START, false);
 #endif
@@ -127,6 +173,7 @@ void MFM_Timer_Callback(HardwareTimer*) {
         if (mfmResetStateMachine == MFM_WAIT_RESET_PERIODS) {
             // reset attempt
 // I2C sensors
+    
 #if MASS_FLOW_METER_SENSOR == MFM_SFM_3300D || MASS_FLOW_METER_SENSOR == MFM_SDP703_02
             Wire.flush();
             Wire.end();
@@ -136,6 +183,13 @@ void MFM_Timer_Callback(HardwareTimer*) {
             Wire.begin();
             Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
             Wire.write(0xFE);
+            Wire.endTransmission();
+#endif
+
+#if MASS_FLOW_METER_SENSOR == MFM_HONYWELL_HAF
+            Wire.begin();
+            Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+            Wire.write(0x02);
             Wire.endTransmission();
 #endif
         }
@@ -169,6 +223,10 @@ void MFM_Timer_Callback(HardwareTimer*) {
             Wire.write(0xF1);
             mfmFaultCondition = (Wire.endTransmission() != 0);
 #endif
+
+
+
+
             if (mfmFaultCondition) {
                 mfmResetStateMachine = MFM_WAIT_RESET_PERIODS;
             }
@@ -210,11 +268,11 @@ boolean MFM_init(void) {
 #endif
 
 // I2C sensors
-#if MASS_FLOW_METER_SENSOR == MFM_SFM_3300D || MASS_FLOW_METER_SENSOR == MFM_SDP703_02
+#if MASS_FLOW_METER_SENSOR == MFM_SFM_3300D || MASS_FLOW_METER_SENSOR == MFM_SDP703_02 || MASS_FLOW_METER_SENSOR == MFM_HONEYWELL_HAF
     // detect if the sensor is connected
     Wire.setSDA(PIN_I2C_SDA);
     Wire.setSCL(PIN_I2C_SCL);
-
+#endif
     // init the sensor, test communication
 #if MASS_FLOW_METER_SENSOR == MFM_SFM_3300D
     Wire.begin();  // join i2c bus (address optional for master)
@@ -227,7 +285,65 @@ boolean MFM_init(void) {
 
     mfmFaultCondition = (Wire.endTransmission() != 0);
     delay(100);
+#endif
 
+#if MASS_FLOW_METER_SENSOR == MFM_HONEYWELL_HAF
+    
+/*
+Init sequence for Honeywell Zephyr mass flow sensor :
+1st read operation: the sensor will send 0x0000
+2nd read operation: the sensor will send the first part of the serial number
+3rd read operation: the sensor will send the second part of the serial number
+Subsequent read operations: the sensor will send calibrated mass air flow values with two leading 0
+*/
+    Wire.begin();
+    Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+    Wire.write(0x02); //Force reset
+    Wire.endTransmission();
+
+    //Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+    Wire.requestFrom(MFM_SENSOR_I2C_ADDRESS, 2);
+    mfmLastData.c[1] = Wire.read();
+    mfmLastData.c[0] = Wire.read();
+    if (Wire.endTransmission() != 0) {  // If transmission failed
+            mfmFaultCondition = true;
+            mfmResetStateMachine = 5;
+    }
+    Serial.println("Read 1");
+    Serial.println(mfmLastData.i);
+    Serial.println("fault condition:");
+    Serial.println(mfmFaultCondition);
+/*
+    //Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+    Wire.requestFrom(MFM_SENSOR_I2C_ADDRESS, 2);
+    mfmLastData.c[1] = Wire.read();
+    mfmLastData.c[0] = Wire.read();
+    if (Wire.endTransmission() != 0) {  // If transmission failed
+            mfmFaultCondition = true;
+            mfmResetStateMachine = 5;
+    }
+    Serial.println("Read 2");
+    Serial.println(mfmLastData.i);
+    Serial.println("fault condition:");
+    Serial.println(mfmFaultCondition);
+    
+    //Wire.beginTransmission(MFM_SENSOR_I2C_ADDRESS);
+    Wire.requestFrom(MFM_SENSOR_I2C_ADDRESS, 2);
+    mfmLastData.c[1] = Wire.read();
+    mfmLastData.c[0] = Wire.read();
+    if (Wire.endTransmission() != 0) {  // If transmission failed
+            mfmFaultCondition = true;
+            mfmResetStateMachine = 5;
+    }
+    Serial.println("Read 3");
+    Serial.println(mfmLastData.i);
+    
+
+    Serial.println("fault condition:");
+    Serial.println(mfmFaultCondition);
+*/
+    mfmFaultCondition = (Wire.endTransmission() != 0);
+    delay(100);
 #endif
 
 #if MASS_FLOW_METER_SENSOR == MFM_SDP703_02
@@ -257,11 +373,10 @@ boolean MFM_init(void) {
     mfmFaultCondition = (Wire.endTransmission() != 0);
 
     delay(10);
-#endif
+
 #endif
 
     massFlowTimer->resume();
-
     return !mfmFaultCondition;
 }
 
@@ -305,14 +420,16 @@ int32_t MFM_read_liters(boolean reset_after_read) {
 #endif
 
 #if MASS_FLOW_METER_SENSOR == MFM_SDP703_02
-
     // this should be an atomic operation (32 bits aligned data)
     result = mfmFaultCondition ? 999999 : (mfmAirVolumeSum / 6.5);
-
 #endif
 
 #if MASS_FLOW_METER_SENSOR == MFM_OMRON_D6F
     result = mfmFaultCondition ? 999999 : (mfmAirVolumeSum / 130);
+#endif
+
+#if MASS_FLOW_METER_SENSOR == MFM_HONEYWELL_HAF
+    result = mfmFaultCondition ? 999999 : (mfmAirVolumeSum / (60 * 120));
 #endif
 
     if (reset_after_read) {
@@ -338,7 +455,10 @@ void setup(void) {
     boolean ok = MFM_init();
 
     pinMode(PIN_SERIAL_TX, OUTPUT);
+    
     pinMode(PIN_LED_START, OUTPUT);
+
+    pinMode(PIN_LED_GREEN, OUTPUT);
 
     startScreen();
     resetScreen();
@@ -376,7 +496,7 @@ void loop(void) {
         screen.print("mass flow sensor");
         screen.setCursor(0, 2);
 
-        if (volume == MASS_FLOw_ERROR_VALUE) {
+        if (volume == MASS_FLOW_ERROR_VALUE) {
             screen.print("sensor not OK");
         } else {
             screen.print("sensor OK");
@@ -392,6 +512,4 @@ void loop(void) {
     }
     btn_stop.tick();
 }
-#endif
-
 #endif
