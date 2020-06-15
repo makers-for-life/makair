@@ -6,9 +6,9 @@ When contributing to this repository, please first discuss the change you wish t
 
 Please note we have a [code of conduct](https://github.com/makers-for-life/makair/blob/master/CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
 
-## How to make a Contribuition?
+## How to make a Contribution?
 
-To make a contibuition, we recommend that you first first try building and installing the project on your machine, then look at our [Issues](https://github.com/makers-for-life/makair/issues) to see if there is any request changes that you could already make (You can suggest changes also!). Then, when you are ready to change code, you must submmit a [Pull Request](https://github.com/makers-for-life/makair/pulls), for that you can do the following steps:
+To make a contribution, we recommend that you first first try building and installing the project on your machine, then look at our [Issues](https://github.com/makers-for-life/makair/issues) to see if there is any request changes that you could already make (You can suggest changes also!). Then, when you are ready to change code, you must submmit a [Pull Request](https://github.com/makers-for-life/makair/pulls), for that you can do the following steps:
 
 1. Make a fork from this repository, you can do this by clicking the "fork" button above (it is close to the star button! Make sure to hit that one too :D)
 2. Clone the fork repository into your machine, you can do that by doing `git clone`
