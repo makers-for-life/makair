@@ -50,7 +50,7 @@ Features include:
 - Fault tolerant design
 - Designed to be used continuously and intensively during 30 days
 
-MakAir ventilator as beed tested by independent researchers and studies found that it can compare with expensive hospital reanimation ventilators (less than 5% tolerance on target pressures and volumes).
+MakAir ventilator as beed tested by independent researchers and studies found that it can compare with expensive hospital reanimation ventilators (less than 5% error on target pressures and volumes).
 
 Mechanically-speaking, the overall system is composed of sub-components that can be plugged together and wired to form an air circuit, namely:
 
