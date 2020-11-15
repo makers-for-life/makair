@@ -240,7 +240,7 @@ Adding to that, 200+ individual members of the project who contributed to techni
 
 # Research Papers
 * [Can Open Source Hardware Mechanical Ventilator initiatives help cope with the COVID-19 health crisis](https://www.sciencedirect.com/science/article/pii/S2468067220300596) (English)
-* [MakAir, un ventilateur né de la pandémie COVID-19](https://www.sciencedirect.com/science/article/pii/S1279847920301129) (French)
+* [MakAir, a COVID-19-born ventilation machine, combining 3D printing design, digital control and open innovation](https://www.sciencedirect.com/science/article/pii/S1279847920301129) (French)
 
 # Press Coverage
 
