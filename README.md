@@ -251,6 +251,7 @@ Adding to that, 200+ individual members of the project who contributed to techni
 
 ## 🗞 Newspapers
 
+* [Makery, 23th July 2020](https://www.makery.info/en/2020/07/23/quentin-adam-lopen-source-medical-est-une-idee-qui-fera-son-chemin/) (English)
 * [Le Monde, 20th April 2020](https://www.lemonde.fr/campus/article/2020/04/20/entre-nantes-et-grenoble-une-course-contre-la-montre-pour-creer-un-respirateur-artificiel-a-bas-cout_6037140_4401467.html) (French-speaking)
 * [Le Parisien, 21st April 2020](http://www.leparisien.fr/economie/business/coronavirus-une-equipe-nantaise-a-reinvente-le-respirateur-artificiel-en-un-mois-21-04-2020-8303016.php) (French-speaking)
 * [Le Figaro, 26th April 2020](https://www.lefigaro.fr/secteur/high-tech/creer-un-respirateur-artificiel-a-bas-cout-la-folle-aventure-de-makers-for-life-20200426) (French-speaking)
