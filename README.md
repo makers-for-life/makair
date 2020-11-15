@@ -32,7 +32,7 @@ Roughly, the idea is as follows: as of April 2020 and due to the Covid-19 pandem
 
 Our ventilator is able to handle pressure-controlled breathing, stabilized using a [PID controller](https://en.wikipedia.org/wiki/PID_controller) in the software.
 
-In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. The motors needs to be controlled in harmony so that the air routing between each valve unit is consistent.
+In order to ensure a proper breathing cycle (inhale + exhale), multiple valves need to be connected together to form a circuit. Their motors need to be controlled in harmony so that the air routing between each valve unit is consistent.
 
 This project provides all the parts required to build a good-enough [ARDS](https://en.wikipedia.org/wiki/Acute_respiratory_distress_syndrome) ventilator from mass-produced components. We provide all the required mechanical parts, electronics designs & boards, and firmwares. This ventilator can be 3D-printed and ran on an Arduino board (the maker way), though we **highly advise** that you work with industrial processes as to mold medical-grade plastic parts and assemble the whole ventilator (this would be required for the built ventilator to pass all medical certifications).
 
@@ -40,17 +40,17 @@ We target a per-unit cost well under 500 EUR, which could easily be shrunk down 
 
 Features include:
 
-- Pressure controled ventilation (sedated / intubated patients)
-- Volume controled ventilation (sedated / intubated patients)
+- Pressure controlled ventilation (sedated / intubated patients)
+- Volume controlled ventilation (sedated / intubated patients)
 - BiPap ventilation (non sedated patients with oxygen mask)
-- 4 hours battery duration
+- 4 hours battery life
 - Medical-grade alarms
 - High flow turbine (up to 100 L/min)
 - Up to 15 L/min oxygen
 - Fault tolerant design
 - Designed to be used continuously and intensively during 30 days
 
-MakAir ventilator as beed tested by independent researchers and studies found that it can compare with expensive hospital reanimation ventilators (less than 5% error on target pressures and volumes).
+MakAir ventilator has been tested by independent researchers and studies found that it can compare with expensive hospital reanimation ventilators (less than 5% error on target pressures and volumes).
 
 Mechanically-speaking, the overall system is composed of sub-components that can be plugged together and wired to form an air circuit, namely:
 
