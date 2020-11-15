@@ -38,19 +38,19 @@ This project provides all the parts required to build a good-enough [ARDS](https
 
 We target a per-unit cost well under 500 EUR, which could easily be shrunk down to 200 EUR or even 100 EUR per ventilator given proper economies of scale, as well as choices of cheaper on-the-shelf components (eg. servomotors).
 
-Features includes :
+Features include:
 
 - Pressure controled ventilation (sedated / intubated patients)
 - Volume controled ventilation (sedated / intubated patients)
 - BiPap ventilation (non sedated patients with oxygen mask)
 - 4 hours battery duration
 - Medical-grade alarms
-- High flow turbine (Up to 100L / min)
-- Up to 15/L oxygen
+- High flow turbine (up to 100 L/min)
+- Up to 15 L/min oxygen
 - Fault tolerant design
-- Designed to be used continuously with high frequencies during 30 days.
+- Designed to be used continuously and intensively during 30 days
 
-Makair ventilator as beed tested independent researchers and studies found that it can compare with expensive hospital reanimation ventilators (less than 5% tolerances on target pressures and volumes). 
+MakAir ventilator as beed tested by independent researchers and studies found that it can compare with expensive hospital reanimation ventilators (less than 5% tolerance on target pressures and volumes).
 
 Mechanically-speaking, the overall system is composed of sub-components that can be plugged together and wired to form an air circuit, namely:
 
