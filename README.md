@@ -1,7 +1,10 @@
 MakAir — Covid-19 Ventilator
 =====
 
-**Mass-producible open-source Covid-19 ARDS ventilator. Aims at helping hospitals cope with a possible shortage of professional ventilators during the outbreak. Worldwide.**
+Mass-producible open-source Covid-19 ARDS ventilator. Aims at helping hospitals cope with a possible shortage of professional ventilators during the outbreak. Worldwide.
+
+**Makair ventilator is the first open-source ventilator tested with success on human patients** with ongoing clinical trials in France.
+
 
 We are a distributed team of [200+ contributors](http://makersforlife.fr/) (engineering, medical, regulatory, etc.), mostly spread through France. Makers, developers, university teachers, researchers and medical teams collaborated on this project. Our testing & assembly operations are located in France.
 
