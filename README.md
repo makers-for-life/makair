@@ -67,7 +67,19 @@ All those components are fitted in box (ie. a casing) that we designed:
 
 - **Housing container** (called "Casing");
 
-![MakAir Casing + UI](./res/assets/abstract-readme.jpg)
+---
+
+# Designs
+
+## MakAir Standard (Current Design)
+
+![MakAir Standard](./res/assets/abstract-readme-standard.jpg)
+
+## MakAir Mini (Experimental Design)
+
+![MakAir Mini](./res/assets/abstract-readme-mini.jpg)
+
+---
 
 # ⚠️ Warning Notices
 
