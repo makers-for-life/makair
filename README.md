@@ -24,6 +24,8 @@ If you're new there, please read the explanations below. _Your contributions are
   </a>
 </p>
 
+_Notice: this video shows an old MakAir hardware, that is now deprecated. See below for pictures of our latest production hardware. 👇_
+
 ---
 
 # Abstract
