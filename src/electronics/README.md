@@ -6,11 +6,15 @@
 
 # SFM3300 adapter
 
+![board image](SFM3300%20adapter/photo-70pc.jpg)
+
 This little board provide a convenient way to interface a Sensirion SFM3300 to the red micromatch connector of the Motherboard.
 
 As soon I2C clock remains low, the sensor is shutdown. This allows easy hard reset. 
 
 # Rpi RTC
+
+![board image](RTCRpi-I2C6/photo-70pc.jpg)
 
 This RTC HAT was designed to avoid any conflict between Raspberry touchscreen and RTC. All the RTC you can find are connected on SDA3/SCL3 of the Raspberry 4. But the touchscreen is already connected to this port, and there is some random issues. 
 
