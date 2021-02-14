@@ -205,6 +205,19 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 
 _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valeriansaliou); remake by [Lāsma Fedotova](https://github.com/lasmafedotova))_
 
+# Article Series
+
+A series of explanatory articles have been written on the MakAir story, with the goal of making it easier for teams in the future to start their own ventilator project:
+
+1. [MakAir Series: The Inception of an Open-Source Ventilator Project](https://journal.valeriansaliou.name/makair-series-the-inception-of-an-open-source-ventilator-project/)
+2. MakAir Series: How to Ventilate a Human Patient 101
+3. MakAir Series: The Building Blocks of a Mechanical Ventilator
+4. MakAir Series: Engineering Focus on Ventilator Pneumatics
+5. MakAir Series: Engineering Focus on Ventilator Electronics
+6. MakAir Series: Engineering Focus on Ventilator Software
+7. MakAir Series: How to Scale Ventilator Manufacturing
+8. MakAir Series: Reflections and Ideas on Mechanical Ventilation
+
 # News & Contact
 
 ## Updates
