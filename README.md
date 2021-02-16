@@ -19,12 +19,10 @@ If you're new there, please read the explanations below. _Your contributions are
 **Quick introduction video:**
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=6LeZjULZnUc">
+  <a href="https://www.youtube.com/watch?v=3ZcYR6X3NxE">
     <img alt="Play Introduction Video" src="./res/assets/play-introduction.jpg" height="320">
   </a>
 </p>
-
-_Notice: this video shows an old MakAir hardware, that is now deprecated. See below for pictures of our latest production-grade hardware (with a touchscreen panel). 👇_
 
 ---
 
