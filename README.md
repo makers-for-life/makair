@@ -214,7 +214,6 @@ A series of explanatory articles have been written on the MakAir story, with the
 5. MakAir Series: Engineering Focus on Ventilator Electronics
 6. MakAir Series: Engineering Focus on Ventilator Software
 7. MakAir Series: How to Scale Ventilator Manufacturing
-8. MakAir Series: Reflections and Ideas on Mechanical Ventilation
 
 # News & Contact
 
