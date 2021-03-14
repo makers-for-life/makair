@@ -210,7 +210,7 @@ A series of explanatory articles have been written on the MakAir story, with the
 1. [MakAir Series: The Inception of an Open-Source Ventilator Project](https://journal.valeriansaliou.name/makair-series-the-inception-of-an-open-source-ventilator-project/)
 2. [MakAir Series: How to Ventilate a Human Patient 101](https://journal.valeriansaliou.name/makair-series-how-to-ventilate-a-human-patient-101/)
 3. [MakAir Series: The Building Blocks of a Mechanical Ventilator](https://journal.valeriansaliou.name/makair-series-the-building-blocks-of-a-mechanical-ventilator/)
-4. MakAir Series: Engineering Focus on Ventilator Pneumatics
+4. [MakAir Series: Engineering Focus on Ventilator Pneumatics](https://journal.valeriansaliou.name/makair-series-engineering-focus-on-ventilator-pneumatics/)
 5. MakAir Series: Engineering Focus on Ventilator Electronics
 6. MakAir Series: Engineering Focus on Ventilator Software
 7. MakAir Series: How to Scale Ventilator Manufacturing
