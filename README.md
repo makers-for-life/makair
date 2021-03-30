@@ -212,7 +212,7 @@ A series of explanatory articles have been written on the MakAir story, with the
 3. [MakAir Series: The Building Blocks of a Mechanical Ventilator](https://journal.valeriansaliou.name/makair-series-the-building-blocks-of-a-mechanical-ventilator/)
 4. [MakAir Series: Engineering Focus on Ventilator Pneumatics](https://journal.valeriansaliou.name/makair-series-engineering-focus-on-ventilator-pneumatics/)
 5. [MakAir Series: Engineering Focus on Ventilator Electronics](https://journal.valeriansaliou.name/makair-series-engineering-focus-on-ventilator-electronics/)
-6. MakAir Series: Engineering Focus on Ventilator Software
+6. [MakAir Series: Engineering Focus on Ventilator Software](https://journal.valeriansaliou.name/makair-series-engineering-focus-on-ventilator-software/)
 
 # News & Contact
 
