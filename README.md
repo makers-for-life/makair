@@ -109,6 +109,7 @@ As the MakAir ventilator project grew up to be quite large, it is split up in su
 **Electronics:**
 
 * **[makair-motherboard](https://github.com/makers-for-life/makair-motherboard)**: The motherboard electronics and PCB design;
+* **[makair-boards](https://github.com/makers-for-life/makair-boards)**: Other boards PCB design (smaller control boards);
 
 **Mechanics:**
 
@@ -158,7 +159,13 @@ The motherboard electronic schematics and wiring diagrams [can be found there](h
 
 👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair-motherboard/issues/new)._
 
-### 2. Control Unit Screen
+### 2. Smaller Boards
+
+The smaller boards electronic schematics and wiring diagrams [can be found there](https://github.com/makers-for-life/makair-boards/tree/master/src/schematics). Please pick the last version available. Those boards are used eg. to control the pinch valve motor or Raspberry Pi hardware clock.
+
+👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair-boards/issues/new)._
+
+### 3. Control Unit Screen
 
 The control unit is made of a [Raspberry Pi 4](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) computer, plugged to a [Raspberry Pi Touch Display](https://www.raspberrypi.org/products/raspberry-pi-touch-display/).
 
