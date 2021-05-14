@@ -213,12 +213,12 @@ _(design by Arthur Dagard; drawing by [Valerian Saliou](https://github.com/valer
 
 A series of explanatory articles have been written on the MakAir story, with the goal of making it easier for teams in the future to start their own ventilator project:
 
-1. [MakAir Series: The Inception of an Open-Source Ventilator Project](https://journal.valeriansaliou.name/makair-series-the-inception-of-an-open-source-ventilator-project/)
-2. [MakAir Series: How to Ventilate a Human Patient 101](https://journal.valeriansaliou.name/makair-series-how-to-ventilate-a-human-patient-101/)
-3. [MakAir Series: The Building Blocks of a Mechanical Ventilator](https://journal.valeriansaliou.name/makair-series-the-building-blocks-of-a-mechanical-ventilator/)
-4. [MakAir Series: Engineering Focus on Ventilator Pneumatics](https://journal.valeriansaliou.name/makair-series-engineering-focus-on-ventilator-pneumatics/)
-5. [MakAir Series: Engineering Focus on Ventilator Electronics](https://journal.valeriansaliou.name/makair-series-engineering-focus-on-ventilator-electronics/)
-6. [MakAir Series: Engineering Focus on Ventilator Software](https://journal.valeriansaliou.name/makair-series-engineering-focus-on-ventilator-software/)
+* 1️⃣ [MakAir Series: The Inception of an Open-Source Ventilator Project](https://journal.valeriansaliou.name/makair-series-the-inception-of-an-open-source-ventilator-project/)
+* 2️⃣ [MakAir Series: How to Ventilate a Human Patient 101](https://journal.valeriansaliou.name/makair-series-how-to-ventilate-a-human-patient-101/)
+* 3️⃣ [MakAir Series: The Building Blocks of a Mechanical Ventilator](https://journal.valeriansaliou.name/makair-series-the-building-blocks-of-a-mechanical-ventilator/)
+* 4️⃣ [MakAir Series: Engineering Focus on Ventilator Pneumatics](https://journal.valeriansaliou.name/makair-series-engineering-focus-on-ventilator-pneumatics/)
+* 5️⃣ [MakAir Series: Engineering Focus on Ventilator Electronics](https://journal.valeriansaliou.name/makair-series-engineering-focus-on-ventilator-electronics/)
+* 6️⃣ [MakAir Series: Engineering Focus on Ventilator Software](https://journal.valeriansaliou.name/makair-series-engineering-focus-on-ventilator-software/)
 
 # News & Contact
 
