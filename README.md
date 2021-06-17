@@ -274,6 +274,7 @@ We are supported by public entities as well, namely:
 Adding to that, 200+ individual members of the project who contributed to technical, legal, medical and press subjects (and more).
 
 # Research Papers
+
 * [Can Open Source Hardware Mechanical Ventilator initiatives help cope with the COVID-19 health crisis](https://www.sciencedirect.com/science/article/pii/S2468067220300596) (English)
 * [MakAir, a COVID-19-born ventilation machine, combining 3D printing design, digital control and open innovation](https://www.sciencedirect.com/science/article/pii/S1279847920301129) (French)
 
