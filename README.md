@@ -105,6 +105,8 @@ As the MakAir ventilator project grew up to be quite large, it is split up in su
 * **[makair-firmware](https://github.com/makers-for-life/makair-firmware)**: The firmware software source code and builds, that runs on the motherboard;
 * **[makair-control-ui](https://github.com/makers-for-life/makair-control-ui)**: The control user interface, that shows realtime graphs of the ventilator while running, on a LCD display;
 * **[makair-telemetry](https://github.com/makers-for-life/makair-telemetry)**: The telemetry library (and CLI tool), used as a protocol bridge between the Firmware and Control UI;
+* **[makair-simulator](https://github.com/makers-for-life/makair-simulator)**: The MakAir hardware simulator, that let us run a simulated firmware instance on a computer (for development purposes, ie. not used on ventilator units);
+* **[makair-simulator-web](https://github.com/makers-for-life/makair-simulator-web)**: The Web version of the MakAir hardware simulator, that let us run a simulated firmware instance in a Web browser (for development purposes, ie. not used on ventilator units);
 
 **Electronics:**
 
