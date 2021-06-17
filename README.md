@@ -187,7 +187,7 @@ Firmware release binaries are available for download on our [releases page](http
 
 ### 2. Control Unit Runtime
 
-The Control Unit should be built and ran on the Raspberry Pi 4 using instructions available on the [Control Unit](https://github.com/makers-for-life/makair-control-ui) documentation.
+The Control Unit should be built and ran on the Raspberry Pi 4 using instructions available on the [Control Unit](https://github.com/makers-for-life/makair-control-ui) documentation. You should flash the system image readily available in the [Files](https://github.com/makers-for-life/makair-files) repository.
 
 👋 _If you need help on this step, you may [open an issue](https://github.com/makers-for-life/makair-control-ui/issues/new)._
 
