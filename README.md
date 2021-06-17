@@ -116,6 +116,10 @@ As the MakAir ventilator project grew up to be quite large, it is split up in su
 * **[makair-parts](https://github.com/makers-for-life/makair-parts)**: The mechanical parts that can be 3D-printed and assembled to build the pneumatic circuit;
 * **[makair-casing](https://github.com/makers-for-life/makair-casing)**: The MakAir casing which houses all electronics and pneumatics;
 
+**Misc.:**
+
+* **[makair-files](https://github.com/makers-for-life/makair-files)**: Large files, eg. the control UI system image that can be readily flashed and used;
+
 # How To Build?
 
 This section aims at introducing you on how to manufacture your own MakAir — _the 3D-printed way_. In other words, we will explain there how to build a DIY MakAir using on-the-shelf parts and 3D printers.
